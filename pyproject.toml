@@ -9,6 +9,7 @@ dependencies = [
     "docling>=2.92.0",
     "langchain-text-splitters>=1.1.2",
     "loguru>=0.7.3",
+    "neo4j>=5.0.0",
     "ollama>=0.6.1",
     "python-dotenv>=1.0.0",
     "pyyaml>=6.0.3",

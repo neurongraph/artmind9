@@ -10,8 +10,12 @@ from pathlib import Path
 
 import ollama
 import yaml
-from langchain_text_splitters import MarkdownHeaderTextSplitter, RecursiveCharacterTextSplitter
+from langchain_text_splitters import (
+    MarkdownHeaderTextSplitter,
+    RecursiveCharacterTextSplitter,
+)
 from loguru import logger
+from neo4j import GraphDatabase
 
 from paths import (
     DB_PATH,
@@ -117,6 +121,73 @@ def _filename_in_registry(filename: str) -> bool:
     found = cursor.fetchone() is not None
     conn.close()
     return found
+
+
+def _find_registered_documents(domain: str, document_name: str) -> list[dict]:
+    """Return registry rows matching a domain and document filename."""
+    if not DB_PATH.exists():
+        return []
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    try:
+        cursor.execute(
+            """
+            SELECT id, domain, filename, sha256, original_path, added_at
+            FROM documents
+            WHERE domain = ? AND UPPER(filename) = ?
+            """,
+            (domain, document_name.upper()),
+        )
+        rows = cursor.fetchall()
+        return [
+            {
+                "id": row[0],
+                "domain": row[1],
+                "filename": row[2],
+                "sha256": row[3],
+                "original_path": row[4],
+                "added_at": row[5],
+            }
+            for row in rows
+        ]
+    finally:
+        conn.close()
+
+
+def _delete_from_registry(domain: str, document_name: str) -> int:
+    if not DB_PATH.exists():
+        return 0
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    try:
+        cursor.execute(
+            "DELETE FROM documents WHERE domain = ? AND UPPER(filename) = ?",
+            (domain, document_name.upper()),
+        )
+        deleted = cursor.rowcount
+        conn.commit()
+        return deleted
+    finally:
+        conn.close()
+
+
+def _path_is_under(path: Path, parent: Path) -> bool:
+    try:
+        path.resolve().relative_to(parent.resolve())
+        return True
+    except ValueError:
+        return False
+
+
+def _delete_path(path: Path, expected_parent: Path) -> bool:
+    """Delete a file or directory if it lives under the expected parent."""
+    if not path.exists() or not _path_is_under(path, expected_parent):
+        return False
+    if path.is_dir():
+        shutil.rmtree(path)
+    else:
+        path.unlink()
+    return True
 
 
 # ── ingestion job helpers ──────────────────────────────────────────────────────
@@ -567,13 +638,16 @@ def _parse_md_frontmatter(text: str) -> tuple[dict, str]:
         meta = yaml.safe_load(text[3:end]) or {}
     except Exception:
         meta = {}
-    return meta, text[end + 4:].lstrip("\n")
+    return meta, text[end + 4 :].lstrip("\n")
 
 
 def _split_markdown(text: str, chunk_size: int) -> list[str]:
     header_splitter = MarkdownHeaderTextSplitter(
         headers_to_split_on=[
-            ("#", "h1"), ("##", "h2"), ("###", "h3"), ("####", "h4"),
+            ("#", "h1"),
+            ("##", "h2"),
+            ("###", "h3"),
+            ("####", "h4"),
         ],
         strip_headers=False,
     )
@@ -591,7 +665,9 @@ def _split_markdown(text: str, chunk_size: int) -> list[str]:
         if len(content) <= chunk_size:
             chunks.append(content)
         else:
-            chunks.extend(c.strip() for c in char_splitter.split_text(content) if c.strip())
+            chunks.extend(
+                c.strip() for c in char_splitter.split_text(content) if c.strip()
+            )
     if not chunks:
         chunks = [c.strip() for c in char_splitter.split_text(text) if c.strip()]
     return chunks
@@ -606,6 +682,8 @@ def _call_llm_text(model: str, prompt: str) -> str:
     response = ollama.chat(
         model=model,
         messages=[{"role": "user", "content": prompt}],
+        format="json",
+        think=False,
         options={"temperature": 0},
     )
     return (response.message.content or "").strip()
@@ -613,6 +691,9 @@ def _call_llm_text(model: str, prompt: str) -> str:
 
 def _parse_json_response(text: str):
     text = text.strip()
+    # Strip <think>…</think> blocks produced by reasoning models (e.g. Qwen3)
+    text = re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL).strip()
+    # Strip markdown code fences
     text = re.sub(r"^```(?:json)?\s*\n?", "", text)
     text = re.sub(r"\n?```\s*$", "", text)
     return json.loads(text.strip())
@@ -627,7 +708,9 @@ def _save_debug(path: Path, content: str) -> None:
     logger.debug("Raw LLM response saved for debugging: {}", path.name)
 
 
-def _rewrite_entity_ids(entities: list[dict], chunk_id: str) -> tuple[list[dict], dict[str, str]]:
+def _rewrite_entity_ids(
+    entities: list[dict], chunk_id: str
+) -> tuple[list[dict], dict[str, str]]:
     """Prefix every entity id with chunk_id; return (rewritten_entities, old→new id map)."""
     id_map: dict[str, str] = {}
     rewritten = []
@@ -639,7 +722,9 @@ def _rewrite_entity_ids(entities: list[dict], chunk_id: str) -> tuple[list[dict]
     return rewritten, id_map
 
 
-def _rewrite_ref_ids(items: list[dict], id_map: dict[str, str], *fields: str) -> list[dict]:
+def _rewrite_ref_ids(
+    items: list[dict], id_map: dict[str, str], *fields: str
+) -> list[dict]:
     """Rewrite id fields in a list of dicts using the given id_map."""
     result = []
     for item in items:
@@ -648,6 +733,393 @@ def _rewrite_ref_ids(items: list[dict], id_map: dict[str, str], *fields: str) ->
             if field in item:
                 item[field] = id_map.get(item[field], item[field])
         result.append(item)
+    return result
+
+
+# ── neo4j helpers ─────────────────────────────────────────────────────────────
+
+
+def _sanitize_label(s: str) -> str:
+    return re.sub(r"[^A-Za-z0-9_]", "_", s.strip()).upper() or "UNKNOWN"
+
+
+def _neo4j_value(value):
+    """Convert a value to a Neo4j-compatible type (no nested maps)."""
+    if isinstance(value, dict):
+        return json.dumps(value, ensure_ascii=False)
+    if isinstance(value, list):
+        return [
+            json.dumps(v, ensure_ascii=False) if isinstance(v, dict) else v
+            for v in value
+        ]
+    return value
+
+
+def _flatten_props(props: dict) -> dict:
+    """Flatten a props dict to Neo4j-compatible types, dropping empty values."""
+    result = {}
+    for k, v in props.items():
+        if v is None or v == "" or v == []:
+            continue
+        result[k] = _neo4j_value(v)
+    return result
+
+
+def _merge_prop_value(existing, incoming):
+    """Merge a single property value: union lists, append strings, keep existing scalars."""
+    if existing is None:
+        return incoming
+    if isinstance(existing, list) and isinstance(incoming, list):
+        result = list(existing)
+        for item in incoming:
+            if item not in result:
+                result.append(item)
+        return result
+    if isinstance(existing, list):
+        return existing if incoming in existing else existing + [incoming]
+    if isinstance(incoming, list):
+        return incoming if existing in incoming else [existing] + incoming
+    if isinstance(existing, str) and isinstance(incoming, str):
+        return (
+            existing
+            if (not incoming or incoming in existing)
+            else f"{existing} | {incoming}"
+        )
+    return existing  # numbers, bools — keep existing
+
+
+def _merge_props_dicts(existing: dict, incoming: dict) -> dict:
+    result = dict(existing)
+    for key, val in incoming.items():
+        result[key] = _merge_prop_value(result.get(key), val)
+    return result
+
+
+def _ensure_neo4j_schema(session, embedding_dim: int = 768) -> None:
+    session.run(
+        "CREATE CONSTRAINT document_id IF NOT EXISTS FOR (n:Document) REQUIRE n.id IS UNIQUE"
+    )
+    session.run(
+        "CREATE CONSTRAINT chunk_id IF NOT EXISTS FOR (n:DocChunk) REQUIRE n.id IS UNIQUE"
+    )
+    session.run(
+        "CREATE INDEX entity_lookup IF NOT EXISTS FOR (n:Entity) ON (n.name, n.entity_class, n.domain)"
+    )
+    session.run(
+        f"CREATE VECTOR INDEX chunk_embedding IF NOT EXISTS "
+        f"FOR (c:DocChunk) ON (c.embedding) "
+        f"OPTIONS {{indexConfig: {{`vector.dimensions`: {embedding_dim}, "
+        f"`vector.similarity_function`: 'cosine'}}}}"
+    )
+
+
+def _upsert_entity(session, entity: dict, extra_props: dict | None) -> None:
+    """Merge Entity node by (entity_class, name), intelligently merging all properties."""
+    entity_class = entity["entity_class"]
+    name = entity["name"]
+
+    incoming = _flatten_props(
+        {
+            "name": name,
+            "entity_class": entity_class,
+            "domain": entity.get("domain"),
+            "type": entity.get("type"),
+            "description": entity.get("description"),
+            "aliases": entity.get("aliases"),
+            "context": entity.get("context"),
+        }
+    )
+    if extra_props:
+        incoming.update(_flatten_props(extra_props))
+
+    domain = incoming.get("domain", "")
+
+    rec = session.run(
+        "MATCH (n:Entity {name: $name, entity_class: $ec, domain: $domain}) RETURN properties(n) AS p",
+        name=name,
+        ec=entity_class,
+        domain=domain,
+    ).single()
+
+    if rec:
+        merged = _merge_props_dicts(dict(rec["p"]), incoming)
+        session.run(
+            "MATCH (n:Entity {name: $name, entity_class: $ec, domain: $domain}) SET n = $props",
+            name=name,
+            ec=entity_class,
+            domain=domain,
+            props=merged,
+        )
+    else:
+        session.run(
+            "CREATE (n:$(labels)) SET n = $props",
+            labels=[_sanitize_label(entity_class), "Entity"],
+            props=incoming,
+        )
+
+
+def _write_to_neo4j(doc_kg_dir: Path) -> bool:
+    """Read the extracted JSON files and write/merge everything into Neo4j."""
+    env = load_env()
+    uri = env.get("ARTMIND_KG_NEO4J_URI", "neo4j://127.0.0.1:7687")
+    user = env.get("ARTMIND_KG_NEO4J_USERNAME", "neo4j")
+    password = env.get("ARTMIND_KG_NEO4J_PASSWORD", "")
+    database = env.get("ARTMIND_KG_NEO4J_DATABASE", "neo4j")
+    embedding_dim = int(env.get("ARTMIND_KG_EMBEDDING_DIMENSIONS", "768"))
+
+    def _load(name: str):
+        return json.loads((doc_kg_dir / name).read_text(encoding="utf-8"))
+
+    try:
+        document = _load("document.json")
+        chunks = _load("chunks.json")
+        entities = _load("entities.json")
+        properties_list = _load("properties.json")
+        relationships = _load("relationships.json")
+    except Exception as e:
+        logger.error("Failed to load KG JSON files from {}: {}", doc_kg_dir, e)
+        return False
+
+    # Index: entity-scoped-id → extra properties dict (from properties.json)
+    props_by_id = {p["id"]: p.get("properties", {}) for p in properties_list}
+
+    driver = GraphDatabase.driver(uri, auth=(user, password))
+    try:
+        with driver.session(database=database) as session:
+            _ensure_neo4j_schema(session, embedding_dim)
+
+            # ── Document ──────────────────────────────────────────────
+            session.run(
+                "MERGE (d:Document {id: $id}) SET d += $props",
+                id=document["id"],
+                props=_flatten_props(document),
+            )
+
+            # ── DocChunks + PART_OF Document ──────────────────────────
+            for chunk in chunks:
+                embedding = chunk.get("embedding", [])
+                props = _flatten_props(
+                    {k: v for k, v in chunk.items() if k != "embedding"}
+                )
+                session.run(
+                    """
+                    MERGE (c:DocChunk {id: $id})
+                    SET c += $props, c.embedding = $embedding
+                    WITH c
+                    MATCH (d:Document {id: $doc_id})
+                    MERGE (c)-[:PART_OF]->(d)
+                    """,
+                    id=chunk["id"],
+                    props=props,
+                    embedding=embedding,
+                    doc_id=chunk["doc_id"],
+                )
+            logger.debug("Neo4j: upserted {} DocChunk(s)", len(chunks))
+
+            # ── Entity nodes ──────────────────────────────────────────
+            for entity in entities:
+                _upsert_entity(session, entity, props_by_id.get(entity["id"]))
+            logger.debug("Neo4j: upserted {} entity node(s)", len(entities))
+
+            # ── Relationships ─────────────────────────────────────────
+            rel_count = 0
+            for rel in relationships:
+                rel_type = re.sub(r"[^A-Za-z0-9_]", "_", rel["rel_type"]).upper()
+                source_name = rel.get("source_name", "")
+                target_name = rel.get("target_name", "")
+                target_id = rel.get("target_id", "")
+                is_bidi = rel.get("bidirectional", False)
+                rel_props = _flatten_props(
+                    {
+                        k: v
+                        for k, v in rel.items()
+                        if k
+                        not in {
+                            "source_id",
+                            "source_name",
+                            "target_id",
+                            "target_name",
+                            "rel_type",
+                            "chunk_id",
+                            "doc_id",
+                            "bidirectional",
+                        }
+                    }
+                )
+
+                domain = rel.get("domain") or document.get("domain", "")
+                try:
+                    if rel_type == "EXTRACTED_FROM":
+                        # Entity → DocChunk (matched by chunk id + domain)
+                        if source_name and target_id:
+                            session.run(
+                                """
+                                MATCH (e:Entity {name: $src, domain: $domain})
+                                MATCH (c:DocChunk {id: $tgt_id})
+                                CALL apoc.merge.relationship(e, $type, {}, $props, c, {}) YIELD rel
+                                RETURN rel
+                                """,
+                                src=source_name,
+                                tgt_id=target_id,
+                                type=rel_type,
+                                props=rel_props,
+                                domain=domain,
+                            )
+                            rel_count += 1
+                    else:
+                        # Entity → Entity (matched by canonical name + domain)
+                        if source_name and target_name:
+                            session.run(
+                                """
+                                MATCH (src:Entity {name: $src, domain: $domain})
+                                MATCH (tgt:Entity {name: $tgt, domain: $domain})
+                                CALL apoc.merge.relationship(src, $type, {}, $props, tgt, {}) YIELD rel
+                                RETURN rel
+                                """,
+                                src=source_name,
+                                tgt=target_name,
+                                type=rel_type,
+                                props=rel_props,
+                                domain=domain,
+                            )
+                            rel_count += 1
+                            if is_bidi:
+                                session.run(
+                                    """
+                                    MATCH (src:Entity {name: $src, domain: $domain})
+                                    MATCH (tgt:Entity {name: $tgt, domain: $domain})
+                                    CALL apoc.merge.relationship(tgt, $type, {}, $props, src, {}) YIELD rel
+                                    RETURN rel
+                                    """,
+                                    src=source_name,
+                                    tgt=target_name,
+                                    type=rel_type,
+                                    props=rel_props,
+                                    domain=domain,
+                                )
+                                rel_count += 1
+                except Exception as e:
+                    logger.warning(
+                        "Neo4j: relationship skipped ({} -[{}]-> {}): {}",
+                        source_name,
+                        rel_type,
+                        target_name or target_id,
+                        e,
+                    )
+
+            logger.debug("Neo4j: created/merged {} relationship(s)", rel_count)
+
+        logger.info(
+            "Neo4j ingestion complete: {}", document.get("name", doc_kg_dir.name)
+        )
+        return True
+    except Exception as e:
+        logger.error("Neo4j ingestion failed: {}", e)
+        return False
+    finally:
+        driver.close()
+
+
+def _delete_from_neo4j(domain: str, document_name: str) -> dict:
+    """Delete matching Documents, their chunks, and orphan Entity nodes."""
+    env = load_env()
+    uri = env.get("ARTMIND_KG_NEO4J_URI", "neo4j://127.0.0.1:7687")
+    user = env.get("ARTMIND_KG_NEO4J_USERNAME", "neo4j")
+    password = env.get("ARTMIND_KG_NEO4J_PASSWORD", "")
+    database = env.get("ARTMIND_KG_NEO4J_DATABASE", "neo4j")
+
+    driver = GraphDatabase.driver(uri, auth=(user, password))
+    try:
+        with driver.session(database=database) as session:
+            doc_result = session.run(
+                """
+                MATCH (d:Document {domain: $domain})
+                WHERE toUpper(d.name) = toUpper($name)
+                   OR toUpper(last(split(d.path, '/'))) = toUpper($name)
+                WITH collect(d) AS docs
+                UNWIND docs AS d
+                OPTIONAL MATCH (c:DocChunk {doc_id: d.id})
+                WITH collect(DISTINCT d) AS docs, collect(DISTINCT c) AS chunks
+                FOREACH (c IN chunks | DETACH DELETE c)
+                FOREACH (d IN docs | DETACH DELETE d)
+                RETURN size(docs) AS deleted_documents, size(chunks) AS deleted_chunks
+                """,
+                domain=domain,
+                name=document_name,
+            ).single()
+            orphan_result = session.run(
+                """
+                MATCH (e:Entity {domain: $domain})
+                WHERE NOT (e)-[:EXTRACTED_FROM]->(:DocChunk)
+                WITH collect(e) AS entities
+                FOREACH (e IN entities | DETACH DELETE e)
+                RETURN size(entities) AS deleted_orphan_entities
+                """,
+                domain=domain,
+            ).single()
+            return {
+                "documents": int(doc_result["deleted_documents"]) if doc_result else 0,
+                "chunks": int(doc_result["deleted_chunks"]) if doc_result else 0,
+                "orphan_entities": (
+                    int(orphan_result["deleted_orphan_entities"])
+                    if orphan_result
+                    else 0
+                ),
+            }
+    finally:
+        driver.close()
+
+
+def clean_document(domain: str, document_name: str, delete_neo4j: bool = True) -> dict:
+    """Remove an ingested document from local storage, registry, and Neo4j."""
+    document_name = Path(document_name).name
+    rows = _find_registered_documents(domain, document_name)
+    if not rows:
+        rows = [
+            {
+                "filename": document_name,
+                "original_path": str(ORIGINALS_DIR / document_name),
+            }
+        ]
+
+    result = {
+        "domain": domain,
+        "document_name": document_name,
+        "registry_rows": 0,
+        "originals": 0,
+        "markdowns": 0,
+        "markdown_artifacts": 0,
+        "kg_dirs": 0,
+        "neo4j_documents": 0,
+        "neo4j_chunks": 0,
+        "neo4j_orphan_entities": 0,
+        "neo4j_error": None,
+    }
+
+    for row in rows:
+        original_path = Path(row["original_path"])
+        if _delete_path(original_path, ORIGINALS_DIR):
+            result["originals"] += 1
+
+        stem = Path(row["filename"]).stem
+        if _delete_path(MARKDOWNS_DIR / f"{stem}.md", MARKDOWNS_DIR):
+            result["markdowns"] += 1
+        if _delete_path(MARKDOWNS_DIR / f"{stem}_artifacts", MARKDOWNS_DIR):
+            result["markdown_artifacts"] += 1
+        if _delete_path(KG_DIR / domain / stem, KG_DIR):
+            result["kg_dirs"] += 1
+
+    result["registry_rows"] = _delete_from_registry(domain, document_name)
+
+    if delete_neo4j:
+        try:
+            graph_result = _delete_from_neo4j(domain, document_name)
+            result["neo4j_documents"] = graph_result["documents"]
+            result["neo4j_chunks"] = graph_result["chunks"]
+            result["neo4j_orphan_entities"] = graph_result["orphan_entities"]
+        except Exception as e:
+            result["neo4j_error"] = str(e)
+
     return result
 
 
@@ -697,7 +1169,10 @@ def ingest_to_kg(
 
     logger.info(
         "KG extraction start: {} | model={} | embed={} | chunk_size={}",
-        registered_path.name, text_model, embed_model, chunk_size,
+        registered_path.name,
+        text_model,
+        embed_model,
+        chunk_size,
     )
     t0 = time.monotonic()
 
@@ -721,6 +1196,7 @@ def ingest_to_kg(
 
         chunk_node: dict = {
             "id": chunk_id,
+            "name": f"Chunk {seq}/{len(chunks)}",
             "doc_id": doc_id,
             "text": chunk_text,
             "embedding": embedding,
@@ -736,7 +1212,9 @@ def ingest_to_kg(
         logger.info("  Chunk {} — entities", seq)
         raw_llm = ""
         try:
-            raw_llm = _call_llm_text(text_model, entities_prompt_tpl.replace("{text}", chunk_text))
+            raw_llm = _call_llm_text(
+                text_model, entities_prompt_tpl.replace("{text}", chunk_text)
+            )
             raw_entities = _parse_json_response(raw_llm)
         except Exception as e:
             logger.error("  Entity extraction failed for chunk {}: {}", seq, e)
@@ -755,15 +1233,17 @@ def ingest_to_kg(
             try:
                 raw_llm = _call_llm_text(
                     text_model,
-                    properties_prompt_tpl
-                    .replace("{entities_list}", entities_list)
-                    .replace("{text}", chunk_text),
+                    properties_prompt_tpl.replace(
+                        "{entities_list}", entities_list
+                    ).replace("{text}", chunk_text),
                 )
                 raw_properties = _parse_json_response(raw_llm)
             except Exception as e:
                 logger.error("  Properties extraction failed for chunk {}: {}", seq, e)
                 if raw_llm:
-                    _save_debug(doc_kg_dir / f"debug_chunk{seq:03d}_properties.txt", raw_llm)
+                    _save_debug(
+                        doc_kg_dir / f"debug_chunk{seq:03d}_properties.txt", raw_llm
+                    )
 
         # ── relationships ─────────────────────────────────────────────
         raw_relationships: list[dict] = []
@@ -773,20 +1253,26 @@ def ingest_to_kg(
             try:
                 raw_llm = _call_llm_text(
                     text_model,
-                    relationships_prompt_tpl
-                    .replace("{entities_list}", entities_list)
-                    .replace("{text}", chunk_text),
+                    relationships_prompt_tpl.replace(
+                        "{entities_list}", entities_list
+                    ).replace("{text}", chunk_text),
                 )
                 raw_relationships = _parse_json_response(raw_llm)
             except Exception as e:
-                logger.error("  Relationships extraction failed for chunk {}: {}", seq, e)
+                logger.error(
+                    "  Relationships extraction failed for chunk {}: {}", seq, e
+                )
                 if raw_llm:
-                    _save_debug(doc_kg_dir / f"debug_chunk{seq:03d}_relationships.txt", raw_llm)
+                    _save_debug(
+                        doc_kg_dir / f"debug_chunk{seq:03d}_relationships.txt", raw_llm
+                    )
 
         # ── rewrite IDs now that all LLM calls for this chunk are done ─
         entities, id_map = _rewrite_entity_ids(raw_entities, chunk_id)
         properties = _rewrite_ref_ids(raw_properties, id_map, "id")
-        relationships = _rewrite_ref_ids(raw_relationships, id_map, "source_id", "target_id")
+        relationships = _rewrite_ref_ids(
+            raw_relationships, id_map, "source_id", "target_id"
+        )
 
         for e in entities:
             e["chunk_id"] = chunk_id
@@ -803,16 +1289,19 @@ def ingest_to_kg(
 
         # ── entity → DocChunk relationships ───────────────────────────
         for e in entities:
-            relationships.append({
-                "source_id": e["id"],
-                "source_name": e["name"],
-                "target_id": chunk_id,
-                "target_name": chunk_id,
-                "rel_type": "EXTRACTED_FROM",
-                "description": f"Entity extracted from this document chunk",
-                "chunk_id": chunk_id,
-                "doc_id": doc_id,
-            })
+            relationships.append(
+                {
+                    "source_id": e["id"],
+                    "source_name": e["name"],
+                    "target_id": chunk_id,
+                    "target_name": chunk_id,
+                    "rel_type": "EXTRACTED_FROM",
+                    "description": "Entity extracted from this document chunk",
+                    "chunk_id": chunk_id,
+                    "doc_id": doc_id,
+                    "domain": domain,
+                }
+            )
 
         all_entities.extend(entities)
         all_properties.extend(properties)
@@ -837,4 +1326,7 @@ def ingest_to_kg(
         len(all_properties),
         len(all_relationships),
     )
+
+    logger.info("Writing to Neo4j...")
+    _write_to_neo4j(doc_kg_dir)
     return True

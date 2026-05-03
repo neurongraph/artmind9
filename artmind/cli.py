@@ -8,6 +8,7 @@ import yaml
 from loguru import logger
 
 from artmind.ingest import (
+    clean_document,
     ingest_file,
     ingest_to_kg,
 )
@@ -229,6 +230,35 @@ def ingest_sync(file_path: str, domain: str | None):
         ok_count,
         fail_count,
     )
+
+
+# ── artmind docs ───────────────────────────────────────────────────────────────
+
+
+@cli.group()
+def docs():
+    """Manage ingested documents."""
+    pass
+
+
+@docs.command("clean")
+@click.option("--domain", required=True, help="Domain containing the document")
+@click.argument("document_name")
+def docs_clean(domain: str, document_name: str):
+    """Delete a document from local storage, registry, and Neo4j."""
+    _setup_logger()
+    result = clean_document(domain, document_name)
+    click.echo(f"Cleaned '{result['document_name']}' in domain '{result['domain']}'")
+    click.echo(f"  registry rows: {result['registry_rows']}")
+    click.echo(f"  originals: {result['originals']}")
+    click.echo(f"  markdowns: {result['markdowns']}")
+    click.echo(f"  markdown artifacts: {result['markdown_artifacts']}")
+    click.echo(f"  kg dirs: {result['kg_dirs']}")
+    click.echo(f"  neo4j documents: {result['neo4j_documents']}")
+    click.echo(f"  neo4j chunks: {result['neo4j_chunks']}")
+    click.echo(f"  neo4j orphan entities: {result['neo4j_orphan_entities']}")
+    if result["neo4j_error"]:
+        raise click.ClickException(f"Neo4j cleanup failed: {result['neo4j_error']}")
 
 
 # @ingest.command("async")

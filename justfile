@@ -37,3 +37,9 @@ domains-delete domain:
 # ingest a file or directory synchronously  (usage: just ingest-sync path/to/file [domain])
 ingest-sync file domain="general":
     uv run artmind ingest sync {{ file }} --domain {{ domain }}
+
+# ── artmind docs ──────────────────────────────────────────────────────────────
+
+# clean a document from storage, registry, and Neo4j  (usage: just docs-clean <domain> <document>)
+docs-clean domain document:
+    uv run artmind docs clean --domain {{ domain }} {{ document }}
