@@ -1,0 +1,24 @@
+name: project_governance
+description: Project Governance documents that contain information about how a project or engagement is progressing, tracking issues and risks, and monitoring delivery milestones. Includes status reports, delivery dashboards, and governance presentations.
+entities:
+  - Project
+  - Engagement
+  - Delivery_Highlight
+  - Status
+  - Issue
+  - Risk
+  - Milestone
+  - Dependency
+  - Action
+  - Escalation
+
+relationships:
+  - part_of
+  - has_status
+  - includes
+  - has
+  - achieves
+  - leads_to
+  - mitigated_by
+  - resolved_by
+  - impacts

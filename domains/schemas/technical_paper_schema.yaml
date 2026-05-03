@@ -1,0 +1,41 @@
+name: technical_paper
+description: Formal documents that present research, experiments, theoretical arguments, or technological advancements in a structured manner. Includes journal papers, conference proceedings, white papers, and preprints.
+entities:
+  - Paper
+  - Title
+  - Author
+  - Affiliation
+  - Abstract
+  - Section
+  - Topic
+  - Explained_Concept
+  - Hypothesis
+  - Research_Question
+  - Methodology
+  - Dataset
+  - Result
+  - Metric
+  - Conclusion
+  - Citation
+
+relationships:
+  - has_title
+  - authored_by
+  - affiliated_with
+  - has_section
+  - addresses
+  - tested_by
+  - uses
+  - evaluated_by
+  - produces
+  - supports
+  - summarized_in
+  - cites
+  - focuses_on
+  - derived_from
+  - contributes_to
+  - explains
+  - elaborates_on
+  - relates_to
+  - supported_by
+  - applies

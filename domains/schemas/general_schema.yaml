@@ -1,0 +1,28 @@
+name: general
+description: General documents that may not fit into specific domains. Captures broad document structures including reports, memos, articles, and miscellaneous content.
+entities:
+  - Document
+  - Title
+  - Author
+  - Date
+  - Content
+  - Section
+  - Topic
+  - Reference
+  - Entity
+  - Statement
+  - Summary
+
+relationships:
+  - has_title
+  - authored_by
+  - written_on
+  - discusses
+  - contains
+  - references
+  - mentions
+  - relates_to
+  - summarizes
+  - covers
+  - provides_evidence
+  - supports

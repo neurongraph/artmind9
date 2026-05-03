@@ -1,0 +1,30 @@
+name: personal_journal
+description: Personal or observational documents that record events, reflections, interactions, tasks, and feelings over time. Includes journal entries, planners, and self-observations.
+entities:
+  - Entry
+  - Date
+  - Event
+  - Activity
+  - Person
+  - Interaction
+  - Place
+  - Feeling
+  - Thought
+  - Plan
+  - Task
+
+relationships:
+  - occurs_on
+  - includes
+  - involves
+  - mentions
+  - describes
+  - contains
+  - recorded_at
+  - has_plan
+  - has_task
+  - scheduled_for
+  - with
+  - happened_at
+  - triggered_by
+  - about

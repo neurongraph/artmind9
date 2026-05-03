@@ -1,0 +1,36 @@
+[project]
+name = "artmind9"
+version = "0.1.0"
+description = "A knowledge system that synchronizes with your mind using artificial intelligence - artmind"
+readme = "README.md"
+requires-python = ">=3.14.4"
+dependencies = [
+    "click>=8.3.3",
+    "docling>=2.92.0",
+    "langchain-text-splitters>=1.1.2",
+    "loguru>=0.7.3",
+    "ollama>=0.6.1",
+    "python-dotenv>=1.0.0",
+    "pyyaml>=6.0.3",
+    "rich>=15.0.0",
+]
+
+
+[project.scripts]
+artmind = "artmind.cli:cli"
+
+[tool.uv]
+package = true
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+]
+
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["artmind", "utils"]
+py-modules = ["paths"]

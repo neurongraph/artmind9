@@ -1,0 +1,24 @@
+name: sales_collateral
+description: Sales and marketing documents such as brochures, white papers, slide presentations, and case studies that contain information about product features, capabilities, and differentiators.
+entities:
+  - Use_Case
+  - Client
+  - Geography
+  - Technology
+  - Problem_Statement
+  - Solution
+  - Offering
+  - Capability
+  - Benefit
+  - Differentiator
+
+relationships:
+  - located_in
+  - faces
+  - addressed_by
+  - enabled_by
+  - delivers
+  - part_of
+  - highlights
+  - supported_by
+  - applicable_for
