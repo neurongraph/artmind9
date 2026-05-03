@@ -26,7 +26,7 @@ from paths import (
     ORIGINALS_DIR,
     PROJECT_ROOT,
 )
-from utils.functions import load_env, run_command
+from utils.functions import load_env, log_llm_call, run_command
 
 IMAGE_EXTENSIONS = {
     ".png",
@@ -550,6 +550,7 @@ def _describe_image(image: Path, model: str) -> str | None:
                 messages=[{"role": "user", "content": prompt, "images": [str(image)]}],
             )
             description = (response.message.content or "").strip()
+            log_llm_call("chat", model, f"[IMAGE: {image.name}]\n{prompt}", description)
             logger.debug(
                 "LLM RESPONSE (image description, attempt {}):\n{}",
                 attempt,
@@ -793,7 +794,9 @@ def _split_markdown(text: str, chunk_size: int) -> list[str]:
 
 def _embed_text(model: str, text: str) -> list[float]:
     response = ollama.embed(model=model, input=text)
-    return response.embeddings[0]
+    embedding = response.embeddings[0]
+    log_llm_call("embed", model, text, f"[embedding vector, dim={len(embedding)}]")
+    return embedding
 
 
 def _call_llm_text(model: str, prompt: str) -> str:
@@ -806,7 +809,9 @@ def _call_llm_text(model: str, prompt: str) -> str:
         # think=False, # Adding this parameter as well is making the model go into an infinite loop
         options={"temperature": 0},
     )
-    return (response.message.content or "").strip()
+    result = (response.message.content or "").strip()
+    log_llm_call("chat", model, prompt, result)
+    return result
 
 
 def _llm_extract(step_name: str, model: str, prompt: str, debug_dir: Path) -> tuple[list, bool]:

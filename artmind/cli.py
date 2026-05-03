@@ -17,9 +17,11 @@ from artmind.ingest import (
     ingest_to_kg,
     write_to_graph,
 )
+from artmind.refine_graph import refine_graph
 from paths import (
     DOMAIN_SCHEMAS_DIR,
     INGEST_LOG_FILE,
+    REFINE_DIR,
 )
 from utils.functions import load_env
 
@@ -307,6 +309,93 @@ def ingest_write_to_graph(document_name: str, domain: str) -> None:
         logger.info("write_to_graph complete")
     else:
         raise click.ClickException("write_to_graph failed — check logs for Neo4j errors")
+
+
+@ingest.command("refine-graph")
+@click.option("--domain", default=None, help="Restrict to entities in this domain (default: all domains)")
+@click.option(
+    "--model",
+    default=None,
+    help="LLM model for merge decisions (default: ARTMIND_KG_LLM_MODEL env var)",
+)
+@click.option(
+    "--threshold",
+    type=float,
+    default=0.7,
+    show_default=True,
+    help="String similarity threshold for clustering (0–1)",
+)
+@click.option(
+    "--dry-run",
+    is_flag=True,
+    default=False,
+    help="Compute and write proposals only; do NOT apply merges to Neo4j",
+)
+@click.option(
+    "--output",
+    "output_file",
+    default=None,
+    type=click.Path(),
+    help="Write proposals JSON to this file (default: data/refine/proposed_merges.json)",
+)
+@click.option(
+    "--from-file",
+    "from_file",
+    default=None,
+    type=click.Path(exists=True),
+    help="Skip computation — load proposals from a previous dry-run JSON file and apply them",
+)
+def ingest_refine_graph(
+    domain: str | None,
+    model: str | None,
+    threshold: float,
+    dry_run: bool,
+    output_file: str | None,
+    from_file: str | None,
+) -> None:
+    """Find similar entity names, merge aliases into canonical entities.
+
+    \b
+    Workflow:
+      1. Dry-run:  artmind ingest refine-graph --dry-run --output merges.json
+      2. Review merges.json and edit if needed
+      3. Execute: artmind ingest refine-graph --from-file merges.json
+    """
+    _setup_logger()
+    env = load_env()
+    resolved_model = model or env.get("ARTMIND_KG_LLM_MODEL", "ministral-3:14b")
+
+    out_path: Path | None = None
+    if from_file is None:
+        if output_file:
+            out_path = Path(output_file)
+        else:
+            REFINE_DIR.mkdir(parents=True, exist_ok=True)
+            out_path = REFINE_DIR / "proposed_merges.json"
+    elif output_file:
+        out_path = Path(output_file)
+
+    from_path = Path(from_file) if from_file else None
+
+    report = refine_graph(
+        domain=domain,
+        model=resolved_model,
+        similarity_threshold=threshold,
+        dry_run=dry_run,
+        output_file=out_path,
+        from_file=from_path,
+    )
+
+    proposed = report.get("proposed_merges", {})
+    stats = report.get("stats", {})
+
+    if from_path or not dry_run:
+        click.echo(f"Merges applied — merged={stats.get('merged',0)} skipped={stats.get('skipped',0)} errors={stats.get('errors',0)}")
+    else:
+        click.echo(f"Dry-run complete — {len(proposed)} merge(s) proposed")
+        if out_path:
+            click.echo(f"Proposals written to: {out_path}")
+            click.echo(f"To apply: artmind ingest refine-graph --from-file {out_path}")
 
 
 # ── artmind query ──────────────────────────────────────────────────────────────

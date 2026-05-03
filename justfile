@@ -18,7 +18,7 @@ domains-list:
 
 # add a domain schema from a YAML file  (usage: just domains-add path/to/schema.yaml)
 domains-add file:
-    uv run artmind domains add {{ file }}
+    uv run artmind domains add '{{ file }}'
 
 # list entities in a domain  (usage: just domains-entities <domain>)
 domains-entities domain:
@@ -36,7 +36,15 @@ domains-delete domain:
 
 # ingest a file or directory synchronously  (usage: just ingest-sync path/to/file [domain])
 ingest-sync file domain="general":
-    uv run artmind ingest sync {{ file }} --domain {{ domain }}
+    uv run artmind ingest sync '{{ file }}' --domain {{ domain }}
+
+# dry-run entity resolution: compute merge proposals and write to file  (usage: just ingest-refine-graph-dry [domain])
+ingest-refine-graph-dry domain="":
+    uv run artmind ingest refine-graph --dry-run {{ if domain != "" { "--domain " + domain } else { "" } }}
+
+# apply merge proposals from a dry-run file  (usage: just ingest-refine-graph-apply <file> [domain])
+ingest-refine-graph-apply file domain="":
+    uv run artmind ingest refine-graph --from-file '{{ file }}' {{ if domain != "" { "--domain " + domain } else { "" } }}
 
 # ── artmind docs ──────────────────────────────────────────────────────────────
 

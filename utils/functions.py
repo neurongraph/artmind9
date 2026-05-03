@@ -1,3 +1,4 @@
+from datetime import datetime
 from loguru import logger
 import os
 import re
@@ -8,7 +9,7 @@ from pathlib import Path
 from dotenv import load_dotenv, dotenv_values
 from paths import (
     ENV_FILE,
- 
+    LLM_CALLS_LOG_FILE,
 )
 
 # ── .env loader ─────────────────────────────────────────────────────
@@ -23,6 +24,25 @@ def load_env(path: Path = ENV_FILE) -> dict[str, str | None]:
         load_dotenv(path)
     return values or {}
 
+
+
+_SEP = "=" * 72
+
+
+def log_llm_call(call_type: str, model: str, prompt: str, response: str) -> None:
+    LLM_CALLS_LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
+    ts = datetime.now().isoformat(timespec="milliseconds")
+    entry = (
+        f"\n{_SEP}\n"
+        f"# {ts}  |  TYPE: {call_type}  |  MODEL: {model}\n"
+        f"{_SEP}\n"
+        f"# === PROMPT ===\n"
+        f"{prompt}\n"
+        f"# === RESPONSE ===\n"
+        f"{response}\n"
+    )
+    with open(LLM_CALLS_LOG_FILE, "a", encoding="utf-8") as f:
+        f.write(entry)
 
 
 _ANSI_ESCAPE = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")

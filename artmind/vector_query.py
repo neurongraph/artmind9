@@ -1,7 +1,7 @@
 import ollama
 
 from artmind.graph_query import neo4j_session, serialize_record, strip_embeddings
-from utils.functions import load_env
+from utils.functions import load_env, log_llm_call
 
 
 def _embedding_model() -> str:
@@ -10,8 +10,11 @@ def _embedding_model() -> str:
 
 
 def embed_question(question: str, model: str | None = None) -> list[float]:
-    response = ollama.embed(model=model or _embedding_model(), input=question)
-    return response.embeddings[0]
+    resolved_model = model or _embedding_model()
+    response = ollama.embed(model=resolved_model, input=question)
+    embedding = response.embeddings[0]
+    log_llm_call("embed", resolved_model, question, f"[embedding vector, dim={len(embedding)}]")
+    return embedding
 
 
 def vector_search(domain: str, question: str, topK: int = 5) -> dict:
