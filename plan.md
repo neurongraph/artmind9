@@ -22,7 +22,7 @@ Examples of Subcommands:
 ```bash
 uv run artmind query graph metadata --domain fiction
 uv run artmind query graph entity_listing --domain fiction
-uv run artmind query graph --domain fiction --pattern pattern1 --entityClass LOCATION "List all the places mentioned in the story."
+uv run artmind query graph pattern1 --domain fiction --entityClass LOCATION "List all the places mentioned in the story."
 uv run artmind query vector --domain fiction "Where did Sherlock Holmes die?"
 ```
 
@@ -63,12 +63,7 @@ Implementation notes:
 - Filter all nodes and relationships by `domain`.
 - Return JSON with top-level metadata and rows.
 - Preserve relationship connection shapes as label arrays.
-- Do not require `--pattern`; metadata is not a pattern execution command.
-- Optionally accept and ignore `--pattern` on this subcommand for compatibility with the current spec example:
-
-  ```bash
-  artmind query graph metadata --domain $domain --pattern pattern1
-  ```
+- Does not accept a `--pattern` option; metadata is its own subcommand.
 
 ### Entity Listing
 
@@ -91,10 +86,12 @@ Implementation notes:
 
 ### Pattern Execution
 
-Command:
+Each pattern is a dedicated subcommand under `artmind query graph`. Examples:
 
 ```bash
-uv run artmind query graph --domain fiction --pattern pattern1 --entityClass LOCATION "List all the places mentioned in the story."
+uv run artmind query graph pattern1 --domain fiction --entityClass LOCATION "List all the places mentioned in the story."
+uv run artmind query graph pattern5 --domain fiction --entityClass1 CHARACTER --entityClass2 CHARACTER --entityName1 Holmes --entityName2 Watson --mode shortest
+uv run artmind query graph pattern9 --domain fiction --entityClass CHARACTER --topN 5
 ```
 
 Supported patterns:
@@ -111,36 +108,35 @@ Supported patterns:
 
 Pattern parameter requirements:
 
-| Pattern | Required CLI options | Optional/defaulted options |
+| Subcommand | Required options | Optional/defaulted options |
 |---|---|---|
-| `pattern1` | `--domain`, `--pattern pattern1`, `--entityClass` | positional `question` |
-| `pattern2` | `--domain`, `--pattern pattern2`, one or more `--entityNameList` | positional `question` |
-| `pattern3` | `--domain`, `--pattern pattern3`, one or more `--entityNameList` | positional `question` |
-| `pattern4` | `--domain`, `--pattern pattern4`, `--entityClass`, `--entityName` | positional `question` |
-| `pattern5` | `--domain`, `--pattern pattern5`, `--entityClass1`, `--entityClass2`, `--entityName1`, `--entityName2` | `--mode shortest`, positional `question` |
-| `pattern6` | `--domain`, `--pattern pattern6`, `--entityName1`, `--entityName2` | positional `question` |
-| `pattern7` | `--domain`, `--pattern pattern7`, `--searchTerm` | `--limit 10`, positional `question` |
-| `pattern8` | `--domain`, `--pattern pattern8`, `--entityClass`, `--entityName` | positional `question` |
-| `pattern9` | `--domain`, `--pattern pattern9`, `--entityClass` | `--topN 5`, positional `question` |
+| `pattern1` | `--domain`, `--entityClass` | positional `question` |
+| `pattern2` | `--domain`, one or more `--entityNameList` | positional `question` |
+| `pattern3` | `--domain`, one or more `--entityNameList` | positional `question` |
+| `pattern4` | `--domain`, `--entityClass`, `--entityName` | positional `question` |
+| `pattern5` | `--domain`, `--entityClass1`, `--entityClass2`, `--entityName1`, `--entityName2` | `--mode shortest`, positional `question` |
+| `pattern6` | `--domain`, `--entityName1`, `--entityName2` | positional `question` |
+| `pattern7` | `--domain`, `--searchTerm` | `--limit 10`, positional `question` |
+| `pattern8` | `--domain`, `--entityClass`, `--entityName` | positional `question` |
+| `pattern9` | `--domain`, `--entityClass` | `--topN 5`, positional `question` |
 
-Options:
+Options per subcommand (pattern-specific; all subcommands also accept `--compact`):
 
 ```bash
---domain TEXT              Required
---pattern TEXT             Required for pattern execution
---entityClass TEXT
---entityClass1 TEXT
---entityClass2 TEXT
---entityName TEXT
---entityName1 TEXT
---entityName2 TEXT
---entityNameList TEXT      Repeatable
---searchTerm TEXT
---mode shortest|all        Default: shortest
---topN INTEGER             Default: 5
---limit INTEGER            Optional, where useful
---compact                  Emit compact JSON
-question                   Optional positional question, included in output metadata
+--domain TEXT              Required on every subcommand
+--entityClass TEXT         pattern1, pattern4, pattern8, pattern9
+--entityClass1 TEXT        pattern5
+--entityClass2 TEXT        pattern5
+--entityName TEXT          pattern4, pattern8
+--entityName1 TEXT         pattern5, pattern6
+--entityName2 TEXT         pattern5, pattern6
+--entityNameList TEXT      pattern2, pattern3 (repeatable)
+--searchTerm TEXT          pattern7
+--mode shortest|all        pattern5 — default: shortest
+--topN INTEGER             pattern9 — default: 5
+--limit INTEGER            pattern7 — default: 10
+--compact                  All subcommands — emit compact JSON
+question                   All subcommands — optional positional, included in output metadata
 ```
 
 Validation:
@@ -322,10 +318,9 @@ The skill should include concise provenance in its internal reasoning, but the u
 ### Phase 2: CLI
 
 - Add `query` group to `artmind/cli.py`.
-- Add `query graph metadata`.
-- Add `query graph entity_listing`.
-- Add `query graph` pattern execution for `pattern1` through `pattern9`.
+- Add `query graph` as a subgroup with subcommands `metadata`, `entity_listing`, and `pattern1`–`pattern9`.
 - Add `query vector`.
+- Each pattern subcommand declares its required options explicitly so `--help` is fully self-documenting.
 - Ensure all commands emit valid JSON and useful Click errors.
 
 ### Phase 3: Tests
@@ -365,6 +360,7 @@ uv run --group dev pytest test/ -v
 uv run artmind query graph --help
 uv run artmind query graph metadata --help
 uv run artmind query graph entity_listing --help
+uv run artmind query graph pattern1 --help
 uv run artmind query vector --help
 ```
 
@@ -373,6 +369,6 @@ Manual smoke tests with a running Neo4j instance:
 ```bash
 uv run artmind query graph metadata --domain fiction
 uv run artmind query graph entity_listing --domain fiction
-uv run artmind query graph --domain fiction --pattern pattern1 --entityClass LOCATION "List all the places mentioned in the story."
+uv run artmind query graph pattern1 --domain fiction --entityClass LOCATION "List all the places mentioned in the story."
 uv run artmind query vector --domain fiction --topK 5 "Where did Sherlock Holmes die?"
 ```

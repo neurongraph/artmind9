@@ -8,7 +8,7 @@ All patterns assume:
 
 - Every node has a `domain` property scoping it to one source (e.g. one novel, one corpus). **Every query filters on `$domain`.**
 - Name comparisons use **case-insensitive substring matching** via `toLower(...) CONTAINS toLower(...)`. This makes the patterns robust to user phrasing ("sherlock" vs "Sherlock Holmes", "miss hunter" vs "Violet Hunter").
-- `entityClass` is a node label (e.g. `Character`, `Place`, `Object`, `Theme`).
+- `entityClass` is a node label as stored by ingestion. Artmind derives labels from extracted `entity_class` values by replacing non-alphanumeric characters with `_` and uppercasing the result, so `Character` becomes `CHARACTER` and `project role` becomes `PROJECT_ROLE`.
 - Results are returned as structured objects suitable for JSON serialization to the LLM synthesis step.
 
 ## Understanding the Graph metadata and entities
@@ -48,22 +48,47 @@ RETURN category, name, propertyNames, distinctTypes, connections
 ```
 **CLI:**
 ```
-artmind query graph metadata --domain $domain --pattern pattern1
+uv run artmind query graph metadata --domain $domain
 ```
 ### Entity listing
 **Cypher**
 
 ```cypher
-MATCH (n)
-WHERE n.domain = $domain
+MATCH (n:Entity)
+WHERE n.domain = $domain AND n.name IS NOT NULL
+  AND ($nameFilter IS NULL OR toLower(n.name) CONTAINS toLower($nameFilter))
 UNWIND labels(n) AS label
 WITH label, n.type AS type, collect(DISTINCT n.name) AS names
 RETURN label, collect({type: type, names: names}) AS typeGroups
+ORDER BY label
 ```
+
+**Options:**
+- `--nameFilter TEXT` — optional substring to fuzzy-match entity names (case-insensitive). Narrows the listing when the domain has many entities.
+- `--countAll` — include `total_entities` (unfiltered count) in the output. Use this to gauge listing size before fetching all names.
 
 **CLI:**
 ```
-artmind query graph entity_listing --domain $domain
+# full listing
+uv run artmind query graph entity_listing --domain $domain
+
+# check total count without fetching all names
+uv run artmind query graph entity_listing --domain $domain --countAll --compact
+
+# filtered listing for entities matching a search term
+uv run artmind query graph entity_listing --domain $domain --nameFilter $searchTerm
+```
+
+**Output shape (with --countAll and --nameFilter):**
+```json
+{
+  "domain": "fiction",
+  "query_type": "graph",
+  "command": "entity_listing",
+  "name_filter": "holmes",
+  "total_entities": 42,
+  "rows": [...]
+}
 ```
 
 ## Pattern Selection Guide
@@ -96,7 +121,7 @@ RETURN e {.*, label: labels(e)} AS entityData
 
 **CLI:**
 ```
-artmind query graph --domain $domain --pattern pattern1 --entityClass $entityClass 
+uv run artmind query graph pattern1 --domain $domain --entityClass $entityClass
 ```
 
 ---
@@ -120,7 +145,7 @@ RETURN e {.*, label: labels(e)} AS entityData
 
 **CLI:**
 ```
-artmind query graph --domain $domain --pattern pattern2 --entityNameList $entityNameList
+uv run artmind query graph pattern2 --domain $domain --entityNameList $entityName
 ```
 
 ---
@@ -152,7 +177,7 @@ RETURN properties(e) AS entityData, connections
 
 **CLI:**
 ```
-artmind query graph --domain $domain --pattern pattern3 --entityNameList $entityNameList
+uv run artmind query graph pattern3 --domain $domain --entityNameList $entityName
 ```
 
 ---
@@ -185,7 +210,7 @@ RETURN properties(e) AS entityData, connections
 
 **CLI:**
 ```
-artmind query graph --domain $domain --pattern pattern4 --entityClass $entityClass --entityName $entityName
+uv run artmind query graph pattern4 --domain $domain --entityClass $entityClass --entityName $entityName
 ```
 
 ---
@@ -232,7 +257,7 @@ RETURN [i IN range(0, length(p)-1) | [
 
 **CLI:**
 ```
-artmind query graph --domain $domain --pattern pattern5 --mode {shortest|all} --entityClass1 $entityClass1 --entityClass2 $entityClass2 --entityName1 $entityName1 --entityName2 $entityName2
+uv run artmind query graph pattern5 --domain $domain --mode {shortest|all} --entityClass1 $entityClass1 --entityClass2 $entityClass2 --entityName1 $entityName1 --entityName2 $entityName2
 ```
 
 ---
@@ -262,7 +287,7 @@ RETURN type(r) AS relType,
 
 **CLI:**
 ```
-artmind query graph --domain $domain --pattern pattern6 --entityName1 $entityName1 --entityName2 $entityName2
+uv run artmind query graph pattern6 --domain $domain --entityName1 $entityName1 --entityName2 $entityName2
 ```
 
 ---
@@ -290,7 +315,7 @@ LIMIT 10
 
 **CLI:**
 ```
-artmind query graph --domain $domain --pattern pattern7 --searchTerm $searchTerm
+uv run artmind query graph pattern7 --domain $domain --searchTerm $searchTerm
 ```
 
 ---
@@ -318,7 +343,7 @@ RETURN e {.*, label: labels(e)} AS entityData,
 
 **CLI:**
 ```
-artmind query graph --domain $domain --pattern pattern8 --entityClass $entityClass --entityName $entityName
+uv run artmind query graph pattern8 --domain $domain --entityClass $entityClass --entityName $entityName
 ```
 
 ---
@@ -346,7 +371,7 @@ LIMIT $topN
 
 **CLI:**
 ```
-artmind query graph --domain $domain --pattern pattern9 --entityClass $entityClass --topN $topN
+uv run artmind query graph pattern9 --domain $domain --entityClass $entityClass --topN $topN
 ```
 
 ---
@@ -386,3 +411,14 @@ Every pattern returns JSON. The harness should pass the raw result to the LLM al
 > "Using only the structured KG data below, answer the user's question. If the data is insufficient, say so. Do not invent entities or relationships not present in the data."
 
 This keeps synthesis grounded and prevents hallucination of facts not in the extracted graph.
+
+## Vector Query
+
+Use vector search when a question needs text-grounded narrative evidence or when graph patterns return insufficient data.
+
+**CLI:**
+```
+uv run artmind query vector --domain $domain --topK 5 "$question"
+```
+
+The vector command searches the `chunk_embedding` Neo4j vector index, filters chunks by domain, and returns JSON with score, chunk metadata/text, and parent document metadata. Raw embedding fields are omitted from output.

@@ -854,9 +854,9 @@ def _upsert_entity(session, entity: dict, extra_props: dict | None) -> None:
             props=merged,
         )
     else:
+        label_str = f"{_sanitize_label(entity_class)}:Entity"
         session.run(
-            "CREATE (n:$(labels)) SET n = $props",
-            labels=[_sanitize_label(entity_class), "Entity"],
+            f"CREATE (n:{label_str}) SET n = $props",
             props=incoming,
         )
 

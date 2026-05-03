@@ -43,3 +43,33 @@ ingest-sync file domain="general":
 # clean a document from storage, registry, and Neo4j  (usage: just docs-clean <domain> <document>)
 docs-clean domain document:
     uv run artmind docs clean --domain {{ domain }} {{ document }}
+
+# ── artmind query ─────────────────────────────────────────────────────────────
+
+# graph metadata for a domain  (usage: just query-graph-metadata <domain>)
+query-graph-metadata domain:
+    uv run artmind query graph metadata --domain {{ domain }}
+
+# entity listing for a domain  (usage: just query-graph-entities <domain>)
+query-graph-entities domain:
+    uv run artmind query graph entity_listing --domain {{ domain }}
+
+# list entities of a class  (usage: just query-graph-list <domain> <entity_class>)
+query-graph-list domain entity_class:
+    uv run artmind query graph pattern1 --domain {{ domain }} --entityClass {{ entity_class }}
+
+# info on a named entity  (usage: just query-graph-info <domain> <entity_name>)
+query-graph-info domain entity_name:
+    uv run artmind query graph pattern2 --domain {{ domain }} --entityNameList "{{ entity_name }}"
+
+# top-N entities of a class  (usage: just query-graph-top <domain> <entity_class> [topN])
+query-graph-top domain entity_class top_n="5":
+    uv run artmind query graph pattern9 --domain {{ domain }} --entityClass {{ entity_class }} --topN {{ top_n }}
+
+# direct relationships between two entities  (usage: just query-graph-rel <domain> <entity1> <entity2>)
+query-graph-rel domain entity1 entity2:
+    uv run artmind query graph pattern6 --domain {{ domain }} --entityName1 "{{ entity1 }}" --entityName2 "{{ entity2 }}"
+
+# vector search chunks  (usage: just query-vector <domain> "question")
+query-vector domain question top_k="5":
+    uv run artmind query vector --domain {{ domain }} --topK {{ top_k }} "{{ question }}"

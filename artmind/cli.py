@@ -1,12 +1,14 @@
 import shutil
 import sys
 import time
+import json
 from pathlib import Path
 
 import click
 import yaml
 from loguru import logger
 
+from artmind import graph_query, vector_query
 from artmind.ingest import (
     clean_document,
     ingest_file,
@@ -88,6 +90,15 @@ def cli():
     pass
 
 
+def _echo_json(payload: dict, compact: bool = False) -> None:
+    kwargs = {"ensure_ascii": False}
+    if compact:
+        kwargs["separators"] = (",", ":")
+    else:
+        kwargs["indent"] = 2
+    click.echo(json.dumps(payload, **kwargs))
+
+
 # ── artmind domains ────────────────────────────────────────────────────────────
 
 
@@ -139,6 +150,14 @@ def get_entities(domain_name: str):
     click.echo(data.get("entities_prompt", []))
 
 
+@domains.command("entities")
+@click.argument("domain_name")
+def list_domain_entities(domain_name: str):
+    """List entity classes declared in a domain schema."""
+    data = _load_domain_schema(domain_name)
+    click.echo(data.get("entities", []))
+
+
 @domains.command("properties_prompt")
 @click.argument("domain_name")
 def get_properties(domain_name: str):
@@ -153,6 +172,14 @@ def get_relationships(domain_name: str):
     """The prompt used to extract relationships from a document chunk"""
     data = _load_domain_schema(domain_name)
     click.echo(data.get("relationships_prompt", []))
+
+
+@domains.command("relationships")
+@click.argument("domain_name")
+def list_domain_relationships(domain_name: str):
+    """List relationship types declared in a domain schema."""
+    data = _load_domain_schema(domain_name)
+    click.echo(data.get("relationships", []))
 
 
 # ── artmind ingest ─────────────────────────────────────────────────────────────
@@ -214,7 +241,200 @@ def ingest_sync(file_path: str, domain: str | None):
         elapsed,
         ok_count,
         fail_count,
+        )
+
+
+# ── artmind query ──────────────────────────────────────────────────────────────
+
+
+@cli.group()
+def query():
+    """Query the knowledge graph and vector index."""
+    pass
+
+
+@query.group()
+def graph():
+    """Execute graph queries (metadata, entity listing, pattern1–pattern9)."""
+    pass
+
+
+def _run_graph_pattern(
+    pattern: str, domain: str, compact: bool, question: str | None, **kwargs
+) -> None:
+    try:
+        result = graph_query.execute_pattern(
+            domain=domain, pattern=pattern, question=question, **kwargs
+        )
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+
+
+@graph.command("metadata")
+@click.option("--domain", required=True, help="Domain to query")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def graph_metadata_cmd(domain: str, compact: bool) -> None:
+    """Return graph schema metadata (labels, properties, relationship types)."""
+    _echo_json(graph_query.graph_metadata(domain), compact)
+
+
+@graph.command("entity_listing")
+@click.option("--domain", required=True, help="Domain to query")
+@click.option("--nameFilter", "name_filter", default=None, help="Fuzzy match entity names (case-insensitive substring)")
+@click.option("--countAll", "count_all", is_flag=True, help="Include total unfiltered entity count in output")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def graph_entity_listing_cmd(domain: str, name_filter: str | None, count_all: bool, compact: bool) -> None:
+    """Return entity names grouped by label/type."""
+    _echo_json(graph_query.entity_listing(domain, name_filter=name_filter, count_all=count_all), compact)
+
+
+@graph.command("pattern1")
+@click.option("--domain", required=True, help="Domain to query")
+@click.option("--entityClass", "entity_class", required=True, help="Entity class label (e.g. CHARACTER, LOCATION)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.argument("question", required=False)
+def graph_pattern1(domain: str, entity_class: str, compact: bool, question: str | None) -> None:
+    """List entities of a class."""
+    _run_graph_pattern("pattern1", domain, compact, question, entityClass=entity_class)
+
+
+@graph.command("pattern2")
+@click.option("--domain", required=True, help="Domain to query")
+@click.option("--entityNameList", "entity_name_list", multiple=True, required=True, help="Entity name (repeatable)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.argument("question", required=False)
+def graph_pattern2(domain: str, entity_name_list: tuple, compact: bool, question: str | None) -> None:
+    """Info on one or more named entities."""
+    _run_graph_pattern("pattern2", domain, compact, question, entityNameList=entity_name_list)
+
+
+@graph.command("pattern3")
+@click.option("--domain", required=True, help="Domain to query")
+@click.option("--entityNameList", "entity_name_list", multiple=True, required=True, help="Entity name (repeatable)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.argument("question", required=False)
+def graph_pattern3(domain: str, entity_name_list: tuple, compact: bool, question: str | None) -> None:
+    """Entity + lightweight relationship summary."""
+    _run_graph_pattern("pattern3", domain, compact, question, entityNameList=entity_name_list)
+
+
+@graph.command("pattern4")
+@click.option("--domain", required=True, help="Domain to query")
+@click.option("--entityClass", "entity_class", required=True, help="Entity class label")
+@click.option("--entityName", "entity_name", required=True, help="Entity name (substring match)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.argument("question", required=False)
+def graph_pattern4(
+    domain: str, entity_class: str, entity_name: str, compact: bool, question: str | None
+) -> None:
+    """Entity + full neighborhood."""
+    _run_graph_pattern(
+        "pattern4", domain, compact, question, entityClass=entity_class, entityName=entity_name
     )
+
+
+@graph.command("pattern5")
+@click.option("--domain", required=True, help="Domain to query")
+@click.option("--entityClass1", "entity_class1", required=True, help="Class of first entity")
+@click.option("--entityClass2", "entity_class2", required=True, help="Class of second entity")
+@click.option("--entityName1", "entity_name1", required=True, help="Name of first entity")
+@click.option("--entityName2", "entity_name2", required=True, help="Name of second entity")
+@click.option(
+    "--mode",
+    type=click.Choice(["shortest", "all"]),
+    default="shortest",
+    show_default=True,
+    help="Path mode",
+)
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.argument("question", required=False)
+def graph_pattern5(
+    domain: str,
+    entity_class1: str,
+    entity_class2: str,
+    entity_name1: str,
+    entity_name2: str,
+    mode: str,
+    compact: bool,
+    question: str | None,
+) -> None:
+    """Paths between two entities (shortest or all within depth 5)."""
+    _run_graph_pattern(
+        "pattern5", domain, compact, question,
+        entityClass1=entity_class1,
+        entityClass2=entity_class2,
+        entityName1=entity_name1,
+        entityName2=entity_name2,
+        mode=mode,
+    )
+
+
+@graph.command("pattern6")
+@click.option("--domain", required=True, help="Domain to query")
+@click.option("--entityName1", "entity_name1", required=True, help="Name of first entity")
+@click.option("--entityName2", "entity_name2", required=True, help="Name of second entity")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.argument("question", required=False)
+def graph_pattern6(
+    domain: str, entity_name1: str, entity_name2: str, compact: bool, question: str | None
+) -> None:
+    """Direct relationships between two entities."""
+    _run_graph_pattern(
+        "pattern6", domain, compact, question,
+        entityName1=entity_name1, entityName2=entity_name2,
+    )
+
+
+@graph.command("pattern7")
+@click.option("--domain", required=True, help="Domain to query")
+@click.option("--searchTerm", "search_term", required=True, help="Substring match on name or description")
+@click.option("--limit", type=int, default=10, show_default=True, help="Max results")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.argument("question", required=False)
+def graph_pattern7(
+    domain: str, search_term: str, limit: int, compact: bool, question: str | None
+) -> None:
+    """Search entities by name or description fragment."""
+    _run_graph_pattern("pattern7", domain, compact, question, searchTerm=search_term, limit=limit)
+
+
+@graph.command("pattern8")
+@click.option("--domain", required=True, help="Domain to query")
+@click.option("--entityClass", "entity_class", required=True, help="Class of entities to return")
+@click.option("--entityName", "entity_name", required=True, help="Name of the connected entity")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.argument("question", required=False)
+def graph_pattern8(
+    domain: str, entity_class: str, entity_name: str, compact: bool, question: str | None
+) -> None:
+    """Entities of class X connected to entity Y."""
+    _run_graph_pattern(
+        "pattern8", domain, compact, question, entityClass=entity_class, entityName=entity_name
+    )
+
+
+@graph.command("pattern9")
+@click.option("--domain", required=True, help="Domain to query")
+@click.option("--entityClass", "entity_class", required=True, help="Entity class label")
+@click.option("--topN", "top_n", type=int, default=5, show_default=True, help="Number of top entities")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.argument("question", required=False)
+def graph_pattern9(
+    domain: str, entity_class: str, top_n: int, compact: bool, question: str | None
+) -> None:
+    """Top-N entities of a class by connection count."""
+    _run_graph_pattern("pattern9", domain, compact, question, entityClass=entity_class, topN=top_n)
+
+
+@query.command("vector")
+@click.option("--domain", required=True, help="Domain to query")
+@click.option("--topK", "top_k", type=int, default=5, show_default=True)
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.argument("question")
+def vector(domain: str, top_k: int, compact: bool, question: str) -> None:
+    """Search DocChunk nodes by embedding similarity."""
+    _echo_json(vector_query.vector_search(domain, question, top_k), compact)
 
 
 # ── artmind docs ───────────────────────────────────────────────────────────────
@@ -244,188 +464,3 @@ def docs_clean(domain: str, document_name: str):
     click.echo(f"  neo4j orphan entities: {result['neo4j_orphan_entities']}")
     if result["neo4j_error"]:
         raise click.ClickException(f"Neo4j cleanup failed: {result['neo4j_error']}")
-
-
-# @ingest.command("async")
-# @click.argument("file_path", type=click.Path(exists=True))
-# @click.option("--domain", default=None, help="Domain to assign (prompted if omitted)")
-# def ingest_async_cmd(file_path: str, domain: str | None):
-#     """Submit a file or directory for async ingestion; returns job_id immediately."""
-#     if domain is None:
-#         domain = _prompt_for_domain()
-
-#     path = Path(file_path)
-#     files = sorted(
-#         f for f in (path.rglob("*") if path.is_dir() else [path]) if f.is_file()
-#     )
-
-#     if not files:
-#         raise click.ClickException(f"No files found in {path}")
-
-#     batch_files = [str(f.resolve()) for f in files]
-#     job_id = _create_job(batch_files, domain=domain)
-
-#     _ensure_worker_running()
-
-#     click.echo(json.dumps({
-#         "job_id": job_id,
-#         "domain": domain,
-#         "file_count": len(batch_files),
-#         "submitted_at": datetime.now().isoformat(),
-#         "message": f"Job submitted with {len(batch_files)} file(s)"
-#     }))
-
-
-# @ingest.command("status")
-# @click.argument("job_id")
-# def ingest_status_cmd(job_id: str):
-#     """Check the status of an ingestion job."""
-#     job_data = _get_job_status(job_id)
-#     if not job_data:
-#         raise click.ClickException(f"Job not found: {job_id}")
-
-#     progress = f"{job_data['processed_count']}/{job_data['file_count']}"
-#     click.echo(json.dumps({
-#         "job_id": job_id,
-#         "status": job_data["status"],
-#         "progress": progress,
-#         "processed_count": job_data["processed_count"],
-#         "file_count": job_data["file_count"],
-#         "current_file": job_data["current_file"],
-#         "queued_at": job_data["queued_at"],
-#         "started_at": job_data["started_at"],
-#         "completed_at": job_data["completed_at"],
-#     }))
-
-
-# @ingest.command("results")
-# @click.argument("job_id")
-# def ingest_results_cmd(job_id: str):
-#     """Retrieve detailed results of a completed ingestion job."""
-#     results = _get_job_results(job_id)
-#     if not results:
-#         raise click.ClickException(f"Job not found: {job_id}")
-
-#     click.echo(json.dumps(results, indent=2))
-
-
-# @ingest.command("list-jobs")
-# @click.option("--status", default=None, help="Filter by status (queued, processing, completed, failed)")
-# def ingest_list_jobs_cmd(status: str | None):
-#     """List ingestion jobs."""
-#     jobs = _list_jobs(status_filter=status)
-#     if not jobs:
-#         click.echo("No jobs found")
-#         return
-
-#     for job in jobs:
-#         progress = f"{job['processed_count']}/{job['file_count']}"
-#         click.echo(f"  {job['job_id'][:8]}... | {job['status']:12} | {progress:6} | {job['queued_at']}")
-
-
-# @ingest.command("monitor")
-# @click.argument("job_id", required=False)
-# def ingest_monitor_cmd(job_id: str | None):
-#     """Monitor an asynchronous ingestion job using a Rich dashboard.
-#     If job_id is omitted, it will automatically monitor the most recent active job."""
-#     from rich.live import Live
-#     from rich.table import Table
-#     from rich.progress import Progress, BarColumn, TextColumn, TimeElapsedColumn
-#     from rich.panel import Panel
-#     from rich.console import Group
-#     from rich import box
-#     import time
-
-#     if not job_id:
-#         active_jobs = _list_jobs(status_filter="processing")
-#         if not active_jobs:
-#             active_jobs = _list_jobs(status_filter="queued")
-
-#         if active_jobs:
-#             job_id = active_jobs[0]["job_id"]
-#         else:
-#             recent_jobs = _list_jobs()
-#             if recent_jobs:
-#                 job_id = recent_jobs[0]["job_id"]
-#             else:
-#                 click.echo("No ingestion jobs found to monitor.")
-#                 return
-
-#     def generate_dashboard(job_data):
-#         if not job_data:
-#             return Panel("[red]Job not found[/red]", title="Error")
-
-#         status = job_data["status"]
-#         processed = job_data["processed_count"]
-#         total = job_data["file_count"]
-#         current_file = job_data.get("current_file") or "Waiting for worker..."
-#         domain = job_data["domain"]
-
-#         status_color = "yellow"
-#         if status == "completed":
-#             status_color = "green"
-#         elif status == "failed":
-#             status_color = "red"
-
-#         progress = Progress(
-#             TextColumn("[bold blue]{task.percentage:>3.0f}%"),
-#             BarColumn(bar_width=40),
-#             TextColumn("[green]{task.completed}/{task.total} files"),
-#             TimeElapsedColumn(),
-#         )
-#         progress.add_task("ingest", total=total, completed=processed)
-
-#         table = Table(box=box.SIMPLE, show_header=False)
-#         table.add_column("Key", style="cyan")
-#         table.add_column("Value")
-
-#         table.add_row("Job ID", job_id)
-#         table.add_row("Domain", domain)
-#         table.add_row("Status", f"[{status_color}]{status.upper()}[/{status_color}]")
-#         table.add_row("Current File", f"[bold magenta]{current_file}[/bold magenta]")
-#         if job_data.get("error_message"):
-#             table.add_row("Error", f"[red]{job_data['error_message']}[/red]")
-
-#         results_data = _get_job_results(job_id)
-#         files_panel = None
-#         if results_data and "files" in results_data and results_data["files"]:
-#             files_table = Table(box=box.SIMPLE)
-#             files_table.add_column("Filename", style="cyan")
-#             files_table.add_column("Docling", justify="center")
-#             files_table.add_column("Neo4j KG", justify="center")
-
-#             display_files = results_data["files"][-10:]
-#             for f in display_files:
-#                 doc_status = "[green]✓[/green]" if f.get("status") == "ok" else "[red]✗[/red]"
-#                 kg_status = "[green]✓[/green]" if f.get("kg_status") == "ok" else "[red]✗[/red]"
-#                 if "kg_status" not in f and f.get("status") != "ok":
-#                     kg_status = "-"
-#                 elif "kg_status" not in f:
-#                     kg_status = "[yellow]?[/yellow]"
-#                 files_table.add_row(f.get("filename", "unknown"), doc_status, kg_status)
-
-#             title = "Processed Files" if len(results_data["files"]) <= 10 else f"Processed Files (Last 10 of {len(results_data['files'])})"
-#             files_panel = Panel(files_table, title=title, border_style="blue")
-
-#         elements = [table, Panel(progress, title="Progress", border_style="blue")]
-#         if files_panel:
-#             elements.append(files_panel)
-
-#         group = Group(*elements)
-#         return Panel(group, title="Artmind Ingestion Monitor", border_style="cyan")
-
-#     initial_data = _get_job_status(job_id)
-#     if not initial_data:
-#         click.echo(f"Job not found: {job_id}")
-#         return
-
-#     try:
-#         with Live(generate_dashboard(initial_data), refresh_per_second=2) as live:
-#             while True:
-#                 job_data = _get_job_status(job_id)
-#                 live.update(generate_dashboard(job_data))
-#                 if not job_data or job_data["status"] in ("completed", "failed"):
-#                     break
-#                 time.sleep(1)
-#     except KeyboardInterrupt:
-#         pass
