@@ -14,10 +14,9 @@ from artmind.ingest import (
 )
 from paths import (
     DOMAIN_SCHEMAS_DIR,
-    ENV_FILE,
     INGEST_LOG_FILE,
 )
-from utils.functions import load_env, run_command
+from utils.functions import load_env
 
 
 def _setup_logger(log_file: Path = INGEST_LOG_FILE) -> None:
@@ -34,20 +33,6 @@ def _setup_logger(log_file: Path = INGEST_LOG_FILE) -> None:
         sys.stderr,
         format="{time:YYYY-MM-DD HH:mm:ss} [{level:<7}] {message}",
         level="INFO",
-    )
-
-
-def _prompt_for_domain() -> str:
-    """Show available domains and prompt user to select one."""
-    domains = _get_available_domains()
-    click.echo("Available domains:")
-    for d in domains:
-        click.echo(f"  - {d}")
-    return click.prompt(
-        "Domain",
-        default="general",
-        type=click.Choice(domains, case_sensitive=False),
-        show_choices=False,
     )
 
 
@@ -80,7 +65,7 @@ def _get_available_domains() -> list[str]:
     return domains
 
 
-def prompt_for_domain() -> str:
+def _prompt_for_domain() -> str:
     """Show available domains and prompt user to select one."""
     domains = _get_available_domains()
     click.echo("Available domains:")

@@ -8,6 +8,7 @@ from datetime import datetime
 from hashlib import sha256
 from pathlib import Path
 
+import json_repair
 import ollama
 import yaml
 from langchain_text_splitters import (
@@ -445,7 +446,7 @@ def _describe_image(image: Path, model: str) -> str | None:
             image.name,
         )
         try:
-            response = ollama.chat(
+            response = ollama.Client(timeout=timeout).chat(
                 model=model,
                 messages=[{"role": "user", "content": prompt, "images": [str(image)]}],
             )
@@ -679,11 +680,13 @@ def _embed_text(model: str, text: str) -> list[float]:
 
 
 def _call_llm_text(model: str, prompt: str) -> str:
-    response = ollama.chat(
+    env = load_env()
+    timeout = int(env.get("ARTMIND_OLLAMA_TIMEOUT", "120"))
+    response = ollama.Client(timeout=timeout).chat(
         model=model,
         messages=[{"role": "user", "content": prompt}],
-        format="json",
-        think=False,
+        # format="json", # Adding this parameter is making the model fail
+        # think=False, # Adding this parameter as well is making the model go into an infinite loop
         options={"temperature": 0},
     )
     return (response.message.content or "").strip()
@@ -696,7 +699,7 @@ def _parse_json_response(text: str):
     # Strip markdown code fences
     text = re.sub(r"^```(?:json)?\s*\n?", "", text)
     text = re.sub(r"\n?```\s*$", "", text)
-    return json.loads(text.strip())
+    return json_repair.loads(text.strip())
 
 
 def _entities_list_text(entities: list[dict]) -> str:
