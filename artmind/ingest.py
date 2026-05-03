@@ -48,12 +48,10 @@ def _compute_sha256(file_path: Path) -> str:
 
 
 def _init_db():
-    if DB_PATH.exists():
-        return
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute("""
-        CREATE TABLE documents (
+        CREATE TABLE IF NOT EXISTS documents (
             id           INTEGER PRIMARY KEY,
             domain       TEXT NOT NULL,
             filename     TEXT NOT NULL,
@@ -65,7 +63,7 @@ def _init_db():
         )
     """)
     cursor.execute("""
-        CREATE TABLE ingestion_jobs (
+        CREATE TABLE IF NOT EXISTS ingestion_jobs (
             job_id           TEXT PRIMARY KEY,
             status           TEXT NOT NULL,
             file_count       INTEGER NOT NULL,
@@ -78,9 +76,8 @@ def _init_db():
             domain           TEXT DEFAULT 'general'
         )
     """)
-
     cursor.execute("""
-        CREATE TABLE ingestion_job_files (
+        CREATE TABLE IF NOT EXISTS ingestion_job_files (
             id               INTEGER PRIMARY KEY AUTOINCREMENT,
             job_id           TEXT NOT NULL REFERENCES ingestion_jobs(job_id),
             status           TEXT NOT NULL,
@@ -90,7 +87,18 @@ def _init_db():
             error_message    TEXT
         )
     """)
-
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS kg_chunk_status (
+            doc_sha256           TEXT NOT NULL,
+            doc_id               TEXT NOT NULL,
+            chunk_seq            INTEGER NOT NULL,
+            entities_status      TEXT NOT NULL DEFAULT 'pending',
+            properties_status    TEXT NOT NULL DEFAULT 'pending',
+            relationships_status TEXT NOT NULL DEFAULT 'pending',
+            updated_at           TEXT NOT NULL,
+            PRIMARY KEY (doc_sha256, chunk_seq)
+        )
+    """)
     conn.commit()
     conn.close()
 
@@ -397,6 +405,97 @@ def _list_jobs(status_filter: str | None = None) -> list[dict]:
         conn.close()
 
 
+# ── kg_chunk_status helpers ────────────────────────────────────────────────────
+
+
+def _init_chunk_rows(doc_sha256: str, doc_id: str, chunk_count: int) -> None:
+    """Insert pending rows for all chunks of a document (INSERT OR IGNORE — won't overwrite)."""
+    conn = _get_db()
+    try:
+        now = datetime.now().isoformat()
+        conn.executemany(
+            "INSERT OR IGNORE INTO kg_chunk_status"
+            " (doc_sha256, doc_id, chunk_seq, entities_status, properties_status,"
+            "  relationships_status, updated_at)"
+            " VALUES (?, ?, ?, 'pending', 'pending', 'pending', ?)",
+            [(doc_sha256, doc_id, seq, now) for seq in range(1, chunk_count + 1)],
+        )
+        conn.commit()
+    finally:
+        conn.close()
+
+
+def _get_chunk_statuses(doc_sha256: str) -> dict[int, dict]:
+    """Return {chunk_seq: {doc_id, entities_status, properties_status, relationships_status}}."""
+    conn = _get_db()
+    try:
+        rows = conn.execute(
+            "SELECT chunk_seq, doc_id, entities_status, properties_status, relationships_status"
+            " FROM kg_chunk_status WHERE doc_sha256 = ? ORDER BY chunk_seq",
+            (doc_sha256,),
+        ).fetchall()
+        return {
+            row[0]: {
+                "doc_id": row[1],
+                "entities_status": row[2],
+                "properties_status": row[3],
+                "relationships_status": row[4],
+            }
+            for row in rows
+        }
+    finally:
+        conn.close()
+
+
+def _update_chunk_step(doc_sha256: str, chunk_seq: int, step: str, status: str) -> None:
+    """Update one step's status for a chunk (step: 'entities'|'properties'|'relationships')."""
+    conn = _get_db()
+    try:
+        conn.execute(
+            f"UPDATE kg_chunk_status SET {step}_status = ?, updated_at = ?"
+            " WHERE doc_sha256 = ? AND chunk_seq = ?",
+            (status, datetime.now().isoformat(), doc_sha256, chunk_seq),
+        )
+        conn.commit()
+    finally:
+        conn.close()
+
+
+def _build_file_result_from_db(document_name: str, domain: str) -> dict | None:
+    """Reconstruct file_result from the registry for CLI retry commands."""
+    conn = _get_db()
+    try:
+        row = conn.execute(
+            "SELECT filename, sha256, original_path FROM documents"
+            " WHERE UPPER(filename) = ? AND domain = ?",
+            (document_name.upper(), domain),
+        ).fetchone()
+        if not row:
+            # Try prefix match (user may omit extension)
+            row = conn.execute(
+                "SELECT filename, sha256, original_path FROM documents"
+                " WHERE UPPER(filename) LIKE ? AND domain = ? LIMIT 1",
+                (document_name.upper() + "%", domain),
+            ).fetchone()
+        if not row:
+            return None
+        filename, doc_sha256, original_path = row
+        registered_path = Path(original_path)
+        chunks_dir = MARKDOWNS_DIR / f"{registered_path.stem}_chunks"
+        chunk_count = len(sorted(chunks_dir.glob("chunk_*.md"))) if chunks_dir.exists() else 0
+        return {
+            "status": "ok",
+            "filename": filename,
+            "sha256": doc_sha256,
+            "registered_path": original_path,
+            "domain": domain,
+            "chunks_dir": str(chunks_dir),
+            "chunk_count": chunk_count,
+        }
+    finally:
+        conn.close()
+
+
 def _register_document(domain: str, file_path: Path) -> str:
     """Insert document into registry; return resolved path. Raises ValueError on duplicate."""
     filename = file_path.name
@@ -495,7 +594,11 @@ def _replace_image_ref(md_content: str, image_name: str, description: str) -> st
 
 
 def ingest_file(
-    source: Path, image_model: str, domain: str = "general", job_id: str | None = None
+    source: Path,
+    image_model: str,
+    domain: str = "general",
+    job_id: str | None = None,
+    chunk_size: int = 6000,
 ):
     file_size_kb = source.stat().st_size / 1024
     logger.info(
@@ -615,9 +718,23 @@ def ingest_file(
             dest_filename,
             domain,
         )
+
+        # Split markdown into chunks and persist each chunk to disk
+        raw_text = md_file.read_text(encoding="utf-8")
+        _, body = _parse_md_frontmatter(raw_text)
+        chunks = _split_markdown(body, chunk_size)
+        chunks_dir = MARKDOWNS_DIR / f"{dest_path.stem}_chunks"
+        chunks_dir.mkdir(parents=True, exist_ok=True)
+        for i, chunk_text in enumerate(chunks, start=1):
+            (chunks_dir / f"chunk_{i:03d}.md").write_text(chunk_text, encoding="utf-8")
+        logger.info("Saved {} chunk(s) to {}_chunks/", len(chunks), dest_path.stem)
+
         file_result["status"] = "ok"
         file_result["domain"] = domain
+        file_result["sha256"] = file_sha256
         file_result["registered_path"] = str(registered_path)
+        file_result["chunks_dir"] = str(chunks_dir)
+        file_result["chunk_count"] = len(chunks)
         return file_result
     except ValueError as e:
         logger.error("Registration failed for {}: {}", dest_filename, e)
@@ -690,6 +807,24 @@ def _call_llm_text(model: str, prompt: str) -> str:
         options={"temperature": 0},
     )
     return (response.message.content or "").strip()
+
+
+def _llm_extract(step_name: str, model: str, prompt: str, debug_dir: Path) -> tuple[list, bool]:
+    """Call LLM, parse JSON response, retry once on any failure. Returns (result, ok)."""
+    raw_llm = ""
+    for attempt in range(2):
+        try:
+            raw_llm = _call_llm_text(model, prompt)
+            return _parse_json_response(raw_llm), True
+        except Exception as e:
+            if attempt == 0:
+                logger.warning("  {} failed (attempt 1/2), retrying: {}", step_name, e)
+            else:
+                logger.error("  {} failed after 2 attempts: {}", step_name, e)
+                if raw_llm:
+                    safe = re.sub(r"[^A-Za-z0-9_]", "_", step_name)
+                    _save_debug(debug_dir / f"debug_{safe}.txt", raw_llm)
+    return [], False
 
 
 def _parse_json_response(text: str):
@@ -1133,32 +1268,248 @@ def ingest_to_kg(
     embed_model: str = "nomic-embed-text:latest",
     chunk_size: int = 6000,
 ) -> bool:
-    registered_path = Path(file_result["registered_path"])
-    md_file = MARKDOWNS_DIR / f"{registered_path.stem}.md"
+    """Orchestrate KG extraction and Neo4j write for a single document."""
+    # Back-compat: if ingest_file didn't split chunks yet, do it now.
+    if "chunks_dir" not in file_result:
+        registered_path = Path(file_result["registered_path"])
+        md_file = MARKDOWNS_DIR / f"{registered_path.stem}.md"
+        if not md_file.exists():
+            logger.error("Markdown not found: {}", md_file)
+            return False
+        _, body = _parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
+        chunks = _split_markdown(body, chunk_size)
+        chunks_dir = MARKDOWNS_DIR / f"{registered_path.stem}_chunks"
+        chunks_dir.mkdir(parents=True, exist_ok=True)
+        for i, chunk_text in enumerate(chunks, start=1):
+            (chunks_dir / f"chunk_{i:03d}.md").write_text(chunk_text, encoding="utf-8")
+        file_result["chunks_dir"] = str(chunks_dir)
+        file_result["chunk_count"] = len(chunks)
+        file_result.setdefault("sha256", _compute_sha256(registered_path))
 
-    if not md_file.exists():
-        logger.error("Markdown not found for KG ingestion: {}", md_file)
+    doc_kg_dir = extract_kg(file_result, domain, text_model, embed_model)
+    if doc_kg_dir is None:
         return False
+    return write_to_graph(doc_kg_dir)
 
-    raw_text = md_file.read_text(encoding="utf-8")
-    meta, body = _parse_md_frontmatter(raw_text)
+
+def extract_kg(
+    file_result: dict,
+    domain: str,
+    text_model: str = "ministral-3:14b",
+    embed_model: str = "nomic-embed-text:latest",
+) -> Path | None:
+    """Extract KG from persisted chunks and merge into document-level JSON files.
+
+    Resumable: already-ok steps are skipped. Failed steps get a second attempt
+    in the pre-merge retry pass before the merge proceeds.
+    Returns doc_kg_dir on success, None if prerequisites are missing.
+    """
+    doc_sha256 = file_result.get("sha256", "")
+    chunks_dir = Path(file_result["chunks_dir"])
+    registered_path = Path(file_result["registered_path"])
+
+    if not chunks_dir.exists():
+        logger.error("Chunks directory not found: {}", chunks_dir)
+        return None
 
     domain_schema_file = DOMAIN_SCHEMAS_DIR / f"{domain}_schema.yaml"
     if not domain_schema_file.exists():
         logger.error("Domain schema not found: {}", domain_schema_file)
-        return False
-
-    with open(domain_schema_file) as f:
-        schema = yaml.safe_load(f)
-
-    entities_prompt_tpl = schema.get("entities_prompt", "")
-    properties_prompt_tpl = schema.get("properties_prompt", "")
-    relationships_prompt_tpl = schema.get("relationships_prompt", "")
+        return None
+    schema = yaml.safe_load(domain_schema_file.read_text(encoding="utf-8"))
+    entities_tpl = schema.get("entities_prompt", "")
+    properties_tpl = schema.get("properties_prompt", "")
+    relationships_tpl = schema.get("relationships_prompt", "")
 
     doc_kg_dir = KG_DIR / domain / registered_path.stem
     doc_kg_dir.mkdir(parents=True, exist_ok=True)
+    chunk_data_dir = doc_kg_dir / "chunks"
+    chunk_data_dir.mkdir(parents=True, exist_ok=True)
 
-    doc_id = uuid.uuid4().hex
+    # Stable doc_id: reuse from DB if this document was partially extracted before.
+    existing = _get_chunk_statuses(doc_sha256)
+    doc_id = next(iter(existing.values()))["doc_id"] if existing else uuid.uuid4().hex
+
+    chunk_files = sorted(chunks_dir.glob("chunk_*.md"))
+    chunk_count = len(chunk_files)
+    logger.info(
+        "KG extraction: {} | {} chunk(s) | model={} | embed={}",
+        registered_path.name,
+        chunk_count,
+        text_model,
+        embed_model,
+    )
+    t0 = time.monotonic()
+
+    _init_chunk_rows(doc_sha256, doc_id, chunk_count)
+
+    def _process_chunk(seq: int, chunk_file: Path, statuses: dict) -> None:
+        chunk_text = chunk_file.read_text(encoding="utf-8")
+        chunk_id = f"{doc_id}_{seq:03d}"
+        chunk_json = chunk_data_dir / f"chunk_{seq:03d}.json"
+        status = statuses.get(seq, {})
+
+        # Load existing per-chunk data (enables skipping already-ok steps on resume)
+        data: dict = {}
+        if chunk_json.exists():
+            try:
+                data = json.loads(chunk_json.read_text(encoding="utf-8"))
+            except Exception:
+                pass
+
+        # Embedding — compute once and persist
+        if "embedding" not in data:
+            try:
+                data["embedding"] = _embed_text(embed_model, chunk_text)
+            except Exception as e:
+                logger.error("  Embedding failed for chunk {}: {}", seq, e)
+                data["embedding"] = []
+
+        data.setdefault("chunk_seq", seq)
+        data.setdefault("chunk_id", chunk_id)
+        data.setdefault("doc_id", doc_id)
+        data.setdefault("text", chunk_text)
+        data.setdefault("name", f"Chunk {seq}/{chunk_count}")
+        data.setdefault("domain", domain)
+        if seq > 1:
+            data.setdefault("prev_chunk_id", f"{doc_id}_{seq - 1:03d}")
+        if seq < chunk_count:
+            data.setdefault("next_chunk_id", f"{doc_id}_{seq + 1:03d}")
+
+        entities_status = status.get("entities_status", "pending")
+
+        # ── entities ──────────────────────────────────────────────────────────
+        if entities_status != "ok":
+            logger.info("  Chunk {} — entities", seq)
+            raw_entities, ok = _llm_extract(
+                f"chunk_{seq:03d}_entities",
+                text_model,
+                entities_tpl.replace("{text}", chunk_text),
+                doc_kg_dir,
+            )
+            _update_chunk_step(doc_sha256, seq, "entities", "ok" if ok else "failed")
+            if ok:
+                entities, id_map = _rewrite_entity_ids(raw_entities, chunk_id)
+                data["raw_entities"] = raw_entities
+                data["id_map"] = id_map
+                data["entities"] = [
+                    {**e, "chunk_id": chunk_id, "doc_id": doc_id, "domain": domain}
+                    for e in entities
+                ]
+            else:
+                data.setdefault("raw_entities", [])
+                data.setdefault("id_map", {})
+                data.setdefault("entities", [])
+            entities_status = "ok" if ok else "failed"
+        else:
+            raw_entities = data.get("raw_entities", [])
+
+        entities_list = _entities_list_text(data.get("raw_entities", []))
+        id_map = data.get("id_map", {})
+        has_entities = bool(raw_entities)
+
+        # ── properties ────────────────────────────────────────────────────────
+        properties_status = status.get("properties_status", "pending")
+        if has_entities and entities_status == "ok" and properties_status != "ok":
+            logger.info("  Chunk {} — properties", seq)
+            raw_props, ok = _llm_extract(
+                f"chunk_{seq:03d}_properties",
+                text_model,
+                properties_tpl.replace("{entities_list}", entities_list).replace("{text}", chunk_text),
+                doc_kg_dir,
+            )
+            _update_chunk_step(doc_sha256, seq, "properties", "ok" if ok else "failed")
+            if ok:
+                props = _rewrite_ref_ids(raw_props, id_map, "id")
+                data["properties"] = [
+                    {**p, "chunk_id": chunk_id, "doc_id": doc_id} for p in props
+                ]
+            else:
+                data.setdefault("properties", [])
+        elif not has_entities or entities_status != "ok":
+            data.setdefault("properties", [])
+            _update_chunk_step(doc_sha256, seq, "properties", "skipped")
+
+        # ── relationships ─────────────────────────────────────────────────────
+        relationships_status = status.get("relationships_status", "pending")
+        if has_entities and entities_status == "ok" and relationships_status != "ok":
+            logger.info("  Chunk {} — relationships", seq)
+            raw_rels, ok = _llm_extract(
+                f"chunk_{seq:03d}_relationships",
+                text_model,
+                relationships_tpl.replace("{entities_list}", entities_list).replace("{text}", chunk_text),
+                doc_kg_dir,
+            )
+            _update_chunk_step(doc_sha256, seq, "relationships", "ok" if ok else "failed")
+            if ok:
+                rels = _rewrite_ref_ids(raw_rels, id_map, "source_id", "target_id")
+                rels = [{**r, "chunk_id": chunk_id, "doc_id": doc_id} for r in rels]
+                for e in data.get("entities", []):
+                    rels.append({
+                        "source_id": e["id"],
+                        "source_name": e["name"],
+                        "target_id": chunk_id,
+                        "target_name": chunk_id,
+                        "rel_type": "EXTRACTED_FROM",
+                        "description": "Entity extracted from this document chunk",
+                        "chunk_id": chunk_id,
+                        "doc_id": doc_id,
+                        "domain": domain,
+                    })
+                data["relationships"] = rels
+            else:
+                data.setdefault("relationships", [])
+        elif not has_entities or entities_status != "ok":
+            data.setdefault("relationships", [])
+            _update_chunk_step(doc_sha256, seq, "relationships", "skipped")
+
+        chunk_json.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+
+    # ── first pass ────────────────────────────────────────────────────────────
+    statuses = _get_chunk_statuses(doc_sha256)
+    for seq, chunk_file in enumerate(chunk_files, start=1):
+        logger.info("Chunk {}/{} ({} bytes)", seq, chunk_count, chunk_file.stat().st_size)
+        _process_chunk(seq, chunk_file, statuses)
+
+    # ── pre-merge retry pass ───────────────────────────────────────────────────
+    statuses = _get_chunk_statuses(doc_sha256)
+    failed_seqs = [
+        seq for seq, s in statuses.items()
+        if "failed" in (s["entities_status"], s["properties_status"], s["relationships_status"])
+    ]
+    if failed_seqs:
+        logger.info("Pre-merge retry: {} chunk(s) with failed steps — retrying", len(failed_seqs))
+        for seq in failed_seqs:
+            chunk_file = chunks_dir / f"chunk_{seq:03d}.md"
+            _process_chunk(seq, chunk_file, statuses)
+
+    # ── merge chunk JSONs into document-level files ────────────────────────────
+    all_chunks: list[dict] = []
+    all_entities: list[dict] = []
+    all_properties: list[dict] = []
+    all_relationships: list[dict] = []
+
+    for seq in range(1, chunk_count + 1):
+        chunk_json = chunk_data_dir / f"chunk_{seq:03d}.json"
+        if not chunk_json.exists():
+            logger.warning("Missing chunk JSON for seq {}, skipping in merge", seq)
+            continue
+        data = json.loads(chunk_json.read_text(encoding="utf-8"))
+        chunk_node = {k: data[k] for k in ("name", "doc_id", "text", "embedding", "domain") if k in data}
+        chunk_node["id"] = data["chunk_id"]
+        for link in ("prev_chunk_id", "next_chunk_id"):
+            if link in data:
+                chunk_node[link] = data[link]
+        all_chunks.append(chunk_node)
+        all_entities.extend(data.get("entities", []))
+        all_properties.extend(data.get("properties", []))
+        all_relationships.extend(data.get("relationships", []))
+
+    # Build document node from markdown frontmatter
+    md_file = MARKDOWNS_DIR / f"{registered_path.stem}.md"
+    meta = {}
+    if md_file.exists():
+        meta, _ = _parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
     document: dict = {
         "id": doc_id,
         "name": registered_path.name,
@@ -1170,166 +1521,34 @@ def ingest_to_kg(
     if meta.get("date"):
         document["date"] = str(meta["date"])
 
-    logger.info(
-        "KG extraction start: {} | model={} | embed={} | chunk_size={}",
-        registered_path.name,
-        text_model,
-        embed_model,
-        chunk_size,
+    def _write_json(filename: str, obj: object) -> None:
+        (doc_kg_dir / filename).write_text(json.dumps(obj, indent=2, ensure_ascii=False), encoding="utf-8")
+
+    _write_json("document.json", document)
+    _write_json("chunks.json", all_chunks)
+    _write_json("entities.json", all_entities)
+    _write_json("properties.json", all_properties)
+    _write_json("relationships.json", all_relationships)
+
+    elapsed = time.monotonic() - t0
+    final_statuses = _get_chunk_statuses(doc_sha256)
+    failed_count = sum(
+        1 for s in final_statuses.values()
+        if "failed" in (s["entities_status"], s["properties_status"], s["relationships_status"])
     )
-    t0 = time.monotonic()
-
-    chunks = _split_markdown(body, chunk_size)
-    logger.info("Split into {} chunk(s)", len(chunks))
-
-    all_chunks: list[dict] = []
-    all_entities: list[dict] = []
-    all_properties: list[dict] = []
-    all_relationships: list[dict] = []
-
-    for seq, chunk_text in enumerate(chunks, start=1):
-        chunk_id = f"{doc_id}_{seq:03d}"
-        logger.info("Chunk {}/{} ({} chars)", seq, len(chunks), len(chunk_text))
-
-        try:
-            embedding = _embed_text(embed_model, chunk_text)
-        except Exception as e:
-            logger.error("  Embedding failed for chunk {}: {}", seq, e)
-            embedding = []
-
-        chunk_node: dict = {
-            "id": chunk_id,
-            "name": f"Chunk {seq}/{len(chunks)}",
-            "doc_id": doc_id,
-            "text": chunk_text,
-            "embedding": embedding,
-            "domain": domain,
-        }
-        if seq > 1:
-            chunk_node["prev_chunk_id"] = f"{doc_id}_{seq - 1:03d}"
-        if seq < len(chunks):
-            chunk_node["next_chunk_id"] = f"{doc_id}_{seq + 1:03d}"
-        all_chunks.append(chunk_node)
-
-        # ── entities ──────────────────────────────────────────────────
-        logger.info("  Chunk {} — entities", seq)
-        raw_llm = ""
-        try:
-            raw_llm = _call_llm_text(
-                text_model, entities_prompt_tpl.replace("{text}", chunk_text)
-            )
-            raw_entities = _parse_json_response(raw_llm)
-        except Exception as e:
-            logger.error("  Entity extraction failed for chunk {}: {}", seq, e)
-            if raw_llm:
-                _save_debug(doc_kg_dir / f"debug_chunk{seq:03d}_entities.txt", raw_llm)
-            raw_entities = []
-
-        # Build entities_list with original (short) IDs for the LLM prompts below
-        entities_list = _entities_list_text(raw_entities)
-
-        # ── properties ────────────────────────────────────────────────
-        raw_properties: list[dict] = []
-        if raw_entities:
-            logger.info("  Chunk {} — properties", seq)
-            raw_llm = ""
-            try:
-                raw_llm = _call_llm_text(
-                    text_model,
-                    properties_prompt_tpl.replace(
-                        "{entities_list}", entities_list
-                    ).replace("{text}", chunk_text),
-                )
-                raw_properties = _parse_json_response(raw_llm)
-            except Exception as e:
-                logger.error("  Properties extraction failed for chunk {}: {}", seq, e)
-                if raw_llm:
-                    _save_debug(
-                        doc_kg_dir / f"debug_chunk{seq:03d}_properties.txt", raw_llm
-                    )
-
-        # ── relationships ─────────────────────────────────────────────
-        raw_relationships: list[dict] = []
-        if raw_entities:
-            logger.info("  Chunk {} — relationships", seq)
-            raw_llm = ""
-            try:
-                raw_llm = _call_llm_text(
-                    text_model,
-                    relationships_prompt_tpl.replace(
-                        "{entities_list}", entities_list
-                    ).replace("{text}", chunk_text),
-                )
-                raw_relationships = _parse_json_response(raw_llm)
-            except Exception as e:
-                logger.error(
-                    "  Relationships extraction failed for chunk {}: {}", seq, e
-                )
-                if raw_llm:
-                    _save_debug(
-                        doc_kg_dir / f"debug_chunk{seq:03d}_relationships.txt", raw_llm
-                    )
-
-        # ── rewrite IDs now that all LLM calls for this chunk are done ─
-        entities, id_map = _rewrite_entity_ids(raw_entities, chunk_id)
-        properties = _rewrite_ref_ids(raw_properties, id_map, "id")
-        relationships = _rewrite_ref_ids(
-            raw_relationships, id_map, "source_id", "target_id"
-        )
-
-        for e in entities:
-            e["chunk_id"] = chunk_id
-            e["doc_id"] = doc_id
-            e["domain"] = domain
-
-        for p in properties:
-            p["chunk_id"] = chunk_id
-            p["doc_id"] = doc_id
-
-        for r in relationships:
-            r["chunk_id"] = chunk_id
-            r["doc_id"] = doc_id
-
-        # ── entity → DocChunk relationships ───────────────────────────
-        for e in entities:
-            relationships.append(
-                {
-                    "source_id": e["id"],
-                    "source_name": e["name"],
-                    "target_id": chunk_id,
-                    "target_name": chunk_id,
-                    "rel_type": "EXTRACTED_FROM",
-                    "description": "Entity extracted from this document chunk",
-                    "chunk_id": chunk_id,
-                    "doc_id": doc_id,
-                    "domain": domain,
-                }
-            )
-
-        all_entities.extend(entities)
-        all_properties.extend(properties)
-        all_relationships.extend(relationships)
-
-    # ── write output files ─────────────────────────────────────────────────────
-    def _write(filename: str, data: object) -> None:
-        p = doc_kg_dir / filename
-        p.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
-
-    _write("document.json", document)
-    _write("chunks.json", all_chunks)
-    _write("entities.json", all_entities)
-    _write("properties.json", all_properties)
-    _write("relationships.json", all_relationships)
-
     logger.info(
-        "KG extraction done in {:.1f}s | chunks={} entities={} properties={} relationships={}",
-        time.monotonic() - t0,
-        len(all_chunks),
+        "KG extraction done in {:.1f}s | chunks={} entities={} properties={} relationships={} | chunks_with_failures={}",
+        elapsed,
+        chunk_count,
         len(all_entities),
         len(all_properties),
         len(all_relationships),
+        failed_count,
     )
+    return doc_kg_dir
 
-    logger.info("Writing to Neo4j...")
-    _write_to_neo4j(doc_kg_dir)
-    return True
+
+def write_to_graph(doc_kg_dir: Path) -> bool:
+    """Write merged KG JSON files to Neo4j. Safe to re-run after fixing Neo4j issues."""
+    return _write_to_neo4j(doc_kg_dir)
+

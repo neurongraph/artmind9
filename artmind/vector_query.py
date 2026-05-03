@@ -17,9 +17,14 @@ def embed_question(question: str, model: str | None = None) -> list[float]:
 def vector_search(domain: str, question: str, topK: int = 5) -> dict:
     embedding = embed_question(question)
     cypher = """
-    CALL db.index.vector.queryNodes('chunk_embedding', $candidateK, $embedding)
-    YIELD node, score
+    MATCH (node:DocChunk)
+      SEARCH node IN (
+        VECTOR INDEX chunk_embedding
+        FOR $embedding
+        LIMIT $candidateK
+      )
     WHERE node.domain = $domain
+    WITH node, vector.similarity.cosine(node.embedding, $embedding) AS score
     OPTIONAL MATCH (node)-[:PART_OF]->(document:Document)
     RETURN score,
            node {

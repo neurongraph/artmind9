@@ -10,9 +10,12 @@ from loguru import logger
 
 from artmind import graph_query, vector_query
 from artmind.ingest import (
+    _build_file_result_from_db,
     clean_document,
+    extract_kg,
     ingest_file,
     ingest_to_kg,
+    write_to_graph,
 )
 from paths import (
     DOMAIN_SCHEMAS_DIR,
@@ -226,7 +229,7 @@ def ingest_sync(file_path: str, domain: str | None):
     ok_count, fail_count = 0, 0
     for f in files:
         try:
-            result = ingest_file(f, image_model, domain)
+            result = ingest_file(f, image_model, domain, chunk_size=chunk_size)
             if result.get("status") == "ok":
                 ok_count += 1
                 ingest_to_kg(result, domain, text_model, embed_model, chunk_size)
@@ -242,6 +245,68 @@ def ingest_sync(file_path: str, domain: str | None):
         ok_count,
         fail_count,
         )
+
+
+@ingest.command("extract_kg")
+@click.argument("document_name")
+@click.option("--domain", required=True, help="Domain the document belongs to")
+def ingest_extract_kg(document_name: str, domain: str) -> None:
+    """Re-run or resume KG extraction for a document (skips already-ok chunks).
+
+    DOCUMENT_NAME is the registered filename (e.g. myfile.pdf).
+    Extraction results are merged into doc-level JSON files ready for write_to_graph.
+    """
+    _setup_logger()
+    env = load_env()
+    text_model = env.get("ARTMIND_KG_LLM_MODEL", "ministral-3:14b")
+    embed_model = env.get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest")
+
+    file_result = _build_file_result_from_db(document_name, domain)
+    if file_result is None:
+        raise click.ClickException(f"Document '{document_name}' not found in registry for domain '{domain}'")
+    if file_result["chunk_count"] == 0:
+        raise click.ClickException(
+            f"No chunks found at {file_result['chunks_dir']} — "
+            "run 'ingest sync' first to split and register the document"
+        )
+
+    logger.info("extract_kg: {} (domain={}) — {} chunk(s)", document_name, domain, file_result["chunk_count"])
+    doc_kg_dir = extract_kg(file_result, domain, text_model, embed_model)
+    if doc_kg_dir:
+        logger.info("extract_kg complete — merged JSON in {}", doc_kg_dir)
+    else:
+        raise click.ClickException("extract_kg failed — check logs for details")
+
+
+@ingest.command("write_to_graph")
+@click.argument("document_name")
+@click.option("--domain", required=True, help="Domain the document belongs to")
+def ingest_write_to_graph(document_name: str, domain: str) -> None:
+    """Write already-extracted KG JSON to Neo4j (re-run after fixing Neo4j issues).
+
+    DOCUMENT_NAME is the registered filename (e.g. myfile.pdf).
+    Requires that extract_kg (or ingest sync) has already produced the merged JSON files.
+    """
+    _setup_logger()
+    from paths import KG_DIR
+
+    file_result = _build_file_result_from_db(document_name, domain)
+    if file_result is None:
+        raise click.ClickException(f"Document '{document_name}' not found in registry for domain '{domain}'")
+
+    registered_path = Path(file_result["registered_path"])
+    doc_kg_dir = KG_DIR / domain / registered_path.stem
+    if not (doc_kg_dir / "document.json").exists():
+        raise click.ClickException(
+            f"Merged KG JSON not found in {doc_kg_dir} — run 'ingest extract_kg' first"
+        )
+
+    logger.info("write_to_graph: {} (domain={}) from {}", document_name, domain, doc_kg_dir)
+    ok = write_to_graph(doc_kg_dir)
+    if ok:
+        logger.info("write_to_graph complete")
+    else:
+        raise click.ClickException("write_to_graph failed — check logs for Neo4j errors")
 
 
 # ── artmind query ──────────────────────────────────────────────────────────────
