@@ -18,6 +18,8 @@ from langchain_text_splitters import (
 from loguru import logger
 from neo4j import GraphDatabase
 
+from artmind.db import _get_db
+from artmind.jobs import _update_job_file_status, _update_job_status
 from paths import (
     DB_PATH,
     DOMAIN_SCHEMAS_DIR,
@@ -45,67 +47,6 @@ def _compute_sha256(file_path: Path) -> str:
 
 
 # ── document registry helpers ──────────────────────────────────────────────────
-
-
-def _init_db():
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS documents (
-            id           INTEGER PRIMARY KEY,
-            domain       TEXT NOT NULL,
-            filename     TEXT NOT NULL,
-            sha256       TEXT NOT NULL,
-            original_path TEXT NOT NULL,
-            added_at     TEXT NOT NULL,
-            UNIQUE(filename),
-            UNIQUE(sha256)
-        )
-    """)
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS ingestion_jobs (
-            job_id           TEXT PRIMARY KEY,
-            status           TEXT NOT NULL,
-            file_count       INTEGER NOT NULL,
-            processed_count  INTEGER DEFAULT 0,
-            queued_at        TEXT NOT NULL,
-            started_at       TEXT,
-            completed_at     TEXT,
-            error_message    TEXT,
-            results_json     TEXT,
-            domain           TEXT DEFAULT 'general'
-        )
-    """)
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS ingestion_job_files (
-            id               INTEGER PRIMARY KEY AUTOINCREMENT,
-            job_id           TEXT NOT NULL REFERENCES ingestion_jobs(job_id),
-            status           TEXT NOT NULL,
-            filename         TEXT NOT NULL,
-            started_at       TEXT,
-            completed_at     TEXT,
-            error_message    TEXT
-        )
-    """)
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS kg_chunk_status (
-            doc_sha256           TEXT NOT NULL,
-            doc_id               TEXT NOT NULL,
-            chunk_seq            INTEGER NOT NULL,
-            entities_status      TEXT NOT NULL DEFAULT 'pending',
-            properties_status    TEXT NOT NULL DEFAULT 'pending',
-            relationships_status TEXT NOT NULL DEFAULT 'pending',
-            updated_at           TEXT NOT NULL,
-            PRIMARY KEY (doc_sha256, chunk_seq)
-        )
-    """)
-    conn.commit()
-    conn.close()
-
-
-def _get_db():
-    _init_db()
-    return sqlite3.connect(DB_PATH)
 
 
 def _sha256_in_registry(file_sha256: str) -> bool:
@@ -197,212 +138,6 @@ def _delete_path(path: Path, expected_parent: Path) -> bool:
     else:
         path.unlink()
     return True
-
-
-# ── ingestion job helpers ──────────────────────────────────────────────────────
-
-
-def _create_job(batch_files: list[str], domain: str = "general") -> str:
-    """Create a new ingestion job with per-file rows; return job_id."""
-    job_id = str(uuid.uuid4())
-    conn = _get_db()
-    cursor = conn.cursor()
-    try:
-        cursor.execute(
-            "INSERT INTO ingestion_jobs (job_id, status, file_count, queued_at, domain)"
-            " VALUES (?, ?, ?, ?, ?)",
-            (job_id, "queued", len(batch_files), datetime.now().isoformat(), domain),
-        )
-        cursor.executemany(
-            "INSERT INTO ingestion_job_files (job_id, status, filename) VALUES (?, ?, ?)",
-            [(job_id, "queued", f) for f in batch_files],
-        )
-        conn.commit()
-        return job_id
-    finally:
-        conn.close()
-
-
-def _update_job_status(
-    job_id: str,
-    status: str | None = None,
-    processed_count: int | None = None,
-    started_at: str | None = None,
-    completed_at: str | None = None,
-    error_message: str | None = None,
-):
-    """Update parent job status and metadata."""
-    conn = _get_db()
-    cursor = conn.cursor()
-    try:
-        updates, params = [], []
-        if status is not None:
-            updates.append("status = ?")
-            params.append(status)
-        if processed_count is not None:
-            updates.append("processed_count = ?")
-            params.append(processed_count)
-        if started_at is not None:
-            updates.append("started_at = ?")
-            params.append(started_at)
-        if completed_at is not None:
-            updates.append("completed_at = ?")
-            params.append(completed_at)
-        if error_message is not None:
-            updates.append("error_message = ?")
-            params.append(error_message)
-        if not updates:
-            return
-        params.append(job_id)
-        cursor.execute(
-            f"UPDATE ingestion_jobs SET {', '.join(updates)} WHERE job_id = ?", params
-        )
-        conn.commit()
-    finally:
-        conn.close()
-
-
-def _update_job_file_status(
-    job_id: str,
-    filename: str,
-    status: str | None = None,
-    started_at: str | None = None,
-    completed_at: str | None = None,
-    error_message: str | None = None,
-):
-    """Update per-file status in ingestion_job_files."""
-    conn = _get_db()
-    cursor = conn.cursor()
-    try:
-        updates, params = [], []
-        if status is not None:
-            updates.append("status = ?")
-            params.append(status)
-        if started_at is not None:
-            updates.append("started_at = ?")
-            params.append(started_at)
-        if completed_at is not None:
-            updates.append("completed_at = ?")
-            params.append(completed_at)
-        if error_message is not None:
-            updates.append("error_message = ?")
-            params.append(error_message)
-        if not updates:
-            return
-        params.extend([job_id, filename])
-        cursor.execute(
-            f"UPDATE ingestion_job_files SET {', '.join(updates)} WHERE job_id = ? AND filename = ?",
-            params,
-        )
-        conn.commit()
-    finally:
-        conn.close()
-
-
-def _get_job_status(job_id: str) -> dict | None:
-    """Retrieve job status; return None if not found."""
-    conn = _get_db()
-    cursor = conn.cursor()
-    try:
-        cursor.execute(
-            "SELECT job_id, status, file_count, processed_count, queued_at, started_at,"
-            " completed_at, error_message, domain FROM ingestion_jobs WHERE job_id = ?",
-            (job_id,),
-        )
-        row = cursor.fetchone()
-        if not row:
-            return None
-        cursor.execute(
-            "SELECT filename, status FROM ingestion_job_files WHERE job_id = ? ORDER BY id",
-            (job_id,),
-        )
-        files = [{"filename": r[0], "status": r[1]} for r in cursor.fetchall()]
-        return {
-            "job_id": row[0],
-            "status": row[1],
-            "file_count": row[2],
-            "processed_count": row[3],
-            "queued_at": row[4],
-            "started_at": row[5],
-            "completed_at": row[6],
-            "error_message": row[7],
-            "domain": row[8] or "general",
-            "files": files,
-        }
-    finally:
-        conn.close()
-
-
-def _get_job_results(job_id: str) -> dict | None:
-    """Retrieve detailed job results; return None if not found."""
-    conn = _get_db()
-    cursor = conn.cursor()
-    try:
-        cursor.execute(
-            "SELECT status, file_count, error_message FROM ingestion_jobs WHERE job_id = ?",
-            (job_id,),
-        )
-        row = cursor.fetchone()
-        if not row:
-            return None
-        status, file_count, error_message = row
-        cursor.execute(
-            "SELECT filename, status, error_message, started_at, completed_at"
-            " FROM ingestion_job_files WHERE job_id = ? ORDER BY id",
-            (job_id,),
-        )
-        files = [
-            {
-                "filename": r[0],
-                "status": r[1],
-                "error_message": r[2],
-                "started_at": r[3],
-                "completed_at": r[4],
-            }
-            for r in cursor.fetchall()
-        ]
-        results = {
-            "job_id": job_id,
-            "status": status,
-            "file_count": file_count,
-            "files": files,
-        }
-        if error_message:
-            results["error_message"] = error_message
-        return results
-    finally:
-        conn.close()
-
-
-def _list_jobs(status_filter: str | None = None) -> list[dict]:
-    """List all jobs; optionally filter by status."""
-    conn = _get_db()
-    cursor = conn.cursor()
-    try:
-        if status_filter:
-            cursor.execute(
-                "SELECT job_id, status, file_count, processed_count, queued_at FROM ingestion_jobs"
-                " WHERE status = ? ORDER BY queued_at DESC LIMIT 50",
-                (status_filter,),
-            )
-        else:
-            cursor.execute(
-                "SELECT job_id, status, file_count, processed_count, queued_at FROM ingestion_jobs"
-                " ORDER BY queued_at DESC LIMIT 50"
-            )
-        rows = cursor.fetchall()
-        return [
-            {
-                "job_id": row[0],
-                "status": row[1],
-                "file_count": row[2],
-                "processed_count": row[3],
-                "queued_at": row[4],
-            }
-            for row in rows
-        ]
-    finally:
-        conn.close()
 
 
 # ── kg_chunk_status helpers ────────────────────────────────────────────────────
@@ -618,7 +353,7 @@ def ingest_file(
         if job_id:
             _update_job_file_status(
                 job_id,
-                source.name,
+                str(source.resolve()),
                 status="skipped",
                 error_message="Duplicate SHA256 already registered",
             )
@@ -639,8 +374,9 @@ def ingest_file(
     if job_id:
         _update_job_file_status(
             job_id,
-            source.name,
+            str(source.resolve()),
             status="processing",
+            current_step="ingest_file",
             started_at=datetime.now().isoformat(),
         )
 

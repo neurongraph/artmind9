@@ -1,7 +1,10 @@
+import os
 import shutil
+import subprocess
 import sys
 import time
 import json
+from datetime import datetime
 from pathlib import Path
 
 import click
@@ -17,11 +20,19 @@ from artmind.ingest import (
     ingest_to_kg,
     write_to_graph,
 )
+from artmind.jobs import (
+    _create_job,
+    _get_job_results,
+    _get_job_status,
+    _list_jobs,
+)
 from artmind.refine_graph import refine_graph
 from paths import (
     DOMAIN_SCHEMAS_DIR,
     INGEST_LOG_FILE,
     REFINE_DIR,
+    WORKER_LOG,
+    WORKER_PID_FILE,
 )
 from utils.functions import load_env
 
@@ -41,6 +52,29 @@ def _setup_logger(log_file: Path = INGEST_LOG_FILE) -> None:
         format="{time:YYYY-MM-DD HH:mm:ss} [{level:<7}] {message}",
         level="INFO",
     )
+
+
+# ── worker helpers ────────────────────────────────────────────────────────────
+
+
+def _ensure_worker_running() -> None:
+    if WORKER_PID_FILE.exists():
+        try:
+            pid = int(WORKER_PID_FILE.read_text().strip())
+            os.kill(pid, 0)
+            return  # live worker found
+        except (ProcessLookupError, ValueError):
+            pass  # stale PID
+
+    worker_script = WORKER_PID_FILE.parent / "artmind" / "worker.py"
+    WORKER_LOG.parent.mkdir(parents=True, exist_ok=True)
+    subprocess.Popen(
+        [sys.executable, str(worker_script)],
+        stdout=open(WORKER_LOG, "a"),
+        stderr=subprocess.STDOUT,
+        start_new_session=True,
+    )
+    logger.info("Worker started in background")
 
 
 # ── domain helpers ─────────────────────────────────────────────────────────────
@@ -247,6 +281,71 @@ def ingest_sync(file_path: str, domain: str | None):
         ok_count,
         fail_count,
         )
+
+
+@ingest.command("async")
+@click.argument("file_path", type=click.Path(exists=True))
+@click.option("--domain", default=None, help="Domain to assign (prompted if omitted)")
+def ingest_async(file_path: str, domain: str | None):
+    """Submit a file or directory for background ingestion; returns job_id immediately."""
+    _setup_logger()
+    if domain is None:
+        domain = _prompt_for_domain()
+
+    path = Path(file_path)
+    if path.is_dir():
+        files = sorted(
+            f for f in path.rglob("*")
+            if f.is_file()
+            and not any(p.startswith(".") for p in f.relative_to(path).parts)
+        )
+    else:
+        files = [path]
+    if not files:
+        raise click.ClickException(f"No files found in {path}")
+
+    batch_files = [str(f.resolve()) for f in files]
+    job_id = _create_job(batch_files, domain=domain)
+    _ensure_worker_running()
+
+    _echo_json({
+        "job_id": job_id,
+        "domain": domain,
+        "file_count": len(batch_files),
+        "submitted_at": datetime.now().isoformat(),
+        "message": f"Job submitted with {len(batch_files)} file(s)",
+    })
+
+
+@ingest.command("jobs")
+@click.option("--status", default=None, help="Filter by status (queued/processing/completed/failed)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def ingest_jobs(status: str | None, compact: bool):
+    """List recent ingestion jobs."""
+    jobs = _list_jobs(status_filter=status)
+    _echo_json(jobs, compact)
+
+
+@ingest.command("job-status")
+@click.argument("job_id")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def ingest_job_status(job_id: str, compact: bool):
+    """Show status and per-file progress for a job."""
+    result = _get_job_status(job_id)
+    if result is None:
+        raise click.ClickException(f"Job '{job_id}' not found")
+    _echo_json(result, compact)
+
+
+@ingest.command("job-results")
+@click.argument("job_id")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def ingest_job_results(job_id: str, compact: bool):
+    """Show detailed per-file results for a completed job."""
+    result = _get_job_results(job_id)
+    if result is None:
+        raise click.ClickException(f"Job '{job_id}' not found")
+    _echo_json(result, compact)
 
 
 @ingest.command("extract_kg")
