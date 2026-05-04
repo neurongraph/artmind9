@@ -8,8 +8,16 @@ wheels/
 
 # Virtual environments
 .venv
+
+# OS
 .DS_Store
+
+# Local config & secrets
 .env
+.pi/
+.claude/settings.local.json
+
+# Runtime data
 data/
 logs/
 
