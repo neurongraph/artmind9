@@ -1,15 +1,15 @@
 ---
 name: artmind-query
-description: Route natural-language questions about an Artmind knowledge graph to deterministic `uv run artmind query` CLI commands, synthesize answers only from returned graph/vector JSON, and use this whenever the user asks questions over an Artmind domain or corpus.
+description: The artmind system stores information from ingested documents. Using this skill respond to natural-language questions from the user given a particular domain. These questions would be in the form of Q&A between the user and artmind
 ---
 
-# Artmind Query
+# artmind Query
 
-Use this skill to answer user questions over an Artmind domain through the deterministic query CLI. The skill provides the reasoning layer; the CLI provides templated graph/vector retrieval and JSON output.
+Use this skill to answer user questions over an artmind domain through the deterministic query CLI. The skill provides the reasoning layer; the CLI provides templated graph/vector retrieval and JSON output.
 
 ## Grounding Rule
 
-Use only the structured KG data and chunk text returned by Artmind query commands. If the data is insufficient, say so clearly. Do not invent entities, events, relationships, motivations, or source details not present in the returned data.
+Use only the structured KG data and chunk text returned by artmind query commands. If the data is insufficient, say so clearly. Do not invent entities, events, relationships, motivations, or source details not present in the returned data.
 
 ## Required Inputs
 
@@ -32,11 +32,11 @@ Use metadata and entity listings to identify:
 - Relationship types, properties, and connection directions.
 - Whether the question needs graph facts, vector text evidence, or both.
 
-Entity classes are not hard-coded. Artmind ingestion derives Neo4j labels from extracted `entity_class` values by replacing non-alphanumeric characters with `_` and uppercasing. Choose labels from metadata/entity listings whenever possible.
+Entity classes are not hard-coded. artmind ingestion derives Neo4j labels from extracted `entity_class` values by replacing non-alphanumeric characters with `_` and uppercasing. Choose labels from metadata/entity listings whenever possible.
 
 ### Managing large entity listings
 
-If `total_entities` from the initial `--countAll` call is large (roughly > 50), fetching the full listing may consume too much context. In that case, extract a name fragment from the user's question and narrow the listing:
+If `total_entities` from the initial `--countAll` call is large (roughly > 100), fetching the full listing may consume too much context. In that case, extract a name fragment from the user's question and narrow the listing:
 
 ```bash
 uv run artmind query graph entity_listing --domain <domain> --nameFilter "<fragment>"
@@ -113,7 +113,7 @@ Rank top entities of a class by graph degree:
 uv run artmind query graph pattern9 --domain <domain> --entityClass <LABEL> --topN 5 "<question>"
 ```
 
-Search source text chunks:
+Search source text chunks, vector search:
 
 ```bash
 uv run artmind query vector --domain <domain> --topK 5 "<question>"
@@ -142,7 +142,7 @@ Use hybrid retrieval when the graph identifies candidate entities or relationshi
 - If `pattern6` returns no rows, run `pattern5 --mode shortest`.
 - If `pattern7` returns multiple plausible candidates, choose the best name/description match and mention ambiguity when answering.
 - If graph results are empty or insufficient, run vector search.
-- If vector results are unrelated or weak, say the available Artmind data does not answer the question.
+- If vector results are unrelated or weak, say the available artmind data does not answer the question.
 
 ## Answer Style
 
