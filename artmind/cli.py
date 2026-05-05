@@ -12,6 +12,7 @@ import yaml
 from loguru import logger
 
 from artmind import graph_query, vector_query
+import artmind.update as update_backend
 from artmind.dashboard import run_dashboard
 from artmind.ingest import (
     _build_file_result_from_db,
@@ -708,3 +709,96 @@ def docs_clean(domain: str, document_name: str):
     click.echo(f"  neo4j orphan entities: {result['neo4j_orphan_entities']}")
     if result["neo4j_error"]:
         raise click.ClickException(f"Neo4j cleanup failed: {result['neo4j_error']}")
+
+
+# ── artmind update ─────────────────────────────────────────────────────────────
+
+
+@cli.group()
+def update():
+    """Add and update knowledge graph facts from natural language."""
+    pass
+
+
+@update.command("draft")
+@click.option("--domain", required=True, help="Domain name.")
+@click.option("--text", required=True, help="Raw user input text.")
+@click.option("--session", default=None, help="Resume an existing session UUID.")
+def update_draft(domain: str, text: str, session: str | None):
+    """Extract facts and find graph candidates. Returns JSON."""
+    _setup_logger()
+    env = load_env()
+    user_id = env.get("ARTMIND_USER", "unknown")
+    try:
+        result = update_backend.draft_update(
+            domain=domain, text=text, session_id=session, user_id=user_id
+        )
+        _echo_json(result)
+    except Exception as e:
+        raise click.ClickException(str(e))
+
+
+@update.command("confirm")
+@click.option("--session", required=True, help="Session UUID from draft step.")
+@click.option("--resolutions", required=True, help="JSON array of resolution objects.")
+def update_confirm(session: str, resolutions: str):
+    """Write confirmed facts to Neo4j. Returns JSON."""
+    _setup_logger()
+    env = load_env()
+    user_id = env.get("ARTMIND_USER", "unknown")
+    try:
+        parsed = json.loads(resolutions)
+        result = update_backend.confirm_update(
+            session_id=session, resolutions=parsed, user_id=user_id
+        )
+        _echo_json(result)
+    except ValueError as e:
+        raise click.ClickException(str(e))
+    except Exception as e:
+        raise click.ClickException(str(e))
+
+
+@update.command("history")
+@click.option("--domain", default=None, help="Filter by domain.")
+@click.option("--user", default=None, help="Filter by created_by.")
+@click.option("--limit", default=20, show_default=True, help="Maximum rows to return.")
+def update_history(domain: str | None, user: str | None, limit: int):
+    """List recent update sessions."""
+    sessions = update_backend._list_update_sessions(domain=domain, user=user, limit=limit)
+    if not sessions:
+        click.echo("No update sessions found.")
+        return
+    header = f"{'SESSION':<12} {'DOMAIN':<12} {'BY':<24} {'AT':<22} {'INPUTS':>6}  EXCERPT"
+    click.echo(header)
+    click.echo("-" * len(header))
+    for s in sessions:
+        click.echo(
+            f"{s['session_id'][:12]:<12} {s['domain']:<12} {s['created_by']:<24}"
+            f" {s['created_at'][:19]:<22} {s['input_count']:>6}  {s['excerpt']}"
+        )
+
+
+@update.command("export")
+@click.option("--domain", default=None, help="Filter by domain.")
+@click.option(
+    "--format", "fmt",
+    type=click.Choice(["sequential", "by-entity"], case_sensitive=False),
+    default="sequential",
+    show_default=True,
+)
+@click.option(
+    "--output",
+    type=click.Path(file_okay=False, writable=True),
+    default="data/chats",
+    show_default=True,
+)
+def update_export(domain: str | None, fmt: str, output: str):
+    """Export UserChat nodes to markdown files."""
+    output_dir = Path(output)
+    written = update_backend.export_chats(domain=domain, format=fmt, output_dir=output_dir)
+    if not written:
+        click.echo("No chats to export.")
+        return
+    for path in written:
+        click.echo(str(path.name))
+    click.echo(f"\nExported {len(written)} file(s) to {output_dir}")
