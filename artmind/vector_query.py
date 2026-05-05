@@ -20,6 +20,7 @@ def embed_question(question: str, model: str | None = None) -> list[float]:
 def vector_search(domain: str, question: str, topK: int = 5) -> dict:
     embedding = embed_question(question)
     cypher = """
+    CYPHER 25
     MATCH (node:DocChunk)
       SEARCH node IN (
         VECTOR INDEX chunk_embedding
