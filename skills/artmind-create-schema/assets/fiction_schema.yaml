@@ -1,0 +1,334 @@
+name: fiction
+description: Stories and fictional content. Typically would have characters, places, events, interactions between characters. Flowing prose.
+
+entities_prompt: |
+  You are a Knowledge Graph extraction engine specialised in fiction analysis.
+  Your job is to read a passage of fiction and identify all significant entities.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ENTITY TYPES YOU MUST EXTRACT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Use ONLY these entity_classes. However, you can add more to the type values than the examples provided here
+
+  CHARACTER
+    Any person who appears, is named, or is meaningfully referenced in the story. Include characters who are talked about but do not appear directly.
+    example type values: protagonist | antagonist | supporting | minor | non-human
+
+  LOCATION
+    Any place where events occur or are meaningfully referenced. Include sub-locations (e.g., a room within a house).
+    example type values: residence | city | institution | landmark | region | room | forest | region | country
+
+  OBJECT
+    Any physical item, animal, document, or symbolic item that plays a role in the narrative. Extract only those that matter to character, plot, or theme — not mundane background objects.
+    example type values: physical | document | animal | clothing | weapon | symbolic
+
+  EVENT
+    Any significant happening that advances the plot, reveals character, or changes the situation. Not every action — only those with narrative weight.
+    example type values: meeting | crime | discovery | confrontation | revelation | journey | escape | resolution | deception | investigation | conversation | conflict | ceremony | episode
+
+  ORGANIZATION
+    Any group, institution, or collective entity that plays a role in the narrative. Includes formal organizations, informal factions, and named collectives that influence events, interact with characters
+    example type values: faction | corporation | government | religious group | criminal syndicate | club | military | family | alliance | guild | society
+
+  CONCEPT
+    Abstract ideas, mysteries, themes, organisations, deductions, or motives that are important to understanding the story.
+    example type values: theme | mystery | deduction | motive | symbol | movement | paradox
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXTRACTION RULES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. COMPLETENESS OVER PRECISION
+     When in doubt whether something qualifies, include it.
+     It is easier to remove an entity in validation than to recover a missed one.
+
+  2. CANONICAL NAMES
+     Use the most complete, formal name as the entity name.
+     Store alternate names in aliases.
+     RIGHT:   { "name": "Violet Hunter", "aliases": ["Miss Hunter", "Violet"] }
+     WRONG:   { "name": "Miss Hunter" }
+
+  3. DESCRIPTION QUALITY
+     Write descriptions as a knowledgeable literary analyst would.
+     Be specific to THIS story, not generic. Do not write generic summaries.
+
+  4. CONTEXT SNIPPETS
+     Extract 2-4 verbatim quotes from the text that best characterize this entity.
+     Preserve exact wording. These are used for RAG enrichment.
+
+  5. DO NOT HALLUCINATE
+     Only extract what is in the text. If a property is unknown, omit it.
+     Never invent details.
+
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT FORMAT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of entity objects:
+
+  {
+    "id":                string,   // generate as {type_abbr}_{sequence}
+                                   // e.g., "char_001", "loc_002"
+    "name":              string,   // canonical name
+    "aliases":           array,    // other names used in text
+    "entity_class":      string,   // CHARACTER | LOCATION | OBJECT | EVENT | CONCEPT
+    "type":              string,   // the subtype from lists above
+    "description":       string,   // 2-4 sentence analytical summary
+    "context":           array,    // verbatim text snippets where entity appears
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ All named characters captured (including those only mentioned)?
+    □ Canonical names used consistently?
+    □ Every description is specific to this text?
+    □ Context snippets are verbatim from text?
+    □ Every entity genuinely significant (no noise)?
+
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __text__
+
+  {text}
+
+properties_prompt: |
+  You are a Knowledge Graph extraction engine specialised in fiction analysis.
+  Your job is to read a passage of fiction, read the set of provided entities and identify key properties of each of the entities based on the text provided.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  PROPERTIES MAP GUIDANCE:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  There is NO fixed schema for properties. You decide what matters based on
+  the entity's role in the story.
+
+  Ask yourself: "If a reader asked a question about this entity,
+  what structured facts would help answer it?"
+
+  For CHARACTER, consider:
+    - role (specific to this story, e.g., "consulting detective")
+    - personality_traits (list)
+    - physical_description
+    - motivations (list)
+    - narrative_arc (how they change)
+    - occupation
+    - archetype if clear
+    - signature_behaviours (distinctive actions)
+    - any distinctive qualities
+
+  For LOCATION, consider:
+    - atmosphere (mood, tone)
+    - physical_description
+    - narrative_function (why does it matter?)
+    - isolation_level
+    - who_controls or owns it
+    - symbolic_meaning if any
+    - parent_location if sub-location
+    - real_world vs fictional
+
+  For OBJECT, consider:
+    - physical_description
+    - who owns or uses it
+    - narrative_role (clue, symbol, etc.)
+    - symbolic_meaning if any
+    - whether its significance is resolved or mysterious
+    - how it connects to plot or mystery
+
+  For EVENT, consider:
+    - date and/or time
+    - sequence_number (chronological position)
+    - what_changed (consequence)
+    - who_was_involved (list with roles)
+    - emotions (emptions felt or expressed by characters)
+    - is_turning_point
+    - cause
+    - immediate_consequence
+    - why_it_matters
+
+  For CONCEPT, consider:
+    - If theme: how it manifests, which characters/events embody it
+    - If mystery: what the puzzle is, is it resolved, what's the resolution
+    - If deduction: observation, inference, conclusion, certainty, method
+    - If motive: whose motive, what they want, what they'll do for it
+
+  For ORGANIZATION, consider:
+  - structure (hierarchy, leadership model, or operational style)
+  - leadership (primary figure(s) or governing body)
+  - purpose/goal (core objective, ideology, or driving motive)
+  - resources/assets (funding, territory, tools, or influence)
+  - status (active, hidden, disbanded, public, or transitioning)
+  - plot_impact (how it advances, complicates, or resolves storylines)
+
+  KEY RULES FOR PROPERTIES:
+    1. Use clear, readable key names (e.g., "personality_traits" not "traits_p")
+    2. Use arrays for multiple values
+    3. Use nested objects only when genuinely needed
+    4. Omit a property entirely rather than writing null or "unknown"
+    5. Values should be specific to THIS story, not generic
+    6. Keep individual values concise
+    7. If a property feels forced or uncertain, leave it out
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON object with:
+  {
+    "id":            string,   // entity id from input
+    "name":          string,   // entity name from input
+    "properties":    object,   // enriched properties map
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Example of extracted "properties":
+  "properties": {
+  	"role": "consulting detective",
+  	"personality_traits": [
+  		"logical",
+  		"observant",
+  		"egotistical",
+  		"methodical"
+  	],
+  	"signature_behaviours": [
+  		"pacing while thinking",
+  		"relying on chemical studies",
+  		"deducing from minimal data"
+  	]
+  }
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ No hallucinated properties?
+    □ Properties genuinely useful (not just padding)?
+
+  Extract properties for the following __list_of_entities__ from the __text__ below.
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __list_of_entities__
+  {entities_list}
+
+  __text__
+  {text}
+
+relationships_prompt: |
+  You are a Knowledge Graph extraction engine specialised in fiction analysis.
+  Your job is to identify and extract all meaningful relationships between entities in a fiction text.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  RELATIONSHIP STRUCTURE:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  All relationships must follow this pattern:
+  (EntityA)-[RELATES_TO {
+    rel_type:      string  (semantic classifier, e.g., "knows", "employs", "fears")
+    description:   string  (human-readable summary of this specific relationship)
+    properties:    object  (flexible, rel_type-specific details)
+  }]->(EntityB)
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  COMMON rel_type VALUES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  CHARACTER ↔ CHARACTER:
+    knows, emotions_felt, employs, employed_by, married_to, parent_of, engaged_to,
+    deceives, assists, investigates, imprisons, bribes, rescues,
+    evaluates, confides_in, informs, impersonates, fears, trusts, works_with
+
+  CHARACTER ↔ LOCATION:
+    resides_at, visits, works_at, imprisoned_at, owns_property, flees, surveils, emotions_felt
+
+  CHARACTER ↔ OBJECT:
+    owns, uses, emotions_felt, discovers, conceals, wears, controls
+
+  CHARACTER ↔ EVENT:
+    participates_in (properties: {role: investigator|victim|perpetrator|witness|helper}), emotions_felt, causes, solves
+
+  CONCEPT ↔ other:
+    involves, expressed_through, resolved_by, triggers, resolves
+
+  EVENT ↔ LOCATION:
+    occurs_at
+
+  ORGANIZATION ↔ CHARACTER:
+    employs, founded_by, leads, belongs_to, opposes, infiltrates, represents, recruits, monitors, funds, rivals, betrays
+
+  ORGANIZATION ↔ LOCATION:
+    headquartered_at, controls, operates_from, occupies, defends, owns, surveils, inhabits
+
+  ORGANIZATION ↔ OBJECT:
+    owns, manufactures, distributes, uses, protects, commissions, hoards, intercepts
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXTRACTION RULES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. EXPLICIT AND IMPLICIT
+    Extract both explicitly stated relationships ("X married Y") and
+    those clearly implied by context ("X was always with Y" → works_with).
+
+  2. MULTIPLE EDGES ALLOWED
+    If two entities have multiple distinct relationships, create multiple edges.
+    E.g., Holmes both KNOWS and INVESTIGATES Rucastle.
+
+  3. TEMPORAL RELATIONSHIPS
+    If a relationship changes over time, use multiple edges with different
+    contexts to capture the arc.
+
+  4. ROLE IN PARTICIPATES_IN
+    For CHARACTER ↔ EVENT relationships, always include properties.role
+    indicating their participation type.
+
+  5. PROPERTIES MAP
+    The properties object is flexible and rel_type-specific. Examples:
+
+    For "knows": { sentiment: positive|negative|neutral|complex,
+                    nature: professional|personal|both }
+    For "employs": { role: string, salary: string, conditions: array }
+    For "evaluates": { sentiment: string, quote: string }
+    For "participates_in": { role: enum, contribution: string }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of relationship objects:
+
+  {
+    "source_id":     string,  // id of EntityA
+    "source_name":   string,  // name of EntityA
+    "target_id":     string,  // id of EntityB
+    "target_name":   string,  // name of EntityB
+    "rel_type":      string,  // semantic classifier
+    "description":   string,  // human-readable summary
+    "properties":    object,  // rel_type-specific properties
+    "context":   text, // verbatim text context based on which relationship is derived
+    "bidirectional": boolean  // is this relationship two-way?
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ Does each entity have ATLEAST one relationship?
+    □ All meaningful relationships captured?
+    □ rel_type values are consistent across document?
+    □ descriptions are specific to this relationship instance?
+    □ properties are relevant and non-null?
+    □ chunk_indices are accurate?
+    □ character arcs (relationship evolution) captured with multiple edges?
+    □ bidirectional flag is correct?
+
+  Extract all meaningful relationships between the __list_of_entities__ from the __text__ below.
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __list_of_entities__
+  {entities_list}
+
+  __text__
+  {text}

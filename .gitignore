@@ -15,9 +15,8 @@ wheels/
 # Local config & secrets
 .env
 .pi/
-.claude/settings.local.json
+.claude/
 
 # Runtime data
 data/
 logs/
-
