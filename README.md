@@ -138,6 +138,23 @@ For further help on the domains commands use:
 uv run artmind domains --help
 ```
 
+### Creating a custom schema
+
+Use the `artmind-create-schema` Claude Code skill to author a new domain schema tailored to your documents. The skill reads your sample documents, designs entity classes and relationship patterns specific to the domain, and writes a complete `domains/schemas/{name}_schema.yaml` file.
+
+In a Claude Code session within this project:
+
+```
+/artmind-create-schema
+```
+
+You will be asked for:
+- A domain name (e.g. `legal_contract`, `medical_report`)
+- A one-sentence description of the documents
+- One or more representative sample documents
+
+The skill produces a fully-specified YAML schema with `entities_prompt`, `properties_prompt`, and `relationships_prompt` sections ready for ingestion. Once the file is written, use the new domain name with any `ingest` or `query` command.
+
 ---
 
 ## Ingesting documents
