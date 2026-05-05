@@ -163,3 +163,11 @@ def test_execute_pattern_shapes_output_and_strips_embeddings(monkeypatch):
 
     assert result["parameters"]["entityClass"] == "CHARACTER"
     assert result["rows"] == [{"entityData": {"name": "Holmes"}}]
+
+
+def test_pattern_cypher_includes_user_chat_source_match():
+    cypher, _ = graph_query._pattern_query("pattern2", {
+        "domain": "general",
+        "entityNameList": ["Alice"],
+    })
+    assert "UserChat" in cypher or "user_chat" in cypher.lower()

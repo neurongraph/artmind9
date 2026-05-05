@@ -236,8 +236,12 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             MATCH (e)
             WHERE e.domain = $domain
               AND ANY(n IN $entityNameList WHERE toLower(e.name) CONTAINS toLower(n))
-            RETURN e {.*, label: labels(e)} AS entityData
-            ORDER BY e.name
+            OPTIONAL MATCH (chunk:DocChunk)-[:MENTIONS]->(e)
+            OPTIONAL MATCH (chat:UserChat)-[:MENTIONS]->(e)
+            RETURN e {.*, label: labels(e)} AS entityData,
+                   collect(DISTINCT chunk { .id, .name, .doc_id, source_type: 'document' }) AS doc_sources,
+                   collect(DISTINCT chat { .id, .session_id, .created_by, .created_at, source_type: 'user_chat' }) AS chat_sources
+            ORDER BY entityData.name
             """,
             {
                 "domain": parameters["domain"],
@@ -257,7 +261,11 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
               properties: properties(r),
               target: {name: t.name, label: labels(t)}
             }) AS connections
-            RETURN properties(e) AS entityData, connections
+            OPTIONAL MATCH (chunk:DocChunk)-[:MENTIONS]->(e)
+            OPTIONAL MATCH (chat:UserChat)-[:MENTIONS]->(e)
+            RETURN properties(e) AS entityData, connections,
+                   collect(DISTINCT chunk { .id, .name, .doc_id, source_type: 'document' }) AS doc_sources,
+                   collect(DISTINCT chat { .id, .session_id, .created_by, .created_at, source_type: 'user_chat' }) AS chat_sources
             ORDER BY entityData.name
             """,
             {
@@ -279,7 +287,11 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
               rel_properties: properties(r),
               connected_to: {{label: labels(t), data: properties(t)}}
             }}) AS connections
-            RETURN properties(e) AS entityData, connections
+            OPTIONAL MATCH (chunk:DocChunk)-[:MENTIONS]->(e)
+            OPTIONAL MATCH (chat:UserChat)-[:MENTIONS]->(e)
+            RETURN properties(e) AS entityData, connections,
+                   collect(DISTINCT chunk {{ .id, .name, .doc_id, source_type: 'document' }}) AS doc_sources,
+                   collect(DISTINCT chat {{ .id, .session_id, .created_by, .created_at, source_type: 'user_chat' }}) AS chat_sources
             ORDER BY entityData.name
             """,
             {"domain": parameters["domain"], "entityName": parameters["entityName"]},
