@@ -1,24 +1,401 @@
 name: project_governance
-description: Project Governance documents that contain information about how a project or engagement is progressing, tracking issues and risks, and monitoring delivery milestones. Includes status reports, delivery dashboards, and governance presentations.
-entities:
-  - Project
-  - Engagement
-  - Delivery_Highlight
-  - Status
-  - Issue
-  - Risk
-  - Milestone
-  - Dependency
-  - Action
-  - Escalation
+description: Project and programme governance documents that track delivery progress, workstream status, risks, issues, decisions, and actions. Includes status reports, delivery dashboards, steering committee packs, monthly governance presentations, and programme review documents from consulting and technology delivery engagements.
 
-relationships:
-  - part_of
-  - has_status
-  - includes
-  - has
-  - achieves
-  - leads_to
-  - mitigated_by
-  - resolved_by
-  - impacts
+entities_prompt: |
+  You are a Knowledge Graph extraction engine specialised in project governance document analysis.
+  Your job is to read a passage from a governance document and identify all significant entities.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ENTITY TYPES YOU MUST EXTRACT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Use ONLY these entity_classes. However, you can add more to the type values than the examples provided here.
+
+  PROJECT
+    A named project, workstream, programme, initiative, or engagement described in the document. Includes both the top-level programme and individual sub-workstreams or tracks.
+    example type values: programme | workstream | initiative | engagement | track | migration | transformation | pilot | proof_of_concept | phase
+
+  MILESTONE
+    A named checkpoint, deliverable, phase gate, target date, or key event in the project timeline. Includes both achieved and upcoming milestones.
+    example type values: kickoff | proposal | sign_off | go_live | phase_completion | review | demo | deployment | cutover | handover | feasibility
+
+  PERSON
+    Any named individual mentioned in the document — project leads, sponsors, team members, client stakeholders, or named owners of actions and decisions.
+    example type values: project_manager | technical_lead | sponsor | stakeholder | consultant | architect | analyst | executive | owner | approver
+
+  ORGANIZATION
+    Any named company, team, business unit, or group involved in the project — client organisations, delivery partners, vendors, or internal teams.
+    example type values: client | delivery_partner | vendor | internal_team | steering_committee | business_unit | regulator | third_party
+
+  RISK
+    An identified risk that could negatively impact the project if it materialises. Risks are potential, not yet realised.
+    example type values: delivery_risk | technical_risk | resource_risk | dependency_risk | regulatory_risk | commercial_risk | schedule_risk | scope_risk
+
+  ISSUE
+    An active problem, blocker, or impediment that is currently affecting the project. Issues are already occurring, not merely potential.
+    example type values: blocker | technical_issue | resource_gap | process_issue | dependency_issue | quality_issue | communication_issue | scope_issue
+
+  DECISION
+    A governance decision, approval, direction change, or key agreement captured in the document. Decisions reflect choices made by named individuals or bodies.
+    example type values: scope_decision | go_no_go | design_approval | resource_decision | commercial_decision | escalation_outcome | policy_change | prioritisation
+
+  ACTION
+    A specific task, next step, or follow-up item assigned to an owner with a due date or implied urgency. Actions are concrete and assignable.
+    example type values: investigation | development | approval | communication | coordination | review | planning | onboarding | escalation | analysis
+
+  TECHNOLOGY
+    A named platform, system, tool, framework, or technical component referenced in the project context — either being used, built, migrated, or replaced.
+    example type values: platform | legacy_system | cloud_platform | database | framework | tool | api | service | data_warehouse | automation_tool | integration
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXTRACTION RULES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. COMPLETENESS OVER PRECISION
+     When in doubt whether something qualifies, include it.
+     It is easier to remove an entity in validation than to recover a missed one.
+
+  2. CANONICAL NAMES
+     Use the most complete, formal name as the entity name.
+     Store abbreviations and informal names in aliases.
+     RIGHT:   { "name": "LegacyDB Migration", "aliases": ["LegacyDB", "DB migration"] }
+     WRONG:   { "name": "DB migration" }
+
+  3. DESCRIPTION QUALITY
+     Write descriptions as a delivery manager reading the document would.
+     Be specific to the project context in THIS document, not generic definitions.
+
+  4. CONTEXT SNIPPETS
+     Extract 2-4 verbatim quotes from the text that best characterise this entity.
+     Preserve exact wording. These are used for RAG enrichment.
+
+  5. DO NOT HALLUCINATE
+     Only extract what is in the text. If a property is unknown, omit it.
+     Never invent details not present in the passage.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT FORMAT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of entity objects:
+
+  {
+    "id":                string,   // generate as {type_abbr}_{sequence}
+                                   // e.g., "prj_001", "mst_002", "per_003"
+    "name":              string,   // canonical name
+    "aliases":           array,    // abbreviations and alternate names
+    "entity_class":      string,   // PROJECT | MILESTONE | PERSON | ORGANIZATION | RISK | ISSUE | DECISION | ACTION | TECHNOLOGY
+    "type":              string,   // the subtype from lists above
+    "description":       string,   // 2-4 sentence summary specific to this document
+    "context":           array,    // verbatim text snippets where entity appears
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ All named projects, workstreams, and initiatives captured?
+    □ All named individuals captured with their roles?
+    □ All client and delivery organisations captured?
+    □ Risks distinguished from Issues (potential vs. active)?
+    □ Every description is specific to this document's context?
+    □ Context snippets are verbatim from text?
+
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __text__
+
+  {text}
+
+properties_prompt: |
+  You are a Knowledge Graph extraction engine specialised in project governance document analysis.
+  Your job is to read a passage from a governance document and enrich the provided entities with detailed properties based on the text.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  PROPERTIES MAP GUIDANCE:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  There is NO fixed schema for properties. You decide what matters based on
+  the entity's role in the governance document.
+
+  Ask yourself: "If a programme director needed to brief a new stakeholder on
+  this entity, what structured facts would they need?"
+
+  For PROJECT, consider:
+    - status (on_track | at_risk | delayed | completed | on_hold)
+    - rag_status (Red | Amber | Green)
+    - domain (data | cloud | automation | ai | payments | migration | etc.)
+    - team_size or headcount if mentioned
+    - timeline (start_date, end_date, current_phase)
+    - key_objective
+    - delivery_model (onshore | offshore | hybrid | nearshore)
+    - client_name
+    - in_quarter_highlights (list of recent achievements)
+    - next_month_priorities (list)
+
+  For MILESTONE, consider:
+    - target_date or relative_timing (e.g., "t0 + 2 weeks")
+    - status (achieved | upcoming | delayed | at_risk)
+    - dependencies (what must happen first)
+    - completion_criteria
+    - owner (who is responsible)
+
+  For PERSON, consider:
+    - role (specific title or function)
+    - organization (which company or team)
+    - accountability (what they are responsible for in this project)
+    - involvement_type (client | delivery | steering | advisory)
+
+  For ORGANIZATION, consider:
+    - org_type (client | delivery_partner | vendor | regulator | etc.)
+    - relationship (who they are to whom)
+    - involvement (how they participate in the project)
+    - size or geography if mentioned
+
+  For RISK, consider:
+    - probability (High | Medium | Low)
+    - impact (High | Medium | Low)
+    - status (open | mitigated | closed | escalated)
+    - mitigation_approach (if described)
+    - owner (who is responsible for managing it)
+    - category (schedule | resource | technical | commercial | regulatory)
+
+  For ISSUE, consider:
+    - severity (Critical | High | Medium | Low)
+    - status (open | in_progress | resolved | escalated)
+    - resolution_approach (if described)
+    - owner (who is resolving it)
+    - impact_on_project
+    - date_raised if mentioned
+
+  For DECISION, consider:
+    - outcome (the decision that was made)
+    - rationale (why it was made)
+    - made_by (person or body)
+    - date if mentioned
+    - impact_on_project
+    - alternatives_considered (if mentioned)
+
+  For ACTION, consider:
+    - owner (who is responsible)
+    - due_date or timeframe
+    - status (open | in_progress | completed)
+    - priority (High | Medium | Low)
+    - context (what triggered this action)
+    - dependencies
+
+  For TECHNOLOGY, consider:
+    - technology_type (platform | database | tool | framework | etc.)
+    - vendor or provider
+    - current_status (in_use | being_migrated | being_replaced | being_built | decommissioning)
+    - role_in_project (source | target | enabler | component)
+    - version or generation if mentioned
+
+  KEY RULES FOR PROPERTIES:
+    1. Use clear, readable key names (e.g., "rag_status" not "RAG")
+    2. Use arrays for multiple values
+    3. Use nested objects only when genuinely needed
+    4. Omit a property entirely rather than writing null or "unknown"
+    5. Values should be specific to THIS document, not generic
+    6. Keep individual values concise
+    7. If a property feels forced or uncertain, leave it out
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON object with:
+  {
+    "id":            string,   // entity id from input
+    "name":          string,   // entity name from input
+    "properties":    object,   // enriched properties map
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Example of extracted "properties":
+  "properties": {
+    "domain": "data migration",
+    "status": "in_progress",
+    "rag_status": "Amber",
+    "team_size": "3 FTE",
+    "in_quarter_highlights": [
+      "L2 marts reconciliation complete",
+      "DBT test framework designed"
+    ],
+    "next_month_priorities": [
+      "MMTS marts reconciliation process",
+      "Adaptation of DBT models to evolving requirements"
+    ]
+  }
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ No hallucinated properties?
+    □ Properties genuinely useful (not just padding)?
+
+  Extract properties for the following __list_of_entities__ from the __text__ below.
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __list_of_entities__
+  {entities_list}
+
+  __text__
+  {text}
+
+relationships_prompt: |
+  You are a Knowledge Graph extraction engine specialised in project governance document analysis.
+  Your job is to identify and extract all meaningful relationships between entities in a governance document.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  RELATIONSHIP STRUCTURE:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  All relationships must follow this pattern:
+  (EntityA)-[RELATES_TO {
+    rel_type:      string  (semantic classifier, e.g., "owns", "blocks", "mitigates")
+    description:   string  (human-readable summary of this specific relationship)
+    properties:    object  (flexible, rel_type-specific details)
+  }]->(EntityB)
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  COMMON rel_type VALUES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  PROJECT ↔ PROJECT:
+    part_of, depends_on, feeds_into, parallel_to, precedes, follows
+
+  PROJECT ↔ MILESTONE:
+    has_milestone, targeting, completed, blocked_from_reaching
+
+  PROJECT ↔ PERSON:
+    led_by, managed_by, sponsored_by, staffed_by, escalated_to, reviewed_by
+
+  PROJECT ↔ ORGANIZATION:
+    owned_by, delivered_by, sponsored_by, contracted_to, partnered_with
+
+  PROJECT ↔ RISK:
+    has_risk, exposed_to
+
+  PROJECT ↔ ISSUE:
+    has_issue, blocked_by
+
+  PROJECT ↔ TECHNOLOGY:
+    uses, migrating_from, migrating_to, building_on, replacing, integrating_with
+
+  PROJECT ↔ DECISION:
+    governed_by, impacted_by
+
+  PERSON ↔ ACTION:
+    owns, assigned_to, accountable_for, reviewing
+
+  PERSON ↔ ORGANIZATION:
+    works_for, represents, is_client_at, leads_within
+
+  PERSON ↔ PROJECT:
+    leads, manages, sponsors, contributes_to, is_accountable_for
+
+  PERSON ↔ DECISION:
+    made, approved, escalated_to, influenced
+
+  PERSON ↔ RISK:
+    owns, raised, is_managing
+
+  PERSON ↔ ISSUE:
+    owns, raised, is_resolving
+
+  ORGANIZATION ↔ TECHNOLOGY:
+    owns, operates, provides, uses, is_replacing
+
+  RISK ↔ MILESTONE:
+    threatens, could_delay, is_tied_to
+
+  RISK ↔ PROJECT:
+    affects, could_impact
+
+  ISSUE ↔ ACTION:
+    resolved_by, requires, created, triggered
+
+  ISSUE ↔ PROJECT:
+    impacts, blocks, affects
+
+  DECISION ↔ PROJECT:
+    directs, unlocks, affects_scope_of
+
+  DECISION ↔ MILESTONE:
+    enables, delays, confirms
+
+  MILESTONE ↔ MILESTONE:
+    depends_on, followed_by, precedes
+
+  ACTION ↔ MILESTONE:
+    required_for, contributes_to, clears_path_to
+
+  TECHNOLOGY ↔ TECHNOLOGY:
+    replaces, integrates_with, feeds_into, migrating_to
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXTRACTION RULES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. EXPLICIT AND IMPLICIT
+     Extract both directly stated relationships ("Alex Thompson leads the MMTS workstream")
+     and those clearly implied ("Awaiting inventory details before estimation" → MILESTONE depends_on ACTION).
+
+  2. MULTIPLE EDGES ALLOWED
+     If two entities have multiple distinct relationships, create multiple edges.
+
+  3. ACCOUNTABILITY CHAINS
+     Capture ownership and accountability relationships carefully — these are central to governance documents.
+
+  4. DEPENDENCY CHAINS
+     Project sequences and dependencies are especially important. Capture milestone-to-milestone
+     and action-to-milestone dependencies wherever visible.
+
+  5. PROPERTIES MAP
+     The properties object is flexible and rel_type-specific. Examples:
+
+     For "led_by": { since: string, role_title: string }
+     For "has_risk": { rag_status: string, risk_level: string }
+     For "migrating_from": { timeline: string, approach: string }
+     For "owned_by": { contract_type: string, since: string }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of relationship objects:
+
+  {
+    "source_id":     string,  // id of EntityA
+    "source_name":   string,  // name of EntityA
+    "target_id":     string,  // id of EntityB
+    "target_name":   string,  // name of EntityB
+    "rel_type":      string,  // semantic classifier
+    "description":   string,  // human-readable summary
+    "properties":    object,  // rel_type-specific properties
+    "context":       string,  // verbatim text context from which relationship is derived
+    "bidirectional": boolean  // is this relationship two-way?
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ Does each entity have AT LEAST one relationship?
+    □ Ownership and accountability relationships captured?
+    □ Dependency chains between milestones and actions captured?
+    □ Risk/issue-to-project relationships captured?
+    □ rel_type values are consistent across document?
+    □ Descriptions are specific to this relationship instance?
+    □ Bidirectional flag is correct?
+
+  Extract all meaningful relationships between the __list_of_entities__ from the __text__ below.
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __list_of_entities__
+  {entities_list}
+
+  __text__
+  {text}

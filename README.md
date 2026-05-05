@@ -32,7 +32,7 @@ Ingestion is domain-scoped. A **domain** is a YAML schema that tells the LLM wha
 
 | Requirement | Notes |
 |---|---|
-| Python >= 3.14.4 | |
+| Python >= 3.14.4 |You might need to install it using `pyenv install 3.14.4` |
 | [uv](https://docs.astral.sh/uv/) | Package manager — `brew install uv` or `pip install uv` |
 | [Ollama](https://ollama.ai) | Local LLM inference — runs models for extraction and embeddings |
 | [Neo4j](https://neo4j.com/download/) >= 5.x | Graph database with the **APOC** plugin installed |
@@ -46,7 +46,7 @@ Pull the models you intend to use. The defaults in `.env.example`:
 ollama pull nomic-embed-text     # embeddings (required)
 ollama pull gemma4:e4b           # image descriptions (optional, for PDFs with images)
 # pick a reasoning model for extraction, e.g.:
-ollama pull qwen2.5:14b
+ollama pull qwen3.6:35b-a3b-coding-nvfp4
 ```
 
 Any Ollama model that follows instructions and produces JSON works for extraction. Larger models produce better graphs.
@@ -88,12 +88,12 @@ Edit `.env`:
 ARTMIND_KG_NEO4J_URI=neo4j://127.0.0.1:7687
 ARTMIND_KG_NEO4J_USERNAME=neo4j
 ARTMIND_KG_NEO4J_PASSWORD=your_password
-ARTMIND_KG_NEO4J_DATABASE=artmind9
+ARTMIND_KG_NEO4J_DATABASE=your_neo4j_database
 
 # LLM for extraction
 ARTMIND_KG_LLM_PROVIDER=ollama
 ARTMIND_KG_LLM_URL=http://localhost:11434
-ARTMIND_KG_LLM_MODEL=qwen2.5:14b          # or any capable Ollama model
+ARTMIND_KG_LLM_MODEL=qwen3.6:35b-a3b-coding-nvfp4          # or any capable Ollama model
 
 # Embeddings
 ARTMIND_KG_EMBEDDINGS_PROVIDER=ollama
@@ -133,16 +133,9 @@ List available domains:
 uv run artmind domains list
 ```
 
-Inspect a domain's entity and relationship types:
-
+For further help on the domains commands use:
 ```bash
-uv run artmind domains inspect fiction
-```
-
-Add a custom domain from a YAML schema file:
-
-```bash
-uv run artmind domains add path/to/my_schema.yaml
+uv run artmind domains --help
 ```
 
 ---
@@ -174,13 +167,13 @@ uv run artmind ingest async path/to/document.pdf --domain fiction
 Check job status:
 
 ```bash
-uv run artmind ingest status <job_id>
+uv run artmind dashboard
 ```
 
-List recent jobs:
+There are other job related commands as well which you can find with:
 
 ```bash
-uv run artmind ingest list-jobs
+uv run artmind ingest --help
 ```
 
 ### Re-running extraction

@@ -1,41 +1,361 @@
 name: technical_paper
-description: Formal documents that present research, experiments, theoretical arguments, or technological advancements in a structured manner. Includes journal papers, conference proceedings, white papers, and preprints.
-entities:
-  - Paper
-  - Title
-  - Author
-  - Affiliation
-  - Abstract
-  - Section
-  - Topic
-  - Explained_Concept
-  - Hypothesis
-  - Research_Question
-  - Methodology
-  - Dataset
-  - Result
-  - Metric
-  - Conclusion
-  - Citation
+description: Formal documents presenting research, experiments, theoretical arguments, or technological advancements. Includes journal papers, conference proceedings, white papers, preprints, and technical reports covering methods, findings, models, and concepts.
 
-relationships:
-  - has_title
-  - authored_by
-  - affiliated_with
-  - has_section
-  - addresses
-  - tested_by
-  - uses
-  - evaluated_by
-  - produces
-  - supports
-  - summarized_in
-  - cites
-  - focuses_on
-  - derived_from
-  - contributes_to
-  - explains
-  - elaborates_on
-  - relates_to
-  - supported_by
-  - applies
+entities_prompt: |
+  You are a Knowledge Graph extraction engine specialised in technical and scientific paper analysis.
+  Your job is to read a passage from a technical document and identify all significant entities.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ENTITY TYPES YOU MUST EXTRACT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Use ONLY these entity_classes. However, you can add more to the type values than the examples provided here.
+
+  CONCEPT
+    Abstract ideas, theories, paradigms, problems, or research areas that are central to the paper's discourse. Extract concepts that the paper explains, builds upon, challenges, or advances.
+    example type values: theory | paradigm | problem | research_area | principle | framework | phenomenon | technique_category | capability | limitation
+
+  METHOD
+    A specific technique, algorithm, procedure, training strategy, or approach described or used in the paper. Methods are actionable — they describe how something is done.
+    example type values: training_technique | optimisation_strategy | evaluation_approach | data_processing | inference_technique | fine_tuning | alignment | architecture_design | augmentation
+
+  MODEL
+    A named AI model, system, architecture, or implementation — either proposed in the paper or referenced as a baseline or comparison point.
+    example type values: language_model | vision_model | multimodal_model | architecture | embedding_model | baseline | proposed_system | benchmark_model
+
+  FINDING
+    A result, conclusion, observation, or empirical claim stated in the paper. Findings are what the paper asserts or demonstrates, grounded in evidence.
+    example type values: experimental_result | empirical_observation | theoretical_claim | benchmark_result | ablation_finding | negative_result | key_insight
+
+  DATASET
+    Any named training corpus, evaluation benchmark, or data collection used or referenced in the paper.
+    example type values: training_corpus | benchmark | evaluation_set | curated_dataset | synthetic_dataset | real_world_dataset
+
+  AUTHOR
+    Named researchers, academics, or practitioners who created, co-authored, or are cited in the paper.
+    example type values: primary_author | co_author | cited_researcher | lab_representative
+
+  METRIC
+    A quantitative or qualitative measure used to evaluate performance, compare systems, or characterise results.
+    example type values: accuracy_metric | efficiency_metric | quality_metric | safety_metric | scalability_metric | human_evaluation | composite_metric
+
+  APPLICATION
+    A real-world domain, use case, or deployment context in which the paper's ideas are applied or have implications.
+    example type values: healthcare | creative_ai | code_generation | education | scientific_discovery | accessibility | finance | robotics | information_retrieval | safety
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXTRACTION RULES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. COMPLETENESS OVER PRECISION
+     When in doubt whether something qualifies, include it.
+     It is easier to remove an entity in validation than to recover a missed one.
+
+  2. CANONICAL NAMES
+     Use the most precise, formal name as the entity name.
+     Store informal names and abbreviations in aliases.
+     RIGHT:   { "name": "Rotary Positional Encoding", "aliases": ["RoPE"] }
+     WRONG:   { "name": "RoPE" }
+
+  3. DESCRIPTION QUALITY
+     Write descriptions as a knowledgeable technical analyst would.
+     Be specific to what THIS paper says about this entity — not generic definitions.
+
+  4. CONTEXT SNIPPETS
+     Extract 2-4 verbatim quotes from the text that best characterise this entity.
+     Preserve exact wording. These are used for RAG enrichment.
+
+  5. DO NOT HALLUCINATE
+     Only extract what is in the text. If a property is unknown, omit it.
+     Never invent details not present in the passage.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT FORMAT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of entity objects:
+
+  {
+    "id":                string,   // generate as {type_abbr}_{sequence}
+                                   // e.g., "con_001", "mth_002", "mdl_003"
+    "name":              string,   // canonical name
+    "aliases":           array,    // abbreviations and alternate names
+    "entity_class":      string,   // CONCEPT | METHOD | MODEL | FINDING | DATASET | AUTHOR | METRIC | APPLICATION
+    "type":              string,   // the subtype from lists above
+    "description":       string,   // 2-4 sentence analytical summary
+    "context":           array,    // verbatim text snippets where entity appears
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ All named models, methods, and datasets captured?
+    □ Canonical names used (full names, not just abbreviations)?
+    □ Every description is specific to what this text says?
+    □ Context snippets are verbatim from text?
+    □ Every entity genuinely significant (no noise)?
+
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __text__
+
+  {text}
+
+properties_prompt: |
+  You are a Knowledge Graph extraction engine specialised in technical and scientific paper analysis.
+  Your job is to read a passage from a technical document and enrich the provided entities with detailed properties based on the text.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  PROPERTIES MAP GUIDANCE:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  There is NO fixed schema for properties. You decide what matters based on
+  the entity's role in the paper.
+
+  Ask yourself: "If a researcher wanted structured facts about this entity
+  to answer a question or build a literature map, what would they need?"
+
+  For CONCEPT, consider:
+    - definition (concise, as used in this paper)
+    - related_fields (list of relevant domains)
+    - maturity (emerging | established | foundational)
+    - key_challenge or open_problem if stated
+    - how_paper_uses_it (extends | critiques | introduces | applies)
+    - importance_stated (why the paper says this matters)
+
+  For METHOD, consider:
+    - how_it_works (brief mechanism)
+    - key_advantage (what problem it solves better)
+    - limitations (if stated)
+    - where_applied (which models/tasks)
+    - novelty (is it new in this paper or adopted from prior work)
+    - computational_cost if mentioned
+
+  For MODEL, consider:
+    - architecture_type (transformer | CNN | hybrid | etc.)
+    - scale (parameters, layers if mentioned)
+    - key_capabilities (list)
+    - training_approach (if described)
+    - performance_highlights (benchmark results mentioned)
+    - proposed_in_this_paper (true | false)
+    - compared_to (list of baselines if mentioned)
+
+  For FINDING, consider:
+    - claim (the core assertion in plain language)
+    - evidence_type (experimental | theoretical | empirical | qualitative)
+    - significance (why it matters)
+    - certainty_level (established | suggested | speculative)
+    - implications (what it enables or challenges)
+    - contradicts_prior_work (if stated)
+
+  For DATASET, consider:
+    - domain (what type of data)
+    - size (if mentioned)
+    - source (where it comes from)
+    - how_used (training | evaluation | fine_tuning | pre_training)
+    - notable_characteristics
+
+  For AUTHOR, consider:
+    - affiliation (institution or company)
+    - role_in_paper (primary | co-author | cited)
+    - area_of_expertise (if inferable from paper)
+
+  For METRIC, consider:
+    - what_it_measures
+    - higher_is_better (true | false)
+    - typical_range or benchmark_value (if given)
+    - used_in_context (what it evaluates in this paper)
+
+  For APPLICATION, consider:
+    - industry_domain
+    - specific_use_case
+    - current_maturity (research | prototype | production)
+    - benefit_stated (what the application gains from the paper's contributions)
+    - example_system if mentioned
+
+  KEY RULES FOR PROPERTIES:
+    1. Use clear, readable key names (e.g., "architecture_type" not "arch_t")
+    2. Use arrays for multiple values
+    3. Use nested objects only when genuinely needed
+    4. Omit a property entirely rather than writing null or "unknown"
+    5. Values should be specific to THIS paper, not generic textbook definitions
+    6. Keep individual values concise
+    7. If a property feels forced or uncertain, leave it out
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON object with:
+  {
+    "id":            string,   // entity id from input
+    "name":          string,   // entity name from input
+    "properties":    object,   // enriched properties map
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Example of extracted "properties":
+  "properties": {
+    "architecture_type": "transformer",
+    "scale": "large (billions of parameters)",
+    "key_capabilities": [
+      "longer context windows",
+      "reduced memory usage",
+      "improved text coherence"
+    ],
+    "proposed_in_this_paper": false,
+    "performance_highlights": "outperforms standard transformers on long-document benchmarks"
+  }
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ No hallucinated properties?
+    □ Properties genuinely useful (not just padding)?
+
+  Extract properties for the following __list_of_entities__ from the __text__ below.
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __list_of_entities__
+  {entities_list}
+
+  __text__
+  {text}
+
+relationships_prompt: |
+  You are a Knowledge Graph extraction engine specialised in technical and scientific paper analysis.
+  Your job is to identify and extract all meaningful relationships between entities in a technical document passage.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  RELATIONSHIP STRUCTURE:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  All relationships must follow this pattern:
+  (EntityA)-[RELATES_TO {
+    rel_type:      string  (semantic classifier, e.g., "trained_on", "improves", "evaluates")
+    description:   string  (human-readable summary of this specific relationship)
+    properties:    object  (flexible, rel_type-specific details)
+  }]->(EntityB)
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  COMMON rel_type VALUES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  CONCEPT ↔ CONCEPT:
+    extends, underpins, contrasts_with, related_to, specialises, generalises,
+    enables, challenges, replaces, complements
+
+  CONCEPT ↔ METHOD:
+    implemented_by, realised_through, motivates, grounded_in
+
+  CONCEPT ↔ APPLICATION:
+    applied_in, demonstrated_by, unlocks, required_for
+
+  METHOD ↔ MODEL:
+    used_by, improves, trains, fine_tunes, evaluates, applied_to
+
+  METHOD ↔ CONCEPT:
+    addresses, exploits, overcomes_limitation_of
+
+  METHOD ↔ DATASET:
+    applied_to, tested_on, pre_trains_on
+
+  MODEL ↔ DATASET:
+    trained_on, evaluated_on, benchmarked_against, fine_tuned_on
+
+  MODEL ↔ METRIC:
+    achieves, measured_by, optimises_for, reports
+
+  MODEL ↔ MODEL:
+    outperforms, compared_to, derived_from, extends, replaces, inspired_by
+
+  MODEL ↔ APPLICATION:
+    deployed_in, enables, demonstrated_for, adapted_for
+
+  FINDING ↔ METHOD:
+    produced_by, supports, challenges, validates
+
+  FINDING ↔ MODEL:
+    describes, characterises, reported_for
+
+  FINDING ↔ CONCEPT:
+    advances, clarifies, contradicts, confirms
+
+  FINDING ↔ METRIC:
+    quantified_by, measured_with
+
+  AUTHOR ↔ MODEL:
+    proposes, evaluates, critiques, introduces
+
+  AUTHOR ↔ METHOD:
+    proposes, refines, applies
+
+  APPLICATION ↔ CONCEPT:
+    leverages, depends_on
+
+  APPLICATION ↔ FINDING:
+    motivated_by, benefits_from
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXTRACTION RULES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. EXPLICIT AND IMPLICIT
+     Extract both directly stated relationships ("CLIP is trained on image-text pairs")
+     and those clearly implied ("these results suggest X outperforms Y" → outperforms).
+
+  2. MULTIPLE EDGES ALLOWED
+     If two entities have multiple distinct relationships, create multiple edges.
+
+  3. DIRECTION MATTERS
+     Pay close attention to who acts on whom.
+     "METHOD improves MODEL" is different from "MODEL uses METHOD".
+
+  4. PROPERTIES MAP
+     The properties object is flexible and rel_type-specific. Examples:
+
+     For "trained_on": { split: "full|partial", epochs: string }
+     For "outperforms": { metric: string, margin: string, condition: string }
+     For "addresses": { problem_aspect: string, improvement_type: string }
+     For "applied_to": { task: string, domain: string }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of relationship objects:
+
+  {
+    "source_id":     string,  // id of EntityA
+    "source_name":   string,  // name of EntityA
+    "target_id":     string,  // id of EntityB
+    "target_name":   string,  // name of EntityB
+    "rel_type":      string,  // semantic classifier
+    "description":   string,  // human-readable summary
+    "properties":    object,  // rel_type-specific properties
+    "context":       string,  // verbatim text context from which relationship is derived
+    "bidirectional": boolean  // is this relationship two-way?
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ Does each entity have AT LEAST one relationship?
+    □ All meaningful technical relationships captured?
+    □ rel_type values are consistent across document?
+    □ Descriptions are specific to this relationship instance?
+    □ Direction of relationships is correct?
+    □ Properties are relevant and non-null?
+    □ Bidirectional flag is correct?
+
+  Extract all meaningful relationships between the __list_of_entities__ from the __text__ below.
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __list_of_entities__
+  {entities_list}
+
+  __text__
+  {text}

@@ -12,6 +12,7 @@ import yaml
 from loguru import logger
 
 from artmind import graph_query, vector_query
+from artmind.dashboard import run_dashboard
 from artmind.ingest import (
     _build_file_result_from_db,
     clean_document,
@@ -189,14 +190,6 @@ def get_entities(domain_name: str):
     click.echo(data.get("entities_prompt", []))
 
 
-@domains.command("entities")
-@click.argument("domain_name")
-def list_domain_entities(domain_name: str):
-    """List entity classes declared in a domain schema."""
-    data = _load_domain_schema(domain_name)
-    click.echo(data.get("entities", []))
-
-
 @domains.command("properties_prompt")
 @click.argument("domain_name")
 def get_properties(domain_name: str):
@@ -211,14 +204,6 @@ def get_relationships(domain_name: str):
     """The prompt used to extract relationships from a document chunk"""
     data = _load_domain_schema(domain_name)
     click.echo(data.get("relationships_prompt", []))
-
-
-@domains.command("relationships")
-@click.argument("domain_name")
-def list_domain_relationships(domain_name: str):
-    """List relationship types declared in a domain schema."""
-    data = _load_domain_schema(domain_name)
-    click.echo(data.get("relationships", []))
 
 
 # ── artmind ingest ─────────────────────────────────────────────────────────────
@@ -346,6 +331,12 @@ def ingest_job_results(job_id: str, compact: bool):
     if result is None:
         raise click.ClickException(f"Job '{job_id}' not found")
     _echo_json(result, compact)
+
+
+@ingest.command("dashboard")
+def ingest_dashboard():
+    """Show a live realtime status dashboard of all async jobs."""
+    run_dashboard()
 
 
 @ingest.command("extract_kg")

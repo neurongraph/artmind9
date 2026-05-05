@@ -1,30 +1,328 @@
 name: personal_journal
-description: Personal or observational documents that record events, reflections, interactions, tasks, and feelings over time. Includes journal entries, planners, and self-observations.
-entities:
-  - Entry
-  - Date
-  - Event
-  - Activity
-  - Person
-  - Interaction
-  - Place
-  - Feeling
-  - Thought
-  - Plan
-  - Task
+description: Personal diary entries, journals, and daily logs that record events, reflections, interactions, emotions, and plans over time. Typically written in first person, covering family life, work, social encounters, and inner thoughts.
 
-relationships:
-  - occurs_on
-  - includes
-  - involves
-  - mentions
-  - describes
-  - contains
-  - recorded_at
-  - has_plan
-  - has_task
-  - scheduled_for
-  - with
-  - happened_at
-  - triggered_by
-  - about
+entities_prompt: |
+  You are a Knowledge Graph extraction engine specialised in personal journal analysis.
+  Your job is to read a journal entry and identify all significant entities.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ENTITY TYPES YOU MUST EXTRACT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Use ONLY these entity_classes. However, you can add more to the type values than the examples provided here.
+
+  PERSON
+    Any individual named or meaningfully described in the entry — family members, colleagues, friends, service providers, or the diarist themselves. Include people who are merely mentioned or discussed.
+    example type values: self | spouse | child | parent | sibling | friend | colleague | professional | pet | acquaintance
+
+  PLACE
+    Any location mentioned or visited — rooms, buildings, neighbourhoods, cities, or institutions. Include places only referenced in plans or memories.
+    example type values: home | workplace | school | restaurant | park | hospital | shop | neighbourhood | city | transit
+
+  EVENT
+    Any significant occurrence, happening, or episode described in the entry. Not routine background actions — only those with emotional, social, or practical weight.
+    example type values: celebration | conflict | achievement | appointment | visit | outing | work_event | social_gathering | routine_disruption | health_incident | conversation | milestone
+
+  ACTIVITY
+    A recurring or single purposeful activity, task, or pursuit described in the entry. Distinct from one-off events — activities are things people do regularly or invest deliberate effort in.
+    example type values: domestic | exercise | work | study | creative | social | care | leisure | commute | errand
+
+  EMOTION
+    A feeling, mood, or emotional state experienced or observed in the entry. Extract as a named entity when it is explicitly described or strongly implied, and has significance to the narrative.
+    example type values: joy | pride | anxiety | exhaustion | relief | frustration | love | sadness | excitement | contentment | guilt | worry
+
+  PLAN
+    Any stated intention, goal, task, or future arrangement mentioned in the entry. Includes both firm plans and tentative thoughts about what needs to happen.
+    example type values: family | work | health | social | errand | long_term | resolution | reminder
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXTRACTION RULES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. COMPLETENESS OVER PRECISION
+     When in doubt whether something qualifies, include it.
+     It is easier to remove an entity in validation than to recover a missed one.
+
+  2. CANONICAL NAMES
+     Use the most complete, familiar name as the entity name.
+     Store alternate references in aliases.
+     RIGHT:   { "name": "Neetish", "aliases": ["she", "the kids"] }
+     WRONG:   { "name": "she" }
+
+  3. DESCRIPTION QUALITY
+     Write descriptions as a perceptive reader of personal journals would.
+     Be specific to THIS entry and its context, not generic.
+
+  4. CONTEXT SNIPPETS
+     Extract 2-4 verbatim quotes from the text that best characterise this entity.
+     Preserve exact wording. These are used for RAG enrichment.
+
+  5. DO NOT HALLUCINATE
+     Only extract what is in the text. If a property is unknown, omit it.
+     Never invent details.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT FORMAT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of entity objects:
+
+  {
+    "id":                string,   // generate as {type_abbr}_{sequence}
+                                   // e.g., "per_001", "plc_002", "evt_003"
+    "name":              string,   // canonical name
+    "aliases":           array,    // other references used in text
+    "entity_class":      string,   // PERSON | PLACE | EVENT | ACTIVITY | EMOTION | PLAN
+    "type":              string,   // the subtype from lists above
+    "description":       string,   // 2-4 sentence summary specific to this entry
+    "context":           array,    // verbatim text snippets where entity appears
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ All named and meaningfully described people captured?
+    □ Canonical names used consistently?
+    □ Every description is specific to this text?
+    □ Context snippets are verbatim from text?
+    □ Every entity is genuinely significant (no noise)?
+
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __text__
+
+  {text}
+
+properties_prompt: |
+  You are a Knowledge Graph extraction engine specialised in personal journal analysis.
+  Your job is to read a journal entry and the set of provided entities, then identify key properties of each entity based on the text.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  PROPERTIES MAP GUIDANCE:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  There is NO fixed schema for properties. You decide what matters based on
+  the entity's role in the entry.
+
+  Ask yourself: "If someone were building a picture of this person's life from their journal,
+  what structured facts about this entity would be most useful?"
+
+  For PERSON, consider:
+    - relationship_to_diarist (e.g., "wife", "son", "colleague")
+    - personality_traits (list) — as revealed in this entry
+    - current_state (health, mood, life situation as mentioned)
+    - recurring_behaviours (patterns evident across entries)
+    - age or life stage if mentioned
+    - occupation or school year if relevant
+    - notable_characteristics (distinguishing qualities)
+
+  For PLACE, consider:
+    - place_type (home, school, park, restaurant, etc.)
+    - atmosphere (how it feels when mentioned)
+    - frequency_of_visit (daily, occasional, first-time)
+    - who_associated_with (which people are linked to this place)
+    - location (city, neighbourhood if mentioned)
+    - narrative_function (why it matters in this entry)
+
+  For EVENT, consider:
+    - date_or_time
+    - participants (list with roles)
+    - outcome (what happened, was it positive/negative/neutral)
+    - emotional_significance (how it affected the diarist)
+    - cause (what triggered it)
+    - is_recurring (one-off or part of a pattern)
+
+  For ACTIVITY, consider:
+    - who_involved (list)
+    - frequency (daily, occasional, new)
+    - purpose (relaxation, duty, health, social)
+    - emotional_valence (enjoyed, dreaded, routine)
+    - outcome_or_result (if mentioned)
+
+  For EMOTION, consider:
+    - experienced_by (who feels it)
+    - trigger (what caused it)
+    - intensity (mild, moderate, strong)
+    - resolution (did it pass, was it addressed)
+    - duration (momentary, lingering)
+
+  For PLAN, consider:
+    - timeframe (today, this week, vague future)
+    - who_involved
+    - motivation (why this plan matters)
+    - status (firm intention, tentative, wishful)
+    - urgency
+
+  KEY RULES FOR PROPERTIES:
+    1. Use clear, readable key names (e.g., "relationship_to_diarist" not "rel_d")
+    2. Use arrays for multiple values
+    3. Use nested objects only when genuinely needed
+    4. Omit a property entirely rather than writing null or "unknown"
+    5. Values should be specific to THIS entry, not generic
+    6. Keep individual values concise
+    7. If a property feels forced or uncertain, leave it out
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON object with:
+  {
+    "id":            string,   // entity id from input
+    "name":          string,   // entity name from input
+    "properties":    object,   // enriched properties map
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Example of extracted "properties":
+  "properties": {
+    "relationship_to_diarist": "daughter",
+    "personality_traits": [
+      "diligent",
+      "nervous before tests",
+      "proud of her work"
+    ],
+    "current_state": "experiencing exam pressure",
+    "recurring_behaviours": [
+      "working on school projects",
+      "needing help with homework"
+    ]
+  }
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ No hallucinated properties?
+    □ Properties genuinely useful (not just padding)?
+
+  Extract properties for the following __list_of_entities__ from the __text__ below.
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __list_of_entities__
+  {entities_list}
+
+  __text__
+  {text}
+
+relationships_prompt: |
+  You are a Knowledge Graph extraction engine specialised in personal journal analysis.
+  Your job is to identify and extract all meaningful relationships between entities in a journal entry.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  RELATIONSHIP STRUCTURE:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  All relationships must follow this pattern:
+  (EntityA)-[RELATES_TO {
+    rel_type:      string  (semantic classifier, e.g., "cares_for", "attends", "worries_about")
+    description:   string  (human-readable summary of this specific relationship)
+    properties:    object  (flexible, rel_type-specific details)
+  }]->(EntityB)
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  COMMON rel_type VALUES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  PERSON ↔ PERSON:
+    related_to, married_to, parent_of, child_of, friend_of, colleague_of,
+    cares_for, worries_about, conflicts_with, mentors, supports,
+    spends_time_with, is_proud_of, is_concerned_about, looks_after
+
+  PERSON ↔ PLACE:
+    lives_at, works_at, studies_at, visits, commutes_to, frequents,
+    walks_to, went_to, picks_up_from
+
+  PERSON ↔ EVENT:
+    participates_in (properties: {role: organiser|participant|observer|subject}),
+    causes, witnesses, is_affected_by, mentions, prepares_for
+
+  PERSON ↔ ACTIVITY:
+    performs, enjoys, dislikes, started, resumed, does_regularly,
+    has_been_assigned, helps_with
+
+  PERSON ↔ EMOTION:
+    experiences, expresses, triggers_in, suppresses, resolves
+
+  PERSON ↔ PLAN:
+    has_plan, intends, needs_to, scheduled_for, discussed_with
+
+  EVENT ↔ PLACE:
+    occurs_at
+
+  EVENT ↔ EMOTION:
+    evokes, results_in, intensifies, relieves
+
+  EVENT ↔ PLAN:
+    prompted_by, leads_to, linked_to
+
+  ACTIVITY ↔ PLACE:
+    takes_place_at, associated_with
+
+  PLAN ↔ PERSON:
+    involves, assigned_to, discussed_with
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXTRACTION RULES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. EXPLICIT AND IMPLICIT
+     Extract both explicitly stated relationships ("took Browny to the park") and
+     those clearly implied by context ("Mohan has been fighting with Aryan" → conflicts_with).
+
+  2. MULTIPLE EDGES ALLOWED
+     If two entities have multiple distinct relationships, create multiple edges.
+
+  3. EMOTIONAL TEXTURE
+     Capture the emotional dimension of relationships where clearly present
+     (e.g., a parent's pride about a child's achievement).
+
+  4. ROLE IN PARTICIPATES_IN
+     For PERSON ↔ EVENT relationships, always include properties.role.
+
+  5. PROPERTIES MAP
+     The properties object is flexible and rel_type-specific. Examples:
+
+     For "related_to": { nature: "family", bond_strength: "close" }
+     For "worries_about": { reason: string, duration: "ongoing"|"new" }
+     For "participates_in": { role: string, outcome: string }
+     For "has_plan": { timeframe: string, urgency: string }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of relationship objects:
+
+  {
+    "source_id":     string,  // id of EntityA
+    "source_name":   string,  // name of EntityA
+    "target_id":     string,  // id of EntityB
+    "target_name":   string,  // name of EntityB
+    "rel_type":      string,  // semantic classifier
+    "description":   string,  // human-readable summary
+    "properties":    object,  // rel_type-specific properties
+    "context":       string,  // verbatim text context from which relationship is derived
+    "bidirectional": boolean  // is this relationship two-way?
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ Does each entity have AT LEAST one relationship?
+    □ All meaningful relationships captured?
+    □ rel_type values are consistent across document?
+    □ Descriptions are specific to this relationship instance?
+    □ Emotional tone of relationships preserved where relevant?
+    □ Bidirectional flag is correct?
+
+  Extract all meaningful relationships between the __list_of_entities__ from the __text__ below.
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __list_of_entities__
+  {entities_list}
+
+  __text__
+  {text}

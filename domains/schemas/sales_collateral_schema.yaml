@@ -1,24 +1,377 @@
 name: sales_collateral
-description: Sales and marketing documents such as brochures, white papers, slide presentations, and case studies that contain information about product features, capabilities, and differentiators.
-entities:
-  - Use_Case
-  - Client
-  - Geography
-  - Technology
-  - Problem_Statement
-  - Solution
-  - Offering
-  - Capability
-  - Benefit
-  - Differentiator
+description: Sales and marketing documents such as pitch decks, capability presentations, case studies, white papers, and proposal materials. These documents describe client challenges, technology solutions, delivery approaches, quantified outcomes, and competitive differentiators — typically produced by consulting or technology firms to win or expand client engagements.
 
-relationships:
-  - located_in
-  - faces
-  - addressed_by
-  - enabled_by
-  - delivers
-  - part_of
-  - highlights
-  - supported_by
-  - applicable_for
+entities_prompt: |
+  You are a Knowledge Graph extraction engine specialised in sales and marketing collateral analysis.
+  Your job is to read a passage from a sales document and identify all significant entities.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ENTITY TYPES YOU MUST EXTRACT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Use ONLY these entity_classes. However, you can add more to the type values than the examples provided here.
+
+  CLIENT
+    Any named customer, reference client, target segment, or prospect organisation described in the document. Includes anonymised clients described by industry or geography.
+    example type values: reference_client | named_account | target_segment | industry_vertical | anonymous_client | prospect | partner
+
+  OFFERING
+    A named product, solution, service, programme, or engagement type being sold or described. Offerings are what the selling organisation provides to clients.
+    example type values: managed_service | transformation_programme | platform | professional_service | product | framework | accelerator | subscription | partnership | delivery_model
+
+  CAPABILITY
+    A specific technical, functional, or operational capability that the selling organisation or its solution provides. Capabilities are components of an offering — things the solution can do.
+    example type values: technical_capability | delivery_capability | ai_capability | analytics_capability | automation_capability | integration_capability | migration_capability | security_capability | platform_capability
+
+  USE_CASE
+    A specific application, scenario, or context in which the offering or capability is applied to solve a problem or create value.
+    example type values: automation | analytics | migration | modernisation | customer_experience | fraud_detection | compliance | cost_reduction | revenue_generation | operational_efficiency
+
+  BENEFIT
+    A stated outcome, result, or value delivered — quantified or qualified. Benefits are what the client gains or has gained from the offering.
+    example type values: cost_saving | efficiency_gain | risk_reduction | revenue_impact | speed_improvement | quality_improvement | compliance_achievement | scale_achievement | customer_satisfaction
+
+  CHALLENGE
+    A named business problem, pain point, constraint, or need that the client faces. Challenges justify why the offering or capability is relevant.
+    example type values: technical_debt | cost_pressure | regulatory_burden | skill_gap | scalability_limitation | legacy_constraint | operational_inefficiency | competitive_pressure | security_risk | data_quality_issue
+
+  TECHNOLOGY
+    A named platform, system, tool, framework, protocol, or technical component referenced in the collateral — either part of the solution, the client's existing landscape, or a third-party component.
+    example type values: cloud_platform | legacy_system | ai_platform | database | integration_tool | automation_tool | analytics_platform | payment_platform | framework | api | channel | infrastructure
+
+  DIFFERENTIATOR
+    A stated competitive advantage, unique quality, proof point, or distinctive characteristic of the offering or the selling organisation. Differentiators explain why the buyer should choose this over alternatives.
+    example type values: delivery_model | proprietary_asset | scale_advantage | domain_expertise | partnership | certification | track_record | speed | global_reach | innovation
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXTRACTION RULES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. COMPLETENESS OVER PRECISION
+     When in doubt whether something qualifies, include it.
+     It is easier to remove an entity in validation than to recover a missed one.
+
+  2. CANONICAL NAMES
+     Use the most complete, formal name as the entity name.
+     Store informal references and abbreviations in aliases.
+     RIGHT:   { "name": "Watson Assistant", "aliases": ["Watson", "NLP platform"] }
+     WRONG:   { "name": "the NLP platform" }
+
+  3. DESCRIPTION QUALITY
+     Write descriptions as a knowledgeable sales or solutions analyst would.
+     Be specific to what THIS document says — not generic product descriptions.
+
+  4. CONTEXT SNIPPETS
+     Extract 2-4 verbatim quotes from the text that best characterise this entity.
+     Preserve exact wording. These are used for RAG enrichment.
+
+  5. DO NOT HALLUCINATE
+     Only extract what is in the text. If a property is unknown, omit it.
+     Never invent details not present in the passage.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT FORMAT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of entity objects:
+
+  {
+    "id":                string,   // generate as {type_abbr}_{sequence}
+                                   // e.g., "cli_001", "off_002", "ben_003"
+    "name":              string,   // canonical name
+    "aliases":           array,    // alternate names and references
+    "entity_class":      string,   // CLIENT | OFFERING | CAPABILITY | USE_CASE | BENEFIT | CHALLENGE | TECHNOLOGY | DIFFERENTIATOR
+    "type":              string,   // the subtype from lists above
+    "description":       string,   // 2-4 sentence analytical summary
+    "context":           array,    // verbatim text snippets where entity appears
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ All named clients or client segments captured?
+    □ All named offerings and solutions captured?
+    □ Key capabilities and use cases captured?
+    □ Quantified or qualified benefits captured as BENEFIT entities?
+    □ Client problems captured as CHALLENGE entities?
+    □ Competitive differentiators captured?
+    □ Every description is specific to this document?
+    □ Context snippets are verbatim from text?
+
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __text__
+
+  {text}
+
+properties_prompt: |
+  You are a Knowledge Graph extraction engine specialised in sales and marketing collateral analysis.
+  Your job is to read a passage from a sales document and enrich the provided entities with detailed properties based on the text.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  PROPERTIES MAP GUIDANCE:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  There is NO fixed schema for properties. You decide what matters based on
+  the entity's role in the sales collateral.
+
+  Ask yourself: "If a salesperson or solutions architect were briefing a prospect,
+  what structured facts about this entity would be most persuasive and useful?"
+
+  For CLIENT, consider:
+    - industry (banking | insurance | retail | telecom | etc.)
+    - geography (UK | US | global | etc.)
+    - size (large | mid-market | enterprise | etc.)
+    - relationship_status (reference_client | active | prospect)
+    - named_or_anonymous (true | false)
+    - pain_points (list — as described in document)
+    - engagement_type (if mentioned)
+
+  For OFFERING, consider:
+    - offering_type (managed_service | programme | product | etc.)
+    - delivery_model (onshore | offshore | hybrid | global_delivery)
+    - scope (what is included)
+    - duration or contract_type (if mentioned)
+    - target_client_profile
+    - key_phases or components (list)
+    - named_assets_or_accelerators
+
+  For CAPABILITY, consider:
+    - what_it_does (brief description of the capability)
+    - technical_components (list)
+    - delivery_maturity (proven | emerging | new)
+    - differentiating_aspect (what makes it stand out)
+    - industry_applicability (list)
+
+  For USE_CASE, consider:
+    - problem_context (the situation being addressed)
+    - approach (how it is done)
+    - industry or vertical
+    - outcome_achieved (if stated)
+    - complexity_level (straightforward | complex | highly_complex)
+
+  For BENEFIT, consider:
+    - quantified_value (the metric if stated, e.g., "30% containment rate")
+    - beneficiary (who gains from it — client, end-user, etc.)
+    - time_to_value (if mentioned)
+    - category (cost | speed | quality | risk | revenue | satisfaction)
+    - evidence_type (measured | projected | claimed)
+
+  For CHALLENGE, consider:
+    - root_cause (what causes this problem)
+    - business_impact (what it costs or risks)
+    - urgency (critical | high | medium)
+    - who_faces_it (client segment or named client)
+    - current_workaround (if mentioned)
+
+  For TECHNOLOGY, consider:
+    - vendor or provider
+    - technology_category (cloud | ai | data | payments | automation | etc.)
+    - role_in_solution (core | supporting | replaced | integrated | target)
+    - maturity (legacy | modern | emerging)
+    - key_characteristics (what it does in this context)
+
+  For DIFFERENTIATOR, consider:
+    - competitive_advantage (what sets this apart)
+    - evidence or proof_point (how it is substantiated)
+    - uniqueness (proprietary | best-in-class | certified | scale-based)
+    - target_audience (who this resonates with)
+    - relates_to_offering (which offering this differentiates)
+
+  KEY RULES FOR PROPERTIES:
+    1. Use clear, readable key names (e.g., "quantified_value" not "qty_val")
+    2. Use arrays for multiple values
+    3. Use nested objects only when genuinely needed
+    4. Omit a property entirely rather than writing null or "unknown"
+    5. Values should be specific to THIS document, not generic
+    6. Keep individual values concise
+    7. If a property feels forced or uncertain, leave it out
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON object with:
+  {
+    "id":            string,   // entity id from input
+    "name":          string,   // entity name from input
+    "properties":    object,   // enriched properties map
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Example of extracted "properties":
+  "properties": {
+    "industry": "retail banking",
+    "geography": "UK",
+    "relationship_status": "reference_client",
+    "named_or_anonymous": false,
+    "pain_points": [
+      "fragmented IT estate from mergers and acquisitions",
+      "aging technology causing regulatory risk",
+      "high change and run costs"
+    ],
+    "engagement_type": "hybrid cloud migration programme"
+  }
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ No hallucinated properties?
+    □ Properties genuinely useful (not just padding)?
+    □ Quantified benefits captured with their exact values?
+
+  Extract properties for the following __list_of_entities__ from the __text__ below.
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __list_of_entities__
+  {entities_list}
+
+  __text__
+  {text}
+
+relationships_prompt: |
+  You are a Knowledge Graph extraction engine specialised in sales and marketing collateral analysis.
+  Your job is to identify and extract all meaningful relationships between entities in a sales document.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  RELATIONSHIP STRUCTURE:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  All relationships must follow this pattern:
+  (EntityA)-[RELATES_TO {
+    rel_type:      string  (semantic classifier, e.g., "solves", "delivered_to", "comprises")
+    description:   string  (human-readable summary of this specific relationship)
+    properties:    object  (flexible, rel_type-specific details)
+  }]->(EntityB)
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  COMMON rel_type VALUES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  CLIENT ↔ CHALLENGE:
+    faces, experiencing, prioritising, impacted_by, seeking_to_solve
+
+  CLIENT ↔ OFFERING:
+    engaged_with, benefiting_from, evaluated, purchased, is_target_for
+
+  CLIENT ↔ BENEFIT:
+    achieved, realised, reported, projected_to_gain
+
+  CLIENT ↔ TECHNOLOGY:
+    uses, is_replacing, is_migrating_from, operates
+
+  OFFERING ↔ CAPABILITY:
+    comprises, delivers, enabled_by, includes, built_on
+
+  OFFERING ↔ USE_CASE:
+    addresses, proven_in, applicable_to, demonstrated_through
+
+  OFFERING ↔ BENEFIT:
+    produces, promises, has_delivered, quantified_by
+
+  OFFERING ↔ CHALLENGE:
+    solves, mitigates, designed_for, targets
+
+  OFFERING ↔ DIFFERENTIATOR:
+    distinguished_by, characterised_by, supported_by
+
+  OFFERING ↔ TECHNOLOGY:
+    built_on, integrates_with, uses, replaces, migrates_from, migrates_to
+
+  CAPABILITY ↔ TECHNOLOGY:
+    powered_by, delivered_via, integrates_with, requires, uses
+
+  CAPABILITY ↔ USE_CASE:
+    enables, applied_in, proven_through, supports
+
+  CAPABILITY ↔ BENEFIT:
+    delivers, quantified_as, results_in
+
+  USE_CASE ↔ CHALLENGE:
+    solves, addresses, mitigates
+
+  USE_CASE ↔ BENEFIT:
+    produces, demonstrates, leads_to
+
+  USE_CASE ↔ TECHNOLOGY:
+    uses, powered_by, integrates_with
+
+  DIFFERENTIATOR ↔ CAPABILITY:
+    based_on, demonstrated_through, rooted_in
+
+  DIFFERENTIATOR ↔ OFFERING:
+    distinguishes, applies_to
+
+  DIFFERENTIATOR ↔ CLIENT:
+    resonates_with, proven_for
+
+  TECHNOLOGY ↔ TECHNOLOGY:
+    replaces, integrates_with, feeds_into, migrates_to
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXTRACTION RULES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. EXPLICIT AND IMPLICIT
+     Extract both directly stated relationships ("Watson Assistant delivered 30% containment rate")
+     and those clearly implied ("The solution addresses the legacy estate problem" → OFFERING solves CHALLENGE).
+
+  2. MULTIPLE EDGES ALLOWED
+     If two entities have multiple distinct relationships, create multiple edges.
+
+  3. EVIDENCE OVER CLAIMS
+     When a benefit is quantified, capture the rel_type as "achieved" (not just "promises").
+     When it is only claimed or projected, use "promises" or "projected_to_deliver".
+
+  4. CLIENT-CENTRIC VIEW
+     Always ask: what did the CLIENT face? What did the OFFERING deliver? What was the BENEFIT?
+     These three-part chains (CLIENT→CHALLENGE, OFFERING→CHALLENGE, OFFERING→BENEFIT, CLIENT→BENEFIT) are the core of sales collateral.
+
+  5. PROPERTIES MAP
+     The properties object is flexible and rel_type-specific. Examples:
+
+     For "achieved": { metric: string, value: string, timeframe: string }
+     For "comprises": { component_type: string, optional: boolean }
+     For "powered_by": { version: string, deployment_model: string }
+     For "solves": { approach: string, completeness: "full|partial" }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of relationship objects:
+
+  {
+    "source_id":     string,  // id of EntityA
+    "source_name":   string,  // name of EntityA
+    "target_id":     string,  // id of EntityB
+    "target_name":   string,  // name of EntityB
+    "rel_type":      string,  // semantic classifier
+    "description":   string,  // human-readable summary
+    "properties":    object,  // rel_type-specific properties
+    "context":       string,  // verbatim text context from which relationship is derived
+    "bidirectional": boolean  // is this relationship two-way?
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ Does each entity have AT LEAST one relationship?
+    □ Client-challenge-offering-benefit chains captured?
+    □ All capability-to-technology relationships captured?
+    □ Quantified benefits linked to their delivering capability or offering?
+    □ rel_type values are consistent across document?
+    □ Descriptions are specific to this relationship instance?
+    □ Bidirectional flag is correct?
+
+  Extract all meaningful relationships between the __list_of_entities__ from the __text__ below.
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __list_of_entities__
+  {entities_list}
+
+  __text__
+  {text}

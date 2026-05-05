@@ -1,9 +1,11 @@
 import sqlite3
+from pathlib import Path
 
 from paths import DB_PATH
 
 
 def _init_db() -> None:
+    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute("""

@@ -71,34 +71,6 @@ class TestAdd:
         assert result.exit_code != 0
 
 
-# ── entities ──────────────────────────────────────────────────────────────────
-
-class TestEntities:
-    def test_entities_lists_expected(self, runner, domain_added):
-        result = runner.invoke(cli, ["domains", "entities", DOMAIN_NAME])
-        assert result.exit_code == 0
-        for entity in ["Document", "Title", "Author", "Date", "Content", "Section"]:
-            assert entity in result.output
-
-    def test_entities_unknown_domain_fails(self, runner):
-        result = runner.invoke(cli, ["domains", "entities", "nonexistent"])
-        assert result.exit_code != 0
-
-
-# ── relationships ─────────────────────────────────────────────────────────────
-
-class TestRelationships:
-    def test_relationships_lists_expected(self, runner, domain_added):
-        result = runner.invoke(cli, ["domains", "relationships", DOMAIN_NAME])
-        assert result.exit_code == 0
-        for rel in ["has_title", "authored_by", "written_on", "discusses", "contains", "references"]:
-            assert rel in result.output
-
-    def test_relationships_unknown_domain_fails(self, runner):
-        result = runner.invoke(cli, ["domains", "relationships", "nonexistent"])
-        assert result.exit_code != 0
-
-
 # ── delete ────────────────────────────────────────────────────────────────────
 
 class TestDelete:

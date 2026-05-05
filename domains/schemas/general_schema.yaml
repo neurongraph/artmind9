@@ -1,28 +1,348 @@
 name: general
-description: General documents that may not fit into specific domains. Captures broad document structures including reports, memos, articles, and miscellaneous content.
-entities:
-  - Document
-  - Title
-  - Author
-  - Date
-  - Content
-  - Section
-  - Topic
-  - Reference
-  - Entity
-  - Statement
-  - Summary
+description: Catch-all domain for documents that do not fit a more specific domain. Suitable for reports, memos, articles, presentations, and miscellaneous content covering any subject. Uses broad entity classes that can capture the essential knowledge structure of virtually any document type.
 
-relationships:
-  - has_title
-  - authored_by
-  - written_on
-  - discusses
-  - contains
-  - references
-  - mentions
-  - relates_to
-  - summarizes
-  - covers
-  - provides_evidence
-  - supports
+entities_prompt: |
+  You are a Knowledge Graph extraction engine designed to handle documents of any type.
+  Your job is to read a passage from a document and identify all significant entities.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ENTITY TYPES YOU MUST EXTRACT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Use ONLY these entity_classes. However, you can add more to the type values than the examples provided here.
+
+  ENTITY
+    Any named real-world object, person, organisation, product, place, or system that plays a concrete role in the document. Use this for the "who" and "what" of the document.
+    example type values: person | organisation | product | place | system | service | institution | brand | asset | resource | group | document
+
+  CONCEPT
+    Abstract ideas, topics, theories, principles, themes, or categories of knowledge discussed in the document. Use this for the intellectual content and subject matter.
+    example type values: theory | principle | topic | theme | category | framework | problem | domain | phenomenon | strategy | policy | trend
+
+  EVENT
+    Any named or described occurrence, happening, development, or episode referenced in the document — past, present, or planned.
+    example type values: announcement | publication | launch | incident | transaction | meeting | decision | discovery | change | milestone | crisis | policy_change
+
+  CLAIM
+    An assertion, argument, conclusion, recommendation, or stated opinion made in the document. Claims are what the document is trying to say or establish.
+    example type values: finding | recommendation | argument | prediction | conclusion | warning | opinion | hypothesis | assertion | commitment
+
+  METRIC
+    A quantitative measurement, statistic, figure, or data point presented in the document.
+    example type values: financial | performance | demographic | scientific | operational | percentage | growth_rate | count | ranking | ratio | benchmark
+
+  SOURCE
+    A named reference, citation, data provider, publication, or authority that the document draws on or points to.
+    example type values: publication | dataset | report | regulation | standard | organisation | expert | survey | database | authority
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXTRACTION RULES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. COMPLETENESS OVER PRECISION
+     When in doubt whether something qualifies, include it.
+     It is easier to remove an entity in validation than to recover a missed one.
+
+  2. CANONICAL NAMES
+     Use the most complete, formal name as the entity name.
+     Store abbreviations and informal names in aliases.
+     RIGHT:   { "name": "Standard & Poor's 500 Index", "aliases": ["S&P 500", "S&P"] }
+     WRONG:   { "name": "S&P" }
+
+  3. CHOOSE THE MOST SPECIFIC CLASS
+     If content could fit multiple classes, pick the one that best captures its role in THIS document.
+     E.g., "GDP growth rate" is a METRIC, not a CONCEPT. "Inflation" is a CONCEPT, not a METRIC.
+
+  4. DESCRIPTION QUALITY
+     Write descriptions in terms of what THIS document says about the entity.
+     Do not write generic encyclopaedia definitions.
+
+  5. CONTEXT SNIPPETS
+     Extract 2-4 verbatim quotes from the text that best characterise this entity.
+     Preserve exact wording. These are used for RAG enrichment.
+
+  6. DO NOT HALLUCINATE
+     Only extract what is in the text. If a property is unknown, omit it.
+     Never invent details not present in the passage.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT FORMAT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of entity objects:
+
+  {
+    "id":                string,   // generate as {type_abbr}_{sequence}
+                                   // e.g., "ent_001", "con_002", "evt_003"
+    "name":              string,   // canonical name
+    "aliases":           array,    // abbreviations and alternate names
+    "entity_class":      string,   // ENTITY | CONCEPT | EVENT | CLAIM | METRIC | SOURCE
+    "type":              string,   // the subtype from lists above
+    "description":       string,   // 2-4 sentence summary specific to this document
+    "context":           array,    // verbatim text snippets where entity appears
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ All named entities (people, orgs, products, places) captured?
+    □ Key concepts and topics the document discusses captured?
+    □ Main claims and conclusions of the document captured?
+    □ Quantitative data points captured as METRIC entities?
+    □ Canonical names used consistently?
+    □ Context snippets are verbatim from text?
+    □ Every entity genuinely significant (no noise)?
+
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __text__
+
+  {text}
+
+properties_prompt: |
+  You are a Knowledge Graph extraction engine designed to handle documents of any type.
+  Your job is to read a document passage and enrich the provided entities with detailed properties based on the text.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  PROPERTIES MAP GUIDANCE:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  There is NO fixed schema for properties. You decide what matters based on
+  the entity's role in the document.
+
+  Ask yourself: "If a reader wanted the key structured facts about this entity
+  to answer a question or understand the document better, what would they need?"
+
+  For ENTITY, consider:
+    - entity_subtype (person | organisation | product | place | system | etc.)
+    - role_in_document (what function this entity serves in the document's narrative)
+    - attributes (any factual characteristics stated — size, age, status, location, etc.)
+    - significance (why this entity matters in this document's context)
+    - relationships_stated (brief note on key connections if complex)
+
+  For CONCEPT, consider:
+    - definition (how THIS document defines or uses it — not a textbook definition)
+    - importance (why the document emphasises it)
+    - how_presented (introduced | critiqued | applied | compared | defined)
+    - related_topics (list)
+    - domain (the field or area it belongs to)
+
+  For EVENT, consider:
+    - date_or_period (if mentioned)
+    - participants (who was involved)
+    - outcome (what resulted)
+    - significance (why this event is mentioned)
+    - status (past | ongoing | planned | hypothetical)
+
+  For CLAIM, consider:
+    - assertion (the claim in plain language)
+    - claim_type (finding | recommendation | prediction | warning | opinion | etc.)
+    - certainty (established | probable | speculative | contested)
+    - supporting_evidence (what evidence backs it up, if stated)
+    - who_makes_it (the author, the document, a cited source)
+    - implications (what follows if the claim is true)
+
+  For METRIC, consider:
+    - value (the number or measurement)
+    - unit (dollars, percent, count, etc.)
+    - what_it_measures
+    - time_period (when it was measured)
+    - source (where the number comes from)
+    - context (what makes this number significant)
+    - direction (positive | negative | neutral from document's perspective)
+
+  For SOURCE, consider:
+    - source_type (publication | dataset | regulation | organisation | expert | etc.)
+    - credibility or authority (if indicated)
+    - date or recency (if mentioned)
+    - relevance (how it is used in the document)
+    - how_cited (directly quoted | paraphrased | mentioned)
+
+  KEY RULES FOR PROPERTIES:
+    1. Use clear, readable key names (e.g., "role_in_document" not "role_d")
+    2. Use arrays for multiple values
+    3. Use nested objects only when genuinely needed
+    4. Omit a property entirely rather than writing null or "unknown"
+    5. Values should be specific to THIS document, not generic definitions
+    6. Keep individual values concise
+    7. If a property feels forced or uncertain, leave it out
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON object with:
+  {
+    "id":            string,   // entity id from input
+    "name":          string,   // entity name from input
+    "properties":    object,   // enriched properties map
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Example of extracted "properties":
+  "properties": {
+    "value": "40%",
+    "unit": "percentage of UK real-time payment volume",
+    "what_it_measures": "share of UK real-time payments processed by the platform",
+    "context": "cited to demonstrate the scale and criticality of the payment system",
+    "direction": "positive"
+  }
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ No hallucinated properties?
+    □ Properties genuinely useful (not just padding)?
+
+  Extract properties for the following __list_of_entities__ from the __text__ below.
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __list_of_entities__
+  {entities_list}
+
+  __text__
+  {text}
+
+relationships_prompt: |
+  You are a Knowledge Graph extraction engine designed to handle documents of any type.
+  Your job is to identify and extract all meaningful relationships between entities in a document.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  RELATIONSHIP STRUCTURE:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  All relationships must follow this pattern:
+  (EntityA)-[RELATES_TO {
+    rel_type:      string  (semantic classifier, e.g., "supports", "contradicts", "measures")
+    description:   string  (human-readable summary of this specific relationship)
+    properties:    object  (flexible, rel_type-specific details)
+  }]->(EntityB)
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  COMMON rel_type VALUES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ENTITY ↔ ENTITY:
+    associated_with, part_of, owns, operates, competes_with, partners_with,
+    founded_by, leads, located_in, employs, produces, acquires, funds, regulates
+
+  ENTITY ↔ CONCEPT:
+    exemplifies, represents, applies, discusses, challenges, advances,
+    is_subject_of, related_to, specialises_in
+
+  ENTITY ↔ EVENT:
+    participates_in, caused, was_affected_by, announced, organised, attended,
+    triggered, responded_to
+
+  ENTITY ↔ CLAIM:
+    makes, refutes, supports, is_subject_of, is_author_of
+
+  ENTITY ↔ METRIC:
+    measured_by, achieves, reported, is_characterised_by
+
+  ENTITY ↔ SOURCE:
+    cites, referenced_in, authored_by, published_by, regulated_by
+
+  CONCEPT ↔ CONCEPT:
+    related_to, underpins, contrasts_with, extends, generalises, specialises,
+    enables, challenges, complements, leads_to
+
+  CONCEPT ↔ CLAIM:
+    central_to, supports, is_about, challenged_by, instantiates
+
+  CONCEPT ↔ EVENT:
+    exemplified_by, relevant_to, triggered_by, changed_by
+
+  CONCEPT ↔ METRIC:
+    quantified_by, measured_through
+
+  CLAIM ↔ CLAIM:
+    supports, contradicts, qualifies, strengthens, weakens, implies
+
+  CLAIM ↔ METRIC:
+    supported_by, quantified_by, evidence_for, inconsistent_with
+
+  CLAIM ↔ SOURCE:
+    sourced_from, cited_in, derived_from, challenged_by
+
+  CLAIM ↔ EVENT:
+    triggered_by, about, motivated_by, illustrated_by
+
+  METRIC ↔ METRIC:
+    compared_to, derived_from, component_of, trend_relative_to
+
+  METRIC ↔ SOURCE:
+    sourced_from, published_in, measured_by
+
+  EVENT ↔ EVENT:
+    preceded_by, caused, led_to, concurrent_with, part_of, contradicts
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXTRACTION RULES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. EXPLICIT AND IMPLICIT
+     Extract both directly stated relationships ("GDP grew 3% according to the IMF")
+     and those clearly implied by context ("The policy was introduced after the crisis" → EVENT caused EVENT).
+
+  2. MULTIPLE EDGES ALLOWED
+     If two entities have multiple distinct relationships, create multiple edges.
+
+  3. CLAIM STRUCTURE IS CORE
+     For general documents, the most important graph structure is often:
+     ENTITY makes CLAIM, CLAIM is supported_by METRIC, CLAIM is sourced_from SOURCE.
+     Always look for this chain.
+
+  4. DIRECTION MATTERS
+     Pay close attention to direction.
+     "ENTITY A leads ENTITY B" is different from "ENTITY B leads ENTITY A".
+
+  5. PROPERTIES MAP
+     The properties object is flexible and rel_type-specific. Examples:
+
+     For "supported_by": { evidence_type: string, strength: "strong|weak|indirect" }
+     For "contradicts": { basis: string, implication: string }
+     For "measures": { metric: string, value: string, period: string }
+     For "part_of": { relationship_type: string }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of relationship objects:
+
+  {
+    "source_id":     string,  // id of EntityA
+    "source_name":   string,  // name of EntityA
+    "target_id":     string,  // id of EntityB
+    "target_name":   string,  // name of EntityB
+    "rel_type":      string,  // semantic classifier
+    "description":   string,  // human-readable summary
+    "properties":    object,  // rel_type-specific properties
+    "context":       string,  // verbatim text context from which relationship is derived
+    "bidirectional": boolean  // is this relationship two-way?
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ Does each entity have AT LEAST one relationship?
+    □ All meaningful relationships captured?
+    □ CLAIM→METRIC and CLAIM→SOURCE chains captured?
+    □ ENTITY→CLAIM authorship captured where present?
+    □ rel_type values are consistent across document?
+    □ Descriptions are specific to this relationship instance?
+    □ Direction of relationships is correct?
+    □ Bidirectional flag is correct?
+
+  Extract all meaningful relationships between the __list_of_entities__ from the __text__ below.
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __list_of_entities__
+  {entities_list}
+
+  __text__
+  {text}
