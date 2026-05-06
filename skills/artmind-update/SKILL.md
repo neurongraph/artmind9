@@ -96,6 +96,22 @@ Ask: "Anything else to add to this session?"
 - If the user's input has no extractable entities, report this clearly and ask if they want to rephrase.
 - If extraction returns many entities, present all candidate batches in a single message grouped by entity.
 
+## Resolving Similar Nodes
+
+If during an update session you notice similar entity names that should be merged (e.g., "Alice" vs "Alice Smith" or "Project Alpha" vs "Alpha Project"), use the `refine-graph` command with the `--filter` option to detect and resolve duplicates:
+
+```bash
+uv run artmind ingest refine-graph --domain <domain> --filter "<name1>,<name2>,..." --dry-run --output merges.json
+```
+
+This filters merge detection to only the specified entity names (comma-separated). Review the proposals in `merges.json`, then apply:
+
+```bash
+uv run artmind ingest refine-graph --from-file merges.json
+```
+
+**Workflow**: During candidate resolution in an update, if you spot similar nodes that should be merged, note the entity names → use refine-graph with `--filter` to focus detection → merge → continue with the update.
+
 ## Export Reference
 
 To dump all user-added knowledge to markdown (outside this skill, via CLI):

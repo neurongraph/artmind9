@@ -245,6 +245,18 @@ uv run artmind ingest refine-graph --dry-run --domain fiction
 uv run artmind ingest refine-graph --from-file refine/fiction_proposals.json
 ```
 
+**Focused refinement with `--filter`**: If you've spotted specific similar entities during an update session that should be merged, use the `--filter` option to focus merge detection on those names:
+
+```bash
+# dry-run for specific entities
+uv run artmind ingest refine-graph --domain fiction --filter "Holmes,Watson,Moriarty" --dry-run --output merges.json
+
+# review merges.json, then apply
+uv run artmind ingest refine-graph --from-file merges.json
+```
+
+The `--filter` option accepts comma-separated entity names (case-insensitive substring match) and narrows the merge candidates to only those entities, useful when you want to resolve duplicates without analyzing the entire domain.
+
 ### Remove a document
 
 ```bash

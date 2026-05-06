@@ -141,6 +141,7 @@ def apply_merges(proposed_merges: dict[str, str], domain: str | None) -> dict:
 
 def refine_graph(
     domain: str | None,
+    name_filter: str | None,
     model: str,
     similarity_threshold: float,
     dry_run: bool,
@@ -172,7 +173,25 @@ def refine_graph(
 
     # Fetch distinct entity names from the graph
     with neo4j_session() as session:
-        if domain:
+        name_filters = [n.strip() for n in name_filter.split(",")] if name_filter else []
+        if name_filters:
+            # Use exact match for each filtered name (case-insensitive via CONTAINS)
+            if domain:
+                res = session.run(
+                    f"""MATCH (e:{ENTITY_NODE_LABEL} {{domain: $domain}})
+                    WHERE any(name IN $name_filters WHERE toLower(e.name) CONTAINS toLower(name))
+                    RETURN DISTINCT e.name AS name""",
+                    domain=domain,
+                    name_filters=name_filters,
+                )
+            else:
+                res = session.run(
+                    """MATCH (e:Entity)
+                    WHERE any(name IN $name_filters WHERE toLower(e.name) CONTAINS toLower(name))
+                    RETURN DISTINCT e.name AS name""",
+                    name_filters=name_filters,
+                )
+        elif domain:
             res = session.run(
                 f"MATCH (e:{ENTITY_NODE_LABEL} {{domain: $domain}}) RETURN DISTINCT e.name AS name",
                 domain=domain,

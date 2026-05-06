@@ -406,6 +406,12 @@ def ingest_write_to_graph(document_name: str, domain: str) -> None:
 @ingest.command("refine-graph")
 @click.option("--domain", default=None, help="Restrict to entities in this domain (default: all domains)")
 @click.option(
+    "--filter",
+    "name_filter",
+    default=None,
+    help="Filter entities by name (comma-separated for multiple). Default: all entities in domain",
+)
+@click.option(
     "--model",
     default=None,
     help="LLM model for merge decisions (default: ARTMIND_KG_LLM_MODEL env var)",
@@ -439,6 +445,7 @@ def ingest_write_to_graph(document_name: str, domain: str) -> None:
 )
 def ingest_refine_graph(
     domain: str | None,
+    name_filter: str | None,
     model: str | None,
     threshold: float,
     dry_run: bool,
@@ -471,6 +478,7 @@ def ingest_refine_graph(
 
     report = refine_graph(
         domain=domain,
+        name_filter=name_filter,
         model=resolved_model,
         similarity_threshold=threshold,
         dry_run=dry_run,
