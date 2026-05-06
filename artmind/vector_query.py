@@ -1,4 +1,5 @@
 import ollama
+from neo4j.exceptions import ClientError
 
 from artmind.graph_query import neo4j_session, serialize_record, strip_embeddings
 from utils.functions import load_env, log_llm_call
@@ -68,10 +69,16 @@ def vector_search(domain: str, question: str, topK: int = 5) -> dict:
             strip_embeddings(serialize_record(record))
             for record in session.run(cypher_chunks, **params)
         ]
-        chat_rows = [
-            strip_embeddings(serialize_record(record))
-            for record in session.run(cypher_chats, **params)
-        ]
+        try:
+            chat_rows = [
+                strip_embeddings(serialize_record(record))
+                for record in session.run(cypher_chats, **params)
+            ]
+        except ClientError as e:
+            if "IndexNotFound" in str(e) or "index" in str(e).lower():
+                chat_rows = []
+            else:
+                raise
 
     all_rows = sorted(chunk_rows + chat_rows, key=lambda r: r.get("score", 0), reverse=True)[:int(topK)]
 
