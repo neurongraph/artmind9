@@ -2,7 +2,7 @@
 
 > A knowledge system that synchronizes with your mind using artificial intelligence.
 
-artmind ingests documents (PDFs, Markdown, text), extracts entities, properties, and relationships using a local LLM, stores them in a Neo4j knowledge graph with vector embeddings, and lets you query them — either with structured graph patterns via the CLI or through natural language using a Claude Code skill.
+artmind ingests documents (PDFs, Markdown, text), extracts entities, properties, and relationships using a local LLM, stores them in a Neo4j knowledge graph with vector embeddings, and lets you query and update them — either with structured graph patterns via the CLI or through natural language using Claude Code skills.
 
 Everything runs locally: no cloud APIs, no telemetry.
 
@@ -11,20 +11,21 @@ Everything runs locally: no cloud APIs, no telemetry.
 ## How it works
 
 ```
-Document (PDF/MD/text)
-    ↓ Docling (PDF → Markdown)
-    ↓ Chunking
-    ↓ LLM extraction (entities, properties, relationships)
-    ↓ Embeddings
-    ↓
-Neo4j knowledge graph + vector index
+Document (PDF/MD/text)                    Natural language input
+    ↓ Docling (PDF → Markdown)                ↓ artmind update draft
+    ↓ Chunking                                ↓ LLM extraction (entities, relationships)
+    ↓ LLM extraction                          ↓ Candidate disambiguation
+    ↓ Embeddings                              ↓ artmind update confirm
+    ↓                                         ↓ Embeddings
+    ↓                                         ↓
+Neo4j knowledge graph + vector indexes (DocChunk + UserChat)
     ↓
 CLI query (graph patterns + vector search)
     ↓
-artmind-query Claude Code skill (natural-language answers)
+artmind-query / artmind-update Claude Code skills
 ```
 
-Ingestion is domain-scoped. A **domain** is a YAML schema that tells the LLM what entity types and relationship types to look for (e.g. `fiction`, `technical_paper`, `personal_journal`). Six schemas are bundled; you can add your own.
+Ingestion and updates are domain-scoped. A **domain** is a YAML schema that tells the LLM what entity types and relationship types to look for (e.g. `fiction`, `technical_paper`, `personal_journal`). Six schemas are bundled; you can add your own.
 
 ---
 
@@ -32,7 +33,7 @@ Ingestion is domain-scoped. A **domain** is a YAML schema that tells the LLM wha
 
 | Requirement | Notes |
 |---|---|
-| Python >= 3.14.4 |You might need to install it using `pyenv install 3.14.4` |
+| Python >= 3.14.4 | You might need to install it using `pyenv install 3.14.4` |
 | [uv](https://docs.astral.sh/uv/) | Package manager — `brew install uv` or `pip install uv` |
 | [Ollama](https://ollama.ai) | Local LLM inference — runs models for extraction and embeddings |
 | [Neo4j](https://neo4j.com/download/) >= 5.x | Graph database with the **APOC** plugin installed |
@@ -104,6 +105,9 @@ ARTMIND_KG_EMBEDDING_DIMENSIONS=768
 # Image descriptions (used when ingesting PDFs that contain images)
 ARTMIND_IMAGE_MODEL=gemma4:e4b
 ARTMIND_OLLAMA_TIMEOUT=600
+
+# Your identity for update audit trails (optional)
+ARTMIND_USER=you@example.com
 ```
 
 Verify the CLI is available:
@@ -111,6 +115,28 @@ Verify the CLI is available:
 ```bash
 uv run artmind --help
 ```
+
+---
+
+## Setup (first run)
+
+Before ingesting or updating, initialize the SQLite tables and Neo4j constraints/indexes:
+
+```bash
+uv run artmind setup
+```
+
+Output:
+```
+SQLite:               ok
+Neo4j constraints:    document_id, chunk_id, user_chat_id
+Neo4j indexes:        entity_lookup
+Neo4j vector indexes: chunk_embedding (dim=768), user_chat_embedding (dim=768)
+
+Setup complete.
+```
+
+This is **idempotent** — safe to run at any time. Run it again if you ever hit a `Neo4j IndexNotFound` error after a fresh database or schema change.
 
 ---
 
@@ -227,6 +253,90 @@ uv run artmind docs clean --domain fiction document_name
 
 ---
 
+## Updating the knowledge graph
+
+Beyond ingesting documents, you can add facts directly in natural language — atomic facts, passages, todos, or pasted text. Each update is extracted, disambiguated against existing entities, and written to Neo4j as a `UserChat` node with full audit metadata.
+
+### Draft — extract and find candidates
+
+```bash
+uv run artmind update draft \
+  --domain fiction \
+  --text "Holmes and Watson first met at St Bartholomew's Hospital in 1881."
+```
+
+Returns JSON with:
+- `session_id` — carry this for subsequent turns in the same session
+- `extracted_entities` — entities the LLM found, each with a `temp_id`
+- `extracted_relationships` — relationships between them
+- `candidates_per_entity` — existing graph nodes that might match each entity
+
+### Confirm — write to graph
+
+Once you've resolved which extracted entities map to existing nodes (link), should be created new (create), or skipped:
+
+```bash
+uv run artmind update confirm \
+  --session <session_id> \
+  --resolutions '[
+    {"entity_temp_id": "e0", "action": "link",   "node_id": "<existing_node_id>"},
+    {"entity_temp_id": "e1", "action": "create",  "node_id": null},
+    {"entity_temp_id": "e2", "action": "skip",    "node_id": null}
+  ]'
+```
+
+Returns: `{nodes_created, nodes_updated, relationships_written, user_chat_id}`
+
+### History — list update sessions
+
+```bash
+uv run artmind update history
+uv run artmind update history --domain fiction --limit 10
+```
+
+### Export — dump UserChat nodes to markdown
+
+```bash
+# one file per session, in chronological order
+uv run artmind update export --format sequential --output data/chats/
+
+# one file per entity, showing all chats that mention it
+uv run artmind update export --format by-entity --output data/chats/ --domain fiction
+```
+
+### Claude Code skill: `artmind-update`
+
+The conversational way to update the graph. The skill handles domain detection, presents candidates in a single batch, and loops until you're done:
+
+```
+/artmind-update
+```
+
+Example exchange:
+
+```
+You: /artmind-update
+I want to add some notes about the Holmes stories.
+
+Skill: Detected domain: fiction. Starting update session.
+
+You: Holmes and Watson first met at Bart's hospital in 1881.
+
+Skill: Found 2 entities:
+  "Holmes" — matches: 1. Sherlock Holmes (CHARACTER) ✓   2. Create new
+  "Watson" — matches: 1. Dr. Watson (CHARACTER) ✓        2. Create new
+  "Bart's hospital" — no matches, will create new.
+
+  Please confirm (reply with: link 1, link 1, create):
+
+You: link 1, link 1, create
+
+Skill: Written. 1 node created, 2 linked, 1 relationship written.
+       Anything else to add?
+```
+
+---
+
 ## Querying
 
 ### Graph queries
@@ -249,14 +359,16 @@ uv run artmind query graph entity_listing --domain fiction --nameFilter "Holmes"
 | Pattern | Purpose | Key options |
 |---|---|---|
 | `pattern1` | List all entities of a class | `--entityClass` |
-| `pattern2` | Properties of named entities | `--entityNameList` |
-| `pattern3` | Properties + relationship summary | `--entityNameList` |
-| `pattern4` | Full one-hop neighborhood | `--entityClass`, `--entityName` |
+| `pattern2` | Properties of named entities + document/chat sources | `--entityNameList` |
+| `pattern3` | Properties + relationship summary + sources | `--entityNameList` |
+| `pattern4` | Full one-hop neighborhood + sources | `--entityClass`, `--entityName` |
 | `pattern5` | Paths between two entities | `--entityClass1/2`, `--entityName1/2`, `--mode shortest\|all` |
 | `pattern6` | Direct relationships between two entities | `--entityName1`, `--entityName2` |
 | `pattern7` | Search entities by name/description fragment | `--searchTerm` |
 | `pattern8` | Entities of class X connected to entity Y | `--entityClass`, `--entityName` |
 | `pattern9` | Top-N entities by connection degree | `--entityClass`, `--topN` |
+
+Patterns 2, 3, and 4 include source attribution — each row returns `doc_sources` (document chunks that mention the entity) and `chat_sources` (user chat entries that mention it).
 
 Examples:
 
@@ -264,7 +376,7 @@ Examples:
 # list all locations in a fiction domain
 uv run artmind query graph pattern1 --domain fiction --entityClass LOCATION
 
-# get properties of a named character
+# get properties of a named character (with document and chat sources)
 uv run artmind query graph pattern2 --domain fiction --entityNameList "Sherlock Holmes"
 
 # full neighborhood of a character
@@ -284,7 +396,7 @@ All graph commands emit JSON. Pass `--compact` for single-line output.
 
 ### Vector search
 
-Search source text chunks by semantic similarity:
+Search source text by semantic similarity. Results include both document chunks (`source_type: "document"`) and user chat entries (`source_type: "user_chat"`), merged and ranked by score:
 
 ```bash
 uv run artmind query vector --domain fiction --topK 5 "Where did Holmes first meet Irene Adler?"
@@ -292,33 +404,33 @@ uv run artmind query vector --domain fiction --topK 5 "Where did Holmes first me
 
 ---
 
-## Claude Code skill: `artmind-query`
+## Claude Code skills
 
-artmind ships with a Claude Code skill that lets you ask natural-language questions over any ingested domain directly from Claude Code.
+artmind ships with two Claude Code skills, both located under `skills/`.
 
-### Setup
+### `artmind-query`
 
-The skill file is at `.claude/skills/artmind-query/SKILL.md`. Claude Code picks it up automatically when you open the project.
-
-### Usage
-
-In a Claude Code session within this project, invoke the skill:
+Ask natural-language questions over any ingested domain. Claude inspects the domain's graph metadata and entity listing, selects the appropriate query pattern(s), runs the CLI commands, and synthesizes a grounded answer using only the returned data.
 
 ```
 /artmind-query
 ```
 
-Then provide a domain and your question. Claude will inspect the domain's graph metadata and entity listing, select the appropriate query pattern(s), run the CLI commands, and synthesize a grounded answer using only the returned data.
-
-Example exchange:
-
+Example:
 ```
-You: /artmind-query
 Domain: fiction
 Question: Who are the most connected characters, and what do they have in common?
 ```
 
 The skill is grounded — it will not invent facts not present in the knowledge graph.
+
+### `artmind-update`
+
+Add and update facts through conversational natural language. The skill detects the domain from your input, runs `artmind update draft` to extract entities and find candidates, presents disambiguation choices in one batch, then runs `artmind update confirm` to write to the graph. Multi-turn — all turns in a session share the same `session_id`.
+
+```
+/artmind-update
+```
 
 ---
 
@@ -348,21 +460,26 @@ uv run --group dev pytest test/ -v
 ## Project layout
 
 ```
-artmind/           core package
-  cli.py           Click command definitions
-  ingest.py        ingestion pipeline
-  graph_query.py   Neo4j graph query layer (9 patterns)
-  vector_query.py  Neo4j vector search
-  refine_graph.py  entity resolution
-  worker.py        background ingestion worker
-  jobs.py          async job management
-  db.py            SQLite registry schema
+artmind/                core package
+  cli.py                Click command definitions
+  setup.py              DB + Neo4j index initialization (artmind setup)
+  ingest.py             document ingestion pipeline
+  extraction.py         shared LLM prompt-build and parse primitives
+  update.py             natural-language update backend
+  graph_query.py        Neo4j graph query layer (9 patterns)
+  vector_query.py       Neo4j vector search (DocChunk + UserChat)
+  refine_graph.py       entity resolution
+  worker.py             background ingestion worker
+  jobs.py               async job management
+  db.py                 SQLite schema (documents, jobs, update sessions/drafts)
 
-domains/schemas/   built-in domain YAML schemas
-.claude/skills/    artmind-query Claude Code skill
-test/              pytest test suite
-paths.py           central path configuration
-justfile           task runner recipes
+domains/schemas/        built-in domain YAML schemas
+skills/
+  artmind-query/        Claude Code skill — natural-language graph queries
+  artmind-update/       Claude Code skill — natural-language graph updates
+test/                   pytest test suite
+paths.py                central path configuration
+justfile                task runner recipes
 ```
 
 ---
