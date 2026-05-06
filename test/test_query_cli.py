@@ -231,20 +231,20 @@ def test_compact_json_output(runner):
     assert result.output.strip() == json.dumps(payload, separators=(",", ":"))
 
 
-def test_vector_cli_dispatches_and_outputs_json(runner):
+def test_vector_text_cli_dispatches_and_outputs_json(runner):
     payload = {
         "domain": "fiction",
-        "query_type": "vector",
+        "query_type": "vector_text",
         "question": "Where did Holmes go?",
         "parameters": {"topK": 3},
         "rows": [],
     }
-    with patch("artmind.cli.vector_query.vector_search", return_value=payload) as query:
+    with patch("artmind.cli.vector_query.vector_text_search", return_value=payload) as query:
         result = runner.invoke(
             cli,
             [
                 "query",
-                "vector",
+                "vector_text",
                 "--domain",
                 "fiction",
                 "--topK",

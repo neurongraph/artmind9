@@ -20,7 +20,7 @@ Document (PDF/MD/text)                    Natural language input
     ↓                                         ↓
 Neo4j knowledge graph + vector indexes (DocChunk + UserChat)
     ↓
-CLI query (graph patterns + vector search)
+CLI query (graph patterns + combined vector+text search via RRF)
     ↓
 artmind-query / artmind-update Claude Code skills
 ```
@@ -406,13 +406,20 @@ uv run artmind query graph pattern9 --domain fiction --entityClass CHARACTER --t
 
 All graph commands emit JSON. Pass `--compact` for single-line output.
 
-### Vector search
+### Vector + Text search (combined)
 
-Search source text by semantic similarity. Results include both document chunks (`source_type: "document"`) and user chat entries (`source_type: "user_chat"`), merged and ranked by score:
+Search source text using both semantic similarity (vector embeddings) and keyword matching (full-text). Results are combined using Reciprocal Rank Fusion to balance both relevance signals. Returns both document chunks (`source_type: "document"`) and user chat entries (`source_type: "user_chat"`):
 
 ```bash
-uv run artmind query vector --domain fiction --topK 5 "Where did Holmes first meet Irene Adler?"
+uv run artmind query vector_text --domain fiction --topK 5 "Where did Holmes first meet Irene Adler?"
 ```
+
+This single command automatically handles:
+- Semantic similarity via vector embeddings
+- Exact phrase and keyword matches via full-text search
+- Balanced ranking via Reciprocal Rank Fusion (RRF)
+- Sparse results — reduced chance of getting zero hits
+- Semantic drift — keyword matching catches when embeddings miss the intent
 
 ---
 
@@ -479,7 +486,7 @@ artmind/                core package
   extraction.py         shared LLM prompt-build and parse primitives
   update.py             natural-language update backend
   graph_query.py        Neo4j graph query layer (9 patterns)
-  vector_query.py       Neo4j vector search (DocChunk + UserChat)
+  vector_query.py       Neo4j vector search, full-text search, and RRF combining (DocChunk + UserChat)
   refine_graph.py       entity resolution
   worker.py             background ingestion worker
   jobs.py               async job management

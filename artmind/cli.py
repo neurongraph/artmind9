@@ -681,14 +681,14 @@ def graph_pattern9(
     _run_graph_pattern("pattern9", domain, compact, question, entityClass=entity_class, topN=top_n)
 
 
-@query.command("vector")
+@query.command("vector_text")
 @click.option("--domain", required=True, help="Domain to query")
 @click.option("--topK", "top_k", type=int, default=5, show_default=True)
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question")
-def vector(domain: str, top_k: int, compact: bool, question: str) -> None:
-    """Search DocChunk nodes by embedding similarity."""
-    _echo_json(vector_query.vector_search(domain, question, top_k), compact)
+def vector_text(domain: str, top_k: int, compact: bool, question: str) -> None:
+    """Search source text using vector embeddings and keyword matching combined via RRF."""
+    _echo_json(vector_query.vector_text_search(domain, question, top_k), compact)
 
 
 # ── artmind docs ───────────────────────────────────────────────────────────────
@@ -825,6 +825,7 @@ def setup():
         click.echo("Neo4j constraints:    " + ", ".join(result["neo4j_constraints"]))
         click.echo("Neo4j indexes:        " + ", ".join(result["neo4j_indexes"]))
         click.echo("Neo4j vector indexes: " + ", ".join(result["neo4j_vector_indexes"]))
+        click.echo("Neo4j fulltext indexes: " + ", ".join(result.get("neo4j_fulltext_indexes", [])))
         click.echo("\nSetup complete.")
     except Exception as e:
         raise click.ClickException(str(e))

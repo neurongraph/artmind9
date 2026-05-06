@@ -28,6 +28,15 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
         f"OPTIONS {{indexConfig: {{`vector.dimensions`: {embedding_dim}, "
         f"`vector.similarity_function`: 'cosine'}}}}"
     )
+    try:
+        session.run(
+            "CREATE FULLTEXT INDEX chunk_text_ft IF NOT EXISTS FOR (c:DocChunk) ON EACH [c.text]"
+        )
+        session.run(
+            "CREATE FULLTEXT INDEX user_chat_text_ft IF NOT EXISTS FOR (c:UserChat) ON EACH [c.raw_text]"
+        )
+    except Exception:
+        pass
 
 
 def setup_all() -> dict:
@@ -52,4 +61,5 @@ def setup_all() -> dict:
             f"chunk_embedding (dim={embedding_dim})",
             f"user_chat_embedding (dim={embedding_dim})",
         ],
+        "neo4j_fulltext_indexes": ["chunk_text_ft", "user_chat_text_ft"],
     }

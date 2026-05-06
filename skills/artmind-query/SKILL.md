@@ -113,17 +113,21 @@ Rank top entities of a class by graph degree:
 uv run artmind query graph pattern9 --domain <domain> --entityClass <LABEL> --topN 5 "<question>"
 ```
 
-Search source text chunks, vector search:
+Search source text by combining vector embeddings and keyword matching:
 
 ```bash
-uv run artmind query vector --domain <domain> --topK 5 "<question>"
+uv run artmind query vector_text --domain <domain> --topK 5 "<question>"
 ```
+
+This command automatically balances semantic similarity (vector) and keyword matching (full-text) using Reciprocal Rank Fusion to produce optimal results.
 
 ## Routing
 
 Prefer graph queries for questions about entity lists, named entities, explicit relationships, graph neighborhoods, connected entities, and rankings.
 
-Prefer vector queries for source-text evidence, narrative details, "where/when/how did X happen" questions, ambiguous facts not exposed in metadata, or cases where graph output is too thin.
+Prefer `vector_text` search for source-text evidence, narrative details, "where/when/how did X happen" questions, ambiguous facts not exposed in metadata, or cases where graph output is too thin.
+
+`vector_text` automatically combines semantic embeddings and keyword matching using Reciprocal Rank Fusion, so it handles both semantic drift and keyword-specific queries without manual fallback logic.
 
 Use hybrid retrieval when the graph identifies candidate entities or relationships but source text is needed to explain context. In hybrid answers, prioritize graph structure for entity/relationship facts and chunk text for narrative evidence.
 
@@ -141,8 +145,8 @@ Use hybrid retrieval when the graph identifies candidate entities or relationshi
 
 - If `pattern6` returns no rows, run `pattern5 --mode shortest`.
 - If `pattern7` returns multiple plausible candidates, choose the best name/description match and mention ambiguity when answering.
-- If graph results are empty or insufficient, run vector search.
-- If vector results are unrelated or weak, say the available artmind data does not answer the question.
+- If graph results are empty or insufficient, run `vector_text` search.
+- If `vector_text` results are sparse or weak, say the available artmind data does not answer the question.
 
 ## Answer Style
 

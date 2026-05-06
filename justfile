@@ -78,6 +78,6 @@ query-graph-top domain entity_class top_n="5":
 query-graph-rel domain entity1 entity2:
     uv run artmind query graph pattern6 --domain {{ domain }} --entityName1 "{{ entity1 }}" --entityName2 "{{ entity2 }}"
 
-# vector search chunks  (usage: just query-vector <domain> "question")
-query-vector domain question top_k="5":
-    uv run artmind query vector --domain {{ domain }} --topK {{ top_k }} "{{ question }}"
+# search chunks by vector + text (RRF combined)  (usage: just query-text <domain> "question")
+query-text domain question top_k="5":
+    uv run artmind query vector_text --domain {{ domain }} --topK {{ top_k }} "{{ question }}"
