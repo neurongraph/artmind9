@@ -681,6 +681,8 @@ def _upsert_entity(session, entity: dict, extra_props: dict | None) -> None:
 
     if rec:
         merged = _merge_props_dicts(dict(rec["p"]), incoming)
+        if "id" not in merged:
+            merged["id"] = uuid.uuid4().hex
         session.run(
             "MATCH (n:Entity {name: $name, entity_class: $ec, domain: $domain}) SET n = $props",
             name=name,
@@ -689,6 +691,7 @@ def _upsert_entity(session, entity: dict, extra_props: dict | None) -> None:
             props=merged,
         )
     else:
+        incoming["id"] = uuid.uuid4().hex
         label_str = f"{_sanitize_label(entity_class)}:Entity"
         session.run(
             f"CREATE (n:{label_str}) SET n = $props",

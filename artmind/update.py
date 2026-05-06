@@ -108,7 +108,7 @@ def find_candidates(
     WHERE e.domain = $domain
       AND (toLower(e.name) CONTAINS toLower($name)
            OR toLower($name) CONTAINS toLower(e.name))
-    RETURN e.id AS node_id, e.name AS name, e.entity_class AS entity_class,
+    RETURN elementId(e) AS node_id, e.name AS name, e.entity_class AS entity_class,
            e.description AS context_snippet,
            CASE WHEN toLower(e.name) = toLower($name) THEN 1.0 ELSE 0.5 END AS match_score
     ORDER BY match_score DESC, size(e.name) ASC
@@ -118,7 +118,7 @@ def find_candidates(
     MATCH (e:Entity)
     WHERE toLower(e.name) CONTAINS toLower($name)
        OR toLower($name) CONTAINS toLower(e.name)
-    RETURN e.id AS node_id, e.name AS name, e.entity_class AS entity_class,
+    RETURN elementId(e) AS node_id, e.name AS name, e.entity_class AS entity_class,
            e.description AS context_snippet,
            CASE WHEN toLower(e.name) = toLower($name) THEN 1.0 ELSE 0.5 END AS match_score
     ORDER BY match_score DESC
@@ -151,13 +151,13 @@ def _ensure_user_chat_schema(session, embedding_dim: int = 768) -> None:
 
 
 def _update_node_in_session(
-    session, node_id: str, new_properties: dict, user_id: str, now: str
+    session, name: str, entity_class: str, domain: str, new_properties: dict,
+    user_id: str, now: str
 ) -> None:
     props = _flatten_props({**new_properties, "updated_at": now, "updated_by": user_id})
     session.run(
-        "MATCH (e:Entity) WHERE e.id = $node_id SET e += $props",
-        node_id=node_id,
-        props=props,
+        "MATCH (e:Entity {name: $name, entity_class: $ec, domain: $domain}) SET e += $props",
+        name=name, ec=entity_class, domain=domain, props=props,
     )
 
 
@@ -210,6 +210,7 @@ def write_user_chat(
             if action == "create":
                 label_str = f"{_sanitize_label(entity_data['entity_class'])}:Entity"
                 props = _flatten_props({
+                    "id": uuid.uuid4().hex,
                     "name": entity_data["name"],
                     "entity_class": entity_data["entity_class"],
                     "domain": domain,
@@ -225,7 +226,8 @@ def write_user_chat(
 
             elif action == "link":
                 _update_node_in_session(
-                    session, res["node_id"],
+                    session,
+                    entity_data["name"], entity_data["entity_class"], domain,
                     entity_data.get("properties", {}), user_id, now,
                 )
                 entity_names[temp_id] = entity_data["name"]
