@@ -13,6 +13,7 @@ from loguru import logger
 
 from artmind import graph_query, vector_query
 import artmind.update as update_backend
+from artmind.setup import setup_all
 from artmind.dashboard import run_dashboard
 from artmind.ingest import (
     _build_file_result_from_db,
@@ -802,3 +803,20 @@ def update_export(domain: str | None, fmt: str, output: str):
     for path in written:
         click.echo(str(path.name))
     click.echo(f"\nExported {len(written)} file(s) to {output_dir}")
+
+
+# ── artmind setup ──────────────────────────────────────────────────────────────
+
+
+@cli.command("setup")
+def setup():
+    """Initialize SQLite tables and Neo4j constraints/indexes (idempotent)."""
+    try:
+        result = setup_all()
+        click.echo("SQLite:               " + result["sqlite"])
+        click.echo("Neo4j constraints:    " + ", ".join(result["neo4j_constraints"]))
+        click.echo("Neo4j indexes:        " + ", ".join(result["neo4j_indexes"]))
+        click.echo("Neo4j vector indexes: " + ", ".join(result["neo4j_vector_indexes"]))
+        click.echo("\nSetup complete.")
+    except Exception as e:
+        raise click.ClickException(str(e))
