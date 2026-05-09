@@ -1,6 +1,19 @@
 name: project_governance
 description: Project and programme governance documents that track delivery progress, workstream status, risks, issues, decisions, and actions. Includes status reports, delivery dashboards, steering committee packs, monthly governance presentations, and programme review documents from consulting and technology delivery engagements.
 
+entity_types:
+  - PROJECT
+  - MILESTONE
+  - PERSON
+  - ORGANIZATION
+  - RISK
+  - ISSUE
+  - DECISION
+  - ACTION
+  - TECHNOLOGY
+  - OBJECT
+  - LOCATION
+
 entities_prompt: |
   You are a Knowledge Graph extraction engine specialised in project governance document analysis.
   Your job is to read a passage from a governance document and identify all significant entities.
@@ -46,6 +59,14 @@ entities_prompt: |
     A named platform, system, tool, framework, or technical component referenced in the project context — either being used, built, migrated, or replaced.
     example type values: platform | legacy_system | cloud_platform | database | framework | tool | api | service | data_warehouse | automation_tool | integration
 
+  OBJECT
+    Any physical item, document, deliverable, or tangible asset relevant to the project governance context.
+    example type values: deliverable | document | tool | equipment | asset | resource | report | contract
+
+  LOCATION
+    Any place, site, office, or geographic area referenced in the governance context — where work is performed, teams are based, or delivery takes place.
+    example type values: office | site | country | region | city | facility | remote_location | data_centre
+
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -83,7 +104,7 @@ entities_prompt: |
                                    // e.g., "prj_001", "mst_002", "per_003"
     "name":              string,   // canonical name
     "aliases":           array,    // abbreviations and alternate names
-    "entity_class":      string,   // PROJECT | MILESTONE | PERSON | ORGANIZATION | RISK | ISSUE | DECISION | ACTION | TECHNOLOGY
+    "entity_class":      string,   // PROJECT | MILESTONE | PERSON | ORGANIZATION | RISK | ISSUE | DECISION | ACTION | TECHNOLOGY | OBJECT | LOCATION
     "type":              string,   // the subtype from lists above
     "description":       string,   // 2-4 sentence summary specific to this document
     "context":           array,    // verbatim text snippets where entity appears
@@ -190,6 +211,18 @@ properties_prompt: |
     - current_status (in_use | being_migrated | being_replaced | being_built | decommissioning)
     - role_in_project (source | target | enabler | component)
     - version or generation if mentioned
+
+  For OBJECT, consider:
+    - object_type (deliverable | document | equipment | etc.)
+    - owner_or_responsible (person or team)
+    - status (in_progress | complete | pending | at_risk)
+    - related_milestone (if applicable)
+    - version (if versioned)
+
+  For LOCATION, consider:
+    - location_type (office | site | country | etc.)
+    - relevance (where work happens | where team is based | delivery location)
+    - timezone (if relevant to governance)
 
   KEY RULES FOR PROPERTIES:
     1. Use clear, readable key names (e.g., "rag_status" not "RAG")
@@ -333,6 +366,24 @@ relationships_prompt: |
 
   TECHNOLOGY ↔ TECHNOLOGY:
     replaces, integrates_with, feeds_into, migrating_to
+
+  OBJECT ↔ PROJECT:
+    produced_by, required_by, documents, part_of
+
+  OBJECT ↔ MILESTONE:
+    due_at, produced_for, marks_completion_of
+
+  OBJECT ↔ PERSON:
+    owned_by, authored_by, reviewed_by, approved_by
+
+  LOCATION ↔ PROJECT:
+    hosts, is_delivery_location_for, operates_in
+
+  LOCATION ↔ PERSON:
+    based_at, works_from, assigned_to
+
+  LOCATION ↔ ORGANIZATION:
+    headquartered_at, operates_from, office_of
 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:

@@ -1,6 +1,18 @@
 name: general
 description: Catch-all domain for documents that do not fit a more specific domain. Suitable for reports, memos, articles, presentations, and miscellaneous content covering any subject. Uses broad entity classes that can capture the essential knowledge structure of virtually any document type.
 
+entity_types:
+  - ENTITY
+  - CONCEPT
+  - EVENT
+  - CLAIM
+  - METRIC
+  - SOURCE
+  - PERSON
+  - OBJECT
+  - ORGANIZATION
+  - LOCATION
+
 entities_prompt: |
   You are a Knowledge Graph extraction engine designed to handle documents of any type.
   Your job is to read a passage from a document and identify all significant entities.
@@ -34,6 +46,22 @@ entities_prompt: |
     A named reference, citation, data provider, publication, or authority that the document draws on or points to.
     example type values: publication | dataset | report | regulation | standard | organisation | expert | survey | database | authority
 
+  PERSON
+    Any named individual referenced in the document — authors, subjects, experts, decision-makers, or people mentioned by name. Use when the entity is clearly an individual person rather than an organisation.
+    example type values: author | subject | expert | decision_maker | official | researcher | spokesperson | executive
+
+  OBJECT
+    Any physical item, product, system, or tangible entity referenced in the document. Use when the entity is clearly a physical object rather than an organisation or abstract concept.
+    example type values: product | system | device | tool | artifact | infrastructure | document_item
+
+  ORGANIZATION
+    Any company, institution, government body, NGO, or formal group referenced in the document. Use instead of ENTITY when the entity is clearly an organisation.
+    example type values: company | government | institution | ngo | standards_body | association | regulator | partnership
+
+  LOCATION
+    Any geographic area, place, site, or address referenced in the document.
+    example type values: country | city | region | site | office | facility | address | market
+
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -51,6 +79,7 @@ entities_prompt: |
   3. CHOOSE THE MOST SPECIFIC CLASS
      If content could fit multiple classes, pick the one that best captures its role in THIS document.
      E.g., "GDP growth rate" is a METRIC, not a CONCEPT. "Inflation" is a CONCEPT, not a METRIC.
+     Prefer PERSON/ORGANIZATION/LOCATION over the generic ENTITY class where applicable.
 
   4. DESCRIPTION QUALITY
      Write descriptions in terms of what THIS document says about the entity.
@@ -75,7 +104,7 @@ entities_prompt: |
                                    // e.g., "ent_001", "con_002", "evt_003"
     "name":              string,   // canonical name
     "aliases":           array,    // abbreviations and alternate names
-    "entity_class":      string,   // ENTITY | CONCEPT | EVENT | CLAIM | METRIC | SOURCE
+    "entity_class":      string,   // ENTITY | CONCEPT | EVENT | CLAIM | METRIC | SOURCE | PERSON | OBJECT | ORGANIZATION | LOCATION
     "type":              string,   // the subtype from lists above
     "description":       string,   // 2-4 sentence summary specific to this document
     "context":           array,    // verbatim text snippets where entity appears
@@ -158,6 +187,30 @@ properties_prompt: |
     - date or recency (if mentioned)
     - relevance (how it is used in the document)
     - how_cited (directly quoted | paraphrased | mentioned)
+
+  For PERSON, consider:
+    - role_in_document (author | subject | expert | official | etc.)
+    - affiliation (organisation they belong to)
+    - significance (why they are mentioned)
+    - expertise (domain or field, if stated)
+
+  For OBJECT, consider:
+    - object_type (product | system | device | etc.)
+    - description (brief physical or functional description)
+    - significance_in_document (why it is mentioned)
+    - owner_or_operator (if stated)
+
+  For ORGANIZATION, consider:
+    - org_type (company | government | institution | etc.)
+    - role_in_document (subject | author | referenced | regulator)
+    - size_or_scale (if mentioned)
+    - geographic_scope (if mentioned)
+
+  For LOCATION, consider:
+    - location_type (country | city | region | site | etc.)
+    - role_in_document (subject | setting | referenced)
+    - geographic_context (continent or country it belongs to, if stated)
+    - significance (why it is mentioned)
 
   KEY RULES FOR PROPERTIES:
     1. Use clear, readable key names (e.g., "role_in_document" not "role_d")
@@ -243,6 +296,33 @@ relationships_prompt: |
 
   ENTITY ↔ SOURCE:
     cites, referenced_in, authored_by, published_by, regulated_by
+
+  PERSON ↔ ORGANIZATION:
+    works_at, founded, leads, cited_by, affiliated_with, represents, regulates
+
+  PERSON ↔ EVENT:
+    participated_in, caused, attended, announced, responded_to
+
+  PERSON ↔ CLAIM:
+    makes, challenges, supports, authored
+
+  PERSON ↔ METRIC:
+    cited, reported, achieved
+
+  PERSON ↔ LOCATION:
+    located_in, visited, operates_in, cited_from
+
+  ORGANIZATION ↔ LOCATION:
+    located_in, operates_in, regulates, serves
+
+  ORGANIZATION ↔ OBJECT:
+    owns, produces, operates, distributes
+
+  OBJECT ↔ LOCATION:
+    located_at, deployed_in, manufactured_in
+
+  OBJECT ↔ METRIC:
+    measured_by, characterised_by
 
   CONCEPT ↔ CONCEPT:
     related_to, underpins, contrasts_with, extends, generalises, specialises,

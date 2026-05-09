@@ -1,6 +1,19 @@
 name: technical_paper
 description: Formal documents presenting research, experiments, theoretical arguments, or technological advancements. Includes journal papers, conference proceedings, white papers, preprints, and technical reports covering methods, findings, models, and concepts.
 
+entity_types:
+  - CONCEPT
+  - METHOD
+  - MODEL
+  - FINDING
+  - DATASET
+  - PERSON
+  - METRIC
+  - APPLICATION
+  - ORGANIZATION
+  - LOCATION
+  - OBJECT
+
 entities_prompt: |
   You are a Knowledge Graph extraction engine specialised in technical and scientific paper analysis.
   Your job is to read a passage from a technical document and identify all significant entities.
@@ -30,7 +43,7 @@ entities_prompt: |
     Any named training corpus, evaluation benchmark, or data collection used or referenced in the paper.
     example type values: training_corpus | benchmark | evaluation_set | curated_dataset | synthetic_dataset | real_world_dataset
 
-  AUTHOR
+  PERSON
     Named researchers, academics, or practitioners who created, co-authored, or are cited in the paper.
     example type values: primary_author | co_author | cited_researcher | lab_representative
 
@@ -41,6 +54,18 @@ entities_prompt: |
   APPLICATION
     A real-world domain, use case, or deployment context in which the paper's ideas are applied or have implications.
     example type values: healthcare | creative_ai | code_generation | education | scientific_discovery | accessibility | finance | robotics | information_retrieval | safety
+
+  ORGANIZATION
+    Any research institution, company, university, or formal group associated with the work — as producer, funder, or named collaborator.
+    example type values: university | research_lab | company | consortium | standards_body | funding_agency | government_body
+
+  LOCATION
+    Any geographic location, country, or region referenced in the paper — where research was conducted, datasets collected, or systems deployed.
+    example type values: country | city | institution_location | deployment_region | research_site
+
+  OBJECT
+    Any physical piece of hardware, equipment, device, or tangible system described or used in the research.
+    example type values: hardware | device | equipment | sensor | compute_cluster | physical_system | robot
 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:
@@ -79,7 +104,7 @@ entities_prompt: |
                                    // e.g., "con_001", "mth_002", "mdl_003"
     "name":              string,   // canonical name
     "aliases":           array,    // abbreviations and alternate names
-    "entity_class":      string,   // CONCEPT | METHOD | MODEL | FINDING | DATASET | AUTHOR | METRIC | APPLICATION
+    "entity_class":      string,   // CONCEPT | METHOD | MODEL | FINDING | DATASET | PERSON | METRIC | APPLICATION | ORGANIZATION | LOCATION | OBJECT
     "type":              string,   // the subtype from lists above
     "description":       string,   // 2-4 sentence analytical summary
     "context":           array,    // verbatim text snippets where entity appears
@@ -156,7 +181,7 @@ properties_prompt: |
     - how_used (training | evaluation | fine_tuning | pre_training)
     - notable_characteristics
 
-  For AUTHOR, consider:
+  For PERSON, consider:
     - affiliation (institution or company)
     - role_in_paper (primary | co-author | cited)
     - area_of_expertise (if inferable from paper)
@@ -173,6 +198,23 @@ properties_prompt: |
     - current_maturity (research | prototype | production)
     - benefit_stated (what the application gains from the paper's contributions)
     - example_system if mentioned
+
+  For ORGANIZATION, consider:
+    - org_type (university | company | research_lab | etc.)
+    - country_or_region (if mentioned)
+    - role_in_paper (conducted_research | funded | collaborated | cited)
+    - affiliation_of (which authors are affiliated)
+
+  For LOCATION, consider:
+    - country_or_region
+    - relevance (where experiments ran | where data collected | deployment target)
+    - specific_site (if named)
+
+  For OBJECT, consider:
+    - hardware_type (GPU | sensor | robot | etc.)
+    - specifications (if mentioned)
+    - role_in_paper (used_for | evaluated_on | described)
+    - manufacturer (if mentioned)
 
   KEY RULES FOR PROPERTIES:
     1. Use clear, readable key names (e.g., "architecture_type" not "arch_t")
@@ -285,11 +327,35 @@ relationships_prompt: |
   FINDING ↔ METRIC:
     quantified_by, measured_with
 
-  AUTHOR ↔ MODEL:
+  PERSON ↔ MODEL:
     proposes, evaluates, critiques, introduces
 
-  AUTHOR ↔ METHOD:
+  PERSON ↔ METHOD:
     proposes, refines, applies
+
+  PERSON ↔ ORGANIZATION:
+    affiliated_with, works_at, funded_by, collaborates_with
+
+  ORGANIZATION ↔ MODEL:
+    developed, published, maintains, contributed_to
+
+  ORGANIZATION ↔ DATASET:
+    created, maintains, funded, released
+
+  ORGANIZATION ↔ CONCEPT:
+    pioneered, advocates, researches
+
+  OBJECT ↔ METHOD:
+    used_in, enables, tested_with
+
+  OBJECT ↔ MODEL:
+    runs_on, evaluated_on, deployed_on
+
+  LOCATION ↔ DATASET:
+    source_of, collected_in, evaluated_in
+
+  LOCATION ↔ ORGANIZATION:
+    located_in, operates_in
 
   APPLICATION ↔ CONCEPT:
     leverages, depends_on

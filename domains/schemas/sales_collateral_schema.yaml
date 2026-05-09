@@ -1,6 +1,21 @@
 name: sales_collateral
 description: Sales and marketing documents such as pitch decks, capability presentations, case studies, white papers, and proposal materials. These documents describe client challenges, technology solutions, delivery approaches, quantified outcomes, and competitive differentiators — typically produced by consulting or technology firms to win or expand client engagements.
 
+entity_types:
+  - CLIENT
+  - OFFERING
+  - CAPABILITY
+  - USE_CASE
+  - BENEFIT
+  - CHALLENGE
+  - TECHNOLOGY
+  - DIFFERENTIATOR
+  - PERSON
+  - OBJECT
+  - ORGANIZATION
+  - LOCATION
+  - EVENT
+
 entities_prompt: |
   You are a Knowledge Graph extraction engine specialised in sales and marketing collateral analysis.
   Your job is to read a passage from a sales document and identify all significant entities.
@@ -42,6 +57,26 @@ entities_prompt: |
     A stated competitive advantage, unique quality, proof point, or distinctive characteristic of the offering or the selling organisation. Differentiators explain why the buyer should choose this over alternatives.
     example type values: delivery_model | proprietary_asset | scale_advantage | domain_expertise | partnership | certification | track_record | speed | global_reach | innovation
 
+  PERSON
+    Any named individual referenced in the sales document — decision-makers, champions, customer contacts, or named representatives.
+    example type values: decision_maker | champion | stakeholder | contact | executive | buyer | influencer | sponsor
+
+  OBJECT
+    Any physical product, hardware, or tangible item relevant to the sales context — distinct from a named TECHNOLOGY platform.
+    example type values: product | hardware | device | appliance | tool | physical_system
+
+  ORGANIZATION
+    Any company, institution, partner, or formal group referenced beyond the CLIENT — vendors, regulators, industry bodies, or competitors.
+    example type values: vendor | partner | regulator | competitor | analyst_firm | industry_body | association | reseller
+
+  LOCATION
+    Any geographic area, market, country, or site mentioned in the sales context.
+    example type values: market | country | region | office | site | territory | deployment_location
+
+  EVENT
+    Any named occurrence, launch, announcement, or industry event referenced in the material.
+    example type values: product_launch | conference | announcement | demo | pilot | deadline | proof_of_concept | deal_event
+
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -79,7 +114,7 @@ entities_prompt: |
                                    // e.g., "cli_001", "off_002", "ben_003"
     "name":              string,   // canonical name
     "aliases":           array,    // alternate names and references
-    "entity_class":      string,   // CLIENT | OFFERING | CAPABILITY | USE_CASE | BENEFIT | CHALLENGE | TECHNOLOGY | DIFFERENTIATOR
+    "entity_class":      string,   // CLIENT | OFFERING | CAPABILITY | USE_CASE | BENEFIT | CHALLENGE | TECHNOLOGY | DIFFERENTIATOR | PERSON | OBJECT | ORGANIZATION | LOCATION | EVENT
     "type":              string,   // the subtype from lists above
     "description":       string,   // 2-4 sentence analytical summary
     "context":           array,    // verbatim text snippets where entity appears
@@ -178,6 +213,34 @@ properties_prompt: |
     - uniqueness (proprietary | best-in-class | certified | scale-based)
     - target_audience (who this resonates with)
     - relates_to_offering (which offering this differentiates)
+
+  For PERSON, consider:
+    - role_title (their job title or function)
+    - influence_level (decision_maker | influencer | champion | etc.)
+    - known_pain_points (list, if mentioned)
+    - relationship_to_deal (sponsor | blocker | neutral | evaluator)
+
+  For OBJECT, consider:
+    - product_category
+    - key_features (list)
+    - compatibility (what it works with)
+    - price_point (if mentioned)
+
+  For ORGANIZATION, consider:
+    - org_type (partner | competitor | regulator | etc.)
+    - relationship_to_offering (complements | competes | distributes | regulates)
+    - geographic_presence (if mentioned)
+
+  For LOCATION, consider:
+    - market_type (geographic | industry | segment)
+    - strategic_importance (core | expansion | emerging)
+    - regulatory_environment (if relevant)
+
+  For EVENT, consider:
+    - event_type (launch | conference | pilot | etc.)
+    - date_or_period (if mentioned)
+    - relevance_to_deal (opportunity | milestone | deadline)
+    - key_participants (if mentioned)
 
   KEY RULES FOR PROPERTIES:
     1. Use clear, readable key names (e.g., "quantified_value" not "qty_val")
@@ -308,6 +371,39 @@ relationships_prompt: |
 
   TECHNOLOGY ↔ TECHNOLOGY:
     replaces, integrates_with, feeds_into, migrates_to
+
+  PERSON ↔ CLIENT:
+    represents, sponsors, is_champion_at, evaluates_for, signs_off
+
+  PERSON ↔ OFFERING:
+    evaluates, champions, objected_to, approved
+
+  PERSON ↔ ORGANIZATION:
+    works_at, leads, represents, part_of
+
+  ORGANIZATION ↔ OFFERING:
+    distributes, competes_with, validates, integrates_with, regulates
+
+  ORGANIZATION ↔ CLIENT:
+    partners_with, competes_with, supplies, regulates
+
+  OBJECT ↔ OFFERING:
+    part_of, enables, required_for, competes_with, integrates_with
+
+  OBJECT ↔ TECHNOLOGY:
+    uses, implements, runs_on
+
+  LOCATION ↔ CLIENT:
+    is_market_for, operates_in, regulatory_jurisdiction_of
+
+  LOCATION ↔ OFFERING:
+    available_in, deployed_in, targeted_at
+
+  EVENT ↔ OFFERING:
+    launched_at, demonstrated_at, evaluated_at, piloted_for
+
+  EVENT ↔ CLIENT:
+    involves, triggered, milestone_for
 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:

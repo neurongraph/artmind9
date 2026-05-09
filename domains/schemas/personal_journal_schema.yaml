@@ -1,6 +1,16 @@
 name: personal_journal
 description: Personal diary entries, journals, and daily logs that record events, reflections, interactions, emotions, and plans over time. Typically written in first person, covering family life, work, social encounters, and inner thoughts.
 
+entity_types:
+  - PERSON
+  - LOCATION
+  - EVENT
+  - ACTIVITY
+  - EMOTION
+  - PLAN
+  - OBJECT
+  - ORGANIZATION
+
 entities_prompt: |
   You are a Knowledge Graph extraction engine specialised in personal journal analysis.
   Your job is to read a journal entry and identify all significant entities.
@@ -14,7 +24,7 @@ entities_prompt: |
     Any individual named or meaningfully described in the entry — family members, colleagues, friends, service providers, or the diarist themselves. Include people who are merely mentioned or discussed.
     example type values: self | spouse | child | parent | sibling | friend | colleague | professional | pet | acquaintance
 
-  PLACE
+  LOCATION
     Any location mentioned or visited — rooms, buildings, neighbourhoods, cities, or institutions. Include places only referenced in plans or memories.
     example type values: home | workplace | school | restaurant | park | hospital | shop | neighbourhood | city | transit
 
@@ -33,6 +43,14 @@ entities_prompt: |
   PLAN
     Any stated intention, goal, task, or future arrangement mentioned in the entry. Includes both firm plans and tentative thoughts about what needs to happen.
     example type values: family | work | health | social | errand | long_term | resolution | reminder
+
+  OBJECT
+    Any physical item, possession, or tangible thing that plays a role in the journal entry — gifts, household items, vehicles, or objects with emotional significance.
+    example type values: gift | vehicle | household_item | food | document | clothing | possession | device
+
+  ORGANIZATION
+    Any formal or informal group, institution, company, or collective mentioned in the journal entry.
+    example type values: employer | school | club | community_group | government | healthcare | business | religious_group
 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:
@@ -68,10 +86,10 @@ entities_prompt: |
 
   {
     "id":                string,   // generate as {type_abbr}_{sequence}
-                                   // e.g., "per_001", "plc_002", "evt_003"
+                                   // e.g., "per_001", "loc_002", "evt_003"
     "name":              string,   // canonical name
     "aliases":           array,    // other references used in text
-    "entity_class":      string,   // PERSON | PLACE | EVENT | ACTIVITY | EMOTION | PLAN
+    "entity_class":      string,   // PERSON | LOCATION | EVENT | ACTIVITY | EMOTION | PLAN | OBJECT | ORGANIZATION
     "type":              string,   // the subtype from lists above
     "description":       string,   // 2-4 sentence summary specific to this entry
     "context":           array,    // verbatim text snippets where entity appears
@@ -117,7 +135,7 @@ properties_prompt: |
     - occupation or school year if relevant
     - notable_characteristics (distinguishing qualities)
 
-  For PLACE, consider:
+  For LOCATION, consider:
     - place_type (home, school, park, restaurant, etc.)
     - atmosphere (how it feels when mentioned)
     - frequency_of_visit (daily, occasional, first-time)
@@ -153,6 +171,18 @@ properties_prompt: |
     - motivation (why this plan matters)
     - status (firm intention, tentative, wishful)
     - urgency
+
+  For OBJECT, consider:
+    - what_it_is (brief description)
+    - who_owns_or_uses_it
+    - emotional_significance (if any)
+    - narrative_role (why it matters in this entry)
+
+  For ORGANIZATION, consider:
+    - org_type (employer | school | healthcare | etc.)
+    - relationship_to_writer (works_at | member_of | attended | etc.)
+    - sentiment (positive | negative | neutral | mixed)
+    - frequency_of_mention (if notable)
 
   KEY RULES FOR PROPERTIES:
     1. Use clear, readable key names (e.g., "relationship_to_diarist" not "rel_d")
@@ -229,7 +259,7 @@ relationships_prompt: |
     cares_for, worries_about, conflicts_with, mentors, supports,
     spends_time_with, is_proud_of, is_concerned_about, looks_after
 
-  PERSON ↔ PLACE:
+  PERSON ↔ LOCATION:
     lives_at, works_at, studies_at, visits, commutes_to, frequents,
     walks_to, went_to, picks_up_from
 
@@ -247,7 +277,13 @@ relationships_prompt: |
   PERSON ↔ PLAN:
     has_plan, intends, needs_to, scheduled_for, discussed_with
 
-  EVENT ↔ PLACE:
+  PERSON ↔ OBJECT:
+    owns, uses, gifts, receives, loses, finds, mentions
+
+  PERSON ↔ ORGANIZATION:
+    works_at, attends, member_of, visited, associated_with, left, joined
+
+  EVENT ↔ LOCATION:
     occurs_at
 
   EVENT ↔ EMOTION:
@@ -256,7 +292,13 @@ relationships_prompt: |
   EVENT ↔ PLAN:
     prompted_by, leads_to, linked_to
 
-  ACTIVITY ↔ PLACE:
+  EVENT ↔ OBJECT:
+    involves, uses, concerns
+
+  EVENT ↔ ORGANIZATION:
+    held_at, organised_by, involves
+
+  ACTIVITY ↔ LOCATION:
     takes_place_at, associated_with
 
   PLAN ↔ PERSON:

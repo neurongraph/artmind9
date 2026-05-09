@@ -1,6 +1,14 @@
 name: fiction
 description: Stories and fictional content. Typically would have characters, places, events, interactions between characters. Flowing prose.
 
+entity_types:
+  - PERSON
+  - LOCATION
+  - OBJECT
+  - EVENT
+  - ORGANIZATION
+  - CONCEPT
+
 entities_prompt: |
   You are a Knowledge Graph extraction engine specialised in fiction analysis.
   Your job is to read a passage of fiction and identify all significant entities.
@@ -10,8 +18,8 @@ entities_prompt: |
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   Use ONLY these entity_classes. However, you can add more to the type values than the examples provided here
 
-  CHARACTER
-    Any person who appears, is named, or is meaningfully referenced in the story. Include characters who are talked about but do not appear directly.
+  PERSON
+    Any person who appears, is named, or is meaningfully referenced in the story. Include persons who are talked about but do not appear directly.
     example type values: protagonist | antagonist | supporting | minor | non-human
 
   LOCATION
@@ -69,10 +77,10 @@ entities_prompt: |
 
   {
     "id":                string,   // generate as {type_abbr}_{sequence}
-                                   // e.g., "char_001", "loc_002"
+                                   // e.g., "per_001", "loc_002"
     "name":              string,   // canonical name
     "aliases":           array,    // other names used in text
-    "entity_class":      string,   // CHARACTER | LOCATION | OBJECT | EVENT | CONCEPT
+    "entity_class":      string,   // PERSON | LOCATION | OBJECT | EVENT | CONCEPT | ORGANIZATION
     "type":              string,   // the subtype from lists above
     "description":       string,   // 2-4 sentence analytical summary
     "context":           array,    // verbatim text snippets where entity appears
@@ -83,7 +91,7 @@ entities_prompt: |
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   Before responding, verify:
-    □ All named characters captured (including those only mentioned)?
+    □ All named persons captured (including those only mentioned)?
     □ Canonical names used consistently?
     □ Every description is specific to this text?
     □ Context snippets are verbatim from text?
@@ -109,7 +117,7 @@ properties_prompt: |
   Ask yourself: "If a reader asked a question about this entity,
   what structured facts would help answer it?"
 
-  For CHARACTER, consider:
+  For PERSON, consider:
     - role (specific to this story, e.g., "consulting detective")
     - personality_traits (list)
     - physical_description
@@ -234,18 +242,18 @@ relationships_prompt: |
   COMMON rel_type VALUES:
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-  CHARACTER ↔ CHARACTER:
+  PERSON ↔ PERSON:
     knows, emotions_felt, employs, employed_by, married_to, parent_of, engaged_to,
     deceives, assists, investigates, imprisons, bribes, rescues,
     evaluates, confides_in, informs, impersonates, fears, trusts, works_with
 
-  CHARACTER ↔ LOCATION:
+  PERSON ↔ LOCATION:
     resides_at, visits, works_at, imprisoned_at, owns_property, flees, surveils, emotions_felt
 
-  CHARACTER ↔ OBJECT:
+  PERSON ↔ OBJECT:
     owns, uses, emotions_felt, discovers, conceals, wears, controls
 
-  CHARACTER ↔ EVENT:
+  PERSON ↔ EVENT:
     participates_in (properties: {role: investigator|victim|perpetrator|witness|helper}), emotions_felt, causes, solves
 
   CONCEPT ↔ other:
@@ -254,7 +262,7 @@ relationships_prompt: |
   EVENT ↔ LOCATION:
     occurs_at
 
-  ORGANIZATION ↔ CHARACTER:
+  ORGANIZATION ↔ PERSON:
     employs, founded_by, leads, belongs_to, opposes, infiltrates, represents, recruits, monitors, funds, rivals, betrays
 
   ORGANIZATION ↔ LOCATION:
@@ -280,7 +288,7 @@ relationships_prompt: |
     contexts to capture the arc.
 
   4. ROLE IN PARTICIPATES_IN
-    For CHARACTER ↔ EVENT relationships, always include properties.role
+    For PERSON ↔ EVENT relationships, always include properties.role
     indicating their participation type.
 
   5. PROPERTIES MAP
