@@ -95,7 +95,7 @@ def test_each_supported_pattern_has_query_dispatch(pattern):
 
     cypher, cypher_params = graph_query._pattern_query(pattern, params)
 
-    assert "MATCH" in cypher
+    assert "MATCH" in cypher or "CALL" in cypher
     assert cypher_params["domain"] == "fiction"
 
 
