@@ -419,34 +419,90 @@ def ingest_extract_kg(document_name: str, domain: str) -> None:
 
 
 @ingest.command("write_to_graph")
-@click.argument("document_name")
-@click.option("--domain", required=True, help="Domain the document belongs to")
-def ingest_write_to_graph(document_name: str, domain: str) -> None:
+@click.argument("document_name", required=False, default=None)
+@click.option("--domain", default=None, help="Domain the document belongs to (required for single-document mode)")
+@click.option("--folder", type=click.Path(exists=True), default=None, help="Path to folder whose sub-folders are document KG directories")
+def ingest_write_to_graph(document_name: str | None, domain: str | None, folder: str | None) -> None:
     """Write already-extracted KG JSON to Neo4j (re-run after fixing Neo4j issues).
 
-    DOCUMENT_NAME is the registered filename (e.g. myfile.pdf).
-    Requires that extract_kg (or ingest sync) has already produced the merged JSON files.
+    \b
+    Two modes:
+      Single document:  artmind ingest write_to_graph DOCUMENT_NAME --domain DOMAIN
+      Batch from folder: artmind ingest write_to_graph --folder PATH [--domain DOMAIN]
+
+    In single-document mode DOCUMENT_NAME is the registered filename (e.g. myfile.pdf).
+    In folder mode each immediate sub-folder of PATH that contains a document.json is
+    written to Neo4j. If --domain is omitted in folder mode, the domain is inferred
+    from the parent directory name (i.e. PATH is expected to be data/kg/<domain>).
     """
     _setup_logger()
     from paths import KG_DIR
 
-    file_result = _build_file_result_from_db(document_name, domain)
-    if file_result is None:
-        raise click.ClickException(f"Document '{document_name}' not found in registry for domain '{domain}'")
+    if folder and document_name:
+        raise click.ClickException("Provide either DOCUMENT_NAME or --folder, not both")
+    if not folder and not document_name:
+        raise click.ClickException("Provide DOCUMENT_NAME or --folder")
 
-    registered_path = Path(file_result["registered_path"])
-    doc_kg_dir = KG_DIR / domain / registered_path.stem
-    if not (doc_kg_dir / "document.json").exists():
-        raise click.ClickException(
-            f"Merged KG JSON not found in {doc_kg_dir} — run 'ingest extract_kg' first"
-        )
+    # ── single-document mode ──────────────────────────────────────────────
+    if document_name:
+        if not domain:
+            raise click.ClickException("--domain is required when specifying a single document")
+        file_result = _build_file_result_from_db(document_name, domain)
+        if file_result is None:
+            raise click.ClickException(f"Document '{document_name}' not found in registry for domain '{domain}'")
 
-    logger.info("write_to_graph: {} (domain={}) from {}", document_name, domain, doc_kg_dir)
-    ok = write_to_graph(doc_kg_dir)
-    if ok:
-        logger.info("write_to_graph complete")
-    else:
-        raise click.ClickException("write_to_graph failed — check logs for Neo4j errors")
+        registered_path = Path(file_result["registered_path"])
+        doc_kg_dir = KG_DIR / domain / registered_path.stem
+        if not (doc_kg_dir / "document.json").exists():
+            raise click.ClickException(
+                f"Merged KG JSON not found in {doc_kg_dir} — run 'ingest extract_kg' first"
+            )
+
+        logger.info("write_to_graph: {} (domain={}) from {}", document_name, domain, doc_kg_dir)
+        ok = write_to_graph(doc_kg_dir)
+        if ok:
+            logger.info("write_to_graph complete")
+        else:
+            raise click.ClickException("write_to_graph failed — check logs for Neo4j errors")
+        return
+
+    # ── folder (batch) mode ───────────────────────────────────────────────
+    folder_path = Path(folder)
+    if not folder_path.is_dir():
+        raise click.ClickException(f"{folder} is not a directory")
+
+    resolved_domain = domain or folder_path.name
+    doc_dirs = sorted(
+        d for d in folder_path.iterdir()
+        if d.is_dir() and (d / "document.json").exists()
+    )
+    if not doc_dirs:
+        raise click.ClickException(f"No document sub-folders with document.json found in {folder_path}")
+
+    logger.info(
+        "write_to_graph (batch): {} document(s) in {} (domain={})",
+        len(doc_dirs), folder_path, resolved_domain,
+    )
+
+    ok_count, fail_count = 0, 0
+    for doc_kg_dir in doc_dirs:
+        logger.info("  writing {} …", doc_kg_dir.name)
+        try:
+            if write_to_graph(doc_kg_dir):
+                ok_count += 1
+            else:
+                fail_count += 1
+                logger.error("  FAILED: {}", doc_kg_dir.name)
+        except Exception as e:
+            fail_count += 1
+            logger.error("  FAILED: {} — {}", doc_kg_dir.name, e)
+
+    logger.info(
+        "write_to_graph batch complete: {}/{} succeeded, {} failed",
+        ok_count, len(doc_dirs), fail_count,
+    )
+    if fail_count:
+        raise click.ClickException(f"{fail_count} document(s) failed — check logs for details")
 
 
 @ingest.command("refine-graph")
