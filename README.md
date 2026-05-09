@@ -147,9 +147,9 @@ A domain is a YAML schema that scopes ingestion and queries. artmind ships with 
 | Domain | Description |
 |---|---|
 | `general` | Fallback — works for any document |
-| `fiction` | Novels and stories — Characters, Locations, Events, Objects |
-| `personal_journal` | Journal entries — People, Places, Activities, Emotions |
-| `technical_paper` | Research papers — Methods, Findings, Authors, Concepts |
+| `fiction` | Novels and stories — Persons, Locations, Events, Objects |
+| `personal_journal` | Journal entries — People, Locations, Activities, Emotions |
+| `technical_paper` | Research papers — Methods, Findings, Persons, Concepts |
 | `project_governance` | Project docs — Roles, Milestones, Decisions, Risks |
 | `sales_collateral` | Sales material — Products, Features, Competitors, Use Cases |
 
@@ -163,6 +163,32 @@ For further help on the domains commands use:
 ```bash
 uv run artmind domains --help
 ```
+
+### Hierarchical domains
+
+Domain names are dot-separated, letting you nest sub-domains under a parent. For example, `fiction` is a valid domain, and `fiction.thriller` or `fiction.historical` are sub-domains of it.
+
+All read queries (graph search, vector search, find candidates) match the requested domain **and all of its sub-domains**. A query against `fiction` returns results from `fiction`, `fiction.thriller`, `fiction.historical`, etc. Write operations (ingest, update) always tag data with the exact domain name provided.
+
+```bash
+# ingest a thriller novel into its own sub-domain
+uv run artmind ingest sync novel.pdf --domain fiction.thriller
+
+# query rolls up all fiction sub-domains automatically
+uv run artmind query graph pattern1 --domain fiction --entityClass PERSON
+```
+
+**Schema harmonization** ensures sub-domain schemas inherit all entity types from their parent. Run it after updating a parent schema to propagate new entity types down:
+
+```bash
+# sync all child schemas against their parents
+uv run artmind domains harmonize
+
+# sync one child schema (dry-run to preview changes)
+uv run artmind domains harmonize --domain fiction.thriller --dry-run
+```
+
+**POOLE+ entity standard**: All built-in schemas follow the POOLE+ convention — `PERSON`, `OBJECT`, `ORGANIZATION`, `LOCATION`, `EVENT` are universal base types present in every domain. Domain-specific types (e.g. `METHOD`, `FINDING` in `technical_paper`) extend these. When creating a custom schema with `artmind-create-schema`, follow the same convention: map characters to `PERSON`, places to `LOCATION`, companies to `ORGANIZATION`, and so on before adding domain-specific extras.
 
 ### Creating a custom schema
 
@@ -388,20 +414,20 @@ Examples:
 # list all locations in a fiction domain
 uv run artmind query graph pattern1 --domain fiction --entityClass LOCATION
 
-# get properties of a named character (with document and chat sources)
+# get properties of a named person (with document and chat sources)
 uv run artmind query graph pattern2 --domain fiction --entityNameList "Sherlock Holmes"
 
-# full neighborhood of a character
-uv run artmind query graph pattern4 --domain fiction --entityClass CHARACTER --entityName "Watson"
+# full neighborhood of a person
+uv run artmind query graph pattern4 --domain fiction --entityClass PERSON --entityName "Watson"
 
-# shortest path between two characters
+# shortest path between two persons
 uv run artmind query graph pattern5 --domain fiction \
-  --entityClass1 CHARACTER --entityName1 "Holmes" \
-  --entityClass2 CHARACTER --entityName2 "Moriarty" \
+  --entityClass1 PERSON --entityName1 "Holmes" \
+  --entityClass2 PERSON --entityName2 "Moriarty" \
   --mode shortest
 
-# top 5 most-connected characters
-uv run artmind query graph pattern9 --domain fiction --entityClass CHARACTER --topN 5
+# top 5 most-connected persons
+uv run artmind query graph pattern9 --domain fiction --entityClass PERSON --topN 5
 ```
 
 All graph commands emit JSON. Pass `--compact` for single-line output.
@@ -471,7 +497,7 @@ just query-vector fiction "your question here"
 ## Running tests
 
 ```bash
-uv run --group dev pytest test/ -v
+uv run --group dev pytest tests/ -v
 ```
 
 ---
@@ -488,15 +514,18 @@ artmind/                core package
   graph_query.py        Neo4j graph query layer (9 patterns)
   vector_query.py       Neo4j vector search, full-text search, and RRF combining (DocChunk + UserChat)
   refine_graph.py       entity resolution
+  harmonizer.py         schema harmonizer — syncs child domain schemas from parent
   worker.py             background ingestion worker
   jobs.py               async job management
   db.py                 SQLite schema (documents, jobs, update sessions/drafts)
 
 domains/schemas/        built-in domain YAML schemas
+scripts/
+  migrate_poole.py      one-time migration script (CHARACTER/AUTHOR/PLACE → POOLE types)
 skills/
   artmind-query/        Claude Code skill — natural-language graph queries
   artmind-update/       Claude Code skill — natural-language graph updates
-test/                   pytest test suite
+tests/                  pytest test suite
 paths.py                central path configuration
 justfile                task runner recipes
 ```

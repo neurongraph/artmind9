@@ -4,6 +4,7 @@ import shutil
 import sqlite3
 import time
 import uuid
+import datetime as _datetime
 from datetime import datetime
 from hashlib import sha256
 from pathlib import Path
@@ -1215,6 +1216,9 @@ def extract_kg(
         "path": str(registered_path),
         "domain": domain,
     }
+    if registered_path.exists():
+        mtime = registered_path.stat().st_mtime
+        document["last_modified"] = _datetime.datetime.fromtimestamp(mtime, tz=_datetime.timezone.utc).isoformat()
     if meta.get("author"):
         document["author"] = str(meta["author"])
     if meta.get("date"):

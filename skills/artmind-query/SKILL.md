@@ -27,7 +27,7 @@ uv run artmind query graph entity_listing --domain <domain> --countAll --compact
 
 Use metadata and entity listings to identify:
 
-- Stored labels such as `CHARACTER`, `LOCATION`, or domain-specific labels like `PROJECT_ROLE`.
+- Stored labels such as `PERSON`, `LOCATION`, or domain-specific labels like `PROJECT_ROLE`.
 - Canonical entity names.
 - Relationship types, properties, and connection directions.
 - Whether the question needs graph facts, vector text evidence, or both.
