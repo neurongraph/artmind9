@@ -100,3 +100,60 @@ class TestReadSnapshot:
 
         with pytest.raises(ValueError, match="snapshot.json"):
             _read_snapshot(tar_path)
+
+
+from unittest.mock import patch
+from click.testing import CliRunner
+from artmind.cli import cli
+
+
+class TestSessionCloseCli:
+    def test_exports_and_shows_summary(self, tmp_path):
+        runner = CliRunner()
+        fake_file = tmp_path / "snapshot_2026-05-09_140000.tar.gz"
+        fake_file.write_bytes(b"x" * 1_500_000)
+        with patch("artmind.cli.export_graph", return_value=fake_file) as mock_export:
+            result = runner.invoke(cli, ["session", "close"])
+        assert result.exit_code == 0, result.output
+        mock_export.assert_called_once()
+        assert "snapshot_2026-05-09_140000.tar.gz" in result.output
+
+
+class TestSessionInitiateCli:
+    def test_prompts_and_imports(self):
+        runner = CliRunner()
+        summary = {
+            "snapshot": "snapshot_2026-05-09_140000.tar.gz",
+            "node_counts": {"Document": 2, "DocChunk": 10, "Entity": 50, "UserChat": 1},
+            "relationship_count": 100,
+            "elapsed_seconds": 3.5,
+        }
+        with patch("artmind.cli.import_graph", return_value=summary):
+            result = runner.invoke(cli, ["session", "initiate", "--yes"])
+        assert result.exit_code == 0, result.output
+        assert "Document" in result.output
+        assert "100" in result.output
+
+    def test_aborts_without_confirmation(self):
+        runner = CliRunner()
+        result = runner.invoke(cli, ["session", "initiate"], input="n\n")
+        assert result.exit_code != 0 or "Aborted" in result.output
+
+    def test_uses_explicit_snapshot_path(self, tmp_path):
+        runner = CliRunner()
+        fake_snapshot = tmp_path / "custom.tar.gz"
+        fake_snapshot.write_text("")
+        summary = {
+            "snapshot": "custom.tar.gz",
+            "node_counts": {"Document": 1},
+            "relationship_count": 5,
+            "elapsed_seconds": 1.0,
+        }
+        with patch("artmind.cli.import_graph", return_value=summary) as mock_import:
+            result = runner.invoke(
+                cli, ["session", "initiate", "--yes", "--snapshot", str(fake_snapshot)]
+            )
+        assert result.exit_code == 0, result.output
+        mock_import.assert_called_once()
+        call_args = mock_import.call_args
+        assert str(call_args[0][0]) == str(fake_snapshot)
