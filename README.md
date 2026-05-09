@@ -250,17 +250,17 @@ uv run artmind ingest --help
 Re-run only the LLM extraction step on an already-ingested document:
 
 ```bash
-uv run artmind ingest extract_kg document_name --domain fiction
+uv run artmind ingest extract-kg document_name --domain fiction
 ```
 
 Write previously-extracted KG JSON to Neo4j without re-running the LLM:
 
 ```bash
 # single document
-uv run artmind ingest write_to_graph document_name --domain fiction
+uv run artmind ingest write-to-graph document_name --domain fiction
 
 # batch — write all documents in a folder
-uv run artmind ingest write_to_graph --folder data/kg/fiction
+uv run artmind ingest write-to-graph --folder data/kg/fiction
 ```
 
 In folder mode each immediate sub-folder that contains a `document.json` is written to Neo4j. If `--domain` is omitted the domain is inferred from the folder name.
@@ -281,7 +281,7 @@ uv run artmind ingest pull-kg \
   --domain sales_collateral
 
 # 2. Write all pulled documents to Neo4j
-uv run artmind ingest write_to_graph --folder data/kg/sales_collateral
+uv run artmind ingest write-to-graph --folder data/kg/sales_collateral
 
 # 3. Optionally resolve duplicate entities across the merged data
 uv run artmind ingest refine-graph --domain sales_collateral --dry-run
@@ -459,8 +459,8 @@ uv run artmind query graph metadata --domain fiction
 List all entities grouped by type:
 
 ```bash
-uv run artmind query graph entity_listing --domain fiction
-uv run artmind query graph entity_listing --domain fiction --nameFilter "Holmes"
+uv run artmind query graph entity-listing --domain fiction
+uv run artmind query graph entity-listing --domain fiction --nameFilter "Holmes"
 ```
 
 **Nine graph patterns** cover the common retrieval shapes:
@@ -508,7 +508,7 @@ All graph commands emit JSON. Pass `--compact` for single-line output.
 Search source text using both semantic similarity (vector embeddings) and keyword matching (full-text). Results are combined using Reciprocal Rank Fusion to balance both relevance signals. Returns both document chunks (`source_type: "document"`) and user chat entries (`source_type: "user_chat"`):
 
 ```bash
-uv run artmind query vector_text --domain fiction --topK 5 "Where did Holmes first meet Irene Adler?"
+uv run artmind query vector-text --domain fiction --topK 5 "Where did Holmes first meet Irene Adler?"
 ```
 
 This single command automatically handles:
