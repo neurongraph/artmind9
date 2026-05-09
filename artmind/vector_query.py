@@ -89,7 +89,7 @@ def vector_search(domain: str, question: str, topK: int = 5) -> dict:
         FOR $embedding
         LIMIT $candidateK
       )
-    WHERE node.domain = $domain
+    WHERE (node.domain = $domain OR node.domain STARTS WITH ($domain + '.'))
     WITH node, vector.similarity.cosine(node.embedding, $embedding) AS score
     OPTIONAL MATCH (node)-[:PART_OF]->(document:Document)
     RETURN score,
@@ -108,7 +108,7 @@ def vector_search(domain: str, question: str, topK: int = 5) -> dict:
         FOR $embedding
         LIMIT $candidateK
       )
-    WHERE node.domain = $domain
+    WHERE (node.domain = $domain OR node.domain STARTS WITH ($domain + '.'))
     WITH node, vector.similarity.cosine(node.embedding, $embedding) AS score
     RETURN score,
            node { .id, .raw_text, .domain, .created_by, .created_at } AS chat,
@@ -165,7 +165,7 @@ def full_text_search(domain: str, question: str, topK: int = 5) -> dict:
 
     cypher_chunks = f"""
     MATCH (node:DocChunk)
-    WHERE node.domain = $domain AND {keyword_conditions}
+    WHERE (node.domain = $domain OR node.domain STARTS WITH ($domain + '.')) AND {keyword_conditions}
     OPTIONAL MATCH (node)-[:PART_OF]->(document:Document)
     WITH node, document,
          apoc.text.levenshteinSimilarity(node.text, $question) AS relevance
@@ -179,7 +179,7 @@ def full_text_search(domain: str, question: str, topK: int = 5) -> dict:
 
     cypher_chats = f"""
     MATCH (node:UserChat)
-    WHERE node.domain = $domain AND {keyword_conditions}
+    WHERE (node.domain = $domain OR node.domain STARTS WITH ($domain + '.')) AND {keyword_conditions}
     WITH node,
          apoc.text.levenshteinSimilarity(node.raw_text, $question) AS relevance
     RETURN relevance AS score,
@@ -235,7 +235,7 @@ def _full_text_fallback_chunks(session, domain: str, search_terms: list, topK: i
     """Fallback full-text search using simple CONTAINS matching."""
     cypher = """
     MATCH (node:DocChunk)
-    WHERE node.domain = $domain
+    WHERE (node.domain = $domain OR node.domain STARTS WITH ($domain + '.'))
     OPTIONAL MATCH (node)-[:PART_OF]->(document:Document)
     RETURN node { .id, .name, .doc_id, .text } AS chunk,
            document { .id, .name, .path, .domain } AS document,
@@ -263,7 +263,7 @@ def _full_text_fallback_chats(session, domain: str, search_terms: list, topK: in
     """Fallback full-text search for UserChat using simple CONTAINS matching."""
     cypher = """
     MATCH (node:UserChat)
-    WHERE node.domain = $domain
+    WHERE (node.domain = $domain OR node.domain STARTS WITH ($domain + '.'))
     RETURN node { .id, .raw_text, .domain, .created_by, .created_at } AS chat,
            'user_chat' AS source_type
     LIMIT $limit

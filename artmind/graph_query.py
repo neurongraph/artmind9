@@ -122,7 +122,7 @@ def graph_metadata(domain: str) -> dict:
     cypher = """
     CALL () {
       MATCH (n)
-      WHERE n.domain = $domain
+      WHERE (n.domain = $domain OR n.domain STARTS WITH ($domain + '.'))
       UNWIND labels(n) AS label
       WITH label, keys(n) AS nodeKeys, n.type AS typeVal
       UNWIND nodeKeys AS propName
@@ -133,7 +133,8 @@ def graph_metadata(domain: str) -> dict:
              null AS connections
     UNION
       MATCH (s)-[r]->(e)
-      WHERE s.domain = $domain AND e.domain = $domain
+      WHERE (s.domain = $domain OR s.domain STARTS WITH ($domain + '.'))
+        AND (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
       WITH type(r) AS relType, labels(s) AS fromLabels, labels(e) AS toLabels, keys(r) AS relKeys
       UNWIND relKeys AS propName
       RETURN "relationships" AS category,
@@ -160,7 +161,7 @@ def entity_listing(
 ) -> dict:
     cypher = """
     MATCH (n:Entity)
-    WHERE n.domain = $domain AND n.name IS NOT NULL
+    WHERE (n.domain = $domain OR n.domain STARTS WITH ($domain + '.')) AND n.name IS NOT NULL
       AND ($nameFilter IS NULL OR toLower(n.name) CONTAINS toLower($nameFilter))
     UNWIND labels(n) AS label
     WITH label, n.type AS type, collect(DISTINCT n.name) AS names
@@ -178,7 +179,7 @@ def entity_listing(
     if count_all:
         count_cypher = """
         MATCH (n:Entity)
-        WHERE n.domain = $domain AND n.name IS NOT NULL
+        WHERE (n.domain = $domain OR n.domain STARTS WITH ($domain + '.')) AND n.name IS NOT NULL
         RETURN count(DISTINCT n) AS total
         """
         count_rows = _run_read_query(count_cypher, {"domain": domain})
@@ -224,7 +225,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         return (
             f"""
             MATCH (e:{label})
-            WHERE e.domain = $domain
+            WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
             RETURN e {{.*, label: labels(e)}} AS entityData
             ORDER BY e.name
             """,
@@ -234,7 +235,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         return (
             """
             MATCH (e)
-            WHERE e.domain = $domain
+            WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
               AND ANY(n IN $entityNameList WHERE toLower(e.name) CONTAINS toLower(n))
             OPTIONAL MATCH (chunk:DocChunk)-[:MENTIONS]->(e)
             OPTIONAL MATCH (chat:UserChat)-[:MENTIONS]->(e)
@@ -252,10 +253,10 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         return (
             """
             MATCH (e)
-            WHERE e.domain = $domain
+            WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
               AND ANY(n IN $entityNameList WHERE toLower(e.name) CONTAINS toLower(n))
             OPTIONAL MATCH (e)-[r]-(t)
-            WHERE t.domain = $domain
+            WHERE (t.domain = $domain OR t.domain STARTS WITH ($domain + '.'))
             WITH e, collect({
               type: type(r),
               properties: properties(r),
@@ -278,10 +279,10 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         return (
             f"""
             MATCH (e:{label})
-            WHERE e.domain = $domain
+            WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
               AND toLower(e.name) CONTAINS toLower($entityName)
             OPTIONAL MATCH (e)-[r]-(t)
-            WHERE t.domain = $domain
+            WHERE (t.domain = $domain OR t.domain STARTS WITH ($domain + '.'))
             WITH e, collect({{
               rel_type: type(r),
               rel_properties: properties(r),
@@ -303,7 +304,8 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             return (
                 f"""
                 MATCH (e:{label1}), (t:{label2})
-                WHERE e.domain = $domain AND t.domain = $domain
+                WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
+                  AND (t.domain = $domain OR t.domain STARTS WITH ($domain + '.'))
                   AND toLower(e.name) CONTAINS toLower($entityName1)
                   AND toLower(t.name) CONTAINS toLower($entityName2)
                 WITH e, t
@@ -325,7 +327,8 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         return (
             f"""
             MATCH p = shortestPath((e:{label1})-[*..5]-(t:{label2}))
-            WHERE e.domain = $domain AND t.domain = $domain
+            WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
+              AND (t.domain = $domain OR t.domain STARTS WITH ($domain + '.'))
               AND toLower(e.name) CONTAINS toLower($entityName1)
               AND toLower(t.name) CONTAINS toLower($entityName2)
             RETURN [i IN range(0, length(p)-1) | [
@@ -343,7 +346,8 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         return (
             """
             MATCH (e1)-[r]-(e2)
-            WHERE e1.domain = $domain AND e2.domain = $domain
+            WHERE (e1.domain = $domain OR e1.domain STARTS WITH ($domain + '.'))
+              AND (e2.domain = $domain OR e2.domain STARTS WITH ($domain + '.'))
               AND toLower(e1.name) CONTAINS toLower($entityName1)
               AND toLower(e2.name) CONTAINS toLower($entityName2)
             RETURN type(r) AS relType,
@@ -364,7 +368,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         return (
             """
             MATCH (e)
-            WHERE e.domain = $domain
+            WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
               AND (
                 toLower(e.name) CONTAINS toLower($searchTerm)
                 OR toLower(coalesce(e.description, '')) CONTAINS toLower($searchTerm)
@@ -384,8 +388,8 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         return (
             f"""
             MATCH (e:{label})-[r]-(t)
-            WHERE e.domain = $domain
-              AND t.domain = $domain
+            WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
+              AND (t.domain = $domain OR t.domain STARTS WITH ($domain + '.'))
               AND toLower(t.name) CONTAINS toLower($entityName)
             RETURN e {{.*, label: labels(e)}} AS entityData,
                    type(r) AS relType,
@@ -399,7 +403,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         return (
             f"""
             MATCH (e:{label})
-            WHERE e.domain = $domain
+            WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
             OPTIONAL MATCH (e)-[r]-()
             WITH e, count(r) AS degree
             RETURN e {{.*, label: labels(e), degree: degree}} AS entityData

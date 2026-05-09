@@ -105,7 +105,7 @@ def find_candidates(
 ) -> list[dict]:
     cypher_domain = """
     MATCH (e:Entity)
-    WHERE e.domain = $domain
+    WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
       AND (toLower(e.name) CONTAINS toLower($name)
            OR toLower($name) CONTAINS toLower(e.name))
     RETURN elementId(e) AS node_id, e.name AS name, e.entity_class AS entity_class,
