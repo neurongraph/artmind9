@@ -13,6 +13,7 @@ from loguru import logger
 
 from artmind import graph_query, vector_query
 import artmind.update as update_backend
+from artmind.harmonizer import harmonize_all, harmonize_schema
 from artmind.setup import setup_all
 from artmind.dashboard import run_dashboard
 from artmind.ingest import (
@@ -152,10 +153,23 @@ def domains():
 
 @domains.command("list")
 def list_domains():
-    """List all available domain schemas."""
-    domains_list = _get_available_domains()
-    for d in domains_list:
-        click.echo(d)
+    """List all available domain schemas, showing hierarchy."""
+    all_domains = sorted(_get_available_domains())
+    parents = [d for d in all_domains if '.' not in d]
+    children = [d for d in all_domains if '.' in d]
+
+    shown = set()
+    for parent in parents:
+        click.echo(parent)
+        shown.add(parent)
+        for child in children:
+            if child.startswith(parent + '.'):
+                click.echo(f"  {child}")
+                shown.add(child)
+
+    for child in children:
+        if child not in shown:
+            click.echo(child)
 
 
 @domains.command("add")
@@ -206,6 +220,37 @@ def get_relationships(domain_name: str):
     """The prompt used to extract relationships from a document chunk"""
     data = _load_domain_schema(domain_name)
     click.echo(data.get("relationships_prompt", []))
+
+
+@domains.command("harmonize")
+@click.option("--domain", default=None, help="Child domain to harmonize (e.g. fiction.thriller). Default: all children.")
+@click.option("--dry-run", is_flag=True, help="Show what would change without writing.")
+def domains_harmonize(domain: str | None, dry_run: bool):
+    """Sync child domain schemas against their parent's entity types.
+
+    Copies any entity, property, and relationship blocks that exist in the
+    parent but are missing from the child. Never removes child-specific extras.
+    """
+    if domain:
+        if '.' not in domain:
+            raise click.ClickException(f"'{domain}' has no parent (no '.' in name). Only child domains can be harmonized.")
+        results = [harmonize_schema(domain, dry_run=dry_run)]
+    else:
+        results = harmonize_all(dry_run=dry_run)
+
+    if not results:
+        click.echo("No child schemas found.")
+        return
+
+    for r in results:
+        if r.status == 'error':
+            click.echo(f"{r.domain}  ERROR: {r.error}")
+        elif r.status == 'in_sync':
+            click.echo(f"{r.domain}  already in sync")
+        elif r.status == 'dry_run':
+            click.echo(f"{r.domain}  would add entity types: {r.added}")
+        else:
+            click.echo(f"{r.domain}  added entity types: {r.added}")
 
 
 # ── artmind ingest ─────────────────────────────────────────────────────────────
