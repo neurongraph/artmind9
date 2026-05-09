@@ -200,7 +200,7 @@ def delete_domain(domain_name: str):
     click.echo(f"Domain '{domain_name}' deleted")
 
 
-@domains.command("entities_prompt")
+@domains.command("entities-prompt")
 @click.argument("domain_name")
 def get_entities(domain_name: str):
     """The prompt used to extract entities from a document chunk"""
@@ -208,7 +208,7 @@ def get_entities(domain_name: str):
     click.echo(data.get("entities_prompt", []))
 
 
-@domains.command("properties_prompt")
+@domains.command("properties-prompt")
 @click.argument("domain_name")
 def get_properties(domain_name: str):
     """The prompt used to extract properties for the set of entities from a document chunk"""
@@ -216,7 +216,7 @@ def get_properties(domain_name: str):
     click.echo(data.get("properties_prompt", []))
 
 
-@domains.command("relationships_prompt")
+@domains.command("relationships-prompt")
 @click.argument("domain_name")
 def get_relationships(domain_name: str):
     """The prompt used to extract relationships from a document chunk"""
@@ -388,7 +388,7 @@ def ingest_dashboard():
     run_dashboard()
 
 
-@ingest.command("extract_kg")
+@ingest.command("extract-kg")
 @click.argument("document_name")
 @click.option("--domain", required=True, help="Domain the document belongs to")
 def ingest_extract_kg(document_name: str, domain: str) -> None:
@@ -419,7 +419,7 @@ def ingest_extract_kg(document_name: str, domain: str) -> None:
         raise click.ClickException("extract_kg failed — check logs for details")
 
 
-@ingest.command("write_to_graph")
+@ingest.command("write-to-graph")
 @click.argument("document_name", required=False, default=None)
 @click.option("--domain", default=None, help="Domain the document belongs to (required for single-document mode)")
 @click.option("--folder", type=click.Path(exists=True), default=None, help="Path to folder whose sub-folders are document KG directories")
@@ -666,7 +666,7 @@ def graph_metadata_cmd(domain: str, compact: bool) -> None:
     _echo_json(graph_query.graph_metadata(domain), compact)
 
 
-@graph.command("entity_listing")
+@graph.command("entity-listing")
 @click.option("--domain", required=True, help="Domain to query")
 @click.option("--nameFilter", "name_filter", default=None, help="Fuzzy match entity names (case-insensitive substring)")
 @click.option("--countAll", "count_all", is_flag=True, help="Include total unfiltered entity count in output")
@@ -814,7 +814,7 @@ def graph_pattern9(
     _run_graph_pattern("pattern9", domain, compact, question, entityClass=entity_class, topN=top_n)
 
 
-@query.command("vector_text")
+@query.command("vector-text")
 @click.option("--domain", required=True, help="Domain to query")
 @click.option("--topK", "top_k", type=int, default=5, show_default=True)
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
