@@ -104,23 +104,21 @@ def find_candidates(
     entity_name: str, entity_class: str, domain: str, top_n: int = 5
 ) -> list[dict]:
     cypher_domain = """
-    MATCH (e:Entity)
+    CALL db.index.fulltext.queryNodes('entity_name_ft', $name)
+    YIELD node AS e, score AS ftScore
     WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
-      AND (toLower(e.name) CONTAINS toLower($name)
-           OR toLower($name) CONTAINS toLower(e.name))
     RETURN elementId(e) AS node_id, e.name AS name, e.entity_class AS entity_class,
            e.description AS context_snippet,
-           CASE WHEN toLower(e.name) = toLower($name) THEN 1.0 ELSE 0.5 END AS match_score
+           CASE WHEN toLower(e.name) = toLower($name) THEN 1.0 ELSE ftScore END AS match_score
     ORDER BY match_score DESC, size(e.name) ASC
     LIMIT $top_n
     """
     cypher_global = """
-    MATCH (e:Entity)
-    WHERE toLower(e.name) CONTAINS toLower($name)
-       OR toLower($name) CONTAINS toLower(e.name)
+    CALL db.index.fulltext.queryNodes('entity_name_ft', $name)
+    YIELD node AS e, score AS ftScore
     RETURN elementId(e) AS node_id, e.name AS name, e.entity_class AS entity_class,
            e.description AS context_snippet,
-           CASE WHEN toLower(e.name) = toLower($name) THEN 1.0 ELSE 0.5 END AS match_score
+           CASE WHEN toLower(e.name) = toLower($name) THEN 1.0 ELSE ftScore END AS match_score
     ORDER BY match_score DESC
     LIMIT $top_n
     """

@@ -367,14 +367,11 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
     if pattern == "pattern7":
         return (
             """
-            MATCH (e)
+            CALL db.index.fulltext.queryNodes('entity_name_ft', $searchTerm)
+            YIELD node AS e, score AS ftScore
             WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
-              AND (
-                toLower(e.name) CONTAINS toLower($searchTerm)
-                OR toLower(coalesce(e.description, '')) CONTAINS toLower($searchTerm)
-              )
             RETURN e {.*, label: labels(e)} AS entityData
-            ORDER BY e.name
+            ORDER BY ftScore DESC, e.name
             LIMIT $limit
             """,
             {
