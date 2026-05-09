@@ -22,7 +22,7 @@ Start every new domain/question session by inspecting metadata and entities:
 
 ```bash
 uv run artmind query graph metadata --domain <domain>
-uv run artmind query graph entity_listing --domain <domain> --countAll --compact
+uv run artmind query graph entity-listing --domain <domain> --countAll --compact
 ```
 
 Use metadata and entity listings to identify:
@@ -39,7 +39,7 @@ Entity classes are not hard-coded. artmind ingestion derives Neo4j labels from e
 If `total_entities` from the initial `--countAll` call is large (roughly > 100), fetching the full listing may consume too much context. In that case, extract a name fragment from the user's question and narrow the listing:
 
 ```bash
-uv run artmind query graph entity_listing --domain <domain> --nameFilter "<fragment>"
+uv run artmind query graph entity-listing --domain <domain> --nameFilter "<fragment>"
 ```
 
 Use the returned canonical names to populate `--entityName`, `--entityNameList`, or other pattern parameters. If no fragment is identifiable from the question, skip the filtered listing and go straight to `pattern7` (search by description) or vector search to locate the relevant entities.
@@ -49,13 +49,13 @@ Use the returned canonical names to populate `--entityName`, `--entityNameList`,
 Check total entity count (before deciding whether to fetch full listing):
 
 ```bash
-uv run artmind query graph entity_listing --domain <domain> --countAll --compact
+uv run artmind query graph entity-listing --domain <domain> --countAll --compact
 ```
 
 Filter entity listing by name fragment:
 
 ```bash
-uv run artmind query graph entity_listing --domain <domain> --nameFilter "<fragment>"
+uv run artmind query graph entity-listing --domain <domain> --nameFilter "<fragment>"
 ```
 
 List entities of a class:
@@ -116,7 +116,7 @@ uv run artmind query graph pattern9 --domain <domain> --entityClass <LABEL> --to
 Search source text by combining vector embeddings and keyword matching:
 
 ```bash
-uv run artmind query vector_text --domain <domain> --topK 5 "<question>"
+uv run artmind query vector-text --domain <domain> --topK 5 "<question>"
 ```
 
 This command automatically balances semantic similarity (vector) and keyword matching (full-text) using Reciprocal Rank Fusion to produce optimal results.
@@ -125,9 +125,9 @@ This command automatically balances semantic similarity (vector) and keyword mat
 
 Prefer graph queries for questions about entity lists, named entities, explicit relationships, graph neighborhoods, connected entities, and rankings.
 
-Prefer `vector_text` search for source-text evidence, narrative details, "where/when/how did X happen" questions, ambiguous facts not exposed in metadata, or cases where graph output is too thin.
+Prefer `vector-text` search for source-text evidence, narrative details, "where/when/how did X happen" questions, ambiguous facts not exposed in metadata, or cases where graph output is too thin.
 
-`vector_text` automatically combines semantic embeddings and keyword matching using Reciprocal Rank Fusion, so it handles both semantic drift and keyword-specific queries without manual fallback logic.
+`vector-text` automatically combines semantic embeddings and keyword matching using Reciprocal Rank Fusion, so it handles both semantic drift and keyword-specific queries without manual fallback logic.
 
 Use hybrid retrieval when the graph identifies candidate entities or relationships but source text is needed to explain context. In hybrid answers, prioritize graph structure for entity/relationship facts and chunk text for narrative evidence.
 
@@ -145,8 +145,8 @@ Use hybrid retrieval when the graph identifies candidate entities or relationshi
 
 - If `pattern6` returns no rows, run `pattern5 --mode shortest`.
 - If `pattern7` returns multiple plausible candidates, choose the best name/description match and mention ambiguity when answering.
-- If graph results are empty or insufficient, run `vector_text` search.
-- If `vector_text` results are sparse or weak, say the available artmind data does not answer the question.
+- If graph results are empty or insufficient, run `vector-text` search.
+- If `vector-text` results are sparse or weak, say the available artmind data does not answer the question.
 
 ## Answer Style
 

@@ -428,8 +428,8 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
 
     \b
     Two modes:
-      Single document:  artmind ingest write_to_graph DOCUMENT_NAME --domain DOMAIN
-      Batch from folder: artmind ingest write_to_graph --folder PATH [--domain DOMAIN]
+      Single document:  artmind ingest write-to-graph DOCUMENT_NAME --domain DOMAIN
+      Batch from folder: artmind ingest write-to-graph --folder PATH [--domain DOMAIN]
 
     In single-document mode DOCUMENT_NAME is the registered filename (e.g. myfile.pdf).
     In folder mode each immediate sub-folder of PATH that contains a document.json is
