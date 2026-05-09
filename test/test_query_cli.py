@@ -38,7 +38,7 @@ def test_graph_entity_listing_cli_outputs_json(runner):
     }
     with patch("artmind.cli.graph_query.entity_listing", return_value=payload) as query:
         result = runner.invoke(
-            cli, ["query", "graph", "entity_listing", "--domain", "fiction"]
+            cli, ["query", "graph", "entity-listing", "--domain", "fiction"]
         )
 
     assert result.exit_code == 0, result.output
@@ -57,7 +57,7 @@ def test_graph_entity_listing_cli_passes_name_filter(runner):
     with patch("artmind.cli.graph_query.entity_listing", return_value=payload) as query:
         result = runner.invoke(
             cli,
-            ["query", "graph", "entity_listing", "--domain", "fiction", "--nameFilter", "holmes"],
+            ["query", "graph", "entity-listing", "--domain", "fiction", "--nameFilter", "holmes"],
         )
 
     assert result.exit_code == 0, result.output
@@ -76,7 +76,7 @@ def test_graph_entity_listing_cli_passes_count_all(runner):
     with patch("artmind.cli.graph_query.entity_listing", return_value=payload) as query:
         result = runner.invoke(
             cli,
-            ["query", "graph", "entity_listing", "--domain", "fiction", "--countAll"],
+            ["query", "graph", "entity-listing", "--domain", "fiction", "--countAll"],
         )
 
     assert result.exit_code == 0, result.output
@@ -244,7 +244,7 @@ def test_vector_text_cli_dispatches_and_outputs_json(runner):
             cli,
             [
                 "query",
-                "vector_text",
+                "vector-text",
                 "--domain",
                 "fiction",
                 "--topK",
