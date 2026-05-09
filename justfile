@@ -81,3 +81,13 @@ query-graph-rel domain entity1 entity2:
 # search chunks by vector + text (RRF combined)  (usage: just query-text <domain> "question")
 query-text domain question top_k="5":
     uv run artmind query vector_text --domain {{ domain }} --topK {{ top_k }} "{{ question }}"
+
+# ── artmind session ───────────────────────────────────────────────────────────
+
+# export Neo4j graph to a snapshot (end of session)
+session-close:
+    uv run artmind session close
+
+# wipe Neo4j and restore from latest snapshot (start of session)
+session-initiate:
+    uv run artmind session initiate --yes
