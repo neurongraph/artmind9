@@ -134,7 +134,7 @@ artmind domains harmonize [--domain DOMAIN] [--dry-run]
 
 ### Structured `entity_types` Field
 
-Because entity types are embedded in freeform prompt text (not a structured list), the harmonizer cannot reliably parse them with regex. Each schema YAML gains a new top-level field:
+Each schema YAML gains a new top-level field used as the source of truth for diffing:
 
 ```yaml
 entity_types:
@@ -146,22 +146,38 @@ entity_types:
   - CONCEPT
 ```
 
-This field is the source of truth for the harmonizer. It does **not** affect ingestion or LLM prompts — it is metadata for tooling only. Added to all 6 existing schemas as part of this change.
+This field does **not** affect ingestion or LLM prompts — it is metadata for tooling only. Added to all 6 existing schemas as part of this change.
+
+### What Gets Synced
+
+Each entity type has three text blocks across the three prompts. When a parent entity type is missing from a child, the harmonizer copies all three:
+
+| Prompt | Block pattern |
+|---|---|
+| `entities_prompt` | All-caps entity type header block: `PERSON\n  <description>\n  example type values: ...` |
+| `properties_prompt` | `For PERSON, consider:\n  - <property hints>` block |
+| `relationships_prompt` | All `PERSON ↔ X:` and `X ↔ PERSON:` lines within the common rel_type section |
+
+Block boundaries are reliably parseable by regex given the consistent formatting in all existing schemas.
 
 ### Algorithm
 
 1. Discover child schemas — any schema whose `name` field contains `.`
 2. Resolve parent — everything before the last `.` in the child's name
-3. Read `entity_types` list from parent YAML and child YAML
-4. Diff: find entity types present in parent `entity_types` but absent from child `entity_types`
-5. Patch: add missing types to child's `entity_types` list (structural field only — prompt text is left for the user to update manually, harmonizer prints a reminder)
+3. Diff `entity_types` lists: find types in parent but absent from child
+4. For each missing type:
+   a. Extract the entity block from parent `entities_prompt` and append to child `entities_prompt`
+   b. Extract the `For TYPE, consider:` block from parent `properties_prompt` and append to child `properties_prompt`
+   c. Extract all `TYPE ↔ X:` and `X ↔ TYPE:` rel lines from parent `relationships_prompt` and merge into child `relationships_prompt`
+   d. Add the type to child's `entity_types` list
+5. Write updated child YAML
 6. If parent schema does not exist (orphaned child), report an error and skip
 
 ### Constraints
 
-- Harmonizer only **adds** missing parent types to the child's `entity_types` field — never removes child extras
-- Does not auto-edit `entities_prompt` text — prints which types were added to `entity_types` and reminds the user to update the prompt text accordingly
-- Does not touch `relationships_prompt` or `properties_prompt`
+- Harmonizer only **adds** missing parent types to children — never removes child extras
+- Copies block text verbatim from parent — no prompt rewriting
+- `--dry-run` shows a diff of what would change in each prompt section without writing
 
 ### Output
 
