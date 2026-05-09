@@ -7,6 +7,7 @@ import pytest
 from artmind.graph_snapshot import (
     _match_keys_for_node,
     _find_latest_snapshot,
+    _read_snapshot,
 )
 
 
@@ -68,3 +69,34 @@ class TestFindLatestSnapshot:
         (tmp_path / "snapshot_2026-05-01_100000.tar.gz").write_text("")
         result = _find_latest_snapshot()
         assert result.name == "snapshot_2026-05-01_100000.tar.gz"
+
+
+class TestReadSnapshot:
+    def test_reads_valid_tar_gz(self, tmp_path):
+        snapshot_data = {
+            "meta": {"exported_at": "2026-05-09T14:00:00", "node_counts": {}, "relationship_count": 0},
+            "schema": {},
+            "nodes": {"Document": [], "DocChunk": [], "Entity": [], "UserChat": []},
+            "relationships": [],
+        }
+        tar_path = tmp_path / "snapshot_2026-05-09_140000.tar.gz"
+        json_path = tmp_path / "snapshot.json"
+        json_path.write_text(json.dumps(snapshot_data), encoding="utf-8")
+        with tarfile.open(tar_path, "w:gz") as tar:
+            tar.add(json_path, arcname="snapshot.json")
+        json_path.unlink()
+
+        result = _read_snapshot(tar_path)
+        assert result["meta"]["exported_at"] == "2026-05-09T14:00:00"
+        assert result["nodes"]["Document"] == []
+
+    def test_raises_on_missing_snapshot_json(self, tmp_path):
+        tar_path = tmp_path / "bad.tar.gz"
+        json_path = tmp_path / "other.json"
+        json_path.write_text("{}")
+        with tarfile.open(tar_path, "w:gz") as tar:
+            tar.add(json_path, arcname="other.json")
+        json_path.unlink()
+
+        with pytest.raises(ValueError, match="snapshot.json"):
+            _read_snapshot(tar_path)

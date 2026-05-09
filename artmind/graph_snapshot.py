@@ -146,3 +146,161 @@ def export_graph() -> Path:
         elapsed, total_nodes, len(relationships), size_mb,
     )
     return dest
+
+
+# ── import ────────────────────────────────────────────────────────────────────
+
+
+def _read_snapshot(tar_path: Path) -> dict:
+    """Extract and parse snapshot.json from a .tar.gz file."""
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        with tarfile.open(tar_path, "r:gz") as tar:
+            members = tar.getnames()
+            if "snapshot.json" not in members:
+                raise ValueError(
+                    f"Archive does not contain snapshot.json (found: {members})"
+                )
+            tar.extract("snapshot.json", path=tmp_dir)
+        json_path = Path(tmp_dir) / "snapshot.json"
+        return json.loads(json_path.read_text(encoding="utf-8"))
+
+
+def _wipe_database(session) -> None:
+    """Drop all constraints, indexes, and delete all nodes/relationships."""
+    # Drop constraints
+    constraints = session.run("SHOW CONSTRAINTS").data()
+    for c in constraints:
+        name = c.get("name")
+        if name:
+            try:
+                session.run(f"DROP CONSTRAINT {name}")
+                logger.debug("Dropped constraint: {}", name)
+            except Exception as e:
+                logger.warning("Failed to drop constraint {}: {}", name, e)
+
+    # Drop indexes
+    indexes = session.run("SHOW INDEXES").data()
+    for idx in indexes:
+        name = idx.get("name")
+        idx_type = idx.get("type", "")
+        # Skip lookup indexes (auto-managed by Neo4j, cannot be dropped)
+        if name and idx_type != "LOOKUP":
+            try:
+                session.run(f"DROP INDEX {name}")
+                logger.debug("Dropped index: {}", name)
+            except Exception as e:
+                logger.warning("Failed to drop index {}: {}", name, e)
+
+    # Batch delete all nodes
+    batch_size = 10_000
+    while True:
+        result = session.run(
+            f"MATCH (n) WITH n LIMIT {batch_size} DETACH DELETE n RETURN count(*) AS deleted"
+        ).single()
+        deleted = result["deleted"] if result else 0
+        if deleted == 0:
+            break
+        logger.debug("Deleted {} nodes", deleted)
+
+
+def _restore_nodes(session, nodes: dict[str, list[dict]]) -> dict[str, int]:
+    """CREATE all nodes from snapshot data. Returns counts per label."""
+    counts: dict[str, int] = {}
+    for base_label, node_list in nodes.items():
+        for node in node_list:
+            props = {k: v for k, v in node.items() if k != "labels"}
+            labels = node.get("labels", [base_label])
+
+            if base_label == "Entity":
+                # Build label string from stored labels (e.g. "CHARACTER:Entity")
+                label_parts = [_sanitize_label(l) for l in labels if l != "Entity"]
+                label_str = ":".join(label_parts + ["Entity"]) if label_parts else "Entity"
+            else:
+                label_str = base_label
+
+            session.run(f"CREATE (n:{label_str}) SET n = $props", props=props)
+        counts[base_label] = len(node_list)
+        logger.debug("Restored {} {} node(s)", len(node_list), base_label)
+    return counts
+
+
+def _restore_relationships(session, relationships: list[dict]) -> int:
+    """MATCH start/end nodes and CREATE relationships. Returns count."""
+    count = 0
+    for rel in relationships:
+        rel_type = rel["type"]
+        start_match = rel["start_match"]
+        end_match = rel["end_match"]
+        rel_props = rel.get("properties", {})
+
+        # Build WHERE clauses from match keys
+        start_conditions = " AND ".join(f"s.{k} = $start_{k}" for k in start_match)
+        end_conditions = " AND ".join(f"e.{k} = $end_{k}" for k in end_match)
+
+        params = {}
+        for k, v in start_match.items():
+            params[f"start_{k}"] = v
+        for k, v in end_match.items():
+            params[f"end_{k}"] = v
+        params["rel_props"] = rel_props
+
+        cypher = (
+            f"MATCH (s) WHERE {start_conditions} "
+            f"MATCH (e) WHERE {end_conditions} "
+            f"CREATE (s)-[r:{rel_type}]->(e) SET r = $rel_props"
+        )
+        try:
+            session.run(cypher, **params)
+            count += 1
+        except Exception as exc:
+            logger.warning(
+                "Skipped relationship {} -> {}: {}",
+                start_match, end_match, exc,
+            )
+    logger.debug("Restored {} relationship(s)", count)
+    return count
+
+
+def import_graph(snapshot_path: Path | None = None) -> dict:
+    """Wipe Neo4j and restore from a snapshot.
+
+    If snapshot_path is None, uses the latest snapshot in GRAPH_SNAPSHOT_DIR.
+    Returns a summary dict.
+    """
+    if snapshot_path is None:
+        snapshot_path = _find_latest_snapshot()
+    if snapshot_path is None:
+        raise FileNotFoundError("No snapshots found in " + str(GRAPH_SNAPSHOT_DIR))
+
+    env = load_env()
+    embedding_dim = int(env.get("ARTMIND_KG_EMBEDDING_DIMENSIONS", "768"))
+    t0 = time.monotonic()
+
+    logger.info("Importing from: {}", snapshot_path.name)
+    data = _read_snapshot(snapshot_path)
+
+    with neo4j_session() as session:
+        logger.info("Wiping Neo4j database...")
+        _wipe_database(session)
+
+        logger.info("Recreating schema...")
+        _setup_neo4j(session, embedding_dim)
+
+        logger.info("Restoring nodes...")
+        node_counts = _restore_nodes(session, data.get("nodes", {}))
+
+        logger.info("Restoring relationships...")
+        rel_count = _restore_relationships(session, data.get("relationships", []))
+
+    elapsed = time.monotonic() - t0
+    total_nodes = sum(node_counts.values())
+    logger.info(
+        "Import complete in {:.1f}s: {} nodes, {} relationships",
+        elapsed, total_nodes, rel_count,
+    )
+    return {
+        "snapshot": snapshot_path.name,
+        "node_counts": node_counts,
+        "relationship_count": rel_count,
+        "elapsed_seconds": round(elapsed, 1),
+    }
