@@ -291,6 +291,45 @@ uv run artmind docs clean --domain fiction document_name
 
 ---
 
+## Session management
+
+Neo4j is a running service — if your instance is ephemeral (Docker without volumes, a cloud container that gets recycled), the graph data disappears when it stops. Session snapshots let you save and restore the entire graph as a compressed JSON archive.
+
+### Save the graph (end of session)
+
+```bash
+uv run artmind session close
+# or: just session-close
+```
+
+Exports all nodes and relationships to `data/graph_snapshot/snapshot_<timestamp>.tar.gz`.
+
+### Restore the graph (start of session)
+
+```bash
+uv run artmind session initiate
+# or: just session-initiate
+```
+
+Wipes the current Neo4j database, recreates the schema, and restores from the latest snapshot. Pass `--snapshot path/to/file.tar.gz` to restore a specific snapshot instead of the latest.
+
+> **Caution:** `session initiate` is destructive — it deletes all existing data before restoring. It will prompt for confirmation unless you pass `--yes`.
+
+### When to use
+
+- **Persistent Neo4j** (native install, Docker with a named volume): You don't need snapshots — the data survives restarts. Use `artmind setup` after a fresh install to ensure indexes exist.
+- **Ephemeral Neo4j** (Docker without volumes, cloud containers): Run `session close` before tearing down and `session initiate` after spinning up.
+
+### Agent integration
+
+These commands are intentionally manual, not automatic hooks. An agent session that only touches code doesn't need Neo4j, and auto-importing a snapshot would be destructive if the database already has current data. If your workflow benefits from automatic restore, add a conditional instruction to your agent rules (e.g. `CLAUDE.md`):
+
+```
+If a command fails because Neo4j is empty, run `just session-initiate` to restore from the latest snapshot before retrying.
+```
+
+---
+
 ## Updating the knowledge graph
 
 Beyond ingesting documents, you can add facts directly in natural language — atomic facts, passages, todos, or pasted text. Each update is extracted, disambiguated against existing entities, and written to Neo4j as a `UserChat` node with full audit metadata.
@@ -489,7 +528,9 @@ just test                       # run the test suite
 just ingest-sync path/to/file   # ingest a file (default domain: general)
 just query-graph-metadata fiction
 just query-graph-entities fiction
-just query-vector fiction "your question here"
+just query-text fiction "your question here"
+just session-close              # export Neo4j graph to snapshot
+just session-initiate           # wipe Neo4j and restore from latest snapshot
 ```
 
 ---
@@ -497,7 +538,7 @@ just query-vector fiction "your question here"
 ## Running tests
 
 ```bash
-uv run --group dev pytest tests/ -v
+uv run --group dev pytest test/ -v
 ```
 
 ---
@@ -512,6 +553,7 @@ artmind/                core package
   extraction.py         shared LLM prompt-build and parse primitives
   update.py             natural-language update backend
   graph_query.py        Neo4j graph query layer (9 patterns)
+  graph_snapshot.py     export/import full Neo4j graph as compressed snapshots
   vector_query.py       Neo4j vector search, full-text search, and RRF combining (DocChunk + UserChat)
   refine_graph.py       entity resolution
   harmonizer.py         schema harmonizer — syncs child domain schemas from parent
@@ -525,7 +567,7 @@ scripts/
 skills/
   artmind-query/        Claude Code skill — natural-language graph queries
   artmind-update/       Claude Code skill — natural-language graph updates
-tests/                  pytest test suite
+test/                   pytest test suite
 paths.py                central path configuration
 justfile                task runner recipes
 ```
