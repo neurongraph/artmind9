@@ -32,15 +32,15 @@ domains-delete domain:
 
 # show entities extraction prompt for a domain  (usage: just domains-entities-prompt <domain>)
 domains-entities-prompt domain:
-    uv run artmind domains entities_prompt {{ domain }}
+    uv run artmind domains entities-prompt {{ domain }}
 
 # show properties extraction prompt for a domain  (usage: just domains-properties-prompt <domain>)
 domains-properties-prompt domain:
-    uv run artmind domains properties_prompt {{ domain }}
+    uv run artmind domains properties-prompt {{ domain }}
 
 # show relationships extraction prompt for a domain  (usage: just domains-relationships-prompt <domain>)
 domains-relationships-prompt domain:
-    uv run artmind domains relationships_prompt {{ domain }}
+    uv run artmind domains relationships-prompt {{ domain }}
 
 # sync child domain schemas against their parent  (usage: just domains-harmonize [domain] [--dry-run])
 domains-harmonize domain="" dry_run="":
@@ -74,15 +74,15 @@ ingest-dashboard:
 
 # re-run KG extraction for a document  (usage: just ingest-extract-kg <document> --domain <domain>)
 ingest-extract-kg document domain:
-    uv run artmind ingest extract_kg {{ document }} --domain {{ domain }}
+    uv run artmind ingest extract-kg {{ document }} --domain {{ domain }}
 
 # write already-extracted KG JSON to Neo4j  (usage: just ingest-write-to-graph <document> --domain <domain>)
 ingest-write-to-graph document domain:
-    uv run artmind ingest write_to_graph {{ document }} --domain {{ domain }}
+    uv run artmind ingest write-to-graph {{ document }} --domain {{ domain }}
 
 # batch write all document KG JSON in a folder to Neo4j  (usage: just ingest-write-to-graph-folder <folder> [domain])
 ingest-write-to-graph-folder folder domain="":
-    uv run artmind ingest write_to_graph --folder '{{ folder }}' {{ if domain != "" { "--domain " + domain } else { "" } }}
+    uv run artmind ingest write-to-graph --folder '{{ folder }}' {{ if domain != "" { "--domain " + domain } else { "" } }}
 
 # pull KG JSON from an external GitHub repo  (usage: just ingest-pull-kg <repo_url> <repo_path> <domain>)
 ingest-pull-kg repo repo_path domain:
@@ -110,7 +110,7 @@ query-graph-metadata domain:
 
 # entity listing for a domain  (usage: just query-graph-entities <domain>)
 query-graph-entities domain:
-    uv run artmind query graph entity_listing --domain {{ domain }}
+    uv run artmind query graph entity-listing --domain {{ domain }}
 
 # list entities of a class  (usage: just query-graph-list <domain> <entity_class>)
 query-graph-list domain entity_class:
@@ -150,7 +150,7 @@ query-graph-top domain entity_class top_n="5":
 
 # search chunks by vector + text (RRF combined)  (usage: just query-text <domain> "question")
 query-text domain question top_k="5":
-    uv run artmind query vector_text --domain {{ domain }} --topK {{ top_k }} "{{ question }}"
+    uv run artmind query vector-text --domain {{ domain }} --topK {{ top_k }} "{{ question }}"
 
 # ── artmind update ────────────────────────────────────────────────────────────
 
