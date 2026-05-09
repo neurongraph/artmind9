@@ -80,6 +80,14 @@ ingest-extract-kg document domain:
 ingest-write-to-graph document domain:
     uv run artmind ingest write_to_graph {{ document }} --domain {{ domain }}
 
+# batch write all document KG JSON in a folder to Neo4j  (usage: just ingest-write-to-graph-folder <folder> [domain])
+ingest-write-to-graph-folder folder domain="":
+    uv run artmind ingest write_to_graph --folder '{{ folder }}' {{ if domain != "" { "--domain " + domain } else { "" } }}
+
+# pull KG JSON from an external GitHub repo  (usage: just ingest-pull-kg <repo_url> <repo_path> <domain>)
+ingest-pull-kg repo repo_path domain:
+    uv run artmind ingest pull-kg --repo '{{ repo }}' --repo-path '{{ repo_path }}' --domain {{ domain }}
+
 # dry-run entity resolution: compute merge proposals and write to file  (usage: just ingest-refine-graph-dry [domain])
 ingest-refine-graph-dry domain="":
     uv run artmind ingest refine-graph --dry-run {{ if domain != "" { "--domain " + domain } else { "" } }}
