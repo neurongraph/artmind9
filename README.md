@@ -256,8 +256,40 @@ uv run artmind ingest extract_kg document_name --domain fiction
 Write previously-extracted KG JSON to Neo4j without re-running the LLM:
 
 ```bash
-uv run artmind ingest write_to_graph document_name
+# single document
+uv run artmind ingest write_to_graph document_name --domain fiction
+
+# batch — write all documents in a folder
+uv run artmind ingest write_to_graph --folder data/kg/fiction
 ```
+
+In folder mode each immediate sub-folder that contains a `document.json` is written to Neo4j. If `--domain` is omitted the domain is inferred from the folder name.
+
+### Importing KG from external repositories
+
+KG extraction is the most compute-intensive part of the pipeline. In team and multi-region setups it often makes sense to run extraction once and share the results as checked-in JSON files in a Git repository, rather than re-extracting on every machine.
+
+The `pull-kg` command fetches a domain folder from an external repository using a sparse Git checkout (only the target path is downloaded) and copies the document sub-folders into your local `data/kg/<domain>/` directory. From there you load them into Neo4j with `write_to_graph --folder`.
+
+**Typical workflow — importing `sales_collateral` from another region:**
+
+```bash
+# 1. Pull the KG JSON from the APAC team's repo
+uv run artmind ingest pull-kg \
+  --repo git@github.com:acme/apac-kg-store.git \
+  --repo-path data/kg/sales_collateral \
+  --domain sales_collateral
+
+# 2. Write all pulled documents to Neo4j
+uv run artmind ingest write_to_graph --folder data/kg/sales_collateral
+
+# 3. Optionally resolve duplicate entities across the merged data
+uv run artmind ingest refine-graph --domain sales_collateral --dry-run
+```
+
+**Conflict handling:** If any document sub-folder already exists locally, the pull aborts and lists the conflicting names so you can resolve them manually (e.g. rename or delete the local copy) before re-running.
+
+**Authentication:** The command uses your existing Git credentials (SSH keys, credential helpers). If `GITHUB_TOKEN` is set it is injected into HTTPS URLs as a fallback.
 
 ### Entity resolution (graph refinement)
 
@@ -487,6 +519,8 @@ If you have `just` installed, common commands are available as short recipes:
 just                            # list all recipes
 just test                       # run the test suite
 just ingest-sync path/to/file   # ingest a file (default domain: general)
+just ingest-write-to-graph-folder data/kg/fiction  # batch write a folder of KG JSON
+just ingest-pull-kg <repo> <path> <domain>         # pull KG from external repo
 just query-graph-metadata fiction
 just query-graph-entities fiction
 just query-vector fiction "your question here"
@@ -509,6 +543,7 @@ artmind/                core package
   cli.py                Click command definitions
   setup.py              DB + Neo4j index initialization (artmind setup)
   ingest.py             document ingestion pipeline
+  kg_pull.py            pull KG JSON from external git repos (sparse checkout)
   extraction.py         shared LLM prompt-build and parse primitives
   update.py             natural-language update backend
   graph_query.py        Neo4j graph query layer (9 patterns)

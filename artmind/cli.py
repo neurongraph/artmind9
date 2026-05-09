@@ -25,6 +25,7 @@ from artmind.ingest import (
     ingest_to_kg,
     write_to_graph,
 )
+from artmind.kg_pull import pull_kg as pull_kg_fn
 from artmind.jobs import (
     _create_job,
     _get_job_results,
@@ -503,6 +504,36 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
     )
     if fail_count:
         raise click.ClickException(f"{fail_count} document(s) failed — check logs for details")
+
+
+
+@ingest.command("pull-kg")
+@click.option("--repo", required=True, help="Git-cloneable URL (SSH or HTTPS) of the external repository")
+@click.option("--repo-path", required=True, help="Path within the repo to the folder containing document sub-folders")
+@click.option("--domain", required=True, help="Target domain name")
+def ingest_pull_kg(repo: str, repo_path: str, domain: str) -> None:
+    """Pull KG JSON from an external GitHub repo into the local KG directory.
+
+    \b
+    Uses sparse git checkout to fetch only the specified sub-path.
+    Each immediate sub-folder containing a document.json is copied into data/kg/<domain>/.
+    Aborts if any sub-folder already exists locally (resolve conflicts manually first).
+
+    Example:
+      artmind ingest pull-kg \\
+        --repo git@github.com:acme/kg-store.git \\
+        --repo-path data/kg/sales_collateral \\
+        --domain sales_collateral
+    """
+    _setup_logger()
+    try:
+        result = pull_kg_fn(repo, repo_path, domain)
+    except RuntimeError as e:
+        raise click.ClickException(str(e))
+    logger.info(
+        "pull-kg complete: {} document(s) pulled into domain '{}'",
+        result["pulled_count"], result["domain"],
+    )
 
 
 @ingest.command("refine-graph")
