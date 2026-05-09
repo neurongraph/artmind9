@@ -72,8 +72,11 @@ Node match keys by label:
 ### Import Logic (`artmind session initiate`)
 1. Locate snapshot: if `--snapshot` given, use it. Otherwise find newest `.tar.gz` in `data/graph_snapshot/` by filename sort
 2. Extract tar to temp directory, read `snapshot.json`
-3. Wipe Neo4j data: `MATCH (n) DETACH DELETE n` in batches of 10,000 (data only — schema survives)
-4. Recreate schema: call `_setup_neo4j(session, embedding_dim)` directly (idempotent `IF NOT EXISTS` — no-op if schema survived, creates fresh if this is a new Neo4j)
+3. Wipe Neo4j completely:
+   a. Drop all constraints: `SHOW CONSTRAINTS` → `DROP CONSTRAINT <name>` for each
+   b. Drop all indexes: `SHOW INDEXES` → `DROP INDEX <name>` for each (covers regular, vector, and fulltext)
+   c. Delete all data: `MATCH (n) DETACH DELETE n` in batches of 10,000
+4. Recreate schema: call `_setup_neo4j(session, embedding_dim)` — creates constraints, indexes, vector indexes, and fulltext indexes fresh, matching the current artmind code version. This ensures snapshots from older versions import correctly into newer versions with different schema definitions
 5. Restore nodes: CREATE each node with all properties and labels. Entities get their dynamic label via `_sanitize_label()` from `ingest.py`
 6. Restore relationships: MATCH start/end nodes by stored match keys, CREATE relationship with type and properties
 7. Clean up temp directory
@@ -91,7 +94,7 @@ Node match keys by label:
 - `_find_latest_snapshot() -> Path | None` — scans snapshot dir for newest file
 - `_export_nodes(session) -> dict` — queries and groups nodes by label
 - `_export_relationships(session) -> list` — queries relationships with match keys
-- `_wipe_data(session)` — batched DETACH DELETE
+- `_wipe_database(session)` — drop all constraints/indexes, then batched DETACH DELETE
 - `_restore_nodes(session, nodes: dict)` — creates all nodes
 - `_restore_relationships(session, relationships: list)` — creates all relationships
 
