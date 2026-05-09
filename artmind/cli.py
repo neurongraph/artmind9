@@ -13,6 +13,7 @@ from loguru import logger
 
 from artmind import graph_query, vector_query
 import artmind.update as update_backend
+from artmind.graph_snapshot import export_graph, import_graph
 from artmind.harmonizer import harmonize_all, harmonize_schema
 from artmind.setup import setup_all
 from artmind.dashboard import run_dashboard
@@ -856,6 +857,58 @@ def update_export(domain: str | None, fmt: str, output: str):
     for path in written:
         click.echo(str(path.name))
     click.echo(f"\nExported {len(written)} file(s) to {output_dir}")
+
+
+# ── artmind session ────────────────────────────────────────────────────────────
+
+
+@cli.group()
+def session():
+    """Save and restore the Neo4j graph between sessions."""
+    pass
+
+
+@session.command("close")
+def session_close():
+    """Export the full Neo4j graph to a compressed snapshot (end of session)."""
+    _setup_logger()
+    try:
+        snapshot_path = export_graph()
+        size_mb = snapshot_path.stat().st_size / (1024 * 1024)
+        click.echo(f"Snapshot saved: {snapshot_path}")
+        click.echo(f"  Size: {size_mb:.2f} MB")
+    except Exception as e:
+        raise click.ClickException(str(e))
+
+
+@session.command("initiate")
+@click.option("--snapshot", "snapshot_file", default=None, type=click.Path(exists=True),
+              help="Path to a specific snapshot .tar.gz (default: latest in data/graph_snapshot/)")
+@click.option("--yes", is_flag=True, help="Skip confirmation prompt")
+def session_initiate(snapshot_file: str | None, yes: bool):
+    """Wipe Neo4j and restore from a snapshot (start of session)."""
+    _setup_logger()
+    if not yes:
+        env = load_env()
+        db_name = env.get("ARTMIND_KG_NEO4J_DATABASE", "neo4j")
+        if not click.confirm(
+            f"This will delete all data in Neo4j database '{db_name}'. Continue?"
+        ):
+            raise click.Abort()
+
+    snapshot_path = Path(snapshot_file) if snapshot_file else None
+    try:
+        summary = import_graph(snapshot_path)
+        click.echo(f"Restored from: {summary['snapshot']}")
+        node_counts = summary.get("node_counts", {})
+        parts = [f"{label}: {count}" for label, count in node_counts.items()]
+        click.echo(f"  Nodes: {' | '.join(parts)}")
+        click.echo(f"  Relationships: {summary['relationship_count']}")
+        click.echo(f"  Elapsed: {summary['elapsed_seconds']}s")
+    except FileNotFoundError as e:
+        raise click.ClickException(str(e))
+    except Exception as e:
+        raise click.ClickException(str(e))
 
 
 # ── artmind setup ──────────────────────────────────────────────────────────────
