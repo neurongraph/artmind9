@@ -269,7 +269,7 @@ In folder mode each immediate sub-folder that contains a `document.json` is writ
 
 KG extraction is the most compute-intensive part of the pipeline. In team and multi-region setups it often makes sense to run extraction once and share the results as checked-in JSON files in a Git repository, rather than re-extracting on every machine.
 
-The `pull-kg` command fetches a domain folder from an external repository using a sparse Git checkout (only the target path is downloaded) and copies the document sub-folders into your local `data/kg/<domain>/` directory. From there you load them into Neo4j with `write_to_graph --folder`.
+The `pull-kg` command fetches a domain folder from an external repository using a sparse Git checkout (only the target path is downloaded) and copies the document sub-folders into your local `data/kg/<domain>/` directory. From there you load them into Neo4j with `write-to-graph --folder`.
 
 **Typical workflow — importing `sales_collateral` from another region:**
 
