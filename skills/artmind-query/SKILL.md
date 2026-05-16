@@ -24,9 +24,9 @@ Start every new domain/question session by inspecting metadata and entities:
 uv run artmind query graph metadata --domain <domain>
 uv run artmind query graph entity-listing --domain <domain> --countAll --compact
 ```
+If there are multiple questions in the user query, break them down into individual questions.
 
 Use metadata and entity listings to identify:
-
 - Stored labels such as `PERSON`, `LOCATION`, or domain-specific labels like `PROJECT_ROLE`.
 - Canonical entity names.
 - Relationship types, properties, and connection directions.
@@ -121,9 +121,20 @@ uv run artmind query vector-text --domain <domain> --topK 5 "<question>"
 
 This command automatically balances semantic similarity (vector) and keyword matching (full-text) using Reciprocal Rank Fusion to produce optimal results.
 
+Generate and execute an LLM-powered Cypher query from natural language:
+
+```bash
+uv run artmind query graph text2cypher --domain <domain> "<question>"
+uv run artmind query graph text2cypher --domain <domain> --dry-run "<question>"
+```
+
+Use `--dry-run` to inspect the generated Cypher without executing it. This command grounds the LLM with graph schema metadata and entity listings to produce accurate, read-only Cypher. Only read queries are allowed — write operations are rejected.
+
 ## Routing
 
 Prefer graph queries for questions about entity lists, named entities, explicit relationships, graph neighborhoods, connected entities, and rankings.
+
+Use `text2cypher` when the question is clearly a graph query but none of patterns 1–9 fit — for example, aggregation counts ("how many DocChunks for Document X?"), multi-entity relationship traversals, queries referencing specific Neo4j labels or properties, or custom filtering/grouping that the templated patterns do not support.
 
 Prefer `vector-text` search for source-text evidence, narrative details, "where/when/how did X happen" questions, ambiguous facts not exposed in metadata, or cases where graph output is too thin.
 
@@ -140,11 +151,14 @@ Use hybrid retrieval when the graph identifies candidate entities or relationshi
 - Descriptor-based references: use `pattern7`, then `pattern4` on the best candidate.
 - Class X connected to entity Y: use `pattern8`.
 - Ranking plus explanation: use `pattern9`, then inspect top result(s) with `pattern4`.
+- Aggregation, counting, custom filtering, or multi-entity relationship queries not covered by patterns 1–9: use `text2cypher`.
 
 ## Fallbacks
 
 - If `pattern6` returns no rows, run `pattern5 --mode shortest`.
 - If `pattern7` returns multiple plausible candidates, choose the best name/description match and mention ambiguity when answering.
+- If no pattern fits but the question is clearly a graph query, use `text2cypher`.
+- If `text2cypher` fails (e.g. the LLM produces invalid Cypher), fall back to `vector-text` search.
 - If graph results are empty or insufficient, run `vector-text` search.
 - If `vector-text` results are sparse or weak, say the available artmind data does not answer the question.
 

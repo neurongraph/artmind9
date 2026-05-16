@@ -148,6 +148,10 @@ query-graph-connected domain entity_class entity_name:
 query-graph-top domain entity_class top_n="5":
     uv run artmind query graph pattern9 --domain {{ domain }} --entityClass {{ entity_class }} --topN {{ top_n }}
 
+# LLM-generated Cypher from natural language  (usage: just query-graph-text2cypher <domain> "question" [--dry-run])
+query-graph-text2cypher domain question dry_run="":
+    uv run artmind query graph text2cypher --domain {{ domain }} {{ if dry_run == "true" { "--dry-run" } else { "" } }} "{{ question }}"
+
 # search chunks by vector + text (RRF combined)  (usage: just query-text <domain> "question")
 query-text domain question top_k="5":
     uv run artmind query vector-text --domain {{ domain }} --topK {{ top_k }} "{{ question }}"

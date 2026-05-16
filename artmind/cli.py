@@ -11,7 +11,7 @@ import click
 import yaml
 from loguru import logger
 
-from artmind import graph_query, vector_query
+from artmind import graph_query, text2cypher, vector_query
 import artmind.update as update_backend
 from artmind.graph_snapshot import export_graph, import_graph
 from artmind.harmonizer import harmonize_all, harmonize_schema
@@ -812,6 +812,22 @@ def graph_pattern9(
 ) -> None:
     """Top-N entities of a class by connection count."""
     _run_graph_pattern("pattern9", domain, compact, question, entityClass=entity_class, topN=top_n)
+
+
+@graph.command("text2cypher")
+@click.option("--domain", required=True, help="Domain to query")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.option("--dry-run", "dry_run", is_flag=True, help="Show generated Cypher without executing it")
+@click.argument("question")
+def graph_text2cypher(domain: str, compact: bool, dry_run: bool, question: str) -> None:
+    """Generate and execute a Cypher query from a natural-language question (LLM-powered)."""
+    try:
+        result = text2cypher.execute_text2cypher(
+            question=question, domain=domain, dry_run=dry_run
+        )
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
 
 
 @query.command("vector-text")
