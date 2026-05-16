@@ -66,6 +66,22 @@ def _entities_summary(listing: dict) -> str:
     return "\n".join(lines) if lines else "  (no entities found)"
 
 
+# Hardcoded structural schema that is always included in the text2cypher prompt.
+# This ensures the LLM knows the exact relationships between Document, DocChunk,
+# UserChat, and Entity nodes — preventing guesswork on relationship names.
+STRUCTURAL_SCHEMA = """\
+STRUCTURAL GRAPH (fixed for all domains — use these exact relationship names):
+  Node :Document  properties=[id, name, path, domain]
+  Node :DocChunk  properties=[id, name, doc_id, text, domain, embedding]
+  Node :UserChat  properties=[id, raw_text, domain, session_id, created_by, created_at, embedding]
+  Node :Entity    properties=[id, name, entity_class, domain, description, type]
+  Relationship (:DocChunk)-[:PART_OF]->(:Document)        — chunk belongs to a document
+  Relationship (:Entity)-[:EXTRACTED_FROM]->(:DocChunk)    — entity was extracted from a chunk
+  Relationship (:DocChunk)-[:MENTIONS]->(:Entity)          — chunk mentions an entity
+  Relationship (:UserChat)-[:MENTIONS]->(:Entity)          — user chat mentions an entity
+  Entity-to-Entity relationships are domain-specific (see GRAPH SCHEMA below)."""
+
+
 def build_text2cypher_prompt(
     question: str,
     schema_info: str,
@@ -82,8 +98,12 @@ RULES:
     (n.domain = '{domain}' OR n.domain STARTS WITH ('{domain}' + '.'))
   Apply this filter to every unbound node in the MATCH pattern.
 - Use entity names exactly as they appear in the entity listing when matching.
+- For Document/DocChunk/UserChat/Entity queries, use ONLY the relationship names
+  from the STRUCTURAL GRAPH section below. Do NOT invent relationship names.
 - Return meaningful column aliases.
 - Keep the query concise.
+
+{STRUCTURAL_SCHEMA}
 
 GRAPH SCHEMA (domain: {domain}):
 {schema_info}

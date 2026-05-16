@@ -476,6 +476,7 @@ uv run artmind query graph entity-listing --domain fiction --nameFilter "Holmes"
 | `pattern7` | Search entities by name/description fragment | `--searchTerm` |
 | `pattern8` | Entities of class X connected to entity Y | `--entityClass`, `--entityName` |
 | `pattern9` | Top-N entities by connection degree | `--entityClass`, `--topN` |
+| `pattern10` | Retrieve all text chunks for a named document | `--documentName` |
 | `text2cypher` | LLM-generated Cypher from natural language | `"<question>"`, `--dry-run` |
 
 Patterns 2, 3, and 4 include source attribution — each row returns `doc_sources` (document chunks that mention the entity) and `chat_sources` (user chat entries that mention it).
@@ -500,6 +501,12 @@ uv run artmind query graph pattern5 --domain fiction \
 
 # top 5 most-connected persons
 uv run artmind query graph pattern9 --domain fiction --entityClass PERSON --topN 5
+
+# retrieve all text chunks for a document
+uv run artmind query graph pattern10 --domain fiction --documentName "The Copper Beeches"
+
+# focused structural metadata (Document/DocChunk/UserChat/Entity counts)
+uv run artmind query graph structural-metadata --domain fiction
 
 # LLM-generated Cypher for arbitrary graph questions
 uv run artmind query graph text2cypher --domain fiction "How many DocChunks are there for each Document?"
@@ -594,7 +601,7 @@ artmind/                core package
   kg_pull.py            pull KG JSON from external git repos (sparse checkout)
   extraction.py         shared LLM prompt-build and parse primitives
   update.py             natural-language update backend
-  graph_query.py        Neo4j graph query layer (9 patterns)
+  graph_query.py        Neo4j graph query layer (10 patterns + structural metadata)
   text2cypher.py         LLM-generated Cypher from natural language (text2cypher)
   graph_snapshot.py     export/import full Neo4j graph as compressed snapshots
   vector_query.py       Neo4j vector search, full-text search, and RRF combining (DocChunk + UserChat)

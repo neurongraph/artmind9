@@ -20,6 +20,7 @@ PATTERN_REQUIRED_OPTIONS = {
     "pattern7": ("searchTerm",),
     "pattern8": ("entityClass", "entityName"),
     "pattern9": ("entityClass",),
+    "pattern10": ("documentName",),
 }
 
 
@@ -150,6 +151,65 @@ def graph_metadata(domain: str) -> dict:
         "domain": domain,
         "query_type": "graph",
         "command": "metadata",
+        "rows": _run_read_query(cypher, {"domain": domain}),
+    }
+
+
+def structural_metadata(domain: str) -> dict:
+    """Return focused metadata about Document, DocChunk, UserChat, and Entity nodes.
+
+    Unlike graph_metadata() which returns the full schema, this returns only the
+    structural node types and relationships with counts and Document names — compact
+    enough for agents and text2cypher prompts to parse quickly.
+    """
+    cypher = """
+    CALL () {
+      MATCH (d:Document)
+      WHERE (d.domain = $domain OR d.domain STARTS WITH ($domain + '.'))
+      WITH count(d) AS cnt, collect(DISTINCT d.name) AS names
+      RETURN 'Document' AS label, cnt AS count, names AS names, null AS relationship, null AS from_label, null AS to_label
+    UNION
+      MATCH (c:DocChunk)
+      WHERE (c.domain = $domain OR c.domain STARTS WITH ($domain + '.'))
+      WITH count(c) AS cnt
+      RETURN 'DocChunk' AS label, cnt AS count, null AS names, null AS relationship, null AS from_label, null AS to_label
+    UNION
+      MATCH (u:UserChat)
+      WHERE (u.domain = $domain OR u.domain STARTS WITH ($domain + '.'))
+      WITH count(u) AS cnt
+      RETURN 'UserChat' AS label, cnt AS count, null AS names, null AS relationship, null AS from_label, null AS to_label
+    UNION
+      MATCH (e:Entity)
+      WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
+      WITH count(e) AS cnt
+      RETURN 'Entity' AS label, cnt AS count, null AS names, null AS relationship, null AS from_label, null AS to_label
+    UNION
+      MATCH (c:DocChunk)-[r:PART_OF]->(d:Document)
+      WHERE (c.domain = $domain OR c.domain STARTS WITH ($domain + '.'))
+      WITH count(r) AS cnt
+      RETURN null AS label, cnt AS count, null AS names, 'PART_OF' AS relationship, 'DocChunk' AS from_label, 'Document' AS to_label
+    UNION
+      MATCH (e:Entity)-[r:EXTRACTED_FROM]->(c:DocChunk)
+      WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
+      WITH count(r) AS cnt
+      RETURN null AS label, cnt AS count, null AS names, 'EXTRACTED_FROM' AS relationship, 'Entity' AS from_label, 'DocChunk' AS to_label
+    UNION
+      MATCH (c:DocChunk)-[r:MENTIONS]->(e:Entity)
+      WHERE (c.domain = $domain OR c.domain STARTS WITH ($domain + '.'))
+      WITH count(r) AS cnt
+      RETURN null AS label, cnt AS count, null AS names, 'MENTIONS' AS relationship, 'DocChunk' AS from_label, 'Entity' AS to_label
+    UNION
+      MATCH (u:UserChat)-[r:MENTIONS]->(e:Entity)
+      WHERE (u.domain = $domain OR u.domain STARTS WITH ($domain + '.'))
+      WITH count(r) AS cnt
+      RETURN null AS label, cnt AS count, null AS names, 'MENTIONS' AS relationship, 'UserChat' AS from_label, 'Entity' AS to_label
+    }
+    RETURN label, count, names, relationship, from_label, to_label
+    """
+    return {
+        "domain": domain,
+        "query_type": "graph",
+        "command": "structural_metadata",
         "rows": _run_read_query(cypher, {"domain": domain}),
     }
 
@@ -408,6 +468,18 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             LIMIT $topN
             """,
             {"domain": parameters["domain"], "topN": parameters.get("topN", 5)},
+        )
+    if pattern == "pattern10":
+        return (
+            """
+            MATCH (c:DocChunk)-[:PART_OF]->(d:Document)
+            WHERE (d.domain = $domain OR d.domain STARTS WITH ($domain + '.'))
+              AND toLower(d.name) CONTAINS toLower($documentName)
+            RETURN d { .id, .name, .path } AS document,
+                   c { .id, .name, .doc_id, .text } AS chunk
+            ORDER BY c.name
+            """,
+            {"domain": parameters["domain"], "documentName": parameters["documentName"]},
         )
     raise ValueError(f"Unsupported graph query pattern: {pattern}")
 

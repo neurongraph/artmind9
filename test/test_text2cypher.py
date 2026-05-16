@@ -174,6 +174,26 @@ def test_entities_summary_handles_empty_listing():
     assert "no entities" in text2cypher._entities_summary({"rows": []})
 
 
+def test_prompt_includes_structural_schema():
+    schema_info = text2cypher._schema_summary(FAKE_METADATA)
+    entities_info = text2cypher._entities_summary(FAKE_LISTING)
+
+    prompt = text2cypher.build_text2cypher_prompt(
+        question="How many chunks?",
+        schema_info=schema_info,
+        entities_info=entities_info,
+        domain="fiction",
+    )
+
+    assert "STRUCTURAL GRAPH" in prompt
+    assert "PART_OF" in prompt
+    assert "EXTRACTED_FROM" in prompt
+    assert "MENTIONS" in prompt
+    assert "DocChunk" in prompt
+    assert "Document" in prompt
+    assert "UserChat" in prompt
+
+
 def test_entities_summary_truncates_large_name_lists():
     names = [f"Entity_{i}" for i in range(30)]
     listing = {

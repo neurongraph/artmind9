@@ -16,6 +16,25 @@ Use only the structured KG data and chunk text returned by artmind query command
 - `domain`: Ask for it if the user did not provide one.
 - `question`: The natural-language question to answer.
 
+## Common Schema Patterns
+
+artmind uses four structural node types with fixed relationships. These NEVER change across domains:
+
+- `(:DocChunk)-[:PART_OF]->(:Document)` — chunk belongs to a document
+- `(:Entity)-[:EXTRACTED_FROM]->(:DocChunk)` — entity was extracted from a chunk
+- `(:DocChunk)-[:MENTIONS]->(:Entity)` — chunk mentions an entity
+- `(:UserChat)-[:MENTIONS]->(:Entity)` — user chat mentions an entity
+
+Entity-to-Entity relationships are domain-specific and vary per domain (e.g. `KNOWS`, `WORKS_AT`). Always check metadata for these.
+
+Key properties:
+- `Document`: id, name, path, domain
+- `DocChunk`: id, name, doc_id, text, domain
+- `UserChat`: id, raw_text, domain, session_id, created_by, created_at
+- `Entity`: id, name, entity_class, domain, description, type
+
+When a question involves Documents, chunks, or source text, use `PART_OF` (not EXTRACTED_FROM) to connect DocChunk → Document. Use `pattern10` for full document chunk retrieval.
+
 ## Discovery
 
 Start every new domain/question session by inspecting metadata and entities:
@@ -24,6 +43,15 @@ Start every new domain/question session by inspecting metadata and entities:
 uv run artmind query graph metadata --domain <domain>
 uv run artmind query graph entity-listing --domain <domain> --countAll --compact
 ```
+
+For questions about documents, chunks, or structural counts, also run structural metadata:
+
+```bash
+uv run artmind query graph structural-metadata --domain <domain>
+```
+
+This returns Document names, DocChunk/UserChat/Entity counts, and structural relationship counts — much more compact than full metadata.
+
 If there are multiple questions in the user query, break them down into individual questions.
 
 Use metadata and entity listings to identify:
@@ -113,6 +141,18 @@ Rank top entities of a class by graph degree:
 uv run artmind query graph pattern9 --domain <domain> --entityClass <LABEL> --topN 5 "<question>"
 ```
 
+Retrieve all text chunks for a named document:
+
+```bash
+uv run artmind query graph pattern10 --domain <domain> --documentName "<document_name>" "<question>"
+```
+
+Return focused structural metadata (Document, DocChunk, UserChat, Entity counts and relationships):
+
+```bash
+uv run artmind query graph structural-metadata --domain <domain>
+```
+
 Search source text by combining vector embeddings and keyword matching:
 
 ```bash
@@ -128,13 +168,15 @@ uv run artmind query graph text2cypher --domain <domain> "<question>"
 uv run artmind query graph text2cypher --domain <domain> --dry-run "<question>"
 ```
 
-Use `--dry-run` to inspect the generated Cypher without executing it. This command grounds the LLM with graph schema metadata and entity listings to produce accurate, read-only Cypher. Only read queries are allowed — write operations are rejected.
+Use `--dry-run` to inspect the generated Cypher without executing it. Always use `--dry-run` first when unsure, to verify the generated Cypher uses correct relationship names before executing. The text2cypher prompt includes a hardcoded structural schema (PART_OF, EXTRACTED_FROM, MENTIONS) so the LLM knows the exact structural relationships.
 
 ## Routing
 
 Prefer graph queries for questions about entity lists, named entities, explicit relationships, graph neighborhoods, connected entities, and rankings.
 
-Use `text2cypher` when the question is clearly a graph query but none of patterns 1–9 fit — for example, aggregation counts ("how many DocChunks for Document X?"), multi-entity relationship traversals, queries referencing specific Neo4j labels or properties, or custom filtering/grouping that the templated patterns do not support.
+For "retrieve all chunks of document X" or "summarize document X", use `pattern10` directly — it is deterministic and always uses the correct `PART_OF` relationship.
+
+Use `text2cypher` when the question is clearly a graph query but none of patterns 1–10 fit — for example, complex aggregations, multi-entity relationship traversals, queries referencing specific Neo4j labels or properties, or custom filtering/grouping that the templated patterns do not support.
 
 Prefer `vector-text` search for source-text evidence, narrative details, "where/when/how did X happen" questions, ambiguous facts not exposed in metadata, or cases where graph output is too thin.
 
@@ -151,13 +193,18 @@ Use hybrid retrieval when the graph identifies candidate entities or relationshi
 - Descriptor-based references: use `pattern7`, then `pattern4` on the best candidate.
 - Class X connected to entity Y: use `pattern8`.
 - Ranking plus explanation: use `pattern9`, then inspect top result(s) with `pattern4`.
-- Aggregation, counting, custom filtering, or multi-entity relationship queries not covered by patterns 1–9: use `text2cypher`.
+- Retrieve all chunks/text of a document, or summarize a document: use `pattern10`.
+- Aggregation, counting, custom filtering, or multi-entity relationship queries not covered by patterns 1–10: use `text2cypher`.
 
 ## Fallbacks
 
 - If `pattern6` returns no rows, run `pattern5 --mode shortest`.
 - If `pattern7` returns multiple plausible candidates, choose the best name/description match and mention ambiguity when answering.
 - If no pattern fits but the question is clearly a graph query, use `text2cypher`.
+- **If `text2cypher` returns no rows** but the question "should" have data:
+  1. Run `structural-metadata` to verify the exact relationship names and node counts.
+  2. Re-run `text2cypher --dry-run` to inspect the generated Cypher and compare relationship names against the structural metadata.
+  3. If the generated Cypher uses the wrong relationship name, rephrase the question to be more explicit about the correct relationship (e.g. "use PART_OF to connect DocChunk to Document").
 - If `text2cypher` fails (e.g. the LLM produces invalid Cypher), fall back to `vector-text` search.
 - If graph results are empty or insufficient, run `vector-text` search.
 - If `vector-text` results are sparse or weak, say the available artmind data does not answer the question.

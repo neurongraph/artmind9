@@ -16,6 +16,13 @@ test:
 setup:
     uv run artmind setup
 
+# ── utility function to copy skills ───────────────────────────────────────────
+
+# run all tests
+copy-skills:
+    cp -r ./skills/* ./.claude/skills
+    cp -r ./skills/* ./.pi/skills
+
 # ── artmind domains ───────────────────────────────────────────────────────────
 
 # list all available domain schemas
@@ -147,6 +154,14 @@ query-graph-connected domain entity_class entity_name:
 # top-N entities of a class  (usage: just query-graph-top <domain> <entity_class> [topN])
 query-graph-top domain entity_class top_n="5":
     uv run artmind query graph pattern9 --domain {{ domain }} --entityClass {{ entity_class }} --topN {{ top_n }}
+
+# retrieve all text chunks for a document  (usage: just query-graph-doc-chunks <domain> "document_name")
+query-graph-doc-chunks domain document_name:
+    uv run artmind query graph pattern10 --domain {{ domain }} --documentName "{{ document_name }}"
+
+# structural metadata for a domain  (usage: just query-graph-structural <domain>)
+query-graph-structural domain:
+    uv run artmind query graph structural-metadata --domain {{ domain }}
 
 # LLM-generated Cypher from natural language  (usage: just query-graph-text2cypher <domain> "question" [--dry-run])
 query-graph-text2cypher domain question dry_run="":

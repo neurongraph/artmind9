@@ -666,6 +666,14 @@ def graph_metadata_cmd(domain: str, compact: bool) -> None:
     _echo_json(graph_query.graph_metadata(domain), compact)
 
 
+@graph.command("structural-metadata")
+@click.option("--domain", required=True, help="Domain to query")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def graph_structural_metadata_cmd(domain: str, compact: bool) -> None:
+    """Return focused structural metadata (Document, DocChunk, UserChat, Entity counts and relationships)."""
+    _echo_json(graph_query.structural_metadata(domain), compact)
+
+
 @graph.command("entity-listing")
 @click.option("--domain", required=True, help="Domain to query")
 @click.option("--nameFilter", "name_filter", default=None, help="Fuzzy match entity names (case-insensitive substring)")
@@ -812,6 +820,18 @@ def graph_pattern9(
 ) -> None:
     """Top-N entities of a class by connection count."""
     _run_graph_pattern("pattern9", domain, compact, question, entityClass=entity_class, topN=top_n)
+
+
+@graph.command("pattern10")
+@click.option("--domain", required=True, help="Domain to query")
+@click.option("--documentName", "document_name", required=True, help="Document name (substring match)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.argument("question", required=False)
+def graph_pattern10(
+    domain: str, document_name: str, compact: bool, question: str | None
+) -> None:
+    """Retrieve all text chunks for a named document."""
+    _run_graph_pattern("pattern10", domain, compact, question, documentName=document_name)
 
 
 @graph.command("text2cypher")

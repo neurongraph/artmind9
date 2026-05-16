@@ -171,3 +171,38 @@ def test_pattern_cypher_includes_user_chat_source_match():
         "entityNameList": ["Alice"],
     })
     assert "UserChat" in cypher or "user_chat" in cypher.lower()
+
+
+def test_pattern10_query_uses_part_of_relationship():
+    cypher, params = graph_query._pattern_query("pattern10", {
+        "domain": "fiction",
+        "documentName": "The Copper Beeches",
+    })
+    assert "PART_OF" in cypher
+    assert "DocChunk" in cypher
+    assert "Document" in cypher
+    assert params["documentName"] == "The Copper Beeches"
+    assert params["domain"] == "fiction"
+
+
+def test_pattern10_validates_document_name_required():
+    with pytest.raises(ValueError, match="--documentName"):
+        graph_query.validate_pattern_parameters("pattern10", {})
+
+
+def test_structural_metadata_returns_expected_shape(monkeypatch):
+    fake_rows = [
+        {"label": "Document", "count": 3, "names": ["doc1", "doc2", "doc3"],
+         "relationship": None, "from_label": None, "to_label": None},
+        {"label": None, "count": 10, "names": None,
+         "relationship": "PART_OF", "from_label": "DocChunk", "to_label": "Document"},
+    ]
+    monkeypatch.setattr(graph_query, "_run_read_query", lambda cypher, params: fake_rows)
+
+    result = graph_query.structural_metadata("fiction")
+
+    assert result["command"] == "structural_metadata"
+    assert result["domain"] == "fiction"
+    assert len(result["rows"]) == 2
+    assert result["rows"][0]["label"] == "Document"
+    assert result["rows"][1]["relationship"] == "PART_OF"
