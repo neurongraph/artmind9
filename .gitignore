@@ -20,3 +20,6 @@ wheels/
 # Runtime data
 data/
 logs/
+package.json
+scripts/click_cli_hierarchy.py
+package-lock.json

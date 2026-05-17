@@ -4,6 +4,8 @@
 default:
     @just --list
 
+artmind-cli-help:
+    uv run python scripts/click_cli_hierarchy.py artmind.cli:cli
 # ── test ──────────────────────────────────────────────────────────────────────
 
 # run all tests
@@ -17,8 +19,6 @@ setup:
     uv run artmind setup
 
 # ── utility function to copy skills ───────────────────────────────────────────
-
-# run all tests
 copy-skills:
     cp -r ./skills/* ./.claude/skills
     cp -r ./skills/* ./.pi/skills
