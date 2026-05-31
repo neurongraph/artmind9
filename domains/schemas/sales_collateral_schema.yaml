@@ -3,7 +3,7 @@ description: Sales and marketing documents such as pitch decks, capability prese
 
 entity_types:
   - CLIENT
-  - OFFERING
+  - OFFERING_SOLUTION
   - CAPABILITY
   - USE_CASE
   - BENEFIT
@@ -29,16 +29,16 @@ entities_prompt: |
     Any named customer, reference client, target segment, or prospect organisation described in the document. Includes anonymised clients described by industry or geography.
     example type values: reference_client | named_account | target_segment | industry_vertical | anonymous_client | prospect | partner
 
-  OFFERING
-    A named product, solution, service, programme, or engagement type being sold or described. Offerings are what the selling organisation provides to clients.
-    example type values: managed_service | transformation_programme | platform | professional_service | product | framework | accelerator | subscription | partnership | delivery_model
+  OFFERING_SOLUTION
+    A named product, solution, service, programme, or engagement type being sold or described. Offerings are what the selling organisation provides to clients as solutions to solve their challenges or problems.
+    example type values: solution | managed_service | transformation_programme | platform | professional_service | product | framework | accelerator | subscription | partnership | delivery_model
 
   CAPABILITY
     A specific technical, functional, or operational capability that the selling organisation or its solution provides. Capabilities are components of an offering — things the solution can do.
     example type values: technical_capability | delivery_capability | ai_capability | analytics_capability | automation_capability | integration_capability | migration_capability | security_capability | platform_capability
 
   USE_CASE
-    A specific application, scenario, or context in which the offering or capability is applied to solve a problem or create value.
+    A specific application, scenario, or context in which the offering, solution or capability is applied to solve a problem or create value.
     example type values: automation | analytics | migration | modernisation | customer_experience | fraud_detection | compliance | cost_reduction | revenue_generation | operational_efficiency
 
   BENEFIT
@@ -114,7 +114,7 @@ entities_prompt: |
                                    // e.g., "cli_001", "off_002", "ben_003"
     "name":              string,   // canonical name
     "aliases":           array,    // alternate names and references
-    "entity_class":      string,   // CLIENT | OFFERING | CAPABILITY | USE_CASE | BENEFIT | CHALLENGE | TECHNOLOGY | DIFFERENTIATOR | PERSON | OBJECT | ORGANIZATION | LOCATION | EVENT
+    "entity_class":      string,   // CLIENT | OFFERING_SOLUTION | CAPABILITY | USE_CASE | BENEFIT | CHALLENGE | TECHNOLOGY | DIFFERENTIATOR | PERSON | OBJECT | ORGANIZATION | LOCATION | EVENT
     "type":              string,   // the subtype from lists above
     "description":       string,   // 2-4 sentence analytical summary
     "context":           array,    // verbatim text snippets where entity appears
@@ -163,7 +163,7 @@ properties_prompt: |
     - pain_points (list — as described in document)
     - engagement_type (if mentioned)
 
-  For OFFERING, consider:
+  For OFFERING_SOLUTION, consider:
     - offering_type (managed_service | programme | product | etc.)
     - delivery_model (onshore | offshore | hybrid | global_delivery)
     - scope (what is included)
@@ -315,7 +315,7 @@ relationships_prompt: |
   CLIENT ↔ CHALLENGE:
     faces, experiencing, prioritising, impacted_by, seeking_to_solve
 
-  CLIENT ↔ OFFERING:
+  CLIENT ↔ OFFERING_SOLUTION:
     engaged_with, benefiting_from, evaluated, purchased, is_target_for
 
   CLIENT ↔ BENEFIT:
@@ -324,22 +324,22 @@ relationships_prompt: |
   CLIENT ↔ TECHNOLOGY:
     uses, is_replacing, is_migrating_from, operates
 
-  OFFERING ↔ CAPABILITY:
+  OFFERING_SOLUTION ↔ CAPABILITY:
     comprises, delivers, enabled_by, includes, built_on
 
-  OFFERING ↔ USE_CASE:
+  OFFERING_SOLUTION ↔ USE_CASE:
     addresses, proven_in, applicable_to, demonstrated_through
 
-  OFFERING ↔ BENEFIT:
+  OFFERING_SOLUTION ↔ BENEFIT:
     produces, promises, has_delivered, quantified_by
 
-  OFFERING ↔ CHALLENGE:
+  OFFERING_SOLUTION ↔ CHALLENGE:
     solves, mitigates, designed_for, targets
 
-  OFFERING ↔ DIFFERENTIATOR:
+  OFFERING_SOLUTION ↔ DIFFERENTIATOR:
     distinguished_by, characterised_by, supported_by
 
-  OFFERING ↔ TECHNOLOGY:
+  OFFERING_SOLUTION ↔ TECHNOLOGY:
     built_on, integrates_with, uses, replaces, migrates_from, migrates_to
 
   CAPABILITY ↔ TECHNOLOGY:
@@ -363,7 +363,7 @@ relationships_prompt: |
   DIFFERENTIATOR ↔ CAPABILITY:
     based_on, demonstrated_through, rooted_in
 
-  DIFFERENTIATOR ↔ OFFERING:
+  DIFFERENTIATOR ↔ OFFERING_SOLUTION:
     distinguishes, applies_to
 
   DIFFERENTIATOR ↔ CLIENT:
@@ -375,19 +375,19 @@ relationships_prompt: |
   PERSON ↔ CLIENT:
     represents, sponsors, is_champion_at, evaluates_for, signs_off
 
-  PERSON ↔ OFFERING:
+  PERSON ↔ OFFERING_SOLUTION:
     evaluates, champions, objected_to, approved
 
   PERSON ↔ ORGANIZATION:
     works_at, leads, represents, part_of
 
-  ORGANIZATION ↔ OFFERING:
+  ORGANIZATION ↔ OFFERING_SOLUTION:
     distributes, competes_with, validates, integrates_with, regulates
 
   ORGANIZATION ↔ CLIENT:
     partners_with, competes_with, supplies, regulates
 
-  OBJECT ↔ OFFERING:
+  OBJECT ↔ OFFERING_SOLUTION:
     part_of, enables, required_for, competes_with, integrates_with
 
   OBJECT ↔ TECHNOLOGY:
@@ -396,10 +396,10 @@ relationships_prompt: |
   LOCATION ↔ CLIENT:
     is_market_for, operates_in, regulatory_jurisdiction_of
 
-  LOCATION ↔ OFFERING:
+  LOCATION ↔ OFFERING_SOLUTION:
     available_in, deployed_in, targeted_at
 
-  EVENT ↔ OFFERING:
+  EVENT ↔ OFFERING_SOLUTION:
     launched_at, demonstrated_at, evaluated_at, piloted_for
 
   EVENT ↔ CLIENT:
@@ -411,7 +411,7 @@ relationships_prompt: |
 
   1. EXPLICIT AND IMPLICIT
      Extract both directly stated relationships ("Watson Assistant delivered 30% containment rate")
-     and those clearly implied ("The solution addresses the legacy estate problem" → OFFERING solves CHALLENGE).
+     and those clearly implied ("The solution addresses the legacy estate problem" → OFFERING_SOLUTION solves CHALLENGE).
 
   2. MULTIPLE EDGES ALLOWED
      If two entities have multiple distinct relationships, create multiple edges.
@@ -421,8 +421,8 @@ relationships_prompt: |
      When it is only claimed or projected, use "promises" or "projected_to_deliver".
 
   4. CLIENT-CENTRIC VIEW
-     Always ask: what did the CLIENT face? What did the OFFERING deliver? What was the BENEFIT?
-     These three-part chains (CLIENT→CHALLENGE, OFFERING→CHALLENGE, OFFERING→BENEFIT, CLIENT→BENEFIT) are the core of sales collateral.
+     Always ask: what did the CLIENT face? What did the OFFERING_SOLUTION deliver? What was the BENEFIT?
+     These three-part chains (CLIENT→CHALLENGE, OFFERING_SOLUTION→CHALLENGE, OFFERING_SOLUTION→BENEFIT, CLIENT→BENEFIT) are the core of sales collateral.
 
   5. PROPERTIES MAP
      The properties object is flexible and rel_type-specific. Examples:
