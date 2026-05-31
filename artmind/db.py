@@ -81,6 +81,11 @@ def _init_db() -> None:
             created_at      TEXT NOT NULL
         )
     """)
+    # Migrations for columns added after initial schema deployment
+    existing = {row[1] for row in cursor.execute("PRAGMA table_info(ingestion_job_files)")}
+    if "doc_sha256" not in existing:
+        cursor.execute("ALTER TABLE ingestion_job_files ADD COLUMN doc_sha256 TEXT")
+
     conn.commit()
     conn.close()
 

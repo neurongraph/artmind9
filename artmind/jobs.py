@@ -1,5 +1,6 @@
 import uuid
 from datetime import datetime
+from pathlib import Path
 
 from artmind.db import _get_db
 
@@ -200,6 +201,78 @@ def _get_job_results(job_id: str) -> dict | None:
         if error_message:
             result["error_message"] = error_message
         return result
+    finally:
+        conn.close()
+
+
+def _retry_job(job_id: str, include_skipped: bool = False) -> dict:
+    """Reset failed (and optionally skipped) files for re-processing.
+
+    Removes those files from the document registry and resets both the file rows
+    and the parent job to 'queued' so the worker picks them up again.
+    """
+    conn = _get_db()
+    try:
+        row = conn.execute(
+            "SELECT domain FROM ingestion_jobs WHERE job_id = ?", (job_id,)
+        ).fetchone()
+        if not row:
+            raise ValueError(f"Job '{job_id}' not found")
+        domain = row[0] or "general"
+
+        statuses = ("failed", "skipped") if include_skipped else ("failed",)
+        placeholders = ",".join("?" * len(statuses))
+        file_rows = conn.execute(
+            f"SELECT filename FROM ingestion_job_files"
+            f" WHERE job_id = ? AND status IN ({placeholders})",
+            (job_id, *statuses),
+        ).fetchall()
+        filenames = [r[0] for r in file_rows]
+
+        if not filenames:
+            return {"job_id": job_id, "domain": domain, "retried": 0, "deregistered": 0, "files": []}
+
+        # Remove from document registry using bare filename only
+        deregistered = 0
+        for filename in filenames:
+            bare = Path(filename).name
+            cursor = conn.execute(
+                "DELETE FROM documents WHERE domain = ? AND UPPER(filename) = ?",
+                (domain, bare.upper()),
+            )
+            deregistered += cursor.rowcount
+
+        # Reset file rows to queued
+        fn_placeholders = ",".join("?" * len(filenames))
+        conn.execute(
+            f"UPDATE ingestion_job_files"
+            f" SET status='queued', current_step=NULL, doc_sha256=NULL,"
+            f"     started_at=NULL, completed_at=NULL, error_message=NULL"
+            f" WHERE job_id = ? AND filename IN ({fn_placeholders})",
+            (job_id, *filenames),
+        )
+
+        # processed_count = files that are already done and won't be re-queued
+        remaining = conn.execute(
+            "SELECT COUNT(*) FROM ingestion_job_files"
+            " WHERE job_id = ? AND status IN ('completed', 'skipped')",
+            (job_id,),
+        ).fetchone()[0]
+
+        conn.execute(
+            "UPDATE ingestion_jobs SET status='queued', processed_count=?,"
+            " started_at=NULL, completed_at=NULL, error_message=NULL WHERE job_id = ?",
+            (remaining, job_id),
+        )
+        conn.commit()
+
+        return {
+            "job_id": job_id,
+            "domain": domain,
+            "retried": len(filenames),
+            "deregistered": deregistered,
+            "files": filenames,
+        }
     finally:
         conn.close()
 

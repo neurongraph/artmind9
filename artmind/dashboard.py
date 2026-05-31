@@ -17,6 +17,7 @@ from textual.widgets import (
     DataTable,
     Footer,
     Header,
+    RichLog,
     Static,
     TabPane,
     TabbedContent,
@@ -24,6 +25,7 @@ from textual.widgets import (
 )
 
 from artmind.db import _get_db
+from paths import WORKER_LOG
 
 
 # ── Data layer ────────────────────────────────────────────────────────────────
@@ -174,6 +176,32 @@ def _fetch_chunks(doc_sha256: str) -> list[dict]:
         conn.close()
 
 
+# ── Log helpers ──────────────────────────────────────────────────────────────
+
+
+def _read_log_tail(n: int = 100) -> list[str]:
+    if not WORKER_LOG.exists():
+        return []
+    try:
+        lines = WORKER_LOG.read_text(encoding="utf-8", errors="replace").splitlines()
+        # The worker has two log handlers; the file handler emits millisecond timestamps
+        # (position 19 == '.') while the stderr-redirected copy does not — keep one.
+        lines = [l for l in lines if len(l) > 19 and l[19] == "."]
+        return lines[-n:]
+    except Exception:
+        return []
+
+
+def _log_line_style(line: str) -> str:
+    if "[ERROR" in line:
+        return "red3"
+    if "[WARNING" in line:
+        return "yellow"
+    if "[DEBUG" in line:
+        return "dim"
+    return ""
+
+
 # ── Rendering helpers ─────────────────────────────────────────────────────────
 
 _STATUS_COLOR = {
@@ -311,6 +339,12 @@ class DashboardApp(App):
     }
 
     DataTable { height: 1fr; }
+
+    #log-view {
+        height: 1fr;
+        border: solid $primary;
+        padding: 0 1;
+    }
     """
 
     BINDINGS = [
@@ -328,6 +362,8 @@ class DashboardApp(App):
                         yield DetailPanel(id="detail-panel")
             with TabPane("Completed Jobs", id="tab-completed"):
                 yield DataTable(id="completed-table", cursor_type="row")
+            with TabPane("Worker Log", id="tab-log"):
+                yield RichLog(id="log-view", highlight=False, markup=False, auto_scroll=True)
         yield Footer()
 
     def on_mount(self) -> None:
@@ -338,6 +374,8 @@ class DashboardApp(App):
         )
         self._rebuild_tree()
         self._rebuild_completed_table()
+        self._refresh_log()
+        self.set_interval(2, self._refresh_log)
         self.sub_title = "Detail updates on navigation · R to rebuild tree"
 
     # ── refresh ───────────────────────────────────────────────────────────────
@@ -428,6 +466,13 @@ class DashboardApp(App):
             file_entry = data["file"]
             fresh = _fetch_file_entry(data["job_id"], file_entry["filename"])
             panel.show_file(fresh if fresh else file_entry)
+
+    def _refresh_log(self) -> None:
+        log_view = self.query_one("#log-view", RichLog)
+        lines = _read_log_tail(100)
+        log_view.clear()
+        for line in lines:
+            log_view.write(Text(line, style=_log_line_style(line)))
 
     def action_refresh(self) -> None:
         """Rebuild tree from DB and snap detail panel to the first job."""

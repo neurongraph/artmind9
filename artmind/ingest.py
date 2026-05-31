@@ -402,6 +402,15 @@ def ingest_file(
         returncode, stdout, stderr = run_command(cmd_str, cwd=PROJECT_ROOT)
         elapsed = time.monotonic() - t0
         if returncode != 0:
+            combined = (stderr or "") + (stdout or "")
+            if "exceeds size limit" in combined or "max_image_decoded_size" in combined:
+                logger.warning(
+                    "Skipping {} — docling rejected oversized image (file too large to convert)",
+                    dest_filename,
+                )
+                file_result["status"] = "skipped"
+                file_result["error"] = "Oversized image: docling size limit exceeded"
+                return file_result
             logger.error(
                 "Docling failed for {} in {:.1f}s: {}",
                 dest_filename,

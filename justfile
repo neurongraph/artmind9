@@ -83,6 +83,10 @@ ingest-job-status job_id:
 ingest-job-results job_id:
     uv run artmind ingest job-results {{ job_id }}
 
+# re-queue failed files in a job for reprocessing  (usage: just ingest-retry-job <job_id> [--include-skipped])
+ingest-retry-job job_id flags="":
+    uv run artmind ingest retry-job {{ job_id }} {{ flags }}
+
 # show live realtime status dashboard of async jobs
 ingest-dashboard:
     uv run artmind ingest dashboard

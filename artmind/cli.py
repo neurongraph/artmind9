@@ -31,6 +31,7 @@ from artmind.jobs import (
     _get_job_results,
     _get_job_status,
     _list_jobs,
+    _retry_job,
 )
 from artmind.refine_graph import refine_graph
 from paths import (
@@ -380,6 +381,30 @@ def ingest_job_results(job_id: str, compact: bool):
     if result is None:
         raise click.ClickException(f"Job '{job_id}' not found")
     _echo_json(result, compact)
+
+
+@ingest.command("retry-job")
+@click.argument("job_id")
+@click.option("--include-skipped", is_flag=True, help="Also re-queue files that were skipped as duplicates")
+def ingest_retry_job(job_id: str, include_skipped: bool):
+    """Re-queue failed files in a job for reprocessing.
+
+    Removes failed files from the document registry and resets the job to queued
+    so the worker picks it up again. Use --include-skipped to also force
+    re-processing of files that were skipped as duplicates.
+    """
+    try:
+        result = _retry_job(job_id, include_skipped=include_skipped)
+    except ValueError as e:
+        raise click.ClickException(str(e))
+    if result["retried"] == 0:
+        click.echo(f"No files to retry in job '{job_id}'")
+    else:
+        click.echo(f"Job '{job_id}' re-queued ({result['domain']}): {result['retried']} file(s) reset, {result['deregistered']} removed from registry")
+        for f in result["files"]:
+            click.echo(f"  {f}")
+        _ensure_worker_running()
+        click.echo("Worker started.")
 
 
 @ingest.command("dashboard")
