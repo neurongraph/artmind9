@@ -82,6 +82,30 @@ Copy the environment template and fill in your values:
 cp .env.example .env
 ```
 
+### Global CLI install (optional)
+
+By default, every command is prefixed with `uv run` and must be run from the cloned directory. To make `artmind` available as a global command from anywhere on your system, install it as a uv tool:
+
+```bash
+just install-tool
+# or directly:
+uv tool install --editable .
+```
+
+The `--editable` flag is required. It means the tool still runs from the cloned project directory, so all data, logs, domain schemas, and your `.env` file remain exactly where they are — nothing is copied elsewhere.
+
+After this, `artmind --help` works from any directory. Every `uv run artmind ...` command in this guide can be shortened to `artmind ...`.
+
+To uninstall:
+
+```bash
+just uninstall-tool
+# or:
+uv tool uninstall artmind9
+```
+
+> **Note:** Because everything (data, configs, logs, `.env`) lives inside the cloned repo, you must keep the repository directory intact for the global command to work. This is a "developer-style" install. If you ever want to decouple the data from the code (e.g. to distribute artmind to other users who won't clone the repo), a future refactor of `paths.py` to use platform-standard user data directories (`~/.config/artmind9/`) would be needed.
+
 Edit `.env`:
 
 ```dotenv
@@ -570,6 +594,8 @@ If you have `just` installed, common commands are available as short recipes:
 
 ```bash
 just                            # list all recipes
+just install-tool               # install artmind as a global uv tool (editable)
+just uninstall-tool             # uninstall the global artmind uv tool
 just test                       # run the test suite
 just ingest-sync path/to/file   # ingest a file (default domain: general)
 just ingest-write-to-graph-folder data/kg/fiction  # batch write a folder of KG JSON

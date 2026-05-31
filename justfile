@@ -4,6 +4,14 @@
 default:
     @just --list
 
+# install artmind as a global uv tool (editable keeps data/logs rooted in project dir)
+install-tool:
+    uv tool install --editable .
+
+# uninstall the global artmind uv tool
+uninstall-tool:
+    uv tool uninstall artmind9
+
 artmind-cli-help:
     uv run python scripts/click_cli_hierarchy.py artmind.cli:cli
 # ── test ──────────────────────────────────────────────────────────────────────
