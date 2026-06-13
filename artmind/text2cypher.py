@@ -13,7 +13,10 @@ from utils.functions import load_env
 
 
 _WRITE_KEYWORDS_RE = re.compile(
-    r"\b(CREATE|DELETE|DETACH|SET|REMOVE|MERGE|DROP)\b"
+    r"\b(CREATE|DELETE|DETACH|SET|REMOVE|MERGE|DROP|FOREACH)\b"
+    r"|\bLOAD\s+CSV\b"
+    r"|\bapoc\.(create|merge|refactor|atomic|periodic|trigger|load|export|import"
+    r"|cypher\.do|cypher\.runWrite|nodes\.delete)"
     r"|CALL\s*\{[^}]*\}\s*IN\s+TRANSACTIONS",
     re.IGNORECASE,
 )
@@ -100,6 +103,12 @@ RULES:
 - Use entity names exactly as they appear in the entity listing when matching.
 - For Document/DocChunk/UserChat/Entity queries, use ONLY the relationship names
   from the STRUCTURAL GRAPH section below. Do NOT invent relationship names.
+- Extracted entities always carry the :Entity label in addition to their class
+  label. Label entity nodes explicitly (e.g. (p:PERSON) or (e:Entity)); never
+  match bare unlabeled nodes.
+- In variable-length paths between entities, keep the path in entity space:
+  add `all(x IN nodes(p) WHERE x:Entity)` to the WHERE clause. Otherwise paths
+  degenerate to co-mention hops through DocChunk nodes.
 - Return meaningful column aliases.
 - Keep the query concise.
 

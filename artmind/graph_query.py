@@ -10,6 +10,21 @@ from utils.functions import load_env
 
 LABEL_RE = re.compile(r"^[A-Z_][A-Z0-9_]*$")
 
+# Lucene query syntax special characters. User input is matched as plain
+# terms, so these are stripped rather than escaped — escaping keeps them
+# significant to the analyzer, stripping cannot produce a parse error.
+_LUCENE_SPECIALS_RE = re.compile(r'[+\-&|!(){}\[\]^"~*?:\\/]')
+
+
+def sanitize_lucene_query(text: str) -> str:
+    """Reduce free text to plain Lucene terms safe for db.index.fulltext.queryNodes.
+
+    Returns an empty string when nothing searchable remains; callers should
+    skip the fulltext query in that case.
+    """
+    cleaned = _LUCENE_SPECIALS_RE.sub(" ", text)
+    return " ".join(cleaned.split())
+
 PATTERN_REQUIRED_OPTIONS = {
     "pattern1": ("entityClass",),
     "pattern2": ("entityNameList",),
@@ -21,6 +36,16 @@ PATTERN_REQUIRED_OPTIONS = {
     "pattern8": ("entityClass", "entityName"),
     "pattern9": ("entityClass",),
     "pattern10": ("documentName",),
+}
+
+# Name-based options that can be satisfied by an exact-id option instead.
+# When both are supplied the id wins — it pins the node precisely after
+# entity resolution, where CONTAINS matching could fan out to lookalikes.
+PATTERN_OPTION_ALTERNATIVES = {
+    "entityName": "entityId",
+    "entityName1": "entityId1",
+    "entityName2": "entityId2",
+    "entityNameList": "entityIdList",
 }
 
 
@@ -254,14 +279,22 @@ def validate_pattern_parameters(pattern: str, parameters: dict) -> None:
         option
         for option in PATTERN_REQUIRED_OPTIONS[pattern]
         if not parameters.get(option)
+        and not parameters.get(PATTERN_OPTION_ALTERNATIVES.get(option, ""))
     ]
     if missing:
+
+        def _describe(name: str) -> str:
+            alt = PATTERN_OPTION_ALTERNATIVES.get(name)
+            return f"--{name} (or --{alt})" if alt else f"--{name}"
+
         raise ValueError(
             f"Missing required option(s) for {pattern}: "
-            + ", ".join(f"--{name}" for name in missing)
+            + ", ".join(_describe(name) for name in missing)
         )
     if parameters.get("mode") not in {None, "shortest", "all"}:
         raise ValueError("--mode must be 'shortest' or 'all'")
+    if parameters.get("degreeMode") not in {None, "relations", "mentions", "all"}:
+        raise ValueError("--degreeMode must be 'relations', 'mentions', or 'all'")
 
 
 def normalize_pattern_parameters(pattern: str, parameters: dict) -> dict:
@@ -271,12 +304,38 @@ def normalize_pattern_parameters(pattern: str, parameters: dict) -> dict:
             params[key] = normalize_entity_class(params[key])
     if "entityNameList" in params:
         params["entityNameList"] = list(params["entityNameList"])
+    if "entityIdList" in params:
+        params["entityIdList"] = list(params["entityIdList"])
     if "topN" in params:
         params["topN"] = int(params["topN"])
     if "limit" in params:
         params["limit"] = int(params["limit"])
     params.setdefault("mode", "shortest")
     return params
+
+
+def _entity_selector(
+    parameters: dict,
+    cypher_params: dict,
+    var: str,
+    name_key: str = "entityName",
+    id_key: str = "entityId",
+) -> str:
+    """WHERE fragment selecting an entity by exact id (preferred) or fuzzy name."""
+    if parameters.get(id_key):
+        cypher_params[id_key] = parameters[id_key]
+        return f"{var}.id = ${id_key}"
+    cypher_params[name_key] = parameters[name_key]
+    return f"toLower({var}.name) CONTAINS toLower(${name_key})"
+
+
+def _entity_list_selector(parameters: dict, cypher_params: dict, var: str) -> str:
+    """WHERE fragment selecting entities by exact ids (preferred) or fuzzy names."""
+    if parameters.get("entityIdList"):
+        cypher_params["entityIdList"] = parameters["entityIdList"]
+        return f"{var}.id IN $entityIdList"
+    cypher_params["entityNameList"] = parameters["entityNameList"]
+    return f"ANY(n IN $entityNameList WHERE toLower({var}.name) CONTAINS toLower(n))"
 
 
 def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
@@ -288,88 +347,94 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
             RETURN e {{.*, label: labels(e)}} AS entityData
             ORDER BY e.name
+            LIMIT $limit
             """,
-            {"domain": parameters["domain"]},
+            {"domain": parameters["domain"], "limit": parameters.get("limit", 200)},
         )
     if pattern == "pattern2":
+        cypher_params = {"domain": parameters["domain"]}
+        selector = _entity_list_selector(parameters, cypher_params, "e")
         return (
             """
-            MATCH (e)
+            MATCH (e:Entity)
             WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
-              AND ANY(n IN $entityNameList WHERE toLower(e.name) CONTAINS toLower(n))
+              AND """ + selector + """
             OPTIONAL MATCH (chunk:DocChunk)-[:MENTIONS]->(e)
+            WITH e, collect(DISTINCT chunk { .id, .name, .doc_id, source_type: 'document' }) AS doc_sources
             OPTIONAL MATCH (chat:UserChat)-[:MENTIONS]->(e)
             RETURN e {.*, label: labels(e)} AS entityData,
-                   collect(DISTINCT chunk { .id, .name, .doc_id, source_type: 'document' }) AS doc_sources,
+                   doc_sources,
                    collect(DISTINCT chat { .id, .session_id, .created_by, .created_at, source_type: 'user_chat' }) AS chat_sources
             ORDER BY entityData.name
             """,
-            {
-                "domain": parameters["domain"],
-                "entityNameList": parameters["entityNameList"],
-            },
+            cypher_params,
         )
     if pattern == "pattern3":
+        cypher_params = {"domain": parameters["domain"]}
+        selector = _entity_list_selector(parameters, cypher_params, "e")
         return (
             """
-            MATCH (e)
+            MATCH (e:Entity)
             WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
-              AND ANY(n IN $entityNameList WHERE toLower(e.name) CONTAINS toLower(n))
-            OPTIONAL MATCH (e)-[r]-(t)
+              AND """ + selector + """
+            OPTIONAL MATCH (e)-[r]-(t:Entity)
             WHERE (t.domain = $domain OR t.domain STARTS WITH ($domain + '.'))
-            WITH e, collect({
+            WITH e, collect(CASE WHEN r IS NULL THEN NULL ELSE {
               type: type(r),
               properties: properties(r),
               target: {name: t.name, label: labels(t)}
-            }) AS connections
+            } END) AS connections
             OPTIONAL MATCH (chunk:DocChunk)-[:MENTIONS]->(e)
+            WITH e, connections, collect(DISTINCT chunk { .id, .name, .doc_id, source_type: 'document' }) AS doc_sources
             OPTIONAL MATCH (chat:UserChat)-[:MENTIONS]->(e)
-            RETURN properties(e) AS entityData, connections,
-                   collect(DISTINCT chunk { .id, .name, .doc_id, source_type: 'document' }) AS doc_sources,
+            RETURN properties(e) AS entityData, connections, doc_sources,
                    collect(DISTINCT chat { .id, .session_id, .created_by, .created_at, source_type: 'user_chat' }) AS chat_sources
             ORDER BY entityData.name
             """,
-            {
-                "domain": parameters["domain"],
-                "entityNameList": parameters["entityNameList"],
-            },
+            cypher_params,
         )
     if pattern == "pattern4":
         label = parameters["entityClass"]
+        cypher_params = {"domain": parameters["domain"]}
+        selector = _entity_selector(parameters, cypher_params, "e")
         return (
             f"""
             MATCH (e:{label})
             WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
-              AND toLower(e.name) CONTAINS toLower($entityName)
-            OPTIONAL MATCH (e)-[r]-(t)
+              AND {selector}
+            OPTIONAL MATCH (e)-[r]-(t:Entity)
             WHERE (t.domain = $domain OR t.domain STARTS WITH ($domain + '.'))
-            WITH e, collect({{
+            WITH e, collect(CASE WHEN r IS NULL THEN NULL ELSE {{
               rel_type: type(r),
               rel_properties: properties(r),
               connected_to: {{label: labels(t), data: properties(t)}}
-            }}) AS connections
+            }} END) AS connections
             OPTIONAL MATCH (chunk:DocChunk)-[:MENTIONS]->(e)
+            WITH e, connections, collect(DISTINCT chunk {{ .id, .name, .doc_id, source_type: 'document' }}) AS doc_sources
             OPTIONAL MATCH (chat:UserChat)-[:MENTIONS]->(e)
-            RETURN properties(e) AS entityData, connections,
-                   collect(DISTINCT chunk {{ .id, .name, .doc_id, source_type: 'document' }}) AS doc_sources,
+            RETURN properties(e) AS entityData, connections, doc_sources,
                    collect(DISTINCT chat {{ .id, .session_id, .created_by, .created_at, source_type: 'user_chat' }}) AS chat_sources
             ORDER BY entityData.name
             """,
-            {"domain": parameters["domain"], "entityName": parameters["entityName"]},
+            cypher_params,
         )
     if pattern == "pattern5":
         label1 = parameters["entityClass1"]
         label2 = parameters["entityClass2"]
+        cypher_params = {"domain": parameters["domain"]}
+        selector1 = _entity_selector(parameters, cypher_params, "e", "entityName1", "entityId1")
+        selector2 = _entity_selector(parameters, cypher_params, "t", "entityName2", "entityId2")
         if parameters["mode"] == "all":
             return (
                 f"""
                 MATCH (e:{label1}), (t:{label2})
                 WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
                   AND (t.domain = $domain OR t.domain STARTS WITH ($domain + '.'))
-                  AND toLower(e.name) CONTAINS toLower($entityName1)
-                  AND toLower(t.name) CONTAINS toLower($entityName2)
+                  AND {selector1}
+                  AND {selector2}
                 WITH e, t
                 MATCH p = (e)-[*1..5]-(t)
+                WHERE all(x IN nodes(p) WHERE x:Entity)
                 WITH p
                 ORDER BY length(p) ASC
                 LIMIT 3
@@ -378,38 +443,34 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
                   {{type: type(relationships(p)[i]), data: properties(relationships(p)[i])}}
                 ]] + [{{label: labels(nodes(p)[-1]), data: properties(nodes(p)[-1])}}] AS interleavedPath
                 """,
-                {
-                    "domain": parameters["domain"],
-                    "entityName1": parameters["entityName1"],
-                    "entityName2": parameters["entityName2"],
-                },
+                cypher_params,
             )
         return (
             f"""
             MATCH p = shortestPath((e:{label1})-[*..5]-(t:{label2}))
             WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
               AND (t.domain = $domain OR t.domain STARTS WITH ($domain + '.'))
-              AND toLower(e.name) CONTAINS toLower($entityName1)
-              AND toLower(t.name) CONTAINS toLower($entityName2)
+              AND {selector1}
+              AND {selector2}
+              AND all(x IN nodes(p) WHERE x:Entity)
             RETURN [i IN range(0, length(p)-1) | [
               {{labels: labels(nodes(p)[i]), data: properties(nodes(p)[i])}},
               {{rel: type(relationships(p)[i]), data: properties(relationships(p)[i])}}
             ]] + [{{label: labels(nodes(p)[-1]), data: properties(nodes(p)[-1])}}] AS interleavedPath
             """,
-            {
-                "domain": parameters["domain"],
-                "entityName1": parameters["entityName1"],
-                "entityName2": parameters["entityName2"],
-            },
+            cypher_params,
         )
     if pattern == "pattern6":
+        cypher_params = {"domain": parameters["domain"]}
+        selector1 = _entity_selector(parameters, cypher_params, "e1", "entityName1", "entityId1")
+        selector2 = _entity_selector(parameters, cypher_params, "e2", "entityName2", "entityId2")
         return (
-            """
-            MATCH (e1)-[r]-(e2)
+            f"""
+            MATCH (e1:Entity)-[r]-(e2:Entity)
             WHERE (e1.domain = $domain OR e1.domain STARTS WITH ($domain + '.'))
               AND (e2.domain = $domain OR e2.domain STARTS WITH ($domain + '.'))
-              AND toLower(e1.name) CONTAINS toLower($entityName1)
-              AND toLower(e2.name) CONTAINS toLower($entityName2)
+              AND {selector1}
+              AND {selector2}
             RETURN type(r) AS relType,
                    properties(r) AS relProps,
                    startNode(r).name AS fromEntity,
@@ -418,13 +479,12 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
                    labels(endNode(r)) AS toLabels
             ORDER BY relType, fromEntity, toEntity
             """,
-            {
-                "domain": parameters["domain"],
-                "entityName1": parameters["entityName1"],
-                "entityName2": parameters["entityName2"],
-            },
+            cypher_params,
         )
     if pattern == "pattern7":
+        search_term = sanitize_lucene_query(parameters["searchTerm"])
+        if not search_term:
+            raise ValueError("--searchTerm contains no searchable text")
         return (
             """
             CALL db.index.fulltext.queryNodes('entity_name_ft', $searchTerm)
@@ -436,32 +496,41 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             """,
             {
                 "domain": parameters["domain"],
-                "searchTerm": parameters["searchTerm"],
+                "searchTerm": search_term,
                 "limit": parameters.get("limit", 10),
             },
         )
     if pattern == "pattern8":
         label = parameters["entityClass"]
+        cypher_params = {"domain": parameters["domain"]}
+        selector = _entity_selector(parameters, cypher_params, "t")
         return (
             f"""
-            MATCH (e:{label})-[r]-(t)
+            MATCH (e:{label})-[r]-(t:Entity)
             WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
               AND (t.domain = $domain OR t.domain STARTS WITH ($domain + '.'))
-              AND toLower(t.name) CONTAINS toLower($entityName)
+              AND {selector}
             RETURN e {{.*, label: labels(e)}} AS entityData,
                    type(r) AS relType,
                    properties(r) AS relProps
             ORDER BY e.name, relType
             """,
-            {"domain": parameters["domain"], "entityName": parameters["entityName"]},
+            cypher_params,
         )
     if pattern == "pattern9":
         label = parameters["entityClass"]
+        # relations: entity-entity connectivity; mentions: how often sources
+        # mention the entity; all: every edge including structural ones.
+        degree_match = {
+            "relations": "OPTIONAL MATCH (e)-[r]-(:Entity)",
+            "mentions": "OPTIONAL MATCH (e)<-[r:MENTIONS]-()",
+            "all": "OPTIONAL MATCH (e)-[r]-()",
+        }[parameters.get("degreeMode", "relations")]
         return (
             f"""
             MATCH (e:{label})
             WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
-            OPTIONAL MATCH (e)-[r]-()
+            {degree_match}
             WITH e, count(r) AS degree
             RETURN e {{.*, label: labels(e), degree: degree}} AS entityData
             ORDER BY degree DESC, e.name

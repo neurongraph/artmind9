@@ -20,6 +20,7 @@ from artmind.dashboard import run_dashboard
 from artmind.ingest import (
     _build_file_result_from_db,
     clean_document,
+    embed_entities_backfill,
     extract_kg,
     ingest_file,
     ingest_to_kg,
@@ -413,6 +414,14 @@ def ingest_dashboard():
     run_dashboard()
 
 
+@ingest.command("embed-entities")
+@click.option("--domain", required=True, help="Domain to backfill")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def ingest_embed_entities(domain: str, compact: bool) -> None:
+    """Backfill vector embeddings for entities missing one (powers query entity-resolve)."""
+    _echo_json(embed_entities_backfill(domain), compact)
+
+
 @ingest.command("extract-kg")
 @click.argument("document_name")
 @click.option("--domain", required=True, help="Domain the document belongs to")
@@ -712,45 +721,65 @@ def graph_entity_listing_cmd(domain: str, name_filter: str | None, count_all: bo
 @graph.command("pattern1")
 @click.option("--domain", required=True, help="Domain to query")
 @click.option("--entityClass", "entity_class", required=True, help="Entity class label (e.g. CHARACTER, LOCATION)")
+@click.option("--limit", type=int, default=200, show_default=True, help="Max results")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
-def graph_pattern1(domain: str, entity_class: str, compact: bool, question: str | None) -> None:
+def graph_pattern1(
+    domain: str, entity_class: str, limit: int, compact: bool, question: str | None
+) -> None:
     """List entities of a class."""
-    _run_graph_pattern("pattern1", domain, compact, question, entityClass=entity_class)
+    _run_graph_pattern(
+        "pattern1", domain, compact, question, entityClass=entity_class, limit=limit
+    )
 
 
 @graph.command("pattern2")
 @click.option("--domain", required=True, help="Domain to query")
-@click.option("--entityNameList", "entity_name_list", multiple=True, required=True, help="Entity name (repeatable)")
+@click.option("--entityNameList", "entity_name_list", multiple=True, help="Entity name (repeatable, substring match)")
+@click.option("--entityIdList", "entity_id_list", multiple=True, help="Exact entity id (repeatable, overrides name list)")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
-def graph_pattern2(domain: str, entity_name_list: tuple, compact: bool, question: str | None) -> None:
+def graph_pattern2(
+    domain: str, entity_name_list: tuple, entity_id_list: tuple, compact: bool, question: str | None
+) -> None:
     """Info on one or more named entities."""
-    _run_graph_pattern("pattern2", domain, compact, question, entityNameList=entity_name_list)
+    _run_graph_pattern(
+        "pattern2", domain, compact, question,
+        entityNameList=entity_name_list, entityIdList=entity_id_list,
+    )
 
 
 @graph.command("pattern3")
 @click.option("--domain", required=True, help="Domain to query")
-@click.option("--entityNameList", "entity_name_list", multiple=True, required=True, help="Entity name (repeatable)")
+@click.option("--entityNameList", "entity_name_list", multiple=True, help="Entity name (repeatable, substring match)")
+@click.option("--entityIdList", "entity_id_list", multiple=True, help="Exact entity id (repeatable, overrides name list)")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
-def graph_pattern3(domain: str, entity_name_list: tuple, compact: bool, question: str | None) -> None:
+def graph_pattern3(
+    domain: str, entity_name_list: tuple, entity_id_list: tuple, compact: bool, question: str | None
+) -> None:
     """Entity + lightweight relationship summary."""
-    _run_graph_pattern("pattern3", domain, compact, question, entityNameList=entity_name_list)
+    _run_graph_pattern(
+        "pattern3", domain, compact, question,
+        entityNameList=entity_name_list, entityIdList=entity_id_list,
+    )
 
 
 @graph.command("pattern4")
 @click.option("--domain", required=True, help="Domain to query")
 @click.option("--entityClass", "entity_class", required=True, help="Entity class label")
-@click.option("--entityName", "entity_name", required=True, help="Entity name (substring match)")
+@click.option("--entityName", "entity_name", default=None, help="Entity name (substring match)")
+@click.option("--entityId", "entity_id", default=None, help="Exact entity id (overrides --entityName)")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern4(
-    domain: str, entity_class: str, entity_name: str, compact: bool, question: str | None
+    domain: str, entity_class: str, entity_name: str | None, entity_id: str | None,
+    compact: bool, question: str | None
 ) -> None:
     """Entity + full neighborhood."""
     _run_graph_pattern(
-        "pattern4", domain, compact, question, entityClass=entity_class, entityName=entity_name
+        "pattern4", domain, compact, question,
+        entityClass=entity_class, entityName=entity_name, entityId=entity_id,
     )
 
 
@@ -758,8 +787,10 @@ def graph_pattern4(
 @click.option("--domain", required=True, help="Domain to query")
 @click.option("--entityClass1", "entity_class1", required=True, help="Class of first entity")
 @click.option("--entityClass2", "entity_class2", required=True, help="Class of second entity")
-@click.option("--entityName1", "entity_name1", required=True, help="Name of first entity")
-@click.option("--entityName2", "entity_name2", required=True, help="Name of second entity")
+@click.option("--entityName1", "entity_name1", default=None, help="Name of first entity")
+@click.option("--entityName2", "entity_name2", default=None, help="Name of second entity")
+@click.option("--entityId1", "entity_id1", default=None, help="Exact id of first entity (overrides --entityName1)")
+@click.option("--entityId2", "entity_id2", default=None, help="Exact id of second entity (overrides --entityName2)")
 @click.option(
     "--mode",
     type=click.Choice(["shortest", "all"]),
@@ -773,8 +804,10 @@ def graph_pattern5(
     domain: str,
     entity_class1: str,
     entity_class2: str,
-    entity_name1: str,
-    entity_name2: str,
+    entity_name1: str | None,
+    entity_name2: str | None,
+    entity_id1: str | None,
+    entity_id2: str | None,
     mode: str,
     compact: bool,
     question: str | None,
@@ -786,23 +819,34 @@ def graph_pattern5(
         entityClass2=entity_class2,
         entityName1=entity_name1,
         entityName2=entity_name2,
+        entityId1=entity_id1,
+        entityId2=entity_id2,
         mode=mode,
     )
 
 
 @graph.command("pattern6")
 @click.option("--domain", required=True, help="Domain to query")
-@click.option("--entityName1", "entity_name1", required=True, help="Name of first entity")
-@click.option("--entityName2", "entity_name2", required=True, help="Name of second entity")
+@click.option("--entityName1", "entity_name1", default=None, help="Name of first entity")
+@click.option("--entityName2", "entity_name2", default=None, help="Name of second entity")
+@click.option("--entityId1", "entity_id1", default=None, help="Exact id of first entity (overrides --entityName1)")
+@click.option("--entityId2", "entity_id2", default=None, help="Exact id of second entity (overrides --entityName2)")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern6(
-    domain: str, entity_name1: str, entity_name2: str, compact: bool, question: str | None
+    domain: str,
+    entity_name1: str | None,
+    entity_name2: str | None,
+    entity_id1: str | None,
+    entity_id2: str | None,
+    compact: bool,
+    question: str | None,
 ) -> None:
     """Direct relationships between two entities."""
     _run_graph_pattern(
         "pattern6", domain, compact, question,
         entityName1=entity_name1, entityName2=entity_name2,
+        entityId1=entity_id1, entityId2=entity_id2,
     )
 
 
@@ -822,15 +866,18 @@ def graph_pattern7(
 @graph.command("pattern8")
 @click.option("--domain", required=True, help="Domain to query")
 @click.option("--entityClass", "entity_class", required=True, help="Class of entities to return")
-@click.option("--entityName", "entity_name", required=True, help="Name of the connected entity")
+@click.option("--entityName", "entity_name", default=None, help="Name of the connected entity")
+@click.option("--entityId", "entity_id", default=None, help="Exact id of the connected entity (overrides --entityName)")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern8(
-    domain: str, entity_class: str, entity_name: str, compact: bool, question: str | None
+    domain: str, entity_class: str, entity_name: str | None, entity_id: str | None,
+    compact: bool, question: str | None
 ) -> None:
     """Entities of class X connected to entity Y."""
     _run_graph_pattern(
-        "pattern8", domain, compact, question, entityClass=entity_class, entityName=entity_name
+        "pattern8", domain, compact, question,
+        entityClass=entity_class, entityName=entity_name, entityId=entity_id,
     )
 
 
@@ -838,13 +885,24 @@ def graph_pattern8(
 @click.option("--domain", required=True, help="Domain to query")
 @click.option("--entityClass", "entity_class", required=True, help="Entity class label")
 @click.option("--topN", "top_n", type=int, default=5, show_default=True, help="Number of top entities")
+@click.option(
+    "--degreeMode",
+    "degree_mode",
+    type=click.Choice(["relations", "mentions", "all"]),
+    default="relations",
+    show_default=True,
+    help="Degree to rank by: entity-entity relationships, source mentions, or all edges",
+)
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern9(
-    domain: str, entity_class: str, top_n: int, compact: bool, question: str | None
+    domain: str, entity_class: str, top_n: int, degree_mode: str, compact: bool, question: str | None
 ) -> None:
     """Top-N entities of a class by connection count."""
-    _run_graph_pattern("pattern9", domain, compact, question, entityClass=entity_class, topN=top_n)
+    _run_graph_pattern(
+        "pattern9", domain, compact, question,
+        entityClass=entity_class, topN=top_n, degreeMode=degree_mode,
+    )
 
 
 @graph.command("pattern10")
@@ -883,6 +941,16 @@ def graph_text2cypher(domain: str, compact: bool, dry_run: bool, question: str) 
 def vector_text(domain: str, top_k: int, compact: bool, question: str) -> None:
     """Search source text using vector embeddings and keyword matching combined via RRF."""
     _echo_json(vector_query.vector_text_search(domain, question, top_k), compact)
+
+
+@query.command("entity-resolve")
+@click.option("--domain", required=True, help="Domain to query")
+@click.option("--topK", "top_k", type=int, default=5, show_default=True)
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.argument("reference")
+def query_entity_resolve(domain: str, top_k: int, compact: bool, reference: str) -> None:
+    """Resolve a name fragment or description to canonical graph entities (fulltext + vector via RRF)."""
+    _echo_json(vector_query.entity_resolve(domain, reference, top_k), compact)
 
 
 # ── artmind docs ───────────────────────────────────────────────────────────────

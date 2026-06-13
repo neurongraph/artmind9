@@ -70,11 +70,33 @@ def test_validate_read_only_accepts_match_return():
         "MATCH (n) REMOVE n.name",
         "MERGE (n:Person {name: 'x'})",
         "DROP INDEX foo",
+        "LOAD CSV FROM 'file:///x.csv' AS row RETURN row",
+        "CALL apoc.create.node(['Person'], {name: 'x'})",
+        "CALL apoc.refactor.mergeNodes([n, m])",
+        "CALL apoc.periodic.iterate('MATCH (n) RETURN n', 'DETACH DELETE n', {})",
+        "MATCH (n) FOREACH (x IN [1] | DELETE n)",
     ],
 )
 def test_validate_read_only_rejects_write_operations(cypher):
     with pytest.raises(ValueError, match="write operation"):
         text2cypher.validate_read_only(cypher)
+
+
+def test_validate_read_only_allows_apoc_read_helpers():
+    text2cypher.validate_read_only(
+        "MATCH (n:Entity) RETURN apoc.text.levenshteinSimilarity(n.name, 'x')"
+    )
+
+
+def test_prompt_requires_entity_labels_and_entity_paths():
+    prompt = text2cypher.build_text2cypher_prompt(
+        question="How are Holmes and Watson related?",
+        schema_info="",
+        entities_info="",
+        domain="fiction",
+    )
+    assert ":Entity" in prompt
+    assert "all(x IN nodes(p) WHERE x:Entity)" in prompt
 
 
 def test_generate_cypher_returns_cypher_and_params(monkeypatch):

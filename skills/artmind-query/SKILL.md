@@ -14,201 +14,92 @@ Use only the structured KG data and chunk text returned by artmind query command
 ## Required Inputs
 
 - `domain`: Ask for it if the user did not provide one.
-- `question`: The natural-language question to answer.
+- `question`: The natural-language question to answer. If the user asks multiple questions, break them down and answer each.
 
-## Common Schema Patterns
+## Fixed Structural Schema
 
-artmind uses four structural node types with fixed relationships. These NEVER change across domains:
+Four structural node types with fixed relationships, identical across domains:
 
 - `(:DocChunk)-[:PART_OF]->(:Document)` — chunk belongs to a document
 - `(:Entity)-[:EXTRACTED_FROM]->(:DocChunk)` — entity was extracted from a chunk
 - `(:DocChunk)-[:MENTIONS]->(:Entity)` — chunk mentions an entity
 - `(:UserChat)-[:MENTIONS]->(:Entity)` — user chat mentions an entity
 
-Entity-to-Entity relationships are domain-specific and vary per domain (e.g. `KNOWS`, `WORKS_AT`). Always check metadata for these.
+Key properties: `Document` (id, name, path, domain), `DocChunk` (id, name, doc_id, text, domain), `UserChat` (id, raw_text, domain, session_id, created_by, created_at), `Entity` (id, name, entity_class, domain, description, type).
 
-Key properties:
-- `Document`: id, name, path, domain
-- `DocChunk`: id, name, doc_id, text, domain
-- `UserChat`: id, raw_text, domain, session_id, created_by, created_at
-- `Entity`: id, name, entity_class, domain, description, type
+Every extracted entity carries the `:Entity` label plus a class label (e.g. `PERSON`). Entity-to-Entity relationship types are domain-specific — always check metadata. For document/chunk questions use `PART_OF` (not EXTRACTED_FROM); `pattern10` does this deterministically.
 
-When a question involves Documents, chunks, or source text, use `PART_OF` (not EXTRACTED_FROM) to connect DocChunk → Document. Use `pattern10` for full document chunk retrieval.
+Add `--compact` to every command — it halves the JSON you must read.
 
-## Discovery
+## The Query Protocol: Discover → Resolve → Retrieve → Ground
 
-Start every new domain/question session by inspecting metadata and entities:
+### 1. Discover — learn the domain's shape
+
+Start every new domain/question session with:
 
 ```bash
-uv run artmind query graph metadata --domain <domain>
+uv run artmind query graph metadata --domain <domain> --compact
 uv run artmind query graph entity-listing --domain <domain> --countAll --compact
 ```
 
-For questions about documents, chunks, or structural counts, also run structural metadata:
+For document/chunk/count questions, `structural-metadata` is the compact alternative (Document names + structural counts). From metadata identify: stored class labels (derived from `entity_class`, uppercased, non-alphanumerics → `_`), relationship types and directions, and whether the question needs graph facts, text evidence, or both.
+
+If `total_entities` is large (> ~100), do not fetch the full listing. Narrow with `--nameFilter "<fragment>"`, or go straight to `pattern7`.
+
+### 2. Resolve — map question names to exact graph nodes
+
+Most wrong answers come from name mismatch: the user says "Holmes", the graph has "Sherlock Holmes" AND "Mycroft Holmes", and substring matching silently merges them. Before running retrieval patterns:
+
+1. Resolve every entity reference in the question:
 
 ```bash
-uv run artmind query graph structural-metadata --domain <domain>
+uv run artmind query entity-resolve --domain <domain> --topK 5 --compact "<name fragment or description>"
 ```
 
-This returns Document names, DocChunk/UserChat/Entity counts, and structural relationship counts — much more compact than full metadata.
+This combines Lucene full-text over entity names/descriptions with vector similarity over entity embeddings (RRF), so it handles both name fragments ("Holmes") and purely descriptive references ("the detective"). Each row returns the entity's `id`, `name`, `entity_class`, and `description`. (Alternatives: `entity-listing --nameFilter` for plain fragments, `pattern7 --searchTerm` for fulltext-only.)
 
-If there are multiple questions in the user query, break them down into individual questions.
+2. Pick the canonical entity. If several are plausible, prefer the best name/description match and note the ambiguity in your answer; ask the user only if the choices change the answer materially.
+3. Use the entity's exact `id` in retrieval via `--entityId` / `--entityId1` / `--entityId2` / `--entityIdList`. Ids never fan out; names can. Fall back to `--entityName` only when resolution was skipped because the name is unambiguous.
 
-Use metadata and entity listings to identify:
-- Stored labels such as `PERSON`, `LOCATION`, or domain-specific labels like `PROJECT_ROLE`.
-- Canonical entity names.
-- Relationship types, properties, and connection directions.
-- Whether the question needs graph facts, vector text evidence, or both.
+If entity-resolve returns nothing for an old graph, embeddings may be missing — `uv run artmind ingest embed-entities --domain <domain>` backfills them.
 
-Entity classes are not hard-coded. artmind ingestion derives Neo4j labels from extracted `entity_class` values by replacing non-alphanumeric characters with `_` and uppercasing. Choose labels from metadata/entity listings whenever possible.
+### 3. Retrieve — run the right pattern
 
-### Managing large entity listings
+| Question shape | Command |
+|---|---|
+| List entities of a class | `pattern1 --entityClass <LABEL> [--limit N]` |
+| "Main / key / most important / top" entities | `pattern9 --entityClass <LABEL> --topN 5` (default ranks by entity-entity links; `--degreeMode mentions` ranks by how often sources mention it) |
+| Facts/properties of named entities | `pattern2 --entityIdList <id>` (or `--entityNameList`) |
+| Properties + relationship summary | `pattern3 --entityIdList <id>` |
+| Full one-hop neighborhood / contextual role | `pattern4 --entityClass <LABEL> --entityId <id>` |
+| Does a direct link exist between X and Y, and of what type | `pattern6 --entityId1 <id> --entityId2 <id>` |
+| Nature/quality of a relationship, "how are X and Y related/connected" | `pattern5 --mode shortest --entityClass1/2 --entityId1/2` (paths traverse entity-entity edges only); `--mode all` for up to 3 paths |
+| Search entities by name/description fragment | `pattern7 --searchTerm "<fragment>"` (Lucene-backed; punctuation is stripped automatically) |
+| Entities of class X connected to entity Y | `pattern8 --entityClass <LABEL> --entityId <id>` |
+| All chunks of / summarize a document | `pattern10 --documentName "<name>"` |
+| Aggregations, custom filters, multi-hop combinations none of the above cover | `text2cypher "<question>"` — run `--dry-run` first to inspect the Cypher |
 
-If `total_entities` from the initial `--countAll` call is large (roughly > 100), fetching the full listing may consume too much context. In that case, extract a name fragment from the user's question and narrow the listing:
+Routing notes:
+- **pattern6 vs pattern5**: pattern6 answers "is there a direct relationship and what type". For the *nature or quality* of a relationship, use pattern5 — then ground with vector-text for narrative evidence. If pattern6 returns no rows, escalate to pattern5 `--mode shortest`.
+- Patterns 2/3/4 return `doc_sources` and `chat_sources` — use these ids to know *where* a fact came from, and pull the actual text in the Ground step when needed.
+- All commands are domain-rolled-up: querying `fiction` includes `fiction.thriller` etc.
+
+### 4. Ground — pull source text when narrative evidence is needed
 
 ```bash
-uv run artmind query graph entity-listing --domain <domain> --nameFilter "<fragment>"
+uv run artmind query vector-text --domain <domain> --topK 5 --compact "<question>"
 ```
 
-Use the returned canonical names to populate `--entityName`, `--entityNameList`, or other pattern parameters. If no fragment is identifiable from the question, skip the filtered listing and go straight to `pattern7` (search by description) or vector search to locate the relevant entities.
+Combines semantic (vector) and keyword (Lucene BM25 full-text) search via Reciprocal Rank Fusion; returns both document chunks and user chats. Use it for "where/when/how did X happen", motivations, quotes, or whenever graph output is too thin. In hybrid answers, take entity/relationship facts from the graph and narrative evidence from chunk text.
 
-## Command Templates
+## Fallback Ladder
 
-Check total entity count (before deciding whether to fetch full listing):
-
-```bash
-uv run artmind query graph entity-listing --domain <domain> --countAll --compact
-```
-
-Filter entity listing by name fragment:
-
-```bash
-uv run artmind query graph entity-listing --domain <domain> --nameFilter "<fragment>"
-```
-
-List entities of a class:
-
-```bash
-uv run artmind query graph pattern1 --domain <domain> --entityClass <LABEL> "<question>"
-```
-
-Fetch properties for named entities:
-
-```bash
-uv run artmind query graph pattern2 --domain <domain> --entityNameList "<name>" "<question>"
-```
-
-Fetch properties plus a lightweight relationship summary:
-
-```bash
-uv run artmind query graph pattern3 --domain <domain> --entityNameList "<name>" "<question>"
-```
-
-Fetch a full one-hop neighborhood for an entity:
-
-```bash
-uv run artmind query graph pattern4 --domain <domain> --entityClass <LABEL> --entityName "<name>" "<question>"
-```
-
-Find shortest or limited paths between two entities:
-
-```bash
-uv run artmind query graph pattern5 --domain <domain> --mode shortest --entityClass1 <LABEL1> --entityClass2 <LABEL2> --entityName1 "<name1>" --entityName2 "<name2>" "<question>"
-uv run artmind query graph pattern5 --domain <domain> --mode all --entityClass1 <LABEL1> --entityClass2 <LABEL2> --entityName1 "<name1>" --entityName2 "<name2>" "<question>"
-```
-
-Fetch direct relationships between two named entities:
-
-```bash
-uv run artmind query graph pattern6 --domain <domain> --entityName1 "<name1>" --entityName2 "<name2>" "<question>"
-```
-
-Search entities by name or description:
-
-```bash
-uv run artmind query graph pattern7 --domain <domain> --searchTerm "<fragment>" "<question>"
-```
-
-Find entities of class X connected to entity Y:
-
-```bash
-uv run artmind query graph pattern8 --domain <domain> --entityClass <LABEL> --entityName "<name>" "<question>"
-```
-
-Rank top entities of a class by graph degree:
-
-```bash
-uv run artmind query graph pattern9 --domain <domain> --entityClass <LABEL> --topN 5 "<question>"
-```
-
-Retrieve all text chunks for a named document:
-
-```bash
-uv run artmind query graph pattern10 --domain <domain> --documentName "<document_name>" "<question>"
-```
-
-Return focused structural metadata (Document, DocChunk, UserChat, Entity counts and relationships):
-
-```bash
-uv run artmind query graph structural-metadata --domain <domain>
-```
-
-Search source text by combining vector embeddings and keyword matching:
-
-```bash
-uv run artmind query vector-text --domain <domain> --topK 5 "<question>"
-```
-
-This command automatically balances semantic similarity (vector) and keyword matching (full-text) using Reciprocal Rank Fusion to produce optimal results.
-
-Generate and execute an LLM-powered Cypher query from natural language:
-
-```bash
-uv run artmind query graph text2cypher --domain <domain> "<question>"
-uv run artmind query graph text2cypher --domain <domain> --dry-run "<question>"
-```
-
-Use `--dry-run` to inspect the generated Cypher without executing it. Always use `--dry-run` first when unsure, to verify the generated Cypher uses correct relationship names before executing. The text2cypher prompt includes a hardcoded structural schema (PART_OF, EXTRACTED_FROM, MENTIONS) so the LLM knows the exact structural relationships.
-
-## Routing
-
-Prefer graph queries for questions about entity lists, named entities, explicit relationships, graph neighborhoods, connected entities, and rankings.
-
-For "retrieve all chunks of document X" or "summarize document X", use `pattern10` directly — it is deterministic and always uses the correct `PART_OF` relationship.
-
-Use `text2cypher` when the question is clearly a graph query but none of patterns 1–10 fit — for example, complex aggregations, multi-entity relationship traversals, queries referencing specific Neo4j labels or properties, or custom filtering/grouping that the templated patterns do not support.
-
-Prefer `vector-text` search for source-text evidence, narrative details, "where/when/how did X happen" questions, ambiguous facts not exposed in metadata, or cases where graph output is too thin.
-
-`vector-text` automatically combines semantic embeddings and keyword matching using Reciprocal Rank Fusion, so it handles both semantic drift and keyword-specific queries without manual fallback logic.
-
-Use hybrid retrieval when the graph identifies candidate entities or relationships but source text is needed to explain context. In hybrid answers, prioritize graph structure for entity/relationship facts and chunk text for narrative evidence.
-
-## Pattern Selection
-
-- Listing entities by class: use `pattern1`; use `pattern9` for "main", "key", "important", or "top".
-- Named entity facts: use `pattern2`, `pattern3`, or `pattern4`.
-- Relationship between two named entities: use `pattern6`, then fallback to `pattern5 --mode shortest` if no rows.
-- Rich contextual role of one entity: use `pattern4`.
-- Descriptor-based references: use `pattern7`, then `pattern4` on the best candidate.
-- Class X connected to entity Y: use `pattern8`.
-- Ranking plus explanation: use `pattern9`, then inspect top result(s) with `pattern4`.
-- Retrieve all chunks/text of a document, or summarize a document: use `pattern10`.
-- Aggregation, counting, custom filtering, or multi-entity relationship queries not covered by patterns 1–10: use `text2cypher`.
-
-## Fallbacks
-
-- If `pattern6` returns no rows, run `pattern5 --mode shortest`.
-- If `pattern7` returns multiple plausible candidates, choose the best name/description match and mention ambiguity when answering.
-- If no pattern fits but the question is clearly a graph query, use `text2cypher`.
-- **If `text2cypher` returns no rows** but the question "should" have data:
-  1. Run `structural-metadata` to verify the exact relationship names and node counts.
-  2. Re-run `text2cypher --dry-run` to inspect the generated Cypher and compare relationship names against the structural metadata.
-  3. If the generated Cypher uses the wrong relationship name, rephrase the question to be more explicit about the correct relationship (e.g. "use PART_OF to connect DocChunk to Document").
-- If `text2cypher` fails (e.g. the LLM produces invalid Cypher), fall back to `vector-text` search.
-- If graph results are empty or insufficient, run `vector-text` search.
-- If `vector-text` results are sparse or weak, say the available artmind data does not answer the question.
+1. pattern6 empty → pattern5 `--mode shortest`.
+2. Pattern output empty or too thin → vector-text.
+3. text2cypher returns no rows but data should exist → run `structural-metadata`, then `text2cypher --dry-run` and compare relationship names; rephrase the question naming the correct relationship (e.g. "use PART_OF to connect DocChunk to Document").
+4. text2cypher generates invalid Cypher → vector-text.
+5. vector-text sparse or weak → state that the available artmind data does not answer the question.
 
 ## Answer Style
 
-Answer directly and naturally. Keep provenance concise: mention whether the answer is based on graph relationships, entity properties, chunk text, or a combination. Avoid exposing raw JSON unless the user asks for it.
+Answer directly and naturally. Keep provenance concise: say whether the answer comes from graph relationships, entity properties, chunk text, or a combination. Mention unresolved ambiguity when you picked between candidate entities. Do not expose raw JSON unless asked.

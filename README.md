@@ -155,7 +155,7 @@ Output:
 SQLite:               ok
 Neo4j constraints:    document_id, chunk_id, user_chat_id
 Neo4j indexes:        entity_lookup
-Neo4j vector indexes: chunk_embedding (dim=768), user_chat_embedding (dim=768)
+Neo4j vector indexes: chunk_embedding (dim=768), user_chat_embedding (dim=768), entity_embedding (dim=768)
 
 Setup complete.
 ```
@@ -487,23 +487,40 @@ uv run artmind query graph entity-listing --domain fiction
 uv run artmind query graph entity-listing --domain fiction --nameFilter "Holmes"
 ```
 
-**Nine graph patterns** cover the common retrieval shapes:
+**Ten templated graph patterns** (plus LLM-generated `text2cypher`) cover the common retrieval shapes:
 
 | Pattern | Purpose | Key options |
 |---|---|---|
-| `pattern1` | List all entities of a class | `--entityClass` |
-| `pattern2` | Properties of named entities + document/chat sources | `--entityNameList` |
-| `pattern3` | Properties + relationship summary + sources | `--entityNameList` |
-| `pattern4` | Full one-hop neighborhood + sources | `--entityClass`, `--entityName` |
-| `pattern5` | Paths between two entities | `--entityClass1/2`, `--entityName1/2`, `--mode shortest\|all` |
-| `pattern6` | Direct relationships between two entities | `--entityName1`, `--entityName2` |
-| `pattern7` | Search entities by name/description fragment | `--searchTerm` |
-| `pattern8` | Entities of class X connected to entity Y | `--entityClass`, `--entityName` |
-| `pattern9` | Top-N entities by connection degree | `--entityClass`, `--topN` |
+| `pattern1` | List all entities of a class | `--entityClass`, `--limit` |
+| `pattern2` | Properties of named entities + document/chat sources | `--entityNameList` / `--entityIdList` |
+| `pattern3` | Properties + relationship summary + sources | `--entityNameList` / `--entityIdList` |
+| `pattern4` | Full one-hop neighborhood + sources | `--entityClass`, `--entityName` / `--entityId` |
+| `pattern5` | Paths between two entities (entity-to-entity edges only) | `--entityClass1/2`, `--entityName1/2` / `--entityId1/2`, `--mode shortest\|all` |
+| `pattern6` | Direct relationships between two entities | `--entityName1/2` / `--entityId1/2` |
+| `pattern7` | Search entities by name/description fragment (Lucene full-text) | `--searchTerm` |
+| `pattern8` | Entities of class X connected to entity Y | `--entityClass`, `--entityName` / `--entityId` |
+| `pattern9` | Top-N entities by connection degree | `--entityClass`, `--topN`, `--degreeMode` |
 | `pattern10` | Retrieve all text chunks for a named document | `--documentName` |
 | `text2cypher` | LLM-generated Cypher from natural language | `"<question>"`, `--dry-run` |
 
-Patterns 2, 3, and 4 include source attribution — each row returns `doc_sources` (document chunks that mention the entity) and `chat_sources` (user chat entries that mention it).
+Patterns 2, 3, and 4 include source attribution — each row returns `doc_sources` (document chunks that mention the entity) and `chat_sources` (user chat entries that mention it). Their relationship/neighborhood output traverses entity-to-entity edges only, so source text never leaks into connection lists.
+
+**Precise vs fuzzy entity matching**: every `--entityName*` option matches by case-insensitive substring, which can fan out ("Holmes" matches both "Sherlock Holmes" and "Mycroft Holmes"). Each has an exact-match alternative (`--entityId`, `--entityId1/2`, `--entityIdList`) that pins the node by its `id` property — resolve names first with `entity-resolve` (below), then query by id.
+
+**Entity resolution** maps a free-text reference — a name fragment or a pure description — to canonical graph entities, combining Lucene full-text over names/descriptions with vector similarity over entity embeddings via RRF:
+
+```bash
+uv run artmind query entity-resolve --domain fiction "the detective"
+# → ranked entities with id, name, entity_class, description
+```
+
+Entity embeddings (name + description) are written automatically during ingestion and updates. For graphs created before this feature, backfill once:
+
+```bash
+uv run artmind ingest embed-entities --domain fiction
+```
+
+**Degree modes for `pattern9`**: by default "most connected" ranks by entity-to-entity relationships. Use `--degreeMode mentions` to rank by how often source chunks/chats mention the entity (salience), or `--degreeMode all` to count every edge.
 
 Examples:
 
@@ -551,10 +568,12 @@ uv run artmind query vector-text --domain fiction --topK 5 "Where did Holmes fir
 
 This single command automatically handles:
 - Semantic similarity via vector embeddings
-- Exact phrase and keyword matches via full-text search
+- Keyword matches via Lucene full-text indexes (BM25-ranked, case-insensitive, punctuation-tolerant)
 - Balanced ranking via Reciprocal Rank Fusion (RRF)
 - Sparse results — reduced chance of getting zero hits
 - Semantic drift — keyword matching catches when embeddings miss the intent
+
+The full-text leg runs on the `chunk_text_ft` and `user_chat_text_ft` indexes created by `artmind setup` — no APOC required for querying.
 
 ---
 

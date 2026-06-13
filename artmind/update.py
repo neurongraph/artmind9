@@ -24,7 +24,11 @@ from artmind.extraction import (
     extract_with_retry,
 )
 from artmind.graph_query import neo4j_session
-from artmind.ingest import _flatten_props, _sanitize_label
+from artmind.ingest import (
+    _flatten_props,
+    _sanitize_label,
+    embed_missing_entity_embeddings,
+)
 from paths import DOMAIN_SCHEMAS_DIR
 from utils.functions import load_env
 
@@ -273,6 +277,8 @@ def write_user_chat(
                     "Relationship skipped ({} -[{}]-> {}): {}",
                     src_name, rel_type, tgt_name, e,
                 )
+
+        embed_missing_entity_embeddings(session, domain, embed_model)
 
     return {
         "user_chat_id": chat_id,

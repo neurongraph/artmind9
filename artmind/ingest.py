@@ -709,6 +709,58 @@ def _upsert_entity(session, entity: dict, extra_props: dict | None) -> None:
         )
 
 
+def entity_embedding_text(name: str, description: str | None) -> str:
+    """Text embedded for an entity — name plus description when available."""
+    return f"{name}: {description}" if description else name
+
+
+def embed_missing_entity_embeddings(session, domain: str, embed_model: str) -> int:
+    """Embed name+description for all entities in the domain that lack an embedding.
+
+    Idempotent backfill — also picks up entities written before embeddings existed.
+    Returns the number of entities embedded. Failures are logged and skipped so a
+    down embedding service never blocks a graph write.
+    """
+    rows = session.run(
+        """
+        MATCH (e:Entity)
+        WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
+          AND e.embedding IS NULL AND e.name IS NOT NULL
+        RETURN e.id AS id, e.name AS name, e.description AS description
+        """,
+        domain=domain,
+    ).data()
+    count = 0
+    for row in rows:
+        try:
+            embedding = _embed_text(
+                embed_model, entity_embedding_text(row["name"], row.get("description"))
+            )
+        except Exception as e:
+            logger.warning("Entity embedding failed for {!r}: {}", row["name"], e)
+            continue
+        session.run(
+            "MATCH (e:Entity {id: $id}) SET e.embedding = $embedding",
+            id=row["id"],
+            embedding=embedding,
+        )
+        count += 1
+    if count:
+        logger.debug("Neo4j: embedded {} entity node(s)", count)
+    return count
+
+
+def embed_entities_backfill(domain: str) -> dict:
+    """Backfill embeddings for all entities in a domain that lack one."""
+    from artmind.graph_query import neo4j_session
+
+    env = load_env()
+    embed_model = env.get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest")
+    with neo4j_session() as session:
+        embedded = embed_missing_entity_embeddings(session, domain, embed_model)
+    return {"domain": domain, "entities_embedded": embedded}
+
+
 def _write_to_neo4j(doc_kg_dir: Path) -> bool:
     """Read the extracted JSON files and write/merge everything into Neo4j."""
     env = load_env()
@@ -859,6 +911,14 @@ def _write_to_neo4j(doc_kg_dir: Path) -> bool:
                     )
 
             logger.debug("Neo4j: created/merged {} relationship(s)", rel_count)
+
+            # ── Entity embeddings (name + description, used by entity-resolve) ─
+            embed_model = env.get(
+                "ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest"
+            )
+            embed_missing_entity_embeddings(
+                session, document.get("domain", ""), embed_model
+            )
 
         logger.info(
             "Neo4j ingestion complete: {}", document.get("name", doc_kg_dir.name)

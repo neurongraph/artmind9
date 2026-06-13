@@ -220,41 +220,136 @@ def test_vector_text_search_combines_methods(monkeypatch):
     assert len(result["rows"]) == 2  # Combined results
 
 
-def test_full_text_search_fallback_chunks(monkeypatch):
-    """Test that fallback works when APOC is not available."""
-    from neo4j.exceptions import ClientError
+def test_full_text_search_uses_fulltext_indexes_and_sanitizes(monkeypatch):
+    """The fulltext leg must query the Lucene indexes with sanitized input."""
+    captured = {"cyphers": [], "queries": []}
 
     class FakeSession:
-        def __init__(self):
-            self.call_count = 0
-
         def run(self, cypher, **params):
-            self.call_count += 1
-            # Simulate APOC not being available on first calls
-            if "apoc" in cypher.lower():
-                raise ClientError("Unknown function 'apoc'")
-            # For fallback queries (no apoc), return matching data
-            if "DocChunk" in cypher:
-                return [
-                    {
-                        "chunk": {
-                            "id": "chunk-1",
-                            "text": "Watson and Holmes meet",
-                        },
-                        "document": {"id": "doc-1"},
-                        "source_type": "document",
-                    }
-                ]
-            elif "UserChat" in cypher:
-                return []
+            captured["cyphers"].append(cypher)
+            captured["queries"].append(params["ft_query"])
             return []
 
     class FakeSessionContext:
-        def __init__(self):
-            self.session = FakeSession()
-
         def __enter__(self):
-            return self.session
+            return FakeSession()
+
+        def __exit__(self, exc_type, exc, tb):
+            return False
+
+    monkeypatch.setattr(vector_query, "neo4j_session", lambda: FakeSessionContext())
+
+    result = vector_query.full_text_search(
+        "fiction", "Where did Holmes meet Irene Adler? (St Bartholomew's)", 5
+    )
+
+    assert result["rows"] == []
+    assert "chunk_text_ft" in captured["cyphers"][0]
+    assert "user_chat_text_ft" in captured["cyphers"][1]
+    # Lucene specials stripped, words preserved
+    for query in captured["queries"]:
+        assert "?" not in query and "(" not in query
+        assert "Holmes" in query and "Adler" in query
+
+
+def test_full_text_search_skips_query_when_nothing_searchable(monkeypatch):
+    def fail_session():
+        raise AssertionError("should not open a session for an empty query")
+
+    monkeypatch.setattr(vector_query, "neo4j_session", fail_session)
+
+    result = vector_query.full_text_search("fiction", "?? !! ()", 5)
+
+    assert result["rows"] == []
+
+
+def test_entity_resolve_combines_fulltext_and_vector(monkeypatch):
+    """entity_resolve must RRF-combine the fulltext and vector legs."""
+
+    class FakeSession:
+        def run(self, cypher, **params):
+            if "entity_name_ft" in cypher:
+                return [
+                    {
+                        "score": 2.1,
+                        "entity": {"id": "ent-1", "name": "Sherlock Holmes"},
+                    }
+                ]
+            return [
+                {
+                    "score": 0.93,
+                    "entity": {"id": "ent-1", "name": "Sherlock Holmes"},
+                },
+                {
+                    "score": 0.80,
+                    "entity": {"id": "ent-2", "name": "Mycroft Holmes"},
+                },
+            ]
+
+    class FakeSessionContext:
+        def __enter__(self):
+            return FakeSession()
+
+        def __exit__(self, exc_type, exc, tb):
+            return False
+
+    monkeypatch.setattr(vector_query, "embed_question", lambda question: [0.1, 0.2])
+    monkeypatch.setattr(vector_query, "neo4j_session", lambda: FakeSessionContext())
+
+    result = vector_query.entity_resolve("fiction", "the detective Holmes", 5)
+
+    assert result["query_type"] == "entity_resolve"
+    assert len(result["rows"]) == 2
+    # ent-1 appears in both legs, so it must rank first
+    assert result["rows"][0]["entity"]["id"] == "ent-1"
+
+
+def test_entity_resolve_survives_missing_vector_index(monkeypatch):
+    from neo4j.exceptions import ClientError
+
+    class FakeSession:
+        def run(self, cypher, **params):
+            if "entity_name_ft" in cypher:
+                return [
+                    {"score": 1.0, "entity": {"id": "ent-1", "name": "Sherlock Holmes"}}
+                ]
+            raise ClientError("IndexNotFound: entity_embedding")
+
+    class FakeSessionContext:
+        def __enter__(self):
+            return FakeSession()
+
+        def __exit__(self, exc_type, exc, tb):
+            return False
+
+    monkeypatch.setattr(vector_query, "embed_question", lambda question: [0.1])
+    monkeypatch.setattr(vector_query, "neo4j_session", lambda: FakeSessionContext())
+
+    result = vector_query.entity_resolve("fiction", "Holmes", 5)
+
+    assert len(result["rows"]) == 1
+    assert result["rows"][0]["entity"]["id"] == "ent-1"
+
+
+def test_full_text_search_handles_missing_chat_index(monkeypatch):
+    from neo4j.exceptions import ClientError
+
+    class FakeSession:
+        def run(self, cypher, **params):
+            if "user_chat_text_ft" in cypher:
+                raise ClientError("IndexNotFound: user_chat_text_ft")
+            return [
+                {
+                    "score": 1.5,
+                    "chunk": {"id": "chunk-1", "text": "Watson and Holmes meet"},
+                    "document": {"id": "doc-1"},
+                    "source_type": "document",
+                }
+            ]
+
+    class FakeSessionContext:
+        def __enter__(self):
+            return FakeSession()
 
         def __exit__(self, exc_type, exc, tb):
             return False
@@ -263,5 +358,5 @@ def test_full_text_search_fallback_chunks(monkeypatch):
 
     result = vector_query.full_text_search("fiction", "Watson Holmes", 5)
 
-    assert result["query_type"] == "full_text"
-    assert len(result["rows"]) >= 0  # Should handle fallback gracefully
+    assert len(result["rows"]) == 1
+    assert result["rows"][0]["chunk"]["id"] == "chunk-1"

@@ -43,6 +43,31 @@ def test_validate_pattern_parameters_reports_missing_options(
         graph_query.validate_pattern_parameters(pattern, params)
 
 
+def test_sanitize_lucene_query_strips_specials_keeps_terms():
+    assert (
+        graph_query.sanitize_lucene_query("St Bartholomew's Hospital (London)?")
+        == "St Bartholomew's Hospital London"
+    )
+    assert graph_query.sanitize_lucene_query("a+b -c \"d\" e:f g/h") == "a b c d e f g h"
+    assert graph_query.sanitize_lucene_query("?? !! ()") == ""
+
+
+def test_pattern7_sanitizes_search_term():
+    cypher, params = graph_query._pattern_query(
+        "pattern7",
+        {"domain": "fiction", "searchTerm": "copper-beeches (estate)?", "limit": 10},
+    )
+    assert "entity_name_ft" in cypher
+    assert params["searchTerm"] == "copper beeches estate"
+
+
+def test_pattern7_rejects_unsearchable_term():
+    with pytest.raises(ValueError, match="searchable"):
+        graph_query._pattern_query(
+            "pattern7", {"domain": "fiction", "searchTerm": "(?)", "limit": 10}
+        )
+
+
 def test_validate_pattern_parameters_rejects_unknown_pattern():
     with pytest.raises(ValueError, match="Unsupported"):
         graph_query.validate_pattern_parameters("pattern99", {})
@@ -74,6 +99,9 @@ def test_pattern5_query_dispatches_shortest_and_all_modes():
 
     assert "shortestPath" in shortest_cypher
     assert "[*1..5]" in all_cypher
+    # paths must stay in entity space — no co-mention hops through DocChunk hubs
+    assert "all(x IN nodes(p) WHERE x:Entity)" in shortest_cypher
+    assert "all(x IN nodes(p) WHERE x:Entity)" in all_cypher
 
 
 @pytest.mark.parametrize("pattern", [f"pattern{i}" for i in range(1, 10)])
@@ -163,6 +191,126 @@ def test_execute_pattern_shapes_output_and_strips_embeddings(monkeypatch):
 
     assert result["parameters"]["entityClass"] == "CHARACTER"
     assert result["rows"] == [{"entityData": {"name": "Holmes"}}]
+
+
+def test_pattern1_applies_result_limit():
+    cypher, params = graph_query._pattern_query(
+        "pattern1", {"domain": "fiction", "entityClass": "PERSON"}
+    )
+    assert "LIMIT $limit" in cypher
+    assert params["limit"] == 200
+
+
+@pytest.mark.parametrize("pattern", ["pattern2", "pattern3", "pattern6"])
+def test_name_match_patterns_scope_to_entity_label(pattern):
+    params = {
+        "domain": "fiction",
+        "entityNameList": ["Holmes"],
+        "entityName1": "Holmes",
+        "entityName2": "Watson",
+    }
+    cypher, _ = graph_query._pattern_query(pattern, params)
+    assert ":Entity" in cypher
+
+
+@pytest.mark.parametrize("pattern", ["pattern3", "pattern4", "pattern8"])
+def test_neighborhood_patterns_exclude_structural_nodes(pattern):
+    params = {
+        "domain": "fiction",
+        "entityClass": "PERSON",
+        "entityName": "Holmes",
+        "entityNameList": ["Holmes"],
+    }
+    cypher, _ = graph_query._pattern_query(pattern, params)
+    # connections must traverse entity-entity edges, not MENTIONS into chunks
+    assert "(t:Entity)" in cypher
+
+
+def test_pattern9_degree_modes():
+    base = {"domain": "fiction", "entityClass": "PERSON", "topN": 5}
+
+    relations_cypher, _ = graph_query._pattern_query("pattern9", base)
+    assert "(e)-[r]-(:Entity)" in relations_cypher
+
+    mentions_cypher, _ = graph_query._pattern_query(
+        "pattern9", {**base, "degreeMode": "mentions"}
+    )
+    assert "<-[r:MENTIONS]-" in mentions_cypher
+
+    all_cypher, _ = graph_query._pattern_query("pattern9", {**base, "degreeMode": "all"})
+    assert "(e)-[r]-()" in all_cypher
+
+
+def test_validate_rejects_bad_degree_mode():
+    with pytest.raises(ValueError, match="degreeMode"):
+        graph_query.validate_pattern_parameters(
+            "pattern9", {"entityClass": "PERSON", "degreeMode": "bogus"}
+        )
+
+
+def test_entity_id_takes_precedence_over_name():
+    cypher, params = graph_query._pattern_query(
+        "pattern4",
+        {
+            "domain": "fiction",
+            "entityClass": "PERSON",
+            "entityName": "Holmes",
+            "entityId": "ent-42",
+        },
+    )
+    assert "e.id = $entityId" in cypher
+    assert params["entityId"] == "ent-42"
+    assert "entityName" not in params
+
+
+def test_pattern2_accepts_entity_id_list():
+    cypher, params = graph_query._pattern_query(
+        "pattern2", {"domain": "fiction", "entityIdList": ["ent-1", "ent-2"]}
+    )
+    assert "e.id IN $entityIdList" in cypher
+    assert params["entityIdList"] == ["ent-1", "ent-2"]
+
+
+def test_pattern6_accepts_entity_ids():
+    cypher, params = graph_query._pattern_query(
+        "pattern6",
+        {"domain": "fiction", "entityId1": "ent-1", "entityId2": "ent-2"},
+    )
+    assert "e1.id = $entityId1" in cypher
+    assert "e2.id = $entityId2" in cypher
+
+
+def test_validate_accepts_id_alternative_for_name():
+    # entityId satisfies the entityName requirement
+    graph_query.validate_pattern_parameters(
+        "pattern4", {"entityClass": "PERSON", "entityId": "ent-42"}
+    )
+    graph_query.validate_pattern_parameters(
+        "pattern2", {"entityIdList": ["ent-1"]}
+    )
+
+
+def test_validate_missing_name_mentions_id_alternative():
+    with pytest.raises(ValueError, match=r"--entityName \(or --entityId\)"):
+        graph_query.validate_pattern_parameters("pattern4", {"entityClass": "PERSON"})
+
+
+def test_execute_pattern_with_id_list_normalizes_tuple(monkeypatch):
+    captured = {}
+
+    def fake_run(cypher, params):
+        captured["cypher"] = cypher
+        captured.update(params)
+        return []
+
+    monkeypatch.setattr(graph_query, "_run_read_query", fake_run)
+
+    result = graph_query.execute_pattern(
+        "fiction", "pattern2", None, entityIdList=("ent-1",), entityNameList=()
+    )
+
+    assert captured["entityIdList"] == ["ent-1"]
+    assert result["parameters"]["entityIdList"] == ["ent-1"]
 
 
 def test_pattern_cypher_includes_user_chat_source_match():

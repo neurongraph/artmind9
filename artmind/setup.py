@@ -57,6 +57,12 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
         f"OPTIONS {{indexConfig: {{`vector.dimensions`: {embedding_dim}, "
         f"`vector.similarity_function`: 'cosine'}}}}"
     )
+    session.run(
+        f"CREATE VECTOR INDEX entity_embedding IF NOT EXISTS "
+        f"FOR (e:Entity) ON (e.embedding) "
+        f"OPTIONS {{indexConfig: {{`vector.dimensions`: {embedding_dim}, "
+        f"`vector.similarity_function`: 'cosine'}}}}"
+    )
 
     # ── Fulltext indexes ──────────────────────────────────────────────────────
     try:
@@ -102,6 +108,7 @@ def setup_all() -> dict:
         "neo4j_vector_indexes": [
             f"chunk_embedding (dim={embedding_dim})",
             f"user_chat_embedding (dim={embedding_dim})",
+            f"entity_embedding (dim={embedding_dim})",
         ],
         "neo4j_fulltext_indexes": ["chunk_text_ft", "user_chat_text_ft", "entity_name_ft"],
     }

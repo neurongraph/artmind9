@@ -1,7 +1,13 @@
 import ollama
+from loguru import logger
 from neo4j.exceptions import ClientError
 
-from artmind.graph_query import neo4j_session, serialize_record, strip_embeddings
+from artmind.graph_query import (
+    neo4j_session,
+    sanitize_lucene_query,
+    serialize_record,
+    strip_embeddings,
+)
 from utils.functions import load_env, log_llm_call
 
 
@@ -57,11 +63,13 @@ def _rrf_combine(vector_rows: list, text_rows: list, topK: int, k: int = 60) -> 
 
 
 def _get_result_id(row: dict) -> str:
-    """Extract a unique ID from a result row (chunk or chat)."""
+    """Extract a unique ID from a result row (chunk, chat, or entity)."""
     if "chunk" in row and row["chunk"]:
         return f"chunk:{row['chunk']['id']}"
     elif "chat" in row and row["chat"]:
         return f"chat:{row['chat']['id']}"
+    elif "entity" in row and row["entity"]:
+        return f"entity:{row['entity']['id']}"
     return str(id(row))
 
 
@@ -152,135 +160,156 @@ def vector_search(domain: str, question: str, topK: int = 5) -> dict:
 
 
 def full_text_search(domain: str, question: str, topK: int = 5) -> dict:
-    """Full-text search on DocChunk and UserChat text content.
+    """Full-text (Lucene) search on DocChunk and UserChat text content.
 
-    Keyword matching fallback when vector search returns sparse results.
-    Returns both exact phrase matches and individual keyword matches ranked by relevance.
+    Uses the chunk_text_ft and user_chat_text_ft indexes created by
+    `artmind setup`. Lucene handles tokenization, case folding, and BM25
+    relevance ranking; terms are OR-combined so natural-language questions
+    still match chunks containing only the salient words.
     """
-    # Build search query with AND for multi-word phrases and OR for individual words
-    search_terms = question.split()
-    # Create a simple keyword match: all words should appear in the text
-    keyword_conditions = " AND ".join([f"(node.text CONTAINS $word{i})" for i in range(len(search_terms))])
-    keyword_params = {f"word{i}": term.lower() for i, term in enumerate(search_terms)}
+    query = sanitize_lucene_query(question)
 
-    cypher_chunks = f"""
-    MATCH (node:DocChunk)
-    WHERE (node.domain = $domain OR node.domain STARTS WITH ($domain + '.')) AND {keyword_conditions}
+    result: dict = {
+        "domain": domain,
+        "query_type": "full_text",
+        "question": question,
+        "parameters": {"topK": int(topK)},
+        "rows": [],
+    }
+    if not query:
+        return result
+
+    cypher_chunks = """
+    CALL db.index.fulltext.queryNodes('chunk_text_ft', $ft_query)
+    YIELD node, score
+    WHERE (node.domain = $domain OR node.domain STARTS WITH ($domain + '.'))
     OPTIONAL MATCH (node)-[:PART_OF]->(document:Document)
-    WITH node, document,
-         apoc.text.levenshteinSimilarity(node.text, $question) AS relevance
-    RETURN relevance AS score,
-           node {{ .id, .name, .doc_id, .text }} AS chunk,
-           document {{ .id, .name, .path, .domain }} AS document,
+    RETURN score,
+           node { .id, .name, .doc_id, .text } AS chunk,
+           document { .id, .name, .path, .domain } AS document,
            'document' AS source_type
-    ORDER BY relevance DESC
+    ORDER BY score DESC
     LIMIT $topK
     """
 
-    cypher_chats = f"""
-    MATCH (node:UserChat)
-    WHERE (node.domain = $domain OR node.domain STARTS WITH ($domain + '.')) AND {keyword_conditions}
-    WITH node,
-         apoc.text.levenshteinSimilarity(node.raw_text, $question) AS relevance
-    RETURN relevance AS score,
-           node {{ .id, .raw_text, .domain, .created_by, .created_at }} AS chat,
+    cypher_chats = """
+    CALL db.index.fulltext.queryNodes('user_chat_text_ft', $ft_query)
+    YIELD node, score
+    WHERE (node.domain = $domain OR node.domain STARTS WITH ($domain + '.'))
+    RETURN score,
+           node { .id, .raw_text, .domain, .created_by, .created_at } AS chat,
            'user_chat' AS source_type
-    ORDER BY relevance DESC
+    ORDER BY score DESC
     LIMIT $topK
     """
 
     params = {
         "domain": domain,
-        "question": question,
+        "ft_query": query,
         "topK": int(topK),
-        **keyword_params,
     }
 
     with neo4j_session() as session:
-        try:
-            chunk_rows = [
-                strip_embeddings(serialize_record(record))
-                for record in session.run(cypher_chunks, **params)
-            ]
-        except ClientError as e:
-            if "apoc" in str(e).lower() or "unknown function" in str(e).lower():
-                # Fallback if APOC not available: simple substring matching
-                chunk_rows = _full_text_fallback_chunks(session, domain, search_terms, int(topK))
-            else:
-                raise
-
+        chunk_rows = [
+            strip_embeddings(serialize_record(record))
+            for record in session.run(cypher_chunks, **params)
+        ]
         try:
             chat_rows = [
                 strip_embeddings(serialize_record(record))
                 for record in session.run(cypher_chats, **params)
             ]
         except ClientError as e:
-            if "apoc" in str(e).lower() or "unknown function" in str(e).lower():
-                chat_rows = _full_text_fallback_chats(session, domain, search_terms, int(topK))
+            if "IndexNotFound" in str(e) or "index" in str(e).lower():
+                chat_rows = []
             else:
                 raise
 
-    all_rows = sorted(chunk_rows + chat_rows, key=lambda r: r.get("score", 0), reverse=True)[:int(topK)]
+    result["rows"] = sorted(
+        chunk_rows + chat_rows, key=lambda r: r.get("score", 0), reverse=True
+    )[: int(topK)]
+    return result
+
+
+def entity_resolve(domain: str, reference: str, topK: int = 5) -> dict:
+    """Resolve a free-text entity reference to canonical graph entities.
+
+    Combines Lucene full-text over entity name+description (entity_name_ft)
+    with vector similarity over entity embeddings (entity_embedding) via RRF.
+    The fulltext leg catches name fragments; the vector leg catches purely
+    descriptive references ("the detective") that share no words with the name.
+    """
+    ft_query = sanitize_lucene_query(reference)
+
+    cypher_ft = """
+    CALL db.index.fulltext.queryNodes('entity_name_ft', $ft_query)
+    YIELD node AS e, score
+    WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
+    RETURN score,
+           e { .id, .name, .entity_class, .type, .description, .domain, label: labels(e) } AS entity
+    ORDER BY score DESC
+    LIMIT $topK
+    """
+
+    cypher_vec = """
+    CYPHER 25
+    MATCH (node:Entity)
+      SEARCH node IN (
+        VECTOR INDEX entity_embedding
+        FOR $embedding
+        LIMIT $candidateK
+      )
+    WHERE (node.domain = $domain OR node.domain STARTS WITH ($domain + '.'))
+    WITH node, vector.similarity.cosine(node.embedding, $embedding) AS score
+    RETURN score,
+           node { .id, .name, .entity_class, .type, .description, .domain, label: labels(node) } AS entity
+    ORDER BY score DESC
+    LIMIT $topK
+    """
+
+    with neo4j_session() as session:
+        ft_rows: list = []
+        if ft_query:
+            ft_rows = [
+                strip_embeddings(serialize_record(record))
+                for record in session.run(
+                    cypher_ft, domain=domain, ft_query=ft_query, topK=int(topK)
+                )
+            ]
+
+        vec_rows: list = []
+        try:
+            embedding = embed_question(reference)
+            vec_rows = [
+                strip_embeddings(serialize_record(record))
+                for record in session.run(
+                    cypher_vec,
+                    domain=domain,
+                    embedding=embedding,
+                    topK=int(topK),
+                    candidateK=max(int(topK) * 5, int(topK)),
+                )
+            ]
+        except ClientError as e:
+            # entity_embedding index missing (pre-existing graph not yet
+            # backfilled) — fulltext leg alone still resolves most names
+            if "IndexNotFound" in str(e) or "index" in str(e).lower():
+                vec_rows = []
+            else:
+                raise
+        except Exception as e:
+            logger.warning("entity-resolve vector leg unavailable: {}", e)
+            vec_rows = []
+
+    combined_rows = _rrf_combine(vec_rows, ft_rows, int(topK))
 
     return {
         "domain": domain,
-        "query_type": "full_text",
-        "question": question,
+        "query_type": "entity_resolve",
+        "question": reference,
         "parameters": {"topK": int(topK)},
-        "rows": all_rows,
+        "rows": combined_rows,
     }
-
-
-def _full_text_fallback_chunks(session, domain: str, search_terms: list, topK: int) -> list:
-    """Fallback full-text search using simple CONTAINS matching."""
-    cypher = """
-    MATCH (node:DocChunk)
-    WHERE (node.domain = $domain OR node.domain STARTS WITH ($domain + '.'))
-    OPTIONAL MATCH (node)-[:PART_OF]->(document:Document)
-    RETURN node { .id, .name, .doc_id, .text } AS chunk,
-           document { .id, .name, .path, .domain } AS document,
-           'document' AS source_type
-    LIMIT $limit
-    """
-
-    results = []
-    for record in session.run(cypher, domain=domain, limit=topK * 5):
-        chunk_text = record["chunk"]["text"].lower() if record["chunk"] else ""
-        # Count matching terms
-        matches = sum(1 for term in search_terms if term.lower() in chunk_text)
-        if matches > 0:
-            results.append({
-                "score": matches / len(search_terms),  # Normalize by number of search terms
-                "chunk": record["chunk"],
-                "document": record["document"],
-                "source_type": record["source_type"],
-            })
-
-    return sorted(results, key=lambda r: r["score"], reverse=True)[:topK]
-
-
-def _full_text_fallback_chats(session, domain: str, search_terms: list, topK: int) -> list:
-    """Fallback full-text search for UserChat using simple CONTAINS matching."""
-    cypher = """
-    MATCH (node:UserChat)
-    WHERE (node.domain = $domain OR node.domain STARTS WITH ($domain + '.'))
-    RETURN node { .id, .raw_text, .domain, .created_by, .created_at } AS chat,
-           'user_chat' AS source_type
-    LIMIT $limit
-    """
-
-    results = []
-    for record in session.run(cypher, domain=domain, limit=topK * 5):
-        chat_text = record["chat"]["raw_text"].lower() if record["chat"] else ""
-        matches = sum(1 for term in search_terms if term.lower() in chat_text)
-        if matches > 0:
-            results.append({
-                "score": matches / len(search_terms),
-                "chat": record["chat"],
-                "source_type": record["source_type"],
-            })
-
-    return sorted(results, key=lambda r: r["score"], reverse=True)[:topK]
 
 
 def vector_text_search(domain: str, question: str, topK: int = 5) -> dict:

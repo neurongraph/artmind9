@@ -83,6 +83,12 @@ Output JSON: `{nodes_created, nodes_updated, relationships_written, user_chat_id
 Report the summary to the user:
 > "Added: 2 new nodes, 1 updated, 1 relationship written."
 
+Optionally verify the write landed as intended — useful after creating new entities or when relationships were involved:
+
+```bash
+uv run artmind query graph pattern2 --domain <domain> --entityNameList "<new entity name>" --compact
+```
+
 ## Step 4 — Continue or Exit
 
 Ask: "Anything else to add to this session?"
