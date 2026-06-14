@@ -162,9 +162,7 @@ COMMANDS: dict[str, dict] = {
             _domain_arg(),
         ],
         "cli_cmd": ["artmind", "ingest", "sync"],
-        "views": {
-            "Summary": "{status: .status, chunks: (.chunks // 0)}",
-        },
+        "views": {},
     },
     "ingest.async": {
         "stage": 3,
@@ -232,7 +230,7 @@ COMMANDS: dict[str, dict] = {
         ],
         "cli_cmd": ["artmind", "ingest", "embed-entities"],
         "views": {
-            "Summary": "{embedded: .embedded_count, skipped: .skipped_count}",
+            "Summary": "{domain: .domain, embedded: .entities_embedded}",
         },
     },
 
@@ -313,10 +311,7 @@ COMMANDS: dict[str, dict] = {
                  placeholder="data/refine/proposals.json", sample_value=None),
         ],
         "cli_cmd": ["artmind", "ingest", "refine-graph"],
-        "views": {
-            "Merge proposals": "[.[] | {keep: .keep_name, aliases: .merge_names}]",
-            "Count": "length",
-        },
+        "views": {},
     },
     "refine.apply": {
         "stage": 4,
@@ -332,9 +327,7 @@ COMMANDS: dict[str, dict] = {
             _domain_arg(),
         ],
         "cli_cmd": ["artmind", "ingest", "refine-graph"],
-        "views": {
-            "Applied": "{merged: .merged_count, skipped: .skipped_count}",
-        },
+        "views": {},
     },
 
     # ── Stage 5: Query ──────────────────────────────────────────────────────
@@ -638,8 +631,8 @@ COMMANDS: dict[str, dict] = {
         ],
         "cli_cmd": ["artmind", "update", "draft"],
         "views": {
-            "Summary": "{session_id: .session_id, entities: (.entities | length)}",
-            "Entities": "[.entities[] | {name, entity_class}]",
+            "Summary": "{session_id: .session_id, entities: (.extracted_entities | length)}",
+            "Entities": "[.extracted_entities[] | {name, entity_class}]",
         },
     },
     "update.confirm": {
@@ -676,9 +669,7 @@ COMMANDS: dict[str, dict] = {
                  placeholder="10", sample_value=None),
         ],
         "cli_cmd": ["artmind", "update", "history"],
-        "views": {
-            "Sessions": "[.[] | {session_id, status, created_at}]",
-        },
+        "views": {},
     },
     "update.export": {
         "stage": 6,
@@ -710,9 +701,7 @@ COMMANDS: dict[str, dict] = {
         ),
         "args": [],
         "cli_cmd": ["artmind", "session", "close"],
-        "views": {
-            "Summary": "{snapshot_path: .snapshot_path, node_count: .node_count}",
-        },
+        "views": {},
     },
     "session.initiate": {
         "stage": 7,
@@ -729,9 +718,7 @@ COMMANDS: dict[str, dict] = {
                  placeholder="", sample_value=None),
         ],
         "cli_cmd": ["artmind", "session", "initiate"],
-        "views": {
-            "Summary": "{restored_nodes: .restored_node_count}",
-        },
+        "views": {},
     },
 }
 
