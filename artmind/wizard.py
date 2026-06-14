@@ -117,7 +117,7 @@ class CommandForm(VerticalScroll):
                 ["artmind", "domains", "list"],
                 capture_output=True, text=True, timeout=5,
             )
-            lines = [l.strip() for l in result.stdout.splitlines() if l.strip()]
+            lines = [line.strip() for line in result.stdout.splitlines() if line.strip()]
             return lines or ["fiction"]
         except Exception:
             return ["fiction"]
@@ -187,6 +187,7 @@ class WizardApp(App):
         self._last_raw_output: str = ""
         self._last_ingested_doc_stem: str | None = None
         self._last_domain: str | None = None
+        self._locked_stage_indices: set[int] = set()
 
     def compose(self) -> ComposeResult:
         yield Header()
@@ -236,26 +237,21 @@ class WizardApp(App):
         tree = self.query_one("#lifecycle-tree", Tree)
         next_unlocked = max(self.completed_stages, default=0) + 1
         for i, stage_node in enumerate(tree.root.children, start=1):
-            label = str(stage_node.label)
-            is_locked = i > next_unlocked
-            # Add/remove [locked] prefix as visual indicator
-            if is_locked and not label.startswith("[dim]"):
-                stage_node.set_label(f"[dim]{label}[/dim]")
-            elif not is_locked and label.startswith("[dim]"):
-                # Strip markup to get original label
-                import re
-                clean = re.sub(r"\[/?dim\]", "", label)
-                stage_node.set_label(clean)
+            should_lock = i > next_unlocked
+            if should_lock and i not in self._locked_stage_indices:
+                stage_node.set_label(f"[dim]{stage_node.label.plain}[/dim]")
+                self._locked_stage_indices.add(i)
+            elif not should_lock and i in self._locked_stage_indices:
+                stage_node.set_label(stage_node.label.plain)
+                self._locked_stage_indices.discard(i)
 
     def _apply_mode_to_tree(self) -> None:
         if self.mode == "free":
             tree = self.query_one("#lifecycle-tree", Tree)
-            import re
-            for node in tree.root.children:
-                label = str(node.label)
-                if label.startswith("[dim]"):
-                    clean = re.sub(r"\[/?dim\]", "", label)
-                    node.set_label(clean)
+            for i, node in enumerate(tree.root.children, start=1):
+                if i in self._locked_stage_indices:
+                    node.set_label(node.label.plain)
+                    self._locked_stage_indices.discard(i)
         else:
             self._apply_guided_locking()
 
@@ -295,8 +291,8 @@ class WizardApp(App):
         elif "git_commands" in info:
             domain = self._last_domain or "{domain}"
             stem = self._last_ingested_doc_stem or "{doc_stem}"
-            for cmd in info["git_commands"]:
-                log.write(cmd.format(domain=domain, doc_stem=stem))
+            for git_cmd in info["git_commands"]:
+                log.write(git_cmd.format(domain=domain, doc_stem=stem))
         elif "external_command" in info:
             log.write("[bold]Run in a separate terminal:[/bold]")
             log.write(info["external_command"])
@@ -361,6 +357,8 @@ class WizardApp(App):
             try:
                 widget = form.query_one(widget_id)
             except Exception:
+                continue
+            if hasattr(widget, "value") and widget.value is Select.BLANK:
                 continue
             value = str(widget.value).strip() if hasattr(widget, "value") else ""
             if not value:
@@ -435,9 +433,9 @@ class WizardApp(App):
         self.completed_stages = frozenset(self.completed_stages | {stage_num})
         tree = self.query_one("#lifecycle-tree", Tree)
         stage_node = list(tree.root.children)[stage_num - 1]
-        label = str(stage_node.label)
-        if "✓" not in label:
-            stage_node.set_label(label + " ✓")
+        plain = stage_node.label.plain
+        if "✓" not in plain:
+            stage_node.set_label(plain + " ✓")
         if self.mode == "guided":
             self._apply_guided_locking()
 
@@ -472,10 +470,8 @@ class WizardApp(App):
         for view_name, expr in COMMANDS[cmd_id].get("views", {}).items():
             tab_id = "tab-view-" + view_name.lower().replace(" ", "-")
             filtered = apply_jq_filter(self._last_raw_output, expr)
-            log = RichLog(highlight=True, markup=True, id=f"log-{tab_id}")
-            pane = TabPane(view_name, id=tab_id)
+            pane = TabPane(view_name, Static(filtered), id=tab_id)
             tabs.add_pane(pane)
-            log.write(filtered)
 
     def on_input_submitted(self, event: Input.Submitted) -> None:
         if event.input.id == "jq-input":
