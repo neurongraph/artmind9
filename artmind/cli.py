@@ -17,6 +17,7 @@ from artmind.graph_snapshot import export_graph, import_graph
 from artmind.harmonizer import harmonize_all, harmonize_schema
 from artmind.setup import setup_all
 from artmind.dashboard import run_dashboard
+from artmind.wizard import run_wizard
 from artmind.ingest import (
     _build_file_result_from_db,
     clean_document,
@@ -1143,3 +1144,9 @@ def setup():
         click.echo("\nSetup complete.")
     except Exception as e:
         raise click.ClickException(str(e))
+
+
+@cli.command("wizard")
+def wizard_cmd():
+    """Interactive TUI wizard — teaches and tests the full artmind lifecycle."""
+    run_wizard()
