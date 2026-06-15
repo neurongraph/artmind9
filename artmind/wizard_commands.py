@@ -342,8 +342,8 @@ COMMANDS: dict[str, dict] = {
         "args": [_domain_arg()],
         "cli_cmd": ["artmind", "query", "graph", "metadata"],
         "views": {
-            "Entity types": "[.entity_types[]? | .label]",
-            "Rel types": "[.relationship_types[]? | .type]",
+            "Entity types": ".rows | map(select(.category == \"nodes\")) | map(.name)",
+            "Rel types": ".rows | map(select(.category == \"relationships\")) | map(.name)",
         },
     },
     "query.pattern1": {
