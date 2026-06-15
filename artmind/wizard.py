@@ -64,6 +64,11 @@ class CommandForm(VerticalScroll):
     }
     """
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._global_field_counter = 0
+        self._field_widgets: dict[str, Widget] = {}  # Map flag to widget
+
     def build_form(
         self,
         cmd_id: str,
@@ -71,7 +76,11 @@ class CommandForm(VerticalScroll):
         session_id: str | None = None,
     ) -> None:
         from artmind.wizard_commands import COMMANDS
-        self.remove_children()
+        # Clear all children and reset field tracking
+        for child in list(self.children):
+            child.remove()
+        self._field_widgets.clear()
+
         if cmd_id not in COMMANDS:
             return
         cmd = COMMANDS[cmd_id]
@@ -87,7 +96,9 @@ class CommandForm(VerticalScroll):
 
         flag = arg["flag"]
         label_text = ("* " if arg["required"] else "") + arg["label"]
-        widget_id = "arg_" + flag.lstrip("-").replace("-", "_")
+        # Make widget IDs unique by including a global counter
+        widget_id = f"arg_{self._global_field_counter}_{flag.lstrip('-').replace('-', '_')}"
+        self._global_field_counter += 1
 
         value = ""
         if data_source == "sample" and arg["sample_value"]:
@@ -96,19 +107,27 @@ class CommandForm(VerticalScroll):
 
         self.mount(Label(label_text))
 
+        widget = None
         if arg["type"] == "select" and flag == "--domain":
             domains = self._fetch_domains()
             options = [(d, d) for d in domains]
             selected = value if value in domains else (domains[0] if domains else "fiction")
-            self.mount(Select(options, value=selected, id=widget_id))
+            widget = Select(options, value=selected, id=widget_id)
+            self.mount(widget)
         elif arg["type"] == "bool":
-            self.mount(Input(
+            widget = Input(
                 value="",
                 placeholder="type 'true' to enable (leave blank to omit)",
                 id=widget_id,
-            ))
+            )
+            self.mount(widget)
         else:
-            self.mount(Input(value=value, placeholder=arg["placeholder"], id=widget_id))
+            widget = Input(value=value, placeholder=arg["placeholder"], id=widget_id)
+            self.mount(widget)
+
+        # Store widget reference for later retrieval
+        if widget:
+            self._field_widgets[flag] = widget
 
     @staticmethod
     def _fetch_domains() -> list[str]:
@@ -129,44 +148,42 @@ class WizardApp(App):
     CSS = """
     Screen { layout: vertical; }
 
-    #mode-bar {
-        height: 3;
-        background: $primary-darken-2;
-        padding: 0 1;
-        layout: horizontal;
-    }
-    #mode-bar Button {
-        height: 1;
-        margin: 1 1 0 0;
-        min-width: 14;
-    }
     #main { height: 1fr; layout: horizontal; }
+
     #lifecycle-tree {
         width: 30;
         border-right: solid $primary-darken-1;
     }
+
     #command-panel {
         width: 1fr;
         padding: 1 2;
     }
+
     #teaching-text {
         height: auto;
         margin-bottom: 1;
         color: $text-muted;
     }
+
     #cli-preview {
         height: auto;
         background: $surface;
         color: $accent;
         padding: 0 1;
         margin-bottom: 1;
+        border: solid $primary-darken-2;
     }
+
     #output-tabs { height: 1fr; }
+
     #action-bar {
         height: 1;
         background: $surface;
         padding: 0 1;
+        border-top: solid $primary-darken-1;
     }
+
     .locked { color: $text-disabled; }
     """
 
@@ -174,6 +191,10 @@ class WizardApp(App):
         Binding("q", "quit", "Quit"),
         Binding("f1", "show_help", "Help"),
         Binding("enter", "run_command", "Run"),
+        Binding("g", "toggle_guided", "Guided"),
+        Binding("f", "toggle_free", "Free"),
+        Binding("d", "toggle_sample", "Sample"),
+        Binding("r", "toggle_real", "Real"),
     ]
 
     mode: reactive[str] = reactive("guided")
@@ -191,10 +212,6 @@ class WizardApp(App):
 
     def compose(self) -> ComposeResult:
         yield Header()
-        with Horizontal(id="mode-bar"):
-            yield Button("● Guided", id="btn-guided", variant="primary")
-            yield Button("○ Free", id="btn-free", variant="default")
-            yield Button("Data: Sample", id="btn-datasource", variant="default")
         with Horizontal(id="main"):
             yield Tree("LIFECYCLE", id="lifecycle-tree")
             with Vertical(id="command-panel"):
@@ -212,6 +229,17 @@ class WizardApp(App):
 
     def on_mount(self) -> None:
         self._populate_tree()
+        self.query_one("#action-bar", Static).update(
+            "[cyan]MODES:[/cyan] [yellow]G[/yellow]=Guided [yellow]F[/yellow]=Free | [cyan]DATA:[/cyan] [yellow]D[/yellow]=Sample [yellow]R[/yellow]=Real | "
+            "[cyan]RUN:[/cyan] [bold]ENTER[/bold] | [cyan]HELP:[/cyan] [yellow]F1[/yellow] | [cyan]QUIT:[/cyan] [yellow]Q[/yellow]"
+        )
+        # Show a help notification
+        self.notify(
+            "Keyboard shortcuts: G/F=toggle mode, D/R=toggle data, ENTER=run command, Q=quit, F1=help. "
+            "Select a command from the tree on the left.",
+            title="Welcome to artmind wizard!",
+            timeout=6
+        )
 
     # ── Tree population ──────────────────────────────────────────────────────
 
@@ -272,7 +300,9 @@ class WizardApp(App):
         self._current_cmd_id = cmd_id
         self.query_one("#teaching-text", Static).update(cmd["description"])
         self.query_one("#cli-preview", Static).update(f"$ {' '.join(cmd['cli_cmd'])} ...")
-        self.query_one("#action-bar", Static).update("")
+        self.query_one("#action-bar", Static).update(
+            f"[cyan]Ready to run![/cyan] Press [bold green]ENTER[/bold green] to execute • [bold]Q[/bold]=quit"
+        )
         self.query_one("#output-log", RichLog).clear()
         self.query_one(CommandForm).build_form(
             cmd_id, self.data_source, session_id=self.last_session_id
@@ -353,10 +383,9 @@ class WizardApp(App):
         form = self.query_one(CommandForm)
         for arg in cmd["args"]:
             flag = arg["flag"]
-            widget_id = "#arg_" + flag.lstrip("-").replace("-", "_")
-            try:
-                widget = form.query_one(widget_id)
-            except Exception:
+            # Get widget from stored references
+            widget = form._field_widgets.get(flag)
+            if not widget:
                 continue
             if hasattr(widget, "value") and widget.value is Select.BLANK:
                 continue
@@ -482,25 +511,31 @@ class WizardApp(App):
 
     # ── Mode / data source toggles ───────────────────────────────────────────
 
-    def on_button_pressed(self, event: Button.Pressed) -> None:
-        if event.button.id == "btn-guided":
-            self.mode = "guided"
-            self._apply_mode_to_tree()
-            self.query_one("#btn-guided", Button).variant = "primary"
-            self.query_one("#btn-free", Button).variant = "default"
-        elif event.button.id == "btn-free":
-            self.mode = "free"
-            self._apply_mode_to_tree()
-            self.query_one("#btn-guided", Button).variant = "default"
-            self.query_one("#btn-free", Button).variant = "primary"
-        elif event.button.id == "btn-datasource":
-            self.data_source = "real" if self.data_source == "sample" else "sample"
-            label = "Data: Sample" if self.data_source == "sample" else "Data: Real"
-            self.query_one("#btn-datasource", Button).label = label
-            if self._current_cmd_id:
-                self.query_one(CommandForm).build_form(
-                    self._current_cmd_id, self.data_source, self.last_session_id
-                )
+    def action_toggle_guided(self) -> None:
+        self.mode = "guided"
+        self._apply_mode_to_tree()
+        self.notify("Mode: Guided (locked stages)", timeout=2)
+
+    def action_toggle_free(self) -> None:
+        self.mode = "free"
+        self._apply_mode_to_tree()
+        self.notify("Mode: Free (all commands available)", timeout=2)
+
+    def action_toggle_sample(self) -> None:
+        self.data_source = "sample"
+        if self._current_cmd_id:
+            self.query_one(CommandForm).build_form(
+                self._current_cmd_id, self.data_source, self.last_session_id
+            )
+        self.notify("Data source: Sample", timeout=2)
+
+    def action_toggle_real(self) -> None:
+        self.data_source = "real"
+        if self._current_cmd_id:
+            self.query_one(CommandForm).build_form(
+                self._current_cmd_id, self.data_source, self.last_session_id
+            )
+        self.notify("Data source: Real", timeout=2)
 
     def action_show_help(self) -> None:
         self.notify(
