@@ -209,6 +209,7 @@ class WizardApp(App):
         self._last_ingested_doc_stem: str | None = None
         self._last_domain: str | None = None
         self._locked_stage_indices: set[int] = set()
+        self._view_pane_ids: set[str] = set()
 
     def compose(self) -> ComposeResult:
         yield Header()
@@ -491,9 +492,15 @@ class WizardApp(App):
     def _rebuild_view_tabs(self, cmd_id: str) -> None:
         from artmind.wizard_commands import COMMANDS
         tabs = self.query_one("#output-tabs", TabbedContent)
-        for pane in list(tabs.query(TabPane)):
-            if pane.id not in ("tab-raw", "tab-custom-jq"):
+        # Remove previously created view panes by stored IDs
+        for pane_id in list(self._view_pane_ids):
+            try:
+                pane = tabs.query_one(f"#{pane_id}", TabPane)
                 pane.remove()
+            except Exception:
+                pass
+        self._view_pane_ids.clear()
+
         if cmd_id not in COMMANDS:
             return
         for view_name, expr in COMMANDS[cmd_id].get("views", {}).items():
@@ -501,6 +508,7 @@ class WizardApp(App):
             filtered = apply_jq_filter(self._last_raw_output, expr)
             pane = TabPane(view_name, Static(filtered), id=tab_id)
             tabs.add_pane(pane)
+            self._view_pane_ids.add(tab_id)
 
     def on_input_submitted(self, event: Input.Submitted) -> None:
         if event.input.id == "jq-input":
