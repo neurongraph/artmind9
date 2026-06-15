@@ -493,19 +493,26 @@ class WizardApp(App):
         from artmind.wizard_commands import COMMANDS
         tabs = self.query_one("#output-tabs", TabbedContent)
         # Remove all view panes (keep only raw and custom jq tabs)
-        for pane in list(tabs.query(TabPane)):
+        old_panes = list(tabs.query(TabPane))
+        for pane in old_panes:
             if pane.id not in ("tab-raw", "tab-custom-jq"):
                 pane.remove()
-        self._view_pane_ids.clear()
 
         if cmd_id not in COMMANDS:
             return
-        for view_name, expr in COMMANDS[cmd_id].get("views", {}).items():
+
+        # Defer adding new panes until after old ones are cleaned up
+        views = COMMANDS[cmd_id].get("views", {})
+        if views:
+            self.call_later(self._add_view_panes, cmd_id, views)
+
+    def _add_view_panes(self, cmd_id: str, views: dict) -> None:
+        tabs = self.query_one("#output-tabs", TabbedContent)
+        for view_name, expr in views.items():
             tab_id = "tab-view-" + view_name.lower().replace(" ", "-")
             filtered = apply_jq_filter(self._last_raw_output, expr)
             pane = TabPane(view_name, Static(filtered), id=tab_id)
             tabs.add_pane(pane)
-            self._view_pane_ids.add(tab_id)
 
     def on_input_submitted(self, event: Input.Submitted) -> None:
         if event.input.id == "jq-input":
