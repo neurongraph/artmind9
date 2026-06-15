@@ -492,13 +492,10 @@ class WizardApp(App):
     def _rebuild_view_tabs(self, cmd_id: str) -> None:
         from artmind.wizard_commands import COMMANDS
         tabs = self.query_one("#output-tabs", TabbedContent)
-        # Remove previously created view panes by stored IDs
-        for pane_id in list(self._view_pane_ids):
-            try:
-                pane = tabs.query_one(f"#{pane_id}", TabPane)
+        # Remove all view panes (keep only raw and custom jq tabs)
+        for pane in list(tabs.query(TabPane)):
+            if pane.id not in ("tab-raw", "tab-custom-jq"):
                 pane.remove()
-            except Exception:
-                pass
         self._view_pane_ids.clear()
 
         if cmd_id not in COMMANDS:
