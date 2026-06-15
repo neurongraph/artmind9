@@ -209,7 +209,6 @@ class WizardApp(App):
         self._last_ingested_doc_stem: str | None = None
         self._last_domain: str | None = None
         self._locked_stage_indices: set[int] = set()
-        self._view_rebuild_counter = 0
 
     def compose(self) -> ComposeResult:
         yield Header()
@@ -500,17 +499,15 @@ class WizardApp(App):
         if cmd_id not in COMMANDS:
             return
 
-        # Increment counter to ensure unique tab IDs across rebuilds
-        self._view_rebuild_counter += 1
         views = COMMANDS[cmd_id].get("views", {})
         if views:
-            self.call_later(self._add_view_panes, views)
+            # Defer adding panes with a larger delay to ensure removal completes
+            self.call_later(self._add_view_panes, views, delay=0.2)
 
     def _add_view_panes(self, views: dict) -> None:
         tabs = self.query_one("#output-tabs", TabbedContent)
         for view_name, expr in views.items():
-            # Use counter to ensure unique IDs even for same view names
-            tab_id = f"tab-view-{view_name.lower().replace(' ', '-')}-{self._view_rebuild_counter}"
+            tab_id = "tab-view-" + view_name.lower().replace(" ", "-")
             filtered = apply_jq_filter(self._last_raw_output, expr)
             pane = TabPane(view_name, Static(filtered), id=tab_id)
             tabs.add_pane(pane)
