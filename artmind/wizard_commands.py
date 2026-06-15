@@ -342,8 +342,8 @@ COMMANDS: dict[str, dict] = {
         "args": [_domain_arg()],
         "cli_cmd": ["artmind", "query", "graph", "metadata"],
         "views": {
-            "Entity types": "[.entity_types[] | .label]",
-            "Rel types": "[.relationship_types[] | .type]",
+            "Entity types": "[.entity_types[]? | .label]",
+            "Rel types": "[.relationship_types[]? | .type]",
         },
     },
     "query.pattern1": {
