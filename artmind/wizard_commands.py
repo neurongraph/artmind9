@@ -146,6 +146,36 @@ COMMANDS: dict[str, dict] = {
         "cli_cmd": ["artmind", "domains", "entities-prompt"],
         "views": {},
     },
+    "domains.properties-prompt": {
+        "stage": 2,
+        "label": "properties-prompt",
+        "description": (
+            "Displays the property extraction prompt artmind sends to the LLM for a given domain. "
+            "Shows how the LLM is instructed to extract properties for entities. "
+            "The prompt is derived from the domain's YAML schema."
+        ),
+        "args": [
+            _arg("domain_name", "Domain name", "text", True,
+                 placeholder="fiction", sample_value="fiction"),
+        ],
+        "cli_cmd": ["artmind", "domains", "properties-prompt"],
+        "views": {},
+    },
+    "domains.relationships-prompt": {
+        "stage": 2,
+        "label": "relationships-prompt",
+        "description": (
+            "Displays the relationship extraction prompt artmind sends to the LLM for a given domain. "
+            "Shows how the LLM is instructed to extract relationships between entities. "
+            "The prompt is derived from the domain's YAML schema."
+        ),
+        "args": [
+            _arg("domain_name", "Domain name", "text", True,
+                 placeholder="fiction", sample_value="fiction"),
+        ],
+        "cli_cmd": ["artmind", "domains", "relationships-prompt"],
+        "views": {},
+    },
 
     # ── Stage 3: Ingest — Full Pipeline ─────────────────────────────────────
     "ingest.sync": {
