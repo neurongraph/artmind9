@@ -209,7 +209,7 @@ class WizardApp(App):
         self._last_ingested_doc_stem: str | None = None
         self._last_domain: str | None = None
         self._locked_stage_indices: set[int] = set()
-        self._view_pane_ids: set[str] = set()
+        self._view_rebuild_counter = 0
 
     def compose(self) -> ComposeResult:
         yield Header()
@@ -493,23 +493,24 @@ class WizardApp(App):
         from artmind.wizard_commands import COMMANDS
         tabs = self.query_one("#output-tabs", TabbedContent)
         # Remove all view panes (keep only raw and custom jq tabs)
-        old_panes = list(tabs.query(TabPane))
-        for pane in old_panes:
+        for pane in list(tabs.query(TabPane)):
             if pane.id not in ("tab-raw", "tab-custom-jq"):
                 pane.remove()
 
         if cmd_id not in COMMANDS:
             return
 
-        # Defer adding new panes until after old ones are cleaned up
+        # Increment counter to ensure unique tab IDs across rebuilds
+        self._view_rebuild_counter += 1
         views = COMMANDS[cmd_id].get("views", {})
         if views:
-            self.call_later(self._add_view_panes, cmd_id, views)
+            self.call_later(self._add_view_panes, views)
 
-    def _add_view_panes(self, cmd_id: str, views: dict) -> None:
+    def _add_view_panes(self, views: dict) -> None:
         tabs = self.query_one("#output-tabs", TabbedContent)
         for view_name, expr in views.items():
-            tab_id = "tab-view-" + view_name.lower().replace(" ", "-")
+            # Use counter to ensure unique IDs even for same view names
+            tab_id = f"tab-view-{view_name.lower().replace(' ', '-')}-{self._view_rebuild_counter}"
             filtered = apply_jq_filter(self._last_raw_output, expr)
             pane = TabPane(view_name, Static(filtered), id=tab_id)
             tabs.add_pane(pane)
