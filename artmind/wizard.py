@@ -1,4 +1,5 @@
 import json
+import re
 import subprocess
 from pathlib import Path
 
@@ -496,13 +497,11 @@ class WizardApp(App):
     @work(thread=False)
     async def _do_rebuild_view_tabs(self, views: dict) -> None:
         tabs = self.query_one("#output-tabs", TabbedContent)
-        # Await removal of all non-base panes so IDs are fully cleared
         for pane in list(tabs.query(TabPane)):
             if pane.id not in ("tab-raw", "tab-custom-jq"):
-                await pane.remove()
-        # Now safe to add new panes with the same IDs
+                await tabs.remove_pane(pane.id)
         for view_name, expr in views.items():
-            tab_id = "tab-view-" + view_name.lower().replace(" ", "-")
+            tab_id = "tab-view-" + re.sub(r"[^a-z0-9-]", "", view_name.lower().replace(" ", "-"))
             filtered = apply_jq_filter(self._last_raw_output, expr)
             await tabs.add_pane(TabPane(view_name, Static(filtered), id=tab_id))
 
