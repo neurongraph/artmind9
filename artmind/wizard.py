@@ -2,6 +2,7 @@ import json
 import re
 import subprocess
 from pathlib import Path
+from typing import Any
 
 import jq as _jq
 from textual.app import App, ComposeResult
@@ -24,6 +25,11 @@ from textual.widgets import (
 from textual import work
 
 
+def pretty_json(data: Any) -> str:
+    """Pretty-print JSON for display, rendering embedded \\n escapes as real line breaks."""
+    return json.dumps(data, indent=2).replace("\\n", "\n")
+
+
 def apply_jq_filter(raw_output: str, expression: str) -> str:
     """Apply a jq expression to raw JSON output. Returns formatted result or error."""
     try:
@@ -34,8 +40,8 @@ def apply_jq_filter(raw_output: str, expression: str) -> str:
         compiled = _jq.compile(expression)
         results = compiled.input(data).all()
         if len(results) == 1:
-            return json.dumps(results[0], indent=2)
-        return json.dumps(results, indent=2)
+            return pretty_json(results[0])
+        return pretty_json(results)
     except Exception as e:
         return f"error: {e}"
 
@@ -391,7 +397,7 @@ class WizardApp(App):
                 count = len(data) if isinstance(data, list) else "object"
                 log.write(f"\n[bold cyan]{filename}[/bold cyan] ({count} items)")
                 preview = data[:3] if isinstance(data, list) else data
-                log.write(json.dumps(preview, indent=2))
+                log.write(pretty_json(preview))
                 if isinstance(data, list) and len(data) > 3:
                     log.write(f"  … and {len(data) - 3} more")
             except Exception as e:
@@ -465,7 +471,7 @@ class WizardApp(App):
         self._last_raw_output = result.stdout
         try:
             parsed = json.loads(result.stdout)
-            log.write(json.dumps(parsed, indent=2))
+            log.write(pretty_json(parsed))
         except (json.JSONDecodeError, ValueError):
             if result.stdout:
                 log.write(result.stdout)
