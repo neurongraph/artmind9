@@ -548,7 +548,8 @@ COMMANDS: dict[str, dict] = {
         "description": (
             "Returns the top N most-connected entities of a given class. "
             "Use this to find the 'hubs' — the entities that appear most frequently across documents. "
-            "degreeMode controls whether to count incoming, outgoing, or total connections."
+            "degreeMode controls what counts as a connection: 'relations' (entity-entity edges), "
+            "'mentions' (how often source documents mention the entity), or 'all' (every edge)."
         ),
         "args": [
             _domain_arg(),
@@ -556,8 +557,8 @@ COMMANDS: dict[str, dict] = {
                  placeholder="CHARACTER", sample_value="CHARACTER"),
             _arg("--topN", "Top N", "text", False,
                  placeholder="10", sample_value="10"),
-            _arg("--degreeMode", "Degree mode (in/out/total)", "text", False,
-                 placeholder="total", sample_value="total"),
+            _arg("--degreeMode", "Degree mode (relations/mentions/all)", "text", False,
+                 placeholder="relations", sample_value="relations"),
         ],
         "cli_cmd": ["artmind", "query", "graph", "pattern9"],
         "views": {
@@ -600,7 +601,10 @@ COMMANDS: dict[str, dict] = {
         ],
         "cli_cmd": ["artmind", "query", "vector-text"],
         "views": {
-            "Excerpts": "[.rows[] | {score, text: ((.chunk.text // .chat.raw_text // \"\")[0:200])}]",
+            "Excerpts": (
+                "[.rows[] | (.chunk.text // .chat.raw_text // \"\") as $t | "
+                "{score, text: (if ($t | length) > 500 then ($t[0:500] + \"...\") else $t end)}]"
+            ),
         },
     },
     "query.entity-resolve": {

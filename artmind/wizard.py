@@ -152,7 +152,7 @@ class WizardApp(App):
     #main { height: 1fr; layout: horizontal; }
 
     #lifecycle-tree {
-        width: 30;
+        width: 46;
         border-right: solid $primary-darken-1;
     }
 
@@ -178,11 +178,24 @@ class WizardApp(App):
 
     #output-tabs { height: 1fr; }
 
+    #output-tabs Static { width: 1fr; }
+
     #action-bar {
         height: 1;
         background: $surface;
         padding: 0 1;
         border-top: solid $primary-darken-1;
+    }
+
+    #run-button {
+        min-width: 14;
+        height: 1;
+        margin-right: 1;
+    }
+
+    #action-bar-text {
+        height: 1;
+        content-align: left middle;
     }
 
     .locked { color: $text-disabled; }
@@ -191,7 +204,8 @@ class WizardApp(App):
     BINDINGS = [
         Binding("q", "quit", "Quit"),
         Binding("f1", "show_help", "Help"),
-        Binding("enter", "run_command", "Run"),
+        Binding("enter", "run_command", "Run", show=False),
+        Binding("ctrl+r", "run_command", "Run", priority=True),
         Binding("g", "toggle_guided", "Guided"),
         Binding("f", "toggle_free", "Free"),
         Binding("d", "toggle_sample", "Sample"),
@@ -219,24 +233,30 @@ class WizardApp(App):
                 yield Static("Select a command from the tree.", id="teaching-text")
                 yield CommandForm(id="command-form")
                 yield Static("", id="cli-preview")
-                yield Static("", id="action-bar")
+                with Horizontal(id="action-bar"):
+                    yield Button(
+                        "▶  Run", id="run-button", variant="success",
+                        disabled=True, compact=True,
+                    )
+                    yield Static("", id="action-bar-text")
                 with TabbedContent(id="output-tabs"):
                     with TabPane("Raw", id="tab-raw"):
-                        yield RichLog(highlight=True, markup=True, id="output-log")
+                        yield RichLog(highlight=True, markup=True, wrap=True, id="output-log")
                     with TabPane("Custom jq", id="tab-custom-jq"):
                         yield Input(placeholder=".entities | length", id="jq-input")
-                        yield RichLog(highlight=True, markup=True, id="jq-output-log")
+                        yield RichLog(highlight=True, markup=True, wrap=True, id="jq-output-log")
         yield Footer()
 
     def on_mount(self) -> None:
         self._populate_tree()
-        self.query_one("#action-bar", Static).update(
+        self.query_one("#action-bar-text", Static).update(
             "[cyan]MODES:[/cyan] [yellow]G[/yellow]=Guided [yellow]F[/yellow]=Free | [cyan]DATA:[/cyan] [yellow]D[/yellow]=Sample [yellow]R[/yellow]=Real | "
-            "[cyan]RUN:[/cyan] [bold]ENTER[/bold] | [cyan]HELP:[/cyan] [yellow]F1[/yellow] | [cyan]QUIT:[/cyan] [yellow]Q[/yellow]"
+            "[cyan]RUN:[/cyan] click [bold]▶ Run[/bold] or [bold]CTRL+R[/bold] | [cyan]HELP:[/cyan] [yellow]F1[/yellow] | [cyan]QUIT:[/cyan] [yellow]Q[/yellow]"
         )
         # Show a help notification
         self.notify(
-            "Keyboard shortcuts: G/F=toggle mode, D/R=toggle data, ENTER=run command, Q=quit, F1=help. "
+            "Click the ▶ Run button (or press CTRL+R) to run a command. "
+            "Other shortcuts: G/F=toggle mode, D/R=toggle data, Q=quit, F1=help. "
             "Select a command from the tree on the left.",
             title="Welcome to artmind wizard!",
             timeout=6
@@ -301,8 +321,10 @@ class WizardApp(App):
         self._current_cmd_id = cmd_id
         self.query_one("#teaching-text", Static).update(cmd["description"])
         self.query_one("#cli-preview", Static).update(f"$ {' '.join(cmd['cli_cmd'])} ...")
-        self.query_one("#action-bar", Static).update(
-            f"[cyan]Ready to run![/cyan] Press [bold green]ENTER[/bold green] to execute • [bold]Q[/bold]=quit"
+        self.query_one("#run-button", Button).disabled = False
+        self.query_one("#action-bar-text", Static).update(
+            "[cyan]Ready to run![/cyan] Click [bold green]▶ Run[/bold green] "
+            "(or press [bold green]CTRL+R[/bold green]) to execute • [bold]Q[/bold]=quit"
         )
         self.query_one("#output-log", RichLog).clear()
         self.query_one(CommandForm).build_form(
@@ -312,9 +334,11 @@ class WizardApp(App):
     def _show_info_node(self, info_id: str) -> None:
         from artmind.wizard_commands import INFO_NODES
         info = INFO_NODES.get(info_id, {})
+        self._current_cmd_id = None
         self.query_one("#teaching-text", Static).update(info.get("description", ""))
         self.query_one("#cli-preview", Static).update("")
-        self.query_one("#action-bar", Static).update("")
+        self.query_one("#run-button", Button).disabled = True
+        self.query_one("#action-bar-text", Static).update("")
         log = self.query_one("#output-log", RichLog)
         log.clear()
         if info_id == "ingest.inspect-files":
@@ -414,6 +438,10 @@ class WizardApp(App):
 
     # ── Command execution ────────────────────────────────────────────────────
 
+    def on_button_pressed(self, event: Button.Pressed) -> None:
+        if event.button.id == "run-button":
+            self.action_run_command()
+
     def action_run_command(self) -> None:
         if not self._current_cmd_id:
             return
@@ -423,7 +451,8 @@ class WizardApp(App):
         log = self.query_one("#output-log", RichLog)
         log.clear()
         log.write(f"[dim]$ {' '.join(args)}[/dim]")
-        self.query_one("#action-bar", Static).update("Running…")
+        self.query_one("#run-button", Button).disabled = True
+        self.query_one("#action-bar-text", Static).update("Running…")
         self._execute_command(args)
 
     @work(thread=True)
@@ -442,11 +471,12 @@ class WizardApp(App):
                 log.write(result.stdout)
         if result.stderr:
             log.write(f"[red]{result.stderr}[/red]")
+        self.query_one("#run-button", Button).disabled = False
         if result.returncode == 0:
-            self.query_one("#action-bar", Static).update("[green]✓ Exit 0[/green]")
+            self.query_one("#action-bar-text", Static).update("[green]✓ Exit 0[/green]")
             self._on_command_success()
         else:
-            self.query_one("#action-bar", Static).update(
+            self.query_one("#action-bar-text", Static).update(
                 f"[red]✗ Exit {result.returncode}[/red]"
             )
         self._rebuild_view_tabs(self._current_cmd_id or "")
@@ -508,7 +538,9 @@ class WizardApp(App):
         for view_name, expr in views.items():
             tab_id = "tab-view-" + re.sub(r"[^a-z0-9-]", "", view_name.lower().replace(" ", "-"))
             filtered = apply_jq_filter(self._last_raw_output, expr)
-            await tabs.add_pane(TabPane(view_name, Static(filtered), id=tab_id))
+            await tabs.add_pane(
+                TabPane(view_name, VerticalScroll(Static(filtered)), id=tab_id)
+            )
 
     def on_input_submitted(self, event: Input.Submitted) -> None:
         if event.input.id == "jq-input":
@@ -548,7 +580,7 @@ class WizardApp(App):
     def action_show_help(self) -> None:
         self.notify(
             "artmind wizard — use the tree to navigate lifecycle stages. "
-            "Enter runs the selected command. Q quits.",
+            "Click ▶ Run (or press CTRL+R) to run the selected command. Q quits.",
             title="Help",
         )
 
