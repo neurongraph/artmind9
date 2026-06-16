@@ -98,3 +98,31 @@ def test_find_kg_dir_returns_path_when_present(tmp_path):
     (kg_dir / "entities.json").write_text(json.dumps([{"name": "Holmes"}]))
     result = WizardApp._find_kg_dir("fiction", "my_doc", kg_base=tmp_path)
     assert result == kg_dir
+
+
+@pytest.mark.anyio
+async def test_comma_separated_multi_arg_expands_to_repeated_flags():
+    # pattern2's --entityNameList is a Click `multiple=True` option, so it must
+    # be passed as repeated flags ("--entityNameList Holmes --entityNameList
+    # Watson"), not a single "--entityNameList Holmes,Watson". The wizard
+    # advertises comma-separated input for convenience, so it must fan a
+    # comma-separated value out into repeated flags rather than passing the
+    # raw string through (which Click would treat as one literal name and
+    # match nothing).
+    from artmind.wizard import CommandForm, WizardApp
+    from textual.widgets import Input
+    async with WizardApp().run_test() as pilot:
+        app = pilot.app
+        form = app.query_one(CommandForm)
+        form.build_form("query.pattern2", "manual")
+        await pilot.pause()
+        app._current_cmd_id = "query.pattern2"
+        widget = form._field_widgets["--entityNameList"]
+        assert isinstance(widget, Input)
+        widget.value = "Holmes, Watson"
+        args = app._build_cli_args("query.pattern2")
+        assert args.count("--entityNameList") == 2
+        idx = args.index("--entityNameList")
+        assert args[idx + 1] == "Holmes"
+        idx2 = args.index("--entityNameList", idx + 1)
+        assert args[idx2 + 1] == "Watson"

@@ -396,6 +396,11 @@ class WizardApp(App):
             if arg["type"] == "bool":
                 if value.lower() in ("true", "1", "yes"):
                     args.append(flag)
+            elif flag.startswith("--") and arg.get("multi"):
+                for item in value.split(","):
+                    item = item.strip()
+                    if item:
+                        args.extend([flag, item])
             elif flag.startswith("--"):
                 args.extend([flag, value])
             else:

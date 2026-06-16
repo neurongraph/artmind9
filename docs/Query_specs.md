@@ -226,10 +226,13 @@ MATCH p = shortestPath((e:$entityClass1)-[*..5]-(t:$entityClass2))
 WHERE <domain(e)> AND <domain(t)>
   AND <selector1> AND <selector2>
   AND all(x IN nodes(p) WHERE x:Entity)
-RETURN [i IN range(0, length(p)-1) | [
-  {labels: labels(nodes(p)[i]), data: properties(nodes(p)[i])},
-  {rel: type(relationships(p)[i]), data: properties(relationships(p)[i])}
-]] + [{label: labels(nodes(p)[-1]), data: properties(nodes(p)[-1])}] AS interleavedPath
+RETURN reduce(acc = [{label: labels(nodes(p)[0]), data: properties(nodes(p)[0])}],
+  i IN range(0, length(p)-1) |
+  acc + [
+    {rel: type(relationships(p)[i]), data: properties(relationships(p)[i])},
+    {label: labels(nodes(p)[i+1]), data: properties(nodes(p)[i+1])}
+  ]
+) AS interleavedPath   // flat [node, rel, node, rel, ..., node]
 ```
 
 **Cypher (mode=all):**

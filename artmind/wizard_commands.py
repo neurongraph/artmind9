@@ -37,7 +37,7 @@ STAGES = [
 
 
 def _arg(flag: str, label: str, type_: str, required: bool,
-         placeholder: str = "", sample_value: Any = None) -> dict:
+         placeholder: str = "", sample_value: Any = None, multi: bool = False) -> dict:
     return {
         "flag": flag,
         "label": label,
@@ -45,6 +45,7 @@ def _arg(flag: str, label: str, type_: str, required: bool,
         "required": required,
         "placeholder": placeholder,
         "sample_value": sample_value,
+        "multi": multi,
     }
 
 
@@ -393,8 +394,8 @@ COMMANDS: dict[str, dict] = {
         ],
         "cli_cmd": ["artmind", "query", "graph", "pattern1"],
         "views": {
-            "Names": "[.[] | .name]",
-            "Names + class": "[.[] | {name, entity_class}]",
+            "Names": "[.rows[] | .entityData.name]",
+            "Names + class": "[.rows[] | {name: .entityData.name, entity_class: .entityData.entity_class}]",
         },
     },
     "query.pattern2": {
@@ -409,11 +410,11 @@ COMMANDS: dict[str, dict] = {
             _domain_arg(),
             _arg("--entityNameList", "Entity names (comma-sep)", "text", True,
                  placeholder="Sherlock Holmes,Watson",
-                 sample_value="Sherlock Holmes,Watson"),
+                 sample_value="Sherlock Holmes,Watson", multi=True),
         ],
         "cli_cmd": ["artmind", "query", "graph", "pattern2"],
         "views": {
-            "Names + desc": "[.[] | {name, description}]",
+            "Names + desc": "[.rows[] | {name: .entityData.name, description: .entityData.description}]",
         },
     },
     "query.pattern3": {
@@ -427,11 +428,11 @@ COMMANDS: dict[str, dict] = {
         "args": [
             _domain_arg(),
             _arg("--entityNameList", "Entity names (comma-sep)", "text", True,
-                 placeholder="Sherlock Holmes", sample_value="Sherlock Holmes"),
+                 placeholder="Sherlock Holmes", sample_value="Sherlock Holmes", multi=True),
         ],
         "cli_cmd": ["artmind", "query", "graph", "pattern3"],
         "views": {
-            "Rel types": "[.[] | {name, rel_summary: .relationships}]",
+            "Rel types": "[.rows[] | {name: .entityData.name, rel_summary: [.connections[]? | select(. != null) | .type]}]",
         },
     },
     "query.pattern4": {
@@ -451,8 +452,8 @@ COMMANDS: dict[str, dict] = {
         ],
         "cli_cmd": ["artmind", "query", "graph", "pattern4"],
         "views": {
-            "Entity + rels": "{name: .name, rels: [.relationships[] | {type: .type, target: .target_name}]}",
-            "Flat neighbors": "[.relationships[] | .target_name]",
+            "Entity + rels": "[.rows[] | {name: .entityData.name, rels: [.connections[]? | select(. != null) | {type: .rel_type, target: .connected_to.data.name}]}]",
+            "Flat neighbors": "[.rows[] | .connections[]? | select(. != null) | .connected_to.data.name]",
         },
     },
     "query.pattern5": {
@@ -478,7 +479,7 @@ COMMANDS: dict[str, dict] = {
         ],
         "cli_cmd": ["artmind", "query", "graph", "pattern5"],
         "views": {
-            "Path summary": "[.[] | {length: .length, nodes: [.nodes[] | .name]}]",
+            "Path summary": "[.rows[] | {length: ((.interleavedPath | length) - 1) / 2, nodes: [.interleavedPath[] | select(has(\"label\")) | .data.name]}]",
         },
     },
     "query.pattern6": {
@@ -498,7 +499,7 @@ COMMANDS: dict[str, dict] = {
         ],
         "cli_cmd": ["artmind", "query", "graph", "pattern6"],
         "views": {
-            "Rel types": "[.[] | .type]",
+            "Rel types": "[.rows[] | .relType]",
         },
     },
     "query.pattern7": {
@@ -518,7 +519,7 @@ COMMANDS: dict[str, dict] = {
         ],
         "cli_cmd": ["artmind", "query", "graph", "pattern7"],
         "views": {
-            "Names": "[.[] | .name]",
+            "Names": "[.rows[] | .entityData.name]",
         },
     },
     "query.pattern8": {
@@ -538,7 +539,7 @@ COMMANDS: dict[str, dict] = {
         ],
         "cli_cmd": ["artmind", "query", "graph", "pattern8"],
         "views": {
-            "Names": "[.[] | .name]",
+            "Names": "[.rows[] | .entityData.name]",
         },
     },
     "query.pattern9": {
@@ -560,7 +561,7 @@ COMMANDS: dict[str, dict] = {
         ],
         "cli_cmd": ["artmind", "query", "graph", "pattern9"],
         "views": {
-            "Ranked": "[.[] | {name, degree: .degree}]",
+            "Ranked": "[.rows[] | {name: .entityData.name, degree: .entityData.degree}]",
         },
     },
     "query.pattern10": {
@@ -578,7 +579,7 @@ COMMANDS: dict[str, dict] = {
         ],
         "cli_cmd": ["artmind", "query", "graph", "pattern10"],
         "views": {
-            "Chunk texts": "[.[] | .text]",
+            "Chunk texts": "[.rows[] | .chunk.text]",
         },
     },
     "query.vector-text": {
@@ -599,7 +600,7 @@ COMMANDS: dict[str, dict] = {
         ],
         "cli_cmd": ["artmind", "query", "vector-text"],
         "views": {
-            "Excerpts": "[.[] | {score: .score, text: .text[:200]}]",
+            "Excerpts": "[.rows[] | {score, text: ((.chunk.text // .chat.raw_text // \"\")[0:200])}]",
         },
     },
     "query.entity-resolve": {
@@ -619,7 +620,7 @@ COMMANDS: dict[str, dict] = {
         ],
         "cli_cmd": ["artmind", "query", "entity-resolve"],
         "views": {
-            "Candidates": "[.[] | {name, score, entity_class}]",
+            "Candidates": "[.rows[] | {name: .entity.name, score, entity_class: .entity.entity_class}]",
         },
     },
     "query.text2cypher": {

@@ -424,6 +424,17 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         cypher_params = {"domain": parameters["domain"]}
         selector1 = _entity_selector(parameters, cypher_params, "e", "entityName1", "entityId1")
         selector2 = _entity_selector(parameters, cypher_params, "t", "entityName2", "entityId2")
+        # Flatten to a genuinely interleaved [node, rel, node, rel, ..., node]
+        # list via reduce — a plain list comprehension here would nest each
+        # [node, rel] pair as its own sub-list instead of flattening it.
+        interleave = """
+                  reduce(acc = [{label: labels(nodes(p)[0]), data: properties(nodes(p)[0])}],
+                    i IN range(0, length(p)-1) |
+                    acc + [
+                      {rel: type(relationships(p)[i]), data: properties(relationships(p)[i])},
+                      {label: labels(nodes(p)[i+1]), data: properties(nodes(p)[i+1])}
+                    ]
+                  ) AS interleavedPath"""
         if parameters["mode"] == "all":
             return (
                 f"""
@@ -438,10 +449,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
                 WITH p
                 ORDER BY length(p) ASC
                 LIMIT 3
-                RETURN [i IN range(0, length(p)-1) | [
-                  {{label: labels(nodes(p)[i]), data: properties(nodes(p)[i])}},
-                  {{type: type(relationships(p)[i]), data: properties(relationships(p)[i])}}
-                ]] + [{{label: labels(nodes(p)[-1]), data: properties(nodes(p)[-1])}}] AS interleavedPath
+                RETURN {interleave}
                 """,
                 cypher_params,
             )
@@ -453,10 +461,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
               AND {selector1}
               AND {selector2}
               AND all(x IN nodes(p) WHERE x:Entity)
-            RETURN [i IN range(0, length(p)-1) | [
-              {{labels: labels(nodes(p)[i]), data: properties(nodes(p)[i])}},
-              {{rel: type(relationships(p)[i]), data: properties(relationships(p)[i])}}
-            ]] + [{{label: labels(nodes(p)[-1]), data: properties(nodes(p)[-1])}}] AS interleavedPath
+            RETURN {interleave}
             """,
             cypher_params,
         )
