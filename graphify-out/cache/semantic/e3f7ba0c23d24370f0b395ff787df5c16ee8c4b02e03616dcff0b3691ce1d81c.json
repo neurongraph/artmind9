@@ -1,0 +1,1 @@
+{"nodes": [{"id": "artmind_jobs_jobs", "label": "Ingestion Job Management", "file_type": "code", "source_file": "./artmind/jobs.py"}], "edges": [{"source": "artmind_jobs_jobs", "target": "artmind_db_db", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "./artmind/jobs.py"}], "hyperedges": []}
