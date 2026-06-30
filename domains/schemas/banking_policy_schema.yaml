@@ -1,0 +1,370 @@
+name: banking_policy
+description: Formal policy documents for FirstUK Bank covering AML/CFT, customer identification (KYC), fraud prevention, information security, privacy (GDPR), complaints handling, operational risk, and data retention — establishing mandatory obligations, controls, regulatory references, and accountability.
+
+entities_prompt: |
+  You are a Knowledge Graph extraction engine specialised in banking policy document analysis.
+  Your job is to read a passage from a FirstUK Bank formal policy document and identify all significant entities.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ENTITY TYPES YOU MUST EXTRACT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Use ONLY these entity_classes. However, you can add more to the type values than the examples provided here.
+
+  POLICY
+    A named formal policy document — the policy itself as a governing instrument, with its scope, owner, regulatory basis, and version. Each distinct policy document is one POLICY entity. Also extract policy-level principles or statements that define the bank's stance on a domain.
+    example type values: aml_policy | kyc_policy | fraud_policy | information_security | privacy | complaints | operational_risk | data_retention | credit_risk | conduct
+
+  POLICY_PROVISION
+    A specific rule, requirement, obligation, prohibition, or standard stated within a policy. Extract provisions that represent discrete, actionable mandates — things that staff must do, must not do, or must ensure. Each distinct provision is a separate entity. Do not collapse a set of requirements into one vague provision.
+    example type values: mandatory_requirement | prohibition | obligation | reporting_obligation | record_retention_rule | training_requirement | review_schedule | notification_rule | response_timeframe | approval_requirement
+
+  REGULATORY_REFERENCE
+    A law, regulation, regulatory directive, external standard, sanctions list, or guidance document that the policy must comply with or is derived from. Include both the formal document name and the issuing authority when both are stated. Each distinct regulation is a separate entity.
+    example type values: legislation | regulation | regulatory_guidance | international_standard | sanctions_list | industry_code | directive | rulebook
+
+  RISK_CATEGORY
+    A named type of risk, threat, or financial crime scenario that the policy is designed to address or mitigate. Capture how the policy defines or characterises each risk type.
+    example type values: money_laundering | terrorist_financing | sanctions_violation | fraud | data_breach | operational_risk | credit_risk | reputational_risk | information_security_risk | compliance_risk | unauthorized_access
+
+  CONTROL_MEASURE
+    A specific operational safeguard, check, screening process, monitoring activity, or protective mechanism required by the policy. Controls are the "how" of the policy — the mechanisms through which obligations are met. Each named control is a separate entity.
+    example type values: sanctions_screening | transaction_monitoring | identity_verification | access_control | authentication | record_keeping | staff_training | audit_logging | incident_reporting | approval_gate | data_encryption | penetration_testing
+
+  ROLE_RESPONSIBILITY
+    A named role, team, department, or committee with explicitly defined accountability, obligations, or authority under this policy. Extract both the role name and the specific responsibilities assigned to it. Named individuals are also captured here when specifically named with defined policy responsibilities.
+    example type values: policy_owner | accountable_executive | responsible_team | all_staff | committee | external_authority | data_subject | regulator | third_party_processor
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXTRACTION RULES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. COMPLETENESS OVER PRECISION
+     When in doubt whether something qualifies, include it.
+     It is easier to remove an entity in validation than to recover a missed one.
+
+  2. CANONICAL NAMES
+     Use the most complete, formal name as the entity name.
+     Store short forms and document IDs in aliases.
+     RIGHT:   { "name": "Money Laundering Regulations 2017", "aliases": ["MLR 2017", "MLR"] }
+     WRONG:   { "name": "MLR 2017" }
+     For POLICY_PROVISION: name it by what it requires, not just "Section 3.1".
+     RIGHT:   { "name": "Mandatory AML Screening at Account Opening" }
+     WRONG:   { "name": "Section 3.1 — Core Requirements" }
+
+  3. DESCRIPTION QUALITY
+     Write descriptions as a compliance officer would — specific to what THIS policy document says. Include mandatory/prohibited distinction, who it applies to, and any stated timeframes.
+
+  4. CONTEXT SNIPPETS
+     Extract 2–4 verbatim quotes from the text that best characterise this entity.
+     Preserve exact wording — these are used for RAG enrichment.
+
+  5. DO NOT HALLUCINATE
+     Only extract what is in the text. Never invent regulatory references, risk types, or controls not stated in the passage.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT FORMAT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of entity objects:
+
+  {
+    "id":                string,   // generate as {type_abbr}_{sequence}
+                                   // e.g., "pol_001", "prv_002", "reg_003", "rsk_004", "ctl_005", "rol_006"
+    "name":              string,   // canonical name — descriptive for provisions, formal for regulations
+    "aliases":           array,    // document IDs, short codes, section references
+    "entity_class":      string,   // POLICY | POLICY_PROVISION | REGULATORY_REFERENCE | RISK_CATEGORY | CONTROL_MEASURE | ROLE_RESPONSIBILITY
+    "type":              string,   // the subtype from lists above
+    "description":       string,   // 2–4 sentence summary specific to this document
+    "context":           array,    // verbatim text snippets where entity appears
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ The policy itself captured as a POLICY entity?
+    □ Each distinct mandatory requirement extracted as a POLICY_PROVISION?
+    □ All named regulations, laws, and directives captured as REGULATORY_REFERENCE?
+    □ Each type of risk or financial crime the policy addresses captured as RISK_CATEGORY?
+    □ All named controls, screening mechanisms, and safeguards captured as CONTROL_MEASURE?
+    □ All named roles with defined responsibilities captured as ROLE_RESPONSIBILITY?
+    □ POLICY_PROVISION names are descriptive (not just section numbers)?
+    □ REGULATORY_REFERENCE uses full formal names?
+    □ Context snippets are verbatim from text?
+
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __text__
+
+  {text}
+
+properties_prompt: |
+  You are a Knowledge Graph extraction engine specialised in banking policy document analysis.
+  Your job is to read a FirstUK Bank policy document passage and enrich the provided entities with detailed properties based on the text.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  PROPERTIES MAP GUIDANCE:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  There is NO fixed schema for properties. You decide what matters based on
+  the entity's role in the document.
+
+  Ask yourself: "If a compliance officer or auditor needed to verify compliance with
+  this entity, what structured facts from this document would help them?"
+
+  For POLICY, consider:
+    - document_id (e.g., AML-POL-002)
+    - policy_domain (aml | fraud | privacy | etc.)
+    - owner (role responsible for the policy)
+    - owning_department (department)
+    - effective_date
+    - review_date (next scheduled review)
+    - audience (who must comply)
+    - regulatory_basis (list of underpinning regulations)
+    - scope_summary (what it applies to and what is excluded)
+    - core_policy_statement (the key stance or commitment)
+    - version
+
+  For POLICY_PROVISION, consider:
+    - provision_type (mandatory | prohibited | conditional | periodic)
+    - applies_to (roles, channels, products, or customer types it applies to)
+    - timeframe (any deadline, frequency, or retention period stated)
+    - consequence_of_breach (what happens if not met)
+    - verification_method (how compliance is checked)
+    - regulatory_source (the regulation requiring this provision)
+    - exceptions (any stated exceptions or waiver process)
+    - linked_control (which control measure implements this)
+
+  For REGULATORY_REFERENCE, consider:
+    - issuing_authority (FCA, PRA, HMRC, EU Commission, etc.)
+    - jurisdiction (UK | EU | international)
+    - regulation_type (primary_legislation | secondary_legislation | regulatory_guidance | industry_standard | sanctions_list)
+    - key_obligation (the core obligation it imposes on the bank)
+    - effective_date (when it came into force)
+    - how_cited (how this document references it)
+    - consequences_of_breach (regulatory penalties or enforcement actions)
+
+  For RISK_CATEGORY, consider:
+    - risk_definition (how the policy defines this risk)
+    - examples (specific scenarios or patterns cited)
+    - detection_mechanism (how the bank detects this risk)
+    - risk_level (low | medium | high | critical)
+    - required_response (what the policy requires when this risk is identified)
+    - reporting_obligation (who must be notified)
+
+  For CONTROL_MEASURE, consider:
+    - control_type (preventive | detective | corrective | directive)
+    - mandatory (yes/no)
+    - frequency (real-time | daily | monthly | annual | at_onboarding | periodic)
+    - performed_by (role or system)
+    - applies_to (which risks or processes it addresses)
+    - evidence_required (what records must be kept)
+    - escalation_path (what happens if control fails or flags a hit)
+    - technology_used (system or tool if mentioned)
+
+  For ROLE_RESPONSIBILITY, consider:
+    - role_title (exact role as stated)
+    - department (which department this role sits in)
+    - specific_obligations (list of what they must do under this policy)
+    - authority (decisions they can make)
+    - accountability_for (what they are held responsible for)
+    - reporting_to (who they report to under this policy)
+    - training_required (any stated training obligations)
+
+  KEY RULES FOR PROPERTIES:
+    1. Use clear, readable key names (e.g., "regulatory_source" not "reg_src")
+    2. Use arrays for multiple values
+    3. Use nested objects only when genuinely needed
+    4. Omit a property entirely rather than writing null or "unknown"
+    5. Values should be specific to THIS document, not generic definitions
+    6. Keep individual values concise
+    7. If a property feels forced or uncertain, leave it out
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of objects:
+  {
+    "id":            string,   // entity id from input
+    "name":          string,   // entity name from input
+    "properties":    object,   // enriched properties map
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Example of extracted "properties":
+  "properties": {
+    "document_id": "AML-POL-002",
+    "owner": "Head of Financial Crime",
+    "owning_department": "Financial Crime",
+    "effective_date": "2026-01-15",
+    "audience": ["All Staff", "Compliance", "Risk", "Retail Banking"],
+    "regulatory_basis": ["Money Laundering Regulations 2017", "POCA 2002", "Terrorism Act 2000", "FCA COBS Part 10"],
+    "core_policy_statement": "FirstUK Bank does not knowingly provide banking services to individuals or entities engaged in or suspected of money laundering, terrorist financing, sanctions violations, or other financial crime."
+  }
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ No hallucinated properties?
+    □ POLICY entities include document_id, regulatory_basis, core_policy_statement?
+    □ POLICY_PROVISION entities include provision_type, applies_to, consequence_of_breach?
+    □ REGULATORY_REFERENCE entities include issuing_authority, jurisdiction, key_obligation?
+    □ CONTROL_MEASURE entities include control_type, frequency, performed_by?
+    □ Properties genuinely useful — not just restating the entity name?
+
+  Extract properties for the following __list_of_entities__ from the __text__ below.
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __list_of_entities__
+  {entities_list}
+
+  __text__
+  {text}
+
+relationships_prompt: |
+  You are a Knowledge Graph extraction engine specialised in banking policy document analysis.
+  Your job is to identify and extract all meaningful relationships between entities in a FirstUK Bank policy document.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  RELATIONSHIP STRUCTURE:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  All relationships must follow this pattern:
+  (EntityA)-[RELATES_TO {
+    rel_type:      string  (semantic classifier, e.g., "mandated_by", "mitigates", "owned_by")
+    description:   string  (human-readable summary of this specific relationship)
+    properties:    object  (flexible, rel_type-specific details)
+  }]->(EntityB)
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  COMMON rel_type VALUES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  POLICY ↔ REGULATORY_REFERENCE:
+    mandated_by, implements, complies_with, derived_from, references, supersedes_prior_guidance
+
+  POLICY ↔ POLICY_PROVISION:
+    contains, establishes, mandates, prohibits, reviews
+
+  POLICY ↔ RISK_CATEGORY:
+    addresses, mitigates, governs_response_to, scoped_to
+
+  POLICY ↔ CONTROL_MEASURE:
+    requires, mandates, references, delegates_to_sop
+
+  POLICY ↔ ROLE_RESPONSIBILITY:
+    assigns_responsibility_to, owned_by, approved_by, applies_to
+
+  POLICY_PROVISION ↔ REGULATORY_REFERENCE:
+    implements, derived_from, satisfies
+
+  POLICY_PROVISION ↔ RISK_CATEGORY:
+    addresses, triggered_by, targets
+
+  POLICY_PROVISION ↔ CONTROL_MEASURE:
+    implemented_by, enforced_through, requires
+
+  POLICY_PROVISION ↔ ROLE_RESPONSIBILITY:
+    applies_to, enforced_by, reported_to
+
+  POLICY_PROVISION ↔ POLICY_PROVISION:
+    exception_to, overrides, related_to, strengthened_by
+
+  REGULATORY_REFERENCE ↔ RISK_CATEGORY:
+    addresses, regulates, defines_response_to
+
+  REGULATORY_REFERENCE ↔ CONTROL_MEASURE:
+    mandates, specifies, requires
+
+  REGULATORY_REFERENCE ↔ ROLE_RESPONSIBILITY:
+    imposes_obligation_on, designates
+
+  RISK_CATEGORY ↔ CONTROL_MEASURE:
+    mitigated_by, detected_by, prevented_by, responded_to_by
+
+  RISK_CATEGORY ↔ RISK_CATEGORY:
+    related_to, escalates_to, co_occurs_with
+
+  CONTROL_MEASURE ↔ ROLE_RESPONSIBILITY:
+    performed_by, reviewed_by, escalated_to, owned_by
+
+  CONTROL_MEASURE ↔ CONTROL_MEASURE:
+    precedes, triggered_by, complements, replaced_by
+
+  ROLE_RESPONSIBILITY ↔ ROLE_RESPONSIBILITY:
+    reports_to, escalates_to, oversees, advises
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXTRACTION RULES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. EXPLICIT AND IMPLICIT
+     Extract both directly stated relationships ("AML Policy mandated by MLR 2017")
+     and those clearly implied ("SAR filing required within 30 days" → POLICY_PROVISION implements REGULATORY_REFERENCE).
+
+  2. POLICY → REGULATORY CHAIN IS CORE
+     The most important structure in policy documents is:
+     POLICY mandated_by REGULATORY_REFERENCE, POLICY addresses RISK_CATEGORY,
+     POLICY requires CONTROL_MEASURE, CONTROL_MEASURE mitigates RISK_CATEGORY.
+     Always capture these chains.
+
+  3. MULTIPLE EDGES ALLOWED
+     A policy provision can implement multiple regulations and mitigate multiple risks.
+     Create a separate edge for each combination.
+
+  4. ACCOUNTABILITY CHAINS
+     For role responsibilities, capture: ROLE owned_by POLICY, ROLE reports_to ROLE,
+     ROLE performs CONTROL_MEASURE. These enable queries like "who is responsible for sanctions screening?"
+
+  5. PROPERTIES MAP
+     The properties object is flexible and rel_type-specific. Examples:
+
+     For "mandated_by": { obligation_type: string, section_reference: string }
+     For "mitigated_by": { mitigation_strength: "primary | supplementary", mandatory: boolean }
+     For "assigns_responsibility_to": { obligation: string, timeframe: string }
+     For "implements": { implementation_method: string, frequency: string }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of relationship objects:
+
+  {
+    "source_id":     string,  // id of EntityA
+    "source_name":   string,  // name of EntityA
+    "target_id":     string,  // id of EntityB
+    "target_name":   string,  // name of EntityB
+    "rel_type":      string,  // semantic classifier
+    "description":   string,  // human-readable summary
+    "properties":    object,  // rel_type-specific properties
+    "context":       string,  // verbatim text context from which relationship is derived
+    "bidirectional": boolean  // is this relationship two-way?
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ Does each entity have AT LEAST one relationship?
+    □ All POLICY → REGULATORY_REFERENCE mandated_by links captured?
+    □ All POLICY → RISK_CATEGORY addresses links captured?
+    □ All POLICY_PROVISION → CONTROL_MEASURE implementation links captured?
+    □ All RISK_CATEGORY → CONTROL_MEASURE mitigation links captured?
+    □ All ROLE_RESPONSIBILITY accountability chains captured?
+    □ rel_type values are consistent across document?
+    □ Descriptions are specific to this relationship instance?
+    □ Direction is correct (POLICY mandated_by REGULATION, not reverse)?
+    □ Bidirectional flag is correct?
+
+  Extract all meaningful relationships between the __list_of_entities__ from the __text__ below.
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __list_of_entities__
+  {entities_list}
+
+  __text__
+  {text}

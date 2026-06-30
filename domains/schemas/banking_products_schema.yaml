@@ -1,0 +1,386 @@
+name: banking_products
+description: Product terms & conditions, pricing guides, and customer FAQs for FirstUK Bank retail banking products — covering savings accounts, current accounts, mortgages, and debit cards with their interest rates, fees, eligibility rules, and contractual provisions.
+
+entities_prompt: |
+  You are a Knowledge Graph extraction engine specialised in banking product documentation analysis.
+  Your job is to read a passage from a FirstUK Bank product document and identify all significant entities.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ENTITY TYPES YOU MUST EXTRACT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Use ONLY these entity_classes. However, you can add more to the type values than the examples provided here.
+
+  PRODUCT
+    A distinct banking product or sub-product offered by FirstUK Bank to customers. Each named product variant (SmartSaver Account, SmartSaver Plus, Current Account, Mortgage, Debit Card) is a separate entity. Include both the product name and its product_id code when stated.
+    example type values: savings_account | premium_savings | current_account | mortgage | debit_card | credit_card | joint_account
+
+  PRODUCT_FEATURE
+    A specific capability, service, or entitlement included in a product — something that describes what the customer can do with or through the product. Capture features that differentiate products or are customer-facing benefits, not internal mechanics.
+    example type values: access_feature | payment_feature | channel_feature | service_feature | security_feature | premium_service | protection_scheme
+
+  INTEREST_RATE_TIER
+    A specific interest rate applied to a defined balance range or product variant. Capture both the rate value and the balance threshold together as a single entity. Include both AER and gross rates when both are stated.
+    example type values: savings_rate | tiered_rate | fixed_mortgage_rate | variable_mortgage_rate | overdraft_rate | penalty_rate
+
+  FEE
+    A specific charge levied on the customer for a transaction type, service, or event. Capture the fee name, amount, and the triggering condition as a single entity. Include £0 fees only when they are explicitly called out as a feature (e.g., "no monthly fee").
+    example type values: transaction_fee | card_fee | service_fee | penalty_fee | overdraft_fee | maintenance_fee | closure_fee
+
+  ELIGIBILITY_RULE
+    A condition that a customer must satisfy to open, hold, or access a product. Include identity, residency, age, and balance requirements. These define who the product is for.
+    example type values: age_requirement | residency_requirement | identity_requirement | balance_requirement | credit_requirement | account_type_requirement
+
+  TERMS_CLAUSE
+    A specific contractual provision that governs the rights, obligations, or procedures between the customer and the bank under the product. This includes liability rules, dispute resolution, fraud protections, dormancy policies, data rights, and change-of-terms provisions. Each distinct clause is a separate entity.
+    example type values: liability_clause | fraud_protection | closure_rule | joint_account_provision | data_protection_right | dormancy_policy | change_of_terms | interest_calculation_rule | direct_debit_guarantee | regulatory_protection
+
+  FAQ_ITEM
+    A customer question and its official answer as a paired unit. Capture the question topic and key answer points together. Extract FAQ items that convey policy decisions, product rules, or useful customer guidance not otherwise captured in the above classes.
+    example type values: account_basics | interest_query | fees_query | access_query | security_query | process_query | eligibility_query | dispute_query
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXTRACTION RULES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. COMPLETENESS OVER PRECISION
+     When in doubt whether something qualifies, include it.
+     It is easier to remove an entity in validation than to recover a missed one.
+
+  2. CANONICAL NAMES
+     Use the most complete, formal name as the entity name.
+     Store short forms and abbreviations in aliases.
+     RIGHT:   { "name": "SmartSaver Account", "aliases": ["SAV-001", "SmartSaver"] }
+     WRONG:   { "name": "SAV-001" }
+     For INTEREST_RATE_TIER: include the rate and tier range in the name.
+     RIGHT:   { "name": "SmartSaver Tier 1 Rate — 4.50% AER (£0–£10,000)" }
+
+  3. DESCRIPTION QUALITY
+     Write descriptions as a banking product analyst would — specific to this document's content.
+     Include key numbers (rates, fees, limits) in descriptions when stated.
+
+  4. CONTEXT SNIPPETS
+     Extract 2–4 verbatim quotes from the text that best characterise this entity.
+     Preserve exact wording. These are used for RAG enrichment.
+
+  5. DO NOT HALLUCINATE
+     Only extract what is in the text. If a rate, fee, or rule is not in the passage, omit it.
+     Never invent product features, rates, or eligibility criteria.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT FORMAT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of entity objects:
+
+  {
+    "id":                string,   // generate as {type_abbr}_{sequence}
+                                   // e.g., "prd_001", "ftr_002", "rat_003", "fee_004", "elig_005", "cls_006", "faq_007"
+    "name":              string,   // canonical name (include rate/amount in name for INTEREST_RATE_TIER and FEE)
+    "aliases":           array,    // product codes, short names, alternate labels
+    "entity_class":      string,   // PRODUCT | PRODUCT_FEATURE | INTEREST_RATE_TIER | FEE | ELIGIBILITY_RULE | TERMS_CLAUSE | FAQ_ITEM
+    "type":              string,   // the subtype from lists above
+    "description":       string,   // 2–4 sentence summary specific to this document
+    "context":           array,    // verbatim text snippets where entity appears
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ All named products and product variants captured?
+    □ All interest rate tiers captured with rate value AND balance range in the name?
+    □ All fees captured, including explicitly free services (£0 fee)?
+    □ All customer eligibility requirements captured?
+    □ Key contractual provisions (liability, fraud protection, closure, data rights) captured?
+    □ Significant FAQ items captured as paired question-answer entities?
+    □ Canonical names include key figures (rate %, fee amount)?
+    □ Context snippets are verbatim from text?
+    □ Every entity genuinely significant (no noise)?
+
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __text__
+
+  {text}
+
+properties_prompt: |
+  You are a Knowledge Graph extraction engine specialised in banking product documentation analysis.
+  Your job is to read a FirstUK Bank product document passage and enrich the provided entities with detailed properties based on the text.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  PROPERTIES MAP GUIDANCE:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  There is NO fixed schema for properties. You decide what matters based on
+  the entity's role in the document.
+
+  Ask yourself: "If a customer or product manager asked a question about this
+  entity, what structured facts from this document would help answer it?"
+
+  For PRODUCT, consider:
+    - product_id (e.g., SAV-001)
+    - product_type (savings | current | mortgage | card)
+    - target_customer (who it is designed for)
+    - minimum_opening_balance (£ amount)
+    - maximum_balance (£ amount or "unlimited")
+    - overdraft_available (yes/no and terms)
+    - monthly_fee (£ amount)
+    - interest_rate_type (fixed | variable | tiered_variable)
+    - interest_payment_frequency (monthly | annual)
+    - available_channels (branch | online | mobile | postal)
+    - regulatory_protections (e.g., FSCS up to £85,000)
+    - competitive_positioning (how it compares to market)
+    - effective_date (when current terms became effective)
+
+  For PRODUCT_FEATURE, consider:
+    - feature_description (what the customer can do)
+    - available_in_products (which products include this)
+    - conditions (any conditions on using the feature)
+    - channel (online | branch | ATM | app)
+    - limits (e.g., ATM daily limit £500)
+    - cost (free or fees apply)
+
+  For INTEREST_RATE_TIER, consider:
+    - rate_value (percentage, e.g., 4.50)
+    - rate_format (AER | Gross | APR)
+    - balance_min (lower bound of balance range, £)
+    - balance_max (upper bound of balance range, £ or "unlimited")
+    - rate_type (fixed | variable | tiered_variable)
+    - rate_basis (e.g., "BoE Base Rate + 2.5% margin")
+    - review_frequency (how often rate is reviewed)
+    - effective_date (when this rate took effect)
+    - example_calculation (example as shown in document)
+    - product_id (which product this rate applies to)
+
+  For FEE, consider:
+    - fee_amount (£ value or "free")
+    - trigger_event (what causes this fee)
+    - frequency (one-time | per_transaction | monthly | annual)
+    - applies_to_products (list)
+    - conditions (any conditions that apply or waive the fee)
+    - comparison_note (if document compares to competitors)
+
+  For ELIGIBILITY_RULE, consider:
+    - rule_description (the requirement in plain language)
+    - rule_type (mandatory | conditional)
+    - applies_to_products (list)
+    - verification_method (how the bank checks this)
+    - exception (any stated exceptions)
+    - consequence_of_failure (what happens if not met)
+
+  For TERMS_CLAUSE, consider:
+    - clause_summary (the provision in plain language)
+    - customer_rights (what the customer is entitled to)
+    - bank_obligations (what the bank must do)
+    - customer_obligations (what the customer must do)
+    - time_limits (any deadlines stated, e.g., "within 10 business days")
+    - applies_to_products (list)
+    - regulatory_basis (which regulation drives this, if stated)
+    - exception_or_caveat (any stated exceptions)
+
+  For FAQ_ITEM, consider:
+    - question (the customer question as asked)
+    - answer_summary (key points of the official answer)
+    - products_covered (which products the Q&A applies to)
+    - related_policy (if the answer references a specific rule or policy)
+    - customer_action (what the customer should do based on the answer)
+    - urgency (routine | important | time_sensitive)
+
+  KEY RULES FOR PROPERTIES:
+    1. Use clear, readable key names (e.g., "fee_amount" not "amt")
+    2. Use arrays for multiple values
+    3. Use nested objects only when genuinely needed
+    4. Omit a property entirely rather than writing null or "unknown"
+    5. Values should be specific to THIS document, not generic definitions
+    6. Keep individual values concise
+    7. If a property feels forced or uncertain, leave it out
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of objects:
+  {
+    "id":            string,   // entity id from input
+    "name":          string,   // entity name from input
+    "properties":    object,   // enriched properties map
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Example of extracted "properties":
+  "properties": {
+    "product_id": "SAV-001",
+    "product_type": "savings_account",
+    "minimum_opening_balance": "£1.00",
+    "maximum_balance": "unlimited",
+    "monthly_fee": "£0.00",
+    "interest_rate_type": "tiered_variable",
+    "interest_payment_frequency": "monthly",
+    "regulatory_protections": ["FSCS up to £85,000", "Direct Debit Guarantee"],
+    "available_channels": ["online", "branch", "postal"],
+    "effective_date": "2026-01-15"
+  }
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ No hallucinated properties?
+    □ INTEREST_RATE_TIER entities include rate_value, balance_min, balance_max, rate_basis?
+    □ FEE entities include fee_amount and trigger_event?
+    □ TERMS_CLAUSE entities include time_limits when stated?
+    □ Properties genuinely useful — not just restating the entity name?
+
+  Extract properties for the following __list_of_entities__ from the __text__ below.
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __list_of_entities__
+  {entities_list}
+
+  __text__
+  {text}
+
+relationships_prompt: |
+  You are a Knowledge Graph extraction engine specialised in banking product documentation analysis.
+  Your job is to identify and extract all meaningful relationships between entities in a FirstUK Bank product document.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  RELATIONSHIP STRUCTURE:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  All relationships must follow this pattern:
+  (EntityA)-[RELATES_TO {
+    rel_type:      string  (semantic classifier, e.g., "has_rate_tier", "charges_fee", "requires")
+    description:   string  (human-readable summary of this specific relationship)
+    properties:    object  (flexible, rel_type-specific details)
+  }]->(EntityB)
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  COMMON rel_type VALUES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  PRODUCT ↔ PRODUCT:
+    upgrades_to, includes_as_variant, competes_with, shares_pricing_with, converts_to
+
+  PRODUCT ↔ PRODUCT_FEATURE:
+    has_feature, excludes_feature, offers_as_premium, bundles
+
+  PRODUCT ↔ INTEREST_RATE_TIER:
+    has_rate_tier, earns_at_rate, charges_rate (for overdraft/mortgage)
+
+  PRODUCT ↔ FEE:
+    charges_fee, waives_fee, applies_fee_for
+
+  PRODUCT ↔ ELIGIBILITY_RULE:
+    requires, governs_via, restricts_to
+
+  PRODUCT ↔ TERMS_CLAUSE:
+    governed_by, includes_term, subject_to
+
+  PRODUCT ↔ FAQ_ITEM:
+    addressed_by, explained_in
+
+  INTEREST_RATE_TIER ↔ INTEREST_RATE_TIER:
+    higher_balance_than, adjacent_tier_to
+
+  INTEREST_RATE_TIER ↔ TERMS_CLAUSE:
+    governed_by (rate change mechanism), calculated_per (interest calculation rule)
+
+  FEE ↔ PRODUCT_FEATURE:
+    charged_for, waived_for, enables
+
+  ELIGIBILITY_RULE ↔ PRODUCT_FEATURE:
+    gates_access_to, verified_via
+
+  ELIGIBILITY_RULE ↔ TERMS_CLAUSE:
+    enforced_by, referenced_in
+
+  TERMS_CLAUSE ↔ TERMS_CLAUSE:
+    supersedes, relates_to, modifies, exception_to
+
+  FAQ_ITEM ↔ INTEREST_RATE_TIER:
+    explains, references, clarifies
+
+  FAQ_ITEM ↔ FEE:
+    explains, references
+
+  FAQ_ITEM ↔ TERMS_CLAUSE:
+    clarifies, summarises
+
+  FAQ_ITEM ↔ ELIGIBILITY_RULE:
+    explains, clarifies
+
+  FAQ_ITEM ↔ PRODUCT_FEATURE:
+    explains, references
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXTRACTION RULES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. EXPLICIT AND IMPLICIT
+     Extract both directly stated relationships ("SmartSaver charges no monthly fee")
+     and those clearly implied ("Tier 2 applies to balances above £10,000" → adjacent_tier_to Tier 1).
+
+  2. PRODUCT → RATE TIER IS CORE
+     For pricing documents, the most important structure is:
+     PRODUCT has_rate_tier INTEREST_RATE_TIER, PRODUCT charges_fee FEE.
+     Always capture the full set of tier and fee relationships for each product.
+
+  3. MULTIPLE EDGES ALLOWED
+     If two entities have multiple distinct relationships, create multiple edges.
+     E.g., SmartSaver both has_rate_tier Tier1 and has_rate_tier Tier2 — two separate edges.
+
+  4. DIRECTION MATTERS
+     PRODUCT has_feature FEATURE (not the reverse).
+     PRODUCT charges_fee FEE (not fee charges product).
+
+  5. PROPERTIES MAP
+     The properties object is flexible and rel_type-specific. Examples:
+
+     For "has_rate_tier": { effective_date: string, rate_basis: string }
+     For "charges_fee": { trigger: string, amount: string, waiver_condition: string }
+     For "has_feature": { channel: string, limits: string, cost: string }
+     For "requires": { verification_method: string, consequence_of_failure: string }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of relationship objects:
+
+  {
+    "source_id":     string,  // id of EntityA
+    "source_name":   string,  // name of EntityA
+    "target_id":     string,  // id of EntityB
+    "target_name":   string,  // name of EntityB
+    "rel_type":      string,  // semantic classifier
+    "description":   string,  // human-readable summary
+    "properties":    object,  // rel_type-specific properties
+    "context":       string,  // verbatim text context from which relationship is derived
+    "bidirectional": boolean  // is this relationship two-way?
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ Does each entity have AT LEAST one relationship?
+    □ All PRODUCT → INTEREST_RATE_TIER rate tier relationships captured (one per tier)?
+    □ All PRODUCT → FEE relationships captured?
+    □ All PRODUCT → ELIGIBILITY_RULE requirements captured?
+    □ All PRODUCT → TERMS_CLAUSE governing provisions captured?
+    □ FAQ_ITEM → INTEREST_RATE_TIER or FEE explanation links captured?
+    □ rel_type values are consistent across document?
+    □ Descriptions are specific to this relationship instance?
+    □ Direction of relationships is correct?
+    □ Bidirectional flag is correct?
+
+  Extract all meaningful relationships between the __list_of_entities__ from the __text__ below.
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __list_of_entities__
+  {entities_list}
+
+  __text__
+  {text}

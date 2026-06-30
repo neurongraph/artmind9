@@ -1,0 +1,359 @@
+name: banking_communications
+description: Staff training materials and customer communication templates for FirstUK Bank — covering mandatory compliance training modules (AML, KYC, GDPR, fraud), product training, branch operations training, email/SMS templates, and call centre scripts.
+
+entities_prompt: |
+  You are a Knowledge Graph extraction engine specialised in banking communications and training document analysis.
+  Your job is to read a passage from a FirstUK Bank training manual or communication template document and identify all significant entities.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ENTITY TYPES YOU MUST EXTRACT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Use ONLY these entity_classes. However, you can add more to the type values than the examples provided here.
+
+  COMMUNICATION_TEMPLATE
+    A named, reusable communication template — email, SMS, letter, or call centre script — designed for a specific trigger event or customer interaction. Capture the template's purpose, trigger condition, key structure, tone, and any embedded regulatory disclosures. Each named template is a separate entity.
+    example type values: email_template | sms_template | call_script | letter_template | push_notification | promotional | service_notification | security_alert | fraud_alert | confirmation
+
+  TEMPLATE_VARIABLE
+    A named placeholder in a template that is replaced with dynamic data at send time — customer name, account number, balance, rate, date, etc. Extract variable names and what data they represent. Group closely related variables (e.g., all address fields) into one entity only if the document treats them as a unit.
+    example type values: customer_data | account_data | transaction_data | product_data | rate_field | date_field | contact_field | amount_field | reference_field
+
+  TRAINING_MODULE
+    A named, self-contained unit of staff training with defined content, learning objectives, and an assessment. Each module covering a distinct topic (AML, KYC, GDPR, Fraud, etc.) is a separate entity. Also extract the overall training program as a top-level entity when described as a whole.
+    example type values: aml_module | kyc_module | gdpr_module | fraud_module | reporting_module | product_module | operations_module | consequence_module | ethics_module | security_module
+
+  LEARNING_OBJECTIVE
+    A specific skill, knowledge item, understanding, or behaviour that staff must demonstrate or know after completing a training module. Each distinct stated objective is a separate entity. Extract from "by the end of this module you will be able to" or equivalent statements.
+    example type values: regulatory_knowledge | process_skill | identification_skill | reporting_skill | product_knowledge | ethical_standard | decision_skill | documentation_skill
+
+  WARNING_SIGN
+    A named red flag, indicator, behavioural pattern, or scenario that staff are trained to recognise as suspicious, risky, or requiring action. These are the specific signals staff must look for. Each named red flag or indicator is a separate entity.
+    example type values: aml_red_flag | fraud_indicator | kyc_red_flag | sanctions_indicator | data_protection_concern | misconduct_signal | account_takeover_signal | social_engineering_attempt
+
+  COMPLIANCE_OBLIGATION
+    A specific compliance requirement, duty, or prohibition explained in training — something staff MUST do, MUST NOT do, MUST report, or MUST document. These are the actionable obligations extracted from training content, distinct from warning signs (which are inputs) and actions (which are responses).
+    example type values: reporting_obligation | mandatory_action | prohibition | escalation_duty | documentation_requirement | confidentiality_obligation | training_completion | consent_requirement | data_handling_rule
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXTRACTION RULES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. COMPLETENESS OVER PRECISION
+     When in doubt whether something qualifies, include it.
+     It is easier to remove an entity in validation than to recover a missed one.
+
+  2. CANONICAL NAMES
+     Use the most complete, formal name as the entity name.
+     For COMMUNICATION_TEMPLATE: use the template title from the document.
+     RIGHT:   { "name": "Account Opening Confirmation Email Template" }
+     For WARNING_SIGN: state the red flag descriptively.
+     RIGHT:   { "name": "Large Cash Deposit Followed by Immediate Transfer Out (AML Red Flag)" }
+     WRONG:   { "name": "Red flag 1" }
+     For TRAINING_MODULE: include the module number and topic.
+     RIGHT:   { "name": "Module 1 — AML & Sanctions Compliance" }
+
+  3. DESCRIPTION QUALITY
+     Write descriptions as a training designer or communications manager would — specific to what THIS document says about the template's use case, the module's content, or the warning sign's significance.
+
+  4. CONTEXT SNIPPETS
+     Extract 2–4 verbatim quotes from the text that best characterise this entity.
+     Preserve exact wording including template text and warning sign descriptions.
+
+  5. DO NOT HALLUCINATE
+     Only extract what is in the text. Never invent training content, red flags, or template variables not stated in the passage.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT FORMAT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of entity objects:
+
+  {
+    "id":                string,   // generate as {type_abbr}_{sequence}
+                                   // e.g., "tpl_001", "var_002", "mod_003", "obj_004", "wrn_005", "obl_006"
+    "name":              string,   // canonical name — descriptive and informative
+    "aliases":           array,    // template IDs, module numbers, short labels
+    "entity_class":      string,   // COMMUNICATION_TEMPLATE | TEMPLATE_VARIABLE | TRAINING_MODULE | LEARNING_OBJECTIVE | WARNING_SIGN | COMPLIANCE_OBLIGATION
+    "type":              string,   // the subtype from lists above
+    "description":       string,   // 2–4 sentence summary specific to this document
+    "context":           array,    // verbatim text snippets including template text or training content
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ Each named communication template captured as a COMMUNICATION_TEMPLATE?
+    □ Each distinct placeholder variable captured as a TEMPLATE_VARIABLE?
+    □ Each training module captured as a TRAINING_MODULE?
+    □ Learning objectives extracted from module descriptions?
+    □ All named red flags and warning signs captured as WARNING_SIGN?
+    □ All explicit compliance duties ("must report", "must not", "must document") captured as COMPLIANCE_OBLIGATION?
+    □ COMMUNICATION_TEMPLATE names match template headings exactly?
+    □ WARNING_SIGN names are descriptive enough to distinguish from each other?
+    □ Context snippets include actual template text or training content verbatim?
+
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __text__
+
+  {text}
+
+properties_prompt: |
+  You are a Knowledge Graph extraction engine specialised in banking communications and training document analysis.
+  Your job is to read a FirstUK Bank training or template document passage and enrich the provided entities with detailed properties based on the text.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  PROPERTIES MAP GUIDANCE:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  There is NO fixed schema for properties. You decide what matters based on
+  the entity's role in the document.
+
+  Ask yourself: "If a customer service agent or compliance trainer needed to use
+  or teach this entity, what structured facts from this document would help them?"
+
+  For COMMUNICATION_TEMPLATE, consider:
+    - document_id (e.g., EMAIL-TEMPLATE-001)
+    - trigger_event (what event sends this template)
+    - channel (email | sms | call | letter)
+    - subject_line (email subject if stated)
+    - recipient (who receives this communication)
+    - key_content (list of main message components)
+    - variables_used (list of placeholder names used)
+    - tone (formal | friendly | urgent | regulatory)
+    - compliance_disclosures (any regulatory text that must be included)
+    - owner (team responsible for maintaining this template)
+    - do_not_alter_sections (parts that must not be changed)
+
+  For TEMPLATE_VARIABLE, consider:
+    - variable_placeholder (exact placeholder syntax, e.g., "[Customer Name]")
+    - data_source (where the data comes from — CRM | AMS | Product Catalog)
+    - data_type (string | currency | date | percentage | account_number)
+    - example_value (a sample value if shown)
+    - mandatory (yes/no — must always be populated)
+    - appears_in_templates (list of template names that use this variable)
+    - character_limit (if stated)
+
+  For TRAINING_MODULE, consider:
+    - module_number (1, 2, 3, etc.)
+    - module_topic (the subject area)
+    - document_id (e.g., TRAIN-COMPLIANCE-001)
+    - target_audience (all staff | compliance team | branch staff | specific role)
+    - mandatory (yes/no)
+    - completion_frequency (annual | onboarding | on_change)
+    - pass_threshold (assessment pass mark, e.g., "80%+")
+    - topics_covered (list of key topics)
+    - regulatory_basis (which regulations this module covers)
+    - certificate_issued (yes/no)
+    - duration_estimate (if stated)
+
+  For LEARNING_OBJECTIVE, consider:
+    - module (which training module this objective belongs to)
+    - objective_statement (what staff will be able to do)
+    - skill_type (knowledge | skill | attitude | behaviour)
+    - assessed_in_quiz (yes/no)
+    - regulatory_link (which regulation this objective helps satisfy)
+
+  For WARNING_SIGN, consider:
+    - risk_domain (aml | fraud | kyc | data_protection | sanctions | misconduct)
+    - description (what the warning sign looks like)
+    - examples (specific scenarios or patterns given)
+    - required_action (what staff must do when they see this)
+    - escalation_path (who to report to)
+    - regulatory_obligation (is reporting mandatory)
+    - false_positive_guidance (how to avoid over-reporting if stated)
+
+  For COMPLIANCE_OBLIGATION, consider:
+    - obligation_type (mandatory_action | prohibition | reporting_duty | documentation | training)
+    - applies_to (which staff roles or all staff)
+    - timeframe (when it must be done, e.g., "within 30 days")
+    - consequence_of_failure (stated consequence)
+    - regulatory_source (which law or regulator drives this)
+    - verification_method (how the bank checks compliance)
+    - exceptions (any stated exemptions)
+
+  KEY RULES FOR PROPERTIES:
+    1. Use clear, readable key names (e.g., "trigger_event" not "trigger")
+    2. Use arrays for multiple values
+    3. Use nested objects only when genuinely needed
+    4. Omit a property entirely rather than writing null or "unknown"
+    5. Values should be specific to THIS document, not generic definitions
+    6. Keep individual values concise
+    7. If a property feels forced or uncertain, leave it out
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of objects:
+  {
+    "id":            string,   // entity id from input
+    "name":          string,   // entity name from input
+    "properties":    object,   // enriched properties map
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Example of extracted "properties":
+  "properties": {
+    "module_number": 1,
+    "module_topic": "AML & Sanctions Compliance",
+    "document_id": "TRAIN-COMPLIANCE-001",
+    "target_audience": "All Staff",
+    "mandatory": true,
+    "completion_frequency": "annual",
+    "pass_threshold": "80%+",
+    "topics_covered": ["What is money laundering", "AML red flags", "Reporting to Compliance", "Sanctions screening", "Consequences of non-compliance"],
+    "regulatory_basis": ["Money Laundering Regulations 2017", "POCA 2002", "Terrorism Act 2000"],
+    "certificate_issued": true
+  }
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ No hallucinated properties?
+    □ COMMUNICATION_TEMPLATE entities include trigger_event, channel, variables_used?
+    □ TRAINING_MODULE entities include module_number, mandatory, pass_threshold, regulatory_basis?
+    □ WARNING_SIGN entities include risk_domain, required_action, escalation_path?
+    □ COMPLIANCE_OBLIGATION entities include obligation_type, timeframe, consequence_of_failure?
+    □ Properties genuinely useful — not just restating the entity name?
+
+  Extract properties for the following __list_of_entities__ from the __text__ below.
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __list_of_entities__
+  {entities_list}
+
+  __text__
+  {text}
+
+relationships_prompt: |
+  You are a Knowledge Graph extraction engine specialised in banking communications and training document analysis.
+  Your job is to identify and extract all meaningful relationships between entities in a FirstUK Bank training or template document.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  RELATIONSHIP STRUCTURE:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  All relationships must follow this pattern:
+  (EntityA)-[RELATES_TO {
+    rel_type:      string  (semantic classifier, e.g., "contains", "teaches", "triggers_obligation")
+    description:   string  (human-readable summary of this specific relationship)
+    properties:    object  (flexible, rel_type-specific details)
+  }]->(EntityB)
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  COMMON rel_type VALUES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  COMMUNICATION_TEMPLATE ↔ TEMPLATE_VARIABLE:
+    contains, requires, populates_with, personalises_via
+
+  COMMUNICATION_TEMPLATE ↔ COMMUNICATION_TEMPLATE:
+    series_with, follows, alternative_to, replaces, related_to
+
+  COMMUNICATION_TEMPLATE ↔ COMPLIANCE_OBLIGATION:
+    satisfies, includes_disclosure_for, triggered_by
+
+  TRAINING_MODULE ↔ LEARNING_OBJECTIVE:
+    teaches, assesses, enables
+
+  TRAINING_MODULE ↔ WARNING_SIGN:
+    trains_recognition_of, covers, tests_knowledge_of
+
+  TRAINING_MODULE ↔ COMPLIANCE_OBLIGATION:
+    teaches, assesses_understanding_of, explains
+
+  TRAINING_MODULE ↔ TRAINING_MODULE:
+    prerequisite_for, followed_by, related_to, part_of_series
+
+  WARNING_SIGN ↔ COMPLIANCE_OBLIGATION:
+    triggers, leads_to, requires, creates_duty_to_report
+
+  WARNING_SIGN ↔ WARNING_SIGN:
+    co_occurs_with, escalates_to, related_to, pattern_combination_with
+
+  COMPLIANCE_OBLIGATION ↔ COMPLIANCE_OBLIGATION:
+    related_to, reinforces, exception_to, preceded_by
+
+  LEARNING_OBJECTIVE ↔ WARNING_SIGN:
+    includes_identification_of, applied_to_detection_of
+
+  LEARNING_OBJECTIVE ↔ COMPLIANCE_OBLIGATION:
+    covers, enables_execution_of, tests_understanding_of
+
+  TEMPLATE_VARIABLE ↔ TEMPLATE_VARIABLE:
+    used_together_with, part_of_group
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXTRACTION RULES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. EXPLICIT AND IMPLICIT
+     Extract both directly stated relationships ("Module 1 covers AML red flags")
+     and those clearly implied ("If staff see [red flag], they must file a SAR" → WARNING_SIGN triggers COMPLIANCE_OBLIGATION).
+
+  2. WARNING SIGN → OBLIGATION CHAIN IS CORE
+     For training documents, the most important structure is:
+     TRAINING_MODULE trains_recognition_of WARNING_SIGN, WARNING_SIGN triggers COMPLIANCE_OBLIGATION.
+     Always capture this chain — it answers "what must staff do when they see X?"
+
+  3. TEMPLATE VARIABLE COMPLETENESS
+     For template documents, capture every COMMUNICATION_TEMPLATE contains TEMPLATE_VARIABLE
+     relationship. This enables queries like "what data do I need to send this email?"
+
+  4. MULTIPLE EDGES ALLOWED
+     A module can teach multiple warning signs and multiple obligations.
+     Create separate edges for each.
+
+  5. PROPERTIES MAP
+     The properties object is flexible and rel_type-specific. Examples:
+
+     For "trains_recognition_of": { assessment_included: boolean, examples_given: integer }
+     For "triggers": { mandatory: boolean, timeframe: string, escalation_path: string }
+     For "contains": { mandatory_field: boolean, source_system: string }
+     For "prerequisite_for": { reason: string }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of relationship objects:
+
+  {
+    "source_id":     string,  // id of EntityA
+    "source_name":   string,  // name of EntityA
+    "target_id":     string,  // id of EntityB
+    "target_name":   string,  // name of EntityB
+    "rel_type":      string,  // semantic classifier
+    "description":   string,  // human-readable summary
+    "properties":    object,  // rel_type-specific properties
+    "context":       string,  // verbatim text context from which relationship is derived
+    "bidirectional": boolean  // is this relationship two-way?
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ Does each entity have AT LEAST one relationship?
+    □ All COMMUNICATION_TEMPLATE → TEMPLATE_VARIABLE contains links captured?
+    □ All TRAINING_MODULE → WARNING_SIGN trains_recognition_of links captured?
+    □ All WARNING_SIGN → COMPLIANCE_OBLIGATION trigger chains captured?
+    □ All TRAINING_MODULE → COMPLIANCE_OBLIGATION teaches links captured?
+    □ TRAINING_MODULE → TRAINING_MODULE sequence relationships captured?
+    □ rel_type values are consistent across document?
+    □ Descriptions are specific to this relationship instance?
+    □ Direction is correct (TEMPLATE contains VARIABLE, not reverse)?
+    □ Bidirectional flag is correct?
+
+  Extract all meaningful relationships between the __list_of_entities__ from the __text__ below.
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __list_of_entities__
+  {entities_list}
+
+  __text__
+  {text}

@@ -1,0 +1,385 @@
+name: banking_risk_governance
+description: Risk management, internal audit, board governance, and regulatory compliance tracking documents for FirstUK Bank — covering audit reports, risk appetite statements, board committee minutes, governance frameworks, compliance bulletins, and regulatory circulars.
+
+entities_prompt: |
+  You are a Knowledge Graph extraction engine specialised in banking risk and governance document analysis.
+  Your job is to read a passage from a FirstUK Bank risk, audit, or governance document and identify all significant entities.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ENTITY TYPES YOU MUST EXTRACT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Use ONLY these entity_classes. However, you can add more to the type values than the examples provided here.
+
+  AUDIT_FINDING
+    A specific observation, issue, gap, strength, or recommendation identified in an internal audit — a finding with severity, affected process or area, evidence, and resolution status. Each finding is a separate entity. Include both weaknesses (issues requiring remediation) and strengths (confirmed effective controls).
+    example type values: critical | high_priority | medium_priority | low_priority | observation | resolved | partial | strength | gap
+
+  RISK
+    A named risk category with a defined appetite, tolerance threshold, or stated management approach. Also extract specific risk scenarios or risk events when described. Each distinct risk type or scenario is a separate entity.
+    example type values: credit_risk | operational_risk | compliance_risk | technology_risk | reputational_risk | liquidity_risk | fraud_risk | aml_risk | sanctions_risk | market_risk | concentration_risk | cyber_risk
+
+  GOVERNANCE_DECISION
+    A formal decision, approval, rejection, or resolution made by a board committee, audit committee, or governance body — documented in meeting minutes or governance reports. Each distinct decision or resolution is a separate entity.
+    example type values: approval | rejection | deferral | escalation | policy_approval | risk_appetite_approval | budget_decision | charter_amendment | audit_plan_approval | regulatory_response
+
+  ACTION_ITEM
+    A specific task assigned to a named role or team with a defined deadline, arising from a governance meeting, audit report, or regulatory update. Each action item with an owner and deadline is a separate entity.
+    example type values: remediation | policy_update | communication | investigation | monitoring | training | reporting | implementation | follow_up | capital_action
+
+  RISK_METRIC
+    A quantitative risk indicator, appetite threshold, tolerance level, KRI value, capital ratio, or performance metric stated in a risk management or governance document. Capture both the threshold/target and the actual value when both are stated.
+    example type values: risk_appetite_threshold | kri | capital_ratio | loss_ratio | compliance_rate | detection_rate | delinquency_rate | concentration_limit | response_time | operational_loss
+
+  REGULATORY_UPDATE
+    A new regulation, amended regulation, FCA/PRA circular, compliance bulletin, enforcement action, or regulatory deadline that requires the bank to take action. Each distinct regulatory change or circular is a separate entity.
+    example type values: new_regulation | amended_regulation | fca_circular | pra_circular | enforcement_action | consultation_paper | implementation_deadline | guidance_update | supervisory_letter
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXTRACTION RULES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. COMPLETENESS OVER PRECISION
+     When in doubt whether something qualifies, include it.
+     It is easier to remove an entity in validation than to recover a missed one.
+
+  2. CANONICAL NAMES
+     Use the most complete, formal name as the entity name.
+     Store short codes and abbreviations in aliases.
+     RIGHT:   { "name": "Standing Order Validation Gap — High Priority Finding", "aliases": ["H1", "Q4-H1"] }
+     WRONG:   { "name": "H1" }
+     For RISK_METRIC: include the metric name, threshold, and actual value in the name where both are stated.
+     RIGHT:   { "name": "Capital Ratio — Target >15%, Actual 18.2%" }
+     For GOVERNANCE_DECISION: include the decision outcome and topic.
+     RIGHT:   { "name": "Board Approval of 2026 Risk Appetite Statement" }
+
+  3. DESCRIPTION QUALITY
+     Write descriptions as a risk manager or board secretary would — specific to what THIS document says. Include severity ratings, assigned owners, deadlines, and resolution status when stated.
+
+  4. CONTEXT SNIPPETS
+     Extract 2–4 verbatim quotes from the text that best characterise this entity.
+     Preserve exact wording. These are used for RAG enrichment.
+
+  5. DO NOT HALLUCINATE
+     Only extract what is in the text. Never invent finding severities, metrics, or action owners not stated in the passage.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT FORMAT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of entity objects:
+
+  {
+    "id":                string,   // generate as {type_abbr}_{sequence}
+                                   // e.g., "fnd_001", "rsk_002", "dec_003", "act_004", "met_005", "upd_006"
+    "name":              string,   // canonical name — descriptive and informative
+    "aliases":           array,    // finding codes, document IDs, short labels
+    "entity_class":      string,   // AUDIT_FINDING | RISK | GOVERNANCE_DECISION | ACTION_ITEM | RISK_METRIC | REGULATORY_UPDATE
+    "type":              string,   // the subtype from lists above
+    "description":       string,   // 2–4 sentence summary specific to this document
+    "context":           array,    // verbatim text snippets where entity appears
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ Each distinct audit finding captured as a separate AUDIT_FINDING?
+    □ Each risk category with a stated appetite or tolerance captured as RISK?
+    □ Each formal committee decision or resolution captured as GOVERNANCE_DECISION?
+    □ Each assigned action item with owner and deadline captured as ACTION_ITEM?
+    □ Each quantitative metric or KRI threshold captured as RISK_METRIC?
+    □ Each regulatory change or FCA/PRA circular captured as REGULATORY_UPDATE?
+    □ AUDIT_FINDING names describe the finding, not just the section reference?
+    □ RISK_METRIC names include both target and actual values when stated?
+    □ Context snippets are verbatim from text?
+
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __text__
+
+  {text}
+
+properties_prompt: |
+  You are a Knowledge Graph extraction engine specialised in banking risk and governance document analysis.
+  Your job is to read a FirstUK Bank risk or governance document passage and enrich the provided entities with detailed properties based on the text.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  PROPERTIES MAP GUIDANCE:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  There is NO fixed schema for properties. You decide what matters based on
+  the entity's role in the document.
+
+  Ask yourself: "If a risk officer, auditor, or board member needed to track or
+  follow up on this entity, what structured facts from this document would help them?"
+
+  For AUDIT_FINDING, consider:
+    - severity (critical | high | medium | low)
+    - affected_area (process or system audited)
+    - finding_summary (what was found)
+    - evidence (what evidence was observed)
+    - root_cause (stated cause if identified)
+    - management_response (what management has committed to do)
+    - remediation_deadline (when it must be resolved)
+    - resolution_status (open | partial | resolved)
+    - finding_ref (internal reference code)
+    - audit_scope (period or sample examined)
+
+  For RISK, consider:
+    - risk_category (credit | operational | compliance | technology | fraud | etc.)
+    - appetite_level (low | conservative | moderate | elevated | high)
+    - appetite_rationale (why this appetite level is set)
+    - tolerance_thresholds (list of specific numeric limits)
+    - stated_prohibitions (what the bank will not do in this risk domain)
+    - current_exposure (actual current level if stated)
+    - controls_in_place (list of mitigating controls)
+    - trend (improving | stable | deteriorating)
+    - regulatory_drivers (regulations requiring management of this risk)
+
+  For GOVERNANCE_DECISION, consider:
+    - decision_outcome (approved | rejected | deferred | escalated)
+    - decision_topic (what was decided about)
+    - deciding_body (committee or board that made the decision)
+    - decision_date
+    - vote_result (unanimous | majority | dissenting_opinions)
+    - rationale (stated reason for the decision)
+    - conditions (any conditions attached to the approval)
+    - related_action_items (list of action items arising)
+    - next_review_date (when the decision will be revisited)
+
+  For ACTION_ITEM, consider:
+    - action_description (what must be done)
+    - owner (role or name responsible)
+    - deadline (date by which it must be completed)
+    - priority (critical | high | medium | low)
+    - triggered_by (what finding, decision, or regulation prompted this action)
+    - status (open | in_progress | completed | overdue)
+    - dependencies (what must happen before this action can be taken)
+    - success_criteria (how completion will be measured)
+
+  For RISK_METRIC, consider:
+    - metric_name (formal name of the KRI or metric)
+    - target_threshold (the appetite limit or target, e.g., "<0.5%")
+    - actual_value (the current measured value)
+    - period (time period for the measurement)
+    - owner (role accountable for this metric)
+    - reporting_frequency (how often reported)
+    - breach_threshold (value at which action is triggered)
+    - trend (improving | stable | deteriorating)
+    - context (why this metric matters)
+
+  For REGULATORY_UPDATE, consider:
+    - issuing_authority (FCA | PRA | EU | HMT | etc.)
+    - circular_reference (reference number or title)
+    - effective_date (when the regulation takes effect)
+    - implementation_deadline (when the bank must comply)
+    - key_requirement (the main obligation imposed)
+    - impact_assessment (how it affects the bank)
+    - affected_departments (which teams must act)
+    - implementation_status (planned | in_progress | completed)
+    - related_action_items (list of actions required)
+
+  KEY RULES FOR PROPERTIES:
+    1. Use clear, readable key names (e.g., "remediation_deadline" not "rem_dl")
+    2. Use arrays for multiple values
+    3. Use nested objects only when genuinely needed
+    4. Omit a property entirely rather than writing null or "unknown"
+    5. Values should be specific to THIS document, not generic definitions
+    6. Keep individual values concise
+    7. If a property feels forced or uncertain, leave it out
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of objects:
+  {
+    "id":            string,   // entity id from input
+    "name":          string,   // entity name from input
+    "properties":    object,   // enriched properties map
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Example of extracted "properties":
+  "properties": {
+    "severity": "high",
+    "affected_area": "Standing Order Management",
+    "finding_summary": "Gaps identified in validation of beneficiary account details before standing order creation",
+    "root_cause": "System validation rules not updated to match current FPS requirements",
+    "management_response": "IT to implement enhanced validation by Q1 2026",
+    "remediation_deadline": "2026-03-31",
+    "resolution_status": "open",
+    "finding_ref": "Q4-H1",
+    "audit_scope": "October–December 2025 sample of 200 standing orders"
+  }
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ No hallucinated properties?
+    □ AUDIT_FINDING entities include severity, affected_area, resolution_status?
+    □ RISK entities include appetite_level, tolerance_thresholds?
+    □ GOVERNANCE_DECISION entities include decision_outcome, deciding_body, decision_date?
+    □ ACTION_ITEM entities include action_description, owner, deadline?
+    □ RISK_METRIC entities include target_threshold AND actual_value when both stated?
+    □ Properties genuinely useful — not just restating the entity name?
+
+  Extract properties for the following __list_of_entities__ from the __text__ below.
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __list_of_entities__
+  {entities_list}
+
+  __text__
+  {text}
+
+relationships_prompt: |
+  You are a Knowledge Graph extraction engine specialised in banking risk and governance document analysis.
+  Your job is to identify and extract all meaningful relationships between entities in a FirstUK Bank risk, audit, or governance document.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  RELATIONSHIP STRUCTURE:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  All relationships must follow this pattern:
+  (EntityA)-[RELATES_TO {
+    rel_type:      string  (semantic classifier, e.g., "generates", "measures", "responds_to")
+    description:   string  (human-readable summary of this specific relationship)
+    properties:    object  (flexible, rel_type-specific details)
+  }]->(EntityB)
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  COMMON rel_type VALUES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  AUDIT_FINDING ↔ RISK:
+    identifies_risk_in, associated_with, escalated_due_to, evidence_of, reveals_gap_in
+
+  AUDIT_FINDING ↔ ACTION_ITEM:
+    generates, resolved_by, tracked_by, requires
+
+  AUDIT_FINDING ↔ RISK_METRIC:
+    measured_against, violates, supports, demonstrates
+
+  AUDIT_FINDING ↔ AUDIT_FINDING:
+    related_to, reoccurrence_of, resolved_by, escalated_from
+
+  RISK ↔ RISK_METRIC:
+    quantified_by, measured_by, has_appetite_threshold
+
+  RISK ↔ ACTION_ITEM:
+    addressed_by, requires, triggers_review_of
+
+  RISK ↔ RISK:
+    related_to, escalates_to, co_occurs_with, drives
+
+  RISK ↔ REGULATORY_UPDATE:
+    regulated_by, addressed_by, introduced_by
+
+  GOVERNANCE_DECISION ↔ ACTION_ITEM:
+    generates, requires, assigns, approves
+
+  GOVERNANCE_DECISION ↔ RISK:
+    approves_appetite_for, elevates_concern_about, accepts, rejects
+
+  GOVERNANCE_DECISION ↔ RISK_METRIC:
+    approves_threshold_for, reviews, sets_target
+
+  GOVERNANCE_DECISION ↔ REGULATORY_UPDATE:
+    responds_to, approves_implementation_of, defers_response_to
+
+  GOVERNANCE_DECISION ↔ AUDIT_FINDING:
+    reviews, accepts_management_response_for, escalates
+
+  ACTION_ITEM ↔ REGULATORY_UPDATE:
+    implements, responds_to, triggered_by
+
+  ACTION_ITEM ↔ RISK_METRIC:
+    aims_to_improve, targets_reduction_in
+
+  ACTION_ITEM ↔ ACTION_ITEM:
+    depends_on, preceded_by, part_of_program
+
+  RISK_METRIC ↔ RISK:
+    measures_appetite_of, tracks
+
+  REGULATORY_UPDATE ↔ RISK:
+    introduces_new_requirement_for, addresses, regulates, mitigates
+
+  REGULATORY_UPDATE ↔ REGULATORY_UPDATE:
+    amends, supersedes, related_to, complements
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXTRACTION RULES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. EXPLICIT AND IMPLICIT
+     Extract both directly stated relationships ("audit finding H1 requires remediation by Q1")
+     and those clearly implied ("capital ratio metric reviewed at Board Risk Committee" → GOVERNANCE_DECISION reviews RISK_METRIC).
+
+  2. FINDING → ACTION CHAIN IS CORE
+     For audit reports, the most important structure is:
+     AUDIT_FINDING generates ACTION_ITEM, ACTION_ITEM owned_by ROLE, ACTION_ITEM resolves FINDING.
+     Always capture the full remediation chain.
+
+  3. RISK → METRIC → DECISION CHAIN
+     For risk appetite and governance docs:
+     RISK quantified_by RISK_METRIC, GOVERNANCE_DECISION approves_threshold_for RISK_METRIC.
+     Capture these chains to answer "what is the approved tolerance for credit risk?"
+
+  4. MULTIPLE EDGES ALLOWED
+     A governance decision can respond to multiple regulatory updates.
+     An audit finding can generate multiple action items.
+     Create separate edges for each.
+
+  5. PROPERTIES MAP
+     The properties object is flexible and rel_type-specific. Examples:
+
+     For "generates": { priority: string, deadline: string, assigned_to: string }
+     For "quantified_by": { threshold: string, actual: string, period: string }
+     For "approves_appetite_for": { decision_outcome: string, conditions: string }
+     For "responds_to": { response_type: "accept | implement | defer", timeline: string }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of relationship objects:
+
+  {
+    "source_id":     string,  // id of EntityA
+    "source_name":   string,  // name of EntityA
+    "target_id":     string,  // id of EntityB
+    "target_name":   string,  // name of EntityB
+    "rel_type":      string,  // semantic classifier
+    "description":   string,  // human-readable summary
+    "properties":    object,  // rel_type-specific properties
+    "context":       string,  // verbatim text context from which relationship is derived
+    "bidirectional": boolean  // is this relationship two-way?
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ Does each entity have AT LEAST one relationship?
+    □ All AUDIT_FINDING → ACTION_ITEM remediation links captured?
+    □ All RISK → RISK_METRIC appetite quantification links captured?
+    □ All GOVERNANCE_DECISION → RISK_METRIC approval links captured?
+    □ All REGULATORY_UPDATE → ACTION_ITEM implementation links captured?
+    □ All GOVERNANCE_DECISION → AUDIT_FINDING review links captured?
+    □ rel_type values are consistent across document?
+    □ Descriptions are specific to this relationship instance?
+    □ Direction is correct (FINDING generates ACTION, not ACTION generates FINDING)?
+    □ Bidirectional flag is correct?
+
+  Extract all meaningful relationships between the __list_of_entities__ from the __text__ below.
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __list_of_entities__
+  {entities_list}
+
+  __text__
+  {text}

@@ -1,0 +1,368 @@
+name: banking_reference
+description: Operational reference materials for FirstUK Bank — covering live interest rate schedules, incident response plans, technology production runbooks, application landscape documents, and customer welcome packs. Documents that staff and customers consult for quick, authoritative lookups.
+
+entities_prompt: |
+  You are a Knowledge Graph extraction engine specialised in banking operational reference document analysis.
+  Your job is to read a passage from a FirstUK Bank reference document and identify all significant entities.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ENTITY TYPES YOU MUST EXTRACT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Use ONLY these entity_classes. However, you can add more to the type values than the examples provided here.
+
+  RATE_ENTRY
+    A specific published interest rate, overdraft rate, or fee as recorded in the live rate schedule — the authoritative, date-stamped version. Include the product, balance tier (if applicable), rate value, effective date, and rate basis as a single entity. Also capture calculation examples as part of the entity description.
+    example type values: savings_rate_tier | overdraft_rate | mortgage_rate | variable_rate | fixed_rate | fee_table_entry | rate_basis
+
+  INCIDENT_TYPE
+    A named category or scenario of operational incident, security event, or system failure with defining characteristics and examples. Each top-level incident category (Cybersecurity Incident, Data Breach, System Incident, etc.) is a separate entity. Also extract specific subtypes (e.g., Ransomware Attack, Customer Data Breach) when they have distinct response requirements.
+    example type values: cybersecurity_incident | data_breach | system_outage | fraud_misconduct | physical_security | performance_degradation | integration_failure | backup_failure | credential_compromise | ransomware
+
+  SEVERITY_LEVEL
+    A defined incident severity tier with quantified impact thresholds (financial, customer scope, system downtime), specific response time targets, and mandatory escalation requirements. Each severity level is a separate entity.
+    example type values: critical_p1 | high_p2 | medium_p3 | low_p4 | informational
+
+  RESPONSE_ACTION
+    A specific action, procedure, or step required during incident response, business continuity, or production operations. Includes detection steps, containment actions, notifications to send, recovery procedures, and post-incident reviews. Each distinct named action or phase is a separate entity.
+    example type values: detection | containment | investigation | notification | escalation | recovery | post_incident_review | regulatory_notification | customer_notification | system_restore | access_revocation | forensics
+
+  NOTIFICATION_CONTACT
+    A named contact, team, regulator, or external party that must be notified under specific conditions — with contact details, trigger conditions, and required timeframes when stated. Extract from escalation lists, emergency contacts, and regulatory notification requirements.
+    example type values: internal_team | executive | regulator | law_enforcement | customer | external_partner | media_spokesperson | legal_counsel | insurance_provider
+
+  CUSTOMER_GUIDE_ITEM
+    A piece of customer-facing guidance from the welcome pack or customer reference materials — explaining how to use an account feature, how to contact the bank, what to expect during onboarding, or how a product works. Each distinct guidance point or section is a separate entity.
+    example type values: getting_started | account_management | feature_guide | contact_info | regulatory_protection | security_guidance | opening_process | channel_guide | faq_reference | complaint_path
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXTRACTION RULES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. COMPLETENESS OVER PRECISION
+     When in doubt whether something qualifies, include it.
+     It is easier to remove an entity in validation than to recover a missed one.
+
+  2. CANONICAL NAMES
+     Use the most complete, formal name as the entity name.
+     For RATE_ENTRY: include the product, tier, and rate in the name.
+     RIGHT:   { "name": "SmartSaver Account Tier 1 Rate — 4.50% AER (£0–£10,000), effective 2026-01-15" }
+     For SEVERITY_LEVEL: include the level name and its key threshold.
+     RIGHT:   { "name": "Severity 1 (Critical) — >£100,000 impact or >4-hour system outage" }
+     For INCIDENT_TYPE: use the exact category name from the document.
+     RIGHT:   { "name": "Cybersecurity Incident", "aliases": ["Malware", "Ransomware Attack"] }
+
+  3. DESCRIPTION QUALITY
+     Write descriptions as an operations manager would — specific to what THIS document says. Include timeframes, financial thresholds, affected systems, and required actions when stated.
+
+  4. CONTEXT SNIPPETS
+     Extract 2–4 verbatim quotes from the text that best characterise this entity.
+     Preserve exact wording. These are used for RAG enrichment.
+
+  5. DO NOT HALLUCINATE
+     Only extract what is in the text. Never invent rates, incident types, or contact details not stated in the passage.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT FORMAT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of entity objects:
+
+  {
+    "id":                string,   // generate as {type_abbr}_{sequence}
+                                   // e.g., "rat_001", "inc_002", "sev_003", "res_004", "not_005", "cgi_006"
+    "name":              string,   // canonical name — informative, not just labels
+    "aliases":           array,    // short codes, category labels, document IDs
+    "entity_class":      string,   // RATE_ENTRY | INCIDENT_TYPE | SEVERITY_LEVEL | RESPONSE_ACTION | NOTIFICATION_CONTACT | CUSTOMER_GUIDE_ITEM
+    "type":              string,   // the subtype from lists above
+    "description":       string,   // 2–4 sentence summary specific to this document
+    "context":           array,    // verbatim text snippets where entity appears
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ Each interest rate tier captured as a separate RATE_ENTRY with product and rate value?
+    □ Each incident category captured as a separate INCIDENT_TYPE?
+    □ Each severity level captured as a separate SEVERITY_LEVEL with impact threshold?
+    □ Each named response phase captured as a RESPONSE_ACTION?
+    □ All notification contacts captured as NOTIFICATION_CONTACT?
+    □ All distinct customer guidance sections captured as CUSTOMER_GUIDE_ITEM?
+    □ RATE_ENTRY names include product, tier, rate value, and effective date?
+    □ SEVERITY_LEVEL names include severity number and key threshold?
+    □ Context snippets are verbatim from text?
+    □ Every entity genuinely significant (no noise)?
+
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __text__
+
+  {text}
+
+properties_prompt: |
+  You are a Knowledge Graph extraction engine specialised in banking operational reference document analysis.
+  Your job is to read a FirstUK Bank reference document passage and enrich the provided entities with detailed properties based on the text.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  PROPERTIES MAP GUIDANCE:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  There is NO fixed schema for properties. You decide what matters based on
+  the entity's role in the document.
+
+  Ask yourself: "If a staff member or customer needed to act on this entity right now,
+  what structured facts from this document would be most useful?"
+
+  For RATE_ENTRY, consider:
+    - product_id (e.g., SAV-001)
+    - product_name (e.g., SmartSaver Account)
+    - rate_value (numeric, e.g., 4.50)
+    - rate_format (AER | Gross | APR)
+    - balance_min (lower bound of balance range)
+    - balance_max (upper bound, or "unlimited")
+    - effective_date (when this rate applies from)
+    - next_review_date (when rate is next reviewed)
+    - rate_basis (formula, e.g., "BoE Base Rate + 2.50% margin")
+    - current_boe_rate (Bank of England base rate at time of publication)
+    - calculation_example (the example from the document verbatim)
+    - accrual_method (daily | monthly)
+    - payment_frequency (monthly | annual)
+
+  For INCIDENT_TYPE, consider:
+    - category (the top-level category this falls under)
+    - subtypes (list of specific scenarios in this category)
+    - indicators (how this incident type is detected)
+    - typical_impact (what tends to be affected)
+    - regulatory_reporting_required (yes/no and which regulator)
+    - customer_notification_required (yes/no and when)
+    - primary_response_team (who handles first)
+
+  For SEVERITY_LEVEL, consider:
+    - level_number (1, 2, 3, 4)
+    - severity_label (Critical | High | Medium | Low)
+    - financial_impact_threshold (e.g., ">£100,000")
+    - customer_scope_threshold (e.g., ">1,000 customers")
+    - system_downtime_threshold (e.g., ">4 hours")
+    - response_time_target (how quickly response must begin)
+    - escalation_required_to (roles that must be notified)
+    - regulatory_notification_required (yes/no)
+    - examples (list of incidents at this severity)
+
+  For RESPONSE_ACTION, consider:
+    - action_phase (detection | containment | investigation | recovery | post_incident)
+    - actor (who performs this action)
+    - timeline (when it must be done, e.g., "within 1 hour")
+    - mandatory_for_severities (which severity levels require this action)
+    - tools_or_systems (what tools are used)
+    - output_or_artifact (what is produced by this action)
+    - escalation_trigger (if this action reveals more than expected, what happens)
+
+  For NOTIFICATION_CONTACT, consider:
+    - contact_name_or_role (the specific contact or role)
+    - contact_method (phone | email | in_person | portal)
+    - contact_details (phone number or email if stated)
+    - trigger_condition (when this contact must be notified)
+    - notification_timeframe (regulatory deadline, e.g., "within 72 hours for GDPR breach")
+    - required_information (what must be communicated)
+    - jurisdiction (UK | EU | international, if regulatory)
+
+  For CUSTOMER_GUIDE_ITEM, consider:
+    - topic (what this guide section covers)
+    - target_customer (new customer | existing | joint account holder)
+    - key_points (list of main guidance points)
+    - relevant_channels (how the guidance applies across channels)
+    - action_required (what the customer must do)
+    - contact_for_help (support channel referenced)
+    - related_product (which product this guidance applies to)
+
+  KEY RULES FOR PROPERTIES:
+    1. Use clear, readable key names (e.g., "financial_impact_threshold" not "fin_thresh")
+    2. Use arrays for multiple values
+    3. Use nested objects only when genuinely needed
+    4. Omit a property entirely rather than writing null or "unknown"
+    5. Values should be specific to THIS document, not generic definitions
+    6. Keep individual values concise
+    7. If a property feels forced or uncertain, leave it out
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of objects:
+  {
+    "id":            string,   // entity id from input
+    "name":          string,   // entity name from input
+    "properties":    object,   // enriched properties map
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Example of extracted "properties":
+  "properties": {
+    "product_id": "SAV-001",
+    "product_name": "SmartSaver Account",
+    "rate_value": 4.50,
+    "rate_format": "AER",
+    "balance_min": "£0",
+    "balance_max": "£10,000",
+    "effective_date": "2026-01-15",
+    "rate_basis": "Bank of England Base Rate + 2.50% margin",
+    "current_boe_rate": "4.00%",
+    "calculation_example": "£10,000 × 4.50% ÷ 365 days × 30 days = £36.99",
+    "accrual_method": "daily",
+    "payment_frequency": "monthly"
+  }
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ No hallucinated properties?
+    □ RATE_ENTRY entities include rate_value, balance range, effective_date, rate_basis?
+    □ SEVERITY_LEVEL entities include level_number, impact thresholds, response_time_target?
+    □ INCIDENT_TYPE entities include subtypes, indicators, primary_response_team?
+    □ RESPONSE_ACTION entities include actor, timeline, mandatory_for_severities?
+    □ Properties genuinely useful — not just restating the entity name?
+
+  Extract properties for the following __list_of_entities__ from the __text__ below.
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __list_of_entities__
+  {entities_list}
+
+  __text__
+  {text}
+
+relationships_prompt: |
+  You are a Knowledge Graph extraction engine specialised in banking operational reference document analysis.
+  Your job is to identify and extract all meaningful relationships between entities in a FirstUK Bank reference document.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  RELATIONSHIP STRUCTURE:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  All relationships must follow this pattern:
+  (EntityA)-[RELATES_TO {
+    rel_type:      string  (semantic classifier, e.g., "higher_tier_than", "triggers", "requires")
+    description:   string  (human-readable summary of this specific relationship)
+    properties:    object  (flexible, rel_type-specific details)
+  }]->(EntityB)
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  COMMON rel_type VALUES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  RATE_ENTRY ↔ RATE_ENTRY:
+    higher_tier_than, adjacent_to, applies_same_basis_as, supersedes
+
+  RATE_ENTRY ↔ CUSTOMER_GUIDE_ITEM:
+    explained_in, referenced_by, illustrated_by
+
+  INCIDENT_TYPE ↔ SEVERITY_LEVEL:
+    classified_at, typically_reaches, can_escalate_to
+
+  INCIDENT_TYPE ↔ RESPONSE_ACTION:
+    triggers, requires, initiates, mandates
+
+  INCIDENT_TYPE ↔ NOTIFICATION_CONTACT:
+    requires_notification_of, escalated_to, reported_to
+
+  INCIDENT_TYPE ↔ INCIDENT_TYPE:
+    can_lead_to, related_to, subtype_of, co_occurs_with
+
+  SEVERITY_LEVEL ↔ RESPONSE_ACTION:
+    requires, mandates_escalation_to, triggers
+
+  SEVERITY_LEVEL ↔ NOTIFICATION_CONTACT:
+    requires_notification_of, escalates_to
+
+  SEVERITY_LEVEL ↔ SEVERITY_LEVEL:
+    escalates_to, more_severe_than
+
+  RESPONSE_ACTION ↔ RESPONSE_ACTION:
+    followed_by, preceded_by, triggered_by, parallel_to, enables
+
+  RESPONSE_ACTION ↔ NOTIFICATION_CONTACT:
+    notifies, involves, escalates_to
+
+  NOTIFICATION_CONTACT ↔ NOTIFICATION_CONTACT:
+    reports_to, escalates_to, coordinates_with
+
+  CUSTOMER_GUIDE_ITEM ↔ CUSTOMER_GUIDE_ITEM:
+    related_to, leads_to, prerequisite_for
+
+  CUSTOMER_GUIDE_ITEM ↔ NOTIFICATION_CONTACT:
+    refers_customer_to, escalates_to
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXTRACTION RULES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. EXPLICIT AND IMPLICIT
+     Extract both directly stated relationships ("Severity 1 requires executive notification")
+     and those clearly implied ("Ransomware is a type of Cybersecurity Incident" → subtype_of).
+
+  2. INCIDENT RESPONSE CHAINS ARE CORE
+     For incident response documents, the most important structure is:
+     INCIDENT_TYPE classified_at SEVERITY_LEVEL, SEVERITY_LEVEL requires RESPONSE_ACTION,
+     RESPONSE_ACTION notifies NOTIFICATION_CONTACT.
+     Always capture these chains — they answer "what do I do if ransomware hits?"
+
+  3. RATE TIER ORDERING
+     For rate schedule documents, capture the tier ordering:
+     RATE_ENTRY higher_tier_than RATE_ENTRY across all adjacent tiers.
+     This enables "which rate tier am I in?" queries.
+
+  4. MULTIPLE EDGES ALLOWED
+     An incident type can require multiple response actions and multiple notifications.
+     A severity level can trigger multiple escalation paths.
+     Create a separate edge for each.
+
+  5. PROPERTIES MAP
+     The properties object is flexible and rel_type-specific. Examples:
+
+     For "classified_at": { typical: boolean, can_escalate: boolean }
+     For "requires": { mandatory: boolean, timeframe: string, condition: string }
+     For "notifies": { notification_timeframe: string, method: string, content_required: string }
+     For "higher_tier_than": { balance_boundary: string }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of relationship objects:
+
+  {
+    "source_id":     string,  // id of EntityA
+    "source_name":   string,  // name of EntityA
+    "target_id":     string,  // id of EntityB
+    "target_name":   string,  // name of EntityB
+    "rel_type":      string,  // semantic classifier
+    "description":   string,  // human-readable summary
+    "properties":    object,  // rel_type-specific properties
+    "context":       string,  // verbatim text context from which relationship is derived
+    "bidirectional": boolean  // is this relationship two-way?
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ Does each entity have AT LEAST one relationship?
+    □ Full incident response chain captured: INCIDENT → SEVERITY → RESPONSE → NOTIFICATION?
+    □ RATE_ENTRY tier ordering captured (higher_tier_than between all adjacent tiers)?
+    □ All SEVERITY_LEVEL → RESPONSE_ACTION mandatory actions captured?
+    □ All RESPONSE_ACTION → NOTIFICATION_CONTACT notification links captured?
+    □ INCIDENT_TYPE → INCIDENT_TYPE subtype relationships captured?
+    □ rel_type values are consistent across document?
+    □ Direction is correct (INCIDENT classified_at SEVERITY, not reverse)?
+    □ Bidirectional flag is correct?
+
+  Extract all meaningful relationships between the __list_of_entities__ from the __text__ below.
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __list_of_entities__
+  {entities_list}
+
+  __text__
+  {text}

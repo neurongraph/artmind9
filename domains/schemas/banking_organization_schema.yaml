@@ -1,0 +1,374 @@
+name: banking_organization
+description: Organizational structure, business ontology, technology systems, and governance model documents for FirstUK Bank — covering departments, executive roles, core banking applications, ontology entity definitions, and operational metrics.
+
+entities_prompt: |
+  You are a Knowledge Graph extraction engine specialised in banking organisation analysis.
+  Your job is to read a passage from a FirstUK Bank internal document and identify all significant entities.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ENTITY TYPES YOU MUST EXTRACT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Use ONLY these entity_classes. However, you can add more to the type values than the examples provided here.
+
+  ORGANIZATIONAL_UNIT
+    Any department, business unit, committee, board, or governance body — internal or external — that plays a structural role. Include cross-functional committees, regulatory authorities, and external agencies as well as internal departments.
+    example type values: department | business_unit | committee | board | regulatory_body | external_agency | team | office
+
+  ROLE_PERSON
+    Named leadership roles (C-suite, directors, department heads, managers) and any individual employees specifically named. Focus on roles that carry defined accountability, authority, or reporting relationships. Include both the role title and the person when both are stated.
+    example type values: c_suite | director | department_head | manager | specialist | board_member | regulator_liaison | auditor
+
+  SYSTEM_APPLICATION
+    Any technology system, platform, or digital application operated by or integrated with FirstUK Bank. Include core banking systems, customer-facing channels, supporting tools, and external infrastructure systems. Capture the system's purpose and technical identity.
+    example type values: core_banking | payment_processor | fraud_detection | internet_banking | mobile_banking | analytics | crm | document_management | regulatory_reporting | api_gateway | message_queue | database | caching_layer
+
+  BANKING_CONCEPT
+    A core domain entity type as defined in the FirstUK Bank business ontology — conceptual building blocks such as Customer, Account, Transaction, Product, KYC Verification, AML Screening, SAR, Fraud Alert. Extract these when the text defines, describes, or specifies rules about the concept itself, not just mentions it in passing.
+    example type values: party | customer | account | product | transaction | card | standing_order | direct_debit | kyc_verification | aml_screening | sar | fraud_alert | address | identification_document | interest_rate | feature | account_holder | employee | department
+
+  METRIC_TARGET
+    A quantitative performance target, SLA, risk threshold, budget figure, headcount, or operational KPI. Extract the figure and what it measures together. Include both targets and actuals when stated.
+    example type values: sla | kpi | risk_threshold | budget | headcount | capacity | availability_target | response_time | processing_rate | ratio
+
+  BUSINESS_RULE
+    A constraint, decision authority, operational rule, regulatory obligation, or approval threshold that governs how the bank or its systems must behave. Include both hard constraints (cannot be violated) and governance rules (who must approve what).
+    example type values: constraint | decision_authority | regulatory_obligation | approval_threshold | compliance_requirement | control | data_rule | operational_limit
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXTRACTION RULES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. COMPLETENESS OVER PRECISION
+     When in doubt whether something qualifies, include it.
+     It is easier to remove an entity in validation than to recover a missed one.
+
+  2. CANONICAL NAMES
+     Use the most complete, formal name as the entity name.
+     Store abbreviations and informal names in aliases.
+     RIGHT:   { "name": "Account Management System", "aliases": ["AMS", "AMS-001"] }
+     WRONG:   { "name": "AMS" }
+
+  3. DESCRIPTION QUALITY
+     Write descriptions as a knowledgeable banking architect would.
+     Be specific to THIS document's content — state the entity's role, function, or definition as the document presents it. Do not write generic definitions.
+
+  4. CONTEXT SNIPPETS
+     Extract 2–4 verbatim quotes from the text that best characterise this entity.
+     Preserve exact wording. These are used for RAG enrichment.
+
+  5. DO NOT HALLUCINATE
+     Only extract what is in the text. If a property is unknown, omit it.
+     Never invent attributes, SLAs, or relationships not stated in the passage.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT FORMAT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of entity objects:
+
+  {
+    "id":                string,   // generate as {type_abbr}_{sequence}
+                                   // e.g., "org_001", "rol_002", "sys_003", "bnk_004", "met_005", "rul_006"
+    "name":              string,   // canonical name
+    "aliases":           array,    // abbreviations and alternate names
+    "entity_class":      string,   // ORGANIZATIONAL_UNIT | ROLE_PERSON | SYSTEM_APPLICATION | BANKING_CONCEPT | METRIC_TARGET | BUSINESS_RULE
+    "type":              string,   // the subtype from lists above
+    "description":       string,   // 2–4 sentence summary specific to this document
+    "context":           array,    // verbatim text snippets where entity appears
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ All named departments, committees, and regulatory bodies captured?
+    □ All named systems and platforms captured with their system IDs?
+    □ All ontology entity type definitions captured as BANKING_CONCEPT?
+    □ All quantitative SLAs, KPIs, and budget figures captured as METRIC_TARGET?
+    □ Key constraints and decision authorities captured as BUSINESS_RULE?
+    □ Canonical names used consistently (not abbreviations)?
+    □ Context snippets are verbatim from text?
+    □ Every entity genuinely significant (no noise)?
+
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __text__
+
+  {text}
+
+properties_prompt: |
+  You are a Knowledge Graph extraction engine specialised in banking organisation analysis.
+  Your job is to read a FirstUK Bank document passage and enrich the provided entities with detailed properties based on the text.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  PROPERTIES MAP GUIDANCE:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  There is NO fixed schema for properties. You decide what matters based on
+  the entity's role in the document.
+
+  Ask yourself: "If a banking architect or staff member asked a question about this
+  entity, what structured facts from this document would help answer it?"
+
+  For ORGANIZATIONAL_UNIT, consider:
+    - mission (stated purpose or mission)
+    - headcount (number of staff)
+    - location (office or branch location)
+    - reporting_to (immediate parent unit)
+    - key_functions (list of primary activities)
+    - meeting_frequency (for committees)
+    - chair_or_head (role leading the unit)
+    - members (for committees — list of roles)
+    - regulatory_responsibilities (compliance obligations if stated)
+    - cross_functional_interfaces (other units it regularly works with)
+
+  For ROLE_PERSON, consider:
+    - reports_to (direct reporting line)
+    - key_responsibilities (list)
+    - department_or_unit (where they sit)
+    - accountable_for (what outcomes they own)
+    - decision_authority (what they can approve)
+    - appointment_type (executive | manager | director | board)
+
+  For SYSTEM_APPLICATION, consider:
+    - system_id (e.g., AMS-001)
+    - purpose (what the system does)
+    - technology_stack (languages, databases, frameworks)
+    - deployment (cloud | on-premises | hybrid)
+    - availability_sla (uptime target)
+    - key_features (list of major capabilities)
+    - apis_exposed (list of API endpoint paths if stated)
+    - integrations (systems it connects to)
+    - data_stored (key data entities it holds)
+    - performance (latency, throughput, response time targets)
+    - security_controls (authentication, encryption methods)
+
+  For BANKING_CONCEPT, consider:
+    - definition (how the ontology defines it)
+    - key_attributes (list of important fields/attributes)
+    - subtypes (variants of this concept)
+    - business_rules (constraints that apply)
+    - relationships_to (other banking concepts it links to)
+    - regulatory_significance (why it matters for compliance)
+    - example (a concrete example instance if given)
+    - ontology_domain (which of the 6 ontology domains it belongs to)
+
+  For METRIC_TARGET, consider:
+    - value (the number or target)
+    - unit (percentage | hours | days | GBP | count | ratio)
+    - what_it_measures (plain-language description)
+    - owner (who is accountable for this metric)
+    - frequency (how often measured or reported)
+    - actual_value (current actual if stated alongside target)
+    - context (why this metric matters)
+
+  For BUSINESS_RULE, consider:
+    - rule_statement (the rule in plain language)
+    - rule_type (constraint | authority | obligation | threshold)
+    - applies_to (which entities or processes it governs)
+    - enforcement (who enforces it)
+    - regulatory_source (if derived from FCA, PRA, GDPR, etc.)
+    - consequence (what happens if violated)
+    - exception_process (how exceptions are handled if stated)
+
+  KEY RULES FOR PROPERTIES:
+    1. Use clear, readable key names (e.g., "key_functions" not "kf")
+    2. Use arrays for multiple values
+    3. Use nested objects only when genuinely needed
+    4. Omit a property entirely rather than writing null or "unknown"
+    5. Values should be specific to THIS document, not generic definitions
+    6. Keep individual values concise
+    7. If a property feels forced or uncertain, leave it out
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of objects:
+  {
+    "id":            string,   // entity id from input
+    "name":          string,   // entity name from input
+    "properties":    object,   // enriched properties map
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Example of extracted "properties":
+  "properties": {
+    "system_id": "FDE-001",
+    "purpose": "Real-time detection and prevention of fraudulent transactions",
+    "technology_stack": ["Python", "Apache Kafka", "TensorFlow"],
+    "deployment": "Cloud (AWS) + on-premises (for sensitive rules)",
+    "availability_sla": "99.9%",
+    "key_features": ["transaction risk scoring", "ML anomaly detection", "card fraud prevention"],
+    "integrations": ["Account Management System", "Internet Banking Platform", "Payment Processing System"],
+    "performance": { "latency": "<100ms per transaction", "detection_rate": "97%+" }
+  }
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ No hallucinated properties?
+    □ Properties genuinely useful — not just restating the entity name?
+    □ SYSTEM_APPLICATION entities include system_id, technology_stack, integrations?
+    □ BANKING_CONCEPT entities include definition, key_attributes, business_rules?
+    □ METRIC_TARGET entities include value, unit, what_it_measures?
+
+  Extract properties for the following __list_of_entities__ from the __text__ below.
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __list_of_entities__
+  {entities_list}
+
+  __text__
+  {text}
+
+relationships_prompt: |
+  You are a Knowledge Graph extraction engine specialised in banking organisation analysis.
+  Your job is to identify and extract all meaningful relationships between entities in a FirstUK Bank document.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  RELATIONSHIP STRUCTURE:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  All relationships must follow this pattern:
+  (EntityA)-[RELATES_TO {
+    rel_type:      string  (semantic classifier, e.g., "reports_to", "integrates_with", "governs")
+    description:   string  (human-readable summary of this specific relationship)
+    properties:    object  (flexible, rel_type-specific details)
+  }]->(EntityB)
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  COMMON rel_type VALUES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ORGANIZATIONAL_UNIT ↔ ORGANIZATIONAL_UNIT:
+    contains, reports_to, oversees, collaborates_with, governed_by, part_of,
+    chaired_by, provides_oversight_to, escalates_to, interfaces_with
+
+  ORGANIZATIONAL_UNIT ↔ ROLE_PERSON:
+    headed_by, employs, chaired_by, has_member, overseen_by, managed_by
+
+  ORGANIZATIONAL_UNIT ↔ SYSTEM_APPLICATION:
+    owns, operates, depends_on, provides_to, uses, responsible_for_availability
+
+  ORGANIZATIONAL_UNIT ↔ BANKING_CONCEPT:
+    responsible_for, manages, governs, performs, monitors, reviews, approves
+
+  ORGANIZATIONAL_UNIT ↔ METRIC_TARGET:
+    measured_by, accountable_for, tracks, owns_sla
+
+  ORGANIZATIONAL_UNIT ↔ BUSINESS_RULE:
+    enforces, governed_by, owns_policy, subject_to
+
+  ROLE_PERSON ↔ ROLE_PERSON:
+    reports_to, manages, works_with, chairs, advises
+
+  ROLE_PERSON ↔ ORGANIZATIONAL_UNIT:
+    leads, sits_on, chairs, member_of, reports_into
+
+  ROLE_PERSON ↔ SYSTEM_APPLICATION:
+    owns, administers, accountable_for
+
+  ROLE_PERSON ↔ BANKING_CONCEPT:
+    approves, reviews, performs, oversees, accountable_for
+
+  ROLE_PERSON ↔ METRIC_TARGET:
+    accountable_for, reports_on, owns
+
+  SYSTEM_APPLICATION ↔ SYSTEM_APPLICATION:
+    integrates_with, calls_api, subscribes_to, publishes_to, depends_on,
+    feeds_data_to, validates_via, triggers, replaces
+
+  SYSTEM_APPLICATION ↔ BANKING_CONCEPT:
+    stores, processes, validates, records, manages, exposes_api_for, tracks
+
+  SYSTEM_APPLICATION ↔ BUSINESS_RULE:
+    enforces, implements, subject_to
+
+  BANKING_CONCEPT ↔ BANKING_CONCEPT:
+    extends, has_subtype, linked_to, triggers, governs, has_relationship_to,
+    required_before, part_of, instantiates
+
+  BANKING_CONCEPT ↔ BUSINESS_RULE:
+    governed_by, constrains, defines, enforces, derives_from
+
+  BANKING_CONCEPT ↔ METRIC_TARGET:
+    measured_by, quantified_by
+
+  BUSINESS_RULE ↔ ORGANIZATIONAL_UNIT:
+    applies_to, enforced_by, approved_by
+
+  METRIC_TARGET ↔ ORGANIZATIONAL_UNIT:
+    owned_by, reported_to
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXTRACTION RULES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. EXPLICIT AND IMPLICIT
+     Extract both directly stated relationships ("Technology department owns AMS")
+     and those clearly implied by context ("FDE feeds data to DW" from integration diagrams).
+
+  2. MULTIPLE EDGES ALLOWED
+     If two entities have multiple distinct relationships, create multiple edges.
+     E.g., Risk department both OVERSEES FraudAlert (concept) and MANAGES FDE (system).
+
+  3. SYSTEM INTEGRATION IS CORE
+     For SYSTEM_APPLICATION documents, the most important graph structure is:
+     SYSTEM integrates_with SYSTEM, SYSTEM stores BANKING_CONCEPT, SYSTEM enforces BUSINESS_RULE.
+     Always look for these chains.
+
+  4. REPORTING LINES
+     For org documents, capture every ROLE_PERSON ↔ ROLE_PERSON reports_to relationship stated.
+     These are primary navigation paths for org queries.
+
+  5. PROPERTIES MAP
+     The properties object is flexible and rel_type-specific. Examples:
+
+     For "integrates_with": { integration_type: "async_event | sync_api | batch", protocol: string, event_topic: string }
+     For "reports_to": { reporting_type: "direct | dotted_line | functional", frequency: string }
+     For "governed_by": { regulation: string, obligation_type: string }
+     For "measured_by": { target_value: string, actual_value: string, frequency: string }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of relationship objects:
+
+  {
+    "source_id":     string,  // id of EntityA
+    "source_name":   string,  // name of EntityA
+    "target_id":     string,  // id of EntityB
+    "target_name":   string,  // name of EntityB
+    "rel_type":      string,  // semantic classifier
+    "description":   string,  // human-readable summary
+    "properties":    object,  // rel_type-specific properties
+    "context":       string,  // verbatim text context from which relationship is derived
+    "bidirectional": boolean  // is this relationship two-way?
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ Does each entity have AT LEAST one relationship?
+    □ All system integration paths captured (SYSTEM ↔ SYSTEM)?
+    □ All reporting lines captured (ROLE_PERSON reports_to ROLE_PERSON)?
+    □ All BANKING_CONCEPT → BUSINESS_RULE governance links captured?
+    □ ORGANIZATIONAL_UNIT → SYSTEM_APPLICATION ownership captured?
+    □ rel_type values are consistent across document?
+    □ Descriptions are specific to this relationship instance?
+    □ Direction of relationships is correct (reporter → reportee, not reverse)?
+    □ Bidirectional flag is correct?
+
+  Extract all meaningful relationships between the __list_of_entities__ from the __text__ below.
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __list_of_entities__
+  {entities_list}
+
+  __text__
+  {text}

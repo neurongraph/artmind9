@@ -1,0 +1,372 @@
+name: banking_sop_guides
+description: Standard Operating Procedures, step-by-step process guides, and escalation matrices for FirstUK Bank operational workflows — covering account opening, KYC verification, AML screening, account closure, standing orders, direct debits, change of address, and exception handling.
+
+entities_prompt: |
+  You are a Knowledge Graph extraction engine specialised in banking operational procedure analysis.
+  Your job is to read a passage from a FirstUK Bank SOP or guide document and identify all significant entities.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ENTITY TYPES YOU MUST EXTRACT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Use ONLY these entity_classes. However, you can add more to the type values than the examples provided here.
+
+  PROCESS
+    A named end-to-end procedure, SOP, or operational workflow — the whole thing as a unit. Extract it once, including its purpose, scope, channel, and timeline. Each distinct named process is a separate entity (e.g., "Account Opening Process" and "KYC Verification Process" are separate).
+    example type values: account_opening | kyc_verification | aml_screening | account_closure | standing_order_setup | direct_debit_setup | escalation_procedure | change_of_address | exception_handling | fraud_investigation | complaint_resolution
+
+  PROCESS_STEP
+    A discrete, named action or stage within a process — something that gets done by a specific actor at a specific point. Each numbered or bulleted step that represents a distinct action or review stage is a separate entity. Do not collapse multiple distinct steps into one.
+    example type values: data_collection | document_verification | identity_check | address_verification | system_recording | risk_assessment | approval_decision | notification | quality_check | card_issuance | account_activation | investigation | reporting
+
+  ROLE_ACTOR
+    A person, team, or system responsible for executing process steps, making decisions, or receiving notifications. Include both human roles (Branch Staff, Compliance Officer) and automated actors (Fraud Detection Engine, AML System) when they perform process actions. Name the role as stated in the document.
+    example type values: branch_staff | compliance_staff | operations_staff | customer_service | branch_manager | department_head | financial_crime_team | executive_committee | automated_system | external_regulator | customer
+
+  DECISION_POINT
+    A branching condition in a process where different paths are taken depending on the outcome — an approve/reject gate, a risk level split, an escalation trigger, or a pass/fail check. Capture what is being decided and what each outcome path leads to.
+    example type values: approve_reject | escalate_or_resolve | pass_fail | risk_level_gate | authority_limit_check | exception_trigger | fraud_flag | compliance_gate | timeout_check
+
+  ESCALATION_LEVEL
+    A defined tier in an escalation matrix with specific authority, approval limits, response time, and ownership. Each numbered level (Level 1, Level 2, etc.) is a separate entity.
+    example type values: frontline | supervisor | department_head | executive | board | regulator | financial_ombudsman | law_enforcement
+
+  COMPLIANCE_CHECKPOINT
+    A mandatory regulatory or policy control that must be satisfied during a process — a requirement that has external legal or regulatory force. These span multiple processes (KYC appears in account opening, re-verification, joint account setup). Capture the checkpoint name, the regulation it satisfies, and the evidence or system required.
+    example type values: kyc_check | aml_screening | pep_screening | sanctions_check | risk_classification | data_protection_check | fraud_check | sar_filing | regulatory_reporting | document_retention
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXTRACTION RULES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. COMPLETENESS OVER PRECISION
+     When in doubt whether something qualifies, include it.
+     It is easier to remove an entity in validation than to recover a missed one.
+
+  2. CANONICAL NAMES
+     Use the most complete, formal name as the entity name.
+     Store abbreviations and informal names in aliases.
+     RIGHT:   { "name": "KYC Document Verification Step", "aliases": ["Step 2", "Document Check"] }
+     WRONG:   { "name": "Step 2" }
+     For ESCALATION_LEVEL: include the level number and authority in the name.
+     RIGHT:   { "name": "Level 2 — Supervisor/Manager Resolution" }
+
+  3. DESCRIPTION QUALITY
+     Write descriptions as an operations analyst would — specific to what THIS document says about how the step, role, or checkpoint works. Include timelines, channels, and conditions when stated.
+
+  4. CONTEXT SNIPPETS
+     Extract 2–4 verbatim quotes from the text that best characterise this entity.
+     Preserve exact wording. These are used for RAG enrichment.
+
+  5. DO NOT HALLUCINATE
+     Only extract what is in the text. Never invent steps, roles, or timelines not present in the passage.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT FORMAT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of entity objects:
+
+  {
+    "id":                string,   // generate as {type_abbr}_{sequence}
+                                   // e.g., "prc_001", "stp_002", "rol_003", "dec_004", "esc_005", "chk_006"
+    "name":              string,   // canonical name (descriptive, not just "Step 1")
+    "aliases":           array,    // step numbers, document IDs, alternate labels
+    "entity_class":      string,   // PROCESS | PROCESS_STEP | ROLE_ACTOR | DECISION_POINT | ESCALATION_LEVEL | COMPLIANCE_CHECKPOINT
+    "type":              string,   // the subtype from lists above
+    "description":       string,   // 2–4 sentence summary specific to this document
+    "context":           array,    // verbatim text snippets where entity appears
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ The overall process captured as a PROCESS entity?
+    □ Each distinct named step captured as a PROCESS_STEP?
+    □ All roles performing or approving steps captured as ROLE_ACTOR?
+    □ All branch points and approval gates captured as DECISION_POINT?
+    □ Each escalation tier captured as a separate ESCALATION_LEVEL?
+    □ All regulatory checks (KYC, AML, sanctions) captured as COMPLIANCE_CHECKPOINT?
+    □ Canonical names are descriptive, not just step numbers?
+    □ Context snippets are verbatim from text?
+    □ Every entity genuinely significant (no noise)?
+
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __text__
+
+  {text}
+
+properties_prompt: |
+  You are a Knowledge Graph extraction engine specialised in banking operational procedure analysis.
+  Your job is to read a FirstUK Bank SOP or guide document passage and enrich the provided entities with detailed properties based on the text.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  PROPERTIES MAP GUIDANCE:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  There is NO fixed schema for properties. You decide what matters based on
+  the entity's role in the document.
+
+  Ask yourself: "If a compliance officer or branch manager needed to understand or execute
+  this entity, what structured facts from this document would help them?"
+
+  For PROCESS, consider:
+    - document_id (e.g., ACCT-OPEN-SOP-001)
+    - purpose (stated goal of the process)
+    - scope (what it applies to — products, channels, customer types)
+    - channels (branch | online | postal)
+    - owner (role responsible for the process)
+    - departments_involved (list)
+    - timeline_sla (expected completion time)
+    - regulatory_references (list of regulations it satisfies)
+    - trigger (what initiates the process)
+    - outcome_success (what success looks like)
+    - outcome_failure (what failure leads to)
+
+  For PROCESS_STEP, consider:
+    - step_number (ordinal position in the process)
+    - actor (who performs this step)
+    - input (what information or artifact is needed)
+    - output (what is produced)
+    - estimated_duration (time for this step)
+    - channel (branch | online | system | manual)
+    - mandatory (yes/no)
+    - tools_or_systems (systems used in this step)
+    - failure_path (what happens if this step fails)
+
+  For ROLE_ACTOR, consider:
+    - role_type (human | system | external)
+    - department (which department this role belongs to)
+    - authority_level (what decisions they can make)
+    - approval_limit (financial or operational limit)
+    - response_time_sla (expected response time in this context)
+    - channels (how they interact — phone | branch | system | email)
+
+  For DECISION_POINT, consider:
+    - decision_question (what is being decided)
+    - criteria (what determines the outcome)
+    - decision_maker (who or what makes the decision)
+    - path_yes (what happens on approval/pass)
+    - path_no (what happens on rejection/fail)
+    - override_possible (can a higher authority override the decision)
+    - time_limit (how long before escalation)
+
+  For ESCALATION_LEVEL, consider:
+    - level_number (1, 2, 3, 4, etc.)
+    - authority (role with authority at this level)
+    - approval_limit (financial ceiling, e.g., "£500–£5,000")
+    - response_time (SLA for resolution at this level)
+    - examples (types of issues handled at this level)
+    - escalation_trigger (condition that causes escalation to NEXT level)
+    - escalates_to (the next level up)
+
+  For COMPLIANCE_CHECKPOINT, consider:
+    - checkpoint_name (formal name)
+    - regulatory_basis (FCA COBS, MLR 2017, GDPR, POCA, etc.)
+    - mandatory (yes — always required, or conditional)
+    - applies_to_channels (branch | online | all)
+    - evidence_required (what documents or system records are needed)
+    - performed_by (role responsible)
+    - timing (when in the process it must occur)
+    - refresh_frequency (if periodic — e.g., every 3–5 years for KYC)
+    - failure_consequence (what happens if checkpoint fails)
+    - system_used (which system records the checkpoint)
+
+  KEY RULES FOR PROPERTIES:
+    1. Use clear, readable key names (e.g., "regulatory_basis" not "reg_b")
+    2. Use arrays for multiple values
+    3. Use nested objects only when genuinely needed
+    4. Omit a property entirely rather than writing null or "unknown"
+    5. Values should be specific to THIS document, not generic definitions
+    6. Keep individual values concise
+    7. If a property feels forced or uncertain, leave it out
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of objects:
+  {
+    "id":            string,   // entity id from input
+    "name":          string,   // entity name from input
+    "properties":    object,   // enriched properties map
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Example of extracted "properties":
+  "properties": {
+    "level_number": 2,
+    "authority": "Supervisor, Branch Manager, Complaints Handler",
+    "approval_limit": "£500–£5,000",
+    "response_time": "1–3 business days",
+    "examples": ["complaint investigation", "non-standard fee reversal", "customer retention offer"],
+    "escalation_trigger": "unresolved or financial impact >£5,000",
+    "escalates_to": "Level 3 — Department Head Resolution"
+  }
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ No hallucinated properties?
+    □ PROCESS entities include document_id, scope, timeline_sla?
+    □ ESCALATION_LEVEL entities include level_number, approval_limit, response_time, escalation_trigger?
+    □ COMPLIANCE_CHECKPOINT entities include regulatory_basis, mandatory, evidence_required?
+    □ DECISION_POINT entities include decision_question, path_yes, path_no?
+    □ Properties genuinely useful — not just restating the entity name?
+
+  Extract properties for the following __list_of_entities__ from the __text__ below.
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __list_of_entities__
+  {entities_list}
+
+  __text__
+  {text}
+
+relationships_prompt: |
+  You are a Knowledge Graph extraction engine specialised in banking operational procedure analysis.
+  Your job is to identify and extract all meaningful relationships between entities in a FirstUK Bank SOP or guide document.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  RELATIONSHIP STRUCTURE:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  All relationships must follow this pattern:
+  (EntityA)-[RELATES_TO {
+    rel_type:      string  (semantic classifier, e.g., "contains", "performed_by", "routes_to")
+    description:   string  (human-readable summary of this specific relationship)
+    properties:    object  (flexible, rel_type-specific details)
+  }]->(EntityB)
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  COMMON rel_type VALUES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  PROCESS ↔ PROCESS_STEP:
+    contains, starts_with, ends_with, triggers, includes_optional
+
+  PROCESS ↔ ROLE_ACTOR:
+    owned_by, executed_by, approved_by, notifies
+
+  PROCESS ↔ DECISION_POINT:
+    includes, branches_at, concludes_at
+
+  PROCESS ↔ COMPLIANCE_CHECKPOINT:
+    requires, mandated_to_include, triggered_by
+
+  PROCESS ↔ ESCALATION_LEVEL:
+    routes_to, defined_in
+
+  PROCESS_STEP ↔ PROCESS_STEP:
+    followed_by, preceded_by, triggered_by, parallel_to, alternative_to
+
+  PROCESS_STEP ↔ ROLE_ACTOR:
+    performed_by, reviewed_by, approved_by, notifies, escalated_to
+
+  PROCESS_STEP ↔ DECISION_POINT:
+    leads_to, precedes, results_in
+
+  PROCESS_STEP ↔ COMPLIANCE_CHECKPOINT:
+    satisfies, triggers, records_result_of, required_before
+
+  PROCESS_STEP ↔ ESCALATION_LEVEL:
+    routes_to (on failure)
+
+  DECISION_POINT ↔ PROCESS_STEP:
+    routes_to_on_pass, routes_to_on_fail, triggers
+
+  DECISION_POINT ↔ ROLE_ACTOR:
+    decided_by, escalated_to, overridden_by
+
+  DECISION_POINT ↔ ESCALATION_LEVEL:
+    routes_to, triggers
+
+  ESCALATION_LEVEL ↔ ROLE_ACTOR:
+    handled_by, authorized_by, chaired_by
+
+  ESCALATION_LEVEL ↔ ESCALATION_LEVEL:
+    escalates_to, receives_from
+
+  COMPLIANCE_CHECKPOINT ↔ ROLE_ACTOR:
+    performed_by, reviewed_by, signed_off_by
+
+  COMPLIANCE_CHECKPOINT ↔ COMPLIANCE_CHECKPOINT:
+    precedes, required_before, depends_on
+
+  COMPLIANCE_CHECKPOINT ↔ DECISION_POINT:
+    determines_outcome_of, gates, triggers
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXTRACTION RULES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. EXPLICIT AND IMPLICIT
+     Extract both directly stated relationships ("KYC performed by Compliance Staff")
+     and those clearly implied by process flow diagrams ("Step 3 → Step 4" means followed_by).
+
+  2. PROCESS FLOW CHAIN IS CORE
+     For SOP documents, the most important structure is:
+     PROCESS contains PROCESS_STEP, STEP followed_by STEP, STEP performed_by ROLE, STEP leads_to DECISION.
+     Always capture the full sequence chain.
+
+  3. MULTIPLE EDGES ALLOWED
+     A process step can be performed_by multiple roles or satisfied by multiple compliance checkpoints.
+     Create a separate edge for each.
+
+  4. ESCALATION CHAINS
+     For escalation matrices, always capture the full chain:
+     LEVEL escalates_to LEVEL (across all levels). This is how queries like
+     "who handles an unresolved £10,000 dispute?" can be answered.
+
+  5. PROPERTIES MAP
+     The properties object is flexible and rel_type-specific. Examples:
+
+     For "followed_by": { condition: string, channel: "branch | online | all", timeline: string }
+     For "performed_by": { mandatory: boolean, channel: string, authority_required: string }
+     For "routes_to": { condition: string, trigger: string }
+     For "escalates_to": { trigger_condition: string, financial_threshold: string }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of relationship objects:
+
+  {
+    "source_id":     string,  // id of EntityA
+    "source_name":   string,  // name of EntityA
+    "target_id":     string,  // id of EntityB
+    "target_name":   string,  // name of EntityB
+    "rel_type":      string,  // semantic classifier
+    "description":   string,  // human-readable summary
+    "properties":    object,  // rel_type-specific properties
+    "context":       string,  // verbatim text context from which relationship is derived
+    "bidirectional": boolean  // is this relationship two-way?
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ Does each entity have AT LEAST one relationship?
+    □ Full process step sequence captured (STEP followed_by STEP)?
+    □ All STEP → ROLE_ACTOR assignments captured?
+    □ All DECISION_POINT → path relationships captured (both pass and fail paths)?
+    □ All ESCALATION_LEVEL escalates_to chains captured end-to-end?
+    □ All COMPLIANCE_CHECKPOINT → DECISION_POINT gate relationships captured?
+    □ rel_type values are consistent across document?
+    □ Descriptions are specific to this relationship instance?
+    □ Direction is correct (PROCESS contains STEP, not STEP contains PROCESS)?
+    □ Bidirectional flag is correct?
+
+  Extract all meaningful relationships between the __list_of_entities__ from the __text__ below.
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __list_of_entities__
+  {entities_list}
+
+  __text__
+  {text}
