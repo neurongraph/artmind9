@@ -1,0 +1,3058 @@
+[
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_001",
+    "name": "Sherlock Holmes",
+    "aliases": [
+      "Holmes",
+      "Mr. Holmes"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "protagonist",
+    "description": "A consulting detective who values logical deduction and impersonal logic over sensational crime narratives. He engages in a philosophical debate with Watson about the nature of his work and his client records, ultimately demonstrating his deductive prowess by anticipating the arrival of his next client.",
+    "context": [
+      "'o the man who loves art for its own sake,' remarked Sherlock Holmes, tossing aside the advertisement sheet of the Daily Telegraph , 'it is frequently in its least important and lowliest manifestations that the keenest pleasure is to be derived.'",
+      "'Crime is common. Logic is rare. Therefore it is upon the logic rather than upon the crime that you should dwell.'",
+      "'You remember that the affair of the blue carbuncle, which appeared to be a mere whim at first, developed into a serious investigation.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_002",
+    "name": "Dr. Watson",
+    "aliases": [
+      "Watson",
+      "my dear fellow",
+      "I"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "The narrator and chronicler of Holmes's cases, who defends his literary style against Holmes's criticism of sensationalism. He serves as a foil to Holmes's cold logic, occasionally feeling repelled by his friend's egotism while ultimately deferring to his deductive methods.",
+    "context": [
+      "'I cannot quite hold myself absolved from the charge of sensationalism which has been urged against my records.'",
+      "'It seems to me that I have done you full justice in the matter,' I remarked with some coldness, for I was repelled by the egotism which I had more than once observed to be a strong factor in my friend's singular character.",
+      "'Well, let us hope so. But our doubts will very soon be solved, for here, unless I am much mistaken, is the person in question.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_003",
+    "name": "Violet Hunter",
+    "aliases": [
+      "Miss Hunter",
+      "Violet"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "A young governess seeking Holmes's advice on whether to accept a new employment situation. Her arrival marks the transition from philosophical debate to active investigation, introducing a new case that Holmes anticipates with keen interest.",
+    "context": [
+      "'I am very anxious to consult you as to whether I should or should not accept a situation which has been offered to me as governess.'",
+      "'You will excuse my troubling you, I am sure,' said she, as my companion rose to greet her, 'but I have had a very strange experience, and as I have no parents or relations of any sort from whom I could ask advice, I thought that perhaps you would be kind enough to tell me what I should do.'",
+      "'I have been a governess for five years,' said she, 'in the family of Colonel Spence Munro, but two months ago the colonel received an appointment at Halifax, in Nova Scotia, and took his children over to America with him, so that I found myself without a situation.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_004",
+    "name": "Colonel Spence Munro",
+    "aliases": [
+      "Colonel Munro"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "A former employer of Violet Hunter who recently received a military appointment in Nova Scotia, prompting his family's relocation to America and leaving Hunter unemployed. He serves as the initial catalyst for Hunter's consultation with Holmes.",
+    "context": [
+      "'I have been a governess for five years,' said she, 'in the family of Colonel Spence Munro, but two months ago the colonel received an appointment at Halifax, in Nova Scotia, and took his children over to America with him, so that I found myself without a situation.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_005",
+    "name": "Miss Stoper",
+    "aliases": [
+      "Stoper"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "The manager of Westaway's governess agency, who oversees the placement of employment for women seeking work. She is briefly mentioned as the operational head of the agency where Hunter seeks employment.",
+    "context": [
+      "'Westaway was the name of the founder of the business, but it is really managed by Miss Stoper.'",
+      "'She sits in her own little office, and the ladies who are seeking employment wait in an anteroom, and are then shown in one by one, when she consults her ledgers and sees whether she has anything which would suit them.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_006",
+    "name": "King of Bohemia",
+    "aliases": [
+      "King of Bohemia"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "A historical client referenced by Holmes to illustrate a case outside the pale of the law. His mention serves as an example of the non-criminal, singular experiences that Holmes considers worthy of documentation.",
+    "context": [
+      "'The small matter in which I endeavoured to help the King of Bohemia, the singular experience of Miss Mary Sutherland, the problem connected with the man with the twisted lip, and the incident of the noble bachelor, were all matters which are outside the pale of the law.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_007",
+    "name": "Miss Mary Sutherland",
+    "aliases": [
+      "Mary Sutherland"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "A former client whose singular experience Holmes cites alongside the King of Bohemia. She represents one of the non-legal, personal cases that Holmes believes demonstrate the value of his methods.",
+    "context": [
+      "'The small matter in which I endeavoured to help the King of Bohemia, the singular experience of Miss Mary Sutherland, the problem connected with the man with the twisted lip, and the incident of the noble bachelor, were all matters which are outside the pale of the law.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_loc_001",
+    "name": "Baker Street",
+    "aliases": [
+      "Baker Street",
+      "old room at Baker Street"
+    ],
+    "entity_class": "LOCATION",
+    "type": "residence",
+    "description": "The shared residence of Holmes and Watson, depicted as a foggy, gas-lit room where they sit by a fire after breakfast. It serves as the primary setting for their philosophical debate and the subsequent arrival of their client.",
+    "context": [
+      "It was a cold morning of the early spring, and we sat after breakfast on either side of a cheery fire in the old room at Baker Street.",
+      "A thick fog rolled down between the lines of dun-coloured houses, and the opposing windows loomed like dark, shapeless blurs through the heavy yellow wreaths."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_loc_002",
+    "name": "Montague Place",
+    "aliases": [
+      "Montague Place"
+    ],
+    "entity_class": "LOCATION",
+    "type": "region",
+    "description": "The location from which Violet Hunter's consultation letter was sent. It establishes the geographical origin of her request for Holmes's expertise.",
+    "context": [
+      "It was dated from Montague Place upon the preceding evening, and ran thus:"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_loc_003",
+    "name": "Halifax, Nova Scotia",
+    "aliases": [
+      "Halifax",
+      "Nova Scotia"
+    ],
+    "entity_class": "LOCATION",
+    "type": "region",
+    "description": "A distant location in America where Colonel Munro has been appointed, causing the displacement of his household and the subsequent unemployment of his governess. It functions as a geographical backdrop to the client's predicament.",
+    "context": [
+      "'I have been a governess for five years,' said she, 'in the family of Colonel Spence Munro, but two months ago the colonel received an appointment at Halifax, in Nova Scotia, and took his children over to America with him, so that I found myself without a situation.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_loc_004",
+    "name": "West End",
+    "aliases": [
+      "West End"
+    ],
+    "entity_class": "LOCATION",
+    "type": "city",
+    "description": "A district in London known for housing Westaway's governess agency. It provides the urban setting where Hunter seeks employment and encounters the agency's management.",
+    "context": [
+      "'There is a well-known agency for governesses in the West End called Westaway's, and there I used to call about once a week in order to see whether anything had turned up which might suit them.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_obj_001",
+    "name": "Daily Telegraph",
+    "aliases": [
+      "Daily Telegraph"
+    ],
+    "entity_class": "OBJECT",
+    "type": "document",
+    "description": "A newspaper whose advertisement sheet Holmes discards while discussing the nature of art and deduction. It symbolizes the mundane, lowliest manifestations of information that Holmes typically sifts through.",
+    "context": [
+      "'o the man who loves art for its own sake,' remarked Sherlock Holmes, tossing aside the advertisement sheet of the Daily Telegraph , 'it is frequently in its least important and lowliest manifestations that the keenest pleasure is to be derived.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_obj_002",
+    "name": "Long cherry-wood pipe",
+    "aliases": [
+      "cherry-wood pipe",
+      "pipe"
+    ],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "Holmes's preferred smoking implement, which he lights using a glowing cinder. It serves as a physical prop that accompanies his shift from a meditative to a disputatious mood during his conversation with Watson.",
+    "context": [
+      "'At the same time,' he remarked after a pause, during which he had sat puffing at his long pipe and gazing down into the fire, 'you can hardly be open to a charge of sensationalism...'",
+      "'You have erred perhaps in attempting to put colour and life into each of your statements instead of confining yourself to the task of placing upon record that severe reasoning from cause to effect which is really the only notable feature about the thing.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_obj_003",
+    "name": "Crumpled letter",
+    "aliases": [
+      "letter",
+      "note"
+    ],
+    "entity_class": "OBJECT",
+    "type": "document",
+    "description": "A consultation request from Violet Hunter that Holmes receives that morning. It marks his perceived zero-point of trivial cases but ultimately proves to be the catalyst for a potentially significant investigation.",
+    "context": [
+      "'I think that I have touched bottom at last, however. This note I had this morning marks my zero-point, I fancy. Read it!' He tossed a crumpled letter across to me.",
+      "It was dated from Montague Place upon the preceding evening, and ran thus:"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_obj_004",
+    "name": "Blue carbuncle",
+    "aliases": [
+      "blue carbuncle"
+    ],
+    "entity_class": "OBJECT",
+    "type": "symbolic",
+    "description": "A previously investigated case that initially appeared trivial but evolved into a serious investigation. Holmes cites it as a precedent to suggest that Hunter's seemingly minor consultation may similarly yield deeper significance.",
+    "context": [
+      "'It may turn out to be of more interest than you think. You remember that the affair of the blue carbuncle, which appeared to be a mere whim at first, developed into a serious investigation. It may be so in this case, also.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_evt_001",
+    "name": "Philosophical Debate on Sensationalism",
+    "aliases": [
+      "Debate on sensationalism",
+      "Holmes-Watson debate"
+    ],
+    "entity_class": "EVENT",
+    "type": "conversation",
+    "description": "A lengthy exchange between Holmes and Watson regarding the literary merits of Watson's case records. Holmes criticizes Watson for focusing on sensationalism rather than pure logic, while Watson defends his methods, establishing the thematic tension between art, crime, and deduction.",
+    "context": [
+      "'You have erred perhaps in attempting to put colour and life into each of your statements instead of confining yourself to the task of placing upon record that severe reasoning from cause to effect which is really the only notable feature about the thing.'",
+      "'It seems to me that I have done you full justice in the matter,' I remarked with some coldness, for I was repelled by the egotism which I had more than once observed to be a strong factor in my friend's singular character.",
+      "'No, it is not selfishness or conceit,' said he, answering, as was was his wont, my thoughts rather than my words. 'If I claim full justice for my art, it is because it is an impersonal thing-a thing beyond myself.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_evt_002",
+    "name": "Arrival of Violet Hunter",
+    "aliases": [
+      "Hunter's arrival",
+      "Client consultation"
+    ],
+    "entity_class": "EVENT",
+    "type": "meeting",
+    "description": "The entrance of Violet Hunter into Holmes's residence to seek advice on a new governess position. Her arrival abruptly shifts the narrative from abstract philosophical discussion to concrete case preparation, demonstrating Holmes's predictive accuracy.",
+    "context": [
+      "'It may turn out to be of more interest than you think. You remember that the affair of the blue carbuncle, which appeared to be a mere whim at first, developed into a serious investigation. It may be so in this case, also.'",
+      "'Well, let us hope so. But our doubts will very soon be solved, for here, unless I am much mistaken, is the person in question.'",
+      "As he spoke the door opened and a young lady entered the room. She was plainly but neatly dressed, with a bright, quick face, freckled like a plover's egg, and with the brisk manner of a woman who has had her own way to make in the world."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_org_001",
+    "name": "Westaway's",
+    "aliases": [
+      "Westaway's",
+      "Westaway's agency"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "club",
+    "description": "A well-known employment agency for governesses located in the West End, managed by Miss Stoper. It serves as the institutional backdrop for Hunter's unemployment and the setting where she encounters the agency's staff and a mysterious stout man.",
+    "context": [
+      "'There is a well-known agency for governesses in the West End called Westaway's, and there I used to call about once a week in order to see whether anything had turned up which might suit them.'",
+      "'Westaway was the name of the founder of the business, but it is really managed by Miss Stoper.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_org_002",
+    "name": "Boarding-schools",
+    "aliases": [
+      "boarding-schools"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "institution",
+    "description": "Educational institutions referenced by Holmes as a source of young ladies seeking advice. They represent the declining quality of his clientele, whom he feels his practice is degenerating into serving.",
+    "context": [
+      "'As to my own little practice, it seems to be degenerating into an agency for recovering lost lead pencils and giving advice to young ladies from boarding-schools.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_con_001",
+    "name": "Logic / Deduction",
+    "aliases": [
+      "logic",
+      "deduction",
+      "logical synthesis",
+      "severe reasoning"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "theme",
+    "description": "The core intellectual pursuit that Holmes elevates above crime and sensationalism. He argues that logic is rare and impersonal, representing the true value of his work and the proper focus for Watson's case records.",
+    "context": [
+      "'Crime is common. Logic is rare. Therefore it is upon the logic rather than upon the crime that you should dwell.'",
+      "'placing upon record that severe reasoning from cause to effect which is really the only notable feature about the thing.'",
+      "'Pshaw, my dear fellow, what do the public, the great unobservant public, who could hardly tell a weaver by his tooth or a compositor by his left thumb, care about the finer shades of analysis and deduction!'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_con_002",
+    "name": "Sensationalism",
+    "aliases": [
+      "sensationalism",
+      "sensational trials",
+      "colour and life"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "theme",
+    "description": "A literary and narrative quality that Holmes criticizes Watson for emphasizing. It represents the focus on dramatic, legalistic crime over the subtle, underlying logical processes that Holmes believes constitute true intellectual art.",
+    "context": [
+      "'I cannot quite hold myself absolved from the charge of sensationalism which has been urged against my records.'",
+      "'At the same time,' he remarked after a pause... 'you can hardly be open to a charge of sensationalism, for out of these cases which you have been so kind as to interest yourself in, a fair proportion do not treat of crime, in its legal sense, at all.'",
+      "'Pshaw, my dear fellow, what do the public, the great unobservant public, who could hardly tell a weaver by his tooth or a compositor by his left thumb, care about the finer shades of analysis and deduction!'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_con_003",
+    "name": "Art for its own sake",
+    "aliases": [
+      "art for its own sake",
+      "my art"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "theme",
+    "description": "A philosophical stance introduced by Holmes to frame his approach to deduction. He equates his logical methods with an aesthetic pursuit, suggesting that true pleasure and value are found in the least important manifestations rather than grand spectacles.",
+    "context": [
+      "'o the man who loves art for its own sake,' remarked Sherlock Holmes, tossing aside the advertisement sheet of the Daily Telegraph , 'it is frequently in its least important and lowliest manifestations that the keenest pleasure is to be derived.'",
+      "'If I claim full justice for my art, it is because it is an impersonal thing-a thing beyond myself.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_con_004",
+    "name": "Zero-point",
+    "aliases": [
+      "zero-point",
+      "marks my zero-point"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "concept",
+    "description": "Holmes's metaphorical designation for the absolute bottom of his professional decline, marked by the receipt of Violet Hunter's trivial consultation. It ironically precedes the discovery that the case may hold unexpected depth, subverting his own pessimistic assessment.",
+    "context": [
+      "'I think that I have touched bottom at last, however. This note I had this morning marks my zero-point, I fancy. Read it!'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_char_001",
+    "name": "Miss Hunter",
+    "aliases": [
+      "I",
+      "the narrator",
+      "young lady"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "protagonist",
+    "description": "A destitute governess seeking employment, whose practical needs and personal pride are tested by an unusually lucrative but deeply eccentric job offer. She serves as the narrative voice, recounting her interview and subsequent internal conflict to Mr. Holmes.",
+    "context": [
+      "You may imagine, Mr. Holmes, that to me, destitute as I was, such an offer seemed almost too good to be true.",
+      "I could hardly believe my ears. As you may observe, Mr. Holmes, my hair is somewhat luxuriant, and of a rather peculiar tint of chestnut.",
+      "I began to ask myself whether I had not done a very foolish thing."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_char_002",
+    "name": "Jephro Rucastle",
+    "aliases": [
+      "the gentleman",
+      "Mr. Rucastle",
+      "he"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "A wealthy, enthusiastic employer who offers a high salary for a governess position but insists on bizarre conditions, including cutting the applicant's hair and wearing specific colors indoors. His genial demeanor masks an underlying sense of unnatural control.",
+    "context": [
+      "He seemed quite enthusiastic and rubbed his hands together in the most genial fashion.",
+      "Your salary with me, madam, would commence at £ 100 a year.",
+      "Yours faithfully, ' 'J ephro R ucastle ."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_char_003",
+    "name": "Miss Stoper",
+    "aliases": [
+      "the manageress",
+      "she"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "The sharp, pragmatic manageress of the employment agency who handles the interview and is visibly annoyed by Miss Hunter's refusal of the lucrative offer. She represents the bureaucratic side of the placement process.",
+    "context": [
+      "The manageress had sat all this while busy with her papers without a word to either of us...",
+      "Well, really, it seems rather useless, since you refuse the most excellent offers in this fashion,",
+      "said she sharply.",
+      "She struck a gong upon the table, and I was shown out by the page."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_char_004",
+    "name": "Colonel Spence Munro",
+    "aliases": [],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "The previous employer of Miss Hunter, mentioned only as the source of her prior salary. His name establishes the baseline of Miss Hunter's professional experience and financial desperation.",
+    "context": [
+      "I had £ 4 a month in my last place with Colonel Spence Munro."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_char_005",
+    "name": "Mrs. Rucastle",
+    "aliases": [
+      "the gentleman's wife",
+      "my wife"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "The unseen wife of Jephro Rucastle, whose peculiar tastes and demands drive the unusual conditions of the governess position. Her influence is felt through her husband's insistence on obedience to her whims.",
+    "context": [
+      "Your duty would be, as I am sure your good sense would suggest, to obey any little commands my wife might give...",
+      "My wife is very anxious that you should come, for she has been much attracted by my description of you.",
+      "It is a little fancy of my wife's, and ladies' fancies, you know, madam, ladies' fancies must be consulted."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_char_006",
+    "name": "Alice",
+    "aliases": [
+      "my dear daughter"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "The daughter of Jephro Rucastle, currently residing in Philadelphia. She is referenced as the owner of the electric blue dress offered to Miss Hunter, hinting at a history of similar arrangements.",
+    "context": [
+      "You need not, however, go to the expense of purchasing one, as we have one belonging to my dear daughter Alice (now in Philadelphia)..."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_loc_001",
+    "name": "The Copper Beeches",
+    "aliases": [
+      "the dearest old country-house",
+      "rural place"
+    ],
+    "entity_class": "LOCATION",
+    "type": "residence",
+    "description": "A charming country estate near Winchester where the Rucastle family resides. It serves as the proposed workplace and the focal point of the narrative's growing mystery and tension.",
+    "context": [
+      "Hampshire. Charming rural place. The Copper Beeches, five miles on the far side of Winchester.",
+      "The Copper Beeches, near Winchester."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_loc_002",
+    "name": "Winchester",
+    "aliases": [],
+    "entity_class": "LOCATION",
+    "type": "city",
+    "description": "A city near the Copper Beeches estate, serving as the designated meeting point for the governess's arrival. It acts as a transitional space between Miss Hunter's lodgings and the isolated estate.",
+    "context": [
+      "The Copper Beeches, five miles on the far side of Winchester.",
+      "I shall meet you with the dog-cart at Winchester."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_loc_003",
+    "name": "Philadelphia",
+    "aliases": [],
+    "entity_class": "LOCATION",
+    "type": "city",
+    "description": "A distant city where Alice Rucastle currently resides. Its mention underscores the geographical spread of the family and the origin of the peculiar dress offered to Miss Hunter.",
+    "context": [
+      "now in Philadelphia"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_obj_001",
+    "name": "The Letter",
+    "aliases": [
+      "this letter",
+      "the note"
+    ],
+    "entity_class": "OBJECT",
+    "type": "document",
+    "description": "A follow-up letter from Jephro Rucastle offering an increased salary and reiterating the strange conditions to persuade Miss Hunter to accept the position. It serves as the catalyst for her renewed consideration of the job.",
+    "context": [
+      "I had almost overcome my pride so far as to go back to the agency and inquire whether the place was still open when I received this letter from the gentleman himself.",
+      "I have it here and I will read it to you:"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_obj_002",
+    "name": "The Electric Blue Dress",
+    "aliases": [
+      "such a dress",
+      "one belonging to my dear daughter"
+    ],
+    "entity_class": "OBJECT",
+    "type": "clothing",
+    "description": "A specific garment requested by Mrs. Rucastle for Miss Hunter to wear indoors in the morning. It represents the eccentric demands of the employers and hints at a pattern of control over the governess's appearance.",
+    "context": [
+      "My wife is fond of a particular shade of electric blue and would like you to wear such a dress indoors in the morning.",
+      "You need not, however, go to the expense of purchasing one, as we have one belonging to my dear daughter Alice..."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_obj_003",
+    "name": "The Pocketbook",
+    "aliases": [],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "A personal item used by Jephro Rucastle to produce a bank note as an advance on the salary. Its use underscores the immediacy and legitimacy of the financial offer, masking the underlying strangeness of the transaction.",
+    "context": [
+      "The gentleman, however, seeing perhaps the look of incredulity upon my face, opened a pocketbook and took out a note."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_evt_001",
+    "name": "The Governess Interview",
+    "aliases": [
+      "the interview",
+      "our short interview"
+    ],
+    "entity_class": "EVENT",
+    "type": "meeting",
+    "description": "A tense and unusual job interview where Miss Hunter is offered a lucrative position but faces bizarre demands regarding her appearance and obedience. The event establishes the central conflict and the unsettling nature of the employers.",
+    "context": [
+      "You may imagine, Mr. Holmes, that to me, destitute as I was, such an offer seemed almost too good to be true.",
+      "I could hardly believe my ears. As you may observe, Mr. Holmes, my hair is somewhat luxuriant, and of a rather peculiar tint of chestnut.",
+      "He had been watching me eagerly out of his small eyes, and I could see a shadow pass over his face as I spoke."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_evt_002",
+    "name": "The Salary Negotiation",
+    "aliases": [
+      "the offer",
+      "the transaction"
+    ],
+    "entity_class": "EVENT",
+    "type": "conversation",
+    "description": "A discussion where the salary is raised from a standard rate to an unusually high amount, accompanied by an advance payment and strange conditions. The negotiation highlights the financial desperation of Miss Hunter and the calculated manipulation of the employers.",
+    "context": [
+      "Your salary with me, madam, would commence at £ 100 a year.",
+      "We are willing to give £ 30 a quarter, or £ 120 a year, so as to recompense you for any little inconvenience which our fads may cause you.",
+      "There was something unnatural about the whole transaction which made me wish to know a little more before I quite committed yourself."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_org_001",
+    "name": "The Employment Agency",
+    "aliases": [
+      "the agency",
+      "Miss Stoper's office"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "institution",
+    "description": "A professional bureau run by Miss Stoper that places governesses, serving as the setting for the initial interview and the source of Miss Hunter's address. It functions as the intermediary between the desperate applicant and the eccentric employers.",
+    "context": [
+      "I had almost overcome my pride so far as to go back to the agency and inquire whether the place was still open...",
+      "Miss Stoper has very kindly given me your address, and I write from here to ask you whether you have reconsidered your decision."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_con_001",
+    "name": "The Hair-Cutting Demand",
+    "aliases": [
+      "cut your hair quite short",
+      "ladies' fancies"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "mystery",
+    "description": "An essential but unexplained requirement imposed by the employers, representing the underlying mystery and control exerted over the governess. It serves as a symbolic barrier to Miss Hunter's acceptance of the position.",
+    "context": [
+      "Or to cut your hair quite short before you come to us?",
+      "It is a little fancy of my wife's, and ladies' fancies, you know, madam, ladies' fancies must be consulted.",
+      "I am afraid that it is quite essential,",
+      "said he."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_con_002",
+    "name": "The Strange Fads",
+    "aliases": [
+      "our fads",
+      "eccentricity",
+      "little whim"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "theme",
+    "description": "The peculiar and unexplained behavioral requirements of the Rucastle family, which drive the narrative tension and hint at a darker underlying situation. They represent the theme of hidden control and the commodification of personal autonomy.",
+    "context": [
+      "There was something unnatural about the whole transaction which made me wish to know a little more before I quite committed yourself.",
+      "They are not very exacting, after all.",
+      "We are faddy people, you know-faddy but kind-hearted."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_char_001",
+    "name": "Sherlock Holmes",
+    "aliases": [
+      "Mr. Holmes",
+      "Holmes"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "protagonist",
+    "description": "The consulting detective who analyzes Miss Hunter's dilemma, predicting danger and ultimately traveling to Winchester to investigate. He approaches the case with his characteristic reliance on concrete facts, dismissing aesthetic distractions in favor of logical deduction. His prediction of imminent trouble proves accurate, driving the narrative forward.",
+    "context": [
+      "I confess that it is not the situation which I should like to see a sister of mine apply for.",
+      "Holmes shook his head gravely.",
+      "I am much mistaken if we do not hear from her before many days are past."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_char_002",
+    "name": "Miss Hunter",
+    "aliases": [
+      "Hunter",
+      "Miss Hunter"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "A young woman seeking professional advice regarding a suspicious employment offer from Mr. Rucastle. Driven by financial necessity and growing anxiety, she accepts a high-paying position despite Holmes's reservations. Her urgent telegram later prompts the detectives to intervene in the unfolding mystery.",
+    "context": [
+      "my mind is made up that I will accept it.",
+      "I shall go down to Hampshire quite easy in my mind now.",
+      "I am at my wit's end."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_char_003",
+    "name": "Mr. Rucastle",
+    "aliases": [
+      "Mr. Rucastle"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "A seemingly kind employer whose household presents an inexplicable puzzle to the detectives. The unusual salary and strange conditions of his offer suggest hidden motives, possibly related to a lunatic wife. His character serves as the catalyst for the investigation into the Hampshire estate.",
+    "context": [
+      "Mr. Rucastle seemed to be a very kind, good-natured man.",
+      "sacrifice my poor hair to-night, and start for Winchester to-morrow.",
+      "The unusual salary, the curious conditions, the light duties, all pointed to something abnormal"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_char_004",
+    "name": "Dr. Watson",
+    "aliases": [
+      "I",
+      "my friend",
+      "Watson"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "The narrator and Holmes's companion, who provides a contrasting perspective focused on the beauty of the countryside. He assists Holmes by consulting train timetables and accompanies him on the urgent journey to Winchester. His observations highlight the tension between aesthetic appreciation and criminal suspicion.",
+    "context": [
+      "At least,\" said I as we heard her quick, firm steps descending the stairs, \"she seems to be a young lady who is very well able to take care of herself.\"",
+      "You look at these scattered houses, and you are impressed by their beauty.",
+      "glancing over my Bradshaw."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_char_005",
+    "name": "Mr. Rucastle's wife",
+    "aliases": [
+      "his wife"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "A woman speculated to be suffering from lunacy, whose condition is believed to dictate the strange arrangements at the Rucastle household. Her potential mental state is the primary theory Holmes considers to explain the employer's behavior. She remains an unseen but crucial element of the central mystery.",
+    "context": [
+      "Is it not possible that his wife is a lunatic, that he desires to keep the matter quiet for fear she should be taken to an asylum...",
+      "But in any case it does not seem to be a nice household for a young lady.",
+      "whether a fad or a plot, or whether the man were a philanthropist or a villain, it was quite beyond my powers to determine."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_loc_001",
+    "name": "Winchester",
+    "aliases": [
+      "the old English capital"
+    ],
+    "entity_class": "LOCATION",
+    "type": "city",
+    "description": "A historic city in Hampshire that serves as the designated meeting point for the investigation. Holmes and Miss Hunter plan to convene here to address the escalating danger surrounding her employment. The city acts as a temporary base before the detectives venture into the surrounding countryside.",
+    "context": [
+      "start for Winchester to-morrow.",
+      "Please be at the Black Swan Hotel at Winchester at midday to-morrow...",
+      "By eleven o'clock the next day we were well upon our way to the old English capital."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_loc_002",
+    "name": "Hampshire",
+    "aliases": [
+      "the Hampshire border"
+    ],
+    "entity_class": "LOCATION",
+    "type": "region",
+    "description": "A county characterized by isolated farmsteadings and rolling hills, which Holmes identifies as a breeding ground for hidden crimes. The rural landscape contrasts sharply with urban centers, offering impunity to perpetrators due to a lack of public scrutiny. It is the geographical setting where the central mystery unfolds.",
+    "context": [
+      "I shall go down to Hampshire quite easy in my mind now.",
+      "after we had passed the Hampshire border he threw them down...",
+      "It is the five miles of country which makes the danger."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_loc_003",
+    "name": "Black Swan Hotel",
+    "aliases": [
+      "the Black Swan Hotel"
+    ],
+    "entity_class": "LOCATION",
+    "type": "residence",
+    "description": "A hotel in Winchester where Miss Hunter is summoned to meet the detectives. It serves as the designated rendezvous point for the next phase of the investigation. The location marks the transition from preliminary consultation to active fieldwork.",
+    "context": [
+      "Please be at the Black Swan Hotel at Winchester at midday to-morrow...",
+      "The summons was a brief and urgent one.",
+      "I am at my wit's end."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_loc_004",
+    "name": "Aldershot",
+    "aliases": [
+      "rolling hills around Aldershot"
+    ],
+    "entity_class": "LOCATION",
+    "type": "region",
+    "description": "A nearby area referenced to describe the picturesque countryside surrounding Winchester. Watson uses it to illustrate the fresh, beautiful scenery that contrasts with Holmes's grim observations. It represents the rural landscape that Holmes believes conceals criminal activity.",
+    "context": [
+      "All over the countryside, away to the rolling hills around Aldershot, the little red and grey roofs of the farm-steadings peeped out...",
+      "But Holmes shook his head gravely.",
+      "I look at them, and the only thought which comes to me is a feeling of their isolation..."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_loc_005",
+    "name": "London",
+    "aliases": [
+      "London"
+    ],
+    "entity_class": "LOCATION",
+    "type": "city",
+    "description": "An urban center used by Holmes as a comparative benchmark for understanding crime and justice. He contrasts London's dense population and active public opinion with the isolation of the countryside. The city exemplifies an environment where legal machinery and social pressure effectively deter hidden wickedness.",
+    "context": [
+      "the lowest and vilest alleys in London do not present a more dreadful record of sin than does the smiling and beautiful countryside.",
+      "There is no lane so vile that the scream of a tortured child... does not beget sympathy and indignation...",
+      "the machinery of justice is ever so close that a word of complaint can set it going..."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_obj_001",
+    "name": "The Letter",
+    "aliases": [
+      "that letter"
+    ],
+    "entity_class": "OBJECT",
+    "type": "document",
+    "description": "A job offer received by Miss Hunter that contains suspicious terms and an unusually high salary. It serves as the initial catalyst for her consultation with Holmes and sets the plot in motion. The document's contents hint at a deeper, more sinister arrangement than a standard employment contract.",
+    "context": [
+      "That is the letter which I have just received, Mr. Holmes, and my mind is made up that I will accept it.",
+      "I confess that it is not the situation which I should like to see a sister of mine apply for.",
+      "The unusual salary, the curious conditions, the light duties, all pointed to something abnormal"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_obj_002",
+    "name": "The Telegram",
+    "aliases": [
+      "yellow envelope",
+      "the summons"
+    ],
+    "entity_class": "OBJECT",
+    "type": "document",
+    "description": "An urgent message sent by Miss Hunter to Holmes and Watson, indicating she is at her wit's end. It arrives late at night and immediately prompts the detectives to abandon their routine and travel to Winchester. The telegram confirms Holmes's prediction of impending danger and shifts the narrative into active investigation.",
+    "context": [
+      "The telegram which we eventually received came late one night just as I was thinking of turning in...",
+      "He opened the yellow envelope, and then, glancing at the message, threw it across to me.",
+      "The summons was a brief and urgent one."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_obj_003",
+    "name": "Bradshaw",
+    "aliases": [
+      "Bradshaw"
+    ],
+    "entity_class": "OBJECT",
+    "type": "document",
+    "description": "A railway timetable consulted by Watson to determine the schedule for the journey to Winchester. It functions as a practical tool that facilitates the detectives' rapid response to Miss Hunter's summons. The reference underscores the logistical planning required for their fieldwork.",
+    "context": [
+      "Just look up the trains in Bradshaw,\" said he, and turned back to his chemical studies.",
+      "glancing over my Bradshaw.",
+      "There is a train at half-past nine,\" said I..."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_evt_001",
+    "name": "The Job Offer",
+    "aliases": [
+      "the situation",
+      "the employment"
+    ],
+    "entity_class": "EVENT",
+    "type": "episode",
+    "description": "A suspicious employment opportunity characterized by an unusually high salary, light duties, and curious conditions. It drives Miss Hunter's initial consultation with Holmes and establishes the central mystery of the story. The offer's abnormal nature suggests a hidden plot or eccentric fad rather than legitimate work.",
+    "context": [
+      "I confess that it is not the situation which I should like to see a sister of mine apply for.",
+      "The unusual salary, the curious conditions, the light duties, all pointed to something abnormal...",
+      "whether a fad or a plot, or whether the man were a philanthropist or a villain, it was quite beyond my powers to determine."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_evt_002",
+    "name": "The Journey to Winchester",
+    "aliases": [
+      "the trip",
+      "the travel"
+    ],
+    "entity_class": "EVENT",
+    "type": "journey",
+    "description": "The travel sequence where Holmes and Watson depart for Hampshire to investigate Miss Hunter's case. During the trip, Holmes articulates his theories about rural isolation and the concealment of crime. The journey serves as a transitional phase between preliminary analysis and active field investigation.",
+    "context": [
+      "By eleven o'clock the next day we were well upon our way to the old English capital.",
+      "Holmes had been buried in the morning papers all the way down, but after we had passed the Hampshire border he threw them down...",
+      "It is the five miles of country which makes the danger."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_evt_003",
+    "name": "The Chemical Research",
+    "aliases": [
+      "analysis of the acetones",
+      "chemical studies"
+    ],
+    "entity_class": "EVENT",
+    "type": "episode",
+    "description": "Holmes's habitual late-night scientific experiments, which he typically conducts over retorts and test-tubes. He temporarily postpones this routine to accompany Watson on the urgent trip to Winchester. The research highlights his dedication to empirical science, which he later applies to the unfolding mystery.",
+    "context": [
+      "Holmes was settling down to one of those all-night chemical researches which he frequently indulged in...",
+      "Then perhaps I had better postpone my analysis of the acetones, as we may need to be at our best in the morning.",
+      "I would leave him stooping over a retort and a test-tube at night..."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_con_001",
+    "name": "Isolation",
+    "aliases": [
+      "the isolation",
+      "lonely houses"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "theme",
+    "description": "A thematic concept highlighted by Holmes to explain how physical distance enables criminal activity. He argues that the scattered countryside lacks the social scrutiny and legal proximity of urban areas. This isolation creates an environment where hidden wickedness can persist undetected for years.",
+    "context": [
+      "I look at them, and the only thought which comes to me is a feeling of their isolation and of the impunity with which crime may be committed there.",
+      "Think of the deeds of hellish cruelty, the hidden wickedness which may go on, year in, year out, in such places, and none the wiser.",
+      "It is the five miles of country which makes the danger."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_con_002",
+    "name": "Public Opinion and Law",
+    "aliases": [
+      "machinery of justice",
+      "public opinion"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "theme",
+    "description": "A conceptual framework Holmes uses to contrast urban and rural environments regarding crime prevention. He posits that public opinion and legal machinery function effectively in cities but fail in isolated areas. This dichotomy explains why the countryside poses a greater danger to Miss Hunter than the city.",
+    "context": [
+      "The pressure of public opinion can do in the town what the law cannot accomplish.",
+      "There is no lane so vile that the scream of a tortured child... does not beget sympathy and indignation...",
+      "the machinery of justice is ever so close that a word of complaint can set it going..."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_con_003",
+    "name": "Data",
+    "aliases": [
+      "clay",
+      "data"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "deduction",
+    "description": "A philosophical principle emphasized by Holmes regarding the necessity of concrete facts before drawing conclusions. He famously declares that he cannot 'make bricks without clay,' underscoring his reliance on empirical evidence. This concept drives his initial hesitation and later motivates his urgent investigation into the case.",
+    "context": [
+      "'Data! data! data!' he cried impatiently. 'I can't make bricks without clay.'",
+      "I have no data. I cannot tell.",
+      "And yet he would always wind up by muttering that no sister of his should ever have accepted such a situation."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_char_001",
+    "name": "Sherlock Holmes",
+    "aliases": [
+      "Mr. Holmes",
+      "my friend"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "protagonist",
+    "description": "The consulting detective leading the investigation, currently seated by the fire to listen to Miss Hunter's account. He has already formulated seven distinct theories to explain the known facts of the case, awaiting new information to determine which is correct.",
+    "context": [
+      "Holmes thrust his long thin legs out towards the fire and composed himself to listen.",
+      "I have devised seven separate explanations, each of which would cover the facts as far as we know them.",
+      "I am glad of all details,' remarked my friend"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_char_002",
+    "name": "Miss Hunter",
+    "aliases": [
+      "the young lady",
+      "Miss Hunter"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "A young woman seeking advice from Holmes regarding her employment at the Copper Beeches. She provides a detailed account of her employers, the strange conditions of her work, and the unsettling atmosphere of the household.",
+    "context": [
+      "The Black Swan is an inn of repute in the High Street, at no distance from the station, and there we found the young lady waiting for us.",
+      "I am so delighted that you have come,' she said earnestly.",
+      "I will do so, and I must be quick, for I have promised Mr. Rucastle to be back before three."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_char_003",
+    "name": "Mr. Rucastle",
+    "aliases": [
+      "her employer",
+      "Mr. Rucastle"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "Miss Hunter's employer, a man in his mid-forties described as amiable and boisterous. Despite his outward kindness, his reasons for his peculiar conduct remain a source of deep puzzlement and unease for those around him.",
+    "context": [
+      "I got his leave to come into town this morning, though he little knew for what purpose.",
+      "Mr. Rucastle, walking up and down on the other side of the room, began to tell me a series of the funniest stories that I have ever listened to.",
+      "He was kind to her also in his bluff, boisterous fashion, and on the whole they seemed to be a happy couple."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_char_004",
+    "name": "Mrs. Rucastle",
+    "aliases": [
+      "her stepmother",
+      "Mrs. Rucastle"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "The young, pale, and silent wife of Mr. Rucastle, who appears deeply devoted to her husband and son yet harbors a profound secret sorrow. Her frequent tears and anxious demeanor suggest an underlying tragedy that Miss Hunter cannot decipher.",
+    "context": [
+      "Mrs. Rucastle is not mad. I found her to be a silent, pale-faced woman, much younger than her husband",
+      "She impressed me neither favourably nor the reverse. She was a nonentity.",
+      "And yet she had some secret sorrow, this woman. She would often be lost in deep thought, with the saddest look upon her face."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_char_005",
+    "name": "Little Edward",
+    "aliases": [
+      "the child",
+      "little Edward",
+      "the creature"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "The Rucastles' young son, characterized by a disproportionately large head and a cruel, spoiled disposition. His behavior is marked by savage outbursts, sulking, and a disturbing fascination with capturing and harming smaller creatures.",
+    "context": [
+      "I have thought sometimes that it was the disposition of her child which weighed upon her mind, for I have never met so utterly spoiled and so ill-natured a little creature.",
+      "His whole life appears to be spent in an alternation between savage fits of passion and gloomy intervals of sulking.",
+      "Giving pain to any creature weaker than himself seems to be his one idea of amusement"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_char_006",
+    "name": "Toller",
+    "aliases": [
+      "the man servant",
+      "Toller"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "One of the two servants at Copper Beeches, described as rough, uncouth, and perpetually smelling of drink. His repeated drunkenness goes entirely unnoticed by Mr. Rucastle, contributing to the household's unsettling atmosphere.",
+    "context": [
+      "Toller, for that is his name, is a rough, uncouth man, with grizzled hair and whiskers, and a perpetual smell of drink.",
+      "Twice since I have been with them he has been quite drunk, and yet Mr. Rucastle seemed to take no notice of it.",
+      "They are a most unpleasant couple, but fortunately I spend most of my time in the nursery and my own room"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_char_007",
+    "name": "Lord Southerton",
+    "aliases": [
+      "Lord Southerton"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "The owner of the preserves surrounding the Copper Beeches estate, mentioned only to establish the geographical boundaries of the property and its isolation.",
+    "context": [
+      "This ground in front belongs to the house, but the woods all round are part of Lord Southerton's preserves."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_loc_001",
+    "name": "The Black Swan",
+    "aliases": [
+      "The Black Swan",
+      "an inn"
+    ],
+    "entity_class": "LOCATION",
+    "type": "residence",
+    "description": "A reputable inn located on the High Street near the station, serving as the meeting point where Miss Hunter waits to deliver her account to Holmes and Watson.",
+    "context": [
+      "The Black Swan is an inn of repute in the High Street, at no distance from the station, and there we found the young lady waiting for us.",
+      "She had engaged a sitting-room, and our lunch awaited us upon the table."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_loc_002",
+    "name": "Copper Beeches",
+    "aliases": [
+      "Copper Beeches",
+      "the house",
+      "the hall door"
+    ],
+    "entity_class": "LOCATION",
+    "type": "residence",
+    "description": "A large, square, whitewashed house with stained walls, situated with woods on three sides and a clump of copper beeches in front. It serves as the Rucastles' estate and the setting for Miss Hunter's employment and observations.",
+    "context": [
+      "When I came down, Mr. Rucastle met me here and drove me in his dog-cart to the Copper Beeches.",
+      "It is, as he said, beautifully situated, but it is not beautiful in itself, for it is a large square block of a house, whitewashed, but all stained and streaked with damp and bad weather.",
+      "A clump of copper beeches immediately in front of the hall door has given its name to the place."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_loc_003",
+    "name": "Baker Street",
+    "aliases": [
+      "Baker Street",
+      "your rooms"
+    ],
+    "entity_class": "LOCATION",
+    "type": "institution",
+    "description": "The London residence of Holmes and Watson, referenced as the location where they previously discussed the case and formed conjectures about the Rucastles' situation.",
+    "context": [
+      "There was no truth, Mr. Holmes, in the conjecture which seemed to us to be probable in your rooms at Baker Street."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_loc_004",
+    "name": "Drawing-room",
+    "aliases": [
+      "the drawing-room"
+    ],
+    "entity_class": "LOCATION",
+    "type": "room",
+    "description": "A very large room stretching along the entire front of the house, featuring three long windows. It serves as the setting for Miss Hunter's peculiar daily duty of sitting by the window while Mr. Rucastle tells jokes.",
+    "context": [
+      "They were waiting for me in the drawing-room, which is a very large room, stretching along the entire front of the house, with three long windows reaching down to the floor.",
+      "A chair had been placed close to the central window, with its back turned towards it."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_loc_005",
+    "name": "Nursery",
+    "aliases": [
+      "the nursery"
+    ],
+    "entity_class": "LOCATION",
+    "type": "room",
+    "description": "The room where Miss Hunter spends most of her time, located next to her own room in one corner of the building. It houses the child Edward and serves as a primary space for her daily routine.",
+    "context": [
+      "I spend most of my time in the nursery and my own room, which are next to each other in one corner of the building.",
+      "After an hour or so, Mr. Rucastle suddenly remarked that it was time to commence the duties of the day, and that I might change my dress and go to little Edward in the nursery."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_obj_001",
+    "name": "Electric-blue dress",
+    "aliases": [
+      "electric-blue dress",
+      "the dress"
+    ],
+    "entity_class": "OBJECT",
+    "type": "clothing",
+    "description": "A peculiar shade of blue dress made of excellent beige material, bearing unmistakable signs of previous wear. It is presented to Miss Hunter as a requirement for her work, fitting her perfectly despite its used condition.",
+    "context": [
+      "We shall now see how the electric-blue dress will become you. You will find it laid out upon the bed in your room",
+      "The dress which I found waiting for me was of a peculiar shade of blue. It was of excellent material, a sort of beige, but it bore unmistakable signs of having been worn before.",
+      "It could not have been a better fit if I had been measured for it."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_obj_002",
+    "name": "Dog-cart",
+    "aliases": [
+      "dog-cart"
+    ],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "A carriage used by Mr. Rucastle to transport Miss Hunter from the town to the Copper Beeches estate, establishing the mode of travel and the initial journey to the isolated property.",
+    "context": [
+      "When I came down, Mr. Rucastle met me here and drove me in his dog-cart to the Copper Beeches."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_evt_001",
+    "name": "Hair Cutting",
+    "aliases": [
+      "cutting your hair"
+    ],
+    "entity_class": "EVENT",
+    "type": "episode",
+    "description": "An unusual request made by the Rucastles for Miss Hunter to cut her hair, which she complied with. The employers claim the act has not detracted from her appearance, hinting at a deeper, unexplained purpose behind the demand.",
+    "context": [
+      "we are very much obliged to you, Miss Hunter, for falling in with our whims so far as to cut your hair.",
+      "I assure you that it has not detracted in the tiniest iota from your appearance."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_evt_002",
+    "name": "The Hour of Laughter",
+    "aliases": [
+      "sitting by the window",
+      "the hour-long session"
+    ],
+    "entity_class": "EVENT",
+    "type": "episode",
+    "description": "A peculiar daily duty where Miss Hunter sits in a chair facing a window while Mr. Rucastle walks on the other side telling jokes. The session causes her to laugh until weary, while Mrs. Rucastle watches with a sad, anxious expression, highlighting the household's bizarre dynamics.",
+    "context": [
+      "In this I was asked to sit, and then Mr. Rucastle, walking up and down on the other side of the room, began to tell me a series of the funniest stories that I have ever listened to.",
+      "You cannot imagine how comical he was, and I laughed until I was quite weary.",
+      "After an hour or so, Mr. Rucastle suddenly remarked that it was time to commence the duties of the day"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_con_001",
+    "name": "Seven Explanations",
+    "aliases": [
+      "seven separate explanations"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "deduction",
+    "description": "Holmes's initial framework of seven distinct theories to account for the known facts of the case. He views them as provisional, awaiting fresh information from Miss Hunter to determine which explanation accurately reflects reality.",
+    "context": [
+      "I have devised seven separate explanations, each of which would cover the facts as far as we know them.",
+      "But which of these is correct can only be determined by the fresh information which we shall no doubt find waiting for us."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_con_002",
+    "name": "Secret Sorrow",
+    "aliases": [
+      "secret sorrow"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "mystery",
+    "description": "An unexplained melancholy afflicting Mrs. Rucastle, manifesting in deep thought, sad looks, and frequent tears. The cause of this sorrow remains unknown to Miss Hunter, suggesting a hidden past or ongoing tragedy within the household.",
+    "context": [
+      "And yet she had some secret sorrow, this woman. She would often be lost in deep thought, with the saddest look upon her face.",
+      "More than once I have surprised her in tears."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_con_003",
+    "name": "Servants' Conduct",
+    "aliases": [
+      "appearance and conduct of the servants"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "mystery",
+    "description": "The unsettling behavior and demeanor of the Rucastles' two servants, particularly Toller's drunkenness and his wife's sour silence. This atmosphere strikes Miss Hunter as highly unpleasant and contributes to the overall sense of unease in the house.",
+    "context": [
+      "The one unpleasant thing about the house, which struck me at once, was the appearance and conduct of the servants.",
+      "They are a most unpleasant couple, but fortunately I spend most of my time in the nursery and my own room"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_001",
+    "name": "Miss Hunter",
+    "aliases": [
+      "Violet Hunter",
+      "I",
+      "my employer's assistant"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "protagonist",
+    "description": "The narrator and central figure of the account, employed by Mr. Rucastle. She is highly observant and curious, devising a plan to spy on her employers using a broken hand-mirror. Her experiences at the Copper Beeches drive the narrative's central mysteries and reveal the household's hidden tensions.",
+    "context": [
+      "Again I changed my dress, again I sat in the window, and again I laughed very heartily at the funny stories of which my employer had an immense r´ epertoire",
+      "I am naturally observant, as you may have remarked, Mr. Holmes, and I soon had a pretty good plan of the whole house in my head."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_002",
+    "name": "Jephro Rucastle",
+    "aliases": [
+      "Mr. Rucastle",
+      "my employer",
+      "he"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "antagonist",
+    "description": "The employer of Miss Hunter, portrayed as initially jovial but harboring a dark, secretive nature. He enforces a strange daily ritual involving the window and the blue dress, and becomes visibly enraged when discovered investigating the locked wing of the house, suggesting he is guarding a critical secret.",
+    "context": [
+      "Then he handed me a yellow-backed novel, and moving my chair a little sideways, that my own shadow might not fall upon the page, he begged me to read aloud to him.",
+      "His cheeks were red, his brow was all crinkled with anger, and the veins stood out at his temples with passion."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_003",
+    "name": "Mrs. Rucastle",
+    "aliases": [
+      "she",
+      "my employer's wife"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "The wife of the employer, who actively participates in the strange window ritual. She is highly suspicious and perceptive, quickly deducing that Miss Hunter has a mirror and has seen the man in the road, prompting her to order the ritual's immediate cessation.",
+    "context": [
+      "She said nothing, but I am convinced that she had divined that I had a mirror in my hand and had seen what was behind me.",
+      "She rose at once. 'Jephro,' said she, 'there is an impertinent fellow upon the road there who stares up at Miss Hunter.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_004",
+    "name": "Old Toller",
+    "aliases": [
+      "Toller",
+      "my groom"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "The Rucastle family's groom, identified as the only person capable of handling the dangerous mastiff, Carlo. He is mentioned in relation to the feeding and releasing of the dog, serving as a minor but necessary link to the household's security arrangements.",
+    "context": [
+      "It's only Carlo, my mastiff. I call him mine, but really old Toller, my groom, is the only man who can do anything with him.",
+      "Toller lets him loose every night, and God help the trespasser whom he lays his fangs upon."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_005",
+    "name": "The Man in the Road",
+    "aliases": [
+      "an impertinent fellow",
+      "a small bearded man in a grey suit",
+      "he"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "A mysterious figure observed by Miss Hunter through a hidden mirror. He stands by the railings of the Southampton Road, staring earnestly up at the house. His presence triggers Mrs. Rucastle's intervention and marks the abrupt end of the window ritual.",
+    "context": [
+      "I perceived that there was a man standing in the Southampton Road, a small bearded man in a grey suit, who seemed to be looking in my direction.",
+      "This man, however, was leaning against the railings which bordered our field and was looking earnestly up."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_006",
+    "name": "The Child",
+    "aliases": [
+      "the child",
+      "my charge"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "The young girl under Miss Hunter's care, who lives at the Copper Beeches. Her presence is noted in passing, particularly when Miss Hunter is left alone in her room to examine the furniture, highlighting the domestic but constrained nature of her employment.",
+    "context": [
+      "One evening, after the child was in bed, I began to amuse myself by examining the furniture of my room and by rearranging my own little things.",
+      "I strolled round to the side from which I could see the windows of this part of the house."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_loc_001",
+    "name": "Copper Beeches",
+    "aliases": [
+      "the house",
+      "our field",
+      "the grounds"
+    ],
+    "entity_class": "LOCATION",
+    "type": "residence",
+    "description": "The estate where Miss Hunter is employed. It features a distinctive window ritual, a locked wing, a small outhouse housing a mastiff, and grounds bordering the Southampton Road. The house itself seems to conceal significant secrets and exerts a controlling influence over its inhabitants.",
+    "context": [
+      "On the very first day that I was at the Copper Beeches, Mr. Rucastle took me to a small outhouse which stands near the kitchen door.",
+      "As I strolled up and down, glancing at them occasionally, Mr. Rucastle came out to me, looking as merry and jovial as ever."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_loc_002",
+    "name": "The Window",
+    "aliases": [
+      "the window",
+      "my window"
+    ],
+    "entity_class": "LOCATION",
+    "type": "room",
+    "description": "A specific window in the house where Miss Hunter is forced to sit daily, wearing a blue dress and reading aloud. It serves as the focal point for the strange performance and the observation of the man in the road, acting as a stage for the household's hidden dynamics.",
+    "context": [
+      "Again I changed my dress, again I sat in the window, and again I laughed very heartily at the funny stories of which my employer had an immense r´ epertoire",
+      "That was a week ago, and from that time I have not sat again in the window, nor have I worn the blue dress, nor seen the man in the road."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_loc_003",
+    "name": "The Locked Wing",
+    "aliases": [
+      "one wing",
+      "this suite",
+      "this part of the house",
+      "the windows of this part of the house"
+    ],
+    "entity_class": "LOCATION",
+    "type": "room",
+    "description": "An uninhabited section of the Copper Beeches estate, accessible through a door that is invariably locked. Mr. Rucastle is caught emerging from it with keys, displaying uncharacteristic anger, suggesting it holds a critical secret or hidden occupant that deeply unsettles Miss Hunter.",
+    "context": [
+      "There was one wing, however, which appeared not to be inhabited at all. A door which faced that which led into the quarters of the Tollers opened into this suite, but it was invariably locked.",
+      "He locked the door and hurried past me without a word or a look."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_loc_004",
+    "name": "The Southampton Road",
+    "aliases": [
+      "the road",
+      "an important highway"
+    ],
+    "entity_class": "LOCATION",
+    "type": "region",
+    "description": "A busy highway bordering the Copper Beeches estate. It serves as the vantage point for the mysterious man in the grey suit, whose presence triggers the cessation of the window ritual and hints at external connections to the household's secrets.",
+    "context": [
+      "I perceived that there was a man standing in the Southampton Road, a small bearded man in a grey suit, who seemed to be looking in my direction.",
+      "The road is an important highway, and there are usually people there."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_001",
+    "name": "The Blue Dress",
+    "aliases": [
+      "my dress",
+      "the blue dress"
+    ],
+    "entity_class": "OBJECT",
+    "type": "clothing",
+    "description": "A specific garment Miss Hunter is required to wear during the daily window ritual. Its sudden discontinuation marks a turning point in the narrative, coinciding with the disappearance of the man in the road and signaling a shift in the household's secretive activities.",
+    "context": [
+      "Then he handed me a yellow-backed novel, and moving my chair a little sideways, that my own shadow might not fall upon the page, he begged me to read aloud to him. I read for about ten minutes, beginning in the heart of a chapter, and then suddenly, in the middle of a sentence, he ordered me to cease and to change my dress.",
+      "That was a week ago, and from that time I have not sat again in the window, nor have I worn the blue dress, nor seen the man in the road."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_002",
+    "name": "Carlo",
+    "aliases": [
+      "my mastiff",
+      "a large animal",
+      "a giant dog",
+      "that dreadful sentinel"
+    ],
+    "entity_class": "OBJECT",
+    "type": "animal",
+    "description": "A massive, tawny mastiff kept chained in a small outhouse near the kitchen. Fed sparingly to keep it aggressive, it is released nightly to guard the property, instilling deep fear in Miss Hunter and serving as a physical manifestation of the household's oppressive atmosphere.",
+    "context": [
+      "I looked through and was conscious of two glowing eyes, and of a vague figure huddled up in the darkness.",
+      "It was a giant dog, as large as a calf, tawny tinted, with hanging jowl, black muzzle, and huge projecting bones. It walked slowly across the lawn and vanished into the shadow upon the other side."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_003",
+    "name": "The Coil of Hair",
+    "aliases": [
+      "my coil of hair",
+      "the strange hair",
+      "two tresses"
+    ],
+    "entity_class": "OBJECT",
+    "type": "symbolic",
+    "description": "A coil of hair found locked in the third drawer of an old chest of drawers. It is identical in tint and thickness to Miss Hunter's own hair, which she had previously cut and stored in her trunk, creating a profound mystery that defies logical explanation and hints at a hidden identity.",
+    "context": [
+      "There was only one thing in it, but I am sure that you would never guess what it was. It was my coil of hair.",
+      "I took it up and examined it. It was of the same peculiar tint, and the same thickness. But then the impossibility of the thing obtruded itself upon me."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_004",
+    "name": "The Trunk",
+    "aliases": [
+      "my trunk",
+      "the bottom of my trunk"
+    ],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "Miss Hunter's personal storage chest, originally containing her cut coil of hair. It is used to verify the impossibility of the duplicate hair found in the chest of drawers, serving as a physical benchmark for the mystery.",
+    "context": [
+      "I had placed it in a great coil at the bottom of my trunk.",
+      "With trembling hands I undid my trunk, turned out the contents, and drew from the bottom my own hair."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_005",
+    "name": "The Old Chest of Drawers",
+    "aliases": [
+      "an old chest of drawers",
+      "the furniture of my room"
+    ],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "A piece of furniture in Miss Hunter's bedroom, featuring two open upper drawers and a locked lower drawer. The locked drawer contains the mysterious duplicate coil of hair, acting as a physical barrier to the household's secrets.",
+    "context": [
+      "There was an old chest of drawers in the room, the two upper ones empty and open, the lower one locked.",
+      "It struck me that it might have been fastened by a mere oversight, so I took out my bunch of keys and tried to open it."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_006",
+    "name": "The Hand-Mirror",
+    "aliases": [
+      "My hand-mirror",
+      "a piece of the glass",
+      "a mirror"
+    ],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "A broken hand-mirror that Miss Hunter repurposes by concealing a shard in her handkerchief. It allows her to secretly observe what is happening behind her back during the window ritual, serving as the tool that uncovers the man in the road.",
+    "context": [
+      "My hand-mirror had been broken, so a happy thought seized me, and I concealed a piece of the glass in my handkerchief.",
+      "I am convinced that she had divined that I had a mirror in my hand and had seen what was behind me."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_007",
+    "name": "The Yellow-Backed Novel",
+    "aliases": [
+      "a yellow-backed novel",
+      "the page"
+    ],
+    "entity_class": "OBJECT",
+    "type": "document",
+    "description": "A book used by Mr. Rucastle during the window ritual. He carefully positions Miss Hunter's chair so her shadow does not fall upon its pages while she reads aloud, adding to the ritual's strangeness and suggesting a need to control light or visibility.",
+    "context": [
+      "Then he handed me a yellow-backed novel, and moving my chair a little sideways, that my own shadow might not fall upon the page, he begged me to read aloud to him.",
+      "I read for about ten minutes, beginning in the heart of a chapter, and then suddenly, in the middle of a sentence, he ordered me to cease and to change my dress."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_evt_001",
+    "name": "The Performance",
+    "aliases": [
+      "this performance",
+      "the window ritual",
+      "extraordinary performance"
+    ],
+    "entity_class": "EVENT",
+    "type": "episode",
+    "description": "A recurring, bizarre daily routine enforced by Mr. Rucastle, requiring Miss Hunter to change into a blue dress, sit in a specific window, laugh at his stories, and read aloud while carefully avoiding casting a shadow on the page. The ritual is abruptly halted after the man in the road is spotted, marking a pivotal shift in the narrative.",
+    "context": [
+      "Two days later this same performance was gone through under exactly similar circumstances.",
+      "You can easily imagine, Mr. Holmes, how curious I became as to what the meaning of this extraordinary performance could possibly be."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_con_001",
+    "name": "The Mystery of the Hair",
+    "aliases": [
+      "the impossibility of the thing",
+      "what it meant"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "mystery",
+    "description": "The central enigma surrounding the duplicate coil of hair found in the locked drawer. Its identical nature to Miss Hunter's own cut hair defies logical explanation and hints at a hidden identity, substitution, or deception within the household that drives the narrative's suspense.",
+    "context": [
+      "Puzzle as I would, I could make nothing at all of what it meant.",
+      "Was it not extraordinary?"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_con_002",
+    "name": "The Locked Wing Mystery",
+    "aliases": [
+      "the suite",
+      "this part of the house",
+      "the secret of the locked wing"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "mystery",
+    "description": "The enigma surrounding the uninhabited wing of the Copper Beeches. Mr. Rucastle's sudden anger and the presence of keys suggest a hidden occupant or activity concealed behind the locked door, deeply unsettling Miss Hunter and pointing to a concealed truth within the estate.",
+    "context": [
+      "There was one wing, however, which appeared not to be inhabited at all. A door which faced that which led into the quarters of the Tollers opened into this suite, but it was invariably locked.",
+      "He locked the door and hurried past me without a word or a look."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_001",
+    "name": "Miss Hunter",
+    "aliases": [
+      "the young lady",
+      "I",
+      "Miss Hunter"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "protagonist",
+    "description": "The narrator and client who seeks Holmes's advice after experiencing terror in the Rucastle household. She is highly observant, driven by a blend of curiosity and moral duty, and ultimately proves brave enough to assist Holmes in his planned operation to uncover the household's secrets.",
+    "context": [
+      "'By the way,' said I, 'you seem to have quite a suite of spare rooms up there, and one of them has the shutters up.'",
+      "I was so terrified that I do not know what I did. I suppose that I must have rushed past him into my room.",
+      "You seem to me to have acted all through this matter like a very brave and sensible girl, Miss Hunter."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_002",
+    "name": "Mr. Holmes",
+    "aliases": [
+      "Sherlock Holmes",
+      "my friend",
+      "Holmes"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "protagonist",
+    "description": "The consulting detective who listens to Miss Hunter's account and quickly formulates a strategic plan to investigate the Rucastle household. He displays profound gravity and tactical precision, directing the narrator's actions to secure the barred room while the Rucastles are away.",
+    "context": [
+      "Holmes and I had listened spellbound to this extraordinary story.",
+      "'Is Toller still drunk?' he asked.",
+      "'We shall be at the Copper Beeches by seven o'clock, my friend and I.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_003",
+    "name": "Mr. Rucastle",
+    "aliases": [
+      "the master",
+      "he",
+      "Mr. Rucastle"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "antagonist",
+    "description": "The head of the household who exhibits suspicion and menace toward Miss Hunter. His demeanor shifts from a coaxing smile to a demonic grin when confronted about the barred room, revealing his controlling nature and reliance on intimidation to maintain secrecy.",
+    "context": [
+      "'Photography is one of my hobbies,' said he. 'I have made my dark room up there.'",
+      "He was still smiling in the most amiable manner.",
+      "here in an instant the smile hardened into a grin of rage, and he glared down at me with the face of a demon-'I'll throw you to the mastiff.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_004",
+    "name": "Mrs. Rucastle",
+    "aliases": [
+      "the mistress",
+      "she",
+      "Mrs. Rucastle"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "The wife of the household head, mentioned as being downstairs with the child and involved in the household's daily dynamics. Her presence, along with her husband's, contributes to the narrator's pervasive sense of dread and suspicion.",
+    "context": [
+      "Mr. and Mrs. Rucastle were both downstairs, and the child was with them",
+      "I heard his wife tell Mrs. Rucastle that she could do nothing with him.",
+      "Mr. and Mrs. Rucastle are going on a visit, and will be away all the evening"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_005",
+    "name": "Toller",
+    "aliases": [
+      "the servant",
+      "him",
+      "Toller"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "A household servant who assists in the mysterious activities within the barred rooms. He is prone to heavy drinking, which Miss Hunter exploits to gain access to the forbidden space, and his drunken state is crucial to Holmes's planned infiltration.",
+    "context": [
+      "besides Mr. Rucastle, both Toller and his wife find something to do in these deserted rooms",
+      "Recently he has been drinking hard, and yesterday evening he was very drunk",
+      "I remembered that Toller had drunk himself into a state of insensibility that evening"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_006",
+    "name": "Mrs. Toller",
+    "aliases": [
+      "the servant's wife",
+      "she",
+      "Mrs. Toller"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "The wife of Toller, who works in the deserted rooms alongside him. She is identified by Holmes as a potential security risk who must be temporarily detained in the cellar to prevent her from raising an alarm during the planned break-in.",
+    "context": [
+      "besides Mr. Rucastle, both Toller and his wife find something to do in these deserted rooms",
+      "I heard his wife tell Mrs. Rucastle that she could do nothing with him.",
+      "There only remains Mrs. Toller, who might give the alarm."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_007",
+    "name": "The Child",
+    "aliases": [
+      "the child"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "A young member of the Rucastle household whose presence is closely monitored by Miss Hunter. The child's supervision dictates Miss Hunter's schedule and adds to the oppressive, watchful atmosphere of the estate.",
+    "context": [
+      "Mr. and Mrs. Rucastle were both downstairs, and the child was with them",
+      "I must be back before three o'clock, for Mr. and Mrs. Rucastle are going on a visit, and will be away all the evening, so that I must look after the child.",
+      "I was frightened of the house, of the man, of the woman, of the servants, even of the child."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_loc_001",
+    "name": "Copper Beeches",
+    "aliases": [
+      "the house",
+      "the Rucastle residence",
+      "this place"
+    ],
+    "entity_class": "LOCATION",
+    "type": "residence",
+    "description": "The Rucastle family estate where the narrative's central mystery unfolds. It is characterized by a suite of spare rooms, a barred door, and an atmosphere of dread that drives Miss Hunter to seek Holmes's counsel and ultimately facilitates the planned investigation.",
+    "context": [
+      "We shall be at the Copper Beeches by seven o'clock, my friend and I.",
+      "I was frightened of the house, of the man, of the woman, of the servants, even of the child.",
+      "I could not live there longer without some advice."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_loc_002",
+    "name": "Winchester",
+    "aliases": [
+      "the city",
+      "the office"
+    ],
+    "entity_class": "LOCATION",
+    "type": "city",
+    "description": "The nearby city where Miss Hunter travels to send a telegram to Holmes and secure leave for her visit. It serves as the logistical link between the isolated estate and the detective, highlighting the distance and secrecy surrounding the household.",
+    "context": [
+      "I had no difficulty in getting leave to come into Winchester this morning",
+      "I put on my hat and cloak, went down to the office, which is about half a mile from the house",
+      "I slipped in in safety and lay awake half the night in my joy at the thought of seeing you."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_loc_003",
+    "name": "The Dark Room",
+    "aliases": [
+      "the suite of spare rooms",
+      "the forbidden room",
+      "the deserted rooms",
+      "the centre room"
+    ],
+    "entity_class": "LOCATION",
+    "type": "room",
+    "description": "A shuttered, dusty room on the upper floor used by Mr. Rucastle for photography. It is the focal point of the mystery, barricaded from the inside and emitting a mysterious light that terrifies Miss Hunter and hints at clandestine activities.",
+    "context": [
+      "'Photography is one of my hobbies,' said he. 'I have made my dark room up there.'",
+      "I was all on fire to go over them. It was not mere curiosity, though I have my share of that.",
+      "This barricaded door corresponded clearly with the shuttered window outside"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_loc_004",
+    "name": "The Wine-Cellar",
+    "aliases": [
+      "the cellar",
+      "a cellar with a good strong lock"
+    ],
+    "entity_class": "LOCATION",
+    "type": "room",
+    "description": "A locked storage room in the house that Holmes identifies as a strategic location. It is used to temporarily detain Mrs. Toller to prevent her from raising an alarm during the planned investigation of the barred room.",
+    "context": [
+      "Is there a cellar with a good strong lock?",
+      "Yes, the wine-cellar.",
+      "If you could send her into the cellar on some errand, and then turn the key upon her, you would facilitate matters immensely."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_obj_001",
+    "name": "Black Linen Bag",
+    "aliases": [
+      "the large black linen bag"
+    ],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "A large bag carried by Toller into the barred rooms, suggesting the transport of mysterious or illicit materials. Its presence hints at the clandestine activities occurring within the house and fuels Miss Hunter's suspicion.",
+    "context": [
+      "I once saw him carrying a large black linen bag with him through the door.",
+      "Recently he has been drinking hard, and yesterday evening he was very drunk",
+      "I have no doubt at all that he had left it there."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_obj_002",
+    "name": "Barricade",
+    "aliases": [
+      "the iron bed bar",
+      "the padlock",
+      "the stout cord",
+      "the barricaded door"
+    ],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "A makeshift security measure consisting of an iron bed bar, padlock, and cord securing the centre door. It physically enforces the secrecy of the room and symbolizes the household's oppressive control over its inhabitants and visitors.",
+    "context": [
+      "across the outside of it had been fastened one of the broad bars of an iron bed, padlocked at one end to a ring in the wall, and fastened at the other with stout cord.",
+      "This barricaded door corresponded clearly with the shuttered window outside",
+      "Evidently there was a skylight which let in light from above."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_obj_003",
+    "name": "Key",
+    "aliases": [
+      "the key",
+      "the lock"
+    ],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "The access mechanism for the barred room, left in the lock by a drunk Toller. It serves as the crucial plot device that enables Miss Hunter's unauthorized entry and subsequent discovery of the shadow within.",
+    "context": [
+      "when I came upstairs there was the key in the door. I have no doubt at all that he had left it there.",
+      "I turned the key gently in the lock, opened the door, and slipped through.",
+      "The door itself was locked as well, and the key was not there."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_obj_004",
+    "name": "Mastiff",
+    "aliases": [
+      "the savage creature",
+      "the dog",
+      "mastiff"
+    ],
+    "entity_class": "OBJECT",
+    "type": "animal",
+    "description": "A vicious dog kept by the Rucastles, used as a tool of intimidation and control. Mr. Rucastle threatens to unleash it on Miss Hunter, and its potential release dictates her movements, fears, and the household's security dynamics.",
+    "context": [
+      "'I'll throw you to the mastiff.'",
+      "A horrible doubt came into my mind as I approached the door lest the dog might be loose",
+      "I knew that he was the only one in the household who had any influence with the savage creature"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_evt_001",
+    "name": "The Forbidden Room Investigation",
+    "aliases": [
+      "penetrating to this place",
+      "going over them",
+      "the discovery"
+    ],
+    "entity_class": "EVENT",
+    "type": "discovery",
+    "description": "Miss Hunter's unauthorized entry into the barred suite of rooms, driven by curiosity and a sense of duty. The event culminates in her witnessing a shadow and fleeing in terror, directly triggering the narrative's central conflict and her appeal to Holmes.",
+    "context": [
+      "from the moment that I understood that there was something about that suite of rooms which I was not to know, I was all on fire to go over them.",
+      "I turned the key gently in the lock, opened the door, and slipped through.",
+      "A mad, unreasoning terror rose up in me at the sight, Mr. Holmes."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_evt_002",
+    "name": "The Mastiff Threat",
+    "aliases": [
+      "the confrontation",
+      "the warning",
+      "the grin of rage"
+    ],
+    "entity_class": "EVENT",
+    "type": "confrontation",
+    "description": "Mr. Rucastle's aggressive confrontation with Miss Hunter after discovering her in the forbidden passage. His shift from a coaxing smile to a demonic grin and his threat to unleash the mastiff solidify his role as a menacing antagonist and escalate the narrative's suspense.",
+    "context": [
+      "'Why do you think that I lock this door?'",
+      "here in an instant the smile hardened into a grin of rage, and he glared down at me with the face of a demon-'I'll throw you to the mastiff.'",
+      "I was so terrified that I do not know what I did. I suppose that I must have rushed past him into my room."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_evt_003",
+    "name": "The Holmesian Plan",
+    "aliases": [
+      "the operation",
+      "the break-in",
+      "the strategy"
+    ],
+    "entity_class": "EVENT",
+    "type": "investigation",
+    "description": "Holmes's strategic directive to Miss Hunter to infiltrate the Rucastle household while they are away. He coordinates the timing, exploits Toller's drunkenness, and plans to neutralize Mrs. Toller to secure the barred room and uncover the household's secrets.",
+    "context": [
+      "'We shall be at the Copper Beeches by seven o'clock, my friend and I.'",
+      "The Rucastles will be gone by that time, and Toller will, we hope, be incapable.",
+      "If you could send her into the cellar on some errand, and then turn the key upon her, you would facilitate matters immensely."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_con_001",
+    "name": "Woman's Instinct",
+    "aliases": [
+      "instinct",
+      "feeling of duty",
+      "woman's instinct"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "theme",
+    "description": "The intuitive drive that compels Miss Hunter to investigate the sealed rooms despite her fear. It represents a blend of curiosity and moral duty, framing her actions as guided by an innate, almost supernatural perception of hidden wrongs and unspoken household secrets.",
+    "context": [
+      "They talk of woman's instinct; perhaps it was woman's instinct which gave me that feeling.",
+      "It was more a feeling of duty-a feeling that some good might come from my penetrating to this place.",
+      "I was keenly on my lookout for any chance to pass the forbidden door."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_con_002",
+    "name": "The Mystery of the Barred Room",
+    "aliases": [
+      "the secret it might veil",
+      "what it all means",
+      "the sinister door"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "mystery",
+    "description": "The central enigma of the narrative, centered on the shuttered, barricaded room that emits light and casts a shadow. It represents the hidden truth of the Rucastle household that Miss Hunter and Holmes seek to uncover, driving the plot's suspense and investigative momentum.",
+    "context": [
+      "As I stood in the passage gazing at the sinister door and wondering what secret it might veil",
+      "Now I have told you all my adventures, Mr. Holmes, and I should be very glad if you could tell me what it all means",
+      "Evidently there was a skylight which let in light from above."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_con_003",
+    "name": "Terror and Oppression",
+    "aliases": [
+      "mad, unreasoning terror",
+      "horrible doubt",
+      "dread",
+      "horrible to me"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "theme",
+    "description": "The pervasive atmosphere of fear that envelops Miss Hunter within the household. It stems from the Rucastles' menacing behavior, the locked rooms, and the threat of the mastiff, driving the narrative's suspense and urgency while highlighting the psychological toll of the household's secrecy.",
+    "context": [
+      "A mad, unreasoning terror rose up in me at the sight, Mr. Holmes.",
+      "I was frightened of the house, of the man, of the woman, of the servants, even of the child. They were all horrible to me.",
+      "I slipped in in safety and lay awake half the night in my joy at the thought of seeing you."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_001",
+    "name": "Sherlock Holmes",
+    "aliases": [
+      "Mr. Holmes",
+      "Holmes"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "protagonist",
+    "description": "A consulting detective whose deductive reasoning drives the narrative. He meticulously analyzes the prisoner's situation, deduces the father's cruelty from the child's disposition, and orchestrates the rescue with Watson. His analytical approach transforms scattered clues into a coherent understanding of the villain's scheme.",
+    "context": [
+      "'I am sure that you are right, Mr. Holmes,' cried our client.",
+      "'Better close the front door,' cried Holmes, and we all rushed down the stairs together.",
+      "'Ha!' said Holmes, looking keenly at her. 'It is clear that Mrs. Toller knows more about this matter than anyone else.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_002",
+    "name": "Dr. Watson",
+    "aliases": [
+      "Watson",
+      "I"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "Holmes's companion and the story's narrator. A medical man whose professional perspective aligns with Holmes's deductions, and who physically assists in the rescue and combat. His actions during the climax, particularly shooting the hound, directly resolve the immediate physical threat.",
+    "context": [
+      "'What on earth has that to do with it?' I ejaculated.",
+      "'I have my revolver,' said I.",
+      "Running up, I blew its brains out, and it fell over with its keen white teeth still meeting in the great creases of his neck."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_003",
+    "name": "Miss Hunter",
+    "aliases": [
+      "Miss Hunter",
+      "our client",
+      "you"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "The client who was brought to personate the imprisoned Miss Alice Rucastle. She resembles Alice in height, figure, and hair color, and provides crucial keys and information to Holmes. Her presence at the doorstep signals the successful execution of the rescue plan.",
+    "context": [
+      "'Have you managed it?' asked Holmes.",
+      "'You have done well indeed!' cried Holmes with enthusiasm.",
+      "'But it is impossible,' said Miss Hunter; 'the ladder was not there when the Rucastles went away.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_004",
+    "name": "Miss Alice Rucastle",
+    "aliases": [
+      "Miss Alice Rucastle",
+      "the daughter",
+      "Miss Rucastle",
+      "the prisoner",
+      "the poor girl",
+      "this beauty"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "The true daughter of Mr. Rucastle, imprisoned in a chamber at Copper Beeches. She was disguised by Miss Hunter, and her hair was cut off, likely due to illness. She escapes through the skylight during the rescue, evading her captor's immediate grasp.",
+    "context": [
+      "'I have no doubt that it is the daughter, Miss Alice Rucastle, if I remember right, who was said to have gone to America.'",
+      "'The skylight above was open, and the prisoner gone.'",
+      "'Ah, miss, it is a pity you didn't let me know what you were planning, for I would have told you that your pains were wasted.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_005",
+    "name": "Mr. Rucastle",
+    "aliases": [
+      "Mr. Rucastle",
+      "the smiling father",
+      "this beauty",
+      "he"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "antagonist",
+    "description": "The cunning and dangerous father who imprisons his daughter. He is described as fat and burly, carries a heavy stick, and is ultimately attacked by his own famished hound after Holmes and Watson's intervention. His cruelty is mirrored in his child's disposition.",
+    "context": [
+      "'The most serious point in the case is the disposition of the child.'",
+      "'You villain!' said he, 'where's your daughter?'",
+      "'My God!' he cried. 'Someone has loosed the dog. It's not been fed for two days. Quick, quick, or it'll be too late!'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_006",
+    "name": "Mrs. Toller",
+    "aliases": [
+      "Mrs. Toller",
+      "she",
+      "the one that stood your friend"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "A tall, gaunt woman imprisoned in the cellar who holds the duplicate keys to the house. She secretly aids Holmes and reveals crucial information about the Rucastle family's villainy. Her emergence marks a turning point in the investigation.",
+    "context": [
+      "'That is Mrs. Toller in the cellar,' said she.",
+      "'Yes, miss. Mr. Rucastle let me out when he came back before he went up to you.'",
+      "'Yes, sir, I do, and I am ready enough to tell what I know.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_007",
+    "name": "Toller",
+    "aliases": [
+      "Toller",
+      "her husband",
+      "the sobered Toller"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "Mrs. Toller's husband, found snoring on the kitchen rug. He possesses the house keys and is present during the climax, hurrying behind Holmes and Watson. His passive state contrasts with the violent events unfolding around him.",
+    "context": [
+      "'Her husband lies snoring on the kitchen rug.'",
+      "With much labour we separated them and carried him, living but horribly mangled, into the house. We laid him upon the drawing-room sofa, and having dispatched the sobered Toller to bear the news to his wife...",
+      "Toller hurrying behind us."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_008",
+    "name": "The Man in the Road",
+    "aliases": [
+      "The man in the road",
+      "his fiancé",
+      "he whose step I hear now upon the stair"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "A friend or fiancé of Miss Alice Rucastle who was convinced by the disguised Miss Hunter that the prisoner was happy and no longer desired his attentions. He represents the outside world manipulated by the Rucastle family's deception.",
+    "context": [
+      "'The man in the road was undoubtedly some friend of hers-possibly her fianc´ e-and no doubt, as you wore the girl's dress and were so like her, he was convinced from your laughter, whenever he saw you, and afterwards from your gesture, that Miss Rucastle was perfectly happy'",
+      "I should not be very much surprised if this were he whose step I hear now upon the stair."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_009",
+    "name": "The Child",
+    "aliases": [
+      "the child",
+      "the disposition of the child"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "The offspring of Mr. Rucastle, whose abnormally cruel disposition Holmes uses as a key to deducing the father's malevolent character and the danger facing the imprisoned daughter. The child serves as a living symbol of inherited villainy.",
+    "context": [
+      "'This child's disposition is abnormally cruel, merely for cruelty's sake, and whether he derives this from his smiling father, as I should suspect, or from his mother, it bodes evil for the poor girl who is in their power.'",
+      "'The most serious point in the case is the disposition of the child.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_001",
+    "name": "Copper Beeches",
+    "aliases": [
+      "Copper Beeches",
+      "the house"
+    ],
+    "entity_class": "LOCATION",
+    "type": "residence",
+    "description": "The estate house where the central events unfold. Marked by a group of trees with dark leaves shining like burnished metal, it houses the imprisoned daughter, the cellar, and the drawing-room. It serves as the primary setting for the mystery and its resolution.",
+    "context": [
+      "'At that hour we shall be with you, and it will not be long before we solve the mystery.' We were as good as our word, for it was just seven when we reached the Copper Beeches...",
+      "'The group of trees, with their dark leaves shining like burnished metal in the light of the setting sun, were sufficient to mark the house even had Miss Hunter not been standing smiling on the door-step.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_002",
+    "name": "Cellar",
+    "aliases": [
+      "cellar",
+      "the cellar"
+    ],
+    "entity_class": "LOCATION",
+    "type": "room",
+    "description": "A subterranean room where Mrs. Toller is confined. It serves as a hiding place for her and the duplicate keys, and is where she eventually emerges to aid the investigation. The cellar represents the hidden, oppressive nature of the Rucastle household.",
+    "context": [
+      "'That is Mrs. Toller in the cellar,' said she.",
+      "'I will soon make it clear to you,' said she; 'and I'd have done so before now if I could ha' got out from the cellar.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_003",
+    "name": "Kitchen",
+    "aliases": [
+      "kitchen"
+    ],
+    "entity_class": "LOCATION",
+    "type": "room",
+    "description": "A room in the house where Toller is found snoring on a rug. It is adjacent to the cellar and serves as a transit point during the climax. Its mundane description contrasts with the violence occurring elsewhere in the house.",
+    "context": [
+      "'Her husband lies snoring on the kitchen rug.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_004",
+    "name": "Chamber",
+    "aliases": [
+      "chamber",
+      "the room",
+      "the barricade"
+    ],
+    "entity_class": "LOCATION",
+    "type": "room",
+    "description": "The locked room where Miss Alice Rucastle is imprisoned. It contains a pallet bed, a table, and a basket of linen, and features an open skylight used for escape. The chamber functions as the physical manifestation of the prisoner's captivity.",
+    "context": [
+      "'You have been brought there to personate someone, and the real person is imprisoned in this chamber.'",
+      "It was an old rickety door and gave at once before our united strength. Together we rushed into the room. It was empty.",
+      "We passed up the stair, unlocked the door, followed on down a passage, and found ourselves in front of the barricade which Miss Hunter had described."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_005",
+    "name": "Skylight",
+    "aliases": [
+      "skylight",
+      "the roof"
+    ],
+    "entity_class": "LOCATION",
+    "type": "landmark",
+    "description": "An opening in the roof of the prisoner's chamber, through which Miss Alice Rucastle escapes. Holmes discovers a light ladder propped against the eaves to facilitate the exit. It represents the narrow avenue of freedom exploited by the victim.",
+    "context": [
+      "'The skylight above was open, and the prisoner gone.'",
+      "'He swung himself up onto the roof. 'Ah, yes,' he cried, 'here's the end of a long light ladder against the eaves. That is how he did it.'",
+      "'Through the skylight. We shall soon see how he managed it.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_006",
+    "name": "Drawing-room",
+    "aliases": [
+      "drawing-room"
+    ],
+    "entity_class": "LOCATION",
+    "type": "room",
+    "description": "A room in the house where the mangled Mr. Rucastle is laid upon a sofa for medical attention after the dog attack. It serves as the final stage where the consequences of the villain's cruelty are physically manifested and treated.",
+    "context": [
+      "We laid him upon the drawing-room sofa, and having dispatched the sobered Toller to bear the news to his wife...",
+      "a tall, gaunt woman entered the room."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_001",
+    "name": "Ladder",
+    "aliases": [
+      "light ladder",
+      "ladder"
+    ],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "A long, light ladder used to facilitate Miss Alice Rucastle's escape through the skylight. Holmes discovers it propped against the eaves, proving the prisoner's recent departure. It is the tangible evidence of the escape plan.",
+    "context": [
+      "'Ah, yes,' he cried, 'here's the end of a long light ladder against the eaves. That is how he did it.'",
+      "'But it is impossible,' said Miss Hunter; 'the ladder was not there when the Rucastles went away.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_002",
+    "name": "Hound",
+    "aliases": [
+      "dog",
+      "hound",
+      "huge famished brute",
+      "brute"
+    ],
+    "entity_class": "OBJECT",
+    "type": "animal",
+    "description": "A black-muzzled hound kept by Mr. Rucastle to prevent the prisoner from communicating with the outside world. It is let loose during the climax, attacks Rucastle, and is shot by Watson. The dog functions as an extension of the master's cruelty.",
+    "context": [
+      "'The dog is let loose at night to prevent him from endeavouring to communicate with her.'",
+      "There was the huge famished brute, its black muzzle buried in Rucastle's throat, while he writhed and screamed upon the ground.",
+      "Running up, I blew its brains out, and it fell over with its keen white teeth still meeting in the great creases of his neck."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_003",
+    "name": "Keys",
+    "aliases": [
+      "keys",
+      "duplicates",
+      "his keys"
+    ],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "Duplicate keys to the house, held by Mrs. Toller. They are crucial to Holmes's plan, allowing him and Watson to access the prisoner's chamber and confront Rucastle. They symbolize the controlled access and hidden vulnerabilities of the estate.",
+    "context": [
+      "'Here are his keys, which are the duplicates of Mr. Rucastle's.'",
+      "Then he tried the various keys in the lock, but without success.",
+      "We passed up the stair, unlocked the door, followed on down a passage..."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_004",
+    "name": "Revolver",
+    "aliases": [
+      "revolver",
+      "pistol"
+    ],
+    "entity_class": "OBJECT",
+    "type": "weapon",
+    "description": "A firearm carried by Watson, which he uses to shoot the attacking hound. Holmes also prepares it for use during the confrontation. It represents the shift from intellectual deduction to physical intervention.",
+    "context": [
+      "'I have my revolver,' said I.",
+      "'I think, Watson, that it would be as well for you to have your pistol ready.'",
+      "Running up, I blew its brains out, and it fell over with its keen white teeth still meeting in the great creases of his neck."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_005",
+    "name": "Heavy Stick",
+    "aliases": [
+      "heavy stick",
+      "stick"
+    ],
+    "entity_class": "OBJECT",
+    "type": "weapon",
+    "description": "A weapon carried by Mr. Rucastle when he confronts Holmes and Watson in the prisoner's room, indicating his intent to use force. It underscores his aggressive and threatening nature during the climax.",
+    "context": [
+      "'The words were hardly out of his mouth before a man appeared at the door of the room, a very fat and burly man, with a heavy stick in his hand.'",
+      "Miss Hunter screamed and shrunk against the wall at the sight of him, but Sherlock Holmes sprang forward and confronted him."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_006",
+    "name": "Transverse Bar and Cord",
+    "aliases": [
+      "cord",
+      "transverse bar",
+      "barricade"
+    ],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "The locking mechanism used to secure the prisoner's chamber. Holmes cuts the cord and removes the bar to gain entry to the room. It physically represents the barriers of imprisonment that the detectives must overcome.",
+    "context": [
+      "Holmes cut the cord and removed the transverse bar.",
+      "We passed up the stair, unlocked the door, followed on down a passage, and found ourselves in front of the barricade which Miss Hunter had described.",
+      "It was an old rickety door and gave at once before our united strength."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_evt_001",
+    "name": "The Rescue Mission",
+    "aliases": [
+      "rescue",
+      "bringing help",
+      "solve the mystery"
+    ],
+    "entity_class": "EVENT",
+    "type": "investigation",
+    "description": "Holmes and Watson's coordinated effort to locate and free Miss Alice Rucastle from her imprisonment at Copper Beeches, culminating in a confrontation and the discovery of her escape. The mission drives the narrative forward and tests the detectives' deductive and physical capabilities.",
+    "context": [
+      "'Oh, let us lose not an instant in bringing help to this poor creature.'",
+      "'We must be circumspect, for we are dealing with a very cunning man. We can do nothing until seven o'clock.'",
+      "'Now lead the way, and we shall soon see the end of this black business.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_evt_002",
+    "name": "The Prisoner's Escape",
+    "aliases": [
+      "escape",
+      "carried his victim off",
+      "prisoner gone"
+    ],
+    "entity_class": "EVENT",
+    "type": "escape",
+    "description": "Miss Alice Rucastle's flight from her locked chamber through the skylight, facilitated by a ladder left by her captor, which Holmes deduces immediately upon finding the room empty. The escape shifts the power dynamic and forces the antagonist into a desperate confrontation.",
+    "context": [
+      "'The skylight above was open, and the prisoner gone.'",
+      "'There has been some villainy here,' said Holmes; 'this beauty has guessed Miss Hunter's intentions and has carried his victim off.'",
+      "'Through the skylight. We shall soon see how he managed it.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_evt_003",
+    "name": "The Hound Attack",
+    "aliases": [
+      "dog attack",
+      "loosed the dog",
+      "worrying sound"
+    ],
+    "entity_class": "EVENT",
+    "type": "confrontation",
+    "description": "The climax where Mr. Rucastle is attacked by his own famished hound after Holmes and Watson's intervention. The attack leaves Rucastle horribly mangled before Watson shoots the beast. It serves as poetic justice and physically neutralizes the primary threat.",
+    "context": [
+      "'We had hardly reached the hall when we heard the baying of a hound, and then a scream of agony, with a horrible worrying sound which it was dreadful to listen to.'",
+      "'My God!' he cried. 'Someone has loosed the dog. It's not been fed for two days.'",
+      "Running up, I blew its brains out, and it fell over with its keen white teeth still meeting in the great creases of his neck."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_con_001",
+    "name": "Cruelty",
+    "aliases": [
+      "disposition of the child",
+      "abnormally cruel",
+      "merely for cruelty's sake"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "theme",
+    "description": "A central thematic element representing the inherited malevolence of the Rucastle family. Holmes uses the child's cruel nature as a deductive key to understand the father's character and the peril facing the imprisoned daughter. It underscores the psychological horror of the narrative.",
+    "context": [
+      "'This child's disposition is abnormally cruel, merely for cruelty's sake, and whether he derives this from his smiling father, as I should suspect, or from his mother, it bodes evil for the poor girl who is in their power.'",
+      "'The most serious point in the case is the disposition of the child.'",
+      "I have frequently gained my first real insight into the character of parents by studying their children."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_con_002",
+    "name": "Villainy",
+    "aliases": [
+      "black business",
+      "villainy",
+      "cunning man",
+      "dangerous man"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "mystery",
+    "description": "The overarching scheme of deception and imprisonment orchestrated by Mr. Rucastle. It encompasses the substitution of Miss Hunter for Alice, the use of the hound, and the psychological manipulation of the outside world. The concept drives the investigative tension and defines the antagonist's methods.",
+    "context": [
+      "'Excellent! We shall then look thoroughly into the affair.'",
+      "'Now lead the way, and we shall soon see the end of this black business.'",
+      "'There has been some villainy here,' said Holmes; 'this beauty has guessed Miss Hunter's intentions and has carried his victim off.'",
+      "'I tell you that he is a clever and dangerous man.'"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_001",
+    "name": "Alice Rucastle",
+    "aliases": [
+      "Miss Alice",
+      "Miss Rucastle"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "protagonist",
+    "description": "The central victim of the narrative, subjected to financial coercion and psychological abuse by her stepfather. She suffers a severe illness and physical alteration but remains steadfast in her devotion to her suitor, ultimately escaping to secure her legal rights and marry.",
+    "context": [
+      "She was never happy at home, Miss Alice wasn't",
+      "Mr. Rucastle then, I presume, took to this system of imprisonment?",
+      "Mr. Fowler and Miss Rucastle were married, by special license, in Southampton the day after their flight"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_002",
+    "name": "Mr. Rucastle",
+    "aliases": [
+      "Her father",
+      "Rucastle"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "antagonist",
+    "description": "Alice's stepfather who seizes control of her inherited wealth and employs a system of imprisonment to prevent her marriage. He survives the events but is left a broken man entirely dependent on his wife's care.",
+    "context": [
+      "left everything in Mr. Rucastle's hands",
+      "Mr. Rucastle then, I presume, took to this system of imprisonment?",
+      "Mr. Rucastle survived, but was always a broken man, kept alive solely through the care of his devoted wife."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_003",
+    "name": "Mr. Fowler",
+    "aliases": [
+      "Her young man",
+      "a good seaman"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "A persevering sailor and Alice's suitor who orchestrates her rescue by bribing household staff and arranging an escape route. He successfully marries Alice and secures a government post in Mauritius following their flight.",
+    "context": [
+      "met Mr. Fowler at a friend's house",
+      "Mr. Fowler being a persevering man, as a good seaman should be, blockaded the house",
+      "Mr. Fowler was a very kind-spoken, free-handed gentleman"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_004",
+    "name": "Miss Violet Hunter",
+    "aliases": [
+      "Miss Hunter"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "A woman connected to the case who is brought from London to help resolve the mystery. After the case concludes, Holmes loses interest in her, and she establishes herself as a successful headmistress of a private school.",
+    "context": [
+      "brought Miss Hunter down from London in order to get rid of the disagreeable persistence of Mr. Fowler.",
+      "As to Miss Violet Hunter, my friend Holmes, rather to my disappointment, manifested no further interest in her when once she had ceased to be the centre of one of his problems"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_005",
+    "name": "Mrs. Toller",
+    "aliases": [],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "A household servant who collaborates with Mr. Fowler to facilitate Alice's escape. She is motivated by financial gain and alcohol, and her testimony provides the crucial details that clear up the mystery for Holmes.",
+    "context": [
+      "said Mrs. Toller serenely.",
+      "I am sure we owe you an apology, Mrs. Toller,"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_006",
+    "name": "Holmes",
+    "aliases": [
+      "My friend Holmes"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "The detective who deduces the plot of imprisonment and financial coercion from Mrs. Toller's account. He resolves the mystery, apologizes to the household staff, and departs with Watson once their legal standing becomes questionable.",
+    "context": [
+      "Ah,\" said Holmes, \"I think that what you have been good enough to tell us makes the matter fairly clear",
+      "I am sure we owe you an apology, Mrs. Toller,\" said Holmes"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_007",
+    "name": "Watson",
+    "aliases": [],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "The narrator and companion to Holmes, who assists in escorting Miss Hunter back to Winchester after the case is solved and the investigators' presence becomes legally questionable.",
+    "context": [
+      "so I think, Watson, that we had best escort Miss Hunter back to Winchester"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_008",
+    "name": "Mrs. Rucastle",
+    "aliases": [
+      "Her devoted wife"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "Mr. Rucastle's wife, who is present when Holmes and Watson conclude their investigation. She remains devoted to her husband, providing the care that keeps him alive after he is left a broken man.",
+    "context": [
+      "And here comes the country surgeon and Mrs. Rucastle",
+      "kept alive solely through the care of his devoted wife."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_001",
+    "name": "The Sinister House",
+    "aliases": [
+      "The house",
+      "home"
+    ],
+    "entity_class": "LOCATION",
+    "type": "residence",
+    "description": "The primary setting where Alice is imprisoned and where the conspiracy to control her wealth unfolds. Characterized by copper beeches at the entrance, it serves as the physical locus of the mystery and the site of the blockade and escape.",
+    "context": [
+      "She was never happy at home",
+      "blockaded the house",
+      "mystery of the sinister house with the copper beeches in front of the door."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_002",
+    "name": "London",
+    "aliases": [],
+    "entity_class": "LOCATION",
+    "type": "city",
+    "description": "A major city from which Miss Hunter was brought, indicating a connection to the broader network of the case's events and the geographical scope of the investigation.",
+    "context": [
+      "brought Miss Hunter down from London in order to get rid of the disagreeable persistence of Mr. Fowler."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_003",
+    "name": "Winchester",
+    "aliases": [],
+    "entity_class": "LOCATION",
+    "type": "city",
+    "description": "A city where Holmes and Watson plan to escort Miss Hunter after resolving the case, indicating the geographical setting of the investigation and the destination for the characters' departure.",
+    "context": [
+      "escort Miss Hunter back to Winchester"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_004",
+    "name": "Southampton",
+    "aliases": [],
+    "entity_class": "LOCATION",
+    "type": "city",
+    "description": "The city where Mr. Fowler and Miss Rucastle are married by special license immediately after their escape, marking the formalization of their union and the resolution of the central conflict.",
+    "context": [
+      "Mr. Fowler and Miss Rucastle were married, by special license, in Southampton the day after their flight"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_005",
+    "name": "Island of Mauritius",
+    "aliases": [],
+    "entity_class": "LOCATION",
+    "type": "region",
+    "description": "A distant island where Mr. Fowler holds a government appointment following his marriage to Alice, representing his successful resolution of the conflict and the establishment of a new life abroad.",
+    "context": [
+      "he is now the holder of a government appointment in the island of Mauritius."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_006",
+    "name": "Walsall",
+    "aliases": [],
+    "entity_class": "LOCATION",
+    "type": "city",
+    "description": "A town where Miss Violet Hunter eventually becomes the head of a private school, marking her independent career and post-case life after the mystery is resolved.",
+    "context": [
+      "she is now the head of a private school at Walsall"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_obj_001",
+    "name": "The Ladder",
+    "aliases": [],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "A crucial tool provided by Mr. Fowler to facilitate Alice's escape from the house. It represents the physical means of liberation and is strategically positioned for use when the master leaves.",
+    "context": [
+      "and that a ladder should be ready at the moment when your master had gone out."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_obj_002",
+    "name": "The Paper",
+    "aliases": [],
+    "entity_class": "OBJECT",
+    "type": "document",
+    "description": "A legal document Mr. Rucastle forces Alice to sign to secure control over her inherited wealth. It serves as the central instrument of financial coercion and the primary motive for the imprisonment.",
+    "context": [
+      "He wanted her to sign a paper, so that whether she married or not, he could use her money."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_evt_001",
+    "name": "The Imprisonment System",
+    "aliases": [
+      "System of imprisonment"
+    ],
+    "entity_class": "EVENT",
+    "type": "crime",
+    "description": "The method employed by Mr. Rucastle to confine Alice and prevent her from claiming her legal rights or marrying. It forms the core conflict of the narrative and is the primary subject of Holmes's deduction.",
+    "context": [
+      "Mr. Rucastle then, I presume, took to this system of imprisonment?",
+      "And thus was solved the mystery of the sinister house"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_evt_002",
+    "name": "The Blockade",
+    "aliases": [
+      "Blockaded the house"
+    ],
+    "entity_class": "EVENT",
+    "type": "confrontation",
+    "description": "Mr. Fowler's strategic action of surrounding the house to pressure the household staff and facilitate Alice's escape. It represents the active intervention that breaks the stepfather's control.",
+    "context": [
+      "blockaded the house, and having met you succeeded by certain arguments"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_evt_003",
+    "name": "Brain-fever",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "episode",
+    "description": "A severe illness Alice contracts after prolonged psychological and physical abuse by her stepfather. It leaves her physically weakened, bald, and at death's door, marking a turning point in her suffering.",
+    "context": [
+      "he kept on worrying her until she got brain-fever, and for six weeks was at death's door."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_org_001",
+    "name": "Government Appointment",
+    "aliases": [],
+    "entity_class": "ORGANIZATION",
+    "type": "government",
+    "description": "An official position held by Mr. Fowler in Mauritius, representing the institutional framework that secures his new life and financial independence following the resolution of the case.",
+    "context": [
+      "he is now the holder of a government appointment in the island of Mauritius."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_org_002",
+    "name": "Private School",
+    "aliases": [],
+    "entity_class": "ORGANIZATION",
+    "type": "institution",
+    "description": "An educational institution in Walsall where Miss Violet Hunter becomes headmistress, marking her independent career and post-case life after the mystery is resolved.",
+    "context": [
+      "she is now the head of a private school at Walsall"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_con_001",
+    "name": "Locus Standi",
+    "aliases": [],
+    "entity_class": "CONCEPT",
+    "type": "deduction",
+    "description": "A legal term referring to the right to bring an action or take part in a lawsuit, which Holmes questions regarding their continued presence at the house after the mystery is solved, prompting their departure.",
+    "context": [
+      "as it seems to me that our locus standi now is rather a questionable one."
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_con_002",
+    "name": "Rights by Will",
+    "aliases": [
+      "Inherited wealth",
+      "Rights of her own"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "motive",
+    "description": "The legal financial entitlements Alice possesses, which her stepfather seeks to control through coercion and a signed paper. The struggle over these rights drives the central conflict and imprisonment.",
+    "context": [
+      "Miss Alice had rights of her own by will, but she was so quiet and patient"
+    ],
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+    "domain": "fiction"
+  }
+]

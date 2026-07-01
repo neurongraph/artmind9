@@ -1,0 +1,1511 @@
+[
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cli_001",
+    "name": "Nationwide",
+    "aliases": [
+      "Nationwide"
+    ],
+    "entity_class": "CLIENT",
+    "type": "named_account",
+    "description": "A major UK building society and financial services provider acting as the primary client for the showcased IBM solutions. The document positions Nationwide as a key strategic account undergoing significant data, HR, and AI modernisation initiatives, with IBM serving as a central systems integrator and delivery partner.",
+    "context": [
+      "Introduction and Nationwide Overview - KP",
+      "Delivered Nationwide’s new Oracle Cloud HR Recruitment Platform on time and on budget",
+      "Won and leading Nationwide HR integration on Oracle HCM, progressing to plan for Mar 2026 go-live"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cli_002",
+    "name": "Virgin Money",
+    "aliases": [
+      "VM",
+      "VMI",
+      "Virgin Money UK"
+    ],
+    "entity_class": "CLIENT",
+    "type": "named_account",
+    "description": "A UK-based financial services provider and strategic partner client undergoing parallel data, migration, and integration modernisation. The collateral highlights IBM's role in centralising migration utilities and integrating Virgin Money's NBS HR systems alongside Nationwide's broader digital transformation.",
+    "context": [
+      "Virgin Money - Vera",
+      "VMI Migration Utility",
+      "VMI – Data & Automation",
+      "At the centre of integrating VM NBS HR"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_001",
+    "name": "D&F Portfolio",
+    "aliases": [
+      "Data & Functions Portfolio",
+      "D&F"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "A consolidated portfolio of data, functions, and integration services managed by IBM for the client. It encompasses migration utilities, HR system integration, AI strategy, and automation platforms, serving as the overarching delivery framework for 2025 successes and 2026 priorities.",
+    "context": [
+      "D&F Portfolio",
+      "2025 Key Successes",
+      "2026 Priorities"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_002",
+    "name": "Teradata Migration",
+    "aliases": [
+      "Teradata Exit",
+      "Teradata Migration case study"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "transformation_programme",
+    "description": "A structured data platform migration initiative designed to decommission legacy Teradata infrastructure. The solution leverages IBM accelerators to accelerate the exit process and is highlighted as a key 2026 priority and a documented case study for the client.",
+    "context": [
+      "Teradata Migration",
+      "Delivering Teradata Exit with Accelerators",
+      "Teradata Migration case study"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_003",
+    "name": "SQL Databricks Migration",
+    "aliases": [
+      "SQL Databricks Migration",
+      "DBT Databricks SQL Simplification"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "transformation_programme",
+    "description": "A modern data platform migration programme focused on transitioning SQL workloads to Databricks. IBM is positioned as owning the DBT Databricks framework to simplify SQL processes and drive data modernisation across the client's landscape.",
+    "context": [
+      "SQL  Databricks Migration",
+      "Owning DBT Databricks in SQL Simplification"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_004",
+    "name": "VMI Migration Utility",
+    "aliases": [
+      "VMI Migration Utility",
+      "Central Migration Utility"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "A centralised migration utility solution tasked with standardising and streamlining data and system migrations for Virgin Money. It serves as a foundational component supporting broader VM integration efforts and data automation initiatives.",
+    "context": [
+      "VMI Migration Utility",
+      "Tasked with central Migration Utility for the VM Integration"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_005",
+    "name": "HR Systems Integration",
+    "aliases": [
+      "HR Systems Integration",
+      "VM NBS HR Integration"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "A targeted integration programme focused on aligning and modernising Human Resources systems. IBM is leading the integration of Virgin Money's NBS HR and delivering Nationwide's Oracle Cloud HR Recruitment Platform, positioning itself at the centre of this functional transformation.",
+    "context": [
+      "HR Systems Integration",
+      "At the centre of integrating VM NBS HR"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_006",
+    "name": "GenAI CoE & Strategy",
+    "aliases": [
+      "GenAI CoE & Strategy",
+      "Gen AI & Agentic CoE"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "transformation_programme",
+    "description": "A governance and strategy framework establishing a Centre of Excellence for Generative AI and Agentic workflows. It encompasses driving AI strategy, operating models, horizon planning, and the production scaling of enterprise use cases across the client's organisation.",
+    "context": [
+      "GenAI CoE & Strategy",
+      "Primary SI for Gen AI and Agentic",
+      "Driving AI strategy, operating model and horizon plans – use and creation of assets"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_007",
+    "name": "Customer Experience Platform Automation",
+    "aliases": [
+      "Customer Experience Platform Automation",
+      "Customer Servicing"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "An automation-focused offering designed to enhance customer-facing interactions and servicing workflows. It is listed as a key capability area alongside IT Ops Automation and FinCrime & Data Gov, indicating a focus on digital customer journey modernisation.",
+    "context": [
+      "Customer Experience Platform Automation",
+      "Customer Servicing – Tim &amp; Peter"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_008",
+    "name": "FinCrime & Data Gov",
+    "aliases": [
+      "FinCrime & Data Gov",
+      "Data Gov"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "A compliance and governance solution addressing financial crime prevention and data governance requirements. It is positioned as a core functional area within the broader D&F portfolio, supporting regulatory adherence and secure data handling.",
+    "context": [
+      "FinCrime & Data Gov"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_009",
+    "name": "ICA Deployment",
+    "aliases": [
+      "ICA Deployment",
+      "ICA"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "A deployment initiative focused on implementing ICA (likely Internal Capital Adequacy or a specific integration component) across the client's infrastructure. It is listed as a 2026 priority alongside data federation and IT operations.",
+    "context": [
+      "ICA Deployment"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_001",
+    "name": "Strategic Partner for AI & Modern Data Platforms",
+    "aliases": [
+      "Strategic Partner for AI & Modern Data Platforms"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "delivery_capability",
+    "description": "A high-level delivery capability positioning IBM as the trusted strategic partner for architecting and implementing AI and modern data platforms. This capability underpins the entire portfolio, enabling seamless integration, migration, and scaling of enterprise-grade solutions.",
+    "context": [
+      "Strategic Partner for AI & Modern Data Platforms"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_002",
+    "name": "Primary SI for Gen AI and Agentic",
+    "aliases": [
+      "Primary SI for Gen AI and Agentic"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "delivery_capability",
+    "description": "A systems integration capability establishing IBM as the primary integrator for Generative AI and Agentic workflows. This capability enables the delivery of next-generation AI use cases, pathfinders, and enterprise-scale automation across the client's landscape.",
+    "context": [
+      "Primary SI for Gen AI and Agentic"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_003",
+    "name": "Delivering Teradata Exit with Accelerators",
+    "aliases": [
+      "Delivering Teradata Exit with Accelerators"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "delivery_capability",
+    "description": "A specialised migration capability leveraging proprietary accelerators to expedite the decommissioning of legacy Teradata systems. This capability reduces migration risk, accelerates timeline delivery, and supports the broader data modernisation agenda.",
+    "context": [
+      "Delivering Teradata Exit with Accelerators"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_004",
+    "name": "Driving AI Strategy and Operating Model",
+    "aliases": [
+      "Driving AI strategy, operating model and horizon plans"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "ai_capability",
+    "description": "A strategic advisory and operational capability focused on defining AI roadmaps, operating models, and horizon planning. It encompasses the creation and scaling of enterprise AI assets, ensuring alignment with long-term business objectives.",
+    "context": [
+      "Driving AI strategy, operating model and horizon plans – use and creation of assets"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_005",
+    "name": "Production & Scaling of Enterprise Use Cases",
+    "aliases": [
+      "Production & scaling of enterprise use cases"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "delivery_capability",
+    "description": "An operational capability focused on transitioning AI and automation use cases from pilot to production environments. It enables the scaling of enterprise-grade solutions such as Complaints & QA Assist and supports the Agentic pathfinder roadmap.",
+    "context": [
+      "Production & scaling of enterprise use cases – Complaints & QA Assist"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_use_001",
+    "name": "Complaints & QA Assist",
+    "aliases": [
+      "Complaints & QA Assist"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "customer_experience",
+    "description": "A specific customer experience use case leveraging AI to automate complaint handling and quality assurance processes. It represents a production-scale enterprise application being developed and scaled as part of the Gen AI CoE strategy.",
+    "context": [
+      "Complaints & QA Assist"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_use_002",
+    "name": "Oracle Cloud HR Recruitment Platform",
+    "aliases": [
+      "Oracle Cloud HR Recruitment Platform"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "modernisation",
+    "description": "A modernisation use case involving the deployment of an Oracle Cloud-based HR recruitment platform. The solution has been delivered on time and on budget, serving as a foundational component for broader HR systems integration.",
+    "context": [
+      "Delivered Nationwide’s new Oracle Cloud HR Recruitment Platform on time and on budget"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_use_003",
+    "name": "Teradata Migration case study",
+    "aliases": [
+      "Teradata Migration case study"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "migration",
+    "description": "A documented migration use case demonstrating the successful execution of a Teradata platform exit. It serves as a proof point for IBM's migration accelerators and data modernisation capabilities.",
+    "context": [
+      "Teradata Migration case study"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_use_004",
+    "name": "Gen AI case study",
+    "aliases": [
+      "Gen AI case study"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "analytics",
+    "description": "A documented Generative AI use case highlighting the practical application of AI technologies within the client's environment. It is presented as a key demonstration asset to showcase AI strategy and production scaling capabilities.",
+    "context": [
+      "Gen AI case study"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_ben_001",
+    "name": "On Time and On Budget Delivery",
+    "aliases": [
+      "on time and on budget"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "cost_saving",
+    "description": "A quantified delivery benefit demonstrating strict adherence to project timelines and financial constraints. This outcome validates IBM's project management discipline and cost-control capabilities in executing complex HR platform deployments.",
+    "context": [
+      "Delivered Nationwide’s new Oracle Cloud HR Recruitment Platform on time and on budget"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_ben_002",
+    "name": "Progressing to Plan for Mar 2026 Go-Live",
+    "aliases": [
+      "progressing to plan for Mar 2026 go-live"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "speed_improvement",
+    "description": "A schedule adherence benefit indicating that the HR integration programme is tracking successfully toward a March 2026 production launch. This demonstrates reliable delivery velocity and effective milestone management.",
+    "context": [
+      "progressing to plan for Mar 2026 go-live"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_001",
+    "name": "Teradata",
+    "aliases": [
+      "Teradata"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "database",
+    "description": "A legacy enterprise data warehouse platform targeted for decommissioning. The client is executing a Teradata exit strategy, leveraging IBM's migration accelerators to transition workloads to modern data platforms.",
+    "context": [
+      "Teradata Migration",
+      "Delivering Teradata Exit with Accelerators",
+      "Teradata Migration case study"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_002",
+    "name": "Databricks",
+    "aliases": [
+      "Databricks",
+      "DBT Databricks"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "cloud_platform",
+    "description": "A modern cloud-based data and AI platform serving as the target environment for SQL and data migration workloads. IBM is owning the DBT Databricks framework to simplify SQL processes and drive data modernisation.",
+    "context": [
+      "SQL  Databricks Migration",
+      "Owning DBT Databricks in SQL Simplification"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_003",
+    "name": "Oracle Cloud",
+    "aliases": [
+      "Oracle Cloud",
+      "Oracle HCM"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "cloud_platform",
+    "description": "A cloud-based enterprise software platform hosting HR and recruitment systems. It is the underlying infrastructure for the delivered Oracle Cloud HR Recruitment Platform and the broader Oracle HCM integration programme.",
+    "context": [
+      "Oracle Cloud HR Recruitment Platform",
+      "Oracle HCM"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_004",
+    "name": "DBT",
+    "aliases": [
+      "dbt",
+      "DBT Databricks"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "framework",
+    "description": "A data transformation framework used within the Databricks ecosystem to manage SQL transformations. IBM is positioned as owning and managing this framework to simplify SQL workflows and support data modernisation efforts.",
+    "context": [
+      "Owning DBT Databricks in SQL Simplification"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_005",
+    "name": "SQL",
+    "aliases": [
+      "SQL",
+      "SQL Simplification"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "integration_tool",
+    "description": "A standard query language used across the client's data landscape. The collateral highlights a focus on SQL simplification and migration, indicating a need to reduce complexity and improve data accessibility.",
+    "context": [
+      "SQL  Databricks Migration",
+      "SQL Simplification"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_006",
+    "name": "Gen AI",
+    "aliases": [
+      "Gen AI",
+      "Generative AI"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "ai_platform",
+    "description": "A category of artificial intelligence technologies focused on generative capabilities. It is central to the client's AI strategy, with IBM serving as the primary systems integrator for deploying and scaling Gen AI use cases.",
+    "context": [
+      "Gen AI case study",
+      "Primary SI for Gen AI and Agentic"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_007",
+    "name": "Agentic",
+    "aliases": [
+      "Agentic",
+      "Agentic pathfinders"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "ai_platform",
+    "description": "An advanced AI technology category focusing on autonomous, goal-oriented agents. It represents the next evolution in the client's AI roadmap, with IBM leading pathfinder initiatives and enterprise-scale production deployments.",
+    "context": [
+      "Primary SI for Gen AI and Agentic",
+      "Agentic pathfinders"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_diff_001",
+    "name": "Accelerators",
+    "aliases": [
+      "Accelerators",
+      "Teradata Exit Accelerators"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "proprietary_asset",
+    "description": "Proprietary tools and frameworks designed to accelerate migration and modernisation projects. These accelerators reduce delivery timelines and mitigate risk, serving as a key competitive advantage in executing the Teradata exit.",
+    "context": [
+      "Delivering Teradata Exit with Accelerators"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_diff_002",
+    "name": "Strategic Partner Status",
+    "aliases": [
+      "Strategic Partner for AI & Modern Data Platforms"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "partnership",
+    "description": "A formalised partnership positioning that distinguishes IBM as a trusted strategic advisor rather than a transactional vendor. This status enables deeper access to client roadmaps, co-creation of AI assets, and leadership in complex integration programmes.",
+    "context": [
+      "Strategic Partner for AI & Modern Data Platforms"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_diff_003",
+    "name": "Primary Systems Integrator (SI) Role",
+    "aliases": [
+      "Primary SI for Gen AI and Agentic"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "delivery_model",
+    "description": "A delivery model differentiator establishing IBM as the lead systems integrator for AI and Agentic workloads. This role consolidates responsibility for end-to-end integration, scaling, and productionisation of enterprise AI use cases.",
+    "context": [
+      "Primary SI for Gen AI and Agentic"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_001",
+    "name": "KP",
+    "aliases": [
+      "KP"
+    ],
+    "entity_class": "PERSON",
+    "type": "contact",
+    "description": "A key presenter or stakeholder responsible for the Nationwide overview segment of the showcase. Likely represents IBM leadership or account management, providing strategic context for the client relationship.",
+    "context": [
+      "Introduction and Nationwide Overview - KP"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_002",
+    "name": "Vera",
+    "aliases": [
+      "Vera"
+    ],
+    "entity_class": "PERSON",
+    "type": "contact",
+    "description": "A presenter or stakeholder focused on the Virgin Money segment. Likely represents IBM delivery, account management, or client-side leadership overseeing VM-specific initiatives.",
+    "context": [
+      "Virgin Money - Vera"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_003",
+    "name": "Sam H",
+    "aliases": [
+      "Sam H"
+    ],
+    "entity_class": "PERSON",
+    "type": "contact",
+    "description": "A presenter or stakeholder leading the Cloud, Digital & Integration segment. Likely represents IBM technical leadership or solution architecture driving cloud and integration strategies.",
+    "context": [
+      "Cloud, Digital & Integration – Sam H"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_004",
+    "name": "Holly",
+    "aliases": [
+      "Holly"
+    ],
+    "entity_class": "PERSON",
+    "type": "contact",
+    "description": "A presenter or stakeholder responsible for the Data & Functions overview. Likely represents IBM data engineering or analytics leadership overseeing portfolio priorities and modernisation efforts.",
+    "context": [
+      "Data & Functions - Holly"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_005",
+    "name": "Tim",
+    "aliases": [
+      "Tim"
+    ],
+    "entity_class": "PERSON",
+    "type": "contact",
+    "description": "A presenter or stakeholder involved in both the Integration and Customer Servicing segments. Likely represents IBM integration delivery or customer experience leadership driving automation and platform modernisation.",
+    "context": [
+      "Integration - Tim",
+      "Customer Servicing – Tim &amp; Peter"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_006",
+    "name": "Peter",
+    "aliases": [
+      "Peter"
+    ],
+    "entity_class": "PERSON",
+    "type": "contact",
+    "description": "A presenter or stakeholder co-leading the Customer Servicing segment. Likely represents IBM customer experience or automation delivery supporting the client's servicing transformation.",
+    "context": [
+      "Customer Servicing – Tim &amp; Peter"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_007",
+    "name": "Duncan",
+    "aliases": [
+      "Duncan"
+    ],
+    "entity_class": "PERSON",
+    "type": "contact",
+    "description": "A presenter or stakeholder focused on the Mortgages segment. Likely represents IBM domain expertise or solution delivery supporting mortgage-specific data and automation initiatives.",
+    "context": [
+      "Mortgages - Duncan"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_org_001",
+    "name": "IBM Corporation",
+    "aliases": [
+      "IBM"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "vendor",
+    "description": "The primary selling organisation and solution provider referenced in the collateral. IBM is positioned as the strategic partner, systems integrator, and technology vendor delivering data, AI, and migration solutions to the client.",
+    "context": [
+      "Nationwide and IBM confidential",
+      "© 2024 IBM Corporation"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_evt_001",
+    "name": "Nationwide & VM Showcase",
+    "aliases": [
+      "Nationwide & VM Showcase"
+    ],
+    "entity_class": "EVENT",
+    "type": "announcement",
+    "description": "A scheduled client-facing presentation or internal showcase event dated November 20, 2025. The event serves as a platform to present IBM's D&F portfolio, 2025 successes, 2026 priorities, and live demonstrations of migration and AI use cases.",
+    "context": [
+      "# Nationwide &amp; VM Showcase",
+      "Nov 20 2025"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_002_tech_001",
+    "name": "Teradata",
+    "aliases": [
+      "Teradata Database",
+      "Teradata Platform"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "database",
+    "description": "A leading enterprise data warehousing and analytics platform referenced as the focal technology for the migration initiative described in the document.",
+    "context": [
+      "# Teradata Migration"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_002",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_002_off_001",
+    "name": "Teradata Migration",
+    "aliases": [
+      "Migration",
+      "Teradata Migration Service"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "professional_service",
+    "description": "A named service offering focused on migrating data, workloads, or infrastructure associated with the Teradata platform, positioned to address client data estate transitions and modernization requirements.",
+    "context": [
+      "# Teradata Migration"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_002",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cli_001",
+    "name": "Nationwide Building Society",
+    "aliases": [
+      "Nationwide"
+    ],
+    "entity_class": "CLIENT",
+    "type": "named_account",
+    "description": "A major UK financial services organization that required a strategic data platform migration to modernize its data landscape and meet aggressive FY 2026-27 deadlines.",
+    "context": [
+      "Nationwide Building Society needed to migrate data assets from Teradata vantage to Lakehouse (Databricks) by first quarter of FY 2026-27",
+      "ensuring alignment with aggressive project timelines."
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_org_001",
+    "name": "IBM Consulting",
+    "aliases": [
+      "IBM"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "partner",
+    "description": "The consulting and implementation partner engaged by the client to optimize data landscapes, execute platform migrations, and deliver GenAI-driven asset development.",
+    "context": [
+      "IBM Consulting was engaged to optimise and unify the data landscape across the organization",
+      "Subject Matter Experts from IBM were brought in to evaluate the data platform migration strategy"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_tech_001",
+    "name": "Teradata vantage",
+    "aliases": [
+      "Teradata"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "legacy_system",
+    "description": "The client's existing on-premises data warehouse platform serving as the source system for the migration initiative.",
+    "context": [
+      "migrate data assets from Teradata vantage to Lakehouse (Databricks)",
+      "conversion of Teradata procedures to DBT."
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_tech_002",
+    "name": "Databricks Lakehouse",
+    "aliases": [
+      "Lakehouse",
+      "Databricks"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "cloud_platform",
+    "description": "The target cloud-based data platform where the client's data assets are consolidated to replace legacy systems and enable modern analytics.",
+    "context": [
+      "to Lakehouse (Databricks) by first quarter of FY 2026-27",
+      "migrate data assets from Teradata vantage to Lakehouse (Databricks)"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_tech_003",
+    "name": "Microsoft Azure",
+    "aliases": [
+      "Azure"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "cloud_platform",
+    "description": "The strategic cloud infrastructure platform selected by the client to host and unify the consolidated data assets.",
+    "context": [
+      "consolidating all data assets onto a strategic technology platform—Microsoft Azure.",
+      "deployment of IBM assets within the client’s network"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_off_001",
+    "name": "IBM Data Platform Migration Service",
+    "aliases": [
+      "data platform migration strategy",
+      "data landscape optimization"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "managed_service",
+    "description": "A comprehensive engagement focused on evaluating, architecting, and executing the migration of client data assets to a modern cloud lakehouse architecture.",
+    "context": [
+      "IBM Consulting was engaged to optimise and unify the data landscape across the organization",
+      "The data platform migration strategy necessitated the deployment of IBM assets within the client’s network"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_off_002",
+    "name": "ICA-DMA Assets",
+    "aliases": [
+      "GenAI assets",
+      "Acquire and Publish framework"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "platform",
+    "description": "IBM's proprietary GenAI-driven data management and automation assets deployed to accelerate code development, testing, and data mart processing.",
+    "context": [
+      "IBM’s value proposition was focused on ICA-DMA assets, which is currently being deployed in the client’s environment.",
+      "development of GenAI assets during the conversion of Teradata procedures to DBT."
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cap_001",
+    "name": "Code Development Acceleration",
+    "aliases": [
+      "faster project delivery",
+      "accelerated code development"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "automation_capability",
+    "description": "The ability to significantly reduce manual coding efforts and testing cycles through automated, asset-driven development methodologies.",
+    "context": [
+      "significantly accelerated code development and testing, enabling faster project delivery",
+      "validated the asset-driven approach as a key enabler for faster project delivery"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_use_001",
+    "name": "Legacy Data Warehouse Migration",
+    "aliases": [
+      "Teradata to Lakehouse migration",
+      "data migration"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "migration",
+    "description": "The operational scenario of migrating historical data assets from a legacy Teradata environment to a modern cloud lakehouse architecture.",
+    "context": [
+      "needed to migrate data assets from Teradata vantage to Lakehouse (Databricks)",
+      "POC was executed using a complex data mart codebase"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_ben_001",
+    "name": ">30% Reduction in Code Build & Test",
+    "aliases": [
+      "code build reduction",
+      "testing efficiency"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "efficiency_gain",
+    "description": "A quantified operational improvement resulting from automated asset deployment, directly reducing the effort required for code construction and validation.",
+    "context": [
+      ">30% reduction in code build and test activities.",
+      "Increased efficiency & productivity which helped to fast track the project delivery"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_ben_002",
+    "name": "Improved Time-to-Value",
+    "aliases": [
+      "faster project delivery",
+      "speed_improvement"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "speed_improvement",
+    "description": "The accelerated realization of business value and project milestones enabled by streamlined development processes and early asset deployment.",
+    "context": [
+      "enabling faster project delivery and improved time-to-value.",
+      "meet the stringent timelines."
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cha_001",
+    "name": "Aggressive Project Timelines",
+    "aliases": [
+      "stringent deadlines",
+      "FY 2026-27 deadline"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "operational_inefficiency",
+    "description": "The constraint of meeting a strict first-quarter FY 2026-27 deadline for a complex data migration, requiring rapid execution and optimized delivery.",
+    "context": [
+      "by first quarter of FY 2026-27 (i.e. Jun-2026).",
+      "ensuring alignment with aggressive project timelines."
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cha_002",
+    "name": "Complex Data Mart Codebase",
+    "aliases": [
+      "legacy code complexity",
+      "data mart complexity"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "legacy_constraint",
+    "description": "The technical difficulty associated with processing and migrating a highly complex, legacy data mart codebase during the POC and migration phases.",
+    "context": [
+      "POC was executed using a complex data mart codebase, demonstrating a significant acceleration",
+      "conversion of Teradata procedures to DBT."
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_dif_001",
+    "name": "Proactive Delivery Approach",
+    "aliases": [
+      "early engagement",
+      "proactive SME involvement"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "delivery_model",
+    "description": "The consulting team's recognized proactive methodology in delivering key architecture milestones ahead of schedule through early stakeholder collaboration.",
+    "context": [
+      "IBM team was recognized for their proactive approach in delivering the Workstream Medallion Architecture Bronze milestone",
+      "ahead of schedule."
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_dif_002",
+    "name": "Asset-Driven Development Framework",
+    "aliases": [
+      "GenAI asset deployment",
+      "DMA framework"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "proprietary_asset",
+    "description": "The use of pre-built, automated IBM assets to replace manual coding processes, serving as a key enabler for accelerated delivery and reduced effort.",
+    "context": [
+      "validated the asset-driven approach as a key enabler for faster project delivery",
+      "Use of IBM GenAI assets DMA(anticipated post deployment of assets in client environment)"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_loc_001",
+    "name": "Pune",
+    "aliases": [
+      "Pune office"
+    ],
+    "entity_class": "LOCATION",
+    "type": "office",
+    "description": "The geographic location where the collaborative architecture workshop and hands-on sessions were conducted with client stakeholders and IBM SMEs.",
+    "context": [
+      "A collaborative workshop was conducted in Pune, bringing together client stakeholders",
+      "direct access to the Acquire and Publish framework."
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_evt_001",
+    "name": "Data Platform Migration POC",
+    "aliases": [
+      "POC execution",
+      "complex data mart POC"
+    ],
+    "entity_class": "EVENT",
+    "type": "proof_of_concept",
+    "description": "A targeted proof of concept executed to validate the asset-driven migration approach against a complex data mart codebase, demonstrating accelerated development capabilities.",
+    "context": [
+      "POC was executed using a complex data mart codebase, demonstrating a significant acceleration",
+      "validated the asset-driven approach as a key enabler"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_evt_002",
+    "name": "Collaborative Architecture Workshop",
+    "aliases": [
+      "Pune workshop",
+      "hands-on sessions"
+    ],
+    "entity_class": "EVENT",
+    "type": "demo",
+    "description": "A joint working session between client stakeholders and IBM subject matter experts focused on evaluating migration strategy and architecture.",
+    "context": [
+      "A collaborative workshop was conducted in Pune, bringing together client stakeholders",
+      "for hands-on sessions and direct access to the Acquire and Publish framework."
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_004_tech_001",
+    "name": "Teradata",
+    "aliases": [
+      "Teradata Database",
+      "Teradata Platform"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "database",
+    "description": "A prominent enterprise data warehousing and analytics platform identified as the legacy or source system in the context of a migration project.",
+    "context": [
+      "Teradata"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_004",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_004_cap_001",
+    "name": "Migration",
+    "aliases": [
+      "Data Migration",
+      "System Migration"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "migration_capability",
+    "description": "The technical capability to transfer data, workloads, and infrastructure from an existing Teradata environment to a target platform, serving as the core focus of the demonstration.",
+    "context": [
+      "Teradata Migration"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_004",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_004_evt_001",
+    "name": "Demo",
+    "aliases": [
+      "Demonstration",
+      "Product Demo"
+    ],
+    "entity_class": "EVENT",
+    "type": "demo",
+    "description": "A presentation or live demonstration event showcasing the Teradata migration process, likely intended to validate the solution's approach and capabilities for prospective clients.",
+    "context": [
+      "Demo Teradata Migration"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_004",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_005_off_001",
+    "name": "AI Center of Excellence",
+    "aliases": [
+      "AI CoE"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "framework",
+    "description": "A structured program or framework focused on establishing, governing, and scaling artificial intelligence initiatives. Likely serves as a centralized hub for strategy, governance, and best practices within the sales context.",
+    "context": [
+      "# AI CoE"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_005",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_cli_001",
+    "name": "Nationwide",
+    "aliases": [
+      "Nationwide & IBM",
+      "the client",
+      "our joint teams"
+    ],
+    "entity_class": "CLIENT",
+    "type": "named_account",
+    "description": "A major financial services organization and the primary client for the generative AI partnership initiative. The document outlines a multi-month roadmap for deploying AI solutions safely and responsibly across customer, colleague, and IT operations domains.",
+    "context": [
+      "Nationwide and IBM confidential",
+      "our joint Nationwide & IBM teams have successfully defined how AI will be put to work safely and responsibly at Nationwide",
+      "Complaints onboarding new journeys"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_org_001",
+    "name": "IBM",
+    "aliases": [
+      "IBM Corporation",
+      "the partner"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "partner",
+    "description": "The technology and consulting partner collaborating with Nationwide on a joint generative AI delivery and governance program. IBM provides the underlying platforms, accelerators, and AI workforce to support the client's transformation.",
+    "context": [
+      "Nationwide and IBM confidential",
+      "© 2024 IBM Corporation",
+      "our joint Nationwide & IBM teams have successfully defined"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_off_001",
+    "name": "Generative AI",
+    "aliases": [
+      "GenAI",
+      "AI muscle",
+      "AI initiatives"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "The core strategic offering being deployed across Nationwide's operations. The solution encompasses a suite of AI-driven capabilities, platforms, and use cases designed to modernize workflows, enhance customer experience, and improve operational efficiency.",
+    "context": [
+      "how AI will be put to work safely and responsibly at Nationwide",
+      "built generative AI muscle through the POC experiments",
+      "Other x n use cases"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_off_002",
+    "name": "GenAI Platform Federation",
+    "aliases": [
+      "Platform Federation",
+      "Federated AI Platform"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "platform",
+    "description": "A centralized governance and delivery architecture enabling scalable AI consumption. It integrates API management, consumer access controls, and governance frameworks to ensure secure and compliant AI deployment across the enterprise.",
+    "context": [
+      "GenAI Platform Federation – API Management + Consumers + Governance (WatsonX.gov)",
+      "begun setting up the foundations for accelerated delivery and governance"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_001",
+    "name": "WatsonX.gov",
+    "aliases": [
+      "WatsonX Government",
+      "Governance Platform"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "platform",
+    "description": "IBM's enterprise governance and risk management platform integrated into the GenAI Federation. It provides the controls, auditing, and compliance frameworks necessary to deploy AI safely and responsibly at scale.",
+    "context": [
+      "GenAI Platform Federation – API Management + Consumers + Governance (WatsonX.gov)"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_002",
+    "name": "Watsonx Assistant v2",
+    "aliases": [
+      "Arti 2",
+      "Watsonx Assitant v2",
+      "Watson Assistant v2"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "ai_platform",
+    "description": "The second version of IBM's conversational AI platform, positioned as a key delivery vehicle for customer and colleague-facing generative AI applications within the Nationwide ecosystem.",
+    "context": [
+      "Arti 2 – Watsonx Assitant v2"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_003",
+    "name": "FIGMA Code Converter",
+    "aliases": [
+      "Figma Converter",
+      "Design-to-Code Tool"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "integration_tool",
+    "description": "An AI-powered development tool used to translate FIGMA design prototypes into functional React code. It accelerates front-end development and reduces manual coding effort for UI/UX modernization.",
+    "context": [
+      "FIGMA Code Converter POC",
+      "FIGMA – React Code Conversion"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_004",
+    "name": "Cobol IQP+",
+    "aliases": [
+      "IQP+",
+      "Cobol Testing Platform"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "tool",
+    "description": "A specialized testing and quality assurance tool focused on legacy COBOL systems. It is being piloted to validate testing workflows and support modernization efforts for older application codebases.",
+    "context": [
+      "Cobol IQP+ (Testing) PoC",
+      "IQP+ Deployed"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_005",
+    "name": "Lakehouse",
+    "aliases": [
+      "Data Lakehouse",
+      "Lakehouse Architecture"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "infrastructure",
+    "description": "A modern data architecture combining data warehousing and data lake capabilities. It serves as the foundational data layer for integrating AI workloads, accelerators, and agentic workflows.",
+    "context": [
+      "Integration with Lakehouse, Solution Accelerators, Agentic workflows, Small Language Model"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_cap_001",
+    "name": "Agentic Workflows",
+    "aliases": [
+      "AI Agents",
+      "Autonomous Workflows"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "technical_capability",
+    "description": "The ability to deploy autonomous AI agents that execute multi-step business processes without constant human intervention. Integrated with the Lakehouse and solution accelerators to drive end-to-end automation.",
+    "context": [
+      "Integration with Lakehouse, Solution Accelerators, Agentic workflows, Small Language Model"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_cap_002",
+    "name": "Documents Intelligence",
+    "aliases": [
+      "Doc AI",
+      "Document Processing"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "technical_capability",
+    "description": "An AI-driven capability for extracting, classifying, and analyzing unstructured document data. It supports downstream use cases such as complaints processing and transcript analysis.",
+    "context": [
+      "Documents Intelligence"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_cap_003",
+    "name": "Governance",
+    "aliases": [
+      "AI Governance",
+      "Governance Framework"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "delivery_capability",
+    "description": "The operational and compliance framework ensuring AI solutions are deployed safely, responsibly, and in alignment with regulatory standards. Central to the GenAI Platform Federation and WatsonX.gov integration.",
+    "context": [
+      "how AI will be put to work safely and responsibly at Nationwide",
+      "GenAI Platform Federation – API Management + Consumers + Governance (WatsonX.gov)",
+      "foundations for accelerated delivery and governance"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_001",
+    "name": "Complaints Management",
+    "aliases": [
+      "Complaints Processing",
+      "Complaints Journeys"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "customer_experience",
+    "description": "A customer-facing application where AI is used to streamline, analyze, and resolve customer complaints. The use case involves onboarding new digital journeys and scaling AI-driven support workflows.",
+    "context": [
+      "Complaints Pilot go-Live",
+      "Complaints onboarding new journeys"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_002",
+    "name": "Fraud Analysis",
+    "aliases": [
+      "Fraud Detection",
+      "Fraud Analytics"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "fraud_detection",
+    "description": "An operational use case leveraging AI to identify, investigate, and mitigate fraudulent activities. Positioned as a key consumer of the generative AI platform within IT and security operations.",
+    "context": [
+      "Fraud Analysis"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_003",
+    "name": "Call Transcript Analysis",
+    "aliases": [
+      "Transcript Processing",
+      "Voice Analytics"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "analytics",
+    "description": "A data-driven use case that processes recorded customer interactions to extract insights, improve service quality, and support compliance auditing. Serves as a primary data source for AI model training and governance.",
+    "context": [
+      "Call Transcripts"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_004",
+    "name": "Code Modernisation",
+    "aliases": [
+      "React Code Conversion",
+      "Design-to-Code Modernisation"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "modernisation",
+    "description": "A development use case that converts legacy or prototype FIGMA designs into production-ready React code. It accelerates UI development cycles and reduces manual engineering effort.",
+    "context": [
+      "FIGMA – React Code Conversion"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_005",
+    "name": "Legacy System Testing",
+    "aliases": [
+      "COBOL Testing",
+      "IQP+ Testing"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "compliance",
+    "description": "A quality assurance use case focused on validating legacy COBOL applications. The pilot rollout of Cobol IQP+ ensures system reliability and compliance before broader deployment or modernization.",
+    "context": [
+      "Cobol IQP+ (Testing) PoC"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_ben_001",
+    "name": "Safe and Responsible AI Deployment",
+    "aliases": [
+      "Responsible AI",
+      "Safe AI Work"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "risk_reduction",
+    "description": "A strategic outcome ensuring that AI initiatives are implemented with appropriate safeguards, ethical standards, and regulatory compliance. Mitigates operational and reputational risks associated with generative AI adoption.",
+    "context": [
+      "how AI will be put to work safely and responsibly at Nationwide"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_ben_002",
+    "name": "Accelerated Delivery",
+    "aliases": [
+      "Faster Delivery",
+      "Speed to Value"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "speed_improvement",
+    "description": "An operational benefit achieved through established governance foundations and platform federation. Enables faster rollout of AI use cases, pilots, and production deployments across customer, colleague, and IT domains.",
+    "context": [
+      "foundations for accelerated delivery and governance"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_evt_001",
+    "name": "POC Experiments",
+    "aliases": [
+      "Proof of Concept Phase",
+      "POC Work"
+    ],
+    "entity_class": "EVENT",
+    "type": "proof_of_concept",
+    "description": "The initial experimental phase where joint teams tested generative AI capabilities to build foundational knowledge and validate technical approaches. Served as the catalyst for scaling and governance setup.",
+    "context": [
+      "built generative AI muscle through the POC experiments"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_evt_002",
+    "name": "Pilot Rollout",
+    "aliases": [
+      "Pilot Phase",
+      "Pilot Launch"
+    ],
+    "entity_class": "EVENT",
+    "type": "pilot",
+    "description": "A controlled deployment event marking the transition from proof-of-concept to early production use. Applied across multiple workstreams including complaints, code conversion, and legacy testing.",
+    "context": [
+      "Pilot Rollout",
+      "Pilot rollout"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_evt_003",
+    "name": "Complaints Pilot Go-Live",
+    "aliases": [
+      "Complaints Pilot Launch",
+      "Complaints Go-Live"
+    ],
+    "entity_class": "EVENT",
+    "type": "pilot",
+    "description": "A specific milestone event marking the operational launch of the AI-driven complaints management use case. Represents a key step in scaling generative AI across customer-facing journeys.",
+    "context": [
+      "Complaints Pilot go-Live"
+    ],
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+    "domain": "sales_collateral"
+  }
+]

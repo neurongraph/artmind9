@@ -1,0 +1,2239 @@
+[
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_002_cli_001",
+    "name": "Nationwide",
+    "properties": {
+      "industry": "banking",
+      "geography": "UK",
+      "relationship_status": "prospect"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_002",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_002_org_001",
+    "name": "IBM",
+    "properties": {
+      "org_type": "partner",
+      "relationship_to_offering": "co-deliverer"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_002",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_002_eve_001",
+    "name": "Gen AI Demonstrations",
+    "properties": {
+      "event_type": "demonstration",
+      "relevance_to_deal": "sales_engagement",
+      "key_participants": [
+        "Nationwide",
+        "IBM"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_002",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_003_cli_001",
+    "name": "Nationwide",
+    "properties": {
+      "industry": "banking",
+      "geography": "UK",
+      "relationship_status": "active",
+      "named_or_anonymous": true
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_003",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_003_org_001",
+    "name": "IBM",
+    "properties": {
+      "org_type": "vendor",
+      "relationship_to_offering": "provider"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_003",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_003_evt_001",
+    "name": "Gen AI Demo 2025",
+    "properties": {
+      "event_type": "demo",
+      "date_or_period": "2025",
+      "relevance_to_deal": "opportunity",
+      "key_participants": [
+        "Nationwide",
+        "IBM"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_003",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_003_off_001",
+    "name": "Quality Assurance Assistant",
+    "properties": {
+      "offering_type": "product",
+      "scope": "quality assurance",
+      "target_client_profile": "Nationwide"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_003",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_003_off_002",
+    "name": "Complaints Letter Generation",
+    "properties": {
+      "offering_type": "product",
+      "scope": "complaints letter generation",
+      "target_client_profile": "Nationwide"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_003",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_003_use_001",
+    "name": "Development Productivity",
+    "properties": {
+      "problem_context": "software development lifecycle",
+      "approach": "Gen AI integration",
+      "industry_or_vertical": "digital",
+      "outcome_achieved": "productivity gain"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_003",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_003_use_002",
+    "name": "Migration Productivity",
+    "properties": {
+      "problem_context": "data platform migration",
+      "approach": "Gen AI assisted migration",
+      "industry_or_vertical": "data_migration",
+      "outcome_achieved": "productivity gain"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_003",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_003_tech_001",
+    "name": "Teradata",
+    "properties": {
+      "vendor": "Teradata",
+      "technology_category": "data_platform",
+      "role_in_solution": "legacy_target",
+      "maturity": "legacy",
+      "key_characteristics": "source data platform for migration"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_003",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_003_tech_002",
+    "name": "Databricks",
+    "properties": {
+      "vendor": "Databricks",
+      "technology_category": "data_platform",
+      "role_in_solution": "target",
+      "maturity": "modern",
+      "key_characteristics": "destination data platform for migration"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_003",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_003_tech_003",
+    "name": "Confluence",
+    "properties": {
+      "vendor": "Atlassian",
+      "technology_category": "collaboration_knowledge_base",
+      "role_in_solution": "integrated",
+      "maturity": "modern",
+      "key_characteristics": "knowledge source for RAG implementation"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_003",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_003_cap_001",
+    "name": "Retrieval-Augmented Generation (RAG)",
+    "properties": {
+      "what_it_does": "enhances AI generation with retrieved context",
+      "technical_components": [
+        "RAG",
+        "Confluence integration"
+      ],
+      "delivery_maturity": "proven",
+      "differentiating_aspect": "context-aware AI generation",
+      "industry_applicability": [
+        "digital",
+        "data_migration"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_003",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_003_org_002",
+    "name": "AI COE",
+    "properties": {
+      "org_type": "internal_center_of_excellence",
+      "relationship_to_offering": "governance_owner"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_003",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_003_ben_001",
+    "name": "Productivity Gain",
+    "properties": {
+      "beneficiary": "Nationwide",
+      "category": "speed",
+      "evidence_type": "claimed"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_003",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_004_cli_001",
+    "name": "Nationwide",
+    "properties": {
+      "relationship_status": "active",
+      "named_or_anonymous": true,
+      "engagement_type": [
+        "Gen AI Demo 2025",
+        "PoC",
+        "Hackathons"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_004",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_004_org_001",
+    "name": "IBM",
+    "properties": {
+      "org_type": "partner",
+      "relationship_to_offering": "co-deliverer"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_004",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_004_tech_001",
+    "name": "Copilot",
+    "properties": {
+      "technology_category": "developer productivity tool",
+      "role_in_solution": "core",
+      "key_characteristics": [
+        "accelerates tasks within SDLC lifecycle",
+        "deployed on-prem and off-network with ICA"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_004",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_004_tech_002",
+    "name": "Watsonx.Gov",
+    "properties": {
+      "vendor_or_provider": "IBM",
+      "technology_category": "AI governance & monitoring",
+      "role_in_solution": "supporting",
+      "key_characteristics": [
+        "AI governance workflow management",
+        "model monitoring tooling",
+        "integrated with Microsoft Monitoring MVP in POC"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_004",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_004_tech_003",
+    "name": "Azure OpenAI Services",
+    "properties": {
+      "vendor_or_provider": "Microsoft",
+      "technology_category": "cloud AI platform",
+      "role_in_solution": "core",
+      "key_characteristics": [
+        "hosted on Azure",
+        "supports AI Foundry and Federated Build"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_004",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_004_tech_004",
+    "name": "ICA",
+    "properties": {
+      "technology_category": "infrastructure / connectivity",
+      "role_in_solution": "supporting",
+      "key_characteristics": [
+        "enables on-prem deployment",
+        "supports off-network PoC"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_004",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_004_cap_001",
+    "name": "Developer Productivity",
+    "properties": {
+      "what_it_does": "accelerates tasks within the SDLC lifecycle",
+      "technical_components": [
+        "Copilot"
+      ],
+      "delivery_maturity": "proven",
+      "differentiating_aspect": "directly targets developer workflow efficiency"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_004",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_004_cap_002",
+    "name": "Monitoring & Governance",
+    "properties": {
+      "what_it_does": "manages AI governance workflows and monitors models",
+      "technical_components": [
+        "Microsoft Monitoring MVP",
+        "Watsonx.Gov"
+      ],
+      "delivery_maturity": "proven",
+      "differentiating_aspect": "integrates governance workflows with model monitoring"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_004",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_004_use_001",
+    "name": "AI CoE Use Case Development",
+    "properties": {
+      "problem_context": "developing enterprise-grade AI solutions for business units",
+      "approach": "centralized AI CoE framework",
+      "industry": "NBS",
+      "outcome_achieved": "enterprise-grade solutions supporting NBS business units",
+      "complexity_level": "complex"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_004",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_004_off_001",
+    "name": "IBM Gen AI Demo 2025",
+    "properties": {
+      "offering_type": "demo / proof of concept",
+      "delivery_model": "hybrid",
+      "scope": "demonstrates Gen AI tooling, developer productivity, and governance workflows",
+      "target_client_profile": "Nationwide",
+      "key_phases_or_components": [
+        "Developer Productivity",
+        "Monitoring & Governance",
+        "AI CoE Use Case Development"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_004",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_004_off_002",
+    "name": "Federated Build",
+    "properties": {
+      "offering_type": "architecture / delivery model",
+      "delivery_model": "federated",
+      "scope": "enables distributed AI development across Azure OpenAI and AI Foundry",
+      "key_phases_or_components": [
+        "AzOAI",
+        "AI Foundry"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_004",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_004_evt_001",
+    "name": "Hackathons",
+    "properties": {
+      "event_type": "innovation / development event",
+      "relevance_to_deal": "demonstrates developer productivity and AI tooling adoption",
+      "key_participants": [
+        "IBM",
+        "Nationwide"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_004",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_004_ben_001",
+    "name": "Task Acceleration",
+    "properties": {
+      "beneficiary": "developers",
+      "time_to_value": "within SDLC lifecycle",
+      "category": "speed",
+      "evidence_type": "claimed"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_004",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_004_cli_002",
+    "name": "NBS Business Units",
+    "properties": {
+      "industry": "NBS",
+      "relationship_status": "active",
+      "named_or_anonymous": true,
+      "pain_points": [
+        "require enterprise-grade AI solutions"
+      ],
+      "engagement_type": "solution adoption"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_004",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_004_diff_001",
+    "name": "Enterprise-Grade Solutions",
+    "properties": {
+      "competitive_advantage": "delivers robust, scalable AI solutions tailored for enterprise environments",
+      "evidence_or_proof_point": "supported by AI CoE framework and governance workflows",
+      "uniqueness": "best-in-class",
+      "target_audience": "NBS business units",
+      "relates_to_offering": "AI CoE Use Case Development"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_004",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_005_cli_001",
+    "name": "Nationwide",
+    "properties": {},
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_005",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_005_org_001",
+    "name": "IBM",
+    "properties": {},
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_005",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_005_tech_001",
+    "name": "Generative AI",
+    "properties": {},
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_005",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_005_use_001",
+    "name": "Developer Productivity",
+    "properties": {},
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_005",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_005_evt_001",
+    "name": "Gen AI Demo",
+    "properties": {
+      "event_type": "demo"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_005",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_006_org_001",
+    "name": "GenAIin",
+    "properties": {
+      "org_type": "client",
+      "relationship_to_offering": "client"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_006",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_006_off_001",
+    "name": "Migration Productivity",
+    "properties": {
+      "offering_type": "migration programme",
+      "scope": "Teradata to Databricks data migration",
+      "target_client_profile": "GenAIin"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_006",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_006_tech_001",
+    "name": "Teradata",
+    "properties": {
+      "vendor_or_provider": "Teradata",
+      "technology_category": "data warehouse",
+      "role_in_solution": "replaced",
+      "maturity": "legacy"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_006",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_006_tech_002",
+    "name": "Databricks",
+    "properties": {
+      "vendor_or_provider": "Databricks",
+      "technology_category": "cloud data platform",
+      "role_in_solution": "target",
+      "maturity": "modern"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_006",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_007_cli_001",
+    "name": "Nationwide",
+    "properties": {
+      "industry": [
+        "financial_services"
+      ],
+      "size": [
+        "enterprise"
+      ],
+      "pain_points": [
+        "significant_cost_and_technical_limitations",
+        "aggressive_contractual_timeline_constraints"
+      ],
+      "engagement_type": [
+        "migration_project",
+        "gen_ai_demo"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_007_off_001",
+    "name": "GENAI Copilot",
+    "properties": {
+      "offering_type": [
+        "ai_copilot"
+      ],
+      "scope": [
+        "code_conversion",
+        "data_hydration",
+        "system_repointing"
+      ],
+      "key_phases_or_components": [
+        "analysis",
+        "design",
+        "conversion",
+        "user_testing"
+      ],
+      "target_client_profile": [
+        "enterprise"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_007_cap_001",
+    "name": "AI-Driven Code and Data Migration",
+    "properties": {
+      "what_it_does": [
+        "streamlines_code_and_data_migration",
+        "accelerates_complex_teradata_modernization"
+      ],
+      "technical_components": [
+        "code_conversion",
+        "data_hydration",
+        "system_repointing",
+        "stored_procedure_migration",
+        "complex_view_migration"
+      ],
+      "delivery_maturity": [
+        "proven"
+      ],
+      "differentiating_aspect": [
+        "ai_powered_acceleration_for_massive_scale"
+      ],
+      "industry_applicability": [
+        "financial_services"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_007_use_001",
+    "name": "Teradata Modernization",
+    "properties": {
+      "problem_context": [
+        "massive_teradata_environment_with_cost_and_technical_limitations",
+        "aggressive_contractual_timeline_constraints"
+      ],
+      "approach": [
+        "ai_driven_code_and_data_migration",
+        "data_hydration_into_data_lakehouse",
+        "system_repointing"
+      ],
+      "industry": [
+        "financial_services"
+      ],
+      "outcome_achieved": [
+        "accelerated_project_timelines",
+        "unprecedented_operational_efficiency",
+        "25-60%_phase_time_reduction"
+      ],
+      "complexity_level": [
+        "highly_complex"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_007_ben_001",
+    "name": "Accelerated Project Timelines",
+    "properties": {
+      "quantified_value": [
+        "60-70%_shorter_than_industry_standards",
+        "analysis_25%_reduction",
+        "design_30%_reduction",
+        "conversion_60%_reduction",
+        "user_testing_20%_reduction"
+      ],
+      "beneficiary": [
+        "client",
+        "delivery_team"
+      ],
+      "category": [
+        "speed",
+        "cost"
+      ],
+      "evidence_type": [
+        "measured"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_007_ben_002",
+    "name": "Unprecedented Operational Efficiency",
+    "properties": {
+      "quantified_value": [
+        "unprecedented_efficiency",
+        "superior_business_outcomes"
+      ],
+      "beneficiary": [
+        "client",
+        "end_users"
+      ],
+      "category": [
+        "efficiency",
+        "quality"
+      ],
+      "evidence_type": [
+        "claimed"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_007_cha_001",
+    "name": "Massive Teradata Environment Scale",
+    "properties": {
+      "root_cause": [
+        "legacy_teradata_architecture",
+        "large_data_volume_and_codebase"
+      ],
+      "business_impact": [
+        "significant_cost_and_technical_limitations",
+        "modernization_bottlenecks"
+      ],
+      "urgency": [
+        "high"
+      ],
+      "who_faces_it": [
+        "nationwide"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_007_cha_002",
+    "name": "Aggressive Contractual Timeline",
+    "properties": {
+      "root_cause": [
+        "strict_contractual_demands"
+      ],
+      "business_impact": [
+        "60-70%_shorter_timeline_than_industry_standards",
+        "high_delivery_pressure"
+      ],
+      "urgency": [
+        "critical"
+      ],
+      "who_faces_it": [
+        "nationwide",
+        "ibm_delivery_team"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_007_tech_001",
+    "name": "Teradata",
+    "properties": {
+      "vendor_or_provider": [
+        "teradata"
+      ],
+      "technology_category": [
+        "data_warehouse",
+        "legacy_database"
+      ],
+      "role_in_solution": [
+        "legacy_target",
+        "modernization_source"
+      ],
+      "maturity": [
+        "legacy"
+      ],
+      "key_characteristics": [
+        "massive_scale",
+        "50+_tb_data_volume",
+        "2.5m+_lines_of_code",
+        "700_stored_procedures",
+        "6500_complex_views"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_007_tech_002",
+    "name": "Data Lakehouse",
+    "properties": {
+      "vendor_or_provider": [
+        "modern_data_platform"
+      ],
+      "technology_category": [
+        "data_lakehouse",
+        "modern_data_architecture"
+      ],
+      "role_in_solution": [
+        "target_destination",
+        "modernization_destination"
+      ],
+      "maturity": [
+        "modern"
+      ],
+      "key_characteristics": [
+        "modern_data_architecture",
+        "destination_for_hydrated_data",
+        "supports_complex_views_and_reports"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_007_dif_001",
+    "name": "AI-Powered Migration Acceleration",
+    "properties": {
+      "competitive_advantage": [
+        "ai_driven_acceleration_of_code_and_data_migration",
+        "enables_delivery_under_aggressive_contractual_timelines"
+      ],
+      "evidence_or_proof_point": [
+        "25-60%_phase_time_reduction",
+        "successful_migration_of_50+_tb_and_2.5m_loc"
+      ],
+      "uniqueness": [
+        "proprietary_ai_acceleration",
+        "best_in_class"
+      ],
+      "target_audience": [
+        "enterprise_financial_services",
+        "data_modernization_teams"
+      ],
+      "relates_to_offering": [
+        "genai_copilot"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_007_org_001",
+    "name": "IBM",
+    "properties": {
+      "org_type": [
+        "technology_vendor",
+        "service_provider"
+      ],
+      "relationship_to_offering": [
+        "provider",
+        "implementer"
+      ],
+      "geographic_presence": [
+        "global"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_007_evt_001",
+    "name": "IBM Gen AI Demo 2025",
+    "properties": {
+      "event_type": [
+        "demo",
+        "case_study_presentation"
+      ],
+      "date_or_period": [
+        "2025"
+      ],
+      "relevance_to_deal": [
+        "milestone",
+        "proof_of_concept",
+        "reference_case"
+      ],
+      "key_participants": [
+        "ibm",
+        "nationwide"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_008_off_001",
+    "name": "Quality Assurance Assistant",
+    "properties": {
+      "offering_type": "demonstration",
+      "scope": "quality assurance"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_008",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_008_off_002",
+    "name": "Chat with Data",
+    "properties": {
+      "offering_type": "demonstration",
+      "scope": "data interaction"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_008",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_008_off_003",
+    "name": "Gen AI solutions",
+    "properties": {
+      "offering_type": "solution_portfolio",
+      "technology_category": "gen ai",
+      "key_phases_or_components": [
+        "Quality Assurance Assistant",
+        "Chat with Data",
+        "Dynamic Pricing",
+        "Complaint Letter Generation"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_008",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_008_use_001",
+    "name": "Dynamic Pricing",
+    "properties": {
+      "problem_context": "pricing optimization",
+      "industry_or_vertical": "commercial"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_008",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_008_use_002",
+    "name": "Complaint Letter Generation",
+    "properties": {
+      "problem_context": "customer complaint handling",
+      "industry_or_vertical": "support"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_008",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_008_org_001",
+    "name": "AI COE",
+    "properties": {
+      "org_type": "center_of_excellence",
+      "focus_area": "gen ai",
+      "relationship_to_offering": "host"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_008",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_cli_001",
+    "name": "Nationwide",
+    "properties": {
+      "pain_points": [
+        "struggle to manually check <5% sample of customer interactions",
+        "major blind spot for service levels and regulatory exposure"
+      ],
+      "engagement_type": "demo",
+      "relationship_status": "prospect"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_off_001",
+    "name": "Quality Assurance Assistant",
+    "properties": {
+      "offering_type": "ai_assistant",
+      "scope": [
+        "review transcribed calls",
+        "identify vulnerability and complaint signals",
+        "inform service level improvements"
+      ],
+      "duration": "90 days",
+      "target_client_profile": "Quality Assurance teams",
+      "key_phases_or_components": [
+        "transcribed call review",
+        "vulnerability identification",
+        "complaint signal detection",
+        "service level improvement reporting"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_cap_001",
+    "name": "Transcribed Call Review",
+    "properties": {
+      "what_it_does": "reviews transcribed customer calls",
+      "delivery_maturity": "proven",
+      "differentiating_aspect": "automates manual call listening"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_cap_002",
+    "name": "Issue Identification",
+    "properties": {
+      "what_it_does": "identifies vulnerabilities and complaint signals",
+      "delivery_maturity": "proven",
+      "differentiating_aspect": "91% accuracy rate"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_use_001",
+    "name": "Customer Interaction Quality Assurance",
+    "properties": {
+      "problem_context": "QA teams struggle to manually check <5% of customer interactions",
+      "approach": "AI reviews transcribed calls to flag complaints and vulnerabilities for rectification",
+      "outcome_achieved": "3600 cases assessed, 91% accuracy, 17 sec processing time",
+      "complexity_level": "straightforward"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_use_002",
+    "name": "Regulatory Compliance Monitoring",
+    "properties": {
+      "problem_context": "manual sampling creates blind spots for regulatory exposure and service levels",
+      "approach": "AI flags compliance risks and complaint signals in transcribed calls",
+      "outcome_achieved": "mitigates regulatory exposure, enables service level improvements"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_ben_001",
+    "name": "Rapid Issue Resolution",
+    "properties": {
+      "quantified_value": "17 seconds average processing time",
+      "beneficiary": "QA team and customers",
+      "category": "speed",
+      "evidence_type": "measured"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_ben_002",
+    "name": "Time Savings at Scale",
+    "properties": {
+      "quantified_value": "~1750 days saved at 100% sample scale",
+      "beneficiary": "client organization",
+      "category": "cost",
+      "evidence_type": "projected"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_ben_003",
+    "name": "High Accuracy Detection",
+    "properties": {
+      "quantified_value": "91% accuracy",
+      "beneficiary": "QA team",
+      "category": "quality",
+      "evidence_type": "measured"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_cha_001",
+    "name": "Manual Sampling Limitation",
+    "properties": {
+      "root_cause": "manual review processes",
+      "business_impact": "major blind spot for service levels and regulatory exposure",
+      "urgency": "high",
+      "who_faces_it": "Quality Assurance team",
+      "current_workaround": "manual sampling of <5% of interactions"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_cha_002",
+    "name": "Regulatory & Service Level Blind Spots",
+    "properties": {
+      "root_cause": "inability to review full customer interaction volume",
+      "business_impact": "regulatory exposure and missed service level insights",
+      "urgency": "critical",
+      "who_faces_it": "Quality Assurance team",
+      "current_workaround": "manual sampling"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_tech_001",
+    "name": "IBM Gen AI",
+    "properties": {
+      "vendor": "IBM",
+      "technology_category": "generative_ai",
+      "role_in_solution": "core",
+      "maturity": "modern",
+      "key_characteristics": "reviews transcribed calls, identifies vulnerabilities and complaint signals"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_diff_001",
+    "name": "Scalable AI Deployment",
+    "properties": {
+      "competitive_advantage": "supports rapid scaling from 60-70 to 100+ users and 100% sample coverage",
+      "evidence_or_proof_point": "3600 cases assessed to date, planned rollout to 100+ users",
+      "uniqueness": "scale_based",
+      "target_audience": "QA teams seeking full coverage",
+      "relates_to_offering": "Quality Assurance Assistant"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_diff_002",
+    "name": "Automated vs Manual Efficiency",
+    "properties": {
+      "competitive_advantage": "reduces processing time from 10-12 minutes to 17 seconds",
+      "evidence_or_proof_point": "17 seconds avg processing time vs 10-12 min manual",
+      "uniqueness": "best_in_class",
+      "target_audience": "efficiency-focused QA teams",
+      "relates_to_offering": "Quality Assurance Assistant"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_evt_001",
+    "name": "IBM Gen AI Demo 2025",
+    "properties": {
+      "event_type": "demo",
+      "date_or_period": "2025",
+      "relevance_to_deal": "opportunity",
+      "key_participants": [
+        "Nationwide",
+        "IBM"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_org_001",
+    "name": "IBM",
+    "properties": {
+      "org_type": "vendor",
+      "relationship_to_offering": "provider"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_cli_001",
+    "name": "NBS",
+    "properties": {
+      "industry": "NBS",
+      "geography": "Nationwide",
+      "size": "large",
+      "relationship_status": "prospect",
+      "pain_points": [
+        "scattered knowledge across multiple platforms",
+        "bespoke build dependency",
+        "no unified reusable pattern for ingestion and retrieval"
+      ],
+      "engagement_type": "POC"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_off_001",
+    "name": "Chat with Data POC",
+    "properties": {
+      "offering_type": "POC",
+      "delivery_model": "modular plug-and-play",
+      "scope": "end-to-end workflow automation for data ingestion, retrieval, and query handling",
+      "target_client_profile": "NBS",
+      "key_phases_or_components": [
+        "manual indexing",
+        "RAG setup",
+        "Terraform provisioning",
+        "modular deployment"
+      ],
+      "named_assets_or_accelerators": [
+        "reusable agentic RAG pattern"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_cap_001",
+    "name": "Automated Data Ingestion & Retrieval",
+    "properties": {
+      "what_it_does": "automates end-to-end workflows for data ingestion, retrieval, and query handling",
+      "technical_components": [
+        "RAG setup",
+        "Terraform provisioning",
+        "modular plug-and-play component"
+      ],
+      "delivery_maturity": "proven",
+      "differentiating_aspect": "reusable agentic pattern replacing bespoke builds",
+      "industry_applicability": [
+        "financial services"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_use_001",
+    "name": "Chat-with-Data Application",
+    "properties": {
+      "problem_context": "managing scattered knowledge across multiple platforms for query and retrieval",
+      "approach": "agentic RAG pattern with automated indexing and retrieval",
+      "industry": "NBS",
+      "outcome_achieved": "85% retrieval precision on Teams data, 60% reduction in engineering effort",
+      "complexity_level": "complex"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_ben_001",
+    "name": "85% Retrieval Precision on Teams Data",
+    "properties": {
+      "quantified_value": "85%",
+      "beneficiary": "NBS",
+      "category": "quality",
+      "evidence_type": "measured"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_ben_002",
+    "name": "60% Reduction in Engineering Effort",
+    "properties": {
+      "quantified_value": "60%",
+      "beneficiary": "NBS",
+      "category": "cost",
+      "evidence_type": "measured"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_cha_001",
+    "name": "Scattered Knowledge Management",
+    "properties": {
+      "root_cause": "data siloed across multiple disparate platforms",
+      "business_impact": "requires bespoke builds and repeated engineering effort for each use case",
+      "urgency": "high",
+      "who_faces_it": "NBS",
+      "current_workaround": "manual indexing and bespoke RAG setup"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_cha_002",
+    "name": "Bespoke Build Dependency",
+    "properties": {
+      "root_cause": "lack of unified, reusable pattern for ingestion and retrieval",
+      "business_impact": "repeated engineering effort and high development overhead",
+      "urgency": "high",
+      "who_faces_it": "NBS",
+      "current_workaround": "manual indexing and custom RAG configuration"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_tech_001",
+    "name": "Microsoft AI Foundry",
+    "properties": {
+      "vendor": "Microsoft",
+      "technology_category": "AI platform",
+      "role_in_solution": "core",
+      "maturity": "modern",
+      "key_characteristics": "hosting environment for agentic RAG pattern and workflow automation"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_tech_002",
+    "name": "Terraform",
+    "properties": {
+      "technology_category": "infrastructure as code",
+      "role_in_solution": "supporting",
+      "maturity": "modern",
+      "key_characteristics": "automated provisioning and deployment of the RAG pattern"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_tech_003",
+    "name": "SharePoint",
+    "properties": {
+      "vendor": "Microsoft",
+      "technology_category": "collaboration/knowledge management",
+      "role_in_solution": "data source",
+      "maturity": "legacy",
+      "key_characteristics": "repository of scattered knowledge requiring ingestion"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_tech_004",
+    "name": "Microsoft Teams",
+    "properties": {
+      "vendor": "Microsoft",
+      "technology_category": "collaboration/messaging",
+      "role_in_solution": "data source",
+      "maturity": "modern",
+      "key_characteristics": "primary data source for retrieval precision validation"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_tech_005",
+    "name": "ServiceNow",
+    "properties": {
+      "vendor": "ServiceNow",
+      "technology_category": "IT service management",
+      "role_in_solution": "data source",
+      "maturity": "modern",
+      "key_characteristics": "repository of scattered knowledge requiring ingestion"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_tech_006",
+    "name": "Confluence",
+    "properties": {
+      "vendor": "Atlassian",
+      "technology_category": "collaboration/knowledge management",
+      "role_in_solution": "data source",
+      "maturity": "modern",
+      "key_characteristics": "repository of scattered knowledge requiring ingestion"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_tech_007",
+    "name": "RAG (Retrieval-Augmented Generation)",
+    "properties": {
+      "technology_category": "AI/LLM architecture",
+      "role_in_solution": "core",
+      "maturity": "emerging",
+      "key_characteristics": "framework for automated data ingestion, retrieval, and query handling"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_diff_001",
+    "name": "Reusable Agentic RAG Pattern",
+    "properties": {
+      "competitive_advantage": "eliminates bespoke builds through a single, repeatable template",
+      "evidence_or_proof_point": "POC demonstrated 85% retrieval precision and 60% engineering effort reduction",
+      "uniqueness": "proprietary",
+      "target_audience": "enterprise clients with scattered knowledge bases",
+      "relates_to_offering": "Chat with Data POC"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_diff_002",
+    "name": "Pathfinder for Agent Delivery",
+    "properties": {
+      "competitive_advantage": "provides structured methodology and repeatable patterns for agent delivery",
+      "evidence_or_proof_point": "validated through POC learnings and successful RAG pattern deployment",
+      "uniqueness": "best-in-class",
+      "target_audience": "solutions architects and delivery teams",
+      "relates_to_offering": "Chat with Data POC"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_evt_001",
+    "name": "IBM Gen AI Demo 2025",
+    "properties": {
+      "event_type": "demo",
+      "date_or_period": "2025",
+      "relevance_to_deal": "milestone",
+      "key_participants": [
+        "IBM",
+        "NBS"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_evt_002",
+    "name": "Proof of Concept (POC)",
+    "properties": {
+      "event_type": "POC",
+      "date_or_period": "2025",
+      "relevance_to_deal": "opportunity",
+      "key_participants": [
+        "IBM",
+        "NBS"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_org_001",
+    "name": "IBM",
+    "properties": {
+      "org_type": "vendor",
+      "relationship_to_offering": "provider",
+      "geographic_presence": "global"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_org_002",
+    "name": "Microsoft",
+    "properties": {
+      "org_type": "technology_partner",
+      "relationship_to_offering": "platform_provider",
+      "geographic_presence": "global"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_loc_001",
+    "name": "Nationwide",
+    "properties": {
+      "market_type": "geographic",
+      "strategic_importance": "core"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_011_cli_001",
+    "name": "Nationwide",
+    "properties": {
+      "industry": "mortgage banking",
+      "relationship_status": "active",
+      "named_or_anonymous": true,
+      "pain_points": [
+        "manual product mapping and competitor selection",
+        "time-consuming rate-adjustment simulations",
+        "inconsistency across pricing decisions"
+      ],
+      "engagement_type": "POC"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_011",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_011_off_001",
+    "name": "Dynamic Pricing Optimization POC",
+    "properties": {
+      "offering_type": "POC",
+      "delivery_model": "ML-driven",
+      "scope": "automates ranking, volume forecasting, and margin estimation",
+      "target_client_profile": "Buy-to-Let mortgage",
+      "key_phases_or_components": [
+        "historical search behavior analysis",
+        "product selection prediction",
+        "margin estimation",
+        "rate adjustment simulation"
+      ],
+      "named_assets_or_accelerators": [
+        "deterministic ML-driven pricing engine"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_011",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_011_cha_001",
+    "name": "Manual pricing data processing",
+    "properties": {
+      "root_cause": "reliance on manual Excel-based data handling",
+      "business_impact": [
+        "high analyst time consumption",
+        "pricing decision inconsistency"
+      ],
+      "who_faces_it": "pricing team",
+      "current_workaround": "manual product mapping and rate-adjustment simulations"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_011",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_011_tec_001",
+    "name": "Excel",
+    "properties": {
+      "technology_category": "spreadsheet application",
+      "role_in_solution": "replaced",
+      "maturity": "legacy",
+      "key_characteristics": [
+        "manual data mapping",
+        "rate-adjustment simulation"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_011",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_011_cap_001",
+    "name": "Automated ranking and volume forecasting",
+    "properties": {
+      "what_it_does": "predicts customer product selection likelihood and automates ranking/volume/margin calculations",
+      "technical_components": [
+        "historical search behavior data",
+        "deterministic ML engine"
+      ],
+      "delivery_maturity": "proven",
+      "differentiating_aspect": "replaces manual simulations with automated, data-backed predictions",
+      "industry_applicability": [
+        "mortgage lending"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_011",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_011_use_001",
+    "name": "Buy-to-Let mortgage pricing optimization",
+    "properties": {
+      "problem_context": "optimizing pricing for Buy-to-Let mortgage products",
+      "approach": "leveraging historical search behavior data for automated ranking and volume forecasting",
+      "industry_or_vertical": "mortgage lending",
+      "outcome_achieved": [
+        "75% product selection accuracy",
+        "75% actual TMW wins identified correctly"
+      ],
+      "complexity_level": "complex"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_011",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_011_ben_001",
+    "name": "High product selection accuracy",
+    "properties": {
+      "quantified_value": "75%",
+      "beneficiary": "pricing team",
+      "category": "quality",
+      "evidence_type": "measured"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_011",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_011_ben_002",
+    "name": "Market win identification",
+    "properties": {
+      "quantified_value": "75%",
+      "beneficiary": "sales/pricing team",
+      "category": "revenue",
+      "evidence_type": "measured"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_011",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_011_eve_001",
+    "name": "IBM Gen AI Demo 2025",
+    "properties": {
+      "event_type": "demo",
+      "date_or_period": "2025",
+      "relevance_to_deal": "POC validation and solution demonstration",
+      "key_participants": [
+        "Nationwide",
+        "IBM"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_011",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_012_cli_001",
+    "name": "Nationwide",
+    "properties": {
+      "size": "enterprise",
+      "relationship_status": "reference_client",
+      "pain_points": [
+        "manual complaint response processing taking 45 minutes",
+        "quality and consistency concerns in response letters"
+      ],
+      "engagement_type": "system upgrade"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_012_off_002",
+    "name": "Deterministic Gen AI Letter Generator",
+    "properties": {
+      "offering_type": "AI application",
+      "scope": [
+        "generates professional complaint response letters",
+        "references gold standard letters and case notes"
+      ],
+      "key_phases_or_components": [
+        "Retrieval Augmented Generation (RAG)",
+        "Pathfinder governance framework"
+      ],
+      "named_assets_or_accelerators": [
+        "Pathfinder Governance Framework"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_012_cha_003",
+    "name": "Manual Complaint Response Processing",
+    "properties": {
+      "root_cause": [
+        "manual drafting of final response letters"
+      ],
+      "business_impact": [
+        "45 minutes per letter",
+        "quality and consistency concerns"
+      ],
+      "urgency": "high",
+      "who_faces_it": [
+        "Nationwide"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_012_cha_004",
+    "name": "High Complaint Volume",
+    "properties": {
+      "root_cause": [
+        "high volume of customer complaints"
+      ],
+      "business_impact": [
+        "over 1000 complaints per week",
+        "resource strain on complaint handlers"
+      ],
+      "urgency": "critical",
+      "who_faces_it": [
+        "Nationwide"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_012_cap_005",
+    "name": "Retrieval Augmented Generation (RAG)",
+    "properties": {
+      "what_it_does": [
+        "references gold standard letters and complaint case notes to generate professional letters"
+      ],
+      "technical_components": [
+        "RAG",
+        "case note integration",
+        "gold standard letter referencing"
+      ],
+      "delivery_maturity": "proven",
+      "differentiating_aspect": [
+        "deterministic outputs based on verified historical data"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_012_use_006",
+    "name": "Automated Complaint Response Generation",
+    "properties": {
+      "problem_context": [
+        "generating professional response letters for customer complaints"
+      ],
+      "approach": [
+        "AI-driven generation using RAG and Pathfinder governance"
+      ],
+      "industry": [
+        "financial services"
+      ],
+      "outcome_achieved": [
+        "time reduced from 45 mins to 4 mins",
+        "very good/good ratings from handlers",
+        "high quality"
+      ],
+      "complexity_level": "complex"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_012_ben_007",
+    "name": "Significant Time Reduction",
+    "properties": {
+      "quantified_value": [
+        "45 minutes to 4 minutes per letter"
+      ],
+      "beneficiary": [
+        "complaint handlers",
+        "Nationwide"
+      ],
+      "time_to_value": "post system upgrade",
+      "category": "speed",
+      "evidence_type": "measured"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_012_ben_008",
+    "name": "Improved Quality & Consistency",
+    "properties": {
+      "quantified_value": [
+        "very good or good ratings from existing complaint handlers for the vast majority of AI-generated examples"
+      ],
+      "beneficiary": [
+        "complaint handlers",
+        "end-customers"
+      ],
+      "time_to_value": "post system upgrade",
+      "category": "quality",
+      "evidence_type": "measured"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_012_tec_009",
+    "name": "Gen AI Platform",
+    "properties": {
+      "vendor": [
+        "IBM"
+      ],
+      "technology_category": [
+        "ai"
+      ],
+      "role_in_solution": "core",
+      "maturity": "modern",
+      "key_characteristics": [
+        "deterministic output",
+        "supports RAG",
+        "governance-ready"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_012_dif_010",
+    "name": "Deterministic AI Approach",
+    "properties": {
+      "competitive_advantage": [
+        "ensures consistent, high-quality outputs without hallucination risks"
+      ],
+      "evidence_or_proof_point": [
+        "45 mins to 4 mins time saving",
+        "very good/good ratings from handlers",
+        "high quality"
+      ],
+      "uniqueness": "proprietary",
+      "target_audience": [
+        "risk-averse financial institutions",
+        "compliance-heavy industries"
+      ],
+      "relates_to_offering": "Deterministic Gen AI Letter Generator"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_012_dif_011",
+    "name": "Pathfinder Governance Framework",
+    "properties": {
+      "competitive_advantage": [
+        "provides defined, repeatable patterns for delivery and governance"
+      ],
+      "evidence_or_proof_point": [
+        "defined in use case learnings",
+        "supports scalable AI deployment"
+      ],
+      "uniqueness": "best-in-class",
+      "target_audience": [
+        "enterprise clients requiring strict AI governance"
+      ],
+      "relates_to_offering": "Deterministic Gen AI Letter Generator"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_012_eve_012",
+    "name": "IBM Gen AI Demo 2025",
+    "properties": {
+      "event_type": "demo",
+      "date_or_period": "2025",
+      "relevance_to_deal": "milestone",
+      "key_participants": [
+        "Nationwide",
+        "IBM"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_012_org_013",
+    "name": "IBM",
+    "properties": {
+      "org_type": "vendor",
+      "relationship_to_offering": "provider",
+      "geographic_presence": "global"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_cli_001",
+    "name": "Nationwide Building Society",
+    "properties": {
+      "industry": "banking",
+      "relationship_status": "active",
+      "named_or_anonymous": true,
+      "pain_points": [
+        "legacy system constraints",
+        "productivity & efficiency pressure",
+        "skill gap & manual process dependency",
+        "need to reduce modernization project time by 30-40%"
+      ],
+      "engagement_type": "software delivery modernization"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_off_001",
+    "name": "IBM Science of Consulting",
+    "properties": {
+      "offering_type": "consulting_programme",
+      "scope": [
+        "client context integration",
+        "genai tool enablement",
+        "quantitative benefit demonstration",
+        "estimation model updates"
+      ],
+      "delivery_model": "hybrid",
+      "target_client_profile": "financial services"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_off_002",
+    "name": "Mobile Banking App Modernization",
+    "properties": {
+      "offering_type": "modernisation_programme",
+      "scope": [
+        "legacy sencha app codebase modernization",
+        "mobile banking app development"
+      ],
+      "key_phases": [
+        "requirements extraction",
+        "design & coding",
+        "unit testing"
+      ],
+      "target_client_profile": "banking"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_off_003",
+    "name": "Internet Banking Modernization",
+    "properties": {
+      "offering_type": "modernisation_programme",
+      "scope": [
+        "figma designs to react code migration",
+        "internet banking platform modernization"
+      ],
+      "key_phases": [
+        "design & coding",
+        "unit testing"
+      ],
+      "target_client_profile": "banking"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_off_004",
+    "name": "Teradata to Databricks Migration",
+    "properties": {
+      "offering_type": "data_platform_modernisation",
+      "scope": [
+        "teradata stored procedures reverse engineering",
+        "dbt code generation based on client frameworks"
+      ],
+      "key_phases": [
+        "requirements extraction",
+        "code generation",
+        "platform migration"
+      ],
+      "target_client_profile": "financial services"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_cap_001",
+    "name": "Legacy Code Reverse Engineering",
+    "properties": {
+      "what_it_does": "extracts business requirements from legacy codebases",
+      "technical_components": [
+        "sencha codebase analysis",
+        "requirement extraction"
+      ],
+      "delivery_maturity": "proven",
+      "industry_applicability": [
+        "banking",
+        "software delivery"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_cap_002",
+    "name": "Automated Code Refactoring",
+    "properties": {
+      "what_it_does": "automates code refactoring to remove manual processes and improve quality",
+      "technical_components": [
+        "react code generation",
+        "adaptive suggestions",
+        "automated refactoring"
+      ],
+      "delivery_maturity": "proven",
+      "differentiating_aspect": "removes low-skill manual processes",
+      "industry_applicability": [
+        "software development",
+        "banking"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_cap_003",
+    "name": "AI-Driven Test Case Generation",
+    "properties": {
+      "what_it_does": "autogenerates unit and component test cases with simulated edge cases",
+      "technical_components": [
+        "unit test generation",
+        "component test generation",
+        "edge case simulation"
+      ],
+      "delivery_maturity": "proven",
+      "differentiating_aspect": "increases test automation and reduces defects",
+      "industry_applicability": [
+        "software testing",
+        "banking"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_cap_004",
+    "name": "Prompt & Context Engineering",
+    "properties": {
+      "what_it_does": "iterates prompts and context to optimize genai outputs and build workarounds",
+      "technical_components": [
+        "prompt engineering",
+        "context engineering",
+        "limit testing"
+      ],
+      "delivery_maturity": "emerging",
+      "differentiating_aspect": "enables discovery of ai limitations and custom utility building",
+      "industry_applicability": [
+        "genai",
+        "software delivery"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_use_001",
+    "name": "Software Delivery Acceleration",
+    "properties": {
+      "problem_context": "reduce time taken for modernizing projects and overcome legacy system constraints",
+      "approach": "genai tooling integration, automated code generation, ai-driven testing",
+      "industry": "banking",
+      "outcome_achieved": "30-40% project time reduction",
+      "complexity_level": "complex"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_use_002",
+    "name": "Agile Planning Optimization",
+    "properties": {
+      "problem_context": "need for faster and smarter sprint planning and estimation",
+      "approach": "baking in genai efficiencies, updating estimation models",
+      "industry": "software delivery",
+      "outcome_achieved": "faster and smarter sprint planning",
+      "complexity_level": "straightforward"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_ben_001",
+    "name": "25% Reduction in Manual Code Analysis",
+    "properties": {
+      "quantified_value": "25%",
+      "beneficiary": "development team",
+      "category": "efficiency",
+      "evidence_type": "measured"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_ben_002",
+    "name": "30% Faster UI Development",
+    "properties": {
+      "quantified_value": "30%",
+      "beneficiary": "development team",
+      "category": "speed",
+      "evidence_type": "measured"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_ben_003",
+    "name": "40% Reduction in Coding Effort",
+    "properties": {
+      "quantified_value": "40%",
+      "beneficiary": "development team",
+      "category": "efficiency",
+      "evidence_type": "measured"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_ben_004",
+    "name": "30-40% Project Time Reduction",
+    "properties": {
+      "quantified_value": "30-40%",
+      "beneficiary": "client",
+      "category": "speed",
+      "evidence_type": "target"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_cha_001",
+    "name": "Legacy System Constraints",
+    "properties": {
+      "root_cause": "aging technology and legacy codebases (e.g., sencha)",
+      "business_impact": "slows modernization projects and increases manual effort",
+      "urgency": "high",
+      "who_faces_it": "nationwide building society"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_cha_002",
+    "name": "Productivity & Efficiency Pressure",
+    "properties": {
+      "root_cause": "demand to reduce modernization project time by 30-40%",
+      "business_impact": "threatens delivery timelines and increases operational costs",
+      "urgency": "high",
+      "who_faces_it": "client delivery teams"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_cha_003",
+    "name": "Skill Gap & Manual Process Dependency",
+    "properties": {
+      "root_cause": "reliance on low-skill manual processes and lack of genai expertise",
+      "business_impact": "bottlenecks development and limits scalability",
+      "urgency": "medium",
+      "who_faces_it": "architects, developers, testers"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_tec_001",
+    "name": "IBM Copilot",
+    "properties": {
+      "vendor": "ibm",
+      "technology_category": "genai_dev_tool",
+      "role_in_solution": "core",
+      "maturity": "modern",
+      "key_characteristics": [
+        "generates kotlin, swift, react, apis and logic",
+        "provides adaptive suggestions",
+        "enables high-quality code output with context"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_tec_002",
+    "name": "Figma",
+    "properties": {
+      "vendor": "figma",
+      "technology_category": "design_tool",
+      "role_in_solution": "supporting",
+      "maturity": "modern",
+      "key_characteristics": [
+        "figma designs to react code generation",
+        "provides design guideline files for context"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_tec_003",
+    "name": "Teradata",
+    "properties": {
+      "vendor": "teradata",
+      "technology_category": "data_platform",
+      "role_in_solution": "legacy_target",
+      "maturity": "legacy",
+      "key_characteristics": [
+        "legacy data platform",
+        "stored procedures requiring reverse engineering"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_tec_004",
+    "name": "Databricks",
+    "properties": {
+      "vendor": "databricks",
+      "technology_category": "data_platform",
+      "role_in_solution": "target",
+      "maturity": "modern",
+      "key_characteristics": [
+        "target for data platform modernization",
+        "supports dbt code generation"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_dif_001",
+    "name": "Evidence-Driven Quick Iterations",
+    "properties": {
+      "competitive_advantage": "proves value through rapid, evidence-based cycles",
+      "evidence_or_proof_point": "ran multiple pocs and iterated over 2 months to push genai limits",
+      "uniqueness": "proven_through_live_engagements",
+      "target_audience": "client_stakeholders",
+      "relates_to_offering": "ibm_science_of_consulting"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_dif_002",
+    "name": "Deep Client Collaboration",
+    "properties": {
+      "competitive_advantage": "brings client stakeholders along the learning curve",
+      "evidence_or_proof_point": "collaborated deeply with tech architects, product owners, and code owners",
+      "uniqueness": "open_collaboration_model",
+      "target_audience": "client_delivery_teams",
+      "relates_to_offering": "ibm_science_of_consulting"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_dif_003",
+    "name": "Quantitative Benefit Demonstration",
+    "properties": {
+      "competitive_advantage": "delivers measurable, quantified outcomes rather than just claims",
+      "evidence_or_proof_point": "demonstrated 25% reduction in manual analysis, 30% faster ui dev, 40% less coding effort",
+      "uniqueness": "measured_metrics_from_live_projects",
+      "target_audience": "client_leadership",
+      "relates_to_offering": "ibm_science_of_consulting"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_per_001",
+    "name": "Tech Architects",
+    "properties": {
+      "role_title": "tech_architects",
+      "influence_level": "decision_maker",
+      "known_pain_points": [
+        "legacy system constraints",
+        "productivity pressure"
+      ],
+      "relationship_to_deal": "champion"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_per_002",
+    "name": "Product Owners",
+    "properties": {
+      "role_title": "product_owners",
+      "influence_level": "influencer",
+      "known_pain_points": [
+        "need for faster delivery",
+        "efficiency pressure"
+      ],
+      "relationship_to_deal": "evaluator"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_per_003",
+    "name": "Code Owners",
+    "properties": {
+      "role_title": "code_owners",
+      "influence_level": "influencer",
+      "known_pain_points": [
+        "manual processes",
+        "skill gaps"
+      ],
+      "relationship_to_deal": "champion"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_org_001",
+    "name": "IBM",
+    "properties": {
+      "org_type": "vendor_partner",
+      "relationship_to_offering": "provider",
+      "geographic_presence": "global"
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_eve_001",
+    "name": "Proof of Concept (POC) Cycles",
+    "properties": {
+      "event_type": "poc",
+      "date_or_period": "2_months",
+      "relevance_to_deal": "milestone",
+      "key_participants": [
+        "ibm_delivery_team",
+        "client_stakeholders"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_eve_002",
+    "name": "Sprint Planning",
+    "properties": {
+      "event_type": "agile_process",
+      "date_or_period": "ongoing",
+      "relevance_to_deal": "optimization_target",
+      "key_participants": [
+        "architects",
+        "developers",
+        "testers"
+      ]
+    },
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+  }
+]

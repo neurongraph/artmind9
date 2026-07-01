@@ -1,0 +1,552 @@
+[
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_001",
+    "source_name": "Elara",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_002",
+    "target_name": "Younger Elara",
+    "rel_type": "knows",
+    "description": "Elara recognizes the younger woman as her past self and engages in a direct conversation with her.",
+    "properties": {
+      "nature": "personal",
+      "sentiment": "complex"
+    },
+    "context": "I am you, at thirty-two. Back when you still remembered how to laugh when things broke.",
+    "bidirectional": false,
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_002",
+    "source_name": "Younger Elara",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_001",
+    "target_name": "Elara",
+    "rel_type": "assists",
+    "description": "Younger Elara guides Elara to reclaim lost memories and emotional vitality through a magical apple.",
+    "properties": {
+      "role": "mentor",
+      "method": "provides golden apple"
+    },
+    "context": "I need you to take something back... You will remember how it felt to be brave.",
+    "bidirectional": false,
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_001",
+    "source_name": "Elara",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_loc_001",
+    "target_name": "The Memory Orchard",
+    "rel_type": "visits",
+    "description": "Elara discovers and enters the magical orchard for the first time.",
+    "properties": {
+      "frequency": "first time",
+      "emotional_state": "curious"
+    },
+    "context": "Elara was seventy-four years old the first time she found the orchard behind the antique bookstore.",
+    "bidirectional": false,
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_002",
+    "source_name": "Younger Elara",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_loc_001",
+    "target_name": "The Memory Orchard",
+    "rel_type": "resides_at",
+    "description": "The younger version of Elara waits and resides within the orchard as its guardian.",
+    "properties": {
+      "role": "guardian",
+      "duration": "since 1985"
+    },
+    "context": "the woman sitting on a stone bench beneath the largest tree... This is where the forgotten moments go.",
+    "bidirectional": false,
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_001",
+    "source_name": "Elara",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_loc_002",
+    "target_name": "Antique Bookstore",
+    "rel_type": "owns_property",
+    "description": "Elara owns and operates the antique bookstore, managing its daily operations.",
+    "properties": {
+      "role": "owner",
+      "management_style": "meticulous"
+    },
+    "context": "I have the shop,\" Elara said defensively. / The shop was cold when she opened it...",
+    "bidirectional": false,
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_001",
+    "source_name": "Elara",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_loc_003",
+    "target_name": "Main Street",
+    "rel_type": "visits",
+    "description": "Elara steps out onto Main Street after the orchard encounter, feeling physically and emotionally lighter.",
+    "properties": {
+      "time": "sunset",
+      "emotional_state": "relieved"
+    },
+    "context": "When she blinked, she was standing outside the store on Main Street.",
+    "bidirectional": false,
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_001",
+    "source_name": "Elara",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_loc_004",
+    "target_name": "The Pier",
+    "rel_type": "visits",
+    "description": "Elara walks to the pier to reflect and reconnect with her sense of self.",
+    "properties": {
+      "activity": "watching ocean",
+      "emotional_state": "peaceful"
+    },
+    "context": "Instead, she walked to the pier, watching the grey ocean, and for the first time in years, she didn’t feel lonely.",
+    "bidirectional": false,
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_003",
+    "source_name": "Young Man",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_loc_002",
+    "target_name": "Antique Bookstore",
+    "rel_type": "visits",
+    "description": "The young man enters the antique bookstore looking for a book.",
+    "properties": {
+      "purpose": "shopping",
+      "demeanor": "lost"
+    },
+    "context": "A customer entered—a young man with a backpack, looking lost.",
+    "bidirectional": false,
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_002",
+    "source_name": "Younger Elara",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_obj_001",
+    "target_name": "Golden Apple",
+    "rel_type": "owns",
+    "description": "Younger Elara holds and offers the golden apple to Elara.",
+    "properties": {
+      "origin": "basket on bench",
+      "significance": "memory of bravery"
+    },
+    "context": "The younger woman handed her an apple, not from a tree, but from a basket that appeared on the bench between them.",
+    "bidirectional": false,
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_001",
+    "source_name": "Elara",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_obj_001",
+    "target_name": "Golden Apple",
+    "rel_type": "uses",
+    "description": "Elara eats the golden apple to regain lost memories and emotional vitality.",
+    "properties": {
+      "effect": "restores emotional color",
+      "taste": "sweet, crisp, cold"
+    },
+    "context": "Elara took the apple... She took a bite. It was sweet, crisp, and shockingly cold.",
+    "bidirectional": false,
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_001",
+    "source_name": "Elara",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_obj_002",
+    "target_name": "Photographs",
+    "rel_type": "owns",
+    "description": "Elara relies on photographs as substitutes for lived memories, which contributes to her emotional stagnation.",
+    "properties": {
+      "emotional_impact": "creates emotional grayness",
+      "duration": "ten years"
+    },
+    "context": "You have photographs of memories,\" the young woman countered gently.",
+    "bidirectional": false,
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_001",
+    "source_name": "Elara",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_obj_004",
+    "target_name": "Old Journals and Letters",
+    "rel_type": "owns",
+    "description": "Elara keeps old journals and letters in a drawer, later opening them to reconnect with her past.",
+    "properties": {
+      "location": "desk drawer",
+      "significance": "personal history"
+    },
+    "context": "She pulled out a drawer that she hadn’t opened since her husband’s funeral—the one filled with old journals and letters.",
+    "bidirectional": false,
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_001",
+    "source_name": "Elara",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_obj_003",
+    "target_name": "Blue-covered Book",
+    "rel_type": "owns",
+    "description": "Elara selects and recommends a blue-covered book to a customer, shifting from managerial to passionate.",
+    "properties": {
+      "genre": "adventure",
+      "recommendation_reason": "inspires bravery"
+    },
+    "context": "pulling down a thin, blue-covered book from a high shelf. 'Read this. It’s about a woman who leaves everything...'",
+    "bidirectional": false,
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_003",
+    "source_name": "Young Man",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_obj_003",
+    "target_name": "Blue-covered Book",
+    "rel_type": "uses",
+    "description": "The young man takes the blue-covered book recommended by Elara.",
+    "properties": {
+      "reaction": "eyes lighting up",
+      "intent": "reading"
+    },
+    "context": "The young man took the book, his eyes lighting up.",
+    "bidirectional": false,
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_001",
+    "source_name": "Elara",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_evt_001",
+    "target_name": "The Orchard Encounter",
+    "rel_type": "participates_in",
+    "description": "Elara is the central participant experiencing the magical encounter in the orchard.",
+    "properties": {
+      "role": "protagonist",
+      "contribution": "receives guidance and apple"
+    },
+    "context": "Elara was seventy-four years old the first time she found the orchard... 'You’re late, Elara,' the woman said...",
+    "bidirectional": false,
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_002",
+    "source_name": "Younger Elara",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_evt_001",
+    "target_name": "The Orchard Encounter",
+    "rel_type": "participates_in",
+    "description": "Younger Elara acts as the guide and catalyst for the orchard encounter.",
+    "properties": {
+      "role": "mentor",
+      "contribution": "provides perspective and apple"
+    },
+    "context": "I am you, at thirty-two... 'I need you to take something back.'",
+    "bidirectional": false,
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_001",
+    "source_name": "Elara",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_evt_002",
+    "target_name": "The Morning After",
+    "rel_type": "participates_in",
+    "description": "Elara experiences the aftermath of the encounter, waking up with renewed energy and helping a customer.",
+    "properties": {
+      "role": "protagonist",
+      "contribution": "reconnects with past, helps customer"
+    },
+    "context": "Elara woke up not in her armchair, but in her bed, with a strange, lingering sense of energy.",
+    "bidirectional": false,
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_003",
+    "source_name": "Young Man",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_evt_002",
+    "target_name": "The Morning After",
+    "rel_type": "participates_in",
+    "description": "The young man visits the bookstore during the morning after, interacting with Elara.",
+    "properties": {
+      "role": "customer",
+      "contribution": "receives book recommendation"
+    },
+    "context": "A customer entered—a young man with a backpack, looking lost.",
+    "bidirectional": false,
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_001",
+    "source_name": "Elara",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_con_001",
+    "target_name": "Forgotten Moments",
+    "rel_type": "emotions_felt",
+    "description": "Elara has lost touch with her past, causing her to stop looking back and feel emotionally disconnected.",
+    "properties": {
+      "sentiment": "negative",
+      "duration": "ten years"
+    },
+    "context": "When you stop looking back, you stop being able to look forward. You haven’t looked back in ten years, Elara.",
+    "bidirectional": false,
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_loc_001",
+    "source_name": "The Memory Orchard",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_con_001",
+    "target_name": "Forgotten Moments",
+    "rel_type": "inhabits",
+    "description": "The orchard serves as a magical repository that holds and preserves Elara's lost memories.",
+    "properties": {
+      "function": "memory vault",
+      "accessibility": "magical"
+    },
+    "context": "This is where the forgotten moments go.",
+    "bidirectional": false,
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_001",
+    "source_name": "Elara",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_con_002",
+    "target_name": "Emotional Grayness",
+    "rel_type": "emotions_felt",
+    "description": "Elara's emotional state has become gray and guarded due to focusing only on the present since her husband's death.",
+    "properties": {
+      "sentiment": "negative",
+      "cause": "husband's death",
+      "duration": "decade"
+    },
+    "context": "You are losing the colors, Elara. Everything is turning gray.\" / \"her emotions heavily guarded.",
+    "bidirectional": false,
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_obj_001",
+    "source_name": "Golden Apple",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_con_002",
+    "target_name": "Emotional Grayness",
+    "rel_type": "resolves",
+    "description": "The golden apple counteracts Elara's emotional grayness by restoring her memories and feelings.",
+    "properties": {
+      "mechanism": "memory restoration",
+      "outcome": "emotional vitality returns"
+    },
+    "context": "You won't *not* be seventy-four. But you will remember how it felt to be brave.\" / \"The gray, she realized, was only as thick as she allowed it to be.",
+    "bidirectional": false,
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_001",
+    "source_name": "Elara",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_003",
+    "target_name": "Young Man",
+    "rel_type": "assists",
+    "description": "Elara actively helps the young man find a book that matches his adventurous spirit.",
+    "properties": {
+      "sentiment": "positive",
+      "method": "personal recommendation"
+    },
+    "context": "Looking for anything special?\" she asked instead... \"Read this. It’s about a woman who leaves everything...'",
+    "bidirectional": false,
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_003",
+    "source_name": "Young Man",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_001",
+    "target_name": "Elara",
+    "rel_type": "knows",
+    "description": "The young man interacts with and receives guidance from Elara during his bookstore visit.",
+    "properties": {
+      "sentiment": "neutral/positive",
+      "nature": "professional/customer"
+    },
+    "context": "The young man took the book, his eyes lighting up.",
+    "bidirectional": false,
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_001",
+    "source_name": "Elara",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "target_name": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_002",
+    "source_name": "Younger Elara",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "target_name": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_003",
+    "source_name": "Young Man",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "target_name": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_loc_001",
+    "source_name": "The Memory Orchard",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "target_name": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_loc_002",
+    "source_name": "Antique Bookstore",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "target_name": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_loc_003",
+    "source_name": "Main Street",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "target_name": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_loc_004",
+    "source_name": "The Pier",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "target_name": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_obj_001",
+    "source_name": "Golden Apple",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "target_name": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_obj_002",
+    "source_name": "Photographs",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "target_name": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_obj_003",
+    "source_name": "Blue-covered Book",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "target_name": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_obj_004",
+    "source_name": "Old Journals and Letters",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "target_name": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_evt_001",
+    "source_name": "The Orchard Encounter",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "target_name": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_evt_002",
+    "source_name": "The Morning After",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "target_name": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_con_001",
+    "source_name": "Forgotten Moments",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "target_name": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_con_002",
+    "source_name": "Emotional Grayness",
+    "target_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "target_name": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1",
+    "domain": "fiction"
+  }
+]

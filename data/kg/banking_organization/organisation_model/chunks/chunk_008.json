@@ -1,0 +1,1923 @@
+{
+  "embedding": [
+    0.020105729,
+    -0.0010425799,
+    -0.21568412,
+    0.010015131,
+    0.068748735,
+    -0.02672807,
+    0.053802453,
+    -0.00097189914,
+    0.010606451,
+    -0.0087266425,
+    -0.03275365,
+    0.020449432,
+    0.035292532,
+    -0.024955565,
+    0.03615282,
+    -0.0001127577,
+    0.061986107,
+    -0.004132645,
+    -0.044723827,
+    -0.006135789,
+    -0.03322115,
+    -0.032111254,
+    0.0019953751,
+    -0.027155245,
+    0.08349339,
+    0.065499716,
+    0.052026786,
+    -0.0392024,
+    -0.035888985,
+    -0.0109126605,
+    0.012734797,
+    0.007619064,
+    -0.017577318,
+    -0.08476155,
+    0.030534528,
+    -0.04445745,
+    0.056833275,
+    0.06418355,
+    -0.026640544,
+    -0.017890377,
+    -0.016977025,
+    0.022116624,
+    0.0100004785,
+    -0.05849594,
+    0.017775886,
+    -0.0057936693,
+    0.028859643,
+    0.0005601708,
+    0.08858902,
+    -0.037003,
+    0.040832628,
+    0.0052553522,
+    0.050521806,
+    0.05215607,
+    0.04226423,
+    0.018933248,
+    -0.027803231,
+    0.028859913,
+    -0.04588368,
+    -0.06317602,
+    0.08473477,
+    0.050900344,
+    -0.0019373313,
+    0.02738541,
+    -0.011041824,
+    -0.057841927,
+    -0.014531413,
+    0.051121764,
+    -0.0075182435,
+    0.010942379,
+    0.045601428,
+    -0.022697901,
+    0.007163245,
+    -0.0041755233,
+    0.052509435,
+    -0.026754515,
+    0.0025876642,
+    -0.026141414,
+    0.041563656,
+    0.030640014,
+    0.028673263,
+    0.007111143,
+    0.081405915,
+    -0.0023972185,
+    0.03206918,
+    -0.009437784,
+    -0.06005601,
+    -0.022726983,
+    -0.015723594,
+    0.09174631,
+    0.021479648,
+    0.013341875,
+    0.0258572,
+    0.026212879,
+    -0.032637592,
+    0.016744962,
+    -0.009031647,
+    0.0063884608,
+    0.017238293,
+    0.0051238285,
+    -0.024973245,
+    -0.015358069,
+    0.035016283,
+    0.05719193,
+    -0.0024669182,
+    -0.003391724,
+    0.014831181,
+    0.039543048,
+    0.028329426,
+    -0.0028579407,
+    -0.012400782,
+    0.047478266,
+    0.0045355577,
+    -0.019373173,
+    0.03985877,
+    0.038942836,
+    0.058759596,
+    0.0003219776,
+    0.027075738,
+    0.05163813,
+    -0.039920658,
+    -0.07211972,
+    0.045420215,
+    0.05359602,
+    -0.016834617,
+    0.0008030198,
+    -0.069613054,
+    -0.003790758,
+    0.030774418,
+    -3.7804242e-05,
+    0.013594957,
+    2.9477724e-05,
+    -0.013356253,
+    0.012236167,
+    0.061322715,
+    0.033798076,
+    -0.005019979,
+    -0.0070698014,
+    -0.0074906065,
+    0.011494948,
+    0.0026492055,
+    0.021131525,
+    0.0024420777,
+    0.021928081,
+    0.00096122175,
+    -0.0685884,
+    0.05336506,
+    -0.028681282,
+    -0.03003575,
+    -0.024614036,
+    -0.032986842,
+    -0.0025516758,
+    -0.0009964441,
+    0.04389166,
+    0.032377437,
+    -0.04443943,
+    -0.029710721,
+    0.0071911444,
+    0.027980039,
+    0.040189136,
+    0.0683497,
+    0.0030306184,
+    -0.020531714,
+    0.023624688,
+    0.003822436,
+    -0.044603348,
+    0.0073184413,
+    0.058710396,
+    0.045805424,
+    0.06301106,
+    -0.032263488,
+    -0.03999554,
+    0.0098440545,
+    -0.00041007818,
+    0.051945023,
+    -0.025502989,
+    0.00817469,
+    -0.0046260315,
+    0.019524146,
+    -0.024683734,
+    -0.021607673,
+    -0.061073978,
+    0.029414486,
+    0.08086413,
+    -0.041476093,
+    -0.008410836,
+    0.053449094,
+    -0.011043634,
+    -0.011475735,
+    -0.026738932,
+    0.011968623,
+    0.028711021,
+    -0.018496009,
+    -0.06714149,
+    -0.039421152,
+    -0.01909608,
+    0.012294271,
+    -0.0003882292,
+    -0.039212443,
+    -0.037044656,
+    0.000514662,
+    0.016487634,
+    -0.040868953,
+    -0.012959007,
+    0.0013042288,
+    0.06020745,
+    0.01234397,
+    0.035627164,
+    -0.00824188,
+    0.017211594,
+    0.048185956,
+    -0.04159106,
+    -0.046488203,
+    0.00023739871,
+    0.05323668,
+    -0.04201124,
+    0.011188426,
+    0.018632319,
+    -0.02118919,
+    -0.029145863,
+    -0.00011074657,
+    -0.013473295,
+    0.046323482,
+    -0.05307888,
+    0.0060910764,
+    0.017166039,
+    -0.0007064454,
+    -0.03563913,
+    -0.010691471,
+    -0.035767093,
+    -0.028593961,
+    -0.04385792,
+    0.016440531,
+    0.01625154,
+    -0.018054107,
+    0.017435083,
+    0.0037135615,
+    0.082188904,
+    0.05097345,
+    -0.0075849765,
+    -0.0036542513,
+    0.087454475,
+    -0.032006077,
+    -0.008951944,
+    -0.005891121,
+    0.026505277,
+    -0.0130941635,
+    -0.02619408,
+    0.038463917,
+    0.066945374,
+    0.0028819868,
+    -0.03650647,
+    0.0249207,
+    0.0047087492,
+    0.034051344,
+    -0.058252543,
+    -0.040535435,
+    0.016882317,
+    0.003053206,
+    0.016355246,
+    0.033604573,
+    -0.03559599,
+    0.0648063,
+    -0.041034684,
+    0.01096764,
+    -0.023186928,
+    -0.06292101,
+    0.04291522,
+    0.0411963,
+    -0.0071940436,
+    0.029780041,
+    0.052987795,
+    -0.02229128,
+    0.12162113,
+    -0.005390117,
+    -0.0428158,
+    -0.006017883,
+    -0.052193485,
+    -0.06723191,
+    0.05112519,
+    -0.047998965,
+    -0.0036361562,
+    0.0040846355,
+    -0.017933514,
+    0.008138291,
+    0.06701598,
+    0.058567353,
+    0.029814333,
+    -0.016949516,
+    -0.018820334,
+    0.03122137,
+    -0.011821085,
+    0.008283605,
+    0.057776473,
+    -0.04341926,
+    -0.0009962555,
+    0.04422414,
+    -0.0029303879,
+    0.043885455,
+    -0.0037157107,
+    0.028849639,
+    0.026673814,
+    0.018723268,
+    0.04431439,
+    -0.032636195,
+    -0.0022646221,
+    0.0055338815,
+    0.0091242455,
+    0.07559072,
+    0.00081794127,
+    -0.036851436,
+    0.004118593,
+    -0.036846794,
+    -0.017110214,
+    -0.024158092,
+    0.017706957,
+    0.0113554,
+    0.015326793,
+    0.025668286,
+    0.019403653,
+    -0.033752955,
+    -0.021444162,
+    -0.035259973,
+    -0.027513,
+    0.024381073,
+    0.018224701,
+    -0.07249686,
+    -0.00093102106,
+    0.016436726,
+    -0.011175368,
+    0.011966457,
+    0.056394435,
+    0.02264706,
+    -0.044461884,
+    -0.016688753,
+    0.07651512,
+    0.04038217,
+    -0.0011330659,
+    -0.016730217,
+    0.0058752387,
+    0.094280936,
+    -0.065786175,
+    0.017693637,
+    -0.049920604,
+    0.0035540718,
+    -0.04348161,
+    -0.020571524,
+    0.0036014752,
+    0.032639123,
+    0.014108494,
+    -0.021576114,
+    -0.032856144,
+    -0.023561724,
+    0.014835434,
+    0.03625798,
+    -0.014504317,
+    0.020581191,
+    0.06019702,
+    -0.041069847,
+    -0.012469681,
+    0.03182539,
+    -0.005667156,
+    0.00740311,
+    0.018826101,
+    -0.0025587406,
+    0.011384728,
+    0.05391975,
+    -0.039169252,
+    0.0030823124,
+    0.0060031544,
+    0.025511803,
+    -0.006754839,
+    -0.0033831657,
+    -0.0036627357,
+    0.011869379,
+    0.01279376,
+    -0.08054868,
+    0.0003976046,
+    -0.018015297,
+    0.028963078,
+    0.018009568,
+    -0.014005249,
+    0.005105734,
+    -0.009411488,
+    0.0066688047,
+    -0.02244163,
+    0.0066954503,
+    -0.05197744,
+    0.018947102,
+    0.014581781,
+    -0.024009004,
+    0.014988657,
+    0.0042109992,
+    0.01127363,
+    0.06133852,
+    -0.034339193,
+    0.018141301,
+    -0.010102467,
+    -0.009713568,
+    0.0549333,
+    -0.05959839,
+    -0.033155024,
+    5.0717597e-05,
+    -0.054035,
+    -0.035022873,
+    -0.011140812,
+    -0.005099202,
+    -0.03787469,
+    0.011916435,
+    0.016378656,
+    0.006264035,
+    0.046269797,
+    -0.017347803,
+    -0.032981105,
+    0.037529767,
+    0.0007627238,
+    0.029950531,
+    0.021286419,
+    0.020849474,
+    -0.015814276,
+    0.042304885,
+    0.009218014,
+    -0.009853241,
+    -0.013430999,
+    -0.010182371,
+    -0.007385058,
+    0.030678261,
+    0.0030122565,
+    0.0029372377,
+    -0.047241367,
+    -0.0110070575,
+    0.0058303177,
+    0.04382762,
+    -0.0138160875,
+    -0.009208996,
+    -0.041024797,
+    0.041893262,
+    -0.015688123,
+    0.014641638,
+    0.055136114,
+    -0.037045132,
+    -0.042195685,
+    -0.062363014,
+    0.0057447525,
+    0.050009493,
+    0.065710895,
+    0.035967346,
+    -0.03986359,
+    0.01541968,
+    0.044357184,
+    0.031055644,
+    0.032193948,
+    0.016995737,
+    0.048919693,
+    0.051025122,
+    -0.057415854,
+    0.039689347,
+    -0.011206979,
+    0.025949579,
+    0.020783465,
+    0.039428543,
+    0.017490527,
+    -0.023939379,
+    -0.014409082,
+    -0.009481387,
+    -0.019518388,
+    -0.010087119,
+    0.0018850013,
+    -0.02155894,
+    0.098507024,
+    -0.08113861,
+    -0.01854478,
+    0.02357287,
+    -0.06956466,
+    0.012431022,
+    0.0076912283,
+    -0.016586717,
+    0.0033171615,
+    0.005231666,
+    0.028501712,
+    0.021345051,
+    -0.010758656,
+    -0.06610433,
+    -0.013612507,
+    0.00531265,
+    -0.005344135,
+    0.06897674,
+    -0.037939284,
+    0.061255183,
+    0.019716347,
+    0.011122106,
+    0.052848406,
+    0.020510063,
+    0.019454854,
+    0.02988612,
+    0.048344955,
+    0.03002811,
+    0.059037484,
+    0.040166464,
+    0.021494342,
+    0.08991125,
+    0.016503418,
+    -0.006908648,
+    0.006340428,
+    -0.014429188,
+    0.012726788,
+    0.032114152,
+    -0.053799454,
+    -0.08735514,
+    -0.035533525,
+    -0.041534968,
+    -0.019354872,
+    0.034928236,
+    -0.051571503,
+    0.038265675,
+    -0.018560072,
+    -0.008340938,
+    0.0155913485,
+    -0.04070107,
+    0.0118215615,
+    -0.029516445,
+    0.001817388,
+    -0.02166328,
+    -0.044698436,
+    -0.0588381,
+    0.012492474,
+    0.014876051,
+    -0.057957668,
+    0.06326848,
+    -0.011402887,
+    -0.003201681,
+    0.06213684,
+    -0.0414521,
+    -0.0016646719,
+    0.012093117,
+    -0.025793068,
+    -0.052663058,
+    0.030718006,
+    0.02112037,
+    0.010760043,
+    0.019731406,
+    0.0040752143,
+    0.0013692209,
+    0.012002958,
+    -0.019363856,
+    -0.06882808,
+    0.03743131,
+    0.027660832,
+    -0.029702745,
+    -0.030676128,
+    0.043735128,
+    -0.085065655,
+    0.0020077613,
+    -0.024215955,
+    0.029030418,
+    -0.011925814,
+    0.017501488,
+    -0.017221201,
+    -0.056999948,
+    -0.008118799,
+    -0.0025384787,
+    0.01995628,
+    0.04188508,
+    -0.012140883,
+    0.020295639,
+    -0.04981344,
+    0.001542399,
+    0.040279757,
+    0.0077829836,
+    0.028331637,
+    -0.008749794,
+    -0.059937894,
+    -0.027637187,
+    -0.034703866,
+    0.0023458526,
+    -0.021491634,
+    -0.06414981,
+    -0.011933074,
+    -0.016885335,
+    -0.06716682,
+    0.019386373,
+    -0.027471287,
+    0.014659924,
+    0.03963888,
+    -0.049915522,
+    -0.010924216,
+    0.012813191,
+    -0.08544214,
+    -0.016541993,
+    -0.046119016,
+    0.012568244,
+    0.0011610027,
+    -0.007824977,
+    -0.048272487,
+    -0.0055718673,
+    -0.021651201,
+    0.03653792,
+    -0.046967085,
+    -0.057041917,
+    -0.015475777,
+    -0.042812597,
+    -0.010344349,
+    -0.007547206,
+    -0.047408894,
+    0.011148156,
+    0.0018464723,
+    -0.0055984845,
+    0.02344146,
+    -0.032677874,
+    0.01605647,
+    0.017172825,
+    -0.01288177,
+    -0.048991386,
+    -0.0069685155,
+    -0.0019599206,
+    -0.0028506012,
+    0.07123986,
+    -0.03888102,
+    0.009926496,
+    -0.0080352295,
+    -0.013216042,
+    -0.03630006,
+    0.017361965,
+    -0.044482607,
+    0.028142199,
+    -0.01891043,
+    -0.023361035,
+    -0.0426396,
+    -0.02281391,
+    0.072370194,
+    -0.036260147,
+    0.054052006,
+    -0.041079663,
+    -0.039822172,
+    -0.079189144,
+    0.004921585,
+    -0.0140531575,
+    0.018035883,
+    -0.07075998,
+    -0.0008165969,
+    0.043373372,
+    -0.025561128,
+    -0.012159561,
+    0.017849568,
+    -0.00039642968,
+    -0.005244443,
+    0.03473216,
+    0.04146133,
+    0.040851835,
+    0.030787937,
+    0.06325214,
+    0.032910746,
+    0.016376093,
+    -0.03823899,
+    0.003664723,
+    -0.055959664,
+    0.037112553,
+    -0.029761069,
+    -0.018803684,
+    -0.045873847,
+    0.010679207,
+    -0.0022094161,
+    -0.0012792133,
+    -0.05171777,
+    0.030536002,
+    -0.025426209,
+    0.0035890783,
+    -0.008586962,
+    -0.07095708,
+    -0.03395341,
+    -0.004458336,
+    -0.001707701,
+    0.01691729,
+    -0.014340319,
+    -0.041417625,
+    0.033798315,
+    0.031646065,
+    0.05347351,
+    -0.0035326206,
+    -0.00031151273,
+    -0.01911205,
+    0.026702933,
+    0.06412541,
+    -0.03201048,
+    0.030489314,
+    -0.0069336575,
+    0.04108316,
+    -0.029336596,
+    -0.006308023,
+    0.019767853,
+    -0.009837574,
+    -0.069414444,
+    0.03654006,
+    -0.042960163,
+    0.0056155864,
+    0.025504472,
+    -0.025815552,
+    -0.0051390072,
+    -0.060454037,
+    -0.0029410257,
+    -0.05864904,
+    0.022167332,
+    -0.03574928,
+    0.009861329,
+    -0.022265226,
+    -0.026649164,
+    0.062953405,
+    -0.03921615,
+    0.010488752,
+    -0.0076801335,
+    0.0024011487,
+    0.011919437,
+    -0.027946506,
+    0.029338509,
+    0.016065573,
+    0.019535229,
+    -0.052772436,
+    -0.0098169455,
+    -0.009792136,
+    0.036214236,
+    0.080529,
+    0.016958546,
+    -0.06831491,
+    -0.043063823,
+    -0.004972646,
+    -0.0071654147,
+    0.008772258,
+    -0.034092046,
+    -0.035528596,
+    -0.06421327,
+    -0.063058,
+    -0.02142805,
+    -0.09005052,
+    0.027060915,
+    -0.04254276,
+    -0.006244926,
+    -0.006798916,
+    0.011350041,
+    -0.059512045,
+    0.009452321,
+    -0.047843214,
+    0.02792654,
+    -0.019683529,
+    0.046476386,
+    -0.022456007,
+    -0.04129521,
+    0.027405977,
+    0.045434788,
+    0.017850293,
+    -0.031772688,
+    0.018779023,
+    0.017893251,
+    -0.032576103,
+    -0.009810862,
+    0.036408603,
+    0.0053727594,
+    -0.0077134734,
+    -0.0058750887,
+    0.06468544,
+    0.037738685,
+    0.019565262,
+    -0.03529621,
+    0.018673202,
+    -0.010439033,
+    -0.023668528,
+    -0.10603797,
+    -0.06827756,
+    0.005870847
+  ],
+  "chunk_seq": 8,
+  "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+  "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+  "text": "### 2. Risk & Compliance (Head: Chief Risk Officer)  \n**Mission:** Protect FirstUK Bank through proactive risk identification and regulatory compliance  \n**Key Functions:**\n- Compliance (see [[departments]])\n- Financial Crime (see [[departments]])\n- Fraud Prevention\n- Risk Assessment\n- Internal Audit  \n**Regulatory Responsibilities:**\n- AML/KYC compliance (per [[business_ontology]])\n- Customer Due Diligence (CDD)\n- Enhanced Due Diligence (EDD) for high-risk customers\n- Suspicious Activity Reporting (SAR)  \n**Key Policies:**\n- Customer Identification Policy (CID-POL-001)\n- AML Policy (AML-POL-002)\n- Operational Risk Policy (ORP-POL-003)\n- Privacy Policy (PRI-POL-004)  \n---",
+  "name": "Chunk 8/24",
+  "domain": "banking_organization",
+  "prev_chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+  "next_chunk_id": "83b83916d073408d9452b18c1e8f9a50_009",
+  "raw_entities": [
+    {
+      "id": "org_001",
+      "name": "Risk & Compliance",
+      "aliases": [
+        "Risk and Compliance",
+        "R&C Department"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "department",
+      "description": "A core internal department responsible for proactive risk identification and regulatory compliance. It oversees key functional areas including compliance, financial crime, fraud prevention, risk assessment, and internal audit to protect the bank's operational integrity.",
+      "context": [
+        "### 2. Risk & Compliance (Head: Chief Risk Officer)",
+        "Mission: Protect FirstUK Bank through proactive risk identification and regulatory compliance"
+      ]
+    },
+    {
+      "id": "rol_001",
+      "name": "Chief Risk Officer",
+      "aliases": [
+        "CRO",
+        "Head of Risk & Compliance"
+      ],
+      "entity_class": "ROLE_PERSON",
+      "type": "c_suite",
+      "description": "The executive leadership role serving as the head of the Risk & Compliance department. This position holds defined accountability for overseeing proactive risk identification and ensuring regulatory compliance across FirstUK Bank.",
+      "context": [
+        "### 2. Risk & Compliance (Head: Chief Risk Officer)"
+      ]
+    },
+    {
+      "id": "org_002",
+      "name": "Compliance",
+      "aliases": [
+        "Compliance Function",
+        "Regulatory Compliance Unit"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A specialized functional area within the Risk & Compliance department focused on ensuring the bank adheres to external regulations and internal governance standards. It operates as a key oversight function alongside financial crime and audit.",
+      "context": [
+        "Compliance (see [[departments]])"
+      ]
+    },
+    {
+      "id": "org_003",
+      "name": "Financial Crime",
+      "aliases": [
+        "Financial Crime Unit",
+        "FC Department"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A dedicated functional area responsible for preventing, detecting, and reporting financial crimes. It operates as a key component of the Risk & Compliance department's operational structure.",
+      "context": [
+        "Financial Crime (see [[departments]])"
+      ]
+    },
+    {
+      "id": "org_004",
+      "name": "Internal Audit",
+      "aliases": [
+        "IA",
+        "Internal Auditing Function"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "department",
+      "description": "A key functional area listed under Risk & Compliance responsible for independent evaluation of the bank's internal controls, risk management frameworks, and governance processes.",
+      "context": [
+        "Internal Audit"
+      ]
+    },
+    {
+      "id": "bnk_001",
+      "name": "AML/KYC Compliance",
+      "aliases": [
+        "Anti-Money Laundering / Know Your Customer Compliance",
+        "AML-KYC"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "aml_screening",
+      "description": "A core regulatory compliance concept encompassing anti-money laundering and know your customer procedures. It is explicitly mandated as a primary regulatory responsibility for the Risk & Compliance department, governed by the bank's business ontology.",
+      "context": [
+        "AML/KYC compliance (per [[business_ontology]])"
+      ]
+    },
+    {
+      "id": "bnk_002",
+      "name": "Customer Due Diligence",
+      "aliases": [
+        "CDD",
+        "Customer Due Diligence Process"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "kyc_verification",
+      "description": "A mandatory KYC verification process applied to customers as part of the bank's regulatory responsibilities. It serves as the baseline procedure for assessing customer risk profiles before onboarding.",
+      "context": [
+        "Customer Due Diligence (CDD)"
+      ]
+    },
+    {
+      "id": "bnk_003",
+      "name": "Enhanced Due Diligence",
+      "aliases": [
+        "EDD",
+        "Enhanced Due Diligence Process"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "kyc_verification",
+      "description": "A heightened KYC verification procedure applied specifically to high-risk customers. It requires deeper scrutiny, ongoing monitoring, and additional documentation beyond standard due diligence requirements.",
+      "context": [
+        "Enhanced Due Diligence (EDD) for high-risk customers"
+      ]
+    },
+    {
+      "id": "bnk_004",
+      "name": "Suspicious Activity Reporting",
+      "aliases": [
+        "SAR",
+        "Suspicious Activity Reports"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "sar",
+      "description": "A regulatory reporting obligation requiring the bank to formally document and submit reports regarding identified suspicious financial activities or transactions. It is a key compliance output managed by the Risk & Compliance function.",
+      "context": [
+        "Suspicious Activity Reporting (SAR)"
+      ]
+    },
+    {
+      "id": "bnk_005",
+      "name": "Fraud Prevention",
+      "aliases": [
+        "Fraud Prevention Measures",
+        "Anti-Fraud"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "fraud_alert",
+      "description": "A core operational concept focused on identifying, mitigating, and preventing fraudulent activities across the bank's products and services. It is listed as a key function under the Risk & Compliance department.",
+      "context": [
+        "Fraud Prevention"
+      ]
+    },
+    {
+      "id": "bnk_006",
+      "name": "Risk Assessment",
+      "aliases": [
+        "Risk Evaluation",
+        "Assessment Process"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "risk_management",
+      "description": "A systematic process for identifying, analyzing, and evaluating potential risks to the bank's operations, capital, and reputation. It is designated as a key function within the Risk & Compliance department's operational scope.",
+      "context": [
+        "Risk Assessment"
+      ]
+    },
+    {
+      "id": "rul_001",
+      "name": "Customer Identification Policy",
+      "aliases": [
+        "CID-POL-001",
+        "Customer ID Policy"
+      ],
+      "entity_class": "BUSINESS_RULE",
+      "type": "compliance_requirement",
+      "description": "A formal governance policy establishing the mandatory procedures and standards for verifying customer identities. It is designated with internal policy identifier CID-POL-001 and serves as a foundational compliance requirement.",
+      "context": [
+        "Customer Identification Policy (CID-POL-001)"
+      ]
+    },
+    {
+      "id": "rul_002",
+      "name": "AML Policy",
+      "aliases": [
+        "AML-POL-002",
+        "Anti-Money Laundering Policy"
+      ],
+      "entity_class": "BUSINESS_RULE",
+      "type": "regulatory_obligation",
+      "description": "A core compliance policy outlining the bank's framework and controls for preventing money laundering. It is designated with internal policy identifier AML-POL-002 and enforces regulatory obligations across financial operations.",
+      "context": [
+        "AML Policy (AML-POL-002)"
+      ]
+    },
+    {
+      "id": "rul_003",
+      "name": "Operational Risk Policy",
+      "aliases": [
+        "ORP-POL-003",
+        "Operational Risk Framework"
+      ],
+      "entity_class": "BUSINESS_RULE",
+      "type": "control",
+      "description": "A governance policy defining the bank's approach to identifying, assessing, and mitigating operational risks. It is designated with internal policy identifier ORP-POL-003 and establishes mandatory control standards.",
+      "context": [
+        "Operational Risk Policy (ORP-POL-003)"
+      ]
+    },
+    {
+      "id": "rul_004",
+      "name": "Privacy Policy",
+      "aliases": [
+        "PRI-POL-004",
+        "Data Privacy Policy"
+      ],
+      "entity_class": "BUSINESS_RULE",
+      "type": "regulatory_obligation",
+      "description": "A compliance policy governing the handling, protection, and processing of customer data in accordance with privacy regulations. It is designated with internal policy identifier PRI-POL-004 and enforces data protection obligations.",
+      "context": [
+        "Privacy Policy (PRI-POL-004)"
+      ]
+    }
+  ],
+  "id_map": {
+    "org_001": "83b83916d073408d9452b18c1e8f9a50_008_org_001",
+    "rol_001": "83b83916d073408d9452b18c1e8f9a50_008_rol_001",
+    "org_002": "83b83916d073408d9452b18c1e8f9a50_008_org_002",
+    "org_003": "83b83916d073408d9452b18c1e8f9a50_008_org_003",
+    "org_004": "83b83916d073408d9452b18c1e8f9a50_008_org_004",
+    "bnk_001": "83b83916d073408d9452b18c1e8f9a50_008_bnk_001",
+    "bnk_002": "83b83916d073408d9452b18c1e8f9a50_008_bnk_002",
+    "bnk_003": "83b83916d073408d9452b18c1e8f9a50_008_bnk_003",
+    "bnk_004": "83b83916d073408d9452b18c1e8f9a50_008_bnk_004",
+    "bnk_005": "83b83916d073408d9452b18c1e8f9a50_008_bnk_005",
+    "bnk_006": "83b83916d073408d9452b18c1e8f9a50_008_bnk_006",
+    "rul_001": "83b83916d073408d9452b18c1e8f9a50_008_rul_001",
+    "rul_002": "83b83916d073408d9452b18c1e8f9a50_008_rul_002",
+    "rul_003": "83b83916d073408d9452b18c1e8f9a50_008_rul_003",
+    "rul_004": "83b83916d073408d9452b18c1e8f9a50_008_rul_004"
+  },
+  "entities": [
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_008_org_001",
+      "name": "Risk & Compliance",
+      "aliases": [
+        "Risk and Compliance",
+        "R&C Department"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "department",
+      "description": "A core internal department responsible for proactive risk identification and regulatory compliance. It oversees key functional areas including compliance, financial crime, fraud prevention, risk assessment, and internal audit to protect the bank's operational integrity.",
+      "context": [
+        "### 2. Risk & Compliance (Head: Chief Risk Officer)",
+        "Mission: Protect FirstUK Bank through proactive risk identification and regulatory compliance"
+      ],
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_008_rol_001",
+      "name": "Chief Risk Officer",
+      "aliases": [
+        "CRO",
+        "Head of Risk & Compliance"
+      ],
+      "entity_class": "ROLE_PERSON",
+      "type": "c_suite",
+      "description": "The executive leadership role serving as the head of the Risk & Compliance department. This position holds defined accountability for overseeing proactive risk identification and ensuring regulatory compliance across FirstUK Bank.",
+      "context": [
+        "### 2. Risk & Compliance (Head: Chief Risk Officer)"
+      ],
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_008_org_002",
+      "name": "Compliance",
+      "aliases": [
+        "Compliance Function",
+        "Regulatory Compliance Unit"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A specialized functional area within the Risk & Compliance department focused on ensuring the bank adheres to external regulations and internal governance standards. It operates as a key oversight function alongside financial crime and audit.",
+      "context": [
+        "Compliance (see [[departments]])"
+      ],
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_008_org_003",
+      "name": "Financial Crime",
+      "aliases": [
+        "Financial Crime Unit",
+        "FC Department"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A dedicated functional area responsible for preventing, detecting, and reporting financial crimes. It operates as a key component of the Risk & Compliance department's operational structure.",
+      "context": [
+        "Financial Crime (see [[departments]])"
+      ],
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_008_org_004",
+      "name": "Internal Audit",
+      "aliases": [
+        "IA",
+        "Internal Auditing Function"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "department",
+      "description": "A key functional area listed under Risk & Compliance responsible for independent evaluation of the bank's internal controls, risk management frameworks, and governance processes.",
+      "context": [
+        "Internal Audit"
+      ],
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_001",
+      "name": "AML/KYC Compliance",
+      "aliases": [
+        "Anti-Money Laundering / Know Your Customer Compliance",
+        "AML-KYC"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "aml_screening",
+      "description": "A core regulatory compliance concept encompassing anti-money laundering and know your customer procedures. It is explicitly mandated as a primary regulatory responsibility for the Risk & Compliance department, governed by the bank's business ontology.",
+      "context": [
+        "AML/KYC compliance (per [[business_ontology]])"
+      ],
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_002",
+      "name": "Customer Due Diligence",
+      "aliases": [
+        "CDD",
+        "Customer Due Diligence Process"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "kyc_verification",
+      "description": "A mandatory KYC verification process applied to customers as part of the bank's regulatory responsibilities. It serves as the baseline procedure for assessing customer risk profiles before onboarding.",
+      "context": [
+        "Customer Due Diligence (CDD)"
+      ],
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_003",
+      "name": "Enhanced Due Diligence",
+      "aliases": [
+        "EDD",
+        "Enhanced Due Diligence Process"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "kyc_verification",
+      "description": "A heightened KYC verification procedure applied specifically to high-risk customers. It requires deeper scrutiny, ongoing monitoring, and additional documentation beyond standard due diligence requirements.",
+      "context": [
+        "Enhanced Due Diligence (EDD) for high-risk customers"
+      ],
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_004",
+      "name": "Suspicious Activity Reporting",
+      "aliases": [
+        "SAR",
+        "Suspicious Activity Reports"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "sar",
+      "description": "A regulatory reporting obligation requiring the bank to formally document and submit reports regarding identified suspicious financial activities or transactions. It is a key compliance output managed by the Risk & Compliance function.",
+      "context": [
+        "Suspicious Activity Reporting (SAR)"
+      ],
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_005",
+      "name": "Fraud Prevention",
+      "aliases": [
+        "Fraud Prevention Measures",
+        "Anti-Fraud"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "fraud_alert",
+      "description": "A core operational concept focused on identifying, mitigating, and preventing fraudulent activities across the bank's products and services. It is listed as a key function under the Risk & Compliance department.",
+      "context": [
+        "Fraud Prevention"
+      ],
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_006",
+      "name": "Risk Assessment",
+      "aliases": [
+        "Risk Evaluation",
+        "Assessment Process"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "risk_management",
+      "description": "A systematic process for identifying, analyzing, and evaluating potential risks to the bank's operations, capital, and reputation. It is designated as a key function within the Risk & Compliance department's operational scope.",
+      "context": [
+        "Risk Assessment"
+      ],
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_008_rul_001",
+      "name": "Customer Identification Policy",
+      "aliases": [
+        "CID-POL-001",
+        "Customer ID Policy"
+      ],
+      "entity_class": "BUSINESS_RULE",
+      "type": "compliance_requirement",
+      "description": "A formal governance policy establishing the mandatory procedures and standards for verifying customer identities. It is designated with internal policy identifier CID-POL-001 and serves as a foundational compliance requirement.",
+      "context": [
+        "Customer Identification Policy (CID-POL-001)"
+      ],
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_008_rul_002",
+      "name": "AML Policy",
+      "aliases": [
+        "AML-POL-002",
+        "Anti-Money Laundering Policy"
+      ],
+      "entity_class": "BUSINESS_RULE",
+      "type": "regulatory_obligation",
+      "description": "A core compliance policy outlining the bank's framework and controls for preventing money laundering. It is designated with internal policy identifier AML-POL-002 and enforces regulatory obligations across financial operations.",
+      "context": [
+        "AML Policy (AML-POL-002)"
+      ],
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_008_rul_003",
+      "name": "Operational Risk Policy",
+      "aliases": [
+        "ORP-POL-003",
+        "Operational Risk Framework"
+      ],
+      "entity_class": "BUSINESS_RULE",
+      "type": "control",
+      "description": "A governance policy defining the bank's approach to identifying, assessing, and mitigating operational risks. It is designated with internal policy identifier ORP-POL-003 and establishes mandatory control standards.",
+      "context": [
+        "Operational Risk Policy (ORP-POL-003)"
+      ],
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_008_rul_004",
+      "name": "Privacy Policy",
+      "aliases": [
+        "PRI-POL-004",
+        "Data Privacy Policy"
+      ],
+      "entity_class": "BUSINESS_RULE",
+      "type": "regulatory_obligation",
+      "description": "A compliance policy governing the handling, protection, and processing of customer data in accordance with privacy regulations. It is designated with internal policy identifier PRI-POL-004 and enforces data protection obligations.",
+      "context": [
+        "Privacy Policy (PRI-POL-004)"
+      ],
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    }
+  ],
+  "properties": [
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_008_org_001",
+      "name": "Risk & Compliance",
+      "properties": {
+        "mission": "Protect FirstUK Bank through proactive risk identification and regulatory compliance",
+        "key_functions": [
+          "Compliance",
+          "Financial Crime",
+          "Fraud Prevention",
+          "Risk Assessment",
+          "Internal Audit"
+        ],
+        "chair_or_head": "Chief Risk Officer",
+        "regulatory_responsibilities": [
+          "AML/KYC compliance",
+          "Customer Due Diligence (CDD)",
+          "Enhanced Due Diligence (EDD) for high-risk customers",
+          "Suspicious Activity Reporting (SAR)"
+        ]
+      },
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_008_rol_001",
+      "name": "Chief Risk Officer",
+      "properties": {
+        "department_or_unit": "Risk & Compliance",
+        "key_responsibilities": [
+          "Proactive risk identification",
+          "Regulatory compliance"
+        ],
+        "appointment_type": "executive"
+      },
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_008_org_002",
+      "name": "Compliance",
+      "properties": {
+        "reporting_to": [
+          "Risk & Compliance"
+        ],
+        "key_functions": [
+          "Regulatory compliance oversight"
+        ]
+      },
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_008_org_003",
+      "name": "Financial Crime",
+      "properties": {
+        "reporting_to": [
+          "Risk & Compliance"
+        ],
+        "key_functions": [
+          "Financial crime management and prevention"
+        ]
+      },
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_008_org_004",
+      "name": "Internal Audit",
+      "properties": {
+        "reporting_to": [
+          "Risk & Compliance"
+        ],
+        "key_functions": [
+          "Independent audit and assurance"
+        ]
+      },
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_001",
+      "name": "AML/KYC Compliance",
+      "properties": {
+        "regulatory_significance": "Core regulatory responsibility mandated for the Risk & Compliance unit",
+        "relationships_to": [
+          "Risk & Compliance"
+        ],
+        "ontology_domain": "Compliance"
+      },
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_002",
+      "name": "Customer Due Diligence",
+      "properties": {
+        "regulatory_significance": "Mandatory compliance requirement for standard customer verification",
+        "relationships_to": [
+          "Risk & Compliance"
+        ],
+        "ontology_domain": "Compliance"
+      },
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_003",
+      "name": "Enhanced Due Diligence",
+      "properties": {
+        "definition": "Intensive due diligence process applied to high-risk customers",
+        "regulatory_significance": "Required for elevated risk profiles",
+        "relationships_to": [
+          "Risk & Compliance"
+        ],
+        "ontology_domain": "Compliance"
+      },
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_004",
+      "name": "Suspicious Activity Reporting",
+      "properties": {
+        "regulatory_significance": "Mandatory reporting obligation to regulatory authorities",
+        "relationships_to": [
+          "Risk & Compliance"
+        ],
+        "ontology_domain": "Compliance"
+      },
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_005",
+      "name": "Fraud Prevention",
+      "properties": {
+        "regulatory_significance": "Operational risk mitigation requirement",
+        "relationships_to": [
+          "Risk & Compliance"
+        ],
+        "ontology_domain": "Risk Management"
+      },
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_006",
+      "name": "Risk Assessment",
+      "properties": {
+        "regulatory_significance": "Core component of proactive risk identification",
+        "relationships_to": [
+          "Risk & Compliance"
+        ],
+        "ontology_domain": "Risk Management"
+      },
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_008_rul_001",
+      "name": "Customer Identification Policy",
+      "properties": {
+        "rule_statement": "Mandates customer identification procedures during onboarding",
+        "rule_type": "obligation",
+        "applies_to": [
+          "Customer onboarding processes"
+        ],
+        "enforcement": "Risk & Compliance unit"
+      },
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_008_rul_002",
+      "name": "AML Policy",
+      "properties": {
+        "rule_statement": "Establishes anti-money laundering controls and procedures",
+        "rule_type": "obligation",
+        "applies_to": [
+          "Financial crime and compliance operations"
+        ],
+        "enforcement": "Risk & Compliance unit"
+      },
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_008_rul_003",
+      "name": "Operational Risk Policy",
+      "properties": {
+        "rule_statement": "Defines operational risk management frameworks and controls",
+        "rule_type": "constraint",
+        "applies_to": [
+          "Bank operations and processes"
+        ],
+        "enforcement": "Risk & Compliance unit"
+      },
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_008_rul_004",
+      "name": "Privacy Policy",
+      "properties": {
+        "rule_statement": "Governs data privacy and protection standards",
+        "rule_type": "obligation",
+        "applies_to": [
+          "All customer data handling"
+        ],
+        "enforcement": "Risk & Compliance unit"
+      },
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_rol_001",
+      "source_name": "Chief Risk Officer",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008_org_002",
+      "target_name": "Compliance",
+      "rel_type": "leads",
+      "description": "The Chief Risk Officer leads the Compliance unit within the Risk & Compliance department.",
+      "properties": {
+        "reporting_line": "direct",
+        "scope": "regulatory_advisory"
+      },
+      "context": "Risk & Compliance (Head: Chief Risk Officer) ... Key Functions: Compliance",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_rol_001",
+      "source_name": "Chief Risk Officer",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008_org_003",
+      "target_name": "Financial Crime",
+      "rel_type": "leads",
+      "description": "The Chief Risk Officer leads the Financial Crime unit responsible for regulatory compliance and fraud monitoring.",
+      "properties": {
+        "reporting_line": "direct",
+        "scope": "financial_crime_prevention"
+      },
+      "context": "Risk & Compliance (Head: Chief Risk Officer) ... Key Functions: Financial Crime",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_rol_001",
+      "source_name": "Chief Risk Officer",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008_org_004",
+      "target_name": "Internal Audit",
+      "rel_type": "leads",
+      "description": "The Chief Risk Officer leads the Internal Audit function to ensure independent oversight of risk controls.",
+      "properties": {
+        "reporting_line": "direct",
+        "scope": "independent_assurance"
+      },
+      "context": "Risk & Compliance (Head: Chief Risk Officer) ... Key Functions: Internal Audit",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_org_002",
+      "source_name": "Compliance",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_002",
+      "target_name": "Customer Due Diligence",
+      "rel_type": "manages",
+      "description": "The Compliance unit manages Customer Due Diligence processes to verify customer identities and assess baseline risk.",
+      "properties": {
+        "process_stage": "onboarding",
+        "regulatory_basis": "FCA/AML"
+      },
+      "context": "Key Functions: Compliance ... Regulatory Responsibilities: Customer Due Diligence (CDD)",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_org_003",
+      "source_name": "Financial Crime",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_001",
+      "target_name": "AML/KYC Compliance",
+      "rel_type": "responsible_for",
+      "description": "The Financial Crime unit is directly responsible for end-to-end AML/KYC compliance across the bank.",
+      "properties": {
+        "regulatory_scope": "anti_money_laundering",
+        "obligation_type": "statutory"
+      },
+      "context": "Regulatory Responsibilities: AML/KYC compliance (per [[business_ontology]])",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_org_003",
+      "source_name": "Financial Crime",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_003",
+      "target_name": "Enhanced Due Diligence",
+      "rel_type": "manages",
+      "description": "The Financial Crime unit manages Enhanced Due Diligence procedures specifically for high-risk customer segments.",
+      "properties": {
+        "trigger_condition": "high_risk_customer",
+        "review_frequency": "annual"
+      },
+      "context": "Regulatory Responsibilities: Enhanced Due Diligence (EDD) for high-risk customers",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_org_003",
+      "source_name": "Financial Crime",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_004",
+      "target_name": "Suspicious Activity Reporting",
+      "rel_type": "performs",
+      "description": "The Financial Crime unit performs Suspicious Activity Reporting to regulatory bodies upon detecting red flags.",
+      "properties": {
+        "reporting_body": "NCA/UKFIU",
+        "escalation_path": "compliance_officer"
+      },
+      "context": "Regulatory Responsibilities: Suspicious Activity Reporting (SAR)",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_org_004",
+      "source_name": "Internal Audit",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_006",
+      "target_name": "Risk Assessment",
+      "rel_type": "reviews",
+      "description": "Internal Audit independently reviews Risk Assessment methodologies to ensure accuracy and regulatory alignment.",
+      "properties": {
+        "audit_type": "independent_assurance",
+        "frequency": "biannual"
+      },
+      "context": "Key Functions: Risk Assessment ... Internal Audit",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_rol_001",
+      "source_name": "Chief Risk Officer",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_005",
+      "target_name": "Fraud Prevention",
+      "rel_type": "oversees",
+      "description": "The Chief Risk Officer oversees Fraud Prevention strategies as a core component of the bank's risk mitigation framework.",
+      "properties": {
+        "oversight_level": "strategic",
+        "integration_scope": "cross_departmental"
+      },
+      "context": "Key Functions: Fraud Prevention",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_org_002",
+      "source_name": "Compliance",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008_rul_001",
+      "target_name": "Customer Identification Policy",
+      "rel_type": "enforces",
+      "description": "The Compliance unit enforces the Customer Identification Policy to ensure all onboarding meets KYC standards.",
+      "properties": {
+        "policy_code": "CID-POL-001",
+        "enforcement_mechanism": "system_validation"
+      },
+      "context": "Key Policies: Customer Identification Policy (CID-POL-001)",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_org_003",
+      "source_name": "Financial Crime",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008_rul_002",
+      "target_name": "AML Policy",
+      "rel_type": "enforces",
+      "description": "The Financial Crime unit enforces the AML Policy across all customer lifecycle touchpoints.",
+      "properties": {
+        "policy_code": "AML-POL-002",
+        "scope": "transaction_monitoring"
+      },
+      "context": "Key Policies: AML Policy (AML-POL-002)",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_org_004",
+      "source_name": "Internal Audit",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008_rul_003",
+      "target_name": "Operational Risk Policy",
+      "rel_type": "enforces",
+      "description": "Internal Audit enforces the Operational Risk Policy by conducting independent control testing and gap analysis.",
+      "properties": {
+        "policy_code": "ORP-POL-003",
+        "audit_focus": "control_effectiveness"
+      },
+      "context": "Key Policies: Operational Risk Policy (ORP-POL-003)",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_rol_001",
+      "source_name": "Chief Risk Officer",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008_rul_004",
+      "target_name": "Privacy Policy",
+      "rel_type": "owns_policy",
+      "description": "The Chief Risk Officer owns the Privacy Policy, ensuring data handling aligns with regulatory and customer trust standards.",
+      "properties": {
+        "policy_code": "PRI-POL-004",
+        "ownership_level": "executive"
+      },
+      "context": "Key Policies: Privacy Policy (PRI-POL-004)",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_001",
+      "source_name": "AML/KYC Compliance",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008_rul_002",
+      "target_name": "AML Policy",
+      "rel_type": "governed_by",
+      "description": "AML/KYC Compliance activities are strictly governed by the bank's overarching AML Policy framework.",
+      "properties": {
+        "governance_level": "board_approved",
+        "regulatory_derivation": "FCA/PRA"
+      },
+      "context": "Regulatory Responsibilities: AML/KYC compliance ... Key Policies: AML Policy (AML-POL-002)",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_002",
+      "source_name": "Customer Due Diligence",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008_rul_001",
+      "target_name": "Customer Identification Policy",
+      "rel_type": "governed_by",
+      "description": "Customer Due Diligence procedures are governed by the Customer Identification Policy to standardize verification steps.",
+      "properties": {
+        "governance_level": "operational",
+        "compliance_check": "mandatory"
+      },
+      "context": "Regulatory Responsibilities: Customer Due Diligence (CDD) ... Key Policies: Customer Identification Policy (CID-POL-001)",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_003",
+      "source_name": "Enhanced Due Diligence",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008_rul_002",
+      "target_name": "AML Policy",
+      "rel_type": "governed_by",
+      "description": "Enhanced Due Diligence protocols are governed by the AML Policy to address elevated risk profiles.",
+      "properties": {
+        "governance_level": "risk_based",
+        "trigger_threshold": "high_risk"
+      },
+      "context": "Regulatory Responsibilities: Enhanced Due Diligence (EDD) ... Key Policies: AML Policy (AML-POL-002)",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_004",
+      "source_name": "Suspicious Activity Reporting",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008_rul_002",
+      "target_name": "AML Policy",
+      "rel_type": "governed_by",
+      "description": "Suspicious Activity Reporting workflows are governed by the AML Policy to ensure timely and accurate regulatory disclosures.",
+      "properties": {
+        "governance_level": "regulatory_mandate",
+        "escalation_rule": "immediate"
+      },
+      "context": "Regulatory Responsibilities: Suspicious Activity Reporting (SAR) ... Key Policies: AML Policy (AML-POL-002)",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_org_001",
+      "source_name": "Risk & Compliance",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "target_name": "83b83916d073408d9452b18c1e8f9a50_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_rol_001",
+      "source_name": "Chief Risk Officer",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "target_name": "83b83916d073408d9452b18c1e8f9a50_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_org_002",
+      "source_name": "Compliance",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "target_name": "83b83916d073408d9452b18c1e8f9a50_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_org_003",
+      "source_name": "Financial Crime",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "target_name": "83b83916d073408d9452b18c1e8f9a50_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_org_004",
+      "source_name": "Internal Audit",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "target_name": "83b83916d073408d9452b18c1e8f9a50_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_001",
+      "source_name": "AML/KYC Compliance",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "target_name": "83b83916d073408d9452b18c1e8f9a50_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_002",
+      "source_name": "Customer Due Diligence",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "target_name": "83b83916d073408d9452b18c1e8f9a50_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_003",
+      "source_name": "Enhanced Due Diligence",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "target_name": "83b83916d073408d9452b18c1e8f9a50_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_004",
+      "source_name": "Suspicious Activity Reporting",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "target_name": "83b83916d073408d9452b18c1e8f9a50_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_005",
+      "source_name": "Fraud Prevention",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "target_name": "83b83916d073408d9452b18c1e8f9a50_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_006",
+      "source_name": "Risk Assessment",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "target_name": "83b83916d073408d9452b18c1e8f9a50_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_rul_001",
+      "source_name": "Customer Identification Policy",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "target_name": "83b83916d073408d9452b18c1e8f9a50_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_rul_002",
+      "source_name": "AML Policy",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "target_name": "83b83916d073408d9452b18c1e8f9a50_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_rul_003",
+      "source_name": "Operational Risk Policy",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "target_name": "83b83916d073408d9452b18c1e8f9a50_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_008_rul_004",
+      "source_name": "Privacy Policy",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "target_name": "83b83916d073408d9452b18c1e8f9a50_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    }
+  ]
+}

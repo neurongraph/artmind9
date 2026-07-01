@@ -1,0 +1,2950 @@
+[
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_cli_001",
+    "name": "Large British Building Society",
+    "aliases": [
+      "The building society",
+      "This organisation",
+      "client",
+      "client stakeholders"
+    ],
+    "entity_class": "CLIENT",
+    "type": "named_account",
+    "description": "A major UK-based financial institution undergoing a strategic digital transformation to modernize legacy customer information systems and migrate data assets to a cloud-native lakehouse architecture on Microsoft Azure.",
+    "context": [
+      "Large British Building Society",
+      "The building society had embarked on a strategic digital transformation initiative",
+      "This organisation needed to migrate data assets from Teradata vantage to Lakehouse",
+      "bringing together client stakeholders and IBM SMEs"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_off_001",
+    "name": "Acquire and Publish Framework",
+    "aliases": [
+      "Acquire and Publish framework"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "framework",
+    "description": "An IBM Consulting framework used to guide data platform migration strategy and architecture, enabling hands-on collaboration and direct access to data assets during stakeholder workshops.",
+    "context": [
+      "direct access to the Acquire and Publish framework",
+      "A collaborative workshop was conducted in Pune, bringing together client stakeholders and IBM SMEs for hands-on sessions and direct access to the Acquire and Publish framework."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_off_002",
+    "name": "Data Platform Migration Strategy",
+    "aliases": [
+      "data platform migration strategy",
+      "strategic technology platform",
+      "RC/Non-RC Architecture"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "transformation_programme",
+    "description": "A comprehensive engagement to consolidate data assets onto Microsoft Azure, optimizing the data landscape and aligning architecture with aggressive project timelines through medallion architecture milestones.",
+    "context": [
+      "The data platform migration strategy necessitated the deployment of IBM assets within the client’s network",
+      "optimise and unify the data landscape across the organization by consolidating all data assets onto a strategic technology platform—Microsoft Azure.",
+      "This is a detailed architectural diagram titled RC/Non-RC Architecture."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_cap_001",
+    "name": "Data Modeling and Transformation",
+    "aliases": [
+      "Data Modeling",
+      "Transformation",
+      "DBT Model Development"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "technical_capability",
+    "description": "The ability to design, develop, and version-control modular DBT models while ensuring data quality through rigorous testing, documentation, and validation frameworks.",
+    "context": [
+      "Data Modeling and Transformation using DBT and SQL, Designing and developing modular, reusable, and version-controlled DBT (Data Build Tool) models.",
+      "Ensuring data quality and consistency through rigorous testing, documentation, and data validation frameworks within DBT."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_cap_002",
+    "name": "Workflow Automation and Orchestration",
+    "aliases": [
+      "Data Processing and Workflow Automation",
+      "Orchestration",
+      "ETL Job Implementation"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "automation_capability",
+    "description": "Implementing performance-optimized ETL jobs and managing data workflows using Azure Data Factory, Control-M, and Databricks to process raw data into curated lakehouse layers.",
+    "context": [
+      "Data Processing and Workflow Automation using DBT and Databricks, Implementing performance-optimized ETL jobs to process raw data into curated layers",
+      "Orchestration using Azure Data Factory (ADF) and Control-M",
+      "The process is managed by Databricks Workflows / Jobs."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_cap_003",
+    "name": "Asset-Driven Development",
+    "aliases": [
+      "asset-driven approach",
+      "GenAI Asset Development",
+      "ICA-DMA Asset Deployment"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "technical_capability",
+    "description": "Leveraging pre-built IBM GenAI and ICA-DMA assets to accelerate code development, testing, and project delivery during the migration from legacy systems to modern platforms.",
+    "context": [
+      "This validated the asset-driven approach as a key enabler for faster project delivery and improved time-to-value.",
+      "A key advantage was the development of GenAI assets during the conversion of Teradata procedures to DBT.",
+      "Use of IBM GenAI assets DMA(anticipated post deployment of assets in client environment)"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_use_001",
+    "name": "Legacy System Modernization",
+    "aliases": [
+      "modernising legacy Customer Information Systems",
+      "decommissioning legacy CIS systems",
+      "Mainframe to Lakehouse Migration"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "modernisation",
+    "description": "Transitioning from mainframe-hosted Customer Information Systems to a scalable, cloud-native data lakehouse architecture to improve data accessibility and operational efficiency.",
+    "context": [
+      "focused on modernising legacy Customer Information Systems (CIS), originally hosted on Mainframe platforms",
+      "This project enables the decommissioning of legacy CIS systems, reducing infrastructure costs and technical debt.",
+      "ending Unisys reliance"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_use_002",
+    "name": "Advanced Analytics and Machine Learning Enablement",
+    "aliases": [
+      "advanced analytics",
+      "machine learning",
+      "self-service BI",
+      "real-time processing"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "analytics",
+    "description": "Establishing a scalable foundation to support real-time processing, machine learning workloads, and self-service business intelligence initiatives for future digital transformation.",
+    "context": [
+      "lays a strong foundation for advanced analytics, machine learning, and self-service BI initiatives in future.",
+      "The new architecture supports real-time processing and machine learning workloads, accelerating digital transformation and enabling future AI-driven initiatives."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_ben_001",
+    "name": "Operational Cost Reduction",
+    "aliases": [
+      "Reduced Operational Costs",
+      "infrastructure cost reduction",
+      "lower maintenance costs"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "cost_saving",
+    "description": "Significant reduction in infrastructure and maintenance costs achieved through the decommissioning of legacy mainframe systems and Unisys reliance, freeing up budget for innovation.",
+    "context": [
+      "Reduced Operational Costs: Decommissioning legacy mainframe systems significantly lowers infrastructure and maintenance costs",
+      "reducing infrastructure costs and technical debt.",
+      "freeing up budget for innovation and modernization"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_ben_002",
+    "name": "Enhanced Data Accessibility and Agility",
+    "aliases": [
+      "Enhanced Data Accessibility & Agility",
+      "faster data access",
+      "flexible data consumption"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "efficiency_gain",
+    "description": "Improved data accessibility, reliability, and responsiveness across departments, enabling faster decision-making and flexible data consumption through a modern lakehouse architecture.",
+    "context": [
+      "Enhanced Data Accessibility & Agility: Migrating to a modern lakehouse architecture enables faster, more flexible access to customer data across departments",
+      "improves data accessibility, reliability, and capabilities across the organization.",
+      "improving decision-making and responsiveness."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_ben_003",
+    "name": "Accelerated Project Delivery and Time-to-Value",
+    "aliases": [
+      "faster project delivery",
+      "improved time-to-value",
+      ">30% reduction in code build"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "speed_improvement",
+    "description": "Significant acceleration in code development and testing activities (over 30% reduction), leading to faster project delivery and meeting stringent timelines through asset-driven approaches.",
+    "context": [
+      "This significantly accelerated code development and testing, enabling faster project delivery and improved time-to-value.",
+      ">30% reduction in code build and test activities.",
+      "Increased efficiency & productivity which helped to fast track the project delivery and meet the stringent timelines."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_ben_004",
+    "name": "Improved Data Quality and Compliance",
+    "aliases": [
+      "Improved Data Quality & Compliance",
+      "regulatory compliance",
+      "data accuracy and consistency"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "compliance_achievement",
+    "description": "Centralized, well-governed data pipelines with built-in validation and auditing ensure higher data accuracy, consistency, and regulatory compliance across the organization.",
+    "context": [
+      "Improved Data Quality & Compliance: Centralized, well-governed data pipelines with built-in validation and auditing ensure higher data accuracy, consistency, and regulatory compliance.",
+      "Ensuring data quality and consistency through rigorous testing, documentation, and data validation frameworks within DBT."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_cha_001",
+    "name": "Legacy System Dependency and Technical Debt",
+    "aliases": [
+      "ending Unisys reliance",
+      "legacy Customer Information Systems",
+      "technical debt",
+      "mainframe reliance"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "legacy_constraint",
+    "description": "Reliance on outdated mainframe-hosted CIS and Unisys infrastructure, creating technical debt and limiting scalability, data accessibility, and operational efficiency.",
+    "context": [
+      "ending Unisys reliance",
+      "originally hosted on Mainframe platforms",
+      "reducing infrastructure costs and technical debt.",
+      "legacy Customer Information Systems (CIS)"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_cha_002",
+    "name": "Aggressive Project Timelines",
+    "aliases": [
+      "aggressive project timelines",
+      "stringent timelines",
+      "FY 2026-27 deadline"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "scalability_limitation",
+    "description": "The need to complete complex data migration and platform consolidation by Q1 FY 2026-27 under strict deadlines, requiring rapid execution and optimized delivery methods.",
+    "context": [
+      "ensuring alignment with aggressive project timelines.",
+      "meet the stringent timelines.",
+      "by first quarter of FY 2026-27 (i.e. Jun-2026)."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_tec_001",
+    "name": "Databricks Lakehouse",
+    "aliases": [
+      "Lakehouse (Databricks)",
+      "Databricks Workflows / Jobs",
+      "Azure Databricks Storage",
+      "Databricks Unity Catalog"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "cloud_platform",
+    "description": "A cloud-native data lakehouse architecture used for processing, storing, and serving curated data layers (L0, L2) with underlying storage and catalog management capabilities.",
+    "context": [
+      "Lakehouse (Databricks)",
+      "The core processing happens in the CIS - Lakehouse.",
+      "Azure Databricks Storage is underlying storage system for entire lakehouse.",
+      "Databricks Unity Catalog"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_tec_002",
+    "name": "Microsoft Azure Ecosystem",
+    "aliases": [
+      "Microsoft Azure",
+      "Azure Data Factory (ADF)",
+      "Azure ADLS / Blob",
+      "Azure Entra ID",
+      "Azure Key-Vault",
+      "Azure Monitor",
+      "Azure DevOps"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "cloud_platform",
+    "description": "The primary cloud infrastructure and suite of services used for data ingestion, orchestration, storage, security, monitoring, and development throughout the migration.",
+    "context": [
+      "consolidating all data assets onto a strategic technology platform—Microsoft Azure.",
+      "Orchestration using Azure Data Factory (ADF) and Control-M",
+      "loaded via an Ingestion Job... into Azure ADLS / Blob.",
+      "Azure Entra ID, Azure Key-Vault, Azure Monitor, Azure DevOps"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_tec_003",
+    "name": "DBT (Data Build Tool)",
+    "aliases": [
+      "DBT",
+      "dbt Models",
+      "SQL Code",
+      "git"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "integration_tool",
+    "description": "A modular, version-controlled data transformation tool used for SQL code development, model management, and ensuring data quality through testing frameworks.",
+    "context": [
+      "Data Modeling and Transformation using DBT and SQL",
+      "Developer uses dbt (Data Build Tool) to create SQL Code and dbt Models.",
+      "managed in a Code Repository using git."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_tec_004",
+    "name": "Teradata Vantage",
+    "aliases": [
+      "Teradata vantage",
+      "Teradata procedures",
+      "Teradata data mart codebase"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "legacy_system",
+    "description": "The legacy data warehouse platform hosting data assets that required migration to the modern lakehouse architecture, including complex data mart codebases.",
+    "context": [
+      "migrate data assets from Teradata vantage to Lakehouse",
+      "conversion of Teradata procedures to DBT.",
+      "POC was executed using a complex data mart codebase"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_dif_001",
+    "name": "Proactive and Collaborative Delivery Model",
+    "aliases": [
+      "proactive approach",
+      "collaborative workshop",
+      "hands-on sessions",
+      "direct SME access"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "delivery_model",
+    "description": "IBM's engagement style featuring proactive stakeholder collaboration, hands-on workshops, and direct access to SMEs to ensure alignment and accelerate delivery ahead of schedule.",
+    "context": [
+      "IBM team was recognized for their proactive approach in delivering the Workstream Medallion Architecture Bronze milestone and L1-L2 deliverables ahead of schedule.",
+      "A collaborative workshop was conducted in Pune, bringing together client stakeholders and IBM SMEs for hands-on sessions and direct access to the Acquire and Publish framework."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_dif_002",
+    "name": "Asset-Driven Acceleration",
+    "aliases": [
+      "asset-driven approach",
+      "ICA-DMA assets",
+      "GenAI assets",
+      "accelerated code development"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "proprietary_asset",
+    "description": "Leveraging pre-built IBM GenAI and ICA-DMA assets to significantly accelerate code development, testing, and overall project delivery speed, validating the approach through POC.",
+    "context": [
+      "A key advantage was the development of GenAI assets during the conversion of Teradata procedures to DBT.",
+      "This validated the asset-driven approach as a key enabler for faster project delivery and improved time-to-value.",
+      "Use of IBM GenAI assets DMA(anticipated post deployment of assets in client environment)"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_org_001",
+    "name": "IBM Consulting",
+    "aliases": [
+      "IBM",
+      "IBM Consulting",
+      "Subject Matter Experts from IBM"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "vendor",
+    "description": "The consulting and technology services firm engaged to lead the data platform migration, architecture design, and asset-driven development for the building society.",
+    "context": [
+      "IBM Consulting was engaged to support the programme for:",
+      "Subject Matter Experts from IBM were brought in to evaluate the data platform migration strategy",
+      "© 2023 IBM Corporation - Confidential"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_org_002",
+    "name": "Unisys",
+    "aliases": [
+      "Unisys",
+      "Unisys infrastructure"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "vendor",
+    "description": "The legacy technology provider whose infrastructure and systems the client is migrating away from to reduce reliance and technical debt.",
+    "context": [
+      "ending Unisys reliance",
+      "Decommissioning legacy mainframe systems significantly lowers infrastructure and maintenance costs"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_loc_001",
+    "name": "Pune",
+    "aliases": [
+      "Pune"
+    ],
+    "entity_class": "LOCATION",
+    "type": "office",
+    "description": "The location where a collaborative workshop was conducted involving client stakeholders and IBM SMEs for hands-on data platform sessions and strategy alignment.",
+    "context": [
+      "A collaborative workshop was conducted in Pune, bringing together client stakeholders and IBM SMEs"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_evt_001",
+    "name": "Proof of Concept (POC)",
+    "aliases": [
+      "POC",
+      "POC execution"
+    ],
+    "entity_class": "EVENT",
+    "type": "proof_of_concept",
+    "description": "A validation exercise executed using a complex data mart codebase to demonstrate the acceleration and effectiveness of the asset-driven migration approach.",
+    "context": [
+      "POC was executed using a complex data mart codebase, demonstrating a significant acceleration in code development and testing.",
+      "This validated the asset-driven approach as a key enabler for faster project delivery and improved time-to-value."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_evt_002",
+    "name": "FY 2026-27 Migration Deadline",
+    "aliases": [
+      "first quarter of FY 2026-27",
+      "Jun-2026",
+      "Q1 FY 2026-27"
+    ],
+    "entity_class": "EVENT",
+    "type": "deadline",
+    "description": "The target completion date for migrating data assets from Teradata vantage to the Lakehouse architecture, driving the need for accelerated delivery methods.",
+    "context": [
+      "by first quarter of FY 2026-27 (i.e. Jun-2026).",
+      "ensuring alignment with aggressive project timelines.",
+      "meet the stringent timelines."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cli_001",
+    "name": "UK based Bank",
+    "aliases": [
+      "anonymous_client",
+      "UK financial institution"
+    ],
+    "entity_class": "CLIENT",
+    "type": "anonymous_client",
+    "description": "A UK-based financial institution engaging the selling organisation for a data management and compliance transformation programme. The client requires structured data lineage, quality measurement, and reconciliation processes to address regulatory requirements and operational gaps across multiple functional areas.",
+    "context": [
+      "# Case Study for a UK based Bank",
+      "Consulted c. 150+ SMEs across business and technology and reviewed documentation for 78 systems across 6 “in scope” areas"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cli_002",
+    "name": "RBS",
+    "aliases": [
+      "Royal Bank of Scotland",
+      "RBS Personal Loans"
+    ],
+    "entity_class": "CLIENT",
+    "type": "named_account",
+    "description": "A major banking entity referenced through its specific loan and management information systems. The client's legacy and MIS systems are integrated into the data architecture to support reporting and compliance workflows.",
+    "context": [
+      "The data flows then through specialized systems: RBS Personal Loans and RBS Personal Loans MIS.",
+      "The resulting data sets are labeled throughout the diagram, including: RBS Data Set"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cli_003",
+    "name": "Nationwide",
+    "aliases": [
+      "NW",
+      "Nationwide FTP Landscape"
+    ],
+    "entity_class": "CLIENT",
+    "type": "named_account",
+    "description": "A UK-based banking organisation referenced in the context of landscape mapping and collaborative review. The client is working with the delivery team to identify additional review areas and next steps based on initial findings.",
+    "context": [
+      "The picture is a screenshot of the Microsoft Excel spreadsheet application, displaying a large, partially filled spreadsheet labeled \"Nationwide FTP Landscape Mic...\".",
+      "Working with NW to identify additional review area and next steps for P.S. based on findings"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_001",
+    "name": "Eco Crime",
+    "aliases": [
+      "Eco Crime Programme",
+      "Eco Crime Project"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "transformation_programme",
+    "description": "A named transformation programme focused on establishing baseline maturity for data lineage and quality across critical data elements. The initiative drives the assessment, rule derivation, and capability build activities for the client.",
+    "context": [
+      "Compute data lineage for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+      "Measure data quality for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_002",
+    "name": "Payments Screening",
+    "aliases": [
+      "Screening Process",
+      "Payments Screening Function"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "A core functional area and solution component focused on transaction monitoring and compliance screening. The offering addresses technical data reconciliation gaps and produces maturity assessments to ensure operational readiness.",
+    "context": [
+      "Review technical data reconciliation processes for Payments Screening—identifying gaps & immediate steps",
+      "Interviewed c. 20 SMEs for Payments Screening to produce 1 maturity assessment report on as-is technical data reconciliation"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_003",
+    "name": "Analysis And MI Reporting",
+    "aliases": [
+      "MI Reporting Platform",
+      "Management Information Reporting"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "platform",
+    "description": "A centralized reporting and analytics platform that aggregates processed data from multiple source systems. The platform serves as the final output destination for structured datasets used in management information and compliance analysis.",
+    "context": [
+      "The image is a detailed technical diagram illustrating a data architecture and reporting flow, titled \"Analysis And MI Reporting.\"",
+      "The data ultimately progresses to the Analysis And MI Reporting block."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_004",
+    "name": "Maturity Assessment Report",
+    "aliases": [
+      "Technical Reconciliation Report",
+      "As-Is Assessment"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "professional_service",
+    "description": "A deliverable produced through SME interviews and technical process reviews. The report documents the current state of data reconciliation, identifies gaps, and outlines immediate next steps for the client.",
+    "context": [
+      "Interviewed c. 20 SMEs for Payments Screening to produce 1 maturity assessment report on as-is technical data reconciliation",
+      "Review technical data reconciliation processes for Payments Screening—identifying gaps & immediate steps"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cap_001",
+    "name": "Compute data lineage",
+    "aliases": [
+      "Data Lineage Mapping",
+      "CDE Lineage Computation"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "technical_capability",
+    "description": "A technical capability focused on tracing and documenting the flow of Critical Data Elements (CDEs) across functional areas. This capability establishes baseline maturity and supports downstream quality and compliance workflows.",
+    "context": [
+      "Compute data lineage for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+      "Created 6 dataflow diagrams and 108 interface contracts to visualise flow of 205 Critical Data Elements"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cap_002",
+    "name": "Measure data quality",
+    "aliases": [
+      "DQ Measurement",
+      "Data Quality Assessment"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "analytics_capability",
+    "description": "An analytics capability that evaluates data against defined dimensions such as Conformity and Completeness. The capability leverages derived technical rules and DQ checks to ensure data accuracy and regulatory compliance.",
+    "context": [
+      "Measure data quality for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+      "Configuring SAS Tool to run quality checks against 2 DQ dimensions (Conformity & Completeness)"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cap_003",
+    "name": "Review technical data reconciliation",
+    "aliases": [
+      "Data Reconciliation Review",
+      "Technical Reconciliation Process"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "technical_capability",
+    "description": "A technical capability that examines existing data reconciliation processes to identify operational gaps. The review produces actionable next steps and supports the transition from legacy to standardized data handling.",
+    "context": [
+      "Review technical data reconciliation processes for Payments Screening—identifying gaps & immediate steps",
+      "Interviewed c. 20 SMEs for Payments Screening to produce 1 maturity assessment report on as-is technical data reconciliation"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cap_004",
+    "name": "Promote capability build",
+    "aliases": [
+      "Capability Development",
+      "Knowledge Transfer"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "delivery_capability",
+    "description": "A delivery capability focused on transferring knowledge and building internal competencies. The team actively coaches business-as-usual (BAU) colleagues to ensure successful handover and sustainable operational practices.",
+    "context": [
+      "Promote capability build",
+      "Actively coaching BAU colleagues to ensure successful handover"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_use_001",
+    "name": "AML T&M",
+    "aliases": [
+      "Anti-Money Laundering Transaction Monitoring",
+      "AML Monitoring"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "fraud_detection",
+    "description": "A compliance use case focused on detecting and preventing money laundering through transaction monitoring. The solution leverages data lineage, quality rules, and screening processes to meet regulatory obligations.",
+    "context": [
+      "The flow continues through a section labeled SAS Analytics (AML T&M), which feeds into another Chaps component",
+      "The resulting data sets are labeled throughout the diagram, including: AML Data Set"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_use_002",
+    "name": "MI Reporting",
+    "aliases": [
+      "Management Information Reporting",
+      "Business Intelligence Reporting"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "analytics",
+    "description": "An operational use case that transforms raw data from multiple source systems into structured datasets for management information. The reporting function supports decision-making and performance tracking across banking products.",
+    "context": [
+      "The image is a detailed technical diagram illustrating a data architecture and reporting flow, titled \"Analysis And MI Reporting.\"",
+      "The overall structure maps the transformation of raw data from source systems into organized data sets for Analysis And MI Reporting."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_use_003",
+    "name": "Data Lineage & Quality Baseline",
+    "aliases": [
+      "CDE Baseline Establishment",
+      "Data Maturity Assessment"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "data_quality",
+    "description": "A foundational use case that establishes baseline maturity for Critical Data Elements. The application focuses on mapping data flows, deriving quality rules, and ensuring data integrity across in-scope functional areas.",
+    "context": [
+      "Compute data lineage for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+      "Measure data quality for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_ben_001",
+    "name": "Establishing baseline maturity",
+    "aliases": [
+      "Baseline Maturity Achievement",
+      "Data Maturity Baseline"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "quality_improvement",
+    "description": "A quantified outcome where the client achieves a documented baseline for data lineage and quality across functional areas. This benefit provides a clear starting point for ongoing data governance and compliance improvements.",
+    "context": [
+      "Compute data lineage for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+      "Measure data quality for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_ben_002",
+    "name": "Identifying gaps & immediate steps",
+    "aliases": [
+      "Gap Identification",
+      "Operational Gap Resolution"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "risk_reduction",
+    "description": "A qualified benefit that reduces operational and compliance risk by pinpointing deficiencies in technical data reconciliation. The identification of gaps enables targeted remediation and process optimization.",
+    "context": [
+      "Review technical data reconciliation processes for Payments Screening—identifying gaps & immediate steps",
+      "Working with NW to identify additional review area and next steps for P.S. based on findings"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_ben_003",
+    "name": "Successful handover",
+    "aliases": [
+      "BAU Handover Success",
+      "Operational Handover"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "operational_efficiency",
+    "description": "A delivery benefit ensuring that knowledge, tools, and processes are effectively transferred to the client's business-as-usual teams. This outcome sustains long-term operational efficiency and reduces dependency on external consultants.",
+    "context": [
+      "Actively coaching BAU colleagues to ensure successful handover",
+      "Produced 1 comprehensive XLS mapping file of functional areas, CDEs, interfaces, and SMEs across business and technology to augment information in Planview"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cha_001",
+    "name": "Identifying gaps in reconciliation",
+    "aliases": [
+      "Technical Reconciliation Gaps",
+      "Process Gap Identification"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "operational_inefficiency",
+    "description": "A business challenge where existing technical data reconciliation processes contain unaddressed gaps. These inefficiencies hinder accurate reporting and increase compliance risk, necessitating structured review and remediation.",
+    "context": [
+      "Review technical data reconciliation processes for Payments Screening—identifying gaps & immediate steps",
+      "Interviewed c. 20 SMEs for Payments Screening to produce 1 maturity assessment report on as-is technical data reconciliation"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cha_002",
+    "name": "Legacy system complexity",
+    "aliases": [
+      "Legacy Constraint",
+      "Complex Data Landscape"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "legacy_constraint",
+    "description": "A technical challenge arising from a fragmented landscape of 78 systems across 6 functional areas. Managing data flows across these legacy and specialized systems requires robust lineage mapping and reconciliation strategies.",
+    "context": [
+      "Consulted c. 150+ SMEs across business and technology and reviewed documentation for 78 systems across 6 “in scope” areas",
+      "The diagram processes data from several sources on the left: Payments, Unisys, SAP, Sira, Chaps, and CIS."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cha_003",
+    "name": "Regulatory & compliance burden",
+    "aliases": [
+      "AML Compliance Requirement",
+      "Screening Regulatory Pressure"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "regulatory_burden",
+    "description": "A compliance challenge driven by anti-money laundering (AML) and payments screening regulations. The client must ensure data quality, lineage, and reconciliation meet strict regulatory standards to avoid penalties and operational failures.",
+    "context": [
+      "The flow continues through a section labeled SAS Analytics (AML T&M), which feeds into another Chaps component",
+      "Configuring SAS Tool to run quality checks against 2 DQ dimensions (Conformity & Completeness)"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cha_004",
+    "name": "Knowledge transfer & skill gap",
+    "aliases": [
+      "BAU Capability Gap",
+      "Internal Skill Deficiency"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "skill_gap",
+    "description": "An operational challenge where business-as-usual teams lack the necessary expertise to maintain data lineage, quality rules, and reconciliation processes. The selling organisation addresses this through active coaching and capability build.",
+    "context": [
+      "Actively coaching BAU colleagues to ensure successful handover",
+      "Promote capability build",
+      "Consulted c. 150+ SMEs across business and technology"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_001",
+    "name": "SAS Analytics",
+    "aliases": [
+      "SAS Tool",
+      "SAS Platform"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "analytics_platform",
+    "description": "A specialized analytics platform used to run data quality checks and support AML transaction monitoring. The system processes data against defined dimensions and feeds into downstream reporting and compliance components.",
+    "context": [
+      "The flow continues through a section labeled SAS Analytics (AML T&M), which feeds into another Chaps component",
+      "Configuring SAS Tool to run quality checks against 2 DQ dimensions (Conformity & Completeness)"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_002",
+    "name": "Planview",
+    "aliases": [
+      "Planview System",
+      "Project Management Tool"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "integration_tool",
+    "description": "A project and portfolio management tool used to augment information on functional areas, CDEs, interfaces, and SMEs. The platform serves as a central repository for mapping and tracking data management activities.",
+    "context": [
+      "Produced 1 comprehensive XLS mapping file of functional areas, CDEs, interfaces, and SMEs across business and technology to augment information in Planview",
+      "Consulted c. 150+ SMEs across business and technology and reviewed documentation for 78 systems"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_003",
+    "name": "Microsoft Excel",
+    "aliases": [
+      "Excel Spreadsheet",
+      "Data Management Spreadsheet"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "analytics_platform",
+    "description": "A widely used spreadsheet application utilized for data management, rule definition, and compliance matrix tracking. The tool supports structured data entry, formula-based validation, and interface mapping for banking products.",
+    "context": [
+      "The picture is a screenshot of a Microsoft Excel spreadsheet, displaying a large, detailed data table and the surrounding spreadsheet interface.",
+      "The picture is a screenshot of the Microsoft Excel spreadsheet application, displaying a large, partially filled spreadsheet labeled \"Nationwide FTP Landscape Mic...\"."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_004",
+    "name": "Unisys",
+    "aliases": [
+      "Unisys System",
+      "Legacy Unisys Platform"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "legacy_system",
+    "description": "A legacy system serving as a primary data source within the client's data architecture. The system feeds into the central FCD component and requires reconciliation and lineage mapping to support downstream reporting.",
+    "context": [
+      "The diagram processes data from several sources on the left: Payments, Unisys, SAP, Sira, Chaps, and CIS.",
+      "Various other feeder systems and data sources connect to or are processed alongside FCD"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_005",
+    "name": "SAP",
+    "aliases": [
+      "SAP System",
+      "Enterprise SAP Platform"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "legacy_system",
+    "description": "An enterprise resource planning system acting as a key data source in the client's landscape. The platform integrates with central processing components to support banking and credit product data flows.",
+    "context": [
+      "The diagram processes data from several sources on the left: Payments, Unisys, SAP, Sira, Chaps, and CIS.",
+      "Various other feeder systems and data sources connect to or are processed alongside FCD"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_006",
+    "name": "Chaps",
+    "aliases": [
+      "Chaps Component",
+      "CHAPS System"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "system",
+    "description": "A specialized banking system used for payment processing and data routing. The component appears multiple times in the architecture, feeding into SAS Analytics and downstream reporting blocks.",
+    "context": [
+      "The diagram processes data from several sources on the left: Payments, Unisys, SAP, Sira, Chaps, and CIS.",
+      "The flow continues through a section labeled SAS Analytics (AML T&M), which feeds into another Chaps component and then into C/W HDS."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_007",
+    "name": "FCD",
+    "aliases": [
+      "FCD Component",
+      "Central FCD System"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "system",
+    "description": "A central processing component that aggregates data from multiple source systems. The system acts as a hub for dataflow management before routing information to specialized reporting and analytics platforms.",
+    "context": [
+      "Various other feeder systems and data sources connect to or are processed alongside FCD, including: BASE24, IFM, PORTMAN, TSYS, and FCRM.",
+      "The resulting data sets are labeled throughout the diagram, including: FCD Data Set"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_008",
+    "name": "NetReveal",
+    "aliases": [
+      "NetReveal System",
+      "NetReveal Data Set"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "system",
+    "description": "A specialized system or data set used within the client's reporting architecture. The component processes data alongside other datasets to support compliance and management information outputs.",
+    "context": [
+      "The resulting data sets are labeled throughout the diagram, including: RBS Data Set, FCD Data Set, CHAPS Data Set, HDS Data Set, AML Data Set, and NetReveal Data Set.",
+      "The overall structure maps the transformation of raw data from source systems into organized data sets for Analysis And MI Reporting."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_009",
+    "name": "SUMMIT_DEP",
+    "aliases": [
+      "SUMMIT_DEP Table",
+      "Deposit System Table"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "database",
+    "description": "A database table or system component referenced in the data management spreadsheet. The table supports deposit-related data structures and is mapped alongside other financial product fields.",
+    "context": [
+      "The content includes phrases and technical terms such as: `Submit/Activate`, `SUMMIT_DEP`, `DEPOSIT_DETAILS_SRI`, `SOURCE`",
+      "The spreadsheet contains numerous rows of structured data. The content includes phrases and technical terms such as: `Submit/Activate`, `SUMMIT_DEP`, `DEPOSIT_DETAILS_SRI`"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_dif_001",
+    "name": "Consulted c. 150+ SMEs",
+    "aliases": [
+      "SME Consultation",
+      "Extensive Stakeholder Engagement"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "domain_expertise",
+    "description": "A competitive differentiator highlighting deep domain expertise through extensive stakeholder engagement. Consulting over 150 subject matter experts across business and technology demonstrates a thorough understanding of the client's landscape.",
+    "context": [
+      "Consulted c. 150+ SMEs across business and technology and reviewed documentation for 78 systems across 6 “in scope” areas",
+      "Interviewed c. 20 SMEs for Payments Screening to produce 1 maturity assessment report on as-is technical data reconciliation"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_dif_002",
+    "name": "Created 6 dataflow diagrams and 108 interface contracts",
+    "aliases": [
+      "Comprehensive Mapping Deliverables",
+      "Detailed Interface Documentation"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "delivery_model",
+    "description": "A delivery differentiator showcasing rigorous documentation and mapping capabilities. Producing extensive dataflow diagrams and interface contracts ensures precise visualization of data flows and supports accurate reconciliation.",
+    "context": [
+      "Created 6 dataflow diagrams and 108 interface contracts to visualise flow of 205 Critical Data Elements",
+      "Produced 1 comprehensive XLS mapping file of functional areas, CDEs, interfaces, and SMEs across business and technology to augment information in Planview"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_dif_003",
+    "name": "Actively coaching BAU colleagues",
+    "aliases": [
+      "BAU Coaching",
+      "Knowledge Transfer Delivery"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "delivery_model",
+    "description": "A delivery differentiator emphasizing sustainable handover and capability building. Active coaching ensures business-as-usual teams can independently maintain data quality, lineage, and reconciliation processes post-engagement.",
+    "context": [
+      "Actively coaching BAU colleagues to ensure successful handover",
+      "Promote capability build",
+      "Working with NW to identify additional review area and next steps for P.S. based on findings"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_per_001",
+    "name": "Ikant Pawar",
+    "aliases": [
+      "Pawar, Ikant",
+      "Ikant"
+    ],
+    "entity_class": "PERSON",
+    "type": "stakeholder",
+    "description": "A named individual referenced in the case study, likely a subject matter expert, delivery team member, or client stakeholder involved in the data management and compliance transformation initiative.",
+    "context": [
+      "On the right side of the image, several names are visible: Ikant Pawar, Tom Wheatley, Dylan Anderson, Nishkant Pawar"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_per_002",
+    "name": "Tom Wheatley",
+    "aliases": [
+      "Wheatley, Tom",
+      "Tom"
+    ],
+    "entity_class": "PERSON",
+    "type": "stakeholder",
+    "description": "A named individual referenced in the case study, likely a subject matter expert, delivery team member, or client stakeholder involved in the data management and compliance transformation initiative.",
+    "context": [
+      "On the right side of the image, several names are visible: Ikant Pawar, Tom Wheatley, Dylan Anderson, Nishkant Pawar"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_per_003",
+    "name": "Dylan Anderson",
+    "aliases": [
+      "Anderson, Dylan",
+      "Dylan"
+    ],
+    "entity_class": "PERSON",
+    "type": "stakeholder",
+    "description": "A named individual referenced in the case study, likely a subject matter expert, delivery team member, or client stakeholder involved in the data management and compliance transformation initiative.",
+    "context": [
+      "On the right side of the image, several names are visible: Ikant Pawar, Tom Wheatley, Dylan Anderson, Nishkant Pawar"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_per_004",
+    "name": "Nishkant Pawar",
+    "aliases": [
+      "Pawar, Nishkant",
+      "Nishkant"
+    ],
+    "entity_class": "PERSON",
+    "type": "stakeholder",
+    "description": "A named individual referenced in the case study, likely a subject matter expert, delivery team member, or client stakeholder involved in the data management and compliance transformation initiative.",
+    "context": [
+      "On the right side of the image, several names are visible: Ikant Pawar, Tom Wheatley, Dylan Anderson, Nishkant Pawar"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_obj_001",
+    "name": "Detailed technical diagram",
+    "aliases": [
+      "Data Architecture Diagram",
+      "Reporting Flow Diagram"
+    ],
+    "entity_class": "OBJECT",
+    "type": "physical_system",
+    "description": "A visual artifact illustrating the client's data architecture and reporting flow. The diagram maps source systems, processing components, and data sets to support analysis and management information reporting.",
+    "context": [
+      "The image is a detailed technical diagram illustrating a data architecture and reporting flow, titled \"Analysis And MI Reporting.\"",
+      "The overall structure maps the transformation of raw data from source systems into organized data sets for Analysis And MI Reporting."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_obj_002",
+    "name": "Comprehensive XLS mapping file",
+    "aliases": [
+      "Mapping Spreadsheet",
+      "Data Mapping File"
+    ],
+    "entity_class": "OBJECT",
+    "type": "tool",
+    "description": "A structured spreadsheet deliverable mapping functional areas, CDEs, interfaces, and SMEs. The file augments existing project management tools and supports data governance and reconciliation efforts.",
+    "context": [
+      "Produced 1 comprehensive XLS mapping file of functional areas, CDEs, interfaces, and SMEs across business and technology to augment information in Planview",
+      "The picture is a screenshot of a Microsoft Excel spreadsheet, displaying a large, detailed data table and the surrounding spreadsheet interface."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_org_001",
+    "name": "NW",
+    "aliases": [
+      "Nationwide",
+      "NW Client"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "partner",
+    "description": "A banking organisation referenced in the context of collaborative review and landscape mapping. The organization is working with the delivery team to identify additional review areas and define next steps based on initial findings.",
+    "context": [
+      "Working with NW to identify additional review area and next steps for P.S. based on findings",
+      "The picture is a screenshot of the Microsoft Excel spreadsheet application, displaying a large, partially filled spreadsheet labeled \"Nationwide FTP Landscape Mic...\"."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_loc_001",
+    "name": "UK",
+    "aliases": [
+      "United Kingdom",
+      "UK Market"
+    ],
+    "entity_class": "LOCATION",
+    "type": "country",
+    "description": "The geographic market where the UK-based bank operates. The location context implies adherence to UK regulatory frameworks and financial compliance standards driving the data management initiative.",
+    "context": [
+      "# Case Study for a UK based Bank",
+      "Consulted c. 150+ SMEs across business and technology and reviewed documentation for 78 systems across 6 “in scope” areas"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_org_001",
+    "name": "IBM",
+    "aliases": [],
+    "entity_class": "ORGANIZATION",
+    "type": "vendor",
+    "description": "A major technology and consulting firm engaged by the client to assess the existing technical data reconciliation processes for payment screening under a Time and Materials contract.",
+    "context": [
+      "IBM has been engaged on a Time and Materials contract to assess the existing technical data reconciliation process(es) for Payment Screening.",
+      "The following points summarize our specific observations from discussions with SMEs regarding Data Reconciliation along with the documents we reviewed:"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_org_002",
+    "name": "LexisNexis",
+    "aliases": [],
+    "entity_class": "ORGANIZATION",
+    "type": "partner",
+    "description": "A third-party vendor or partner referenced in the context of a senior consultant role, indicating external expertise or tooling involved in the reconciliation initiative.",
+    "context": [
+      "Julian Duriez | Senior Consultant (LexisNexis)"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cli_001",
+    "name": "organisation",
+    "aliases": [
+      "client",
+      "organisation"
+    ],
+    "entity_class": "CLIENT",
+    "type": "anonymous_client",
+    "description": "The unnamed financial or banking entity undergoing the data reconciliation initiative, characterized by active pain points around payment screening and a lack of implemented reconciliation processes.",
+    "context": [
+      "Data Reconciliation for Payment Screening does not appear to have been implemented yet although multiple SMEs confirmed this is a relevant and active pain point for the organisation.",
+      "The picture is a screenshot of a comprehensive financial or banking management application interface"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_001",
+    "name": "Reconciliation solution",
+    "aliases": [
+      "Recon solution",
+      "Data Reconciliation Initiative"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "A structured solution designed to establish, prove, and scale data reconciliation capabilities across functional areas, moving from MVP foundations to industry-standard tools and BAU processes.",
+    "context": [
+      "Tentative Roadmap for Reconciliation solution",
+      "The focus for the Remaining Functional Areas and BAU is to Extend system coverage from final reporting system to originating sources for all the products."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_002",
+    "name": "FCTP Data Reconciliation Initiative",
+    "aliases": [
+      "FCTP Initiative",
+      "Data Reconciliation Project"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "transformation_programme",
+    "description": "A formalized client initiative aimed at assessing current state findings and addressing gaps in transaction monitoring and data screening reconciliation.",
+    "context": [
+      "FCTP Data Reconciliation Initiative - Current State and Key Findings",
+      "We have conducted 30+ meetings with 19 SMEs over multiple weeks as well as have studied client-provided documentation"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_003",
+    "name": "MVP - Selected Functional Area",
+    "aliases": [
+      "MVP",
+      "Selected Functional Area"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "platform",
+    "description": "The initial phase of the reconciliation solution focusing on establishing foundational capabilities, defining reconciliation strategy, and gathering business requirements.",
+    "context": [
+      "This phase focuses on the MVP - Selected Functional Area.",
+      "Define Recon Strategy with DQ & A"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_004",
+    "name": "Industry Standard DQ & DR tools",
+    "aliases": [
+      "DQ & DR tools",
+      "Standard DQ & DR tools"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "platform",
+    "description": "Commissioned third-party or licensed tools intended to support data quality and data reconciliation processes in the near-term phase of the roadmap.",
+    "context": [
+      "The process caption is Industry Standard DQ & DR tools Commissioned.",
+      "Include all business Critical Functional / operational Measures / Metric"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_001",
+    "name": "Data Reconciliation",
+    "aliases": [
+      "Reconciliation",
+      "Data Recon"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "integration_capability",
+    "description": "The core technical and operational capability required to verify transaction movements and data screening across various systems, currently identified as unimplemented.",
+    "context": [
+      "Lack of evidence to suggest transaction movements and data screening across various systems have been monitored or reconciled",
+      "Data Reconciliation for Payment Screening does not appear to have been implemented yet"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_002",
+    "name": "Payment Screening",
+    "aliases": [
+      "Screening",
+      "Payment Screening Process"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "security_capability",
+    "description": "A critical compliance and risk management capability focused on monitoring transaction data, currently lacking evidence of proper reconciliation or monitoring.",
+    "context": [
+      "assess the existing technical data reconciliation process(es) for Payment Screening.",
+      "Payment Screening Data Reconciliation BRD"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_003",
+    "name": "Recon Strategy",
+    "aliases": [
+      "Reconciliation Strategy",
+      "Recon Strategy with DQ & A"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "delivery_capability",
+    "description": "The strategic planning capability used to define reconciliation types, solution intent, and technology verification methods during the foundation phase.",
+    "context": [
+      "Define Recon Strategy with DQ & A",
+      "Solution intent, Recon type, Use of technology verification."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_004",
+    "name": "System Design",
+    "aliases": [
+      "Design Phase",
+      "System Design Process"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "technical_capability",
+    "description": "A technical capability encompassing architecture planning and configuration steps required before tool deployment and execution.",
+    "context": [
+      "The output stages include System Design,",
+      "The technical process stages mirror the previous phase: System Design,"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_005",
+    "name": "Tool Configuration and Custom Coding",
+    "aliases": [
+      "Custom Coding",
+      "Tool Configuration"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "technical_capability",
+    "description": "A development capability involving the setup of in-house tools and bespoke coding to support reconciliation workflows.",
+    "context": [
+      "Tool Configuration and Custom Coding,",
+      "The process caption for this phase is In house Tools and Custom Coding."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_006",
+    "name": "Execute Recon, QA, Produce Reports",
+    "aliases": [
+      "Recon Execution",
+      "QA and Reporting"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "delivery_capability",
+    "description": "An operational capability covering the execution of reconciliation processes, quality assurance testing, and the generation of final reports.",
+    "context": [
+      "Execute Recon, QA, Produce Reports.",
+      "The final phase box includes Execute Recon, QA, Produce Reports and the BAU Process."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_007",
+    "name": "BAU Process",
+    "aliases": [
+      "Business As Usual Process",
+      "BAU"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "delivery_capability",
+    "description": "The ongoing operational capability designed to sustain reconciliation activities after pilot and scale phases are complete.",
+    "context": [
+      "The focus for the Remaining Functional Areas and BAU is to Extend system coverage",
+      "and the BAU Process."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_008",
+    "name": "DQ & A",
+    "aliases": [
+      "Data Quality & Analytics",
+      "DQ&A"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "analytics_capability",
+    "description": "A data quality and analytics capability used to define reconciliation strategy and establish baseline metrics during the MVP phase.",
+    "context": [
+      "Define Recon Strategy with DQ & A",
+      "Decline top 5 business control and top 5 technical/data measures"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_use_001",
+    "name": "Payment Screening",
+    "aliases": [
+      "Screening Use Case",
+      "Payment Compliance"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "compliance",
+    "description": "A compliance-driven application scenario where transaction data must be screened and reconciled to meet regulatory and risk management standards.",
+    "context": [
+      "assess the existing technical data reconciliation process(es) for Payment Screening.",
+      "Lack of evidence to suggest transaction movements and data screening across various systems have been monitored or reconciled"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_use_002",
+    "name": "Reconciliation",
+    "aliases": [
+      "Data Reconciliation",
+      "Recon Use Case"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "operational_efficiency",
+    "description": "An operational use case focused on verifying data accuracy across systems to eliminate manual gaps and improve process reliability.",
+    "context": [
+      "Data Reconciliation for Payment Screening does not appear to have been implemented yet",
+      "The picture is a screenshot of a comprehensive financial or banking management application interface"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_use_003",
+    "name": "Financial or banking management",
+    "aliases": [
+      "Banking Management",
+      "Financial Operations"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "customer_experience",
+    "description": "A broad operational context where member summaries, account details, and contact information are managed within a digital banking interface.",
+    "context": [
+      "The picture is a screenshot of a comprehensive financial or banking management application interface",
+      "The main panel is titled Member summary and states it was Last updated on 10 Jan 2020."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_use_004",
+    "name": "Credit card",
+    "aliases": [
+      "Cards",
+      "Credit Card Services"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "revenue_generation",
+    "description": "A product-specific use case within the banking application interface, tracked alongside member accounts and lending services.",
+    "context": [
+      "The top navigation bar includes menus and actions such as ... Credit Cards, and Loans.",
+      "with specific indicators for services like Credit card and Loans."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_use_005",
+    "name": "Loans",
+    "aliases": [
+      "Lending",
+      "Loan Services"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "revenue_generation",
+    "description": "A lending-focused use case managed within the banking application, integrated with member accounts and credit card services.",
+    "context": [
+      "The top navigation bar includes menus and actions such as ... Credit Cards, and Loans.",
+      "with specific indicators for services like Credit card and Loans."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_ben_001",
+    "name": "Prove capabilities",
+    "aliases": [
+      "Capability Proof",
+      "NEAR Phase Goal"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "scale_achievement",
+    "description": "A strategic benefit focused on validating and demonstrating the effectiveness of reconciliation tools and processes before full-scale deployment.",
+    "context": [
+      "NEAR (2Q 2024): Prove capabilities",
+      "Incorporate learning from MVP."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_ben_002",
+    "name": "Scale and Piloterate",
+    "aliases": [
+      "Scaling",
+      "Piloterate"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "scale_achievement",
+    "description": "A long-term benefit aimed at extending system coverage across all products and transitioning reconciliation processes into business-as-usual operations.",
+    "context": [
+      "NEXT (2024-25): Scale and Piloterate",
+      "Extend system coverage from final reporting system to originating sources for all the products."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cha_001",
+    "name": "Lack of evidence to suggest transaction movements and data screening across various systems have been monitored or reconciled",
+    "aliases": [
+      "Monitoring Gap",
+      "Reconciliation Void"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "operational_inefficiency",
+    "description": "A critical operational challenge where transaction data and screening processes lack documented monitoring or reconciliation, creating compliance and risk exposure.",
+    "context": [
+      "Lack of evidence to suggest transaction movements and data screening across various systems have been monitored or reconciled as regards the CDES within Payment Screening.",
+      "Data Reconciliation for Payment Screening does not appear to have been implemented yet"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cha_002",
+    "name": "Data Reconciliation for Payment Screening does not appear to have been implemented yet",
+    "aliases": [
+      "Unimplemented Recon",
+      "Payment Screening Gap"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "technical_debt",
+    "description": "A technical and process challenge indicating that reconciliation mechanisms for payment screening are currently absent despite being recognized as a relevant pain point.",
+    "context": [
+      "Data Reconciliation for Payment Screening does not appear to have been implemented yet although multiple SMEs confirmed this is a relevant and active pain point for the organisation.",
+      "The following points summarize our specific observations from discussions with SMEs regarding Data Reconciliation"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cha_003",
+    "name": "active pain point for the organisation",
+    "aliases": [
+      "Organisational Pain Point",
+      "Active Pain Point"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "operational_inefficiency",
+    "description": "A recognized business challenge where the absence of reconciliation processes creates ongoing operational friction and risk for the client organisation.",
+    "context": [
+      "Data Reconciliation for Payment Screening does not appear to have been implemented yet although multiple SMEs confirmed this is a relevant and active pain point for the organisation.",
+      "We have conducted 30+ meetings with 19 SMEs over multiple weeks as well as have studied client-provided documentation"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_tech_001",
+    "name": "Internet banking",
+    "aliases": [
+      "Online Banking",
+      "Digital Banking"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "channel",
+    "description": "A digital banking channel referenced within the application interface, used for member account management and service delivery.",
+    "context": [
+      "It lists account-specific details such as Account number, Statement, Joint account, and Current account.",
+      "The top navigation bar includes menus and actions such as Members, Log in, Deposit, Transfer, Statements"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_tech_002",
+    "name": "Savings & ISA",
+    "aliases": [
+      "ISA Accounts",
+      "Savings Products"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "platform",
+    "description": "A financial product platform tracked within the member accounts panel, indicating the system's capability to manage savings and tax-efficient accounts.",
+    "context": [
+      "It lists account-specific details such as Account number, Statement, Joint account, and Current account.",
+      "Savings & ISA"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_tech_003",
+    "name": "CDES",
+    "aliases": [
+      "CDES System",
+      "Client Data Screening System"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "legacy_system",
+    "description": "A specific system referenced in the context of payment screening, currently lacking evidence of proper monitoring or reconciliation.",
+    "context": [
+      "Lack of evidence to suggest transaction movements and data screening across various systems have been monitored or reconciled as regards the CDES within Payment Screening.",
+      "Payment Screening Data Reconciliation BRD"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_tech_004",
+    "name": "final reporting system",
+    "aliases": [
+      "Reporting System",
+      "Final Reports"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "legacy_system",
+    "description": "A downstream reporting platform that currently serves as the endpoint for reconciliation, with plans to extend coverage back to originating sources.",
+    "context": [
+      "Extend system coverage from final reporting system to originating sources for all the products.",
+      "The output stages include System Design,"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_tech_005",
+    "name": "originating sources",
+    "aliases": [
+      "Source Systems",
+      "Data Origins"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "infrastructure",
+    "description": "The upstream data infrastructure where transaction data originates, targeted for extended reconciliation coverage in the NEXT phase.",
+    "context": [
+      "Extend system coverage from final reporting system to originating sources for all the products.",
+      "The focus for the Remaining Functional Areas and BAU is to Extend system coverage"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_tech_006",
+    "name": "In house Tools",
+    "aliases": [
+      "Proprietary Tools",
+      "Internal Tools"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "automation_tool",
+    "description": "Custom-built internal tools utilized during the NOW phase to support reconciliation workflows, system design, and custom coding.",
+    "context": [
+      "The process caption for this phase is In house Tools and Custom Coding.",
+      "Tool Configuration and Custom Coding,"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_tech_007",
+    "name": "Industry Standard DQ & DR tools",
+    "aliases": [
+      "Standard DQ Tools",
+      "DQ & DR Platform"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "analytics_platform",
+    "description": "Licensed or commissioned data quality and data reconciliation platforms intended to replace or augment in-house tools in the NEAR phase.",
+    "context": [
+      "The process caption is Industry Standard DQ & DR tools Commissioned.",
+      "Include all business Critical Functional / operational Measures / Metric"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_diff_001",
+    "name": "Time and Materials contract",
+    "aliases": [
+      "T&M Contract",
+      "T&M Engagement"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "delivery_model",
+    "description": "A flexible engagement model allowing IBM to assess and adapt to the client's existing technical data reconciliation processes without fixed scope constraints.",
+    "context": [
+      "IBM has been engaged on a Time and Materials contract to assess the existing technical data reconciliation process(es) for Payment Screening.",
+      "The following points summarize our specific observations from discussions with SMEs regarding Data Reconciliation"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_diff_002",
+    "name": "In house Tools and Custom Coding",
+    "aliases": [
+      "Custom Development",
+      "Proprietary Tooling"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "proprietary_asset",
+    "description": "A development approach leveraging internal tooling and bespoke coding to establish foundational reconciliation capabilities during the MVP phase.",
+    "context": [
+      "The process caption for this phase is In house Tools and Custom Coding.",
+      "Tool Configuration and Custom Coding,"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_diff_003",
+    "name": "Industry Standard DQ & DR tools Commissioned",
+    "aliases": [
+      "Commissioned Tools",
+      "Standard DQ & DR"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "proprietary_asset",
+    "description": "A strategic shift towards commissioning industry-standard data quality and reconciliation tools to enhance capability proof and scalability.",
+    "context": [
+      "The process caption is Industry Standard DQ & DR tools Commissioned.",
+      "Incorporate learning from MVP."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_diff_004",
+    "name": "30+ meetings with 19 SMEs",
+    "aliases": [
+      "SME Engagement",
+      "Deep Dive Meetings"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "domain_expertise",
+    "description": "A deep-dive engagement methodology involving extensive stakeholder interviews and documentation review to uncover current state gaps and reconciliation pain points.",
+    "context": [
+      "We have conducted 30+ meetings with 19 SMEs over multiple weeks as well as have studied client-provided documentation",
+      "The following points summarize our specific observations from discussions with SMEs regarding Data Reconciliation along with the documents we reviewed:"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_001",
+    "name": "Ben Ashwell",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "stakeholder",
+    "description": "A Subject Matter Expert (SME) consulted during the reconciliation initiative, holding the role of Electronic Payments Director.",
+    "context": [
+      "Ben Ashwell | Electronic Payments Director",
+      "19 SMEs consulted for payment screening, underpinning reconciliation findings."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_002",
+    "name": "Rachel Cardy",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "stakeholder",
+    "description": "A Subject Matter Expert (SME) involved in the reconciliation assessment, serving as Product Owner for Assisted Service.",
+    "context": [
+      "Rachel Cardy | Product Owner • Assisted Service",
+      "19 SMEs consulted for payment screening, underpinning reconciliation findings."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_003",
+    "name": "Simon Clydesdale",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "stakeholder",
+    "description": "A Subject Matter Expert (SME) consulted for the initiative, acting as Delivery Manager for Payments.",
+    "context": [
+      "Simon Clydesdale | Delivery Manager • Payments",
+      "19 SMEs consulted for payment screening, underpinning reconciliation findings."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_004",
+    "name": "Vaibhav Nioding",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "stakeholder",
+    "description": "A Subject Matter Expert (SME) involved in the reconciliation process assessment, serving as Test Analyst.",
+    "context": [
+      "Vaibhav Nioding | Test Analyst",
+      "19 SMEs consulted for payment screening, underpinning reconciliation findings."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_005",
+    "name": "Nupur Bole",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "stakeholder",
+    "description": "A Subject Matter Expert (SME) consulted during the initiative, functioning as Business Designer.",
+    "context": [
+      "Nupur Bole | Business Designer",
+      "19 SMEs consulted for payment screening, underpinning reconciliation findings."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_006",
+    "name": "Shipra Saxena",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "stakeholder",
+    "description": "A Subject Matter Expert (SME) involved in the reconciliation assessment, serving as Scrum Master.",
+    "context": [
+      "Shipra Saxena | Scrum Master",
+      "19 SMEs consulted for payment screening, underpinning reconciliation findings."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_007",
+    "name": "Karen Gosling",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "stakeholder",
+    "description": "A Subject Matter Expert (SME) consulted for the initiative, acting as Product Owner for Payments CIO.",
+    "context": [
+      "Karen Gosling | Product Owner • Payments CIO",
+      "19 SMEs consulted for payment screening, underpinning reconciliation findings."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_008",
+    "name": "Vinoth Raj Seran",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "stakeholder",
+    "description": "A Subject Matter Expert (SME) involved in the reconciliation process, serving as Engineer E2.",
+    "context": [
+      "Vinoth Raj Seran | Engineer E2",
+      "19 SMEs consulted for payment screening, underpinning reconciliation findings."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_009",
+    "name": "Tom Rees",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "stakeholder",
+    "description": "A Subject Matter Expert (SME) consulted during the initiative, acting as Product Owner for Member & Data Protection.",
+    "context": [
+      "Tom Rees | Product Owner • Member&Data Protection Rec",
+      "19 SMEs consulted for payment screening, underpinning reconciliation findings."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_010",
+    "name": "Mike Rivet",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "stakeholder",
+    "description": "A Subject Matter Expert (SME) involved in the reconciliation assessment, serving as FC Analytics Senior Consultant.",
+    "context": [
+      "Mike Rivet | FC Analytics Senior Consultant",
+      "19 SMEs consulted for payment screening, underpinning reconciliation findings."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_011",
+    "name": "Adam Stephens",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "stakeholder",
+    "description": "A Subject Matter Expert (SME) consulted for the initiative, acting as Engineer for Member & Data Protection.",
+    "context": [
+      "Adam Stephens | Engineer - E2 • Member&Data Protection Rec",
+      "19 SMEs consulted for payment screening, underpinning reconciliation findings."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_012",
+    "name": "Jessica Mary",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "stakeholder",
+    "description": "A Subject Matter Expert (SME) involved in the reconciliation process, serving as Product Owner for Payments.",
+    "context": [
+      "Jessica Mary | Product Owner • Payments",
+      "19 SMEs consulted for payment screening, underpinning reconciliation findings."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_013",
+    "name": "Gary Bodden",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "stakeholder",
+    "description": "A Subject Matter Expert (SME) consulted during the initiative, acting as Product Owner for Payments CIO.",
+    "context": [
+      "Gary Bodden | Product Owner • Payments CIO",
+      "19 SMEs consulted for payment screening, underpinning reconciliation findings."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_014",
+    "name": "Julian Duriez",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "stakeholder",
+    "description": "A Subject Matter Expert (SME) involved in the reconciliation assessment, serving as Senior Consultant for LexisNexis.",
+    "context": [
+      "Julian Duriez | Senior Consultant (LexisNexis)",
+      "19 SMEs consulted for payment screening, underpinning reconciliation findings."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_015",
+    "name": "HIBA ALAM",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "stakeholder",
+    "description": "A Subject Matter Expert (SME) consulted for the initiative, acting as Engineer 3 for Payments.",
+    "context": [
+      "HIBA ALAM | Engineer 3 • Payments",
+      "19 SMEs consulted for payment screening, underpinning reconciliation findings."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_016",
+    "name": "Colin Winter",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "stakeholder",
+    "description": "A Subject Matter Expert (SME) involved in the reconciliation process, serving as Credit Cards specialist.",
+    "context": [
+      "Colin Winter | Credit Cards",
+      "19 SMEs consulted for payment screening, underpinning reconciliation findings."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_017",
+    "name": "Nicholas Polley",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "stakeholder",
+    "description": "A Subject Matter Expert (SME) consulted during the initiative, acting as Engineer E2.",
+    "context": [
+      "Nicholas Polley | Engineer E2",
+      "19 SMEs consulted for payment screening, underpinning reconciliation findings."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_018",
+    "name": "Ashleigh Batson",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "stakeholder",
+    "description": "A Subject Matter Expert (SME) involved in the reconciliation assessment, serving as Cards Value Stream Lead PO.",
+    "context": [
+      "Ashleigh Batson | Cards Value Stream Lead PO",
+      "19 SMEs consulted for payment screening, underpinning reconciliation findings."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_019",
+    "name": "Craig Barnes",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "stakeholder",
+    "description": "A Subject Matter Expert (SME) consulted for the initiative, acting as FC Analytics Consultant for Financial Crime Analytics.",
+    "context": [
+      "Craig Barnes | FC Analytics Consultant • Financial Crime Analytics",
+      "19 SMEs consulted for payment screening, underpinning reconciliation findings."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_obj_001",
+    "name": "spreadsheet",
+    "aliases": [
+      "Sheet",
+      "Data Grid"
+    ],
+    "entity_class": "OBJECT",
+    "type": "tool",
+    "description": "A structured data grid displaying functional area mappings, batch names, target systems, and technology details for reconciliation tracking.",
+    "context": [
+      "The Grid: Displays columns (A, B, C, D, etc.) and rows (1, 2, 3, etc.).",
+      "The picture is a screenshot of a comprehensive financial or banking management application interface"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_obj_002",
+    "name": "presentation slide",
+    "aliases": [
+      "Slide",
+      "Roadmap Slide"
+    ],
+    "entity_class": "OBJECT",
+    "type": "tool",
+    "description": "A visual artifact detailing the tentative roadmap for the reconciliation solution, outlining NOW, NEAR, and NEXT phases with technical processes.",
+    "context": [
+      "The picture is a presentation slide titled Tentative Roadmap for Reconciliation solution, detailing three phases: NOW, NEAR, and NEXT.",
+      "The focus for the Remaining Functional Areas and BAU is to Extend system coverage"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_obj_003",
+    "name": "document",
+    "aliases": [
+      "Excerpt",
+      "Draft Document"
+    ],
+    "entity_class": "OBJECT",
+    "type": "tool",
+    "description": "A draft document outlining the FCTP Data Reconciliation Initiative's current state and key findings, including SME consultation results.",
+    "context": [
+      "The image is a document excerpt titled FCTP Data Reconciliation Initiative - Current State and Key Findings",
+      "The document is organized into two main sections: CURRENT STATE and Key Facts."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_obj_004",
+    "name": "screenshot",
+    "aliases": [
+      "Screen Capture",
+      "UI Screenshot"
+    ],
+    "entity_class": "OBJECT",
+    "type": "tool",
+    "description": "A visual capture of the banking management application interface, displaying member summaries, contact details, and navigation menus.",
+    "context": [
+      "The picture is a screenshot of a comprehensive financial or banking management application interface",
+      "The main panel is titled Member summary and states it was Last updated on 10 Jan 2020."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_obj_005",
+    "name": "interface",
+    "aliases": [
+      "Application Interface",
+      "UI"
+    ],
+    "entity_class": "OBJECT",
+    "type": "tool",
+    "description": "The digital banking interface containing member summaries, account panels, contact details, and action areas for financial services.",
+    "context": [
+      "The picture is a screenshot of a comprehensive financial or banking management application interface",
+      "The top navigation bar includes menus and actions such as Members, Log in, Deposit, Transfer, Statements"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_obj_006",
+    "name": "Banking app",
+    "aliases": [
+      "Mobile Banking",
+      "Digital Banking App"
+    ],
+    "entity_class": "OBJECT",
+    "type": "device",
+    "description": "A digital banking application referenced within the interface side panels, indicating mobile or app-based service delivery.",
+    "context": [
+      "Side Panels and Action Areas: The interface also includes panels for Actions, Banking app, and Eligible for",
+      "with specific indicators for services like Credit card and Loans."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_evt_001",
+    "name": "FCTP Data Reconciliation Initiative",
+    "aliases": [
+      "FCTP Initiative",
+      "Recon Project"
+    ],
+    "entity_class": "EVENT",
+    "type": "proof_of_concept",
+    "description": "A formalized client initiative and assessment event aimed at evaluating current state findings and addressing reconciliation gaps.",
+    "context": [
+      "FCTP Data Reconciliation Initiative - Current State and Key Findings",
+      "We have conducted 30+ meetings with 19 SMEs over multiple weeks as well as have studied client-provided documentation"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_evt_002",
+    "name": "Tentative Roadmap for Reconciliation solution",
+    "aliases": [
+      "Recon Roadmap",
+      "Solution Roadmap"
+    ],
+    "entity_class": "EVENT",
+    "type": "product_launch",
+    "description": "A strategic planning event outlining the phased delivery of the reconciliation solution across NOW, NEAR, and NEXT timelines.",
+    "context": [
+      "The picture is a presentation slide titled Tentative Roadmap for Reconciliation solution, detailing three phases: NOW, NEAR, and NEXT.",
+      "The focus for the Remaining Functional Areas and BAU is to Extend system coverage"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_evt_003",
+    "name": "NOW (3Q 2023 - 1Q 2024)",
+    "aliases": [
+      "NOW Phase",
+      "Foundation Phase"
+    ],
+    "entity_class": "EVENT",
+    "type": "deadline",
+    "description": "The initial delivery phase of the reconciliation roadmap, focused on establishing MVP capabilities and defining reconciliation strategy.",
+    "context": [
+      "NOW (3Q 2023 - 1Q 2024): Establish the Foundation",
+      "This phase focuses on the MVP - Selected Functional Area."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_evt_004",
+    "name": "NEAR (2Q 2024)",
+    "aliases": [
+      "NEAR Phase",
+      "Proof Phase"
+    ],
+    "entity_class": "EVENT",
+    "type": "deadline",
+    "description": "The second delivery phase targeting capability proof, extended functional scope, and the commissioning of industry-standard DQ & DR tools.",
+    "context": [
+      "NEAR (2Q 2024): Prove capabilities",
+      "The Extended Scope of Functional Areas for this phase includes: Select all Functional Areas"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_evt_005",
+    "name": "NEXT (2024-25)",
+    "aliases": [
+      "NEXT Phase",
+      "Scale Phase"
+    ],
+    "entity_class": "EVENT",
+    "type": "deadline",
+    "description": "The final delivery phase focused on scaling system coverage to originating sources and transitioning reconciliation into BAU processes.",
+    "context": [
+      "NEXT (2024-25): Scale and Piloterate",
+      "The focus for the Remaining Functional Areas and BAU is to Extend system coverage from final reporting system to originating sources for all the products."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_evt_006",
+    "name": "Last updated on 10 Jan 2020",
+    "aliases": [
+      "Jan 10 2020 Update",
+      "Member Summary Update"
+    ],
+    "entity_class": "EVENT",
+    "type": "announcement",
+    "description": "A timestamped system update event indicating the last modification date for the member summary panel in the banking application.",
+    "context": [
+      "The main panel is titled Member summary and states it was Last updated on 10 Jan 2020.",
+      "The picture is a screenshot of a comprehensive financial or banking management application interface"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_evt_007",
+    "name": "July 12, 2023",
+    "aliases": [
+      "BRD Date",
+      "Payment Screening BRD"
+    ],
+    "entity_class": "EVENT",
+    "type": "deadline",
+    "description": "A document date marking the creation or revision of the Payment Screening Data Reconciliation Business Requirements Document.",
+    "context": [
+      "Payment Screening Data Reconciliation BRD (July 12, 2023).",
+      "We have conducted 30+ meetings with 19 SMEs over multiple weeks as well as have studied client-provided documentation"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_cli_001",
+    "name": "Nationwide",
+    "aliases": [
+      "Nationwide"
+    ],
+    "entity_class": "CLIENT",
+    "type": "named_account",
+    "description": "The primary client organization undergoing a comprehensive data governance and reconciliation assessment. The organization is facing significant operational and compliance gaps related to its data reconciliation processes, particularly impacting payment screening and regulatory adherence across multiple business lines and products.",
+    "context": [
+      "employed by Nationwide from a Data Governance perspective",
+      "across Nationwide",
+      "within Nationwide"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_cha_001",
+    "name": "Absence of Data Reconciliation Process",
+    "aliases": [
+      "Lack of Data Reconciliation",
+      "Missing Reconciliation Framework"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "regulatory_burden",
+    "description": "A critical gap in the client's operational landscape where no overarching data reconciliation process exists from a data governance perspective. This absence directly impacts regulatory compliance and leaves the organization unable to verify data integrity across transactional activities.",
+    "context": [
+      "overarching Data Reconciliation process employed by Nationwide from a Data Governance perspective",
+      "absence of data reconciliation process in Payment Screening area"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_cha_002",
+    "name": "Disconnected Governance Frameworks",
+    "aliases": [
+      "Fragmented Policies",
+      "Uncoordinated Governance"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "operational_inefficiency",
+    "description": "The client's data governance landscape suffers from multiple instances of disconnected policies, processes, and frameworks. This fragmentation prevents a unified approach to defining and enforcing data reconciliation standards across the organization.",
+    "context": [
+      "define Data Reconciliation policies, processes and governance framework as multiple instances of disconnected observed",
+      "lack of action plan and strategy to address 3rd Party Audit report findings"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_cha_003",
+    "name": "Undefined Payment Screening Scope",
+    "aliases": [
+      "Unscoped BRD",
+      "Undefined Value-to-Value Comparison"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "data_quality_issue",
+    "description": "The functional scope for payment screening data reconciliation remains undefined, specifically regarding the 'Value to Value' comparison between source and target systems. This lack of definition hinders the ability to establish necessary checks, balances, and evidence for transactional monitoring.",
+    "context": [
+      "scope is yet to be defined, specifically highlighting a 'Value to Value' comparison",
+      "Payment Screening Data Reconciliation BRD"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_off_001",
+    "name": "Data Reconciliation Process",
+    "aliases": [
+      "Data Reconciliation",
+      "Reconciliation Framework"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "framework",
+    "description": "A core governance and operational framework intended to verify data integrity and completeness across systems. The process is designed to support regulatory compliance and ensure accurate transactional monitoring, though it currently lacks definition and execution evidence.",
+    "context": [
+      "overarching Data Reconciliation process",
+      "Data Reconciliation policies, processes and governance framework"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_off_002",
+    "name": "FCTP Screening",
+    "aliases": [
+      "FCTP - Screening",
+      "FCTP Screening Delivery"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "managed_service",
+    "description": "A specialized screening delivery function managed by dedicated leads, responsible for processing and monitoring transactional data. The service relies on interconnected payment systems but currently lacks documented reconciliation evidence or decision artifacts.",
+    "context": [
+      "meetings with FCTP screening Delivery leads",
+      "FCTP - Screening - Decision"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_use_001",
+    "name": "Payment Screening",
+    "aliases": [
+      "Screening Functional Area",
+      "Transaction Monitoring"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "compliance",
+    "description": "A critical compliance use case focused on monitoring all transactional activities across customers, products, and business lines. The use case requires robust data lineage and reconciliation to confirm that all necessary payments are correctly routed and screened.",
+    "context": [
+      "Payment Screening area",
+      "confirm monitoring of all transactional activities across all customers, products, lines of business"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_001",
+    "name": "HLS (Filter Server)",
+    "aliases": [
+      "Filter Server",
+      "HLS"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "payment_platform",
+    "description": "A central filter server platform responsible for payment screening operations. While connected to various payment services, the system lacks clear data lineage and reconciliation evidence to verify transaction routing and screening completeness.",
+    "context": [
+      "Filter Server (HLS)",
+      "all the way to HLS and back"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_002",
+    "name": "Chaos",
+    "aliases": [
+      "Chaos Payment Service"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "payment_platform",
+    "description": "A payment service system integrated into the client's transaction management landscape. It is part of the broader payment infrastructure that requires reconciliation and screening validation.",
+    "context": [
+      "various payment services like Chaos"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_003",
+    "name": "Swift",
+    "aliases": [
+      "SWIFT Network"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "payment_platform",
+    "description": "A global financial messaging and payment network used for processing cross-border and domestic transactions. It is one of several integrated payment systems requiring reconciliation evidence.",
+    "context": [
+      "various payment services like ... Swift"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_004",
+    "name": "SEPA",
+    "aliases": [
+      "Single Euro Payments Area"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "payment_platform",
+    "description": "A European payment system used for processing transactions across the region. It is integrated into the client's screening landscape and requires data reconciliation validation.",
+    "context": [
+      "various payment services like ... SEPA"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_005",
+    "name": "First Payment",
+    "aliases": [
+      "First Payment System"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "payment_platform",
+    "description": "A payment service component within the client's transaction infrastructure. It is part of the interconnected payment systems that lack documented reconciliation processes.",
+    "context": [
+      "various payment services like ... First Payment"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_006",
+    "name": "Visa Fund Fast Funds",
+    "aliases": [
+      "Visa Fast Funds",
+      "VFF"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "payment_platform",
+    "description": "A fast payment service offered by Visa, integrated into the client's transaction and screening infrastructure. It requires reconciliation evidence to confirm proper routing and screening.",
+    "context": [
+      "various payment services like ... Visa Fund Fast Funds"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_007",
+    "name": "Confluence",
+    "aliases": [
+      "Confluence Platform",
+      "Atlassian Confluence"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "integration_tool",
+    "description": "A collaboration and documentation platform used to store screening decision artifacts and project information. It serves as the repository for key FCTP screening documentation and lineage exercises.",
+    "context": [
+      "Referred artifacts \"FCTP - Screening - Decision\" in Confluence"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_eve_001",
+    "name": "July 12, 2023 Artifact Release",
+    "aliases": [
+      "July 2023 Screening Document",
+      "FCTP Decision Artifact"
+    ],
+    "entity_class": "EVENT",
+    "type": "announcement",
+    "description": "The documented release date of the 'FCTP - Screening - Decision' artifact in Confluence, which highlights the current state of payment screening reconciliation. The artifact explicitly notes the lack of reconciliation evidence for payments routed to various systems.",
+    "context": [
+      "dated July 12, 2023, as \"Payment Screening: No reconciliation / evidence exists..."
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_org_001",
+    "name": "3rd Party Audit",
+    "aliases": [
+      "External Audit",
+      "Third-Party Audit Report"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "regulator",
+    "description": "An external audit body whose findings identified critical gaps in the client's data reconciliation processes. The audit report highlighted the absence of reconciliation in payment screening and the lack of a strategic action plan to address these findings.",
+    "context": [
+      "3rd Party Audit report findings about absence of data reconciliation process"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_005_ev_001",
+    "name": "FCTP DR Assessment Report",
+    "aliases": [
+      "DR Assessment Report",
+      "FCTP Report"
+    ],
+    "entity_class": "EVENT",
+    "type": "report",
+    "description": "A formal data resilience and recovery assessment report dated 9th February 2024. It outlines the data controls, reconciliation processes, and system mappings required for the FCTP initiative. The document serves as a reference for validating data transmission and interface controls across multiple systems.",
+    "context": [
+      "FCTP DR Assessment Report   | 9th February 2024",
+      "Data Controls and Reconciliation implementation",
+      "Reconciliation Control Points"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_001",
+    "name": "EDB",
+    "aliases": [
+      "EDB (CAO/SAO)"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "database",
+    "description": "A primary database system referenced in the data flow. It handles the 'Country of birth' data element and interfaces with downstream systems via a Webservice (PUT) mechanism.",
+    "context": [
+      "EDB (CAO/SAO)",
+      "Country of birth",
+      "Webservice (PUT)"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_002",
+    "name": "SAMM",
+    "aliases": [
+      "SAMM System"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "database",
+    "description": "A system component within the data pipeline that processes the 'countryOfBirth' field. It receives data through a Webservice (PUT) interface and passes it to subsequent processing stages.",
+    "context": [
+      "SAMM",
+      "countryOfBirth",
+      "Webservice (PUT)"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_003",
+    "name": "PLPOS",
+    "aliases": [
+      "PLPOS System"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "database",
+    "description": "A system responsible for managing the 'CountryOfBirthCode' data element. It acts as an intermediary node in the data transmission chain before final reconciliation.",
+    "context": [
+      "PLPOS",
+      "CountryOfBirthCode"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_004",
+    "name": "Summit",
+    "aliases": [
+      "Summit (TMW)"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "platform",
+    "description": "A platform (TMW) referenced in the data flow that manages the 'Country of birth' data element. It serves as a processing node between upstream and downstream systems.",
+    "context": [
+      "Summit(TMW)",
+      "Country of birth"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_005",
+    "name": "CIS",
+    "aliases": [
+      "CIS (ODS)",
+      "CISDBT",
+      "Customer Information System"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "database",
+    "description": "A Customer Information System functioning as an Operational Data Store (ODS). It contains specific tables and columns, such as BA001 and COUBIRISO, used for storing and querying customer data elements.",
+    "context": [
+      "CIS (ODS)",
+      "CIS (Database)",
+      "Table : BA001",
+      "Column : COUBIRISO"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_006",
+    "name": "IMAS",
+    "aliases": [
+      "IMAS (MLR)"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "database",
+    "description": "A system (MLR) containing historical account tables and columns used for tracking customer birth country data. It feeds into the broader reconciliation and control framework.",
+    "context": [
+      "IMAS (MLR)",
+      "Table :  MLR_MCDD_HIST_ACC  Column : BIRTH_COUNTRY_CD"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_007",
+    "name": "NeRDE",
+    "aliases": [
+      "NeRDE Framework",
+      "NeRDE Schema"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "database",
+    "description": "A comprehensive data processing framework encompassing inbound files, feed schemas, transform schemas, and IFS components. It handles data ingestion, transformation, and schema management for downstream consumption.",
+    "context": [
+      "NeRDE   (inbound file)",
+      "NeRDE (Feed Schema)",
+      "NeRDE   (transform schema)",
+      "NeRDE(IFS)"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_008",
+    "name": "Net Reveal Database",
+    "aliases": [
+      "Net Reveal"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "database",
+    "description": "A database system referenced in the data flow that stores and manages the 'COUNTRY_OF_ORIGIN' field. It serves as a target or intermediate repository for customer origin data.",
+    "context": [
+      "Net Reveal  Database",
+      "Table :  CUSTOMERS  Column:  COUNTRY_OF_ORIGIN"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_005_cap_001",
+    "name": "Data Reconciliation Controls and Checks",
+    "aliases": [
+      "Reconciliation Controls",
+      "CDE Level Controls"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "technical_capability",
+    "description": "A structured validation framework ensuring data transmission success across source and target systems. It mandates record count matching, string/checksum field verification, and strict preservation of data formats and types. Invalid data is automatically flagged to trigger corrective actions.",
+    "context": [
+      "Data Reconciliation Controls and Checks",
+      "The number of customer records with ‘Country of  Origin’ matches between source and target",
+      "the format and data type of   ‘Country of origin’ field has not undergone any changes",
+      "Invalid   ‘Country of  Origin’  should be flagged and  target system should be informed about those"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_005_cap_002",
+    "name": "Interface Level Key Controls",
+    "aliases": [
+      "Interface Controls",
+      "CDE Interface Safeguards"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "technical_capability",
+    "description": "A set of operational safeguards applied to all data elements across system interfaces. It requires built-in job controls, automated halt triggers for threshold-exceeding mismatches, and comprehensive logging for issue resolution and audit trails.",
+    "context": [
+      "Interface Level  Key Controls (applicable for all CDEs)",
+      "the interface  must halt data loading and trigger a alert",
+      "A detailed log should be maintained for every loading  operation with issues separately highlighted for resolution"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_005_cap_003",
+    "name": "Country of Origin Data Maintenance",
+    "aliases": [
+      "Country of birth",
+      "BIRTH_COUNTRY_CD",
+      "COUNTRY_OF_ORIGIN"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "data_integrity_capability",
+    "description": "A critical data element (CDE) control requiring strict state preservation from initial system entry through final utilization. The framework explicitly prohibits any modification, alteration, or update to this data element across all intermediary systems and processing stages.",
+    "context": [
+      "The ‘Country of Origin’  data element must be maintained in its original state",
+      "Any modification, alteration , or update  to this data element is  strictly prohibited",
+      "across all intermediary  systems and stages  of data processing"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_005_use_001",
+    "name": "Customer Due Diligence (CDD)",
+    "aliases": [
+      "CDD system",
+      "CDD Process"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "compliance",
+    "description": "A regulatory and risk management process that serves as the authoritative source for deriving the 'Country Of Origin' data element. The CDD system outputs this data for downstream utilization in risk rating and reconciliation workflows.",
+    "context": [
+      "FCTP CDE “Country Of Origin” as derived from CDD (Customer Due Diligence) output",
+      "utilization in  the risk rating system  within the CDD system"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_005_org_001",
+    "name": "FCTP",
+    "aliases": [
+      "FCTP Project",
+      "FCTP Initiative"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "vendor",
+    "description": "The primary organizational or project entity responsible for the data controls, reconciliation framework, and DR assessment report. It governs the end-to-end data transmission standards and compliance requirements outlined in the document.",
+    "context": [
+      "FCTP DR Assessment Report",
+      "FCTP CDE “Country Of Origin”"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_005_off_001",
+    "name": "Business Control Framework",
+    "aliases": [
+      "Business Control (Sample)"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "framework",
+    "description": "A sample control framework governing data element maintenance and state preservation. It establishes strict rules to prevent unauthorized modifications, ensuring data integrity from system entry through to risk rating utilization.",
+    "context": [
+      "Business Control   (Sample)",
+      "The ‘Country of Origin’  data element must be maintained in its original state"
+    ],
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  }
+]

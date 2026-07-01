@@ -18,7 +18,11 @@ wheels/
 .claude/
 
 # Runtime data
-data/
+data/document_registry.db
+data/refine
+data/documents
+data/graph_snapshot
+# Keep data.kg in github
 logs/
 package.json
 package-lock.json

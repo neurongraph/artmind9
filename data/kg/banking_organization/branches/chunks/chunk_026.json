@@ -1,0 +1,1949 @@
+{
+  "embedding": [
+    0.012744823,
+    0.016007839,
+    -0.16861053,
+    -0.0021669692,
+    0.032382164,
+    -0.039011322,
+    0.027256899,
+    0.014592544,
+    0.04456336,
+    -0.0008841904,
+    0.017647149,
+    0.017640533,
+    0.048396897,
+    0.00218658,
+    0.051599815,
+    -0.012801625,
+    -0.016583676,
+    -0.03962827,
+    -0.008305231,
+    -0.031010631,
+    0.031007377,
+    -0.0050386675,
+    -0.006847413,
+    -0.081690066,
+    0.076763116,
+    0.06891349,
+    0.050430425,
+    -0.032436583,
+    -0.020370474,
+    -0.0327252,
+    -0.0071747154,
+    0.035919834,
+    0.010750399,
+    -0.070649356,
+    -0.027180355,
+    -0.08686482,
+    0.029098073,
+    0.031089634,
+    0.013410167,
+    0.018321665,
+    0.021177158,
+    0.038996432,
+    -0.002289979,
+    -0.046080343,
+    -0.0044368613,
+    -0.0055706534,
+    0.04556069,
+    0.0008966216,
+    0.043798413,
+    -0.01547857,
+    0.021692507,
+    -0.019409798,
+    0.03168586,
+    0.032438084,
+    0.051029976,
+    0.02377515,
+    -0.02925295,
+    0.03578617,
+    -0.039897226,
+    -0.073674224,
+    0.07766078,
+    0.04306544,
+    0.015071465,
+    0.063353404,
+    0.0370117,
+    -0.005380919,
+    -0.026218055,
+    -0.0021437153,
+    0.018737003,
+    -0.0145454025,
+    0.06651588,
+    -0.05225244,
+    0.014788526,
+    0.02270456,
+    -0.0029204832,
+    -0.027291207,
+    -0.029581225,
+    -0.041210394,
+    0.02061106,
+    0.07109435,
+    0.01815326,
+    0.017693225,
+    0.043112453,
+    0.02656219,
+    0.06562582,
+    -0.00989744,
+    -0.060091544,
+    -0.033469122,
+    -0.0070966296,
+    0.057671085,
+    0.047180206,
+    0.0017520367,
+    0.008132796,
+    0.015259483,
+    -0.023310667,
+    0.0104577085,
+    0.0223841,
+    0.008899826,
+    -0.00028246967,
+    -0.03061761,
+    -0.040511843,
+    -0.0078592235,
+    0.026894715,
+    0.043025643,
+    0.00417352,
+    0.021515002,
+    0.032501925,
+    -0.010675338,
+    -0.021990946,
+    -0.006674085,
+    -0.06710117,
+    0.051247027,
+    -0.025584338,
+    -0.0002212639,
+    0.034368165,
+    0.003973211,
+    0.0667767,
+    -0.02956761,
+    0.025849393,
+    0.04105112,
+    -0.015388279,
+    -0.067874655,
+    0.005915675,
+    0.013602341,
+    -0.029857166,
+    0.0010806764,
+    -0.07496866,
+    0.023618532,
+    0.027397757,
+    -0.0032628956,
+    0.014757614,
+    -0.053168833,
+    -0.05635089,
+    0.032380395,
+    0.053322077,
+    0.015012409,
+    -0.025877334,
+    -0.023617867,
+    0.044022705,
+    -0.023631936,
+    0.012165004,
+    0.038253922,
+    -0.04021207,
+    0.063578054,
+    0.02427202,
+    -0.027672123,
+    0.053003,
+    -0.033374928,
+    0.0010186773,
+    0.014236751,
+    0.007843608,
+    -0.015958125,
+    0.03284362,
+    -0.010064232,
+    -0.002325819,
+    -0.045350436,
+    -0.047456335,
+    0.0011345625,
+    0.04945476,
+    0.060402673,
+    -0.00020369823,
+    -0.0060365745,
+    -0.048738282,
+    0.01804017,
+    -0.009101941,
+    -0.057719186,
+    -0.011087284,
+    0.073165976,
+    0.053806312,
+    0.021129834,
+    -0.034095146,
+    -0.023203678,
+    -0.023519,
+    -0.011577937,
+    0.06648176,
+    0.010951558,
+    0.029548317,
+    -0.00907124,
+    0.038757052,
+    -0.06704959,
+    0.030644203,
+    -0.030614408,
+    0.01936747,
+    0.06273092,
+    -0.03527029,
+    -0.0084735295,
+    0.012708338,
+    -0.053623494,
+    -0.043499626,
+    -0.03311712,
+    -0.015901536,
+    0.028470194,
+    0.0025836332,
+    -0.056764018,
+    -0.062235184,
+    -0.02715951,
+    0.014126481,
+    -0.052741364,
+    -0.007991966,
+    -0.088941246,
+    0.019172177,
+    -0.008968971,
+    -0.040892754,
+    3.9346127e-05,
+    -0.0066816197,
+    0.050145578,
+    -0.03806539,
+    0.010124584,
+    -0.007888297,
+    0.04494953,
+    0.0534632,
+    -0.024208203,
+    -0.013934841,
+    -0.028989967,
+    0.042619217,
+    -0.04397591,
+    0.022429345,
+    0.003300165,
+    0.0018410974,
+    0.026919607,
+    0.030407133,
+    -0.006216821,
+    0.06758759,
+    -0.04823816,
+    0.043201454,
+    0.01788913,
+    -0.0022017658,
+    -0.015324767,
+    0.028961264,
+    -0.030912966,
+    -0.017796503,
+    -0.03618447,
+    -0.004217416,
+    -0.0065699336,
+    -0.029286927,
+    0.00014623585,
+    0.0047066854,
+    0.064169124,
+    0.021016026,
+    -0.02091621,
+    0.002394428,
+    0.084782995,
+    -0.004941304,
+    0.0026665626,
+    -0.014164045,
+    0.025274446,
+    0.0020638546,
+    -0.012094166,
+    -0.0036774115,
+    0.06380367,
+    0.05618728,
+    0.0064708903,
+    0.05052757,
+    0.027641524,
+    0.040917218,
+    -0.026994118,
+    -0.040575724,
+    0.021974532,
+    0.037514236,
+    -0.008597711,
+    0.0038384523,
+    -0.078092545,
+    0.10317153,
+    -0.032391533,
+    -0.016043961,
+    -0.0502116,
+    -0.050046373,
+    0.00088964426,
+    0.029428393,
+    -0.03242033,
+    0.004641689,
+    0.02981178,
+    -0.008689095,
+    0.08299477,
+    -0.011170608,
+    0.009581044,
+    0.025475284,
+    -0.025382603,
+    -0.072445214,
+    0.021511571,
+    -0.019186126,
+    -0.025312075,
+    0.0200854,
+    -0.0056612324,
+    0.042031866,
+    0.045442395,
+    0.04775234,
+    -0.007156236,
+    0.0071989316,
+    0.0077157756,
+    0.050269842,
+    -0.029367883,
+    -0.03240154,
+    0.058879226,
+    -0.046106026,
+    0.025321666,
+    0.031200768,
+    -0.01270953,
+    0.022125343,
+    0.00029599995,
+    0.023237703,
+    0.029713262,
+    0.042391863,
+    0.053450823,
+    0.002895762,
+    -0.014348321,
+    -0.010993758,
+    0.014067781,
+    0.051715415,
+    0.028315011,
+    -0.04467582,
+    0.008542073,
+    -0.027017608,
+    -0.012675897,
+    -0.051092878,
+    -0.0038380092,
+    0.00029902902,
+    0.015998185,
+    0.04922301,
+    0.02311891,
+    0.013252457,
+    -0.0042397855,
+    0.013624921,
+    0.001355433,
+    -0.01665975,
+    0.010153488,
+    -0.024982056,
+    0.045007855,
+    0.023070749,
+    -0.010594025,
+    0.026891978,
+    0.032827336,
+    0.05217201,
+    -0.010959447,
+    -0.011523553,
+    0.030412165,
+    0.0023850938,
+    -0.017543392,
+    -0.017586086,
+    0.0060136714,
+    0.11511383,
+    -0.045159277,
+    0.028609587,
+    -0.039534215,
+    0.026449855,
+    -0.001812272,
+    -0.017241929,
+    0.01110336,
+    0.043596845,
+    0.03730139,
+    -0.012735075,
+    -0.016638178,
+    -0.037742008,
+    -0.029247388,
+    0.02081658,
+    -0.018236976,
+    0.036244325,
+    0.039686237,
+    -0.0349621,
+    -0.041564707,
+    0.044359602,
+    -0.0016831129,
+    0.052847173,
+    -0.009175198,
+    -0.023137916,
+    -0.009081565,
+    0.07080777,
+    -0.03597268,
+    0.01774716,
+    0.047335204,
+    0.030014226,
+    -0.034821283,
+    0.012218187,
+    0.044875883,
+    -0.0115423985,
+    0.02608959,
+    -0.061761197,
+    0.03850242,
+    -0.021732943,
+    0.031441655,
+    -0.0029186355,
+    -0.019696955,
+    -0.009205599,
+    0.020041874,
+    -0.013951453,
+    -0.03840057,
+    -0.012448098,
+    -0.017761046,
+    -0.012511091,
+    0.027745876,
+    -0.014545126,
+    -0.031679694,
+    -0.027978735,
+    0.035449985,
+    0.051729426,
+    -0.038693056,
+    0.025461972,
+    0.0314861,
+    -0.006835374,
+    0.047485672,
+    -0.01041184,
+    -0.08760682,
+    0.042155705,
+    0.0017271622,
+    -0.040914007,
+    0.04554939,
+    -0.03854958,
+    -0.0064993505,
+    0.0335179,
+    0.016954968,
+    0.0074024936,
+    0.022496259,
+    -0.030770527,
+    -0.03562541,
+    0.04769812,
+    -0.00749676,
+    0.04266498,
+    0.010622467,
+    -0.0146252625,
+    -0.017275678,
+    0.032836635,
+    0.0027161401,
+    -0.0010086027,
+    -0.03027571,
+    0.044358056,
+    0.02538444,
+    0.022755971,
+    -0.016670344,
+    -0.012274953,
+    -0.06137878,
+    0.008190835,
+    -0.021071887,
+    0.012889746,
+    0.012918916,
+    -0.0031489264,
+    -0.006365392,
+    0.005346648,
+    0.01448302,
+    0.039760362,
+    0.0452856,
+    0.007028588,
+    -0.066062026,
+    -0.04305305,
+    0.006376643,
+    0.013575445,
+    0.065073684,
+    0.0071799723,
+    -0.040747337,
+    -0.0154247405,
+    0.022870276,
+    0.017981218,
+    0.03637564,
+    0.03369224,
+    0.027949998,
+    0.07204293,
+    -0.0838972,
+    0.037794586,
+    0.017583176,
+    0.0071714944,
+    0.035242826,
+    0.033345114,
+    -0.020209258,
+    -0.018685678,
+    -0.031995226,
+    -0.015426865,
+    0.00864794,
+    0.028281284,
+    -0.007605257,
+    -0.014634058,
+    0.10335884,
+    -0.05668787,
+    -0.024094272,
+    0.031622514,
+    -0.0576542,
+    -0.002264464,
+    -0.008807259,
+    -0.03914664,
+    0.029171102,
+    0.019307949,
+    -0.034027353,
+    0.008358333,
+    -0.031140529,
+    -0.052650608,
+    -0.0013373146,
+    -0.002008116,
+    0.062077526,
+    0.038011122,
+    -0.014910306,
+    0.025196828,
+    -0.0133859655,
+    0.021164557,
+    0.042672545,
+    0.021440959,
+    0.014977359,
+    0.02278059,
+    -0.023907632,
+    -0.013296765,
+    0.031271618,
+    0.0068467236,
+    -0.009295677,
+    0.024459612,
+    0.035455674,
+    0.014596608,
+    -0.00034711283,
+    -0.0066997707,
+    -0.0115322145,
+    0.019462343,
+    -0.03440104,
+    -0.1026797,
+    -0.009227795,
+    -0.010723082,
+    -0.009834696,
+    0.031944882,
+    0.052635673,
+    0.013151775,
+    -0.022261687,
+    -0.030605763,
+    0.05265932,
+    -0.04614132,
+    -0.026537476,
+    -0.03074573,
+    -0.012327371,
+    -0.041148912,
+    -0.05214523,
+    -0.027685227,
+    0.010567629,
+    0.045953494,
+    -0.027104355,
+    0.044220403,
+    -0.021708278,
+    0.002568896,
+    0.050369695,
+    -0.03148297,
+    0.0030979908,
+    0.030014092,
+    -0.032554336,
+    -0.042841896,
+    -0.002052729,
+    0.044298626,
+    0.085920624,
+    0.026772583,
+    0.011379024,
+    0.0056632124,
+    0.0023966858,
+    -0.0009655481,
+    -0.066029005,
+    0.048089743,
+    0.017362924,
+    -0.044953536,
+    -0.064873256,
+    0.029877435,
+    -0.04558187,
+    -0.02175248,
+    -0.049021173,
+    0.014749191,
+    -0.026589775,
+    0.007604559,
+    -0.032371406,
+    -0.06687648,
+    -0.016660329,
+    -0.0019926191,
+    0.017350664,
+    0.050437655,
+    -0.034865823,
+    0.01877412,
+    -0.057685092,
+    -0.014841917,
+    -0.010002352,
+    -0.036362797,
+    0.033972386,
+    -0.028801456,
+    -0.043059886,
+    -0.020208541,
+    0.03698008,
+    -0.039267987,
+    0.034559034,
+    -0.029518688,
+    0.0004917636,
+    0.0076488634,
+    -0.0049949586,
+    0.06462771,
+    -0.041669305,
+    0.003403863,
+    -0.012014949,
+    -0.038557645,
+    -0.009657746,
+    -0.012914384,
+    -0.06063472,
+    -0.0054221572,
+    -0.023809165,
+    -0.03352751,
+    -0.02115875,
+    0.01525909,
+    0.013145666,
+    0.03007573,
+    0.0044881445,
+    0.0072424356,
+    -0.025120847,
+    -0.0022433791,
+    -0.06383705,
+    -0.023455774,
+    -0.018196419,
+    0.0008684171,
+    -0.085044935,
+    0.010883106,
+    0.008474,
+    -0.030755835,
+    0.0005832052,
+    -0.055455852,
+    -0.030755766,
+    0.042476717,
+    0.006880759,
+    -0.009748613,
+    0.018931812,
+    0.018514255,
+    -0.027349126,
+    0.026576888,
+    -0.021003332,
+    -0.030910138,
+    -0.001995594,
+    -0.03897894,
+    -0.031190265,
+    0.061718382,
+    -0.056267418,
+    -0.0067085754,
+    -0.0021049418,
+    -0.041981112,
+    -0.0385985,
+    -0.021562314,
+    0.06635195,
+    -0.0068203458,
+    0.04468277,
+    -0.049271766,
+    -0.10389568,
+    -0.08765714,
+    0.020644812,
+    -0.07535233,
+    -0.018529491,
+    -0.010512776,
+    0.03600001,
+    0.06493808,
+    -0.027478954,
+    -0.009877752,
+    0.019145578,
+    0.04167376,
+    -0.045680117,
+    0.061549593,
+    0.045101017,
+    0.055608336,
+    0.009126358,
+    0.08556301,
+    0.053956565,
+    0.033727,
+    -0.035958875,
+    0.0027453562,
+    -0.042084936,
+    0.03469291,
+    -6.452779e-05,
+    -0.025397087,
+    -0.028679134,
+    0.010368585,
+    -0.003011944,
+    -0.029571494,
+    6.4054916e-06,
+    0.027539922,
+    -0.00045903865,
+    -0.016972546,
+    -0.03231825,
+    -0.084844165,
+    -0.04540783,
+    0.0011473807,
+    0.0014556218,
+    0.014339422,
+    -0.012241181,
+    -0.008699829,
+    0.06894654,
+    0.035188884,
+    0.032831278,
+    0.014913083,
+    -0.038344912,
+    -0.01067922,
+    0.003068919,
+    0.06393782,
+    -0.0367078,
+    -0.019293679,
+    -0.05079762,
+    0.0074297492,
+    -0.012915961,
+    0.029386675,
+    -0.0027870934,
+    0.007916064,
+    -0.03976984,
+    0.0012633605,
+    -0.049109403,
+    0.009454595,
+    0.02391766,
+    -0.0062646973,
+    -0.027187439,
+    -0.08136015,
+    0.007985827,
+    -0.024923202,
+    0.010847778,
+    -0.04494563,
+    0.03408901,
+    0.01741689,
+    -0.011571917,
+    0.025526134,
+    -0.021568425,
+    -0.0046345,
+    0.021943783,
+    -0.049892988,
+    0.017780391,
+    0.019302739,
+    0.042321634,
+    0.028319154,
+    -0.0055557094,
+    -0.05903894,
+    -0.0337371,
+    0.022273209,
+    0.037805926,
+    0.07003463,
+    0.016573753,
+    -0.028328331,
+    -0.039285865,
+    -0.0016765995,
+    -0.046355337,
+    0.008215784,
+    -0.03861925,
+    0.01348212,
+    -0.033139125,
+    -0.04738498,
+    -0.04292298,
+    -0.07153648,
+    0.07072801,
+    -0.044486705,
+    0.031411972,
+    -0.036344625,
+    0.002311125,
+    -0.08474053,
+    0.0040777097,
+    -0.0341818,
+    -0.021713644,
+    -0.03008647,
+    0.053914696,
+    0.0018992277,
+    -0.050226808,
+    0.040473927,
+    0.051940758,
+    0.030271774,
+    -0.011443606,
+    0.007099314,
+    -0.006277523,
+    -0.057728898,
+    0.002083564,
+    -0.040717524,
+    0.017155793,
+    0.006225658,
+    -0.01298119,
+    0.08304785,
+    0.061984107,
+    0.021568684,
+    -0.01416941,
+    0.031984936,
+    -0.0028370696,
+    -0.059620876,
+    -0.063913986,
+    -0.079258494,
+    0.0024262092
+  ],
+  "chunk_seq": 26,
+  "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+  "doc_id": "c89f41859fb44925be5b4ed628d31814",
+  "text": "## Branch Compliance  \n### Regulatory Compliance  \n**Key Compliance Areas:**\n- KYC/CDD (see [[business_ontology]], KYC-SOP-001)\n- AML screening (AML-POL-002)\n- Complaint handling (COM-POL-006)\n- Customer privacy (GDPR, PRI-POL-004)\n- Data handling (DPA)  \n**Compliance Certification:** All branch managers certified annually\n**Audit Schedule:** Annual audit of branch controls  \n**See:** Compliance Bulletins (COMP-BULL-2026)",
+  "name": "Chunk 26/34",
+  "domain": "banking_organization",
+  "prev_chunk_id": "c89f41859fb44925be5b4ed628d31814_025",
+  "next_chunk_id": "c89f41859fb44925be5b4ed628d31814_027",
+  "raw_entities": [
+    {
+      "id": "org_001",
+      "name": "Branch",
+      "aliases": [
+        "Branch Office",
+        "Physical Branch",
+        "Branch Location"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit | office",
+      "description": "The physical or operational location within FirstUK Bank responsible for executing branch-level compliance activities, maintaining regulatory certifications, and undergoing annual control audits.",
+      "context": [
+        "## Branch Compliance",
+        "All branch managers certified annually",
+        "Annual audit of branch controls"
+      ]
+    },
+    {
+      "id": "rol_001",
+      "name": "Branch Manager",
+      "aliases": [
+        "Branch Managers"
+      ],
+      "entity_class": "ROLE_PERSON",
+      "type": "manager",
+      "description": "The leadership role accountable for ensuring branch-level regulatory compliance, including maintaining annual certification and overseeing the execution of branch control audits.",
+      "context": [
+        "All branch managers certified annually",
+        "Annual audit of branch controls"
+      ]
+    },
+    {
+      "id": "bnk_001",
+      "name": "KYC/CDD Process",
+      "aliases": [
+        "KYC",
+        "CDD",
+        "Know Your Customer/Customer Due Diligence"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "kyc_verification",
+      "description": "A core regulatory compliance concept encompassing Know Your Customer and Customer Due Diligence procedures, governed by the bank's business ontology and SOP-001.",
+      "context": [
+        "KYC/CDD (see [[business_ontology]], KYC-SOP-001)"
+      ]
+    },
+    {
+      "id": "bnk_002",
+      "name": "AML Screening",
+      "aliases": [
+        "Anti-Money Laundering Screening",
+        "AML"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "aml_screening",
+      "description": "A mandatory compliance concept involving the screening of customers and transactions to prevent money laundering, governed by internal policy AML-POL-002.",
+      "context": [
+        "AML screening (AML-POL-002)"
+      ]
+    },
+    {
+      "id": "bnk_003",
+      "name": "Complaint Handling",
+      "aliases": [
+        "Complaint Management",
+        "Customer Complaints"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "complaint_management",
+      "description": "The structured operational concept for receiving, processing, and resolving customer complaints in accordance with internal policy COM-POL-006.",
+      "context": [
+        "Complaint handling (COM-POL-006)"
+      ]
+    },
+    {
+      "id": "bnk_004",
+      "name": "Customer Privacy",
+      "aliases": [
+        "Data Privacy",
+        "Privacy Protection"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "privacy_control",
+      "description": "A regulatory and operational concept focused on protecting customer personal information, aligned with GDPR standards and internal policy PRI-POL-004.",
+      "context": [
+        "Customer privacy (GDPR, PRI-POL-004)"
+      ]
+    },
+    {
+      "id": "bnk_005",
+      "name": "Data Handling",
+      "aliases": [
+        "Data Processing",
+        "Information Management"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "data_handling",
+      "description": "The operational concept governing the secure processing, storage, and management of bank data in strict compliance with the Data Protection Act (DPA).",
+      "context": [
+        "Data handling (DPA)"
+      ]
+    },
+    {
+      "id": "met_001",
+      "name": "Annual Compliance Certification",
+      "aliases": [
+        "Branch Manager Certification",
+        "Annual Certification"
+      ],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi | operational_frequency",
+      "description": "A mandatory operational frequency target requiring all branch managers to complete regulatory compliance certification on an annual basis.",
+      "context": [
+        "All branch managers certified annually"
+      ]
+    },
+    {
+      "id": "met_002",
+      "name": "Annual Branch Audit",
+      "aliases": [
+        "Branch Control Audit",
+        "Annual Audit"
+      ],
+      "entity_class": "METRIC_TARGET",
+      "type": "sla | operational_frequency",
+      "description": "A scheduled operational frequency target dictating that branch-level controls and compliance measures undergo a comprehensive audit every year.",
+      "context": [
+        "Annual audit of branch controls"
+      ]
+    },
+    {
+      "id": "rul_001",
+      "name": "KYC/CDD Compliance Requirement",
+      "aliases": [
+        "KYC-SOP-001",
+        "Customer Due Diligence Rule"
+      ],
+      "entity_class": "BUSINESS_RULE",
+      "type": "regulatory_obligation | compliance_requirement",
+      "description": "A binding operational rule mandating adherence to the KYC/CDD standard operating procedure (KYC-SOP-001) as a fundamental branch compliance area.",
+      "context": [
+        "KYC/CDD (see [[business_ontology]], KYC-SOP-001)"
+      ]
+    },
+    {
+      "id": "rul_002",
+      "name": "AML Screening Policy Constraint",
+      "aliases": [
+        "AML-POL-002",
+        "Anti-Money Laundering Rule"
+      ],
+      "entity_class": "BUSINESS_RULE",
+      "type": "regulatory_obligation | compliance_requirement",
+      "description": "A mandatory policy constraint requiring all branch operations to execute anti-money laundering screening procedures in accordance with AML-POL-002.",
+      "context": [
+        "AML screening (AML-POL-002)"
+      ]
+    },
+    {
+      "id": "rul_003",
+      "name": "Complaint Handling Policy",
+      "aliases": [
+        "COM-POL-006",
+        "Complaint Management Rule"
+      ],
+      "entity_class": "BUSINESS_RULE",
+      "type": "compliance_requirement | control",
+      "description": "An operational governance rule dictating the mandatory process for managing customer complaints per internal policy COM-POL-006.",
+      "context": [
+        "Complaint handling (COM-POL-006)"
+      ]
+    },
+    {
+      "id": "rul_004",
+      "name": "Customer Privacy Policy",
+      "aliases": [
+        "PRI-POL-004",
+        "GDPR Compliance Rule"
+      ],
+      "entity_class": "BUSINESS_RULE",
+      "type": "regulatory_obligation | compliance_requirement",
+      "description": "A governance rule enforcing data privacy standards aligned with GDPR and internal policy PRI-POL-004 for all customer-facing operations.",
+      "context": [
+        "Customer privacy (GDPR, PRI-POL-004)"
+      ]
+    },
+    {
+      "id": "rul_005",
+      "name": "Data Protection Compliance Rule",
+      "aliases": [
+        "DPA",
+        "Data Handling Constraint"
+      ],
+      "entity_class": "BUSINESS_RULE",
+      "type": "regulatory_obligation | compliance_requirement",
+      "description": "A mandatory rule requiring strict adherence to the Data Protection Act (DPA) for all data processing and handling activities within the branch.",
+      "context": [
+        "Data handling (DPA)"
+      ]
+    },
+    {
+      "id": "rul_006",
+      "name": "Branch Control Audit Schedule",
+      "aliases": [
+        "Annual Audit Rule",
+        "Branch Audit Constraint"
+      ],
+      "entity_class": "BUSINESS_RULE",
+      "type": "regulatory_obligation | control",
+      "description": "A governance rule mandating an annual audit to verify the effectiveness, accuracy, and compliance of branch-level operational controls.",
+      "context": [
+        "Annual audit of branch controls"
+      ]
+    }
+  ],
+  "id_map": {
+    "org_001": "c89f41859fb44925be5b4ed628d31814_026_org_001",
+    "rol_001": "c89f41859fb44925be5b4ed628d31814_026_rol_001",
+    "bnk_001": "c89f41859fb44925be5b4ed628d31814_026_bnk_001",
+    "bnk_002": "c89f41859fb44925be5b4ed628d31814_026_bnk_002",
+    "bnk_003": "c89f41859fb44925be5b4ed628d31814_026_bnk_003",
+    "bnk_004": "c89f41859fb44925be5b4ed628d31814_026_bnk_004",
+    "bnk_005": "c89f41859fb44925be5b4ed628d31814_026_bnk_005",
+    "met_001": "c89f41859fb44925be5b4ed628d31814_026_met_001",
+    "met_002": "c89f41859fb44925be5b4ed628d31814_026_met_002",
+    "rul_001": "c89f41859fb44925be5b4ed628d31814_026_rul_001",
+    "rul_002": "c89f41859fb44925be5b4ed628d31814_026_rul_002",
+    "rul_003": "c89f41859fb44925be5b4ed628d31814_026_rul_003",
+    "rul_004": "c89f41859fb44925be5b4ed628d31814_026_rul_004",
+    "rul_005": "c89f41859fb44925be5b4ed628d31814_026_rul_005",
+    "rul_006": "c89f41859fb44925be5b4ed628d31814_026_rul_006"
+  },
+  "entities": [
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_026_org_001",
+      "name": "Branch",
+      "aliases": [
+        "Branch Office",
+        "Physical Branch",
+        "Branch Location"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit | office",
+      "description": "The physical or operational location within FirstUK Bank responsible for executing branch-level compliance activities, maintaining regulatory certifications, and undergoing annual control audits.",
+      "context": [
+        "## Branch Compliance",
+        "All branch managers certified annually",
+        "Annual audit of branch controls"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_026_rol_001",
+      "name": "Branch Manager",
+      "aliases": [
+        "Branch Managers"
+      ],
+      "entity_class": "ROLE_PERSON",
+      "type": "manager",
+      "description": "The leadership role accountable for ensuring branch-level regulatory compliance, including maintaining annual certification and overseeing the execution of branch control audits.",
+      "context": [
+        "All branch managers certified annually",
+        "Annual audit of branch controls"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_026_bnk_001",
+      "name": "KYC/CDD Process",
+      "aliases": [
+        "KYC",
+        "CDD",
+        "Know Your Customer/Customer Due Diligence"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "kyc_verification",
+      "description": "A core regulatory compliance concept encompassing Know Your Customer and Customer Due Diligence procedures, governed by the bank's business ontology and SOP-001.",
+      "context": [
+        "KYC/CDD (see [[business_ontology]], KYC-SOP-001)"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_026_bnk_002",
+      "name": "AML Screening",
+      "aliases": [
+        "Anti-Money Laundering Screening",
+        "AML"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "aml_screening",
+      "description": "A mandatory compliance concept involving the screening of customers and transactions to prevent money laundering, governed by internal policy AML-POL-002.",
+      "context": [
+        "AML screening (AML-POL-002)"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_026_bnk_003",
+      "name": "Complaint Handling",
+      "aliases": [
+        "Complaint Management",
+        "Customer Complaints"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "complaint_management",
+      "description": "The structured operational concept for receiving, processing, and resolving customer complaints in accordance with internal policy COM-POL-006.",
+      "context": [
+        "Complaint handling (COM-POL-006)"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_026_bnk_004",
+      "name": "Customer Privacy",
+      "aliases": [
+        "Data Privacy",
+        "Privacy Protection"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "privacy_control",
+      "description": "A regulatory and operational concept focused on protecting customer personal information, aligned with GDPR standards and internal policy PRI-POL-004.",
+      "context": [
+        "Customer privacy (GDPR, PRI-POL-004)"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_026_bnk_005",
+      "name": "Data Handling",
+      "aliases": [
+        "Data Processing",
+        "Information Management"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "data_handling",
+      "description": "The operational concept governing the secure processing, storage, and management of bank data in strict compliance with the Data Protection Act (DPA).",
+      "context": [
+        "Data handling (DPA)"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_026_met_001",
+      "name": "Annual Compliance Certification",
+      "aliases": [
+        "Branch Manager Certification",
+        "Annual Certification"
+      ],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi | operational_frequency",
+      "description": "A mandatory operational frequency target requiring all branch managers to complete regulatory compliance certification on an annual basis.",
+      "context": [
+        "All branch managers certified annually"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_026_met_002",
+      "name": "Annual Branch Audit",
+      "aliases": [
+        "Branch Control Audit",
+        "Annual Audit"
+      ],
+      "entity_class": "METRIC_TARGET",
+      "type": "sla | operational_frequency",
+      "description": "A scheduled operational frequency target dictating that branch-level controls and compliance measures undergo a comprehensive audit every year.",
+      "context": [
+        "Annual audit of branch controls"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_026_rul_001",
+      "name": "KYC/CDD Compliance Requirement",
+      "aliases": [
+        "KYC-SOP-001",
+        "Customer Due Diligence Rule"
+      ],
+      "entity_class": "BUSINESS_RULE",
+      "type": "regulatory_obligation | compliance_requirement",
+      "description": "A binding operational rule mandating adherence to the KYC/CDD standard operating procedure (KYC-SOP-001) as a fundamental branch compliance area.",
+      "context": [
+        "KYC/CDD (see [[business_ontology]], KYC-SOP-001)"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_026_rul_002",
+      "name": "AML Screening Policy Constraint",
+      "aliases": [
+        "AML-POL-002",
+        "Anti-Money Laundering Rule"
+      ],
+      "entity_class": "BUSINESS_RULE",
+      "type": "regulatory_obligation | compliance_requirement",
+      "description": "A mandatory policy constraint requiring all branch operations to execute anti-money laundering screening procedures in accordance with AML-POL-002.",
+      "context": [
+        "AML screening (AML-POL-002)"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_026_rul_003",
+      "name": "Complaint Handling Policy",
+      "aliases": [
+        "COM-POL-006",
+        "Complaint Management Rule"
+      ],
+      "entity_class": "BUSINESS_RULE",
+      "type": "compliance_requirement | control",
+      "description": "An operational governance rule dictating the mandatory process for managing customer complaints per internal policy COM-POL-006.",
+      "context": [
+        "Complaint handling (COM-POL-006)"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_026_rul_004",
+      "name": "Customer Privacy Policy",
+      "aliases": [
+        "PRI-POL-004",
+        "GDPR Compliance Rule"
+      ],
+      "entity_class": "BUSINESS_RULE",
+      "type": "regulatory_obligation | compliance_requirement",
+      "description": "A governance rule enforcing data privacy standards aligned with GDPR and internal policy PRI-POL-004 for all customer-facing operations.",
+      "context": [
+        "Customer privacy (GDPR, PRI-POL-004)"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_026_rul_005",
+      "name": "Data Protection Compliance Rule",
+      "aliases": [
+        "DPA",
+        "Data Handling Constraint"
+      ],
+      "entity_class": "BUSINESS_RULE",
+      "type": "regulatory_obligation | compliance_requirement",
+      "description": "A mandatory rule requiring strict adherence to the Data Protection Act (DPA) for all data processing and handling activities within the branch.",
+      "context": [
+        "Data handling (DPA)"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_026_rul_006",
+      "name": "Branch Control Audit Schedule",
+      "aliases": [
+        "Annual Audit Rule",
+        "Branch Audit Constraint"
+      ],
+      "entity_class": "BUSINESS_RULE",
+      "type": "regulatory_obligation | control",
+      "description": "A governance rule mandating an annual audit to verify the effectiveness, accuracy, and compliance of branch-level operational controls.",
+      "context": [
+        "Annual audit of branch controls"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    }
+  ],
+  "properties": [
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_026_org_001",
+      "name": "Branch",
+      "properties": {
+        "key_functions": [
+          "Regulatory compliance",
+          "KYC/CDD",
+          "AML screening",
+          "Complaint handling",
+          "Customer privacy management",
+          "Data handling"
+        ],
+        "regulatory_responsibilities": [
+          "Annual compliance certification for staff",
+          "Annual audit of branch controls"
+        ]
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_026_rol_001",
+      "name": "Branch Manager",
+      "properties": {
+        "department_or_unit": "Branch",
+        "key_responsibilities": [
+          "Ensure regulatory compliance across branch operations"
+        ],
+        "accountable_for": [
+          "Annual compliance certification"
+        ],
+        "appointment_type": "manager"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_026_bnk_001",
+      "name": "KYC/CDD Process",
+      "properties": {
+        "business_rules": [
+          "Governed by SOP KYC-SOP-001"
+        ],
+        "relationships_to": [
+          "[[business_ontology]]"
+        ],
+        "regulatory_significance": "Core regulatory compliance area for branch operations"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_026_bnk_002",
+      "name": "AML Screening",
+      "properties": {
+        "business_rules": [
+          "Governed by policy AML-POL-002"
+        ],
+        "regulatory_significance": "Key regulatory compliance area for branch operations"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_026_bnk_003",
+      "name": "Complaint Handling",
+      "properties": {
+        "business_rules": [
+          "Governed by policy COM-POL-006"
+        ],
+        "regulatory_significance": "Key regulatory compliance area for branch operations"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_026_bnk_004",
+      "name": "Customer Privacy",
+      "properties": {
+        "business_rules": [
+          "Governed by GDPR and policy PRI-POL-004"
+        ],
+        "regulatory_significance": "Key regulatory compliance area for branch operations"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_026_bnk_005",
+      "name": "Data Handling",
+      "properties": {
+        "business_rules": [
+          "Governed by DPA"
+        ],
+        "regulatory_significance": "Key regulatory compliance area for branch operations"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_026_met_001",
+      "name": "Annual Compliance Certification",
+      "properties": {
+        "frequency": "annually",
+        "owner": [
+          "Branch Manager"
+        ],
+        "what_it_measures": "Certification status of branch management against regulatory standards"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_026_met_002",
+      "name": "Annual Branch Audit",
+      "properties": {
+        "frequency": "annually",
+        "what_it_measures": "Effectiveness and compliance of branch controls",
+        "context": "Part of regulatory compliance schedule"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_026_rul_001",
+      "name": "KYC/CDD Compliance Requirement",
+      "properties": {
+        "rule_statement": "Branch must adhere to KYC/CDD standards as defined in the business ontology",
+        "rule_type": "obligation",
+        "applies_to": [
+          "Branch operations"
+        ],
+        "regulatory_source": [
+          "KYC-SOP-001"
+        ]
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_026_rul_002",
+      "name": "AML Screening Policy Constraint",
+      "properties": {
+        "rule_statement": "Branch must conduct AML screening per established policy",
+        "rule_type": "constraint",
+        "applies_to": [
+          "Branch operations"
+        ],
+        "regulatory_source": [
+          "AML-POL-002"
+        ]
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_026_rul_003",
+      "name": "Complaint Handling Policy",
+      "properties": {
+        "rule_statement": "Branch must manage complaints according to specified policy",
+        "rule_type": "obligation",
+        "applies_to": [
+          "Branch operations"
+        ],
+        "regulatory_source": [
+          "COM-POL-006"
+        ]
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_026_rul_004",
+      "name": "Customer Privacy Policy",
+      "properties": {
+        "rule_statement": "Branch must protect customer privacy in line with GDPR and internal policy",
+        "rule_type": "obligation",
+        "applies_to": [
+          "Branch operations"
+        ],
+        "regulatory_source": [
+          "GDPR",
+          "PRI-POL-004"
+        ]
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_026_rul_005",
+      "name": "Data Protection Compliance Rule",
+      "properties": {
+        "rule_statement": "Branch must handle data in compliance with Data Protection Act",
+        "rule_type": "obligation",
+        "applies_to": [
+          "Branch operations"
+        ],
+        "regulatory_source": [
+          "DPA"
+        ]
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_026_rul_006",
+      "name": "Branch Control Audit Schedule",
+      "properties": {
+        "rule_statement": "Branch controls must undergo an annual audit",
+        "rule_type": "constraint",
+        "applies_to": [
+          "Branch controls"
+        ],
+        "frequency": "annually"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_org_001",
+      "source_name": "Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026_bnk_001",
+      "target_name": "KYC/CDD Process",
+      "rel_type": "manages",
+      "description": "The Branch is responsible for executing and overseeing the KYC/CDD process as a key compliance area.",
+      "properties": {
+        "process_category": "regulatory_compliance",
+        "frequency": "ongoing"
+      },
+      "context": "Key Compliance Areas: - KYC/CDD (see [[business_ontology]], KYC-SOP-001)",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_org_001",
+      "source_name": "Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026_bnk_002",
+      "target_name": "AML Screening",
+      "rel_type": "manages",
+      "description": "The Branch manages the AML screening process to ensure regulatory adherence.",
+      "properties": {
+        "process_category": "regulatory_compliance",
+        "frequency": "ongoing"
+      },
+      "context": "- AML screening (AML-POL-002)",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_org_001",
+      "source_name": "Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026_bnk_003",
+      "target_name": "Complaint Handling",
+      "rel_type": "manages",
+      "description": "The Branch oversees the complaint handling process as a core operational compliance area.",
+      "properties": {
+        "process_category": "customer_service_compliance",
+        "frequency": "ongoing"
+      },
+      "context": "- Complaint handling (COM-POL-006)",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_org_001",
+      "source_name": "Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026_bnk_004",
+      "target_name": "Customer Privacy",
+      "rel_type": "manages",
+      "description": "The Branch manages customer privacy practices in alignment with GDPR requirements.",
+      "properties": {
+        "process_category": "data_protection_compliance",
+        "frequency": "ongoing"
+      },
+      "context": "- Customer privacy (GDPR, PRI-POL-004)",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_org_001",
+      "source_name": "Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026_bnk_005",
+      "target_name": "Data Handling",
+      "rel_type": "manages",
+      "description": "The Branch oversees data handling procedures to ensure compliance with the DPA.",
+      "properties": {
+        "process_category": "data_protection_compliance",
+        "frequency": "ongoing"
+      },
+      "context": "- Data handling (DPA)",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_bnk_001",
+      "source_name": "KYC/CDD Process",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026_rul_001",
+      "target_name": "KYC/CDD Compliance Requirement",
+      "rel_type": "governed_by",
+      "description": "The KYC/CDD Process is governed by the specific compliance requirement to ensure regulatory standards are met.",
+      "properties": {
+        "regulation_source": "business_ontology",
+        "reference_code": "KYC-SOP-001"
+      },
+      "context": "KYC/CDD (see [[business_ontology]], KYC-SOP-001)",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_bnk_002",
+      "source_name": "AML Screening",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026_rul_002",
+      "target_name": "AML Screening Policy Constraint",
+      "rel_type": "governed_by",
+      "description": "AML Screening activities are constrained and directed by the AML screening policy.",
+      "properties": {
+        "regulation_source": "internal_policy",
+        "reference_code": "AML-POL-002"
+      },
+      "context": "AML screening (AML-POL-002)",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_bnk_003",
+      "source_name": "Complaint Handling",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026_rul_003",
+      "target_name": "Complaint Handling Policy",
+      "rel_type": "governed_by",
+      "description": "The Complaint Handling process is governed by the established policy to ensure consistent resolution standards.",
+      "properties": {
+        "regulation_source": "internal_policy",
+        "reference_code": "COM-POL-006"
+      },
+      "context": "Complaint handling (COM-POL-006)",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_bnk_004",
+      "source_name": "Customer Privacy",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026_rul_004",
+      "target_name": "Customer Privacy Policy",
+      "rel_type": "governed_by",
+      "description": "Customer Privacy practices are governed by the internal privacy policy aligned with GDPR.",
+      "properties": {
+        "regulation_source": "internal_policy",
+        "reference_code": "PRI-POL-004"
+      },
+      "context": "Customer privacy (GDPR, PRI-POL-004)",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_bnk_005",
+      "source_name": "Data Handling",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026_rul_005",
+      "target_name": "Data Protection Compliance Rule",
+      "rel_type": "governed_by",
+      "description": "Data Handling procedures are governed by the Data Protection Compliance Rule.",
+      "properties": {
+        "regulation_source": "internal_policy",
+        "reference_code": "DPA"
+      },
+      "context": "Data handling (DPA)",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_org_001",
+      "source_name": "Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026_rul_001",
+      "target_name": "KYC/CDD Compliance Requirement",
+      "rel_type": "enforces",
+      "description": "The Branch enforces the KYC/CDD compliance requirement across all customer onboarding and servicing interactions.",
+      "properties": {
+        "enforcement_scope": "branch_operations",
+        "compliance_level": "mandatory"
+      },
+      "context": "Key Compliance Areas: - KYC/CDD (see [[business_ontology]], KYC-SOP-001)",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_org_001",
+      "source_name": "Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026_rul_002",
+      "target_name": "AML Screening Policy Constraint",
+      "rel_type": "enforces",
+      "description": "The Branch enforces the AML screening policy constraint to mitigate financial crime risks.",
+      "properties": {
+        "enforcement_scope": "branch_operations",
+        "compliance_level": "mandatory"
+      },
+      "context": "- AML screening (AML-POL-002)",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_org_001",
+      "source_name": "Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026_rul_003",
+      "target_name": "Complaint Handling Policy",
+      "rel_type": "enforces",
+      "description": "The Branch enforces the complaint handling policy to maintain service quality and regulatory standards.",
+      "properties": {
+        "enforcement_scope": "branch_operations",
+        "compliance_level": "mandatory"
+      },
+      "context": "- Complaint handling (COM-POL-006)",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_org_001",
+      "source_name": "Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026_rul_004",
+      "target_name": "Customer Privacy Policy",
+      "rel_type": "enforces",
+      "description": "The Branch enforces the customer privacy policy in line with GDPR and internal standards.",
+      "properties": {
+        "enforcement_scope": "branch_operations",
+        "compliance_level": "mandatory"
+      },
+      "context": "- Customer privacy (GDPR, PRI-POL-004)",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_org_001",
+      "source_name": "Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026_rul_005",
+      "target_name": "Data Protection Compliance Rule",
+      "rel_type": "enforces",
+      "description": "The Branch enforces data protection compliance rules across all operational data flows.",
+      "properties": {
+        "enforcement_scope": "branch_operations",
+        "compliance_level": "mandatory"
+      },
+      "context": "- Data handling (DPA)",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_rol_001",
+      "source_name": "Branch Manager",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026_met_001",
+      "target_name": "Annual Compliance Certification",
+      "rel_type": "accountable_for",
+      "description": "The Branch Manager is personally accountable for achieving and maintaining annual compliance certification.",
+      "properties": {
+        "certification_frequency": "annual",
+        "status": "mandatory"
+      },
+      "context": "All branch managers certified annually",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_org_001",
+      "source_name": "Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026_met_002",
+      "target_name": "Annual Branch Audit",
+      "rel_type": "measured_by",
+      "description": "The Branch's operational and compliance controls are measured and validated through the annual audit process.",
+      "properties": {
+        "audit_frequency": "annual",
+        "scope": "branch_controls"
+      },
+      "context": "Audit Schedule: Annual audit of branch controls",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_org_001",
+      "source_name": "Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026_rul_006",
+      "target_name": "Branch Control Audit Schedule",
+      "rel_type": "subject_to",
+      "description": "The Branch is subject to the predefined audit schedule governing branch control reviews.",
+      "properties": {
+        "schedule_frequency": "annual",
+        "governance_level": "mandatory"
+      },
+      "context": "Audit Schedule: Annual audit of branch controls",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_org_001",
+      "source_name": "Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_026",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_rol_001",
+      "source_name": "Branch Manager",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_026",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_bnk_001",
+      "source_name": "KYC/CDD Process",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_026",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_bnk_002",
+      "source_name": "AML Screening",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_026",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_bnk_003",
+      "source_name": "Complaint Handling",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_026",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_bnk_004",
+      "source_name": "Customer Privacy",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_026",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_bnk_005",
+      "source_name": "Data Handling",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_026",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_met_001",
+      "source_name": "Annual Compliance Certification",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_026",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_met_002",
+      "source_name": "Annual Branch Audit",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_026",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_rul_001",
+      "source_name": "KYC/CDD Compliance Requirement",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_026",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_rul_002",
+      "source_name": "AML Screening Policy Constraint",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_026",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_rul_003",
+      "source_name": "Complaint Handling Policy",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_026",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_rul_004",
+      "source_name": "Customer Privacy Policy",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_026",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_rul_005",
+      "source_name": "Data Protection Compliance Rule",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_026",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_026_rul_006",
+      "source_name": "Branch Control Audit Schedule",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_026",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    }
+  ]
+}

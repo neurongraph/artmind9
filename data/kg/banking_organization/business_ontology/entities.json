@@ -1,0 +1,3513 @@
+[
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_001_org_001",
+    "name": "Technology Department",
+    "aliases": [
+      "Technology"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "The internal department explicitly designated as the owner of the FirstUK Bank Business Ontology document, responsible for its governance and maintenance.",
+    "context": [
+      "Department | Technology"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_001",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_001_rol_001",
+    "name": "Enterprise Architect",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "specialist",
+    "description": "The designated ownership role responsible for the architectural oversight, documentation, and maintenance of the FirstUK Bank Business Ontology.",
+    "context": [
+      "Owner | Enterprise Architect"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_001",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_001_rul_001",
+    "name": "Financial Industry Business Ontology",
+    "aliases": [
+      "FIBO"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "An external industry data modeling standard referenced as a mandatory compliance and ontological framework that the FirstUK Bank Business Ontology aligns with.",
+    "context": [
+      "Standards Reference | FIBO (Financial Industry Business Ontology)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_001",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_001_rul_002",
+    "name": "ISO 20022",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "An international financial messaging and data exchange standard referenced as a compliance framework governing the structure, interoperability, and reporting standards of the FirstUK Bank Business Ontology.",
+    "context": [
+      "Standards Reference | FIBO (Financial Industry Business Ontology), ISO 20022"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_001",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_001_org_002",
+    "name": "FirstUK Bank",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "The primary banking organization for which the Business Ontology document is authored, governed, and applied across its technology and data architecture domains.",
+    "context": [
+      "# FirstUK Bank — Business Ontology"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_001",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_002_org_001",
+    "name": "FirstUK Bank",
+    "aliases": [
+      "FirstUK"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "The central banking enterprise whose business ontology establishes the foundational concepts, entities, relationships, and constraints governing all operational and strategic domains.",
+    "context": [
+      "govern FirstUK Bank's enterprise"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_002",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_002_bnk_002",
+    "name": "Business Ontology",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "conceptual_framework",
+    "description": "A shared semantic framework that defines the core concepts, entities, relationships, and constraints governing the bank's enterprise. It serves as the foundation for effective knowledge representation, data integration, and enterprise-wide reasoning across business domains.",
+    "context": [
+      "The Business Ontology defines the core concepts, entities, relationships, and constraints that govern FirstUK Bank's enterprise.",
+      "It provides a shared semantic understanding of business domains, enabling effective knowledge representation, data integration, and enterprise reasoning."
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_002",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_002_met_003",
+    "name": "Defined Business Entities Count",
+    "aliases": [
+      "Entities Defined"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Quantitative scope target specifying the minimum number of distinct business entities formally defined within the bank's business ontology.",
+    "context": [
+      "**Entities Defined:** 30+"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_002",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_002_met_004",
+    "name": "Mapped Relationships Count",
+    "aliases": [
+      "Relationships"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Quantitative scope target specifying the minimum number of interconnections and relationships formally mapped between business entities in the ontology.",
+    "context": [
+      "**Relationships:** 50+"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_002",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_002_met_005",
+    "name": "Governance Constraints Count",
+    "aliases": [
+      "Constraints"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Quantitative scope target specifying the minimum number of governing rules, limits, and operational constraints formally defined within the enterprise ontology.",
+    "context": [
+      "**Constraints:** 100+"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_002",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_003_rul_001",
+    "name": "Realism Principle",
+    "aliases": [
+      "Realism"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "This principle governs ontology development by mandating that all conceptual models must accurately map to real-world business entities. It ensures that abstract data structures reflect actual operational realities within FirstUK Bank. Adherence prevents misalignment between system representations and core banking functions.",
+    "context": [
+      "## Ontology Principles",
+      "1. **Realism:** Concepts map to real-world business entities"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_003",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_003_rul_002",
+    "name": "Consistency Principle",
+    "aliases": [
+      "Consistency"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "data_rule",
+    "description": "This rule establishes a governance standard requiring that concept definitions remain uniform and unchanged across all internal documentation. It prevents semantic drift and ensures reliable cross-departmental communication. Maintaining consistent terminology is critical for accurate system integration and reporting.",
+    "context": [
+      "## Ontology Principles",
+      "2. **Consistency:** Concepts maintain consistent definitions across documents"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_003",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_003_rul_003",
+    "name": "Completeness Principle",
+    "aliases": [
+      "Completeness"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "This principle defines an operational requirement that all critical business concepts must be formally defined within the bank's ontology framework. It ensures no essential domain entities are omitted from data models or system configurations. Full coverage supports comprehensive risk management and product delivery.",
+    "context": [
+      "## Ontology Principles",
+      "3. **Completeness:** Critical business concepts are defined"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_003",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_003_rul_004",
+    "name": "Clarity Principle",
+    "aliases": [
+      "Clarity"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "This rule sets a quality standard ensuring that all concept definitions are unambiguous and precisely articulated for stakeholder use. It eliminates interpretive variance during system implementation and audit processes. Clear documentation directly reduces operational friction and compliance risk.",
+    "context": [
+      "## Ontology Principles",
+      "4. **Clarity:** Definitions are unambiguous and precise"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_003",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_003_rul_005",
+    "name": "Traceability Principle",
+    "aliases": [
+      "Traceability"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "data_rule",
+    "description": "This principle mandates that all defined concepts must maintain explicit links to governing policies, procedures, and supporting systems. It enables full auditability and impact analysis across the bank's technology and operational landscape. Traceability ensures regulatory compliance and streamlined change management.",
+    "context": [
+      "## Ontology Principles",
+      "5. **Traceability:** Concepts link to policies, procedures, and systems"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_003",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_004_bnk_001",
+    "name": "Party & Customer Domain",
+    "aliases": [
+      "Party & Customer"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "party | customer",
+    "description": "Defines the conceptual boundary for all individuals and legal entities that interact with FirstUK Bank, encompassing both natural persons and organizational customers as the foundational layer for relationship management.",
+    "context": [
+      "Party & Customer Domain — People and organizations interacting with the bank"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_004",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_004_bnk_002",
+    "name": "Product Domain",
+    "aliases": [
+      "Product"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "Represents the conceptual framework for all banking products and services offered by FirstUK Bank, serving as the structural catalog for service delivery and commercial offerings.",
+    "context": [
+      "Product Domain — Banking products and services"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_004",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_004_bnk_003",
+    "name": "Account Domain",
+    "aliases": [
+      "Account"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "Captures the structure and holdings associated with customer accounts, defining how assets, liabilities, and account balances are tracked, stored, and managed within the bank's systems.",
+    "context": [
+      "Account Domain — Customer accounts and holdings"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_004",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_004_bnk_004",
+    "name": "Transaction Domain",
+    "aliases": [
+      "Transaction"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "Encompasses all money movement and account activity records, governing the lifecycle, processing, and audit trails of financial exchanges across FirstUK Bank's operational platforms.",
+    "context": [
+      "Transaction Domain — Money movement and account activity"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_004",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_004_bnk_005",
+    "name": "Risk & Compliance Domain",
+    "aliases": [
+      "Risk & Compliance"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "risk_compliance",
+    "description": "Defines the conceptual scope for regulatory obligations, risk management frameworks, and compliance monitoring concepts essential to FirstUK Bank's governance, auditability, and operational integrity.",
+    "context": [
+      "Risk & Compliance Domain — Regulatory and risk concepts"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_004",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_004_bnk_006",
+    "name": "Organization Domain",
+    "aliases": [
+      "Organization"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "organizational_structure",
+    "description": "Outlines the conceptual boundaries for organizational structure, internal roles, and reporting hierarchies that define how FirstUK Bank is structured, governed, and operated internally.",
+    "context": [
+      "Organization Domain — Organizational structure and roles"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_004",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_005_bnk_001",
+    "name": "Party",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "party",
+    "description": "A foundational domain entity representing any natural person or organization that interacts with FirstUK Bank. It serves as the primary conceptual building block for customer and stakeholder management, encompassing subtypes such as Natural Person, Organization, Employee, and Regulatory Authority. The entity is governed by key attributes including a unique identifier, type classification, full legal name, and registration date to track relationship inception.",
+    "context": [
+      "Any natural person or organization that interacts with FirstUK Bank.",
+      "Subtypes: Natural Person (individual customer), Organization (business customer, future), Employee, Regulatory Authority",
+      "Key Attributes: party_id — Unique identifier, party_type — Type of party (individual, organization), name — Full legal name, registration_date — Date party entered relationship with bank"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_005",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_005_org_001",
+    "name": "FirstUK Bank",
+    "aliases": [
+      "FirstUK"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "The primary banking institution referenced in the document, serving as the central entity with which parties establish interactions and formal relationships. It acts as the operational boundary for customer onboarding, data registration, and service delivery.",
+    "context": [
+      "Any natural person or organization that interacts with FirstUK Bank."
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_005",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_006_bnk_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "customer",
+    "description": "A natural person who holds at least one account with FirstUK Bank, identified by a unique customer_id linked to a Party. The concept encompasses personal attributes such as name, date of birth, nationality, contact details, and status, while maintaining structural relationships with accounts, addresses, and KYC verifications.",
+    "context": [
+      "A natural person (individual) who holds at least one account with FirstUK Bank.",
+      "customer_id — Unique identifier (linked to Party)",
+      "has_accounts → Account (1:many)",
+      "has_kyc_verification → KYC_Verification (1:many)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_006",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_006_bnk_002",
+    "name": "Party",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "party",
+    "description": "A foundational entity referenced within the Customer attribute mapping, serving as the underlying identifier to which customer_id is linked for identity management.",
+    "context": [
+      "customer_id — Unique identifier (linked to Party)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_006",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_006_bnk_003",
+    "name": "Account",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "A financial holding or product that a Customer can possess, defined through a one-to-many relationship mapping and exemplified by specific account identifiers in the provided data structure.",
+    "context": [
+      "has_accounts → Account (1:many)",
+      "has_accounts: [ACC-00001, ACC-00002]"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_006",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_006_bnk_004",
+    "name": "Address",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "address",
+    "description": "A registered location attribute associated with a Customer, referenced as a distinct concept in the attributes and linked via a one-to-many relationship mapping.",
+    "context": [
+      "address — Registered address (see Address concept)",
+      "has_address → Address (1:many)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_006",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_006_bnk_005",
+    "name": "KYC_Verification",
+    "aliases": [
+      "KYC concept"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "kyc_verification",
+    "description": "A verification process or record required to validate a Customer's identity, explicitly mandated as a prerequisite for account opening and linked via a one-to-many relationship.",
+    "context": [
+      "has_kyc_verification → KYC_Verification (1:many)",
+      "Every customer must have a valid identity (see KYC concept)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_006",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_006_bnk_006",
+    "name": "AML_Screening",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "aml_screening",
+    "description": "A compliance screening process that must be successfully completed for a Customer prior to the opening of any account, serving as a mandatory control within the onboarding workflow.",
+    "context": [
+      "Every customer must pass AML screening before account opening"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_006",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_006_rul_001",
+    "name": "Valid Identity Requirement",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "A mandatory constraint stating that every Customer must possess a valid identity, enforced through KYC verification processes.",
+    "context": [
+      "Every customer must have a valid identity (see KYC concept)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_006",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_006_rul_002",
+    "name": "Pre-Opening AML Screening",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "An operational constraint requiring that all Customers successfully pass AML screening prior to account opening.",
+    "context": [
+      "Every customer must pass AML screening before account opening"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_006",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_006_rul_003",
+    "name": "Multiple Account Holding",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A structural rule permitting a single Customer to hold multiple accounts simultaneously.",
+    "context": [
+      "Customer can hold multiple accounts"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_006",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_006_rul_004",
+    "name": "Joint Account Holders",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A structural rule allowing Customers to be associated with joint account holders.",
+    "context": [
+      "Customer can have joint account holders"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_006",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_007_bnk_001",
+    "name": "Address",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "address",
+    "description": "Represents a physical location entity associated with a customer, account, or branch. It is structured with specific attributes including unique identifiers, primary and secondary street lines, city, postcode, country code, address type, and effective date. This concept serves as the foundational data model for storing and managing geographic location information within the bank's systems.",
+    "context": [
+      "Physical location associated with a customer, account, or branch.",
+      "Attributes include address_id, address_line1, address_line2, city, postcode, country, address_type, and effective_date."
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_007",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_007_rul_002",
+    "name": "UK Customer Address Requirement",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "Establishes a mandatory operational constraint requiring that all customers identified as UK-based must maintain a physical address located within the United Kingdom. This rule ensures regulatory compliance and accurate customer profiling by restricting non-UK locations for domestic accounts.",
+    "context": [
+      "UK customers must have a UK address"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_007",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_007_rul_003",
+    "name": "Address Verification Requirement",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "Imposes a strict compliance requirement mandating that all stored addresses must be validated against official documentation. Acceptable proof sources explicitly include utility bills and council tax statements to prevent fraudulent location data entry.",
+    "context": [
+      "Address must be verified (utility bill, council tax, etc.)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_007",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_007_rul_004",
+    "name": "UK Postcode Format Rule",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "data_rule",
+    "description": "Defines a data integrity constraint specifying that all address records must strictly adhere to the standard UK postcode formatting pattern. This rule enforces consistent data structure across all systems that process geographic information.",
+    "context": [
+      "Addresses use UK postcode format"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_007",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_008_bnk_001",
+    "name": "Identification Document",
+    "aliases": [
+      "ID Document",
+      "KYC Document"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "identification_document",
+    "description": "Official document utilized to verify customer identity during KYC processes. It encompasses attributes including unique identifiers, linked customer references, document type and number, issuing country, issue and expiry dates, and verification status. Accepted UK types include passports, driving licenses, and future national ID cards.",
+    "context": [
+      "Official document used to verify customer identity (KYC).",
+      "Accepted Types (UK): UK Passport, UK Driving License, UK National ID Card (future)",
+      "verification_status — Unverified, Verified, Expired, Rejected"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_008",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_009_bnk_001",
+    "name": "Product",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A core domain entity representing a financial service offered by FirstUK Bank. It is defined by a set of structural attributes including unique identifiers, marketing names, product types, launch dates, operational status, balance limits, and target customer segments. The entity maintains one-to-many relationships with Feature and PricingTier concepts to model service capabilities and pricing structures.",
+    "context": [
+      "Entity: Product",
+      "A financial service offered by FirstUK Bank",
+      "has_features → Feature (1:many)",
+      "has_pricing_tier → PricingTier (1:many)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_009",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_009_bnk_002",
+    "name": "SmartSaver Account",
+    "aliases": [
+      "SAV-001"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "An illustrative example of a savings product within the Product domain model. It is characterized by a specific identifier, a minimum opening balance requirement of £1, and a defined target market segment comprising general consumers aged 18 and over.",
+    "context": [
+      "Product: SmartSaver Account",
+      "product_id: SAV-001",
+      "min_balance: £1",
+      "target_customer: General consumers, ages 18+"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_009",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_009_bnk_003",
+    "name": "Feature",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "A related domain concept linked to the Product entity through a one-to-many relationship. It represents specific capabilities, attributes, or service components that are associated with a financial product.",
+    "context": [
+      "has_features → Feature (1:many)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_009",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_009_bnk_004",
+    "name": "PricingTier",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "pricing_tier",
+    "description": "A related domain concept linked to the Product entity through a one-to-many relationship. It represents structured pricing levels or tiers that define how costs, fees, or interest rates are applied to financial services.",
+    "context": [
+      "has_pricing_tier → PricingTier (1:many)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_009",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_010_bnk_001",
+    "name": "Feature",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "A specific capability or service included in a product, serving as a core building block within the FirstUK Bank business ontology. It is governed by structured attributes including unique identifiers, descriptive metadata, product availability mappings, and effective dates. The concept encompasses various customer-facing capabilities such as Easy Access, Interest Accrual, Online Banking, Mobile App, Debit Card, Standing Orders, Direct Debits, and Joint Account Support.",
+    "context": [
+      "A specific capability or service included in a product.",
+      "Common Features:",
+      "Easy Access (withdrawals without notice)",
+      "Interest Accrual (variable or fixed)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_010",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_011_bnk_001",
+    "name": "Interest Rate",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "interest_rate",
+    "description": "A core banking concept representing a specific rate of interest applied to customer accounts. It is structured with attributes including unique identifiers, linked products, rate types (Fixed, Variable, Tiered), annual percentage values, balance thresholds for tiering, effective dates, review dates, and a review basis tied to external benchmarks like the Bank of England base rate plus a margin.",
+    "context": [
+      "A specific rate of interest applied to accounts.",
+      "Linked to Bank of England base rate, margin",
+      "Interest Rate:",
+      "review_basis: BoE base rate + 2.5% margin"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_011",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_011_org_001",
+    "name": "Bank of England",
+    "aliases": [
+      "BoE"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "regulatory_body",
+    "description": "The central bank and monetary authority referenced as the primary benchmark for interest rate reviews. Its base rate serves as a foundational component in calculating variable interest rates, often combined with a fixed margin to determine final account rates.",
+    "context": [
+      "Linked to Bank of England base rate, margin",
+      "review_basis: BoE base rate + 2.5% margin"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_011",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_012_bnk_001",
+    "name": "Account",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "A contractual arrangement between a customer and FirstUK Bank to hold money, make transactions, and earn interest. It serves as the central domain entity with defined attributes including unique identifiers, linked products, currency, status flags, balances, and facility limits. The entity enforces strict lifecycle governance regarding status transitions and permanent closure.",
+    "context": [
+      "A contractual arrangement between a customer and FirstUK Bank to hold money, make transactions, and earn interest.",
+      "Attributes:",
+      "Key Business Rules:"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_012",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_012_bnk_002",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "customer",
+    "description": "The primary party in a contractual arrangement with FirstUK Bank. Each account must be linked to exactly one primary customer, establishing a strict 1:1 relationship for ownership, liability assignment, and identity verification.",
+    "context": [
+      "A contractual arrangement between a customer and FirstUK Bank",
+      "Every account must have one primary account holder (customer)",
+      "has_primary_holder → Customer (1:1)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_012",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_012_bnk_003",
+    "name": "Product",
+    "aliases": [
+      "SAV-001"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A linked financial offering that defines the features, terms, and functionality associated with an account. Accounts maintain a strict 1:1 relationship with a specific product to govern operational behavior and interest accruation.",
+    "context": [
+      "Linked product (e.g., \"SAV-001\", see [[products]])",
+      "has_products → Product (1:1)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_012",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_012_bnk_004",
+    "name": "Transaction",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "A financial event recorded in the account ledger that directly determines and updates the current account balance. The system calculates balances exclusively from this transaction history, ensuring auditability and accuracy.",
+    "context": [
+      "calculated from transactions",
+      "has_transactions → Transaction (1:many)",
+      "Account balance is calculated from transaction ledger"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_012",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_012_bnk_005",
+    "name": "Standing Order",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "standing_order",
+    "description": "A recurring payment instruction linked to an account, enabling automated fund transfers on a scheduled basis. Accounts maintain a 1:many relationship with standing orders to support customer payment automation.",
+    "context": [
+      "has_standing_orders → StandingOrder (1:many)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_012",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_012_bnk_006",
+    "name": "Card",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "card",
+    "description": "A payment instrument physically or digitally linked to an account. The relationship supports multiple cards per account, enabling customer access and spending capabilities tied to the underlying balance.",
+    "context": [
+      "has_cards → Card (1:many)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_012",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_012_bnk_007",
+    "name": "Account Holder",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account_holder",
+    "description": "A party designated to hold an account, which can include multiple joint holders. Distinct from the primary customer, this concept supports 1:many ownership structures and shared liability arrangements.",
+    "context": [
+      "has_account_holders → AccountHolder (1:many, including joint holders)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_012",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_012_bnk_008",
+    "name": "Interest Rate",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "interest_rate",
+    "description": "A financial metric defining the earnings generated on deposited funds within an account. It is a core component of the contractual arrangement between the bank and the customer, governing yield calculations.",
+    "context": [
+      "to hold money, make transactions, and earn interest."
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_012",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_012_rul_001",
+    "name": "Mandatory Primary Account Holder",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A hard operational rule requiring every account to be linked to exactly one primary customer. This enforces clear ownership, liability assignment, and regulatory compliance across the banking domain.",
+    "context": [
+      "Every account must have one primary account holder (customer)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_012",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_012_rul_002",
+    "name": "Transaction Ledger Balance Calculation",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "data_rule",
+    "description": "A system constraint dictating that account balances must be derived exclusively from the transaction ledger, preventing manual overrides or external balance discrepancies.",
+    "context": [
+      "Account balance is calculated from transaction ledger"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_012",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_012_rul_003",
+    "name": "Single Status Constraint",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A governance rule ensuring an account can only exist in one status at any given time, preventing conflicting states such as simultaneous Active and Suspended flags.",
+    "context": [
+      "Account can only be in one status at a time"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_012",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_012_rul_004",
+    "name": "Closed Account Reactivation Prohibition",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A strict operational limit forbidding the reactivation of accounts once they have been formally closed, enforcing permanent lifecycle termination and audit compliance.",
+    "context": [
+      "Closed accounts are not reactivated"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_012",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_013_bnk_001",
+    "name": "Account Holder",
+    "aliases": [
+      "holder"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account_holder",
+    "description": "A core banking concept representing a person with legal rights and responsibilities for an account. It is uniquely identified by a holder_id and linked to both a customer_id and an account_id. The entity supports multiple classifications including Primary, Joint, or Secondary, and tracks when the holder was added.",
+    "context": [
+      "A person with legal rights and responsibilities for an account.",
+      "holder_type — Primary, Joint, Secondary",
+      "account_id — Linked account"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_013",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_013_bnk_002",
+    "name": "KYC/AML Screening",
+    "aliases": [
+      "KYC",
+      "AML"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "kyc_verification",
+    "description": "A regulatory verification process applied to account holders to ensure compliance with anti-money laundering and know-your-customer standards. The document specifies that this screening is mandatory for all parties involved in a joint account structure before operations are permitted.",
+    "context": [
+      "Both holders must pass KYC/AML",
+      "Joint account: Both holders must pass KYC/AML"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_013",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_013_bnk_003",
+    "name": "Account",
+    "aliases": [
+      "acct"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "A financial instrument or record linked to an account holder, serving as the container for balances and transactions. It requires specific governance rules regarding primary designation and interest calculation methodologies.",
+    "context": [
+      "Linked account",
+      "Joint Account ACC-00002:",
+      "Interest calculated on total balance (not per holder)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_013",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_013_rul_004",
+    "name": "Primary Holder Requirement",
+    "aliases": [
+      "primary_holder_rule"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A hard operational constraint dictating that every account must maintain at least one designated primary holder to remain valid. This rule ensures clear accountability and structural integrity for the account record.",
+    "context": [
+      "Account must have at least one primary holder",
+      "Key Business Rules:",
+      "Primary Holder: John Smith"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_013",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_013_rul_005",
+    "name": "Joint Account KYC/AML Compliance",
+    "aliases": [
+      "joint_kyc_rule"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "A compliance requirement mandating that all parties on a joint account must successfully pass KYC and AML checks before being authorized for account operations. This rule enforces regulatory adherence across shared ownership structures.",
+    "context": [
+      "Joint account: Both holders must pass KYC/AML",
+      "Either can withdraw, both liable for overdraft"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_013",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_013_rul_006",
+    "name": "Joint Withdrawal Authority",
+    "aliases": [
+      "joint_withdrawal_rule"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "operational_limit",
+    "description": "An operational limit defining the transactional permissions for joint accounts, granting either holder the independent right to withdraw the full balance. This rule establishes shared decision authority over fund disbursements.",
+    "context": [
+      "Either joint holder can withdraw full balance",
+      "Primary Holder: John Smith",
+      "Joint Holder: Jane Smith"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_013",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_013_rul_007",
+    "name": "Interest Calculation Rule",
+    "aliases": [
+      "interest_calc_rule"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "data_rule",
+    "description": "A data rule specifying that interest accrues on the total account balance rather than being allocated or calculated on a per-holder basis. This ensures consistent financial reporting and prevents duplicate interest calculations across linked holders.",
+    "context": [
+      "Interest calculated on total balance (not per holder)",
+      "account_id — Linked account",
+      "customer_id — Linked customer"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_013",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_014_bnk_001",
+    "name": "Joint Account",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "A core banking entity representing an account held by two or more customers. This structure is characterized by joint and several liability, meaning co-owners share full responsibility for the account's financial obligations. The entity requires at least two linked holder records to function within the bank's operational framework.",
+    "context": [
+      "An account held by two or more customers with joint and several liability.",
+      "holders → AccountHolder (2+ records)",
+      "Both holders jointly and severally liable"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_014",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_014_bnk_002",
+    "name": "Account Holder",
+    "aliases": [
+      "holders"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account_holder",
+    "description": "A party entity representing an individual co-owner of a joint account. Each instance must link to at least two records per account to establish shared rights and liabilities. This concept serves as the foundational reference for all joint account attributes and governance rules.",
+    "context": [
+      "holders → AccountHolder (2+ records)",
+      "Both holders must consent to account closure",
+      "Both holders responsible for overdraft"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_014",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_014_rul_003",
+    "name": "Joint Account Closure Consent Rule",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A mandatory operational constraint requiring mutual agreement from all account holders before an account can be formally closed. This rule prevents unilateral termination of the account relationship by any single party. It ensures that co-owners maintain equal control over the lifecycle of their shared financial product.",
+    "context": [
+      "Both holders must consent to account closure"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_014",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_014_rul_004",
+    "name": "Joint Overdraft Liability Rule",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A financial liability rule establishing that all account holders are collectively responsible for any overdraft balances incurred on the account. This constraint applies regardless of which holder initiated the transaction or incurred the debt. It enforces shared accountability for negative account positions.",
+    "context": [
+      "Both holders responsible for overdraft"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_014",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_014_rul_005",
+    "name": "Joint Transaction Initiation Rule",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "decision_authority",
+    "description": "An operational rule granting each account holder independent authority to initiate transactions against the joint account balance. This decision authority allows co-owners to manage daily banking activities without requiring prior approval from other holders. It streamlines customer access while maintaining underlying liability structures.",
+    "context": [
+      "Both holders can initiate transactions"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_014",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_014_rul_006",
+    "name": "Dispute Resolution Governance Rule",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "A governance rule mandating that any account disputes be resolved in accordance with the bank's designated Complaint Handling department procedures. This compliance requirement ensures standardized resolution pathways for co-owner conflicts. It aligns internal dispute management with established regulatory and operational standards.",
+    "context": [
+      "Dispute resolution per [[departments]] Complaint Handling"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_014",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_014_rul_007",
+    "name": "Joint and Several Liability Rule",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "A regulatory treatment rule establishing that all account holders are jointly and severally liable for the account's obligations and balances. This obligation means each holder can be held fully responsible for the entire debt if others default. It enforces strict compliance with banking liability regulations.",
+    "context": [
+      "Both holders jointly and severally liable"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_014",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_014_rul_008",
+    "name": "AML Due Diligence Requirement",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "A regulatory obligation requiring that all account holders be included in anti-money laundering due diligence screening processes. This compliance requirement ensures comprehensive risk assessment across all co-owners of the account. It aligns customer onboarding and monitoring practices with statutory AML frameworks.",
+    "context": [
+      "Both included in AML due diligence"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_014",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_015_bnk_001",
+    "name": "Card",
+    "aliases": [
+      "Payment Card",
+      "Debit Card",
+      "Credit Card",
+      "Prepaid Card"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "card",
+    "description": "A core banking entity representing a payment card (debit, credit, or prepaid) linked to a customer account. It encompasses attributes such as card_id, card_number, expiry_date, cvv, and status, and maintains relationships with accounts and transactions.",
+    "context": [
+      "### Entity: Card",
+      "A payment card (debit, credit, or prepaid) linked to an account.",
+      "linked_to_account → Account (1:many)",
+      "has_transactions → Transaction (1:many)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_015",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_015_rul_001",
+    "name": "Card Lock/Unlock Control",
+    "aliases": [
+      "Self-Service Card Lock"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "control",
+    "description": "A governance rule enabling cardholders to independently lock or unlock their payment cards, serving as a primary fraud mitigation and account security control.",
+    "context": [
+      "Card can be locked/unlocked by cardholder",
+      "Key Business Rules:"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_015",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_015_rul_002",
+    "name": "Lost/Stolen Card Replacement Policy",
+    "aliases": [
+      "Replacement Fee Rule"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "operational_limit",
+    "description": "An operational rule dictating the replacement process for compromised cards, establishing a mandatory £15 fee for issuing a new card.",
+    "context": [
+      "Lost/stolen cards can be replaced (fee £15)",
+      "Key Business Rules:"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_015",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_015_rul_003",
+    "name": "Single Card Per Account Constraint",
+    "aliases": [
+      "One Card Per Account Rule"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A hard constraint limiting account issuance to a single card during the initial phase, preventing duplicate card generation per account.",
+    "context": [
+      "Only one card per account (initially)",
+      "Key Business Rules:"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_015",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_015_met_001",
+    "name": "Daily Transaction Limit",
+    "aliases": [
+      "ATM Daily Limit"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "risk_threshold",
+    "description": "A quantitative operational threshold defining the maximum allowable daily transaction value, exemplified by a £500 cap for ATM withdrawals.",
+    "context": [
+      "daily_limit — Daily transaction limit (e.g., £500 for ATM)",
+      "Attributes:"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_015",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_015_rul_004",
+    "name": "Contactless Transaction Limit",
+    "aliases": [
+      "Tap-and-Go Cap"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A per-transaction monetary cap applied to contactless payment methods, enforcing a £100 limit to manage transaction risk.",
+    "context": [
+      "Contactless limit: £100 per transaction",
+      "Key Business Rules:"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_015",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_016_bnk_001",
+    "name": "Transaction",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "A core financial event representing money movement or activity on an account. It is defined by a comprehensive set of attributes including unique identifiers, linked accounts, transaction types, amounts denominated in pence for precision, currency, dates, status, and customer-visible references. The entity serves as the foundational record for all banking operations within the domain.",
+    "context": [
+      "A financial event representing money movement or activity on an account.",
+      "Transaction Types:",
+      "Key Business Rules:",
+      "Example:\nTransaction: TXN-0000542"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_016",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_016_bnk_002",
+    "name": "Account",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "A primary banking entity that serves as the container for financial activity and transaction linkage. It acts as both the source and destination node in transfer operations, and its current balance is mathematically derived from the aggregation of all associated transactions.",
+    "context": [
+      "Linked account",
+      "Account balance = sum of all transactions",
+      "on_account → Account (1:many)",
+      "from_account → Account (transfer source, optional)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_016",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_016_bnk_003",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "customer",
+    "description": "The initiating party for financial events, linked to transactions on a one-to-one optional basis. Customers drive specific transaction directions by adding funds for deposits or removing funds for withdrawals.",
+    "context": [
+      "initiated_by → Customer (1:1, optional)",
+      "Customer adds funds",
+      "Customer removes funds"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_016",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_016_bnk_004",
+    "name": "FraudAlert",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "fraud_alert",
+    "description": "A risk management entity that flags transactions based on associated fraud risk scores. Each transaction is linked to this system to enable continuous monitoring and mitigation of potential fraudulent activity.",
+    "context": [
+      "flagged_by_fraud_detection → FraudAlert (1:many, optional)",
+      "Each transaction linked to fraud risk score"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_016",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_016_bnk_005",
+    "name": "Standing Order",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "standing_order",
+    "description": "A recurring debit transaction type triggered by scheduled transfers, typically utilized for fixed obligations such as mortgage payments. It operates as a directional debit within the broader transaction framework.",
+    "context": [
+      "Standing Order | Debit | Recurring transfer | Mortgage payment"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_016",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_016_bnk_006",
+    "name": "Direct Debit",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "direct_debit",
+    "description": "A bill payment debit transaction type triggered by authorized third-party collections, commonly used for utility payments. It functions as a directional debit mechanism within the transaction domain.",
+    "context": [
+      "Direct Debit | Debit | Bill payment | Utility payment"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_016",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_016_rul_001",
+    "name": "Transaction Immutability Constraint",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A hard operational rule mandating that transaction records cannot be deleted under any circumstances. This constraint ensures the preservation of a complete, immutable audit trail for internal governance and external regulatory scrutiny.",
+    "context": [
+      "Transaction cannot be deleted (audit trail)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_016",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_016_rul_002",
+    "name": "Account Balance Calculation Rule",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "data_rule",
+    "description": "A mathematical constraint defining that an account's current balance must strictly equal the sum of all associated transactions. This rule enforces ledger accuracy and ensures financial integrity across all account records.",
+    "context": [
+      "Account balance = sum of all transactions"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_016",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_016_rul_003",
+    "name": "Fraud Risk Score Linkage Rule",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "control",
+    "description": "An operational requirement mandating that every transaction must be linked to a fraud risk score and associated with the FraudAlert system. This control enables continuous risk monitoring and automated flagging of suspicious activity.",
+    "context": [
+      "Each transaction linked to fraud risk score"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_016",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_016_rul_004",
+    "name": "Transaction Logging Compliance Rule",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "A compliance requirement stipulating that all financial transactions must be fully logged. This obligation ensures adherence to regulatory standards and maintains a complete auditable record of banking activity.",
+    "context": [
+      "All transactions logged for compliance"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_016",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_017_bnk_001",
+    "name": "Standing Order",
+    "aliases": [
+      "Standing Order"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "standing_order",
+    "description": "A recurring transfer initiated by the account holder that automatically generates transactions each period based on a fixed amount and frequency. The concept is governed by specific attributes including unique identifiers, beneficiary details, configurable start and end dates, and lifecycle statuses such as active or cancelled. It operates as a persistent financial instrument linked directly to an initiating account.",
+    "context": [
+      "Entity: Standing Order",
+      "A recurring transfer initiated by the account holder.",
+      "Standing order creates automatic transaction each period"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_017",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_017_bnk_002",
+    "name": "Account",
+    "aliases": [
+      "Account"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "The foundational financial instrument that serves as the initiating source for standing order transfers. It maintains a one-to-many relationship with standing orders and acts as the primary reference point for beneficiary routing details and transaction generation.",
+    "context": [
+      "account_id — Account initiating transfer",
+      "on_account → Account (1:many)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_017",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_017_bnk_003",
+    "name": "Transaction",
+    "aliases": [
+      "Transaction"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "The discrete financial event produced automatically by a standing order each period, representing the actual execution of the recurring transfer. It is generated through a one-to-many relationship with the originating standing order configuration.",
+    "context": [
+      "generates_transactions → Transaction (1:many)",
+      "Standing order creates automatic transaction each period"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_017",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_017_bnk_004",
+    "name": "Account Holder",
+    "aliases": [
+      "Account Holder"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account_holder",
+    "description": "The individual or party responsible for initiating transfers and whose status changes may impact the continuity of a standing order. Their role is central to the lifecycle management of recurring transfers, particularly in joint account structures where survival rules apply.",
+    "context": [
+      "A recurring transfer initiated by the account holder.",
+      "Standing order survives account holder changes (if joint)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_017",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_017_rul_001",
+    "name": "Standing Order Immutability Rule",
+    "aliases": [
+      "Amount and Frequency Constraint"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A hard operational constraint dictating that the monetary amount and transfer frequency of a standing order cannot be modified directly. Any required adjustments must follow a strict procedural workflow involving cancellation of the existing order followed by the creation of a new one.",
+    "context": [
+      "Amount and frequency cannot change (must cancel and create new)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_017",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_017_rul_002",
+    "name": "Standing Order Cancellation Notice Rule",
+    "aliases": [
+      "30-Day Cancellation Notice"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "An operational requirement mandating a mandatory 30-day advance notice period for cancellation requests. This rule includes explicit exceptions only for fraud investigations or formal account closure procedures, ensuring adequate processing time and risk mitigation.",
+    "context": [
+      "30-day notice for cancellation (except fraud/closure)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_017",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_017_rul_003",
+    "name": "Joint Account Continuity Rule",
+    "aliases": [
+      "Survival on Holder Change"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A governance rule ensuring that standing order configurations remain active and survive changes to the account holder status, provided the account is held jointly. This maintains service continuity and prevents unintended disruption of recurring payments during ownership transitions.",
+    "context": [
+      "Standing order survives account holder changes (if joint)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_017",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_018_bnk_001",
+    "name": "Direct Debit",
+    "aliases": [
+      "DD"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "direct_debit",
+    "description": "A recurring payment mechanism initiated by a third-party biller that requires explicit customer authorization. It encompasses a structured set of attributes including unique identifiers, account links, billing details, amount parameters, frequency settings, date ranges, status tracking, and mandate references. The concept is governed by specific business rules and generates downstream financial transactions.",
+    "context": [
+      "A recurring payment initiated by a third party (biller) authorized by the customer.",
+      "Attributes:",
+      "Key Business Rules:",
+      "Relationships:"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_018",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_018_bnk_002",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "customer",
+    "description": "The authorized party who grants permission for a biller to initiate recurring payments and retains the right to cancel direct debit mandates. Customers define the authorization framework and cancellation windows that govern the lifecycle of direct debit arrangements.",
+    "context": [
+      "Customer authorizes specific biller via DD mandate",
+      "Customer can cancel DD up to 5 days before payment"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_018",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_018_bnk_003",
+    "name": "Account",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "The banking account designated as the funding source for direct debit payments. It maintains a one-to-many relationship with direct debits and serves as the primary reference point for payment attribution.",
+    "context": [
+      "account_id — Account paying",
+      "on_account → Account (1:many)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_018",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_018_bnk_004",
+    "name": "Transaction",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "The financial record generated as a direct result of processing a direct debit payment. Each direct debit mandate generates multiple transactions over its lifecycle, linking the recurring payment to actual monetary movements.",
+    "context": [
+      "generates_transactions → Transaction (1:many)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_018",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_018_rul_001",
+    "name": "Direct Debit Guarantee",
+    "aliases": [
+      "DD Guarantee"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "A mandatory protective control that ensures all direct debit payments are safeguarded under a formal guarantee framework. This rule establishes a baseline compliance requirement for the bank's recurring payment processing systems.",
+    "context": [
+      "DD protected by Direct Debit Guarantee"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_018",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_018_rul_002",
+    "name": "Mandate Authorization Constraint",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A hard operational rule requiring explicit customer authorization via a direct debit mandate before any biller can initiate recurring payments. This constraint enforces strict governance over payment initiation workflows.",
+    "context": [
+      "Customer authorizes specific biller via DD mandate"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_018",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_018_rul_003",
+    "name": "Maximum Amount Debit Restriction",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "An operational limit preventing billers from debiting amounts that exceed the predefined maximum without providing prior notice. This rule enforces transparency and protects customer accounts from unauthorized overcharges.",
+    "context": [
+      "Biller cannot debit more than maximum amount without notice"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_018",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_018_rul_004",
+    "name": "Cancellation Window Rule",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A governance rule granting customers the explicit right to cancel a direct debit mandate up to five days prior to the scheduled payment date. This constraint defines the operational cutoff for payment revocation.",
+    "context": [
+      "Customer can cancel DD up to 5 days before payment"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_018",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_018_rul_005",
+    "name": "Failed Payment Retry Limit",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "operational_limit",
+    "description": "An operational control dictating that failed direct debit payments are subject to retry logic, typically capped at a single attempt. This limit prevents excessive processing attempts and manages system load during payment failures.",
+    "context": [
+      "Failed DD can be retried (usually once)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_018",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_019_bnk_001",
+    "name": "KYC Verification",
+    "aliases": [
+      "KYC",
+      "Know Your Customer"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "kyc_verification",
+    "description": "A core banking concept representing the Know Your Customer verification process, used to confirm customer identity and legitimacy. It encompasses tracking verification methods (document, biometric, database), screening results for PEPs and adverse media, managing verification statuses, and governing review cycles and document retention timelines.",
+    "context": [
+      "Entity: KYC Verification",
+      "Definition: Know Your Customer verification confirming customer identity and legitimacy.",
+      "verification_status — Verified, Incomplete, Rejected, Expired"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_019",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_019_bnk_002",
+    "name": "Customer",
+    "aliases": [
+      "Party",
+      "Client"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "customer",
+    "description": "A core party entity that serves as the primary subject of KYC verification. The domain model enforces a strict one-to-one relationship, ensuring each customer is linked to exactly one active KYC verification record.",
+    "context": [
+      "for_customer → Customer (1:1)",
+      "Linked customer"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_019",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_019_bnk_003",
+    "name": "IdentificationDocument",
+    "aliases": [
+      "ID Document",
+      "Verification Document"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "identification_document",
+    "description": "A banking concept representing the physical or digital documents used to verify identity during the KYC process. The ontology defines a one-to-many relationship, allowing a single KYC verification record to be supported by multiple identification documents.",
+    "context": [
+      "verified_documents → IdentificationDocument (1:many)",
+      "verification_method — Document, Biometric, Database"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_019",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_019_rul_001",
+    "name": "Mandatory Pre-Opening Verification Constraint",
+    "aliases": [
+      "KYC Before Account Opening"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A hard operational constraint that strictly prohibits account opening until KYC verification is fully completed and confirmed. This rule acts as a system-level gate to prevent unverified customers from accessing banking services.",
+    "context": [
+      "KYC mandatory before account opening"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_019",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_019_rul_002",
+    "name": "Periodic KYC Refresh Cycle Rule",
+    "aliases": [
+      "KYC Review Schedule"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "operational_limit",
+    "description": "A governance rule mandating that KYC verification must be refreshed periodically to maintain data accuracy and regulatory compliance. The standard refresh interval is set at every three to five years, tracked via the next_review_date attribute.",
+    "context": [
+      "KYC refreshed periodically (every 3–5 years)",
+      "next_review_date — Date for KYC refresh (typically 3-5 years)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_019",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_019_rul_003",
+    "name": "Enhanced Due Diligence Requirement",
+    "aliases": [
+      "EDD Rule"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "A risk-based control stipulating that customers classified as high-risk must undergo Enhanced Due Diligence (EDD) procedures. This rule overrides standard verification thresholds to mitigate elevated financial crime risks.",
+    "context": [
+      "High-risk customers require Enhanced Due Diligence (EDD)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_019",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_019_rul_004",
+    "name": "KYC Document Retention Obligation",
+    "aliases": [
+      "Document Archiving Rule"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "A compliance and data retention rule requiring that all KYC verification documents must be securely retained for a minimum of six years after the associated account or customer relationship is closed, aligning with regulatory record-keeping standards.",
+    "context": [
+      "KYC documents retained for 6 years post-closure"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_019",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_020_bnk_001",
+    "name": "AML Screening",
+    "aliases": [
+      "Anti-Money Laundering screening"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "aml_screening",
+    "description": "A core financial crime risk detection process that evaluates customer data against multiple regulatory and intelligence databases. The process assigns a risk level, tracks screening status (Passed, Flagged, Escalated), and determines whether manual review or escalation is required based on the quantity and details of potential matches found.",
+    "context": [
+      "Anti-Money Laundering screening to detect financial crime risks.",
+      "screening_status — Passed, Flagged, Escalated",
+      "risk_level — Low, Medium, High"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_020",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_020_bnk_002",
+    "name": "OFAC Sanctions List",
+    "aliases": [
+      "US Treasury Sanctions List"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "screening_list",
+    "description": "A primary regulatory sanctions database maintained by the US Treasury, utilized during AML screening to identify individuals or entities subject to financial crime restrictions and counter-terrorism financing controls.",
+    "context": [
+      "OFAC Sanctions List (US Treasury)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_020",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_020_bnk_003",
+    "name": "UN Sanctions List",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "screening_list",
+    "description": "A United Nations regulatory database referenced during AML screening to detect sanctioned parties and assess financial crime risks across international jurisdictions.",
+    "context": [
+      "UN Sanctions List"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_020",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_020_bnk_004",
+    "name": "EU Sanctions List",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "screening_list",
+    "description": "A European Union regulatory database queried during AML screening processes to identify sanctioned entities and mitigate financial crime exposure within the EU jurisdiction.",
+    "context": [
+      "EU Sanctions List"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_020",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_020_bnk_005",
+    "name": "HM Treasury Sanctions Designations",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "screening_list",
+    "description": "A UK regulatory sanctions database used during AML screening to identify individuals or entities designated under UK financial crime and counter-terrorism legislation.",
+    "context": [
+      "HM Treasury Sanctions Designations"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_020",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_020_bnk_006",
+    "name": "INTERPOL Red Notices",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "screening_list",
+    "description": "An international law enforcement alert system used during AML screening to identify fugitives and high-risk individuals subject to cross-border criminal investigations.",
+    "context": [
+      "INTERPOL Red Notices"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_020",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_020_bnk_007",
+    "name": "PEP Databases",
+    "aliases": [
+      "Politically Exposed Persons databases"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "screening_list",
+    "description": "Specialized intelligence databases used during AML screening to identify individuals with prominent public functions, assessing elevated financial crime risks associated with political exposure.",
+    "context": [
+      "PEP (Politically Exposed Persons) databases"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_020",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_020_bnk_008",
+    "name": "Adverse Media Databases",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "screening_list",
+    "description": "External intelligence sources queried during AML screening to detect negative news coverage or reputational risks that may indicate involvement in financial crime.",
+    "context": [
+      "Adverse media databases"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_020",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_020_rul_001",
+    "name": "Mandatory AML Screening at Account Opening",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A hard operational constraint requiring that AML screening must be completed successfully before any customer account can be opened, ensuring no unvetted accounts are created within the bank's systems.",
+    "context": [
+      "AML screening mandatory at account opening"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_020",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_020_rul_002",
+    "name": "Ongoing AML Monitoring for High-Risk Customers",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "A continuous monitoring obligation requiring repeated AML screening and risk assessment for customers classified as high-risk throughout the lifecycle of their relationship with the bank.",
+    "context": [
+      "Ongoing AML monitoring for high-risk customers"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_020",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_020_rul_003",
+    "name": "Automatic Account Freeze and SAR Filing on Sanctions Hit",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A mandatory escalation protocol triggered when a sanctions list match is identified, requiring immediate account freezing and the filing of a Suspicious Activity Report (SAR) to comply with regulatory obligations.",
+    "context": [
+      "Hit on sanctions list = automatic account freeze + SAR filing"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_020",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_020_rul_004",
+    "name": "Account Application Rejection on Failed Screening",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A hard operational limit that mandates the immediate rejection of any customer account application if the initial AML screening process fails to clear the applicant.",
+    "context": [
+      "Failed screening = account application rejected"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_020",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_021_bnk_001",
+    "name": "Suspicious Activity Report (SAR)",
+    "aliases": [
+      "SAR"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "sar",
+    "description": "A formal compliance report filed with the National Crime Agency to document suspected financial crime. It captures attributes such as activity type, amount involved, evidence, and status, and is linked to specific customers and triggering transactions.",
+    "context": [
+      "Entity: Suspicious Activity Report (SAR)",
+      "A report filed with National Crime Agency (NCA) for suspected financial crime.",
+      "`for_customer` → Customer (1:many)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_021",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_021_org_001",
+    "name": "National Crime Agency",
+    "aliases": [
+      "NCA"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "regulatory_body",
+    "description": "The external law enforcement and regulatory agency responsible for receiving Suspicious Activity Reports and investigating suspected financial crimes within the UK.",
+    "context": [
+      "A report filed with National Crime Agency (NCA) for suspected financial crime."
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_021",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_021_bnk_002",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "customer",
+    "description": "The party entity associated with a SAR, representing the individual or organization involved in the suspected financial crime activity.",
+    "context": [
+      "`for_customer` → Customer (1:many)",
+      "Customer not informed (reporting confidential)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_021",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_021_bnk_003",
+    "name": "Transaction",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "The financial event that triggers the generation of a SAR, representing the monetary movement under investigation for suspicious activity.",
+    "context": [
+      "`triggered_by_transactions` → Transaction (1:many)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_021",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_021_bnk_004",
+    "name": "AML Screening",
+    "aliases": [
+      "AML_Screening"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "aml_screening",
+    "description": "The compliance process that evaluates customer activity against financial crime indicators, serving as a potential basis for triggering a SAR.",
+    "context": [
+      "`based_on_aml_screening` → AML_Screening (0:1)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_021",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_021_rul_001",
+    "name": "SAR Filing Deadline",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "Mandates that a Suspicious Activity Report must be filed within 30 days of initial suspicion to maintain regulatory compliance and avoid breach penalties.",
+    "context": [
+      "SAR must be filed within 30 days of suspicion"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_021",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_021_rul_002",
+    "name": "SAR Confidentiality Requirement",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "Prohibits informing the customer about a filed SAR to maintain reporting confidentiality and prevent tipping off during investigations.",
+    "context": [
+      "Customer not informed (reporting confidential)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_021",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_021_rul_003",
+    "name": "Account Freeze Provision",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "operational_limit",
+    "description": "Allows for the freezing of an account pending investigation when a SAR is filed or suspected financial crime is identified.",
+    "context": [
+      "Account may be frozen pending investigation"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_021",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_021_rul_004",
+    "name": "Regulatory Breach Consequence",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "Establishes that failure to file a required SAR constitutes a regulatory breach, imposing compliance and legal risks on the bank.",
+    "context": [
+      "Failure to file SAR = regulatory breach"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_021",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_022_bnk_001",
+    "name": "Fraud Alert",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "fraud_alert",
+    "description": "A system-generated alert triggered when fraud is detected within the banking environment. It captures critical attributes such as alert_id, account_id, transaction_id, alert_type, fraud_score, risk_level, and status to classify the severity of the incident. The entity serves as a central control point for identifying unauthorized use, card fraud, account takeover, or rule violations. It can optionally trigger a formal investigation process when manual intervention is required.",
+    "context": [
+      "### Entity: Fraud Alert",
+      "A system-generated alert when fraud is detected.",
+      "alert_type — Unauthorized use, Card fraud, Account takeover, Rule violation",
+      "triggers_investigation → FraudInvestigation (1:1, optional)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_022",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_022_org_001",
+    "name": "Financial Crime team",
+    "aliases": [
+      "Financial Crime"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "team",
+    "description": "An internal operational unit responsible for conducting manual reviews of fraud alerts when automated systems cannot resolve them. Team members act as the designated reviewers for flagged cases requiring human judgment. This group ensures compliance with internal controls and regulatory expectations regarding financial crime mitigation.",
+    "context": [
+      "reviewer — Financial Crime team member (if manual review)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_022",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_022_rul_001",
+    "name": "High-risk alert blocking rule",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A hard operational constraint that automatically blocks transactions associated with high-risk fraud alerts. This control prevents further unauthorized activity without requiring manual approval, ensuring immediate risk containment. It operates as a non-negotiable system behavior to protect customer assets.",
+    "context": [
+      "High-risk alerts automatically block transaction"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_022",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_022_rul_002",
+    "name": "Customer dispute right",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "A compliance requirement governed by the bank's Fraud Policy that grants customers the explicit right to dispute fraud allegations. This rule establishes a formal channel for customers to challenge flagged transactions and initiate a review process. It aligns with regulatory standards for consumer protection and fair treatment.",
+    "context": [
+      "Customer can dispute fraud (Fraud Policy)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_022",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_022_rul_003",
+    "name": "Unauthorized fraud reimbursement rule",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "An operational limit and compliance requirement mandating that the bank reimburses customers for losses resulting from unauthorized fraud. The policy enforces a strict 10-day timeframe for processing these reimbursements to mitigate customer financial impact. This obligation ensures timely resolution of confirmed fraudulent activity.",
+    "context": [
+      "Bank reimburses unauthorized fraud within 10 days"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_022",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_022_rul_004",
+    "name": "Fraud data ML feedback loop",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "data_rule",
+    "description": "An operational rule requiring historical fraud data to be continuously fed into machine learning models. This process enables iterative improvement and enhanced detection capabilities by training algorithms on past incidents. It ensures the bank's fraud prevention systems evolve alongside emerging threat patterns.",
+    "context": [
+      "Fraud data feeds ML model for continuous improvement"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_022",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_022_sys_001",
+    "name": "Fraud Detection ML Model",
+    "aliases": [
+      "ML model"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "fraud_detection",
+    "description": "A machine learning system used for continuous improvement of fraud detection capabilities within the bank's infrastructure. The application ingests historical fraud data to refine risk scoring and pattern recognition algorithms. It operates as a core analytics component that adapts to new fraud patterns over time.",
+    "context": [
+      "Fraud data feeds ML model for continuous improvement"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_022",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_022_bnk_002",
+    "name": "Account",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "A core banking entity linked to fraud alerts, maintaining a one-to-many relationship where multiple fraud alerts can be generated against a single account. It serves as the primary reference point for tracking suspicious activity across customer portfolios. The entity is essential for contextualizing alert data and linking it to specific customer holdings.",
+    "context": [
+      "account_id — Linked account",
+      "on_account → Account (1:many)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_022",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_022_bnk_003",
+    "name": "Transaction",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "A financial event linked to fraud alerts with a zero-to-one relationship, used to identify unauthorized use or rule violations. It provides the operational context for velocity checks and unusual location withdrawals flagged by monitoring systems. The entity enables precise attribution of fraudulent activity to specific payment instructions.",
+    "context": [
+      "transaction_id — Linked transaction (if applicable)",
+      "on_transaction → Transaction (0:1)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_022",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_022_bnk_004",
+    "name": "Card",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "card",
+    "description": "A payment instrument monitored for fraud patterns, specifically tracked to detect unauthorized use by a different person. It serves as a key data point for identifying account takeover attempts and geographic anomalies. The entity is critical for validating cardholder identity during transaction processing.",
+    "context": [
+      "Card used by different person"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_022",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_023_org_001",
+    "name": "FirstUK Bank",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "The core banking institution that employs staff and establishes organizational domains, serving as the primary employer for all personnel defined within its internal documentation.",
+    "context": [
+      "A person employed by FirstUK Bank."
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_023",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_023_bnk_001",
+    "name": "Employee",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "employee",
+    "description": "A foundational domain entity representing any individual employed by the bank, characterized by attributes such as unique identifiers, employment status, security clearance levels, and job titles. It serves as a central node linking organizational structure through departmental assignments and reporting hierarchies to operational banking processes.",
+    "context": [
+      "### Entity: Employee",
+      "**Definition:** A person employed by FirstUK Bank."
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_023",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_023_org_002",
+    "name": "Department",
+    "aliases": [
+      "departments"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "An internal organizational unit that employees are structurally assigned to, referenced via the department_id attribute and linked through a mandatory one-to-one works_in relationship within the organization domain model.",
+    "context": [
+      "`department_id` — Department (see [[departments]])",
+      "`works_in` → Department (1:1)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_023",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_023_rol_001",
+    "name": "Account Manager",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "A specific job title cited as an example of a role within the bank's organizational hierarchy, representing personnel who hold defined responsibilities and reporting lines.",
+    "context": [
+      "`job_title` — Job title (e.g., \"Account Manager\")"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_023",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_023_bnk_002",
+    "name": "KYC Verification",
+    "aliases": [
+      "KYC_Verification"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "kyc_verification",
+    "description": "A compliance and onboarding process entity that employees are authorized to perform, linked to the Employee domain through a one-to-many performs_kyc_verification relationship.",
+    "context": [
+      "`performs_kyc_verification` → KYC_Verification (1:many)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_023",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_023_bnk_003",
+    "name": "Suspicious Activity Report",
+    "aliases": [
+      "SAR"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "sar",
+    "description": "A regulatory reporting entity representing suspicious activity reports that employees may review, connected to the Employee domain via an optional one-to-many reviews_sar relationship.",
+    "context": [
+      "`reviews_sar` → SAR (1:many, optional)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_023",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_024_org_001",
+    "name": "Retail Banking",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A primary business unit within FirstUK Bank focused on serving individual customers and managing retail financial services. Defined as a core related department in the bank's internal organizational schema.",
+    "context": [
+      "- Retail Banking (see [[departments]])"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_024",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_024_org_002",
+    "name": "Product Management",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A key organizational unit responsible for the strategy, design, and lifecycle oversight of FirstUK Bank's financial products. Listed among the bank's fundamental structural departments.",
+    "context": [
+      "- Product Management (see [[departments]])"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_024",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_024_org_003",
+    "name": "Operations",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A central support department tasked with the day-to-day processing, administration, and execution of FirstUK Bank's core business activities. Included in the bank's defined departmental hierarchy.",
+    "context": [
+      "- Operations (see [[departments]])"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_024",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_024_org_004",
+    "name": "Customer Service",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A dedicated organizational unit within FirstUK Bank focused on client support, inquiry resolution, and relationship management. Recognized as a primary department in the bank's internal framework.",
+    "context": [
+      "- Customer Service (see [[departments]])"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_024",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_024_org_005",
+    "name": "Financial Crime",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A specialized department within FirstUK Bank dedicated to preventing, detecting, and investigating financial misconduct and illicit activities. Listed among the bank's core governance and control units.",
+    "context": [
+      "- Financial Crime (see [[departments]])"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_024",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_024_org_006",
+    "name": "Compliance",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A critical organizational unit responsible for ensuring FirstUK Bank adheres to all applicable laws, regulations, and internal policies. Defined as a key department in the bank's structural schema.",
+    "context": [
+      "- Compliance (see [[departments]])"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_024",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_024_org_007",
+    "name": "Risk",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A core department focused on identifying, assessing, and mitigating financial, operational, and strategic risks across FirstUK Bank. Included in the bank's defined organizational hierarchy.",
+    "context": [
+      "- Risk (see [[departments]])"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_024",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_024_org_008",
+    "name": "Technology",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A key support unit responsible for the development, maintenance, and security of FirstUK Bank's digital infrastructure and systems. Listed as a primary department in the bank's internal schema.",
+    "context": [
+      "- Technology (see [[departments]])"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_024",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_024_org_009",
+    "name": "Marketing",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A business unit within FirstUK Bank dedicated to brand promotion, customer acquisition, and market positioning strategies. Recognized as a core department in the bank's organizational structure.",
+    "context": [
+      "- Marketing (see [[departments]])"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_024",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_024_org_010",
+    "name": "Legal",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A specialized department responsible for managing legal affairs, contractual obligations, and regulatory counsel for FirstUK Bank. Listed among the bank's key governance units.",
+    "context": [
+      "- Legal (see [[departments]])"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_024",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_024_org_011",
+    "name": "Internal Audit",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "An independent assurance unit within FirstUK Bank tasked with evaluating internal controls, risk management frameworks, and governance processes. Defined as a core department in the bank's structure.",
+    "context": [
+      "- Internal Audit (see [[departments]])"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_024",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_025_bnk_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "customer",
+    "description": "A core domain entity representing the party that holds an account within the FirstUK Bank data model. Defined in this document as the starting point of a cross-domain relationship path that links to accounts and transactions.",
+    "context": [
+      "Relationship: Customer → Account → Transaction",
+      "Path: Customer holds Account which records Transaction",
+      "Customer [has] Account [contains] Transaction"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_025",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_025_bnk_002",
+    "name": "Account",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "A core domain entity representing the financial instrument held by a customer. Defined in this document as an intermediate node in the cross-domain relationship path that contains transactions.",
+    "context": [
+      "Relationship: Customer → Account → Transaction",
+      "Path: Customer holds Account which records Transaction",
+      "Customer [has] Account [contains] Transaction"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_025",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_025_bnk_003",
+    "name": "Transaction",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "A core domain entity representing the financial event recorded within an account. Defined in this document as the terminal node in the cross-domain relationship path, captured by accounts.",
+    "context": [
+      "Relationship: Customer → Account → Transaction",
+      "Path: Customer holds Account which records Transaction",
+      "Customer [has] Account [contains] Transaction"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_025",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_025_bnk_004",
+    "name": "SmartSaver",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A specific banking product referenced in the document as an example account type held by a customer. Serves as a concrete instantiation of the Account concept within the cross-domain relationship model.",
+    "context": [
+      "Example:",
+      "Sarah Johnson [has] ACC-00001 (SmartSaver) [contains] TXN-542 (Salary deposit)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_025",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_025_rol_001",
+    "name": "Sarah Johnson",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "employee",
+    "description": "A named individual employee used as an example entity within the document's cross-domain relationship model to illustrate how a customer holds an account and records transactions.",
+    "context": [
+      "Example:",
+      "Sarah Johnson [has] ACC-00001 (SmartSaver) [contains] TXN-542 (Salary deposit)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_025",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_026_bnk_001",
+    "name": "Product",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A core banking ontology entity representing a financial offering. Defined in the document as the primary node that offers specific features, which are subsequently made available within customer accounts.",
+    "context": [
+      "Product [has] Feature",
+      "Path: Product offers Feature, which is available in Account"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_026",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_026_bnk_002",
+    "name": "Feature",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "A configurable capability or attribute attached to a Product. The document defines it as an intermediate entity that is offered by a Product and subsequently available within an Account.",
+    "context": [
+      "Product offers Feature, which is available in Account",
+      "Product [has] Feature"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_026",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_026_bnk_003",
+    "name": "Account",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "A customer-facing banking container that holds a Product and its associated Features. Defined as the terminal node in the relationship path, receiving features from the underlying Product.",
+    "context": [
+      "which is available in Account",
+      "Account [of] Product"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_026",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_026_bnk_004",
+    "name": "SmartSaver",
+    "aliases": [
+      "SAV-001"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A specific savings product instance used as an example in the document's relationship model. It serves as the source node for features like Joint Account Support.",
+    "context": [
+      "SAV-001 (SmartSaver) [has] \"Joint Account Support\""
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_026",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_026_bnk_005",
+    "name": "Joint Account Support",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "A specific feature instance attached to the SmartSaver product. Represents a capability enabling joint account functionality within the banking system.",
+    "context": [
+      "SAV-001 (SmartSaver) [has] \"Joint Account Support\""
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_026",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_026_bnk_006",
+    "name": "Sarah+John Joint Account",
+    "aliases": [
+      "ACC-00002",
+      "Sarah+John joint"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "A specific account instance used as an example to demonstrate the Product-to-Account relationship. It is linked to the SmartSaver product.",
+    "context": [
+      "ACC-00002 (Sarah+John joint) [of] SAV-001"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_026",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_027_bnk_001",
+    "name": "Account",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "A foundational banking domain entity that serves as the starting node in the operational path, holding associated payment cards and linking to processed transactions.",
+    "context": [
+      "Account → Card",
+      "Card linked to Account",
+      "Account [has] Card"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_027",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_027_bnk_002",
+    "name": "Card",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "card",
+    "description": "A payment instrument linked to an account that acts as the processing intermediary for transactions, bridging the account holder's funds with transactional activity.",
+    "context": [
+      "Account → Card",
+      "Card linked to Account",
+      "[has] Card [processes]"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_027",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_027_bnk_003",
+    "name": "Transaction",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "A financial event processed through a card that represents the operational action capable of triggering downstream fraud monitoring and alerting mechanisms.",
+    "context": [
+      "Card → Transaction",
+      "[processes] Transaction [triggers]",
+      "TXN-543 (£2,000 ATM)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_027",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_027_bnk_004",
+    "name": "Fraud Alert",
+    "aliases": [
+      "FraudAlert"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "fraud_alert",
+    "description": "A risk monitoring output generated at the terminal end of the operational path, triggered by specific transaction characteristics to flag potential fraudulent activity.",
+    "context": [
+      "Transaction → FraudAlert",
+      "transaction can generate fraud alert",
+      "[triggers] FraudAlert"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_027",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_028_bnk_001",
+    "name": "Customer",
+    "aliases": [
+      "CUST-00010"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "customer",
+    "description": "Represents the primary party in the bank's compliance workflow. Serves as the foundational entity that initiates the KYC verification process, which subsequently feeds into AML screening and potential SAR generation.",
+    "context": [
+      "Customer [has] KYC_Verification [has] AML_Screening [triggers] SAR",
+      "CUST-00010 [has] KYC-015 [has] AML-020 [triggers] SAR-008"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_028",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_028_bnk_002",
+    "name": "KYC Verification",
+    "aliases": [
+      "KYC_Verification",
+      "KYC-015"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "kyc_verification",
+    "description": "The verification process applied to a customer account or party. Acts as an intermediate compliance step that bridges initial customer onboarding with downstream AML screening activities.",
+    "context": [
+      "Customer [has] KYC_Verification [has] AML_Screening [triggers] SAR",
+      "CUST-00010 [has] KYC-015 [has] AML-020 [triggers] SAR-008"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_028",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_028_bnk_003",
+    "name": "AML Screening",
+    "aliases": [
+      "AML_Screening",
+      "AML-020"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "aml_screening",
+    "description": "The compliance screening process executed following KYC verification. Evaluates customer data for potential money laundering risks and serves as the direct trigger mechanism for generating Suspicious Activity Reports.",
+    "context": [
+      "Customer [has] KYC_Verification [has] AML_Screening [triggers] SAR",
+      "CUST-00010 [has] KYC-015 [has] AML-020 [triggers] SAR-008"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_028",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_028_bnk_004",
+    "name": "Suspicious Activity Report",
+    "aliases": [
+      "SAR",
+      "SAR-008"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "sar",
+    "description": "The formal reporting output generated when AML screening identifies potential illicit activity. Represents the final stage in the compliance path, triggered directly by preceding verification and screening steps.",
+    "context": [
+      "Customer [has] KYC_Verification [has] AML_Screening [triggers] SAR",
+      "CUST-00010 [has] KYC-015 [has] AML-020 [triggers] SAR-008"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_028",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_029_bnk_001",
+    "name": "Account",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "Core financial holding entity within FirstUK Bank's data model, governed by strict integrity constraints that enforce product linkage, balance derivation from transactions, lifecycle status enumeration, and automated dormancy thresholds based on inactivity periods.",
+    "context": [
+      "Account must have product",
+      "Account balance = transaction sum",
+      "Dormant > 12 months inactive",
+      "Account status unique"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_029",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_029_rul_001",
+    "name": "Mandatory Product Linkage Constraint",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "Hard data integrity rule requiring every account record to be explicitly linked to a valid product definition, enforced at the database level via a non-null foreign key constraint to prevent orphaned records.",
+    "context": [
+      "Account must have product",
+      "`account.product_id NOT NULL`"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_029",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_029_rul_002",
+    "name": "Balance Derivation Rule",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "data_rule",
+    "description": "Operational data rule mandating that the stored account balance must exactly equal the aggregate sum of all associated transactions, ensuring ledger accuracy and preventing manual balance overrides.",
+    "context": [
+      "Account balance = transaction sum",
+      "`account.balance = SUM(transactions)`"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_029",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_029_rul_003",
+    "name": "Dormancy Threshold Rule",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "operational_limit",
+    "description": "Lifecycle governance rule defining account dormancy status as automatically triggered when no activity occurs for a continuous period exceeding 365 days, aligning with the 12-month inactivity threshold.",
+    "context": [
+      "Dormant > 12 months inactive",
+      "`account_status = 'Dormant' IF no_activity > 365 days`"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_029",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_029_rul_004",
+    "name": "Account Status Enumeration Constraint",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "Data governance rule restricting account status to a predefined set of valid lifecycle states, ensuring consistent tracking across systems and preventing invalid or undefined status values.",
+    "context": [
+      "Account status unique",
+      "`account.status IN (Active, Dormant, Closed, Suspended)`"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_029",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_030_rul_001",
+    "name": "Identity Verification Constraint",
+    "aliases": [
+      "KYC Status Check",
+      "customer.kyc_status"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A mandatory operational rule requiring that a customer's identity verification status must be explicitly set to 'Verified' before any further processing or account activation can occur. This constraint acts as a hard data rule within the bank's customer onboarding and lifecycle management systems, ensuring regulatory compliance before service delivery.",
+    "context": [
+      "Must have identity verified",
+      "`customer.kyc_status = 'Verified'`"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_030",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_030_rul_002",
+    "name": "Anti-Money Laundering Screening Constraint",
+    "aliases": [
+      "AML Status Check",
+      "customer.aml_status"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A mandatory compliance rule stipulating that a customer must successfully pass anti-money laundering screening, ensuring their status is not flagged for suspicious activity or risk. This serves as a critical control to prevent prohibited transactions and maintain the bank's regulatory standing.",
+    "context": [
+      "Must pass AML screening",
+      "`customer.aml_status != 'Flagged'`"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_030",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_030_rul_003",
+    "name": "Valid Address Requirement",
+    "aliases": [
+      "Address Verification",
+      "customer.address"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A data and compliance rule mandating that a customer's registered address must exist in the system and be explicitly marked as verified. This ensures accurate correspondence, regulatory reporting, and adherence to know-your-customer documentation standards.",
+    "context": [
+      "Must have valid address",
+      "`customer.address IS NOT NULL AND verified`"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_030",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_030_rul_004",
+    "name": "Minimum Age Threshold",
+    "aliases": [
+      "Age Verification",
+      "customer.age"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A demographic and regulatory constraint enforcing a minimum age threshold of 18 years for customer eligibility. This rule ensures compliance with legal capacity requirements and governs the baseline eligibility criteria for all banking products and services.",
+    "context": [
+      "Age 18+",
+      "`customer.age >= 18`"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_030",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_031_rul_001",
+    "name": "Transaction Amount Validation Rule",
+    "aliases": [
+      "Amount > 0"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A hard data constraint enforcing that all transaction records must have a positive monetary value greater than zero before processing or storage. This rule prevents invalid or zero-value entries from entering the core banking ledger and ensures financial accuracy at the point of entry.",
+    "context": [
+      "Amount > 0",
+      "`transaction.amount > 0`"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_031",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_031_rul_002",
+    "name": "Account Referential Integrity Rule",
+    "aliases": [
+      "Account must exist"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "data_rule",
+    "description": "A database integrity constraint requiring that every transaction record must reference a valid, pre-existing account identifier. This ensures no orphaned transaction records are created and maintains strict linkage between transactions and their parent accounts within the data model.",
+    "context": [
+      "Account must exist",
+      "`transaction.account_id REFERENCES account(account_id)`"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_031",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_031_rul_003",
+    "name": "Post-Posting Transaction Immutability Rule",
+    "aliases": [
+      "Immutable post-posting"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "operational_limit",
+    "description": "An operational and data constraint mandating that once a transaction reaches a Pending or Completed status, its core details cannot be edited or modified. This preserves audit integrity and prevents retroactive alterations to finalized financial records after they have been posted.",
+    "context": [
+      "Immutable post-posting",
+      "`transaction.status IN (Pending, Completed) AND cannot_edit_completed`"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_031",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_032_bnk_001",
+    "name": "Suspicious Activity Report (SAR)",
+    "aliases": [
+      "SAR"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "sar",
+    "description": "A regulatory reporting mechanism used to document and file suspicious financial activities. The text specifies a strict filing deadline relative to the date of suspicion to ensure timely regulatory compliance and accurate audit trails.",
+    "context": [
+      "SAR filed within 30 days",
+      "`SAR.filing_date <= suspicion_date + 30 days`"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_032",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_032_rul_001",
+    "name": "SAR Filing Deadline Constraint",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "A mandatory compliance rule dictating that Suspicious Activity Reports must be filed no later than 30 days after the date of suspicion. This constraint enforces timely reporting to meet regulatory expectations and prevent filing delays.",
+    "context": [
+      "SAR filed within 30 days",
+      "`SAR.filing_date <= suspicion_date + 30 days`"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_032",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_032_met_001",
+    "name": "SAR Filing Timeframe",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "The maximum allowable operational window for filing a Suspicious Activity Report, defined as 30 days from the date of suspicion. This SLA serves as a key performance indicator for compliance processing speed.",
+    "context": [
+      "SAR filed within 30 days",
+      "`SAR.filing_date <= suspicion_date + 30 days`"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_032",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_032_bnk_002",
+    "name": "Know Your Customer (KYC) Verification",
+    "aliases": [
+      "KYC"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "kyc_verification",
+    "description": "The customer due diligence process requiring periodic data refreshes and reviews. The text establishes a governance cycle for refreshing KYC records to maintain compliance, mitigate risk, and ensure data accuracy over time.",
+    "context": [
+      "KYC refreshed 3-5 years",
+      "`KYC.next_review_date <= TODAY() + 5 years`"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_032",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_032_rul_002",
+    "name": "KYC Refresh Cycle Constraint",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "operational_limit",
+    "description": "A governance rule mandating that KYC verification records must be refreshed within a 3 to 5 year cycle, with the next review date strictly capped at 5 years from the current date. This limit ensures periodic re-validation of customer identity and risk profiles.",
+    "context": [
+      "KYC refreshed 3-5 years",
+      "`KYC.next_review_date <= TODAY() + 5 years`"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_032",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_032_met_002",
+    "name": "KYC Review Timeframe",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "The maximum permissible interval for refreshing KYC verification data, set at a maximum of 5 years from the current date. This target governs the scheduling and execution of periodic customer due diligence reviews.",
+    "context": [
+      "KYC refreshed 3-5 years",
+      "`KYC.next_review_date <= TODAY() + 5 years`"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_032",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_032_bnk_003",
+    "name": "Fraud Claim and Reimbursement",
+    "aliases": [
+      "Fraud_claim"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "fraud_alert",
+    "description": "A customer claim arising from fraudulent activity that requires reimbursement processing. The text defines a strict operational window for resolving these claims to maintain customer trust and meet service standards.",
+    "context": [
+      "Fraud reimbursement 10 days",
+      "`Fraud_claim.reimbursement_date <= claim_date + 10 days`"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_032",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_032_rul_003",
+    "name": "Fraud Reimbursement Deadline Constraint",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "An operational rule stipulating that fraud-related reimbursement claims must be processed and paid no later than 10 days after the initial claim date. This constraint enforces rapid resolution of fraudulent incidents.",
+    "context": [
+      "Fraud reimbursement 10 days",
+      "`Fraud_claim.reimbursement_date <= claim_date + 10 days`"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_032",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_032_met_003",
+    "name": "Fraud Reimbursement Timeframe",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "The maximum allowable processing window for fraud reimbursement claims, defined as 10 days from the date of claim. This SLA serves as a key operational metric for fraud response and customer remediation efficiency.",
+    "context": [
+      "Fraud reimbursement 10 days",
+      "`Fraud_claim.reimbursement_date <= claim_date + 10 days`"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_032",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_033_bnk_001",
+    "name": "Party",
+    "aliases": [
+      "PARTY"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "party",
+    "description": "Represents the foundational business entity within the FirstUK Bank data model, serving as the root identifier for natural persons and other legal entities interacting with the bank's systems.",
+    "context": [
+      "PARTY:",
+      "party_id: PARTY-00100",
+      "party_type: Natural Person"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_033",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_033_bnk_002",
+    "name": "Customer",
+    "aliases": [
+      "CUSTOMER"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "customer",
+    "description": "A registered individual or legal entity with an active relationship to FirstUK Bank, containing demographic, contact, and status attributes used for onboarding, servicing, and regulatory reporting.",
+    "context": [
+      "CUSTOMER:",
+      "customer_id: CUST-00050",
+      "customer_status: Active"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_033",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_033_bnk_003",
+    "name": "Address",
+    "aliases": [
+      "ADDRESS"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "address",
+    "description": "A structured location record linked to a customer, capturing street, city, postcode, and registration type for correspondence, identity verification, and compliance audits.",
+    "context": [
+      "ADDRESS:",
+      "address_id: ADDR-00150",
+      "address_type: Registered"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_033",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_033_bnk_004",
+    "name": "Identification Document",
+    "aliases": [
+      "IDENTIFICATION_DOCUMENT"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "identification_document",
+    "description": "A verified official record used to authenticate a customer's identity, storing document type, number, expiry date, and verification status for regulatory compliance and fraud prevention.",
+    "context": [
+      "IDENTIFICATION_DOCUMENT:",
+      "doc_type: UK Driving License",
+      "verification_status: Verified"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_033",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_033_bnk_005",
+    "name": "KYC Verification",
+    "aliases": [
+      "KYC_VERIFICATION"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "kyc_verification",
+    "description": "A compliance process record tracking the verification of a customer's identity, address, and Politically Exposed Person (PEP) status against regulatory standards before account activation.",
+    "context": [
+      "KYC_VERIFICATION:",
+      "identity_verified: TRUE",
+      "pep_screened: TRUE"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_033",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_033_bnk_006",
+    "name": "AML Screening",
+    "aliases": [
+      "AML_SCREENING"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "aml_screening",
+    "description": "A risk assessment record evaluating a customer against sanctions and watchlists, capturing match counts, risk levels, and overall screening status to prevent financial crime and meet regulatory obligations.",
+    "context": [
+      "AML_SCREENING:",
+      "matches_found: 0",
+      "risk_level: Low"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_033",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_033_bnk_007",
+    "name": "Account",
+    "aliases": [
+      "ACCOUNT"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "A financial product container holding customer funds, linked to a specific product ID and tracking opening date, operational status, and current balance for ledger management.",
+    "context": [
+      "ACCOUNT:",
+      "account_id: ACC-00500",
+      "account_status: Active"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_033",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_033_bnk_008",
+    "name": "SmartSaver Account",
+    "aliases": [
+      "SmartSaver",
+      "SAV-001"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A specific savings account offering from FirstUK Bank, identified by product ID SAV-001 and linked to customer accounts for deposit management and joint holder configurations.",
+    "context": [
+      "product_id: SAV-001 (SmartSaver Account)",
+      "Opening New Account: SmartSaver with Joint Holder"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_033",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_033_bnk_009",
+    "name": "Account Holder",
+    "aliases": [
+      "ACCOUNT_HOLDER"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account_holder",
+    "description": "A relational entity defining the ownership structure of an account, specifying whether a customer holds primary or joint access rights to the account and linking to the underlying account record.",
+    "context": [
+      "ACCOUNT_HOLDER (Primary):",
+      "holder_type: Primary",
+      "holder_type: Joint"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_033",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_033_bnk_010",
+    "name": "Transaction",
+    "aliases": [
+      "TRANSACTION"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "A discrete financial event recorded against an account, capturing type, monetary amount, date, status, and descriptive metadata for ledger reconciliation and audit trails.",
+    "context": [
+      "TRANSACTION (First transaction: opening deposit):",
+      "transaction_type: Deposit"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_033",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_033_bnk_011",
+    "name": "Card",
+    "aliases": [
+      "CARD"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "card",
+    "description": "A physical or digital payment instrument linked to a customer account, tracking card type, operational status, and daily spending limits for transaction authorization and fraud control.",
+    "context": [
+      "CARD:",
+      "card_type: Debit",
+      "daily_limit: 500000 (£5,000)"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_033",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_034_rul_001",
+    "name": "Financial Industry Business Ontology (FIBO)",
+    "aliases": [
+      "FIBO"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "International standard for financial concepts that serves as a foundational reference framework for FirstUK Bank's business ontology and data modeling practices.",
+    "context": [
+      "- **FIBO** (Financial Industry Business Ontology) — International standard for financial concepts"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_034",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_034_rul_002",
+    "name": "ISO 20022",
+    "aliases": [
+      "ISO 20022"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "Financial data exchange standard governing the structure, format, and interoperability of transactional data within FirstUK Bank's systems and external integrations.",
+    "context": [
+      "- **ISO 20022** — Financial data exchange standards"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_034",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_034_rul_003",
+    "name": "FCA Handbook",
+    "aliases": [
+      "Financial Conduct Authority Handbook"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "Regulatory requirements framework issued by the Financial Conduct Authority that dictates compliance obligations, conduct standards, and operational mandates for FirstUK Bank.",
+    "context": [
+      "- **FCA Handbook** — Regulatory requirements"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_034",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_034_rul_004",
+    "name": "PRA Rulebook",
+    "aliases": [
+      "Prudential Regulation Authority Rulebook"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "Capital and risk requirements framework governing prudential standards, capital adequacy, and risk management practices at FirstUK Bank.",
+    "context": [
+      "- **PRA Rulebook** — Capital and risk requirements"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_034",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_035_org_001",
+    "name": "Architecture Review Board",
+    "aliases": [
+      "ARB"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "board",
+    "description": "The designated governance body responsible for evaluating and authorizing structural changes to the bank's data ontology. This board holds exclusive decision authority over the introduction of new entities and relationships, ensuring architectural integrity and compliance with enterprise standards.",
+    "context": [
+      "New entities/relationships require Architecture Review Board approval"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_035",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_035_met_001",
+    "name": "Quarterly Ontology Review Target",
+    "aliases": [
+      "Review Frequency"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "A mandated operational schedule requiring the ontology documentation to be formally reviewed every three months. This frequency ensures that data structures, definitions, and relationships remain current and aligned with evolving business requirements and regulatory standards.",
+    "context": [
+      "**Review Frequency:** Quarterly"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_035",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_035_rul_001",
+    "name": "Ontology Change Approval Rule",
+    "aliases": [
+      "Change Control Requirement"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "approval_threshold",
+    "description": "A strict governance constraint dictating that any proposed creation or modification of ontology entities and relationships must undergo formal authorization. This rule centralizes decision authority to prevent unauthorized structural changes and maintain data model consistency across the organization.",
+    "context": [
+      "**Change Control:** New entities/relationships require Architecture Review Board approval"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_035",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_035_rul_002",
+    "name": "Document Version Tracking Rule",
+    "aliases": [
+      "Version Control Requirement"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "control",
+    "description": "An operational data rule mandating that every modification to the ontology documentation be systematically recorded within the official document history. This control ensures full auditability, traceability of changes, and compliance with internal record-keeping standards.",
+    "context": [
+      "**Version Control:** All changes tracked in document history"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_035",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_036_rol_001",
+    "name": "Enterprise Architect",
+    "aliases": [
+      "EA"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "specialist",
+    "description": "A professional role responsible for authoring and maintaining the bank's internal documentation, including ontology versions, fraud and compliance entities, joint account structures, transaction types, and account constraints.",
+    "context": [
+      "Added fraud and compliance entities",
+      "Added joint account entity",
+      "Refined account constraints",
+      "Initial ontology version"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_036",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_036_rol_002",
+    "name": "Data Engineer",
+    "aliases": [
+      "DE"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "specialist",
+    "description": "A professional role responsible for adding detailed transaction type specifications to the bank's internal documentation and version history.",
+    "context": [
+      "Added transaction types detail"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_036",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_036_bnk_003",
+    "name": "Joint Account",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "A banking concept representing a multi-party account structure, explicitly added to the bank's internal ontology documentation in version 1.3.",
+    "context": [
+      "Added joint account entity"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_036",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_037_rol_001",
+    "name": "Chief Technology Officer",
+    "aliases": [
+      "CTO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "The executive leadership role responsible for technology strategy and operations at FirstUK Bank, designated as a primary approver on the document sign-off page.",
+    "context": [
+      "Chief Technology Officer — **Date: 2026-01-15**"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_037",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_037_rol_002",
+    "name": "Enterprise Architect",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "specialist",
+    "description": "A senior technical role responsible for overseeing the bank's enterprise architecture and system design, designated as a co-approver on the document sign-off page.",
+    "context": [
+      "Enterprise Architect — **Date: 2026-01-15**"
+    ],
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_037",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b",
+    "domain": "banking_organization"
+  }
+]

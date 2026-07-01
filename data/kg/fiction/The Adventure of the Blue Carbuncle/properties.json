@@ -1,0 +1,2254 @@
+[
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_001_char_001",
+    "name": "Sherlock Holmes",
+    "properties": {
+      "role": "consulting detective",
+      "personality_traits": [
+        "logical",
+        "observant",
+        "methodical",
+        "intellectual",
+        "introspective"
+      ],
+      "physical_description": "lounging in a purple dressing-gown",
+      "signature_behaviours": [
+        "examining objects with a lens and forceps",
+        "gazing in an introspective fashion",
+        "deducing from minimal physical data"
+      ],
+      "occupation": "investigator",
+      "archetype": "mastermind detective"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_001",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_001_char_002",
+    "name": "Watson",
+    "properties": {
+      "role": "narrator and companion",
+      "personality_traits": [
+        "loyal",
+        "practical",
+        "timid in reasoning",
+        "observant but hesitant"
+      ],
+      "signature_behaviours": [
+        "asking prompting questions",
+        "failing to see deductions initially",
+        "taking notes on cases"
+      ],
+      "occupation": "physician and writer",
+      "archetype": "narrator and foil"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_001",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_001_char_003",
+    "name": "Peterson",
+    "properties": {
+      "role": "commissionaire",
+      "personality_traits": [
+        "honest",
+        "official-looking",
+        "helpful",
+        "protective"
+      ],
+      "signature_behaviours": [
+        "rushing to protect a stranger",
+        "bringing found items to Holmes"
+      ],
+      "occupation": "commissionaire"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_001",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_001_char_004",
+    "name": "Henry Baker",
+    "properties": {
+      "role": "hat and goose owner",
+      "physical_description": "tallish man",
+      "signature_behaviours": [
+        "carrying a white goose",
+        "smashing a window with a stick",
+        "fleeing the scene"
+      ],
+      "inferred_status": [
+        "fallen on evil days",
+        "affected by drink",
+        "wife has ceased to love him"
+      ]
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_001",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_001_char_005",
+    "name": "Irene Adler",
+    "properties": {
+      "role": "figure from a past case",
+      "narrative_function": "referenced as part of a past case involving recovered papers"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_001",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_001_char_006",
+    "name": "Miss Mary Sutherland",
+    "properties": {
+      "role": "figure from a past case",
+      "narrative_function": "referenced as part of a past whimsical case"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_001",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_001_char_007",
+    "name": "The Man with the Twisted Lip",
+    "properties": {
+      "role": "figure from a past case",
+      "narrative_function": "referenced as part of a past whimsical case"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_001",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_001_loc_001",
+    "name": "Tottenham Court Road",
+    "properties": {
+      "physical_description": "dense urban area",
+      "atmosphere": "bustling",
+      "narrative_function": "setting for the Christmas morning incident and chase",
+      "real_world_vs_fictional": "real_world"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_001",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_001_loc_002",
+    "name": "Goodge Street",
+    "properties": {
+      "physical_description": "corner street adjacent to Tottenham Court Road",
+      "narrative_function": "specific location where the fight broke out and items were dropped"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_001",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_001_obj_001",
+    "name": "The Hat",
+    "properties": {
+      "physical_description": "ordinary black round hat",
+      "owner": "Henry Baker (implied)",
+      "narrative_role": "central intellectual problem",
+      "symbolic_meaning": "represents the owner's former status and current decline",
+      "significance": "unresolved mystery driving the investigation"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_001",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_001_obj_002",
+    "name": "The Goose",
+    "properties": {
+      "physical_description": "good fat white goose",
+      "owner": "Henry Baker (implied)",
+      "narrative_role": "companion clue to the hat",
+      "significance": "resolved (eaten)",
+      "plot_connection": "connects to hat to identify owner"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_001",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_001_evt_001",
+    "name": "The Christmas Morning Incident",
+    "properties": {
+      "date_time": "Christmas morning, about four o'clock",
+      "sequence_number": 1,
+      "what_changed": "hat and goose left behind, triggering Holmes's investigation",
+      "who_was_involved": [
+        "Peterson",
+        "Henry Baker",
+        "a knot of roughs"
+      ],
+      "emotions": [
+        "shock",
+        "conflict",
+        "tension"
+      ],
+      "is_turning_point": true,
+      "cause": "Henry Baker staggering, row breaking out with roughs, defensive stick swing",
+      "immediate_consequence": "Baker drops goose and flees, roughs flee, Peterson left with spoils",
+      "why_it_matters": "provides physical evidence that drives the narrative"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_001",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_001_con_001",
+    "name": "Deduction",
+    "properties": {
+      "method": "observation leading to inference",
+      "manifestation": "Holmes's examination of the hat contrasting with Watson's failure",
+      "characters_involved": [
+        "Sherlock Holmes",
+        "Watson"
+      ],
+      "certainty_level": "strong balance of probability"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_001",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_001_con_002",
+    "name": "Moral Retrogression",
+    "properties": {
+      "theme": "decline in character/morality linked to material decline",
+      "manifestation": "Holmes's inference about the hat's owner linked to drink and loss of wife's love",
+      "evidence": [
+        "smudged ink hiding stains",
+        "cracked hat",
+        "discoloured lining",
+        "fallen fortunes"
+      ],
+      "associated_character": "Henry Baker"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_001",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_char_001",
+    "name": "Sherlock Holmes",
+    "properties": {
+      "role": "consulting detective",
+      "personality_traits": [
+        "logical",
+        "observant",
+        "methodical",
+        "confident",
+        "slightly arrogant"
+      ],
+      "signature_behaviours": [
+        "deducing from physical evidence",
+        "using a lens for close examination",
+        "reading newspapers for clues"
+      ],
+      "occupation": "consulting detective",
+      "archetype": "master deducer"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_char_002",
+    "name": "Dr. Watson",
+    "properties": {
+      "role": "narrator and companion",
+      "personality_traits": [
+        "skeptical",
+        "inquisitive",
+        "loyal",
+        "self-deprecating"
+      ],
+      "signature_behaviours": [
+        "questioning Holmes' deductions",
+        "expressing astonishment",
+        "narrating events"
+      ]
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_char_003",
+    "name": "Peterson",
+    "properties": {
+      "role": "commissionaire",
+      "personality_traits": [
+        "excited",
+        "astonished",
+        "diligent"
+      ],
+      "signature_behaviours": [
+        "rushing in with flushed cheeks",
+        "discovering the diamond in the goose's crop",
+        "delivering news to Holmes"
+      ]
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_char_004",
+    "name": "The Hat Owner",
+    "properties": {
+      "role": "middle-aged man",
+      "personality_traits": [
+        "intellectual",
+        "foresighted",
+        "retains self-respect",
+        "neglectful of appearance"
+      ],
+      "physical_description": [
+        "middle-aged",
+        "grizzled hair recently cut",
+        "uses lime-cream",
+        "perspires freely"
+      ],
+      "motivations": [
+        "maintaining self-respect",
+        "making peace with his wife"
+      ]
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_char_005",
+    "name": "Countess of Morcar",
+    "properties": {
+      "role": "noblewoman and victim",
+      "motivations": [
+        "recovering the blue carbuncle gem"
+      ]
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_char_006",
+    "name": "John Horner",
+    "properties": {
+      "role": "plumber and accused thief",
+      "motivations": [
+        "accused of stealing the blue carbuncle"
+      ]
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_obj_001",
+    "name": "The Hat",
+    "properties": {
+      "physical_description": [
+        "three years old",
+        "flat brims curled at the edge",
+        "ribbed silk band",
+        "excellent lining",
+        "lime-cream and ink stains",
+        "tallow stains",
+        "hat-securer disc and loop"
+      ],
+      "owner": "The Hat Owner",
+      "narrative_role": "central clue",
+      "symbolic_meaning": "represents the owner's life, fortunes, habits, and character",
+      "significance": "resolved"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_obj_002",
+    "name": "The Blue Carbuncle",
+    "properties": {
+      "physical_description": [
+        "brilliantly scintillating blue stone",
+        "smaller than a bean",
+        "pure and radiant",
+        "cuts into glass"
+      ],
+      "owner": "Countess of Morcar",
+      "narrative_role": "central mystery and treasure",
+      "symbolic_meaning": "immense wealth and sentimental value",
+      "significance": "unresolved"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_obj_003",
+    "name": "The Goose",
+    "properties": {
+      "physical_description": [
+        "bird with a card on its leg",
+        "contains a diamond in its crop"
+      ],
+      "owner": "The Hat Owner",
+      "narrative_role": "vessel for the diamond",
+      "symbolic_meaning": "peace-offering and unexpected discovery",
+      "significance": "resolved"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_obj_004",
+    "name": "The Lens",
+    "properties": {
+      "physical_description": [
+        "magnifying tool for close examination"
+      ],
+      "owner": "Sherlock Holmes",
+      "narrative_role": "deduction tool",
+      "symbolic_meaning": "scientific method and close observation",
+      "significance": "resolved"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_evt_001",
+    "name": "Hat Deduction",
+    "properties": {
+      "sequence_number": 1,
+      "what_changed": "Holmes reveals a detailed profile of the hat owner",
+      "who_involved": [
+        "Sherlock Holmes",
+        "Dr. Watson"
+      ],
+      "emotions": [
+        "confusion",
+        "admiration",
+        "confidence"
+      ],
+      "is_turning_point": true,
+      "cause": "examination of the hat and its physical evidence",
+      "immediate_consequence": "Watson questions the deductions, prompting further explanation",
+      "why_it_matters": "demonstrates the power of forensic deduction"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_evt_002",
+    "name": "Discovery of the Diamond",
+    "properties": {
+      "sequence_number": 2,
+      "what_changed": "Peterson reveals a blue stone found in the goose's crop",
+      "who_involved": [
+        "Peterson",
+        "Sherlock Holmes",
+        "Dr. Watson"
+      ],
+      "emotions": [
+        "astonishment",
+        "excitement",
+        "shock"
+      ],
+      "is_turning_point": true,
+      "cause": "Peterson's wife examining the goose's crop",
+      "immediate_consequence": "Holmes identifies it as the Blue Carbuncle and links it to the Countess",
+      "why_it_matters": "elevates the stakes and links the hat owner to the jewel theft"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_evt_003",
+    "name": "Theft of the Blue Carbuncle",
+    "properties": {
+      "date": "December 22nd",
+      "sequence_number": 3,
+      "what_changed": "The gem was stolen from the Countess's jewel-case",
+      "who_involved": [
+        "John Horner",
+        "Countess of Morcar"
+      ],
+      "emotions": [
+        "scandal",
+        "legal tension"
+      ],
+      "is_turning_point": false,
+      "cause": "alleged theft by John Horner",
+      "immediate_consequence": "Horner accused and case referred to the Assizes",
+      "why_it_matters": "provides the central mystery and motive for the investigation"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_org_001",
+    "name": "The Assizes",
+    "properties": {
+      "structure": "judicial court system",
+      "purpose": "adjudicate serious criminal cases",
+      "status": "active",
+      "plot_impact": "receives the case against John Horner for trial"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_org_002",
+    "name": "The Times",
+    "properties": {
+      "structure": "daily newspaper",
+      "purpose": "publish news and advertisements",
+      "status": "active",
+      "plot_impact": "Holmes reads daily advertisements about the missing gem, providing crucial information"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_con_001",
+    "name": "Self-Respect",
+    "properties": {
+      "manifestation": "The hat owner daubed stains with ink to conceal them, proving he hasn't entirely lost his self-respect",
+      "characters": [
+        "The Hat Owner"
+      ]
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_con_002",
+    "name": "Foresight",
+    "properties": {
+      "manifestation": "The hat-securer indicates past foresight, while the broken elastic and lack of replacement show a weakening of it",
+      "characters": [
+        "The Hat Owner"
+      ]
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_con_003",
+    "name": "Treasure Trove",
+    "properties": {
+      "puzzle": "How did a valuable diamond end up in a goose's crop?",
+      "resolution": "Identified as the Blue Carbuncle, a unique gem belonging to the Countess",
+      "significance": "Transforms a simple theft case into a major jewel mystery"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_char_001",
+    "name": "John Horner",
+    "properties": {
+      "occupation": "plumber",
+      "age": 26,
+      "status": "prisoner",
+      "prior_record": "conviction for robbery",
+      "behavior": [
+        "struggled frantically",
+        "protested innocence",
+        "fainted at conclusion"
+      ],
+      "emotional_state": "intense emotion"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_char_002",
+    "name": "Countess of Morcar",
+    "properties": {
+      "role": "noblewoman",
+      "possession": "blue carbuncle",
+      "staff": [
+        "Catherine Cusack",
+        "James Ryder"
+      ],
+      "residence": "Hotel Cosmopolitan"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_char_003",
+    "name": "James Ryder",
+    "properties": {
+      "occupation": "upper-attendant",
+      "employer": "Hotel Cosmopolitan",
+      "action": [
+        "showed Horner to dressing-room",
+        "gave alarm"
+      ],
+      "discovery": "found bureau forced open, casket empty"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_char_004",
+    "name": "Catherine Cusack",
+    "properties": {
+      "occupation": "maid",
+      "employer": "Countess of Morcar",
+      "action": [
+        "heard Ryder's cry",
+        "rushed into room",
+        "found scene as described"
+      ]
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_char_005",
+    "name": "Inspector Bradstreet",
+    "properties": {
+      "role": "police inspector",
+      "affiliation": "B Division",
+      "action": "gave evidence regarding arrest"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_char_006",
+    "name": "Sherlock Holmes",
+    "properties": {
+      "role": "detective",
+      "method": [
+        "deduction",
+        "advertising",
+        "observation"
+      ],
+      "demeanor": [
+        "thoughtful",
+        "genial"
+      ],
+      "actions": [
+        "analyzes case",
+        "keeps stone",
+        "locks in strong box",
+        "meets Baker"
+      ]
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_char_007",
+    "name": "Dr. Watson",
+    "properties": {
+      "role": "companion",
+      "profession": "doctor",
+      "actions": [
+        "asks questions",
+        "has professional round",
+        "arrives at 221b"
+      ]
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_char_008",
+    "name": "Mr. Henry Baker",
+    "properties": {
+      "role": "gentleman",
+      "physical_description": [
+        "large man",
+        "rounded shoulders",
+        "massive head",
+        "broad intelligent face",
+        "pointed grizzled brown beard",
+        "red nose/cheeks",
+        "slight tremor in hand"
+      ],
+      "clothing": "rusty black frock-coat",
+      "speech_pattern": "slow staccato",
+      "background": "man of learning and letters ill-used by fortune",
+      "status": "poor",
+      "innocence": "absolutely innocent"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_char_009",
+    "name": "Peterson",
+    "properties": {
+      "role": "commissionaire",
+      "employer": "Holmes",
+      "action": "runs to advertising agency",
+      "family_status": "devouring a goose"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_char_010",
+    "name": "Mrs. Hudson",
+    "properties": {
+      "role": "housekeeper",
+      "employer": "Holmes",
+      "action": "asked to examine woodcock's crop"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_loc_001",
+    "name": "Hotel Cosmopolitan",
+    "properties": {
+      "type": "hotel",
+      "function": "crime scene",
+      "features": [
+        "dressing-room"
+      ]
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_loc_002",
+    "name": "Countess of Morcar's dressing-room",
+    "properties": {
+      "type": "private room",
+      "function": "crime scene",
+      "features": [
+        "bureau forced open",
+        "morocco casket on dressing-table"
+      ]
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_loc_003",
+    "name": "221b Baker Street",
+    "properties": {
+      "type": "residence",
+      "owner": "Sherlock Holmes",
+      "features": [
+        "fanlight",
+        "armchair",
+        "fireplace"
+      ],
+      "function": "investigation headquarters"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_loc_004",
+    "name": "Goodge Street",
+    "properties": {
+      "type": "street",
+      "function": "discovery site",
+      "feature": "corner"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_loc_005",
+    "name": "Tottenham Court Road",
+    "properties": {
+      "type": "street",
+      "function": "location associated with goose's crop"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_loc_006",
+    "name": "Amoy River",
+    "properties": {
+      "type": "river",
+      "location": "southern China",
+      "function": "gem discovery site"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_obj_001",
+    "name": "Blue Carbuncle",
+    "properties": {
+      "type": "valuable gem",
+      "color": "blue",
+      "weight": "40-grain",
+      "age": "not yet twenty years old",
+      "origin": "banks of Amoy River",
+      "history": [
+        "two murders",
+        "vitriol-throwing",
+        "suicide",
+        "several robberies"
+      ],
+      "symbolic_meaning": "nucleus and focus of crime",
+      "current_location": "Holmes' strong box"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_obj_002",
+    "name": "Morocco Casket",
+    "properties": {
+      "type": "small casket",
+      "owner": "Countess of Morcar",
+      "function": "jewel storage",
+      "state": "empty",
+      "location": "dressing-table"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_obj_003",
+    "name": "Goose",
+    "properties": {
+      "type": "bird",
+      "origin": "Tottenham Court Road crop",
+      "role": "lost item",
+      "plot_function": "vehicle for stolen gem",
+      "replacement": "Holmes buys one for Baker"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_obj_004",
+    "name": "Black Felt Hat",
+    "properties": {
+      "type": "hat",
+      "description": "bad hat",
+      "owner": "Henry Baker",
+      "location": "found at corner of Goodge Street",
+      "role": "lost item used in advertisement"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_obj_005",
+    "name": "Advertisement",
+    "properties": {
+      "type": "newspaper ad",
+      "text": "Found at the corner of Goodge Street, a goose and a black felt hat. Mr. Henry Baker can have the same by applying at 6.30 this evening at 221b, Baker Street.",
+      "purpose": "locate Henry Baker",
+      "placement": "evening papers"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_obj_006",
+    "name": "Strong Box",
+    "properties": {
+      "type": "storage container",
+      "owner": "Sherlock Holmes",
+      "function": "secures the blue carbuncle"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_evt_001",
+    "name": "Hotel Cosmopolitan Jewel Robbery",
+    "properties": {
+      "date": "22nd inst.",
+      "perpetrator": "James Ryder",
+      "suspect": "John Horner",
+      "outcome": "jewel-case rifled, casket empty, Horner arrested",
+      "sequence": "first event"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_evt_002",
+    "name": "Police Court Trial",
+    "properties": {
+      "date": "after 22nd inst.",
+      "judge": "magistrate",
+      "defendant": "John Horner",
+      "outcome": "referred to Assizes due to prior conviction, Horner fainted",
+      "significance": "establishes legal stakes and Horner's emotional state"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_evt_003",
+    "name": "Advertisement Placement",
+    "properties": {
+      "initiator": "Sherlock Holmes",
+      "executor": "Peterson",
+      "target": "evening papers",
+      "purpose": "locate Henry Baker",
+      "outcome": "Baker responds"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_evt_004",
+    "name": "Meeting with Henry Baker",
+    "properties": {
+      "location": "221b Baker Street",
+      "participants": [
+        "Holmes",
+        "Watson",
+        "Henry Baker"
+      ],
+      "time": "evening, after half-past six",
+      "purpose": "verify Baker's identity and investigate the goose",
+      "outcome": "Baker confirms hat ownership, Holmes begins inquiry"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_org_001",
+    "name": "B Division",
+    "properties": {
+      "type": "police force",
+      "leader": "Inspector Bradstreet",
+      "action": "arrested John Horner",
+      "status": "active"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_org_002",
+    "name": "Evening Papers",
+    "properties": {
+      "type": "newspapers",
+      "examples": [
+        "Globe",
+        "Star",
+        "Pall Mall",
+        "St. James's",
+        "Evening News",
+        "Standard",
+        "Echo"
+      ],
+      "function": "medium for Holmes' advertisement"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_org_003",
+    "name": "The Assizes",
+    "properties": {
+      "type": "court",
+      "function": "judicial body for serious crimes",
+      "action": "referred Horner's case",
+      "status": "formal legal institution"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_con_001",
+    "name": "Innocence vs. Guilt",
+    "properties": {
+      "theme": "judging character based on evidence vs. appearance",
+      "embodiment": [
+        "Horner's prior conviction vs. protest of innocence",
+        "Baker's poverty vs. actual innocence"
+      ],
+      "resolution": "Holmes suspects Baker is innocent despite circumstances"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_con_002",
+    "name": "Sinister History of the Gem",
+    "properties": {
+      "description": "gem has caused two murders, vitriol-throwing, suicide, robberies",
+      "quote": "purveyor to the gallows and the prison",
+      "theme": "corrupting influence of wealth/gems"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_con_003",
+    "name": "Deduction and Investigation",
+    "properties": {
+      "method": "observing physical details to infer habits",
+      "example": "Holmes deduces Baker's circulation, speech, and background from appearance",
+      "process": "advertising as a test, following the sequence from jewel-case to goose"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_char_001",
+    "name": "Henry Baker",
+    "properties": {
+      "role": "Visitor and client",
+      "personality_traits": [
+        "shamefaced",
+        "relieved",
+        "comically pompous",
+        "gravity"
+      ],
+      "motivations": [
+        "recover stolen hat and goose",
+        "obtain a replacement bird"
+      ],
+      "narrative_arc": "Enters distressed over theft, leaves relieved and satisfied after Holmes returns his property",
+      "signature_behaviours": [
+        "tucks property under his arm",
+        "bows solemnly",
+        "laughs heartily"
+      ]
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_char_002",
+    "name": "Sherlock Holmes",
+    "properties": {
+      "role": "Consulting detective",
+      "personality_traits": [
+        "observant",
+        "methodical",
+        "logical",
+        "playfully competitive"
+      ],
+      "motivations": [
+        "solve the mystery of the stolen property",
+        "establish innocence or guilt",
+        "follow the investigative clue"
+      ],
+      "signature_behaviours": [
+        "glances sharply at Watson",
+        "suggests turning dinner into supper",
+        "makes a wager to force disclosure of evidence"
+      ]
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_char_003",
+    "name": "Dr. Watson",
+    "properties": {
+      "role": "Narrator and Holmes's companion",
+      "personality_traits": [
+        "practical",
+        "observant",
+        "compliant"
+      ],
+      "motivations": [
+        "assist Holmes",
+        "accompany him on the investigation"
+      ],
+      "signature_behaviours": [
+        "notes environmental details",
+        "agrees to follow the clue",
+        "acts as audience surrogate"
+      ]
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_char_004",
+    "name": "Windigate",
+    "properties": {
+      "role": "Landlord and host of the Alpha Inn",
+      "physical_description": [
+        "ruddy-faced",
+        "white-aproned"
+      ],
+      "motivations": [
+        "protect his business reputation",
+        "clarify the source of his geese"
+      ],
+      "narrative_arc": "Reveals he does not own the geese, directs Holmes to the supplier",
+      "signature_behaviours": [
+        "expresses surprise at Holmes's knowledge",
+        "explains the supply chain"
+      ]
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_char_005",
+    "name": "Breckinridge",
+    "properties": {
+      "role": "Salesman and market stall proprietor",
+      "physical_description": [
+        "horsey-looking",
+        "sharp face",
+        "trim side-whiskers"
+      ],
+      "personality_traits": [
+        "defensive",
+        "argumentative",
+        "confident",
+        "proud of his expertise"
+      ],
+      "motivations": [
+        "defend his reputation",
+        "win the wager",
+        "protect supplier identities"
+      ],
+      "narrative_arc": "Shifts from hostile to competitive, reveals ledgers to prove his point",
+      "signature_behaviours": [
+        "stands with arms akimbo",
+        "chuckles grimly",
+        "uses ledgers as proof"
+      ]
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_char_006",
+    "name": "Bill",
+    "properties": {
+      "role": "Salesman's boy and assistant",
+      "physical_description": [
+        "small boy"
+      ],
+      "motivations": [
+        "assist his employer"
+      ],
+      "signature_behaviours": [
+        "brings the ledgers when summoned"
+      ]
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_loc_001",
+    "name": "Alpha Inn",
+    "properties": {
+      "physical_description": [
+        "small public-house",
+        "located at a street corner running into Holborn",
+        "has a private bar"
+      ],
+      "narrative_function": "Starting point of the investigation, source of the geese",
+      "who_controls": "Windigate"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_loc_002",
+    "name": "Museum",
+    "properties": {
+      "narrative_function": "Geographic reference point for the Goose Club's location",
+      "atmosphere": "Implied daytime gathering spot"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_loc_003",
+    "name": "Covent Garden Market",
+    "properties": {
+      "physical_description": [
+        "large market",
+        "marble slabs",
+        "gasflares",
+        "surrounded by zigzag slums"
+      ],
+      "atmosphere": "Commercial, frosty, busy",
+      "narrative_function": "Location of the next investigative step, leads to the ledgers"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_loc_004",
+    "name": "Holborn",
+    "properties": {
+      "narrative_function": "Geographic reference and route destination",
+      "physical_description": [
+        "district with streets running into it"
+      ]
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_loc_005",
+    "name": "Wimpole Street",
+    "properties": {
+      "physical_description": [
+        "doctors' quarter"
+      ],
+      "narrative_function": "Route taken by Holmes and Watson"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_loc_006",
+    "name": "Harley Street",
+    "properties": {
+      "narrative_function": "Part of the doctors' quarter route"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_loc_007",
+    "name": "Wigmore Street",
+    "properties": {
+      "narrative_function": "Connecting street in the investigative route"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_loc_008",
+    "name": "Oxford Street",
+    "properties": {
+      "narrative_function": "Major street in the investigative route"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_loc_009",
+    "name": "Bloomsbury",
+    "properties": {
+      "narrative_function": "Geographic marker for the Alpha Inn's location",
+      "physical_description": [
+        "area reached in a quarter of an hour"
+      ]
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_loc_010",
+    "name": "Endell Street",
+    "properties": {
+      "narrative_function": "Street leading to Covent Garden, passes through slums"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_obj_001",
+    "name": "The Goose",
+    "properties": {
+      "physical_description": [
+        "about the same weight as the replacement",
+        "perfectly fresh",
+        "town-bred",
+        "reduced to feathers, legs, and crop"
+      ],
+      "who_owns_or_uses_it": [
+        "Henry Baker (original)",
+        "Sherlock Holmes and Dr. Watson (consumed)",
+        "Breckinridge (supplier)"
+      ],
+      "narrative_role": "Central clue and catalyst for the investigation",
+      "symbolic_meaning": "Represents the chain of evidence and the core mystery"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_obj_002",
+    "name": "The Scotch Bonnet",
+    "properties": {
+      "physical_description": [
+        "hat"
+      ],
+      "who_owns_or_uses_it": [
+        "Henry Baker"
+      ],
+      "narrative_role": "Stolen item and part of the mystery, returned to Baker"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_obj_003",
+    "name": "The Ledgers",
+    "properties": {
+      "physical_description": [
+        "small thin volume",
+        "great greasy-backed one",
+        "lists of country and town suppliers",
+        "red ink"
+      ],
+      "who_owns_or_uses_it": [
+        "Breckinridge"
+      ],
+      "narrative_role": "Physical evidence and proof, central to the wager",
+      "significance_status": "Resolved as proof of origin"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_evt_001",
+    "name": "The Assault",
+    "properties": {
+      "cause": "Robbery by a gang of roughs",
+      "immediate_consequence": "Baker loses his hat and goose, prompting Holmes's involvement",
+      "who_was_involved": [
+        "Henry Baker",
+        "gang of roughs"
+      ],
+      "why_it_matters": "Catalyst for the entire plot and investigation"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_evt_002",
+    "name": "The Wager",
+    "properties": {
+      "cause": "Disagreement over whether the goose is country or town bred",
+      "immediate_consequence": "Breckinridge brings out the ledgers to prove his point",
+      "who_was_involved": [
+        "Sherlock Holmes",
+        "Breckinridge"
+      ],
+      "emotions": [
+        "argumentative",
+        "confident",
+        "grimly amused"
+      ],
+      "why_it_matters": "Drives the plot forward and forces disclosure of key evidence"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_evt_003",
+    "name": "The Investigation",
+    "properties": {
+      "cause": "Stolen property and mystery of the goose's origin",
+      "immediate_consequence": "Leads Holmes and Watson from the Alpha Inn to Covent Garden Market",
+      "who_was_involved": [
+        "Sherlock Holmes",
+        "Dr. Watson",
+        "Henry Baker",
+        "Windigate",
+        "Breckinridge",
+        "Bill"
+      ],
+      "emotions": [
+        "determined",
+        "cold",
+        "focused"
+      ],
+      "why_it_matters": "Core narrative drive demonstrating deductive method and advancing the mystery"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_org_001",
+    "name": "The Goose Club",
+    "properties": {
+      "structure": "Informal subscription club",
+      "leadership": "Hosted by Windigate at the Alpha Inn",
+      "purpose/goal": "Provide each member with a goose at Christmas in exchange for weekly pence",
+      "resources/assets": [
+        "weekly pence",
+        "geese supplied by Breckinridge"
+      ],
+      "status": "Active",
+      "plot_impact": "Connects Baker to the Alpha Inn and establishes the supply chain"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_org_002",
+    "name": "The Police",
+    "properties": {
+      "purpose/goal": "Investigate the theft and pursue the guilty party",
+      "status": "Active but missed the crucial clue",
+      "plot_impact": "Their failure highlights Holmes's superior deduction and sets up the stakes"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_con_001",
+    "name": "Penal Servitude",
+    "properties": {
+      "manifestation": "The threat of seven years' imprisonment for the thief",
+      "thematic_role": "Raises the stakes of the investigation and frames the legal consequences of the crime"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_con_002",
+    "name": "Fowl Origin Classification",
+    "properties": {
+      "manifestation": "Distinguishing between country-bred and town-bred geese",
+      "resolution_status": "Unresolved in this excerpt but drives the wager and ledger examination",
+      "thematic_role": "Demonstrates Holmes's reliance on specialized knowledge and physical evidence"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_con_003",
+    "name": "Legal Morality",
+    "properties": {
+      "manifestation": "The tension between confirming guilt and establishing innocence",
+      "thematic_role": "Frames the ethical weight of the investigation and the pursuit of justice"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_char_001",
+    "name": "Sherlock Holmes",
+    "properties": {
+      "role": "consulting detective",
+      "personality_traits": [
+        "logical",
+        "observant",
+        "methodical",
+        "confident",
+        "theatrical"
+      ],
+      "signature_behaviours": [
+        "laughing under a lamp-post when thinking",
+        "using a wager to extract information",
+        "deducing from ledger entries",
+        "keeping a strong-box museum"
+      ],
+      "motivations": [
+        "solve the mystery",
+        "recover the blue carbuncle",
+        "expose the thief"
+      ],
+      "occupation": "consulting detective",
+      "archetype": "brilliant detective"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_char_002",
+    "name": "Watson",
+    "properties": {
+      "role": "narrator and companion",
+      "personality_traits": [
+        "loyal",
+        "supportive",
+        "practical",
+        "observant"
+      ],
+      "signature_behaviours": [
+        "driving the cab",
+        "physically assisting Holmes",
+        "narrating events"
+      ],
+      "motivations": [
+        "assist Holmes",
+        "solve the case"
+      ]
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_char_003",
+    "name": "James Ryder",
+    "properties": {
+      "role": "head attendant and thief",
+      "personality_traits": [
+        "nervous",
+        "anxious",
+        "cowardly",
+        "desperate",
+        "easily intimidated"
+      ],
+      "signature_behaviours": [
+        "quivering",
+        "clutching the mantelpiece",
+        "using an alias",
+        "pale face",
+        "nervous breathing and hand claspings"
+      ],
+      "motivations": [
+        "recover the stolen blue carbuncle",
+        "avoid detection and punishment"
+      ],
+      "occupation": "head attendant",
+      "narrative_arc": "from desperate inquirer to cornered thief, ultimately exposed and subdued"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_char_004",
+    "name": "Mrs. Oakshott",
+    "properties": {
+      "role": "egg and poultry supplier",
+      "narrative_arc": "mentioned as a key link in the chain of custody for the geese",
+      "occupation": "supplier"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_char_005",
+    "name": "Breckinridge",
+    "properties": {
+      "role": "market salesman",
+      "personality_traits": [
+        "surly",
+        "impatient",
+        "aggressive",
+        "dismissive"
+      ],
+      "signature_behaviours": [
+        "shaking fists",
+        "threatening to set a dog on inquirers",
+        "refusing to discuss the geese"
+      ],
+      "motivations": [
+        "avoid trouble",
+        "maintain business",
+        "dismiss nuisance"
+      ]
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_char_006",
+    "name": "Mr. Windigate",
+    "properties": {
+      "role": "purchaser and club member",
+      "narrative_arc": "purchased the geese, serving as a link between the supplier and the Alpha club"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_char_007",
+    "name": "Catherine Cusack",
+    "properties": {
+      "role": "informant",
+      "narrative_arc": "provided Ryder with information about the Countess's blue stone"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_char_008",
+    "name": "Countess of Morcar",
+    "properties": {
+      "role": "original owner of the blue carbuncle",
+      "narrative_arc": "victim of the theft, her stone drives the investigation"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_char_009",
+    "name": "Mr. Henry Baker",
+    "properties": {
+      "role": "Alpha club member",
+      "narrative_arc": "apparent owner of the goose containing the stolen gem"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_obj_001",
+    "name": "Blue Carbuncle",
+    "properties": {
+      "physical_description": "blue egg, bonniest and brightest little blue egg, shone like a star with cold brilliant radiance",
+      "owner": "Countess of Morcar (original), James Ryder (stolen), Sherlock Holmes (recovered)",
+      "narrative_role": "central mystery object, catalyst for the plot",
+      "symbolic_meaning": "represents hidden value and the core of the mystery",
+      "significance": "resolved (recovered and identified)"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_obj_002",
+    "name": "Geese",
+    "properties": {
+      "physical_description": "24 geese sold, one specifically white with a black bar across the tail",
+      "owner": "Mrs. Oakshott (seller), Mr. Windigate (buyer), Mr. Henry Baker (apparent owner)",
+      "narrative_role": "vessel for the stolen gem, means of transporting the clue",
+      "significance": "resolved (one goose identified and examined)"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_obj_003",
+    "name": "Ledger",
+    "properties": {
+      "physical_description": "book/page containing sales records",
+      "owner": "Mrs. Oakshott",
+      "narrative_role": "clue and deduction tool, establishes chain of custody",
+      "significance": "resolved (provides key link to Windigate)"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_loc_001",
+    "name": "117 Brixton Road",
+    "properties": {
+      "physical_description": "address of Mrs. Oakshott",
+      "narrative_function": "location of the poultry supplier, potential next investigative step",
+      "who_controls": "Mrs. Oakshott"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_loc_002",
+    "name": "Baker Street",
+    "properties": {
+      "atmosphere": "cosy room, fire seasonable, gas-lit exterior",
+      "physical_description": "sitting-room with strong-box, mantelpiece, chair",
+      "narrative_function": "Holmes's base of operations, setting for final deduction and confrontation",
+      "who_controls": "Sherlock Holmes"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_org_001",
+    "name": "Alpha",
+    "properties": {
+      "structure": "social/professional club",
+      "purpose": "gathering place for members like Windigate and Baker",
+      "status": "active",
+      "plot_impact": "provides context for the geese's destination and ownership"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_org_002",
+    "name": "Hotel Cosmopolitan",
+    "properties": {
+      "structure": "hotel",
+      "purpose": "hospitality and employment for staff like Ryder",
+      "status": "active",
+      "plot_impact": "employment location for Ryder, source of his motive"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_evt_001",
+    "name": "The Investigation",
+    "properties": {
+      "date": "December 22nd (evening/night)",
+      "sequence_number": "main plot event",
+      "what_changed": "Holmes deduces chain of custody, identifies Ryder, recovers carbuncle",
+      "who_was_involved": [
+        "Sherlock Holmes",
+        "Watson",
+        "James Ryder",
+        "Breckinridge"
+      ],
+      "emotions": [
+        "tension",
+        "anxiety",
+        "relief",
+        "triumph"
+      ],
+      "is_turning_point": true,
+      "cause": "theft of the blue carbuncle and need to recover it",
+      "immediate_consequence": "Ryder exposed, carbuncle recovered",
+      "why_it_matters": "drives narrative to conclusion, resolves the central mystery"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_evt_002",
+    "name": "The Wager",
+    "properties": {
+      "date": "evening",
+      "sequence_number": "early investigative step",
+      "what_changed": "Holmes tricks Breckinridge into revealing ledger entry",
+      "who_was_involved": [
+        "Sherlock Holmes",
+        "Breckinridge"
+      ],
+      "emotions": [
+        "surly impatience",
+        "calculated amusement"
+      ],
+      "is_turning_point": true,
+      "cause": "Holmes's need for information about the geese",
+      "immediate_consequence": "Ledger entry revealed, chain of custody established",
+      "why_it_matters": "provides key link to Windigate and the Alpha club"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_con_001",
+    "name": "The Blue Stone Mystery",
+    "properties": {
+      "mystery_puzzle": "How was the blue stone stolen, where is it now, who stole it?",
+      "resolution": "Stolen by Ryder, hidden in a goose, recovered by Holmes",
+      "theme_manifestation": "Embodied by Ryder's desperation, the ledger trail, and the carbuncle itself",
+      "deduction_method": "Tracing commercial records, observing physical clues, psychological pressure"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_char_001",
+    "name": "Sherlock Holmes",
+    "properties": {
+      "role": "consulting detective",
+      "personality_traits": [
+        "logical",
+        "observant",
+        "stern",
+        "pragmatic",
+        "morally guided"
+      ],
+      "motivations": [
+        "solve the crime",
+        "prevent a man from becoming a career criminal"
+      ],
+      "signature_behaviours": [
+        "tapping finger-tips on the table",
+        "smoking a clay pipe",
+        "making decisive, abrupt pronouncements"
+      ],
+      "narrative_arc": "Uncovers the full truth, then chooses moral intervention over strict legal punishment, releasing the culprit to save his soul",
+      "occupation": "consulting detective"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_char_002",
+    "name": "Ryder",
+    "properties": {
+      "role": "thief / culprit",
+      "personality_traits": [
+        "desperate",
+        "remorseful",
+        "easily frightened",
+        "manipulative",
+        "prone to panic"
+      ],
+      "motivations": [
+        "steal the jewel for sudden wealth",
+        "avoid prison and save his family's honor"
+      ],
+      "signature_behaviours": [
+        "clutching at knees",
+        "swearing on a Bible",
+        "sweating profusely",
+        "sobbing convulsively"
+      ],
+      "narrative_arc": "Confesses to Holmes, hides the jewel in a goose, loses it due to a mix-up, breaks down, and is released; left terrified but presumably reformed",
+      "distinctive_qualities": "A 'branded thief' who never actually touched the wealth; his extreme fear becomes his salvation"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_char_003",
+    "name": "Horner",
+    "properties": {
+      "role": "plumber / framed suspect",
+      "personality_traits": [
+        "innocent",
+        "previously involved in minor similar matters"
+      ],
+      "motivations": [
+        "maintain his livelihood and reputation"
+      ],
+      "narrative_arc": "Arrested for the jewel robbery due to a frame-up; the case against him collapses when Ryder is caught and released",
+      "distinctive_qualities": "Target of suspicion due to past record; victim of a deliberate frame-up"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_char_004",
+    "name": "Cusack",
+    "properties": {
+      "role": "confederate / accomplice",
+      "personality_traits": [
+        "complicit",
+        "cooperative"
+      ],
+      "motivations": [
+        "participate in the jewel theft"
+      ],
+      "narrative_arc": "Helps Ryder frame Horner and steal the jewel; mentioned as part of the initial crime setup",
+      "distinctive_qualities": "Ryder's partner in the theft and framing"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_char_005",
+    "name": "Maggie Oakshott",
+    "properties": {
+      "role": "poultry farmer / Ryder's sister",
+      "personality_traits": [
+        "practical",
+        "hardworking",
+        "slightly huffed but accommodating"
+      ],
+      "motivations": [
+        "provide for her household and sell fowls to the market"
+      ],
+      "narrative_arc": "Gives Ryder a goose, unaware of his crime; her practical mistake (mixing up geese) causes Ryder's downfall",
+      "distinctive_qualities": "Fattens fowls for the market; refers to the chosen goose as 'Jem's bird'"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_char_006",
+    "name": "Oakshott",
+    "properties": {
+      "role": "Maggie's husband",
+      "narrative_arc": "Mentioned only as Maggie's husband; his house in Brixton Road serves as Ryder's temporary hideout",
+      "distinctive_qualities": "Absent from the scene; represents the domestic setting where the crime's aftermath unfolds"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_char_007",
+    "name": "Maudsley",
+    "properties": {
+      "role": "former criminal / fence",
+      "personality_traits": [
+        "experienced thief",
+        "reliable to Ryder due to leverage"
+      ],
+      "motivations": [
+        "help Ryder turn the stolen stone into money"
+      ],
+      "narrative_arc": "Served time in Pentonville; Ryder seeks him out in Kilburn to fence the jewel; they open the goose but find the stone missing",
+      "distinctive_qualities": "Lives in Kilburn; knows the ways of thieves; holds secrets over him that ensure his cooperation"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_char_008",
+    "name": "Breckinridge",
+    "properties": {
+      "role": "poultry dealer / fence",
+      "personality_traits": [
+        "business-oriented",
+        "secretive",
+        "uncooperative"
+      ],
+      "motivations": [
+        "sell geese quickly",
+        "protect his trade secrets"
+      ],
+      "narrative_arc": "Buys the geese from Maggie's yard, sells them immediately, refuses to reveal where they went, blocking Ryder's recovery of the stone",
+      "distinctive_qualities": "Operates in Covent Garden; known for giving one-word answers or silence to inquiries"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_char_009",
+    "name": "Watson",
+    "properties": {
+      "role": "narrator / companion / observer",
+      "personality_traits": [
+        "observant",
+        "loyal",
+        "pragmatic"
+      ],
+      "motivations": [
+        "assist Holmes",
+        "document the case"
+      ],
+      "narrative_arc": "Witnesses the confession and Holmes's decision to release Ryder; serves as the audience surrogate",
+      "distinctive_qualities": "Referred to as 'my friend' by Holmes; present during the interrogation"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_loc_001",
+    "name": "My Lady's Room",
+    "properties": {
+      "physical_description": "Hotel room belonging to a lady",
+      "narrative_function": "Crime scene where the jewel was stolen; setting for the initial theft and frame-up",
+      "who_controls": "The lady (owner), Ryder (intruder)",
+      "symbolic_meaning": "Represents vulnerability and the target of greed"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_loc_002",
+    "name": "Brixton Road",
+    "properties": {
+      "physical_description": "Residential street where Maggie Oakshott lives",
+      "narrative_function": "Hideout for Ryder; location of the back yard where the goose is handled",
+      "who_controls": "Maggie Oakshott (residence)",
+      "isolation_level": "Urban residential"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_loc_003",
+    "name": "Kilburn",
+    "properties": {
+      "physical_description": "District where Maudsley lives",
+      "narrative_function": "Destination for Ryder to fence the jewel; site of the failed goose opening",
+      "who_controls": "Maudsley (residence)"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_loc_004",
+    "name": "Covent Garden",
+    "properties": {
+      "physical_description": "Market district",
+      "narrative_function": "Location of Breckinridge's poultry business; where the stolen geese are sold",
+      "who_controls": "Breckinridge (business)",
+      "symbolic_meaning": "Hub of commerce and disposal of stolen goods"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_loc_005",
+    "name": "Pentonville",
+    "properties": {
+      "physical_description": "Prison",
+      "narrative_function": "Reference point for Maudsley's criminal record; represents the fate Ryder fears",
+      "who_controls": "The state / The Police",
+      "symbolic_meaning": "Institutional punishment and lifelong criminality ('jail-bird for life')"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_obj_001",
+    "name": "The Stone",
+    "properties": {
+      "physical_description": "A valuable jewel (implied blue carbuncle)",
+      "who_owns_uses_it": "Originally the lady's; stolen by Ryder; hidden in a goose; lost",
+      "narrative_role": "MacGuffin / central mystery object; catalyst for the crime",
+      "symbolic_meaning": "Temptation of sudden wealth; moral test",
+      "significance": "Mysterious/lost (hidden in goose, then lost when goose was swapped/sold)"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_obj_002",
+    "name": "The Goose",
+    "properties": {
+      "physical_description": "A large white bird with a barred tail; one of twenty-six fattened fowls",
+      "who_owns_uses_it": "Maggie Oakshott (fattened for market); Ryder (used as container); Maudsley (opened)",
+      "narrative_role": "Plot device / container for the stolen jewel; cause of the mix-up",
+      "symbolic_meaning": "Unwitting accomplice; vehicle of salvation/ruin",
+      "significance": "Resolved (stone was inside, but lost due to swap; goose opened but found empty)"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_obj_003",
+    "name": "The Bible",
+    "properties": {
+      "physical_description": "Religious text",
+      "who_owns_uses_it": "Ryder (swears on it)",
+      "narrative_role": "Symbol of Ryder's desperation and plea for mercy",
+      "symbolic_meaning": "Plea for divine intervention and mercy; contrasts with his crime"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_obj_004",
+    "name": "Clay Pipe",
+    "properties": {
+      "physical_description": "Smoking pipe",
+      "who_owns_uses_it": "Sherlock Holmes",
+      "narrative_role": "Character prop; used during Holmes's contemplation",
+      "symbolic_meaning": "Holmes's contemplative state; transition to resolution"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_evt_001",
+    "name": "The Jewel Robbery",
+    "properties": {
+      "sequence_number": 1,
+      "what_changed": "Jewel stolen; Horner framed and arrested",
+      "who_was_involved": [
+        "Ryder",
+        "Cusack",
+        "Horner"
+      ],
+      "emotions": [
+        "greed",
+        "panic",
+        "suspicion"
+      ],
+      "cause": "Ryder's temptation by sudden wealth",
+      "immediate_consequence": "Alarm raised; Horner arrested; Ryder flees with the stone",
+      "why_it_matters": "Sets the entire plot in motion"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_evt_002",
+    "name": "The Arrest of Horner",
+    "properties": {
+      "sequence_number": 2,
+      "what_changed": "Innocent plumber imprisoned; case built against him",
+      "who_was_involved": [
+        "Police",
+        "Horner",
+        "Ryder"
+      ],
+      "emotions": [
+        "desperation",
+        "injustice"
+      ],
+      "cause": "Ryder's frame-up using Horner's past record",
+      "immediate_consequence": "Police focus on Horner; Ryder flees to Kilburn",
+      "why_it_matters": "Creates the moral/legal dilemma Holmes must resolve"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_evt_003",
+    "name": "The Confession",
+    "properties": {
+      "sequence_number": 3,
+      "what_changed": "Ryder's full crime revealed; his psychological breakdown",
+      "who_was_involved": [
+        "Holmes",
+        "Ryder",
+        "Watson"
+      ],
+      "emotions": [
+        "terror",
+        "remorse",
+        "relief",
+        "sobbing"
+      ],
+      "cause": "Holmes's interrogation and deduction",
+      "immediate_consequence": "Holmes decides to release Ryder; case against Horner collapses",
+      "why_it_matters": "Climax of the investigation; moral resolution"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_evt_004",
+    "name": "The Release",
+    "properties": {
+      "sequence_number": 4,
+      "what_changed": "Ryder freed; Holmes commutes a felony to save a soul",
+      "who_was_involved": [
+        "Holmes",
+        "Ryder",
+        "Watson"
+      ],
+      "emotions": [
+        "relief",
+        "blessing",
+        "contemplation"
+      ],
+      "cause": "Holmes's belief that Ryder is too frightened to reoffend",
+      "immediate_consequence": "Ryder leaves; Holmes reflects on saving a soul vs. supplying police deficiencies",
+      "why_it_matters": "Thematic resolution; establishes Holmes's moral code"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_org_001",
+    "name": "The Police",
+    "properties": {
+      "structure": "Investigative force; relies on evidence and suspects",
+      "purpose/goal": "Solve the jewel robbery, arrest the culprit",
+      "resources/assets": "Investigative methods, arrest power",
+      "status": "Active, but deficient in this case",
+      "plot_impact": "Holmes supplies their deficiencies; their case collapses when Horner is released"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_org_002",
+    "name": "The Market",
+    "properties": {
+      "structure": "Commercial network of dealers and farmers",
+      "leadership": "Dealers like Breckinridge",
+      "purpose/goal": "Buy, sell, and distribute poultry",
+      "resources/assets": "Geese, dealers, trade routes",
+      "status": "Active, transactional",
+      "plot_impact": "The mechanism through which the stolen goose (and stone) is lost; represents the commercial disposal of stolen goods"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_con_001",
+    "name": "Sudden Wealth",
+    "properties": {
+      "manifestation": "Ryder's temptation to steal the jewel; the driving motive for the crime",
+      "characters_events": [
+        "Ryder's greed",
+        "The jewel robbery"
+      ],
+      "resolution": "Ryder never actually touches the wealth; it is lost due to a mix-up"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_con_002",
+    "name": "Mercy and Salvation",
+    "properties": {
+      "manifestation": "Holmes's decision to release Ryder; Ryder's plea for mercy; the idea of saving a soul",
+      "characters_events": [
+        "Holmes's final monologue",
+        "Ryder's breakdown"
+      ],
+      "resolution": "Holmes chooses moral salvation over strict legal punishment, believing fear will reform Ryder"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_con_003",
+    "name": "Suspicion and Reputation",
+    "properties": {
+      "manifestation": "Horner's past record making him an easy target; Ryder's fear of being 'branded a thief'",
+      "characters_events": [
+        "The framing of Horner",
+        "Ryder's psychological torment"
+      ],
+      "resolution": "Ryder's reputation is destroyed, but he is spared legal branding; Horner's reputation is cleared by the collapse of the case"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_con_004",
+    "name": "Crime and Felony",
+    "properties": {
+      "manifestation": "The theft of the jewel; the legal charge against Ryder; the concept of a 'jail-bird for life'",
+      "characters_events": [
+        "The robbery",
+        "Holmes's decision to 'commute a felony'"
+      ],
+      "resolution": "Legally unresolved (case collapses), but morally addressed through Holmes's intervention"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_007_char_001",
+    "name": "Doctor",
+    "properties": {
+      "role": "addressee and investigative partner",
+      "narrative_function": "summoned to assist with a new case"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_007",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_007_concept_001",
+    "name": "season of forgiveness",
+    "properties": {
+      "theme": "period of leniency or pardon",
+      "manifestation": "sets the moral and atmospheric tone for the narrative"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_007",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_007_concept_002",
+    "name": "Chance",
+    "properties": {
+      "role": "personified catalyst",
+      "manifestation": "delivers the problem to the investigators"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_007",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_007_obj_001",
+    "name": "bell",
+    "properties": {
+      "narrative_role": "action trigger",
+      "usage": "touched by the Doctor to commence the investigation"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_007",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_007_event_001",
+    "name": "investigation",
+    "properties": {
+      "sequence_number": "next/upcoming case",
+      "what_changed": "shifts focus to a new mystery involving a bird",
+      "narrative_function": "drives the plot forward"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_007",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_007_obj_002",
+    "name": "bird",
+    "properties": {
+      "narrative_role": "central element of the mystery",
+      "significance": "chief feature of the upcoming investigation"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_007",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_007_concept_003",
+    "name": "problem",
+    "properties": {
+      "mystery_type": "singular and whimsical puzzle",
+      "resolution_theme": "solution is its own reward",
+      "status": "pending"
+    },
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_007",
+    "doc_id": "54fe739d5f764020ad4396c72af29729"
+  }
+]

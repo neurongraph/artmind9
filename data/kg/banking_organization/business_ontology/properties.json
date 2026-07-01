@@ -1,0 +1,3381 @@
+[
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_001_org_001",
+    "name": "Technology Department",
+    "properties": {
+      "key_functions": [
+        "Maintain business ontology documentation",
+        "Define standards for architects and data engineers"
+      ],
+      "cross_functional_interfaces": [
+        "Architecture",
+        "Data Engineering",
+        "Domain Experts"
+      ],
+      "reporting_to": [
+        "FirstUK Bank"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_001",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_001_rol_001",
+    "name": "Enterprise Architect",
+    "properties": {
+      "department_or_unit": [
+        "Technology Department"
+      ],
+      "accountable_for": [
+        "Business Ontology document ownership and maintenance"
+      ],
+      "key_responsibilities": [
+        "Define and maintain business ontology standards",
+        "Guide architects and data engineers"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_001",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_001_rul_001",
+    "name": "Financial Industry Business Ontology",
+    "properties": {
+      "rule_statement": "Adopt FIBO as a core standard for business ontology development",
+      "regulatory_source": [
+        "FIBO"
+      ],
+      "applies_to": [
+        "Business Ontology documentation",
+        "FirstUK Bank standards"
+      ],
+      "rule_type": [
+        "obligation"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_001",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_001_rul_002",
+    "name": "ISO 20022",
+    "properties": {
+      "rule_statement": "Adopt ISO 20022 as a core standard for business ontology development",
+      "regulatory_source": [
+        "ISO 20022"
+      ],
+      "applies_to": [
+        "Business Ontology documentation",
+        "FirstUK Bank standards"
+      ],
+      "rule_type": [
+        "obligation"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_001",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_001_org_002",
+    "name": "FirstUK Bank",
+    "properties": {
+      "key_functions": [
+        "Publish and govern business ontology standards",
+        "Define internal documentation metadata"
+      ],
+      "cross_functional_interfaces": [
+        "Technology Department",
+        "Architecture",
+        "Data Engineering"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_001",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_002_org_001",
+    "name": "FirstUK Bank",
+    "properties": {},
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_002",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_002_bnk_002",
+    "name": "Business Ontology",
+    "properties": {
+      "definition": "Defines the core concepts, entities, relationships, and constraints that govern FirstUK Bank's enterprise; provides a shared semantic understanding of business domains to enable knowledge representation, data integration, and enterprise reasoning.",
+      "key_attributes": [
+        "concepts",
+        "entities",
+        "relationships",
+        "constraints"
+      ],
+      "business_rules": [
+        "Establishes governance constraints for the enterprise"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_002",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_002_met_003",
+    "name": "Defined Business Entities Count",
+    "properties": {
+      "value": "30+",
+      "unit": "count",
+      "what_it_measures": "Total number of business entities defined within the ontology"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_002",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_002_met_004",
+    "name": "Mapped Relationships Count",
+    "properties": {
+      "value": "50+",
+      "unit": "count",
+      "what_it_measures": "Total number of mapped relationships within the ontology"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_002",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_002_met_005",
+    "name": "Governance Constraints Count",
+    "properties": {
+      "value": "100+",
+      "unit": "count",
+      "what_it_measures": "Total number of governance constraints defined in the ontology"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_002",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_003_rul_001",
+    "name": "Realism Principle",
+    "properties": {
+      "rule_statement": "Concepts map to real-world business entities",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Ontology Design",
+        "Business Entity Mapping"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_003",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_003_rul_002",
+    "name": "Consistency Principle",
+    "properties": {
+      "rule_statement": "Concepts maintain consistent definitions across documents",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Ontology Governance",
+        "Documentation Standards"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_003",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_003_rul_003",
+    "name": "Completeness Principle",
+    "properties": {
+      "rule_statement": "Critical business concepts are defined",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Ontology Development",
+        "Business Concept Cataloging"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_003",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_003_rul_004",
+    "name": "Clarity Principle",
+    "properties": {
+      "rule_statement": "Definitions are unambiguous and precise",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Ontology Documentation",
+        "Definition Drafting"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_003",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_003_rul_005",
+    "name": "Traceability Principle",
+    "properties": {
+      "rule_statement": "Concepts link to policies, procedures, and systems",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Ontology Architecture",
+        "System Integration Mapping"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_003",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_004_bnk_001",
+    "name": "Party & Customer Domain",
+    "properties": {
+      "definition": "People and organizations interacting with the bank"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_004",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_004_bnk_002",
+    "name": "Product Domain",
+    "properties": {
+      "definition": "Banking products and services"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_004",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_004_bnk_003",
+    "name": "Account Domain",
+    "properties": {
+      "definition": "Customer accounts and holdings"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_004",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_004_bnk_004",
+    "name": "Transaction Domain",
+    "properties": {
+      "definition": "Money movement and account activity"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_004",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_004_bnk_005",
+    "name": "Risk & Compliance Domain",
+    "properties": {
+      "definition": "Regulatory and risk concepts"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_004",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_004_bnk_006",
+    "name": "Organization Domain",
+    "properties": {
+      "definition": "Organizational structure and roles"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_004",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_005_bnk_001",
+    "name": "Party",
+    "properties": {
+      "definition": "Any natural person or organization that interacts with FirstUK Bank.",
+      "subtypes": [
+        "Natural Person",
+        "Organization",
+        "Employee",
+        "Regulatory Authority"
+      ],
+      "key_attributes": [
+        "party_id",
+        "party_type",
+        "name",
+        "registration_date"
+      ],
+      "ontology_domain": "Party & Customer Domain"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_005",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_005_org_001",
+    "name": "FirstUK Bank",
+    "properties": {},
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_005",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_006_bnk_001",
+    "name": "Customer",
+    "properties": {
+      "definition": "A natural person (individual) who holds at least one account with FirstUK Bank.",
+      "key_attributes": [
+        "customer_id",
+        "first_name",
+        "last_name",
+        "date_of_birth",
+        "nationality",
+        "email",
+        "phone",
+        "address",
+        "customer_status"
+      ],
+      "business_rules": [
+        "Every customer must have a valid identity",
+        "Every customer must pass AML screening before account opening",
+        "Customer can hold multiple accounts",
+        "Customer can have joint account holders"
+      ],
+      "relationships_to": [
+        "Account",
+        "Address",
+        "KYC_Verification"
+      ],
+      "example": {
+        "customer_id": "CUST-00001",
+        "date_of_birth": "1985-03-15",
+        "nationality": "UK",
+        "email": "sarah.johnson@email.com",
+        "customer_status": "Active",
+        "has_accounts": [
+          "ACC-00001",
+          "ACC-00002"
+        ]
+      }
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_006",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_006_bnk_002",
+    "name": "Party",
+    "properties": {},
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_006",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_006_bnk_003",
+    "name": "Account",
+    "properties": {},
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_006",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_006_bnk_004",
+    "name": "Address",
+    "properties": {},
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_006",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_006_bnk_005",
+    "name": "KYC_Verification",
+    "properties": {},
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_006",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_006_bnk_006",
+    "name": "AML_Screening",
+    "properties": {},
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_006",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_006_rul_001",
+    "name": "Valid Identity Requirement",
+    "properties": {
+      "rule_statement": "Every customer must have a valid identity.",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Customer"
+      ],
+      "enforcement": [
+        "KYC_Verification"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_006",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_006_rul_002",
+    "name": "Pre-Opening AML Screening",
+    "properties": {
+      "rule_statement": "Every customer must pass AML screening before account opening.",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Customer"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_006",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_006_rul_003",
+    "name": "Multiple Account Holding",
+    "properties": {
+      "rule_statement": "Customer can hold multiple accounts.",
+      "rule_type": "authority",
+      "applies_to": [
+        "Customer"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_006",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_006_rul_004",
+    "name": "Joint Account Holders",
+    "properties": {
+      "rule_statement": "Customer can have joint account holders.",
+      "rule_type": "authority",
+      "applies_to": [
+        "Customer"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_006",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_007_bnk_001",
+    "name": "Address",
+    "properties": {
+      "definition": "Physical location associated with a customer, account, or branch.",
+      "key_attributes": [
+        "address_id",
+        "address_line1",
+        "address_line2",
+        "city",
+        "postcode",
+        "country",
+        "address_type",
+        "effective_date"
+      ],
+      "subtypes": [
+        "Registered",
+        "Correspondence",
+        "Branch"
+      ],
+      "business_rules": [
+        "UK customers must have a UK address",
+        "Address must be verified (utility bill, council tax, etc.)",
+        "Addresses use UK postcode format"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_007",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_007_rul_002",
+    "name": "UK Customer Address Requirement",
+    "properties": {
+      "rule_statement": "UK customers must have a UK address",
+      "rule_type": "obligation",
+      "applies_to": [
+        "UK customers"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_007",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_007_rul_003",
+    "name": "Address Verification Requirement",
+    "properties": {
+      "rule_statement": "Address must be verified (utility bill, council tax, etc.)",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Customer addresses"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_007",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_007_rul_004",
+    "name": "UK Postcode Format Rule",
+    "properties": {
+      "rule_statement": "Addresses use UK postcode format (A(1,2)9(1,2)A 9A(2))",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Postcode field",
+        "Address records"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_007",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_008_bnk_001",
+    "name": "Identification Document",
+    "properties": {
+      "definition": "Official document used to verify customer identity (KYC)",
+      "key_attributes": [
+        "doc_id",
+        "customer_id",
+        "doc_type",
+        "doc_number",
+        "issuing_country",
+        "issue_date",
+        "expiry_date",
+        "verification_status"
+      ],
+      "subtypes": [
+        "UK Passport",
+        "UK Driving License",
+        "UK National ID Card"
+      ],
+      "business_rules": [
+        "Verification status must be tracked (Unverified, Verified, Expired, Rejected)",
+        "Expired documents are rejected"
+      ],
+      "regulatory_significance": "Required for KYC compliance"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_008",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_009_bnk_001",
+    "name": "Product",
+    "properties": {
+      "definition": "A financial service offered by FirstUK Bank",
+      "key_attributes": [
+        "product_id",
+        "product_name",
+        "product_type",
+        "description",
+        "launch_date",
+        "status",
+        "min_balance",
+        "max_balance",
+        "target_customer"
+      ],
+      "relationships_to": [
+        "Feature",
+        "PricingTier"
+      ],
+      "ontology_domain": "Product Domain"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_009",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_009_bnk_002",
+    "name": "SmartSaver Account",
+    "properties": {
+      "definition": "A savings product offered by FirstUK Bank",
+      "key_attributes": [
+        "product_id",
+        "product_type",
+        "min_balance",
+        "target_customer"
+      ],
+      "example": {
+        "product_id": "SAV-001",
+        "product_type": "Savings",
+        "min_balance": "£1",
+        "target_customer": "General consumers, ages 18+"
+      },
+      "ontology_domain": "Product Domain"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_009",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_009_bnk_003",
+    "name": "Feature",
+    "properties": {
+      "relationships_to": [
+        "Product"
+      ],
+      "ontology_domain": "Product Domain"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_009",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_009_bnk_004",
+    "name": "PricingTier",
+    "properties": {
+      "relationships_to": [
+        "Product"
+      ],
+      "ontology_domain": "Product Domain"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_009",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_010_bnk_001",
+    "name": "Feature",
+    "properties": {
+      "definition": "A specific capability or service included in a product.",
+      "key_attributes": [
+        "feature_id",
+        "feature_name",
+        "feature_description",
+        "available_products",
+        "effective_date"
+      ],
+      "subtypes": [
+        "Easy Access",
+        "Interest Accrual",
+        "Online Banking",
+        "Mobile App",
+        "Debit Card",
+        "Standing Orders",
+        "Direct Debits",
+        "Joint Account Support"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_010",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_011_bnk_001",
+    "name": "Interest Rate",
+    "properties": {
+      "definition": "A specific rate of interest applied to accounts.",
+      "key_attributes": [
+        "rate_id",
+        "product_id",
+        "rate_type",
+        "rate_value",
+        "rate_tier",
+        "effective_date",
+        "next_review_date",
+        "review_basis"
+      ],
+      "subtypes": [
+        "Fixed",
+        "Variable",
+        "Tiered"
+      ],
+      "business_rules": [
+        {
+          "rule_statement": "Rate reviews are linked to Bank of England base rate plus a margin.",
+          "applies_to": "Interest Rate calculation and review process"
+        }
+      ],
+      "relationships_to": [
+        "Product",
+        "Bank of England Base Rate"
+      ],
+      "example": {
+        "product_id": "SAV-001",
+        "rate_type": "Tiered Variable",
+        "tiers": [
+          {
+            "range": "£0–£10,000",
+            "value": "4.5% AER"
+          },
+          {
+            "range": "£10,001–£50,000",
+            "value": "4.7% AER"
+          },
+          {
+            "range": "£50,001+",
+            "value": "4.8% AER"
+          }
+        ],
+        "review_basis": "BoE base rate + 2.5% margin",
+        "effective_date": "2026-01-15"
+      }
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_011",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_011_org_001",
+    "name": "Bank of England",
+    "properties": {},
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_011",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_012_bnk_001",
+    "name": "Account",
+    "properties": {
+      "definition": "A contractual arrangement between a customer and FirstUK Bank to hold money, make transactions, and earn interest.",
+      "key_attributes": [
+        "account_id",
+        "customer_id",
+        "product_id",
+        "currency",
+        "opening_date",
+        "account_status",
+        "account_balance",
+        "available_balance",
+        "overdraft_limit"
+      ],
+      "business_rules": [
+        "Every account must have one primary account holder",
+        "Account balance is calculated from transaction ledger",
+        "Account can only be in one status at a time",
+        "Closed accounts are not reactivated"
+      ],
+      "relationships_to": [
+        "Customer (1:1 via has_primary_holder)",
+        "AccountHolder (1:many via has_account_holders)",
+        "Product (1:1 via has_products)",
+        "Transaction (1:many via has_transactions)",
+        "StandingOrder (1:many via has_standing_orders)",
+        "Card (1:many via has_cards)"
+      ],
+      "ontology_domain": "Account Domain"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_012",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_012_bnk_002",
+    "name": "Customer",
+    "properties": {
+      "relationships_to": [
+        "Account (1:1 primary holder relationship)"
+      ],
+      "definition": "Party entering a contractual arrangement with FirstUK Bank to hold money and make transactions."
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_012",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_012_bnk_003",
+    "name": "Product",
+    "properties": {
+      "relationships_to": [
+        "Account (1:1 linked product)"
+      ],
+      "examples": [
+        "SmartSaver Account (SAV-001)"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_012",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_012_bnk_004",
+    "name": "Transaction",
+    "properties": {
+      "relationships_to": [
+        "Account (1:many, used to calculate account balance)"
+      ],
+      "key_attributes": [
+        "Contributes to transaction ledger for balance calculation"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_012",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_012_bnk_005",
+    "name": "Standing Order",
+    "properties": {
+      "relationships_to": [
+        "Account (1:many linked to account)"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_012",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_012_bnk_006",
+    "name": "Card",
+    "properties": {
+      "relationships_to": [
+        "Account (1:many linked to account)"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_012",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_012_bnk_007",
+    "name": "Account Holder",
+    "properties": {
+      "subtypes": [
+        "Primary account holder",
+        "Joint holders"
+      ],
+      "relationships_to": [
+        "Account (1:many, includes primary and joint holders)"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_012",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_012_bnk_008",
+    "name": "Interest Rate",
+    "properties": {
+      "context": "Earned by accounts per contractual arrangement with FirstUK Bank"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_012",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_012_rul_001",
+    "name": "Mandatory Primary Account Holder",
+    "properties": {
+      "rule_statement": "Every account must have one primary account holder (customer)",
+      "applies_to": [
+        "Account"
+      ],
+      "rule_type": "obligation"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_012",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_012_rul_002",
+    "name": "Transaction Ledger Balance Calculation",
+    "properties": {
+      "rule_statement": "Account balance is calculated from transaction ledger",
+      "applies_to": [
+        "Account",
+        "Transaction"
+      ],
+      "rule_type": "constraint"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_012",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_012_rul_003",
+    "name": "Single Status Constraint",
+    "properties": {
+      "rule_statement": "Account can only be in one status at a time",
+      "applies_to": [
+        "Account"
+      ],
+      "rule_type": "constraint"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_012",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_012_rul_004",
+    "name": "Closed Account Reactivation Prohibition",
+    "properties": {
+      "rule_statement": "Closed accounts are not reactivated",
+      "applies_to": [
+        "Account"
+      ],
+      "rule_type": "prohibition"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_012",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_013_bnk_001",
+    "name": "Account Holder",
+    "properties": {
+      "definition": "A person with legal rights and responsibilities for an account.",
+      "key_attributes": [
+        "holder_id",
+        "account_id",
+        "customer_id",
+        "holder_type",
+        "signatory_required",
+        "added_date"
+      ],
+      "subtypes": [
+        "Primary",
+        "Joint",
+        "Secondary"
+      ],
+      "business_rules": [
+        "Account must have at least one primary holder",
+        "Joint account: Both holders must pass KYC/AML",
+        "Either joint holder can withdraw full balance",
+        "Interest calculated on total balance (not per holder)"
+      ],
+      "example": "Joint Account ACC-00002 with Primary Holder John Smith and Joint Holder Jane Smith"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_013",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_013_bnk_002",
+    "name": "KYC/AML Screening",
+    "properties": {
+      "definition": "Mandatory compliance verification process for account holders.",
+      "business_rules": [
+        "Both joint account holders must pass KYC/AML screening"
+      ],
+      "regulatory_significance": "Required to mitigate financial crime risk on joint accounts",
+      "relationships_to": [
+        "Account Holder",
+        "Joint Account"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_013",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_013_bnk_003",
+    "name": "Account",
+    "properties": {
+      "definition": "Financial container linked to one or more account holders and customers.",
+      "key_attributes": [
+        "account_id",
+        "balance",
+        "holder_type"
+      ],
+      "subtypes": [
+        "Joint Account"
+      ],
+      "business_rules": [
+        "Interest calculated on total balance (not per holder)"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_013",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_013_rul_004",
+    "name": "Primary Holder Requirement",
+    "properties": {
+      "rule_statement": "Account must have at least one primary holder",
+      "rule_type": "constraint",
+      "applies_to": [
+        "All Accounts"
+      ],
+      "enforcement": "System validation during account setup"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_013",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_013_rul_005",
+    "name": "Joint Account KYC/AML Compliance",
+    "properties": {
+      "rule_statement": "Both joint account holders must pass KYC/AML screening",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Joint Accounts",
+        "Account Holders"
+      ],
+      "enforcement": "Compliance system checks at onboarding"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_013",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_013_rul_006",
+    "name": "Joint Withdrawal Authority",
+    "properties": {
+      "rule_statement": "Either joint holder can withdraw the full account balance",
+      "rule_type": "authority",
+      "applies_to": [
+        "Joint Accounts"
+      ],
+      "consequence": "Both holders remain liable for any overdraft"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_013",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_013_rul_007",
+    "name": "Interest Calculation Rule",
+    "properties": {
+      "rule_statement": "Interest is calculated on the total account balance, not allocated per holder",
+      "rule_type": "constraint",
+      "applies_to": [
+        "All Accounts",
+        "Account Holders"
+      ],
+      "enforcement": "Core banking calculation engine"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_013",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_014_bnk_001",
+    "name": "Joint Account",
+    "properties": {
+      "definition": "An account held by two or more customers with joint and several liability.",
+      "key_attributes": [
+        "account_id",
+        "joint_type",
+        "holders",
+        "interest_split"
+      ],
+      "subtypes": [
+        "Joint and Several",
+        "Tenants in Common"
+      ],
+      "business_rules": [
+        "Both holders must consent to account closure",
+        "Both holders responsible for overdraft",
+        "Both holders can initiate transactions",
+        "Dispute resolution per Complaint Handling",
+        "Both holders jointly and severally liable",
+        "Both included in AML due diligence",
+        "Both entitled to account information"
+      ],
+      "regulatory_significance": "Joint and several liability applies; mandatory AML due diligence for all holders"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_014",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_014_rul_003",
+    "name": "Joint Account Closure Consent Rule",
+    "properties": {
+      "rule_statement": "Both holders must consent to account closure",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Joint Account"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_014",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_014_rul_004",
+    "name": "Joint Overdraft Liability Rule",
+    "properties": {
+      "rule_statement": "Both holders responsible for overdraft",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Joint Account"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_014",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_014_rul_005",
+    "name": "Joint Transaction Initiation Rule",
+    "properties": {
+      "rule_statement": "Both holders can initiate transactions",
+      "rule_type": "authority",
+      "applies_to": [
+        "Joint Account"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_014",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_014_rul_006",
+    "name": "Dispute Resolution Governance Rule",
+    "properties": {
+      "rule_statement": "Dispute resolution per Complaint Handling department/process",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Joint Account"
+      ],
+      "enforcement": [
+        "Complaint Handling"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_014",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_014_rul_007",
+    "name": "Joint and Several Liability Rule",
+    "properties": {
+      "rule_statement": "Both holders are jointly and severally liable for the account",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Joint Account"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_014",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_014_rul_008",
+    "name": "AML Due Diligence Requirement",
+    "properties": {
+      "rule_statement": "Both account holders must be included in AML due diligence",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Joint Account"
+      ],
+      "regulatory_source": [
+        "AML"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_014",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_015_bnk_001",
+    "name": "Card",
+    "properties": {
+      "definition": "A payment card (debit, credit, or prepaid) linked to an account.",
+      "key_attributes": [
+        "card_id",
+        "account_id",
+        "customer_id",
+        "card_type",
+        "card_number (masked in logs)",
+        "cardholder_name",
+        "expiry_date (MMYY format)",
+        "cvv (not stored after verification)",
+        "card_status",
+        "issued_date",
+        "daily_limit"
+      ],
+      "subtypes": [
+        "Debit",
+        "Credit",
+        "Prepaid"
+      ],
+      "business_rules": [
+        "Card can be locked/unlocked by cardholder",
+        "Lost/stolen cards can be replaced (fee £15)",
+        "Only one card per account (initially)",
+        "Contactless limit: £100 per transaction"
+      ],
+      "relationships_to": [
+        "Account (linked_to_account, 1:many)",
+        "Transaction (has_transactions, 1:many)"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_015",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_015_rul_001",
+    "name": "Card Lock/Unlock Control",
+    "properties": {
+      "rule_statement": "Card can be locked/unlocked by cardholder",
+      "rule_type": "authority",
+      "applies_to": [
+        "Card"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_015",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_015_rul_002",
+    "name": "Lost/Stolen Card Replacement Policy",
+    "properties": {
+      "rule_statement": "Lost/stolen cards can be replaced (fee £15)",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Card"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_015",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_015_rul_003",
+    "name": "Single Card Per Account Constraint",
+    "properties": {
+      "rule_statement": "Only one card per account (initially)",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Card",
+        "Account"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_015",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_015_met_001",
+    "name": "Daily Transaction Limit",
+    "properties": {
+      "value": "£500",
+      "unit": "GBP",
+      "what_it_measures": "Daily transaction limit",
+      "context": "e.g., £500 for ATM"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_015",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_015_rul_004",
+    "name": "Contactless Transaction Limit",
+    "properties": {
+      "rule_statement": "Contactless limit: £100 per transaction",
+      "rule_type": "threshold",
+      "applies_to": [
+        "Card",
+        "Transaction"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_015",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_016_bnk_001",
+    "name": "Transaction",
+    "properties": {
+      "definition": "A financial event representing money movement or activity on an account.",
+      "key_attributes": [
+        "transaction_id",
+        "account_id",
+        "transaction_type",
+        "amount",
+        "currency",
+        "transaction_date",
+        "settlement_date",
+        "description",
+        "status",
+        "reference"
+      ],
+      "subtypes": [
+        "Deposit",
+        "Withdrawal",
+        "Transfer",
+        "Inbound Transfer",
+        "Interest",
+        "Fee",
+        "Standing Order",
+        "Direct Debit"
+      ],
+      "business_rules": [
+        "Transaction cannot be deleted (audit trail)",
+        "Account balance = sum of all transactions",
+        "Each transaction linked to fraud risk score",
+        "All transactions logged for compliance"
+      ],
+      "relationships_to": [
+        "on_account → Account (1:many)",
+        "from_account → Account (transfer source, optional)",
+        "to_account → Account (transfer destination, optional)",
+        "initiated_by → Customer (1:1, optional)",
+        "flagged_by_fraud_detection → FraudAlert (1:many, optional)"
+      ],
+      "ontology_domain": [
+        "Transaction Domain"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_016",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_016_bnk_002",
+    "name": "Account",
+    "properties": {
+      "relationships_to": [
+        "receives 1:many Transaction entities",
+        "serves as transfer source/destination"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_016",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_016_bnk_003",
+    "name": "Customer",
+    "properties": {
+      "relationships_to": [
+        "initiates transactions (1:1, optional)",
+        "adds/removes funds via deposits/withdrawals"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_016",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_016_bnk_004",
+    "name": "FraudAlert",
+    "properties": {
+      "relationships_to": [
+        "linked to transactions via fraud detection (1:many)"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_016",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_016_bnk_005",
+    "name": "Standing Order",
+    "properties": {
+      "subtypes": [
+        "Debit transaction type"
+      ],
+      "key_attributes": [
+        "Direction: Debit",
+        "Trigger: Recurring transfer",
+        "Example: Mortgage payment"
+      ],
+      "business_rules": [
+        "Classified as a recurring debit transaction"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_016",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_016_bnk_006",
+    "name": "Direct Debit",
+    "properties": {
+      "subtypes": [
+        "Debit transaction type"
+      ],
+      "key_attributes": [
+        "Direction: Debit",
+        "Trigger: Bill payment",
+        "Example: Utility payment"
+      ],
+      "business_rules": [
+        "Classified as a bill payment debit transaction"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_016",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_016_rul_001",
+    "name": "Transaction Immutability Constraint",
+    "properties": {
+      "rule_statement": "Transaction cannot be deleted",
+      "rule_type": "constraint",
+      "consequence": "Audit trail must be maintained",
+      "applies_to": [
+        "Transaction"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_016",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_016_rul_002",
+    "name": "Account Balance Calculation Rule",
+    "properties": {
+      "rule_statement": "Account balance = sum of all transactions",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Account",
+        "Transaction"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_016",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_016_rul_003",
+    "name": "Fraud Risk Score Linkage Rule",
+    "properties": {
+      "rule_statement": "Each transaction linked to fraud risk score",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Transaction",
+        "FraudAlert"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_016",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_016_rul_004",
+    "name": "Transaction Logging Compliance Rule",
+    "properties": {
+      "rule_statement": "All transactions logged for compliance",
+      "rule_type": "obligation",
+      "regulatory_source": [
+        "Compliance standards"
+      ],
+      "applies_to": [
+        "Transaction"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_016",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_017_bnk_001",
+    "name": "Standing Order",
+    "properties": {
+      "definition": "A recurring transfer initiated by the account holder.",
+      "key_attributes": [
+        "standing_order_id",
+        "account_id",
+        "beneficiary_account_id",
+        "beneficiary_name",
+        "beneficiary_account_number",
+        "beneficiary_sort_code",
+        "amount",
+        "frequency",
+        "start_date",
+        "end_date",
+        "status",
+        "reference"
+      ],
+      "business_rules": [
+        "Creates automatic transaction each period",
+        "Amount and frequency cannot change (must cancel and create new)",
+        "Survives account holder changes if joint",
+        "Requires 30-day notice for cancellation except in fraud/closure cases"
+      ],
+      "relationships_to": [
+        "Account",
+        "Transaction"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_017",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_017_bnk_002",
+    "name": "Account",
+    "properties": {
+      "key_attributes": [
+        "account_id"
+      ],
+      "relationships_to": [
+        "Standing Order (1:many)"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_017",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_017_bnk_003",
+    "name": "Transaction",
+    "properties": {
+      "relationships_to": [
+        "Standing Order (1:many)"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_017",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_017_bnk_004",
+    "name": "Account Holder",
+    "properties": {
+      "relationships_to": [
+        "Standing Order (initiator)"
+      ],
+      "business_rules": [
+        "Changes in account holder do not invalidate standing order if joint"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_017",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_017_rul_001",
+    "name": "Standing Order Immutability Rule",
+    "properties": {
+      "rule_statement": "Amount and frequency cannot change; must cancel and create a new standing order to modify.",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Standing Order"
+      ],
+      "exception_process": "Cancel existing order and create a new one"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_017",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_017_rul_002",
+    "name": "Standing Order Cancellation Notice Rule",
+    "properties": {
+      "rule_statement": "Requires 30-day notice prior to cancellation.",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Standing Order"
+      ],
+      "exception_process": "Exemptions apply for fraud or account closure"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_017",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_017_rul_003",
+    "name": "Joint Account Continuity Rule",
+    "properties": {
+      "rule_statement": "Standing orders survive account holder changes if the account is joint.",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Standing Order",
+        "Joint Account"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_017",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_018_bnk_001",
+    "name": "Direct Debit",
+    "properties": {
+      "definition": "A recurring payment initiated by a third party (biller) authorized by the customer.",
+      "key_attributes": [
+        "direct_debit_id",
+        "account_id",
+        "biller_name",
+        "biller_code",
+        "reference",
+        "amount_type",
+        "expected_amount",
+        "maximum_amount",
+        "frequency",
+        "start_date",
+        "end_date",
+        "status",
+        "mandate_reference"
+      ],
+      "subtypes": [
+        "Fixed",
+        "Variable",
+        "Quarterly",
+        "Monthly",
+        "Annual"
+      ],
+      "business_rules": [
+        "Customer authorizes specific biller via DD mandate",
+        "Biller cannot debit more than maximum amount without notice",
+        "Customer can cancel DD up to 5 days before payment",
+        "Failed DD can be retried (usually once)",
+        "DD protected by Direct Debit Guarantee"
+      ],
+      "relationships_to": [
+        "Account",
+        "Biller",
+        "Transaction"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_018",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_018_bnk_002",
+    "name": "Customer",
+    "properties": {
+      "definition": "Authorizes third-party recurring payments and holds cancellation rights",
+      "business_rules": [
+        "Can cancel DD up to 5 days before payment"
+      ],
+      "relationships_to": [
+        "Direct Debit",
+        "Account"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_018",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_018_bnk_003",
+    "name": "Account",
+    "properties": {
+      "definition": "Entity holding funds for biller payments",
+      "key_attributes": [
+        "account_id"
+      ],
+      "relationships_to": [
+        "Direct Debit"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_018",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_018_bnk_004",
+    "name": "Transaction",
+    "properties": {
+      "definition": "Record generated by Direct Debit processing",
+      "relationships_to": [
+        "Direct Debit"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_018",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_018_rul_001",
+    "name": "Direct Debit Guarantee",
+    "properties": {
+      "rule_statement": "Direct Debit payments are protected under the Direct Debit Guarantee scheme",
+      "applies_to": [
+        "Direct Debit"
+      ],
+      "consequence": "Provides protection against unauthorized or incorrect debits"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_018",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_018_rul_002",
+    "name": "Mandate Authorization Constraint",
+    "properties": {
+      "rule_statement": "Customer must authorize a specific biller via a Direct Debit mandate before payment initiation",
+      "applies_to": [
+        "Direct Debit"
+      ],
+      "rule_type": "constraint",
+      "enforcement": "Biller system validation"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_018",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_018_rul_003",
+    "name": "Maximum Amount Debit Restriction",
+    "properties": {
+      "rule_statement": "Biller cannot debit more than the specified maximum amount without prior notice",
+      "applies_to": [
+        "Direct Debit"
+      ],
+      "rule_type": "threshold",
+      "enforcement": "System limit check"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_018",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_018_rul_004",
+    "name": "Cancellation Window Rule",
+    "properties": {
+      "rule_statement": "Customer can cancel Direct Debit up to 5 days before the scheduled payment date",
+      "applies_to": [
+        "Direct Debit"
+      ],
+      "rule_type": "constraint",
+      "exception_process": "None stated"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_018",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_018_rul_005",
+    "name": "Failed Payment Retry Limit",
+    "properties": {
+      "rule_statement": "Failed Direct Debit payments can be retried, typically limited to one attempt",
+      "applies_to": [
+        "Direct Debit"
+      ],
+      "rule_type": "threshold",
+      "enforcement": "Payment processor rules"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_018",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_019_bnk_001",
+    "name": "KYC Verification",
+    "properties": {
+      "definition": "Know Your Customer verification confirming customer identity and legitimacy.",
+      "key_attributes": [
+        "kyc_id",
+        "customer_id",
+        "verification_date",
+        "verification_method",
+        "identity_verified",
+        "address_verified",
+        "pep_screened",
+        "adverse_media_checked",
+        "verification_status",
+        "next_review_date",
+        "reviewer"
+      ],
+      "business_rules": [
+        "KYC mandatory before account opening",
+        "KYC refreshed periodically (every 3–5 years)",
+        "High-risk customers require Enhanced Due Diligence (EDD)",
+        "KYC documents retained for 6 years post-closure"
+      ],
+      "relationships_to": [
+        "Customer",
+        "IdentificationDocument"
+      ],
+      "ontology_domain": "Risk & Compliance"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_019",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_019_bnk_002",
+    "name": "Customer",
+    "properties": {
+      "relationships_to": [
+        "KYC Verification (1:1)"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_019",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_019_rul_001",
+    "name": "Mandatory Pre-Opening Verification Constraint",
+    "properties": {
+      "rule_statement": "KYC verification must be completed before an account can be opened.",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Account Opening Process"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_019",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_019_rul_002",
+    "name": "Periodic KYC Refresh Cycle Rule",
+    "properties": {
+      "rule_statement": "KYC verification must be refreshed every 3 to 5 years.",
+      "rule_type": "obligation",
+      "applies_to": [
+        "KYC Verification Process"
+      ],
+      "frequency": "Every 3–5 years"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_019",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_019_rul_003",
+    "name": "Enhanced Due Diligence Requirement",
+    "properties": {
+      "rule_statement": "Enhanced Due Diligence (EDD) is required for high-risk customers.",
+      "rule_type": "obligation",
+      "applies_to": [
+        "KYC Verification Process",
+        "High-Risk Customers"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_019",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_019_rul_004",
+    "name": "KYC Document Retention Obligation",
+    "properties": {
+      "rule_statement": "KYC documents must be retained for 6 years after account closure.",
+      "rule_type": "obligation",
+      "applies_to": [
+        "KYC Document Management",
+        "Account Closure Process"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_019",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_020_bnk_001",
+    "name": "AML Screening",
+    "properties": {
+      "definition": "Anti-Money Laundering screening to detect financial crime risks",
+      "key_attributes": [
+        "screening_id",
+        "customer_id",
+        "screening_date",
+        "screening_lists",
+        "matches_found",
+        "match_details",
+        "risk_level",
+        "manual_review_required",
+        "screening_status",
+        "reviewer"
+      ],
+      "business_rules": [
+        "AML screening mandatory at account opening",
+        "Ongoing AML monitoring for high-risk customers",
+        "Hit on sanctions list triggers automatic account freeze and SAR filing",
+        "Failed screening results in account application rejection"
+      ],
+      "relationships_to": [
+        "Customer (1:1)",
+        "SAR (0:many)"
+      ],
+      "ontology_domain": "Financial Crime & Compliance"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_020",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_020_bnk_002",
+    "name": "OFAC Sanctions List",
+    "properties": {
+      "definition": "US Treasury sanctions list used for AML screening",
+      "regulatory_significance": "Mandatory US and international financial crime compliance"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_020",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_020_bnk_003",
+    "name": "UN Sanctions List",
+    "properties": {
+      "definition": "United Nations sanctions list used for AML screening",
+      "regulatory_significance": "Mandatory international UN compliance"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_020",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_020_bnk_004",
+    "name": "EU Sanctions List",
+    "properties": {
+      "definition": "European Union sanctions list used for AML screening",
+      "regulatory_significance": "Mandatory EU financial crime compliance"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_020",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_020_bnk_005",
+    "name": "HM Treasury Sanctions Designations",
+    "properties": {
+      "definition": "UK HM Treasury sanctions designations used for AML screening",
+      "regulatory_significance": "Mandatory UK financial crime compliance"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_020",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_020_bnk_006",
+    "name": "INTERPOL Red Notices",
+    "properties": {
+      "definition": "International police notices for fugitives used in AML screening",
+      "regulatory_significance": "Mandatory international law enforcement compliance"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_020",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_020_bnk_007",
+    "name": "PEP Databases",
+    "properties": {
+      "definition": "Databases tracking Politically Exposed Persons for risk assessment",
+      "key_attributes": [
+        "risk_level"
+      ],
+      "regulatory_significance": "High-risk customer identification and enhanced due diligence"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_020",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_020_bnk_008",
+    "name": "Adverse Media Databases",
+    "properties": {
+      "definition": "Databases tracking negative news and financial crime indicators",
+      "regulatory_significance": "Reputational risk and financial crime detection"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_020",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_020_rul_001",
+    "name": "Mandatory AML Screening at Account Opening",
+    "properties": {
+      "rule_statement": "AML screening must be performed before or during account opening",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Account Opening Process"
+      ],
+      "enforcement": "Compliance/Operations staff",
+      "consequence": "Application rejected if screening fails"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_020",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_020_rul_002",
+    "name": "Ongoing AML Monitoring for High-Risk Customers",
+    "properties": {
+      "rule_statement": "Continuous AML screening must be applied to customers classified as high-risk",
+      "rule_type": "obligation",
+      "applies_to": [
+        "High-Risk Customer Accounts"
+      ],
+      "frequency": "Ongoing",
+      "enforcement": "Compliance/Operations staff"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_020",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_020_rul_003",
+    "name": "Automatic Account Freeze and SAR Filing on Sanctions Hit",
+    "properties": {
+      "rule_statement": "A match on a sanctions list triggers automatic account freeze and Suspicious Activity Report filing",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Sanctions Screening Results"
+      ],
+      "enforcement": "System automation / Compliance",
+      "consequence": "Account frozen, SAR filed"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_020",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_020_rul_004",
+    "name": "Account Application Rejection on Failed Screening",
+    "properties": {
+      "rule_statement": "An account application must be rejected if AML screening fails",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Account Applications"
+      ],
+      "enforcement": "Compliance/Operations staff",
+      "consequence": "Application rejected"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_020",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_021_bnk_001",
+    "name": "Suspicious Activity Report (SAR)",
+    "properties": {
+      "definition": "A report filed with National Crime Agency (NCA) for suspected financial crime.",
+      "key_attributes": [
+        "sar_id",
+        "customer_id",
+        "filing_date",
+        "nca_reference",
+        "activity_type",
+        "activity_description",
+        "amount_involved",
+        "evidence",
+        "status",
+        "internal_reviewer"
+      ],
+      "subtypes": [
+        "Large cash deposit followed by immediate transfer out",
+        "Multiple accounts opened with similar identity",
+        "Transactions with sanctioned country",
+        "Round-tripping (money in and out same day)"
+      ],
+      "business_rules": [
+        "SAR must be filed within 30 days of suspicion",
+        "Customer not informed (reporting confidential)",
+        "Account may be frozen pending investigation",
+        "Failure to file SAR = regulatory breach"
+      ],
+      "relationships_to": [
+        "Customer",
+        "Transaction",
+        "AML Screening"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_021",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_021_org_001",
+    "name": "National Crime Agency",
+    "properties": {
+      "key_functions": [
+        "Receives and processes Suspicious Activity Reports (SARs)",
+        "Assigns NCA reference numbers to filed reports"
+      ],
+      "regulatory_responsibilities": [
+        "Financial crime investigation intake",
+        "SAR processing and acknowledgment"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_021",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_021_bnk_002",
+    "name": "Customer",
+    "properties": {
+      "key_attributes": [
+        "customer_id"
+      ],
+      "relationships_to": [
+        "Suspicious Activity Report"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_021",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_021_bnk_003",
+    "name": "Transaction",
+    "properties": {
+      "relationships_to": [
+        "Suspicious Activity Report"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_021",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_021_bnk_004",
+    "name": "AML Screening",
+    "properties": {
+      "relationships_to": [
+        "Suspicious Activity Report"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_021",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_021_rul_001",
+    "name": "SAR Filing Deadline",
+    "properties": {
+      "rule_statement": "SAR must be filed within 30 days of suspicion",
+      "rule_type": [
+        "obligation",
+        "threshold"
+      ],
+      "applies_to": [
+        "Suspicious Activity Report filing process"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_021",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_021_rul_002",
+    "name": "SAR Confidentiality Requirement",
+    "properties": {
+      "rule_statement": "Customer must not be informed about the SAR filing",
+      "rule_type": [
+        "obligation"
+      ],
+      "applies_to": [
+        "SAR reporting process"
+      ],
+      "consequence": [
+        "Regulatory breach if violated"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_021",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_021_rul_003",
+    "name": "Account Freeze Provision",
+    "properties": {
+      "rule_statement": "Account may be frozen pending investigation",
+      "rule_type": [
+        "authority"
+      ],
+      "applies_to": [
+        "Customer accounts under SAR review"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_021",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_021_rul_004",
+    "name": "Regulatory Breach Consequence",
+    "properties": {
+      "rule_statement": "Failure to file a SAR constitutes a regulatory breach",
+      "rule_type": [
+        "constraint"
+      ],
+      "applies_to": [
+        "SAR filing process"
+      ],
+      "consequence": [
+        "Regulatory breach"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_021",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_022_bnk_001",
+    "name": "Fraud Alert",
+    "properties": {
+      "definition": "A system-generated alert when fraud is detected.",
+      "key_attributes": [
+        "alert_id",
+        "account_id",
+        "transaction_id",
+        "alert_type",
+        "fraud_score",
+        "risk_level",
+        "detected_date",
+        "alert_status",
+        "action_taken",
+        "reviewer"
+      ],
+      "subtypes": [
+        "Unauthorized use",
+        "Card fraud",
+        "Account takeover",
+        "Rule violation"
+      ],
+      "business_rules": [
+        "High-risk alerts automatically block transaction",
+        "Customer can dispute fraud",
+        "Bank reimburses unauthorized fraud within 10 days",
+        "Fraud data feeds ML model for continuous improvement"
+      ],
+      "relationships_to": [
+        "Account (1:many)",
+        "Transaction (0:1)",
+        "FraudInvestigation (1:1, optional)"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_022",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_022_org_001",
+    "name": "Financial Crime team",
+    "properties": {
+      "key_functions": [
+        "Manual review of high-risk fraud alerts"
+      ],
+      "members": [
+        "Financial Crime team member"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_022",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_022_rul_001",
+    "name": "High-risk alert blocking rule",
+    "properties": {
+      "rule_statement": "High-risk alerts automatically block transaction",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Fraud Alert",
+        "Transaction"
+      ],
+      "consequence": "Transaction is blocked"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_022",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_022_rul_002",
+    "name": "Customer dispute right",
+    "properties": {
+      "rule_statement": "Customer can dispute fraud",
+      "rule_type": "authority",
+      "applies_to": [
+        "Customer",
+        "Fraud Alert"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_022",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_022_rul_003",
+    "name": "Unauthorized fraud reimbursement rule",
+    "properties": {
+      "rule_statement": "Bank reimburses unauthorized fraud within 10 days",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Bank",
+        "Unauthorized Fraud"
+      ],
+      "frequency": "within 10 days"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_022",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_022_rul_004",
+    "name": "Fraud data ML feedback loop",
+    "properties": {
+      "rule_statement": "Fraud data feeds ML model for continuous improvement",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Fraud Data",
+        "ML Model"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_022",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_022_sys_001",
+    "name": "Fraud Detection ML Model",
+    "properties": {
+      "purpose": "Continuous improvement of fraud detection based on historical fraud data",
+      "key_features": [
+        "ML-based risk scoring",
+        "Continuous learning from fraud data"
+      ],
+      "integrations": [
+        "Fraud Alert System"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_022",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_022_bnk_002",
+    "name": "Account",
+    "properties": {
+      "key_attributes": [
+        "account_id"
+      ],
+      "relationships_to": [
+        "Fraud Alert (1:many)"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_022",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_022_bnk_003",
+    "name": "Transaction",
+    "properties": {
+      "key_attributes": [
+        "transaction_id"
+      ],
+      "relationships_to": [
+        "Fraud Alert (0:1)"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_022",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_022_bnk_004",
+    "name": "Card",
+    "properties": {
+      "subtypes": [
+        "Card fraud"
+      ],
+      "key_attributes": [
+        "card_id"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_022",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_023_org_001",
+    "name": "FirstUK Bank",
+    "properties": {},
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_023",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_023_bnk_001",
+    "name": "Employee",
+    "properties": {
+      "definition": "A person employed by FirstUK Bank.",
+      "key_attributes": [
+        "employee_id",
+        "first_name",
+        "last_name",
+        "department_id",
+        "job_title",
+        "manager_id",
+        "start_date",
+        "status",
+        "clearance_level"
+      ],
+      "relationships_to": [
+        "works_in → Department",
+        "reports_to → Employee",
+        "manages → Employee",
+        "performs_kyc_verification → KYC_Verification",
+        "reviews_sar → SAR"
+      ],
+      "ontology_domain": "Organization Domain"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_023",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_023_org_002",
+    "name": "Department",
+    "properties": {},
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_023",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_023_rol_001",
+    "name": "Account Manager",
+    "properties": {},
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_023",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_023_bnk_002",
+    "name": "KYC Verification",
+    "properties": {},
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_023",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_023_bnk_003",
+    "name": "Suspicious Activity Report",
+    "properties": {},
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_023",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_024_org_001",
+    "name": "Retail Banking",
+    "properties": {},
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_024",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_024_org_002",
+    "name": "Product Management",
+    "properties": {},
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_024",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_024_org_003",
+    "name": "Operations",
+    "properties": {},
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_024",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_024_org_004",
+    "name": "Customer Service",
+    "properties": {},
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_024",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_024_org_005",
+    "name": "Financial Crime",
+    "properties": {},
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_024",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_024_org_006",
+    "name": "Compliance",
+    "properties": {},
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_024",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_024_org_007",
+    "name": "Risk",
+    "properties": {},
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_024",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_024_org_008",
+    "name": "Technology",
+    "properties": {},
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_024",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_024_org_009",
+    "name": "Marketing",
+    "properties": {},
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_024",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_024_org_010",
+    "name": "Legal",
+    "properties": {},
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_024",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_024_org_011",
+    "name": "Internal Audit",
+    "properties": {},
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_024",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_025_bnk_001",
+    "name": "Customer",
+    "properties": {
+      "relationships_to": [
+        "Account"
+      ],
+      "definition": "An entity that holds an Account",
+      "example": [
+        "Sarah Johnson"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_025",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_025_bnk_002",
+    "name": "Account",
+    "properties": {
+      "relationships_to": [
+        "Customer",
+        "Transaction"
+      ],
+      "definition": "A container that holds a Customer and records Transactions",
+      "key_attributes": [
+        "account_id"
+      ],
+      "subtypes": [
+        "SmartSaver"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_025",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_025_bnk_003",
+    "name": "Transaction",
+    "properties": {
+      "relationships_to": [
+        "Account"
+      ],
+      "definition": "A recorded event contained within an Account",
+      "key_attributes": [
+        "transaction_id",
+        "type"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_025",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_025_bnk_004",
+    "name": "SmartSaver",
+    "properties": {
+      "relationships_to": [
+        "Account"
+      ],
+      "definition": "A specific variant or subtype of Account",
+      "example": [
+        "ACC-00001"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_025",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_025_rol_001",
+    "name": "Sarah Johnson",
+    "properties": {},
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_025",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_026_bnk_001",
+    "name": "Product",
+    "properties": {
+      "definition": "Entity that offers Features and serves as parent for Accounts",
+      "relationships_to": [
+        "Feature",
+        "Account"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_026",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_026_bnk_002",
+    "name": "Feature",
+    "properties": {
+      "definition": "Capability offered by a Product, made available within an Account",
+      "relationships_to": [
+        "Product",
+        "Account"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_026",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_026_bnk_003",
+    "name": "Account",
+    "properties": {
+      "definition": "Container associated with a Product that holds its Features",
+      "relationships_to": [
+        "Product",
+        "Feature"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_026",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_026_bnk_004",
+    "name": "SmartSaver",
+    "properties": {
+      "system_id": "SAV-001",
+      "definition": "Specific banking product instance",
+      "relationships_to": [
+        "Joint Account Support"
+      ],
+      "example": "SAV-001"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_026",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_026_bnk_005",
+    "name": "Joint Account Support",
+    "properties": {
+      "system_id": "Feature instance",
+      "definition": "Product feature enabling joint account functionality",
+      "relationships_to": [
+        "SmartSaver"
+      ],
+      "example": "Joint Account Support"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_026",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_026_bnk_006",
+    "name": "Sarah+John Joint Account",
+    "properties": {
+      "system_id": "ACC-00002",
+      "definition": "Specific customer account instance linked to a product",
+      "relationships_to": [
+        "SmartSaver",
+        "Joint Account Support"
+      ],
+      "example": "ACC-00002"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_026",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_027_bnk_001",
+    "name": "Account",
+    "properties": {
+      "relationships_to": [
+        "Card"
+      ],
+      "example": [
+        "ACC-00001"
+      ],
+      "definition": "Primary entity linked to a Card"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_027",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_027_bnk_002",
+    "name": "Card",
+    "properties": {
+      "relationships_to": [
+        "Account",
+        "Transaction"
+      ],
+      "example": [
+        "CARD-00001"
+      ],
+      "definition": "Entity linked to an Account that processes Transactions"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_027",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_027_bnk_003",
+    "name": "Transaction",
+    "properties": {
+      "relationships_to": [
+        "Card",
+        "Fraud Alert"
+      ],
+      "example": [
+        "TXN-543 (£2,000 ATM)"
+      ],
+      "definition": "Event processed by a Card that can trigger a Fraud Alert"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_027",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_027_bnk_004",
+    "name": "Fraud Alert",
+    "properties": {
+      "relationships_to": [
+        "Transaction"
+      ],
+      "example": [
+        "FRAUD-091"
+      ],
+      "definition": "Alert generated or triggered by a Transaction"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_027",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_028_bnk_001",
+    "name": "Customer",
+    "properties": {
+      "definition": "Starting entity in the customer verification and AML screening workflow",
+      "key_attributes": [
+        "CUST-00010"
+      ],
+      "relationships_to": [
+        "KYC Verification",
+        "AML Screening",
+        "Suspicious Activity Report"
+      ],
+      "example": "CUST-00010"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_028",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_028_bnk_002",
+    "name": "KYC Verification",
+    "properties": {
+      "definition": "Verification step linked to customer identity and compliance checks",
+      "key_attributes": [
+        "KYC-015"
+      ],
+      "relationships_to": [
+        "Customer",
+        "AML Screening"
+      ],
+      "example": "KYC-015"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_028",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_028_bnk_003",
+    "name": "AML Screening",
+    "properties": {
+      "definition": "Anti-money laundering screening process executed after KYC verification",
+      "key_attributes": [
+        "AML-020"
+      ],
+      "relationships_to": [
+        "KYC Verification",
+        "Suspicious Activity Report"
+      ],
+      "example": "AML-020"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_028",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_028_bnk_004",
+    "name": "Suspicious Activity Report",
+    "properties": {
+      "definition": "Report generated when AML screening triggers a suspicious activity alert",
+      "key_attributes": [
+        "SAR-008"
+      ],
+      "relationships_to": [
+        "AML Screening"
+      ],
+      "example": "SAR-008"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_028",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_029_bnk_001",
+    "name": "Account",
+    "properties": {
+      "definition": "Core financial record tracking product linkage, transaction-derived balance, and lifecycle status",
+      "key_attributes": [
+        "product_id",
+        "balance",
+        "status",
+        "activity_history"
+      ],
+      "subtypes": [
+        "Active",
+        "Dormant",
+        "Closed",
+        "Suspended"
+      ],
+      "business_rules": [
+        "Mandatory Product Linkage Constraint",
+        "Balance Derivation Rule",
+        "Dormancy Threshold Rule",
+        "Account Status Enumeration Constraint"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_029",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_029_rul_001",
+    "name": "Mandatory Product Linkage Constraint",
+    "properties": {
+      "rule_statement": "Account must have product (account.product_id NOT NULL)",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Account"
+      ],
+      "enforcement": "Database NOT NULL validation on product_id field"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_029",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_029_rul_002",
+    "name": "Balance Derivation Rule",
+    "properties": {
+      "rule_statement": "Account balance equals the sum of all transactions (account.balance = SUM(transactions))",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Account",
+        "Transaction"
+      ],
+      "enforcement": "Automated ledger aggregation and recalculation"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_029",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_029_rul_003",
+    "name": "Dormancy Threshold Rule",
+    "properties": {
+      "rule_statement": "Account status transitions to Dormant if inactive for over 12 months (account_status = 'Dormant' IF no_activity > 365 days)",
+      "rule_type": "threshold",
+      "applies_to": [
+        "Account"
+      ],
+      "enforcement": "Automated inactivity monitoring and status update trigger"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_029",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_029_rul_004",
+    "name": "Account Status Enumeration Constraint",
+    "properties": {
+      "rule_statement": "Account status must be strictly one of the defined enumerated values (account.status IN Active, Dormant, Closed, Suspended)",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Account"
+      ],
+      "enforcement": "Database enumeration validation to prevent invalid states"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_029",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_030_rul_001",
+    "name": "Identity Verification Constraint",
+    "properties": {
+      "rule_statement": "Must have identity verified",
+      "rule_type": "constraint",
+      "applies_to": [
+        "customer onboarding",
+        "KYC workflow"
+      ],
+      "technical_expression": "customer.kyc_status = 'Verified'"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_030",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_030_rul_002",
+    "name": "Anti-Money Laundering Screening Constraint",
+    "properties": {
+      "rule_statement": "Must pass AML screening",
+      "rule_type": "constraint",
+      "applies_to": [
+        "customer onboarding",
+        "AML screening process"
+      ],
+      "technical_expression": "customer.aml_status != 'Flagged'"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_030",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_030_rul_003",
+    "name": "Valid Address Requirement",
+    "properties": {
+      "rule_statement": "Must have valid address",
+      "rule_type": "constraint",
+      "applies_to": [
+        "customer profile management",
+        "address verification"
+      ],
+      "technical_expression": "customer.address IS NOT NULL AND verified"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_030",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_030_rul_004",
+    "name": "Minimum Age Threshold",
+    "properties": {
+      "rule_statement": "Age 18+",
+      "rule_type": "threshold",
+      "applies_to": [
+        "customer eligibility",
+        "account opening"
+      ],
+      "technical_expression": "customer.age >= 18"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_030",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_031_rul_001",
+    "name": "Transaction Amount Validation Rule",
+    "properties": {
+      "rule_statement": "transaction.amount > 0",
+      "rule_type": [
+        "constraint"
+      ],
+      "applies_to": [
+        "transaction amount"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_031",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_031_rul_002",
+    "name": "Account Referential Integrity Rule",
+    "properties": {
+      "rule_statement": "transaction.account_id REFERENCES account(account_id)",
+      "rule_type": [
+        "constraint"
+      ],
+      "applies_to": [
+        "account references",
+        "transaction account_id"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_031",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_031_rul_003",
+    "name": "Post-Posting Transaction Immutability Rule",
+    "properties": {
+      "rule_statement": "transaction.status IN (Pending, Completed) AND cannot_edit_completed",
+      "rule_type": [
+        "constraint"
+      ],
+      "applies_to": [
+        "post-posting transactions",
+        "completed transaction records"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_031",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_032_bnk_001",
+    "name": "Suspicious Activity Report (SAR)",
+    "properties": {
+      "definition": "Report filed upon detection of suspicious activity",
+      "key_attributes": [
+        "filing_date",
+        "suspicion_date"
+      ],
+      "business_rules": [
+        "Must be filed within 30 days of suspicion date"
+      ],
+      "regulatory_significance": "Subject to strict filing deadline compliance constraint"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_032",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_032_rul_001",
+    "name": "SAR Filing Deadline Constraint",
+    "properties": {
+      "rule_statement": "SAR.filing_date <= suspicion_date + 30 days",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Suspicious Activity Report (SAR)"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_032",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_032_met_001",
+    "name": "SAR Filing Timeframe",
+    "properties": {
+      "value": 30,
+      "unit": "days",
+      "what_it_measures": "Time elapsed between suspicion date and SAR filing",
+      "context": "Ensures timely regulatory reporting of suspicious activities"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_032",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_032_bnk_002",
+    "name": "Know Your Customer (KYC) Verification",
+    "properties": {
+      "definition": "Customer identity verification process requiring periodic refresh",
+      "key_attributes": [
+        "next_review_date"
+      ],
+      "business_rules": [
+        "Must be refreshed every 3 to 5 years"
+      ],
+      "regulatory_significance": "Mandatory periodic review for customer due diligence compliance"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_032",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_032_rul_002",
+    "name": "KYC Refresh Cycle Constraint",
+    "properties": {
+      "rule_statement": "KYC.next_review_date <= TODAY() + 5 years",
+      "rule_type": "constraint",
+      "applies_to": [
+        "KYC Verification process"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_032",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_032_met_002",
+    "name": "KYC Review Timeframe",
+    "properties": {
+      "value": 5,
+      "unit": "years",
+      "what_it_measures": "Maximum allowable interval between KYC verification reviews",
+      "context": "Ensures customer data remains current and compliant with due diligence standards"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_032",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_032_bnk_003",
+    "name": "Fraud Claim and Reimbursement",
+    "properties": {
+      "definition": "Process for handling customer fraud claims and processing reimbursements",
+      "key_attributes": [
+        "claim_date",
+        "reimbursement_date"
+      ],
+      "business_rules": [
+        "Reimbursement must occur within 10 days of claim date"
+      ],
+      "regulatory_significance": "Subject to strict reimbursement deadline compliance"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_032",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_032_rul_003",
+    "name": "Fraud Reimbursement Deadline Constraint",
+    "properties": {
+      "rule_statement": "Fraud_claim.reimbursement_date <= claim_date + 10 days",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Fraud Claim and Reimbursement process"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_032",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_032_met_003",
+    "name": "Fraud Reimbursement Timeframe",
+    "properties": {
+      "value": 10,
+      "unit": "days",
+      "what_it_measures": "Maximum allowable time to process fraud claim reimbursement after initial claim",
+      "context": "Ensures timely customer compensation and regulatory compliance for fraud handling"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_032",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_033_bnk_001",
+    "name": "Party",
+    "properties": {
+      "definition": "Root entity representing an individual or organization interacting with the bank",
+      "key_attributes": [
+        "party_id",
+        "party_type"
+      ],
+      "subtypes": [
+        "Natural Person"
+      ],
+      "example": {
+        "party_id": "PARTY-00100",
+        "party_type": "Natural Person"
+      }
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_033",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_033_bnk_002",
+    "name": "Customer",
+    "properties": {
+      "definition": "Individual or entity with an active banking relationship",
+      "key_attributes": [
+        "customer_id",
+        "first_name",
+        "last_name",
+        "date_of_birth",
+        "nationality",
+        "email",
+        "customer_status"
+      ],
+      "subtypes": [],
+      "example": {
+        "customer_id": "CUST-00050",
+        "status": "Active"
+      }
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_033",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_033_bnk_003",
+    "name": "Address",
+    "properties": {
+      "definition": "Geographic location associated with a party or customer",
+      "key_attributes": [
+        "address_id",
+        "street",
+        "city",
+        "postcode",
+        "address_type"
+      ],
+      "subtypes": [
+        "Registered"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_033",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_033_bnk_004",
+    "name": "Identification Document",
+    "properties": {
+      "definition": "Official document used to verify identity and address",
+      "key_attributes": [
+        "doc_id",
+        "doc_type",
+        "doc_number",
+        "expiry_date",
+        "verification_status"
+      ],
+      "subtypes": [
+        "UK Driving License"
+      ],
+      "business_rules": [
+        "Must be verified before account activation"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_033",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_033_bnk_005",
+    "name": "KYC Verification",
+    "properties": {
+      "definition": "Process to verify customer identity and assess risk",
+      "key_attributes": [
+        "kyc_id",
+        "customer_id",
+        "identity_verified",
+        "address_verified",
+        "pep_screened",
+        "verification_status"
+      ],
+      "business_rules": [
+        "Identity and address must be verified as TRUE",
+        "PEP screening required"
+      ],
+      "regulatory_significance": "Mandatory for compliance with anti-money laundering regulations"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_033",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_033_bnk_006",
+    "name": "AML Screening",
+    "properties": {
+      "definition": "Process to screen customers against sanctions and watchlists",
+      "key_attributes": [
+        "screening_id",
+        "customer_id",
+        "matches_found",
+        "risk_level",
+        "screening_status"
+      ],
+      "business_rules": [
+        "Zero matches required for low risk classification",
+        "Screening must pass before account activation"
+      ],
+      "regulatory_significance": "Required to prevent financial crime and meet regulatory obligations"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_033",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_033_bnk_007",
+    "name": "Account",
+    "properties": {
+      "definition": "Financial container for holding funds and processing transactions",
+      "key_attributes": [
+        "account_id",
+        "product_id",
+        "opening_date",
+        "account_status",
+        "account_balance"
+      ],
+      "subtypes": [
+        "SmartSaver Account"
+      ],
+      "business_rules": [
+        "Status must be Active to process transactions"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_033",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_033_bnk_008",
+    "name": "SmartSaver Account",
+    "properties": {
+      "definition": "Specific savings product variant for customer accounts",
+      "key_attributes": [
+        "product_id"
+      ],
+      "subtypes": [],
+      "example": {
+        "product_id": "SAV-001"
+      }
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_033",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_033_bnk_009",
+    "name": "Account Holder",
+    "properties": {
+      "definition": "Entity legally entitled to operate an account",
+      "key_attributes": [
+        "holder_id",
+        "account_id",
+        "customer_id",
+        "holder_type"
+      ],
+      "subtypes": [
+        "Primary",
+        "Joint"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_033",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_033_bnk_010",
+    "name": "Transaction",
+    "properties": {
+      "definition": "Record of a financial movement linked to an account",
+      "key_attributes": [
+        "transaction_id",
+        "account_id",
+        "transaction_type",
+        "amount",
+        "transaction_date",
+        "status",
+        "description"
+      ],
+      "subtypes": [
+        "Deposit"
+      ],
+      "business_rules": [
+        "Status must be Completed for funds to be recognized"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_033",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_033_bnk_011",
+    "name": "Card",
+    "properties": {
+      "definition": "Physical or virtual payment instrument linked to an account",
+      "key_attributes": [
+        "card_id",
+        "account_id",
+        "customer_id",
+        "card_type",
+        "card_status",
+        "daily_limit"
+      ],
+      "subtypes": [
+        "Debit"
+      ],
+      "business_rules": [
+        "Daily limit set at £5,000 for active cards"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_033",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_034_rul_001",
+    "name": "Financial Industry Business Ontology (FIBO)",
+    "properties": {
+      "rule_statement": "International standard for financial concepts",
+      "regulatory_source": [
+        "International"
+      ],
+      "applies_to": [
+        "financial concepts"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_034",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_034_rul_002",
+    "name": "ISO 20022",
+    "properties": {
+      "rule_statement": "Financial data exchange standards",
+      "regulatory_source": [
+        "ISO"
+      ],
+      "applies_to": [
+        "financial data exchange"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_034",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_034_rul_003",
+    "name": "FCA Handbook",
+    "properties": {
+      "rule_statement": "Regulatory requirements",
+      "regulatory_source": [
+        "FCA"
+      ],
+      "applies_to": [
+        "regulatory compliance"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_034",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_034_rul_004",
+    "name": "PRA Rulebook",
+    "properties": {
+      "rule_statement": "Capital and risk requirements",
+      "regulatory_source": [
+        "PRA"
+      ],
+      "applies_to": [
+        "capital management",
+        "risk management"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_034",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_035_org_001",
+    "name": "Architecture Review Board",
+    "properties": {
+      "key_functions": [
+        "Change control for ontology maintenance",
+        "Approve new entities and relationships"
+      ],
+      "decision_authority": [
+        "Approval of new ontology entities and relationships"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_035",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_035_met_001",
+    "name": "Quarterly Ontology Review Target",
+    "properties": {
+      "value": "Quarterly",
+      "unit": "period",
+      "what_it_measures": "Frequency of ontology maintenance reviews",
+      "frequency": "Quarterly"
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_035",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_035_rul_001",
+    "name": "Ontology Change Approval Rule",
+    "properties": {
+      "rule_statement": "New entities and relationships require Architecture Review Board approval",
+      "rule_type": "approval_constraint",
+      "applies_to": [
+        "new ontology entities",
+        "new ontology relationships"
+      ],
+      "enforcement": [
+        "Architecture Review Board"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_035",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_035_rul_002",
+    "name": "Document Version Tracking Rule",
+    "properties": {
+      "rule_statement": "All changes must be tracked in document history",
+      "rule_type": "tracking_obligation",
+      "applies_to": [
+        "all ontology maintenance changes"
+      ],
+      "enforcement": [
+        "document versioning process"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_035",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_036_rol_001",
+    "name": "Enterprise Architect",
+    "properties": {
+      "key_responsibilities": [
+        "Maintains ontology version history",
+        "Adds fraud and compliance entities",
+        "Refines account constraints"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_036",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_036_rol_002",
+    "name": "Data Engineer",
+    "properties": {
+      "key_responsibilities": [
+        "Adds transaction types detail"
+      ]
+    },
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_036",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_036_bnk_003",
+    "name": "Joint Account",
+    "properties": {},
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_036",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_037_rol_001",
+    "name": "Chief Technology Officer",
+    "properties": {},
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_037",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  },
+  {
+    "id": "1d236d0e62624d6985047bc0614d176b_037_rol_002",
+    "name": "Enterprise Architect",
+    "properties": {},
+    "chunk_id": "1d236d0e62624d6985047bc0614d176b_037",
+    "doc_id": "1d236d0e62624d6985047bc0614d176b"
+  }
+]

@@ -1,0 +1,3552 @@
+[
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cli_001",
+    "name": "Nationwide",
+    "aliases": [
+      "Nationwide Building Society",
+      "Client"
+    ],
+    "entity_class": "CLIENT",
+    "type": "named_account",
+    "description": "A major UK financial services organization and long-term strategic partner of IBM Consulting. The entity is featured throughout a 17-year partnership timeline detailing extensive digital transformation, banking modernization, and technology scaling initiatives across mortgage, mobile, and core banking domains.",
+    "context": [
+      "IBM & Nationwide Confidential",
+      "MyNationwide Go Live",
+      "Nationwide Now Remote Mortgage Advice",
+      "FirstGen SaaS"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_001",
+    "name": "Digital Development Centre",
+    "aliases": [
+      "Multi Channel Development Centre",
+      "Digital Hub"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "platform",
+    "description": "A dedicated offshore and onshore development hub established to support Nationwide's digital transformation. The centre scaled from an initial team of 100 to over 1,200 members, delivering web, mobile, middleware, and testing capabilities to drive banking modernization.",
+    "context": [
+      "Digital development center established",
+      "Multi Channel Development Centre, Test Practice",
+      "Team grows to 300",
+      "Team surges to 1200"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_002",
+    "name": "Resiliency Programme",
+    "aliases": [
+      "Resiliency Strategy",
+      "System Resilience Initiative"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "transformation_programme",
+    "description": "A strategic initiative established in 2019 focused on building system resilience and ensuring regulatory compliance. The programme addresses operational stability requirements and supports the broader open banking and API gateway modernization efforts.",
+    "context": [
+      "Resiliency Programme Strategy and Establishment",
+      "2019: Open Banking Regulatory API Gateway Compliance, Resiliency Programme Strategy and Establishment"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_003",
+    "name": "FirstGen SaaS",
+    "aliases": [
+      "First Generation SaaS Platform",
+      "Next-Gen SaaS"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "A next-generation Software-as-a-Service platform fully rolled out in 2024. It represents the culmination of the partnership's modernization efforts, replacing legacy infrastructure with a scalable, cloud-native architecture.",
+    "context": [
+      "MCP Fully Rolled Out, FirstGen SaaS",
+      "2024: MCP Fully Rolled Out, FirstGen SaaS"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cap_001",
+    "name": "Mobile & Web Development",
+    "aliases": [
+      "Digital Engineering",
+      "Web/Mobile Capabilities"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "technical_capability",
+    "description": "Core engineering capability focused on building and maintaining web and mobile banking applications. This capability enabled the delivery of the New Mobile Bank, Next Generation Banking App, and integrated app store distribution channels.",
+    "context": [
+      "focusing on web, mobile, middleware & testing",
+      "New Mobile Bank",
+      "Next Generation Banking App"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cap_002",
+    "name": "Data & AI Integration",
+    "aliases": [
+      "AI Capabilities",
+      "Data Processing"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "ai_capability",
+    "description": "Advanced data processing and artificial intelligence capabilities leveraged to drive banking innovations and modernize legacy systems. This capability supported strategic partnerships and enabled scalable digital service delivery across the client's ecosystem.",
+    "context": [
+      "on the back of Data, AI & partnering in new areas",
+      "Data, AI & partnering in new areas"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cap_003",
+    "name": "Replatforming & Modernization",
+    "aliases": [
+      "Legacy Migration",
+      "System Replatforming"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "migration_capability",
+    "description": "Technical capability to migrate, replace, and modernize legacy banking infrastructure. This includes the ALAS replatforming, BI ACE migration, and login modernization initiatives designed to improve system performance and user experience.",
+    "context": [
+      "ALAS Replatforming",
+      "BI ACE Migration",
+      "Login Modernization"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_use_001",
+    "name": "Mortgage Origination & Advice",
+    "aliases": [
+      "Remote Mortgage Services",
+      "Digital Mortgage"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "customer_experience",
+    "description": "Digital transformation use case focused on streamlining mortgage processes and enabling remote advisory services. The initiative leveraged digital channels to improve customer access and operational efficiency in mortgage lending.",
+    "context": [
+      "Initial team of 100 starts mortgage and integration projects",
+      "Nationwide Now Remote Mortgage Advice",
+      "Mortgage Origination"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_use_002",
+    "name": "Open Banking & Regulatory Compliance",
+    "aliases": [
+      "Open Banking API",
+      "Regulatory Gateway"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "compliance",
+    "description": "Application of API gateways and regulatory frameworks to meet open banking standards and ensure secure data sharing. This use case addresses increasing regulatory requirements while enabling third-party integrations and secure customer data access.",
+    "context": [
+      "Open Banking Regulatory API Gateway Compliance",
+      "2019: Open Banking Regulatory API Gateway Compliance"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_use_003",
+    "name": "Mobile Payments & App Store Integration",
+    "aliases": [
+      "Paym Mobile Payments",
+      "Digital Wallet"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "revenue_generation",
+    "description": "Deployment of mobile payment solutions and app store distribution channels to enhance customer engagement and transaction capabilities. This use case enabled seamless digital payments and expanded the client's mobile banking footprint.",
+    "context": [
+      "App Store, Paym Mobile Payments",
+      "Apple Pay",
+      "Paym Mobile Payments"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_ben_001",
+    "name": "Sustained Partnership Growth",
+    "aliases": [
+      "Long-term Collaboration",
+      "Strategic Expansion"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "scale_achievement",
+    "description": "Long-term strategic value demonstrated by a 17-year partnership with consistent team expansion and project delivery milestones. The sustained growth reflects high client satisfaction, successful delivery track records, and adaptive scaling across multiple technology generations.",
+    "context": [
+      "17+ years of Growing Partnership",
+      "Sustained expansion",
+      "Hypergrowth Phase"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_ben_002",
+    "name": "Operational Efficiency via Offshoring",
+    "aliases": [
+      "Offshore Delivery Model",
+      "Cost-Optimized Scaling"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "efficiency_gain",
+    "description": "Significant cost and resource optimization achieved through a highly optimized 90% offshoring model. This delivery approach enabled rapid team scaling and accelerated digital transformation without compromising solution quality or compliance standards.",
+    "context": [
+      "Offshoring Begins",
+      "offshoring to 90%",
+      "Team Doubles in size over 6 years"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cha_001",
+    "name": "Regulatory Compliance Pressure",
+    "aliases": [
+      "Open Banking Regulations",
+      "Regulatory Burden"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "regulatory_burden",
+    "description": "Increasing regulatory requirements around open banking and data security necessitating robust API gateway compliance and resiliency strategies. The client faced mounting pressure to meet strict financial data standards while maintaining seamless customer experiences.",
+    "context": [
+      "Open Banking Regulatory API Gateway Compliance",
+      "Resiliency Programme Strategy and Establishment"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cha_002",
+    "name": "Legacy System Modernization",
+    "aliases": [
+      "Outdated Infrastructure",
+      "Legacy Constraints"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "legacy_constraint",
+    "description": "Need to replace and modernize outdated banking infrastructure to support digital transformation and improve customer experience. Legacy constraints drove the replatforming of ALAS, BI ACE migration, and login modernization initiatives.",
+    "context": [
+      "ALAS Replatforming",
+      "BI ACE Migration",
+      "Login Modernization"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_001",
+    "name": "Microsoft Power Platform",
+    "aliases": [
+      "Microsoft Power",
+      "Power Apps/Flow"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "cloud_platform",
+    "description": "Low-code development platform mobilized in 2021 to accelerate digital solution delivery and streamline development workflows. The platform enabled faster iteration and reduced dependency on traditional coding for internal banking applications.",
+    "context": [
+      "Microsoft Power Team Mobilized",
+      "2021: SAMM Replaces, Microsoft Power Team Mobilized"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_002",
+    "name": "PEGA BAW",
+    "aliases": [
+      "PEGA Business Automation Workflow",
+      "BAW Platform"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "automation_tool",
+    "description": "Business Automation Workflow platform deployed in 2022 to streamline complex banking processes and improve operational efficiency. The tool enabled automated decisioning and standardized workflow execution across mortgage and core banking operations.",
+    "context": [
+      "PEGA Team Mobilized in BAW",
+      "2022: PEGA Team Mobilized in BAW"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_003",
+    "name": "MyNationwide API Gateway",
+    "aliases": [
+      "MyNationwide API",
+      "Open Banking Gateway"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "integration_tool",
+    "description": "Secure API gateway launched in 2018 to enable seamless integration and data exchange for the MyNationwide digital banking ecosystem. The gateway facilitated third-party access, enhanced system interoperability, and supported open banking compliance.",
+    "context": [
+      "API - MyNationwide Go Live",
+      "2018: API - MyNationwide Go Live"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_004",
+    "name": "SAMM Framework",
+    "aliases": [
+      "SAMM",
+      "Strategic Application Management Framework"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "framework",
+    "description": "Strategic application management and modernization framework used to replace legacy systems and standardize development practices. The framework provided a structured approach to digital transformation, replacing outdated processes with scalable governance models.",
+    "context": [
+      "SAMM Replaces",
+      "2021: SAMM Replaces, Microsoft Power Team Mobilized",
+      "2023: ALAS Replatforming, SAMM Replaces"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_diff_001",
+    "name": "17-Year Strategic Partnership Track Record",
+    "aliases": [
+      "Long-term Collaboration Model",
+      "Proven Partnership"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "track_record",
+    "description": "Proven long-term collaboration model demonstrating deep domain expertise, consistent delivery, and adaptive scaling across multiple technology generations. The extended partnership highlights IBM's ability to navigate leadership changes, regulatory shifts, and evolving client needs while maintaining high delivery standards.",
+    "context": [
+      "17+ years of Growing Partnership",
+      "Sustained expansion",
+      "Hypergrowth Phase",
+      "Leadership changes"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_diff_002",
+    "name": "Scalable Offshore Delivery Model",
+    "aliases": [
+      "Offshore Scaling Capability",
+      "90% Offshoring Model"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "delivery_model",
+    "description": "Highly optimized offshoring capability that scaled the delivery team to over 1,200 members, enabling rapid solution deployment and cost-efficient digital transformation. This model differentiates the offering by combining scale, speed, and domain-specific banking expertise.",
+    "context": [
+      "Team surges to 1200",
+      "offshoring to 90%",
+      "Digital development center established"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_org_001",
+    "name": "IBM Consulting",
+    "aliases": [
+      "IBM Consulting Division",
+      "Consulting Practice"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "vendor",
+    "description": "The primary consulting and technology services division delivering digital transformation, AI, and modernization solutions to the client. IBM Consulting drives the strategic partnership, manages delivery teams, and implements banking-specific technology frameworks.",
+    "context": [
+      "IBM Consulting / © 2025 IBM Corporation",
+      "IBM & Nationwide Confidential"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_org_002",
+    "name": "IBM Corporation",
+    "aliases": [
+      "IBM",
+      "Parent Organization"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "vendor",
+    "description": "The parent technology and consulting organization providing the underlying platform, AI capabilities, and strategic partnership framework. IBM Corporation oversees the long-term client relationship and ensures alignment with global technology standards.",
+    "context": [
+      "© 2025 IBM Corporation",
+      "IBM & Nationwide Confidential"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_evt_001",
+    "name": "MyNationwide Go Live",
+    "aliases": [
+      "MyNationwide Launch",
+      "API Gateway Launch"
+    ],
+    "entity_class": "EVENT",
+    "type": "product_launch",
+    "description": "Major digital milestone marking the successful launch and deployment of the MyNationwide API and associated banking services. The event represented a critical step in enabling open banking integrations and enhancing the client's digital ecosystem.",
+    "context": [
+      "API - MyNationwide Go Live",
+      "2018: API - MyNationwide Go Live"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_evt_002",
+    "name": "FirstGen SaaS Rollout",
+    "aliases": [
+      "FirstGen SaaS Launch",
+      "SaaS Platform Deployment"
+    ],
+    "entity_class": "EVENT",
+    "type": "product_launch",
+    "description": "Full deployment of the next-generation SaaS platform in 2024, representing a major modernization milestone for the client's technology stack. The rollout signified the completion of long-term replatforming efforts and the transition to cloud-native architecture.",
+    "context": [
+      "MCP Fully Rolled Out, FirstGen SaaS",
+      "2024: MCP Fully Rolled Out, FirstGen SaaS"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_cli_001",
+    "name": "Nationwide",
+    "aliases": [
+      "Nationwide"
+    ],
+    "entity_class": "CLIENT",
+    "type": "named_account",
+    "description": "A major UK financial services provider and strategic client for IBM Consulting. The engagement spans comprehensive digital, cloud, integration, data, and modernization services across banking, mortgages, retail products, and customer servicing domains, serving over 5 million digital customers.",
+    "context": [
+      "Coverage across all domains within Nationwide",
+      "IBM & Nationwide Confidential",
+      "Digital Channels (>5M customers)"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_off_001",
+    "name": "Digital",
+    "aliases": [
+      "Digital Domain",
+      "Digital Channels"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "A comprehensive digital services offering covering banking applications, internet banking, online shopping, and open banking platforms. Delivered through offshore-heavy feature teams focused on customer value and progressive modernization.",
+    "context": [
+      "Digital",
+      "Digital Channels (>5M customers)",
+      "Digital Transformation:",
+      "Digital Acceleration :"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_off_002",
+    "name": "Cloud",
+    "aliases": [
+      "Cloud Platform Engineering",
+      "Enterprise Cloud Platform"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "Cloud engineering and platform services leveraging Azure and AWS. Includes SRE services, hybrid cloud resilience, and a hub-and-spoke cloud platform services model to support digital releases and platform stability.",
+    "context": [
+      "Cloud",
+      "Azure and AWS Cloud platform engineering",
+      "Enterprise Cloud Platform and SRE Services",
+      "Implemented Hybrid Cloud resilient platform"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_off_003",
+    "name": "Integration",
+    "aliases": [
+      "Integration Layer",
+      "Enterprise Service"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "Strategic integration services building an enterprise-wide service that connects all customer channels into core systems of record. Supports high-volume transaction processing and channel unification.",
+    "context": [
+      "Integration",
+      "Strategic partner for building the enterprise-wide service connecting all channels into the systems of record.",
+      "Integration Layer (>6M calls/day)"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_off_004",
+    "name": "Customer Servicing",
+    "aliases": [
+      "Customer Service",
+      "Branch & Call Center"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "Development and testing services for branch and call center operations, including colleague portals and conversational voice interfaces. Focuses on improving customer experience and operational workflows.",
+    "context": [
+      "Customer Servicing",
+      "Strategic partner for Development & Testing for Branch and call center",
+      "- Colleague portal",
+      "- Conversationall Voice"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_off_005",
+    "name": "Mortgages",
+    "aliases": [
+      "Home Mortgages",
+      "Landlord Core Banking"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "Specialized offering for home and landlord core banking platforms, including platform migration, comprehensive application testing, and modernization of legacy mortgage systems.",
+    "context": [
+      "Mortgages",
+      "Home Mortgages & Landlord Core Banking platform migration",
+      "- Testing for all applications"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_off_006",
+    "name": "Application Support",
+    "aliases": [
+      "App Support",
+      "IBM Developed Apps Support"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "Ongoing application support across digital, integration, customer servicing, and retail products domains, specifically tailored for IBM-developed applications to ensure stability and continuous delivery.",
+    "context": [
+      "Application Support",
+      "Application Support across Digital, Integration, Customer Servicing & Retail Products for IBM developed apps"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_off_007",
+    "name": "GenAI & Data",
+    "aliases": [
+      "GenAI",
+      "Data Platform",
+      "DataBricks"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "Strategic GenAI and data platform services including CoE establishment, experimentation, contact center pilots, and DataBricks platform build. Drives AI council initiatives and SDLC acceleration.",
+    "context": [
+      "GenAI & Data",
+      "Strategic partner for GenAI",
+      "GenAI CoE & Experimentation",
+      "Contact Center GenAI Pilots"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_cap_001",
+    "name": "Change and Application Support",
+    "aliases": [
+      "Change Support",
+      "Application Maintenance"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "delivery_capability",
+    "description": "End-to-end change management and application maintenance capability covering banking apps, internet banking, online shopping, and open banking platforms, ensuring continuous system stability and feature delivery.",
+    "context": [
+      "Sole Partner providing change and application support across Banking App, Internet Banking, Online shopping application and OpenBanking"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_cap_002",
+    "name": "Cloud Platform Engineering",
+    "aliases": [
+      "Cloud Engineering",
+      "Platform Engineering"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "technical_capability",
+    "description": "Technical capability to design, build, and manage cloud infrastructure on Azure and AWS, including SRE services and a hub-and-spoke cloud platform services model for resilience and scalability.",
+    "context": [
+      "Azure and AWS Cloud platform engineering",
+      "Engineer the Hub-and-spoke Cloud platform services Model"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_cap_003",
+    "name": "Development & Testing",
+    "aliases": [
+      "Dev & Testing",
+      "Testing Services"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "delivery_capability",
+    "description": "Comprehensive development and quality assurance services supporting digital releases, platform stability, and branch/call center applications, including test automation and payments testing.",
+    "context": [
+      "Strategic partner for Development & Testing for Branch and call center",
+      "Testing Services supporting digital releases + platform stability",
+      "Testing in Payments"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_cap_004",
+    "name": "Pega Automation",
+    "aliases": [
+      "Power/Pega Automation",
+      "Workflow Automation"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "automation_capability",
+    "description": "Automation capability leveraging Pega/Power platforms to streamline workflows across customer servicing and operational domains, reducing manual effort and improving process efficiency.",
+    "context": [
+      "Power/ Pega Automation (Workflows)"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_cap_005",
+    "name": "Platform Migration",
+    "aliases": [
+      "Core Banking Migration",
+      "Teradata Migration"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "migration_capability",
+    "description": "Specialized migration capability for home mortgages, landlord core banking, and Teradata data platforms, transitioning legacy systems to modern, cloud-native architectures.",
+    "context": [
+      "Home Mortgages & Landlord Core Banking platform migration",
+      "Teradata migration"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_cap_006",
+    "name": "Test Automation",
+    "aliases": [
+      "Automated Testing",
+      "Test Framework"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "automation_capability",
+    "description": "Advanced test automation framework and methodology that has driven a 400% increase in automated testing coverage, supporting faster release cycles and higher quality standards.",
+    "context": [
+      "Test Automation",
+      ">400% increase in Test Automation"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_cap_007",
+    "name": "SRE Services",
+    "aliases": [
+      "Site Reliability Engineering",
+      "Reliability Services"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "delivery_capability",
+    "description": "Site Reliability Engineering services integrated with the enterprise cloud platform to ensure high availability, performance monitoring, and proactive incident management for digital channels.",
+    "context": [
+      "Enterprise Cloud Platform and SRE Services"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_use_001",
+    "name": "Banking App",
+    "aliases": [
+      "Mobile Banking App",
+      "Banking Application"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "customer_experience",
+    "description": "Mobile and digital banking application used by customers for account management and transactions, supported by comprehensive testing, automation, and continuous delivery pipelines.",
+    "context": [
+      "across Banking App, Internet Banking, Online shopping application and OpenBanking"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_use_002",
+    "name": "Internet Banking",
+    "aliases": [
+      "Online Banking",
+      "Web Banking"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "customer_experience",
+    "description": "Digital web-based banking platform enabling customer self-service and transaction processing, modernized through progressive UI updates and backend microservices transformation.",
+    "context": [
+      "across Banking App, Internet Banking, Online shopping application and OpenBanking"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_use_003",
+    "name": "Open Banking",
+    "aliases": [
+      "OpenBanking",
+      "API Banking"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "customer_experience",
+    "description": "Open banking ecosystem enabling third-party integrations and API-driven customer experiences, supported by enterprise-wide service integration and secure data exchange.",
+    "context": [
+      "across Banking App, Internet Banking, Online shopping application and OpenBanking"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_use_004",
+    "name": "Branch and Call Center",
+    "aliases": [
+      "Physical Branches",
+      "Contact Centers"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "customer_experience",
+    "description": "Physical and virtual customer service touchpoints supported by development, testing, and automation solutions to improve agent productivity and customer interaction quality.",
+    "context": [
+      "Development & Testing for Branch and call center"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_use_005",
+    "name": "Colleague Portal",
+    "aliases": [
+      "Employee Portal",
+      "Internal Staff Portal"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "operational_efficiency",
+    "description": "Internal digital portal for employees to access HR, IT, and operational tools, modernized to improve workforce productivity and self-service capabilities.",
+    "context": [
+      "- Colleague portal"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_use_006",
+    "name": "Conversational Voice",
+    "aliases": [
+      "Voice AI",
+      "IVR"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "customer_experience",
+    "description": "Voice-based customer interaction channel enhanced with GenAI and automation to route inquiries, reduce wait times, and improve first-contact resolution rates.",
+    "context": [
+      "- Conversationall Voice"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_use_007",
+    "name": "SDLC",
+    "aliases": [
+      "Software Development Life Cycle",
+      "DevOps Pipeline"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "operational_efficiency",
+    "description": "End-to-end software development lifecycle accelerated through GenAI integration, CI initiatives, and automated testing, resulting in significant efficiency gains and faster time-to-market.",
+    "context": [
+      "200+ CI intiatives + GenAI in SDLC – 30% efficiency, 95% on time delivery"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_ben_001",
+    "name": "Cost Savings Exceeding £6M",
+    "aliases": [
+      "£6M Efficiency Gains",
+      "Cost Reduction"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "cost_saving",
+    "description": "Quantified financial benefit achieved through operational efficiency improvements, offshore delivery optimization, and automated testing, directly impacting the client's bottom line.",
+    "context": [
+      "Cost savings exceeding £6M efficiency gains"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_ben_002",
+    "name": "30% Efficiency Gain",
+    "aliases": [
+      "Efficiency Improvement",
+      "Productivity Boost"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "efficiency_gain",
+    "description": "Measurable operational efficiency improvement driven by GenAI integration within the SDLC and automated workflows, reducing manual effort and accelerating delivery cycles.",
+    "context": [
+      "GenAI in SDLC – 30% efficiency, 95% on time delivery"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_ben_003",
+    "name": "95% On-Time Delivery",
+    "aliases": [
+      "On-Time Delivery Rate",
+      "Delivery Reliability"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "speed_improvement",
+    "description": "High reliability in meeting project deadlines and release schedules, enabled by biweekly deployment cadences, automated testing, and structured offshore/onshore delivery models.",
+    "context": [
+      "GenAI in SDLC – 30% efficiency, 95% on time delivery"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_ben_004",
+    "name": "400% Increase in Test Automation",
+    "aliases": [
+      "Test Automation Growth",
+      "Automated Testing Scale"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "efficiency_gain",
+    "description": "Significant scaling of automated testing capabilities, reducing regression testing time and improving release confidence across digital and core banking platforms.",
+    "context": [
+      ">400% increase in Test Automation"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_ben_005",
+    "name": "250 Client-Facing Features Delivered",
+    "aliases": [
+      "Feature Delivery Volume",
+      "Annual Feature Release"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "speed_improvement",
+    "description": "High-volume delivery of 250 client-facing features and 250 changes within a single year, demonstrating accelerated release velocity and continuous value delivery.",
+    "context": [
+      "Delivered 250 changes 25 client-facing features in a year"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_ben_006",
+    "name": "High App Ratings",
+    "aliases": [
+      "4.8 iOS Rating",
+      "4.7 Android Rating",
+      "App Store Ratings"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "quality_improvement",
+    "description": "Superior customer satisfaction metrics reflected in high app store ratings for iOS and Android platforms, indicating successful UX modernization and stable performance.",
+    "context": [
+      "4.8(iOS)/4.7 (Android) App rating"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_ben_007",
+    "name": "Offshore/Onshore 90:10 Ratio",
+    "aliases": [
+      "90:10 Delivery Model",
+      "Offshore Heavy Model"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "cost_saving",
+    "description": "Optimized delivery model leveraging a 90% offshore to 10% onshore resource split, driving significant cost efficiency while maintaining quality and strategic oversight.",
+    "context": [
+      "Offshore/onshore ratio of 90:10"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_ben_008",
+    "name": "Customer Delight",
+    "aliases": [
+      "Customer Satisfaction",
+      "Delightful Features"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "customer_satisfaction",
+    "description": "Positive customer outcomes achieved through releasing impactful features that enhance user experience and meet evolving digital banking expectations.",
+    "context": [
+      "Releasing customer impacting features that delight"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_chal_001",
+    "name": "Legacy Systems",
+    "aliases": [
+      "Legacy Architecture",
+      "Legacy Platforms"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "legacy_constraint",
+    "description": "Outdated legacy infrastructure and monolithic architectures hindering agility, scalability, and modern customer experience delivery, necessitating progressive modernization and selective migration.",
+    "context": [
+      "Progressive modernisation 280~ pages from Legacy to Native and React",
+      "Transformed from monolithic to microservices"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_chal_002",
+    "name": "Monolithic Architecture",
+    "aliases": [
+      "Monolith",
+      "Monolithic Systems"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "legacy_constraint",
+    "description": "Rigid monolithic system structure limiting deployment speed and scalability, addressed through transformation to microservices and a unified 'single highway' for top customer journeys.",
+    "context": [
+      "Transformed from monolithic to microservices, creating a \"single highway\" for top journeys"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_tech_001",
+    "name": "Azure",
+    "aliases": [
+      "Microsoft Azure",
+      "Azure Cloud"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "cloud_platform",
+    "description": "Cloud computing platform used for platform engineering, hosting digital services, and supporting hybrid cloud resilience alongside AWS.",
+    "context": [
+      "Azure and AWS Cloud platform engineering"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_tech_002",
+    "name": "AWS",
+    "aliases": [
+      "Amazon Web Services",
+      "AWS Cloud"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "cloud_platform",
+    "description": "Cloud computing platform utilized for infrastructure engineering, digital hosting, and supporting scalable, resilient cloud services for the client.",
+    "context": [
+      "Azure and AWS Cloud platform engineering"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_tech_003",
+    "name": "DataBricks",
+    "aliases": [
+      "Databricks",
+      "DataBricks Platform"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "database",
+    "description": "Unified data analytics and AI platform used for data platform build, GenAI experimentation, and modern data architecture supporting analytics and machine learning workloads.",
+    "context": [
+      "Data Platform (DataBricks) build partner"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_tech_004",
+    "name": "Teradata",
+    "aliases": [
+      "Teradata Database",
+      "Teradata Platform"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "database",
+    "description": "Legacy enterprise data warehouse platform undergoing migration to modern cloud-native architectures, improving data accessibility and analytics performance.",
+    "context": [
+      "Teradata migration"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_tech_005",
+    "name": "Pega",
+    "aliases": [
+      "Pega Platform",
+      "Pega Automation"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "automation_tool",
+    "description": "Low-code automation and case management platform used to build and optimize workflows across customer servicing and operational domains.",
+    "context": [
+      "Power/ Pega Automation (Workflows)"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_tech_006",
+    "name": "React",
+    "aliases": [
+      "React.js",
+      "React Framework"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "framework",
+    "description": "Modern JavaScript UI library used for progressive modernization of legacy interfaces into native, responsive web designs.",
+    "context": [
+      "Progressive modernisation 280~ pages from Legacy to Native and React"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_tech_007",
+    "name": "iOS",
+    "aliases": [
+      "Apple iOS",
+      "iOS Platform"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "channel",
+    "description": "Mobile operating system platform hosting the client's banking application, achieving a 4.8-star rating through continuous quality engineering and UX improvements.",
+    "context": [
+      "4.8(iOS)/4.7 (Android) App rating"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_tech_008",
+    "name": "Android",
+    "aliases": [
+      "Google Android",
+      "Android Platform"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "channel",
+    "description": "Mobile operating system platform hosting the client's banking application, delivering a 4.7-star rating through stable releases and responsive design.",
+    "context": [
+      "4.8(iOS)/4.7 (Android) App rating"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_tech_009",
+    "name": "CI",
+    "aliases": [
+      "Continuous Integration",
+      "CI Pipelines"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "integration_tool",
+    "description": "Continuous integration tools and practices enabling automated code merging, testing, and deployment, supporting 200+ CI initiatives and biweekly release cadences.",
+    "context": [
+      "200+ CI intiatives + GenAI in SDLC"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_diff_001",
+    "name": "Sole Partner Status",
+    "aliases": [
+      "Sole Partner",
+      "Exclusive Partner"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "partnership",
+    "description": "Exclusive strategic partnership status providing end-to-end change, application support, and integration services, demonstrating deep trust and comprehensive domain coverage.",
+    "context": [
+      "Sole Partner providing change and application support across Banking App",
+      "Strategic partner for building the enterprise-wide service"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_diff_002",
+    "name": "Award-Winning Team",
+    "aliases": [
+      "Award Winning Team",
+      "Recognized Delivery Team"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "track_record",
+    "description": "Highly recognized delivery organization with a proven track record of releasing customer-impacting features and driving measurable business outcomes.",
+    "context": [
+      "Award winning team",
+      "Releasing customer impacting features that delight while also driving cost savings for the society"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_diff_003",
+    "name": "Offshore Heavy Delivery Model",
+    "aliases": [
+      "Offshore Heavy",
+      "90:10 Ratio Model"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "delivery_model",
+    "description": "Cost-optimized delivery model leveraging offshore-heavy feature teams aligned to customer value, enabling scalability and significant efficiency gains without compromising quality.",
+    "context": [
+      "Aligned to customer Value- offshore heavy feature teams",
+      "Offshore/onshore ratio of 90:10"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_diff_004",
+    "name": "Progressive Modernisation",
+    "aliases": [
+      "Progressive Modernization",
+      "Modernisation Approach"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "innovation",
+    "description": "Strategic approach to modernizing 280+ legacy pages into native React interfaces, combined with selective migration and reusable journey components to minimize disruption.",
+    "context": [
+      "Progressive modernisation 280~ pages from Legacy to Native and React",
+      "Selective Migration"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_diff_005",
+    "name": "Biweekly Deployment Cadence",
+    "aliases": [
+      "Biweekly Deployments",
+      "120 PM Cadence"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "delivery_model",
+    "description": "Accelerated release cadence enabling biweekly deployments with 120 product managers, demonstrating high velocity, streamlined governance, and rapid value realization.",
+    "context": [
+      "Biweekly deployments – 120 pm"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_diff_006",
+    "name": "Tailored Innovation Structure",
+    "aliases": [
+      "Innovation Structure",
+      "Idea Capture Framework"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "innovation",
+    "description": "Custom organizational structure designed to capture, develop, and scale new ideas, driving significant productivity gains and continuous service improvement.",
+    "context": [
+      "Tailored structure to capture and develop new ideas, driving significant productivity gains"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_org_001",
+    "name": "IBM Consulting",
+    "aliases": [
+      "IBM Consulting",
+      "IBM"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "vendor",
+    "description": "The primary consulting and technology services provider delivering digital, cloud, integration, and data modernization solutions to the client.",
+    "context": [
+      "IBM Consulting / © 2025 IBM Corporation /IBM & Nationwide Confidential"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_org_002",
+    "name": "IBM Corporation",
+    "aliases": [
+      "IBM Corp",
+      "IBM"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "vendor",
+    "description": "The parent technology and consulting corporation owning the intellectual property, platforms, and delivery frameworks utilized in the engagement.",
+    "context": [
+      "IBM Consulting / © 2025 IBM Corporation /IBM & Nationwide Confidential"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_loc_001",
+    "name": "Offshore",
+    "aliases": [
+      "Offshore Delivery",
+      "Offshore Centers"
+    ],
+    "entity_class": "LOCATION",
+    "type": "market",
+    "description": "Geographic delivery location hosting the majority of the engineering and support workforce, enabling cost optimization and scalable capacity for the client's digital and cloud initiatives.",
+    "context": [
+      "offshore heavy feature teams",
+      "Offshore/onshore ratio of 90:10"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_loc_002",
+    "name": "Onshore",
+    "aliases": [
+      "Onshore Delivery",
+      "Onshore Centers"
+    ],
+    "entity_class": "LOCATION",
+    "type": "market",
+    "description": "Local delivery location providing strategic oversight, client-facing coordination, and specialized expertise complementing the offshore-heavy delivery model.",
+    "context": [
+      "Offshore/onshore ratio of 90:10"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_evt_001",
+    "name": "Contact Center GenAI Pilots",
+    "aliases": [
+      "GenAI Pilots",
+      "Contact Center Pilots"
+    ],
+    "entity_class": "EVENT",
+    "type": "pilot",
+    "description": "Experimental pilot initiatives applying GenAI to contact center operations, testing AI-driven automation, routing, and customer interaction capabilities before broader rollout.",
+    "context": [
+      "Contact Center GenAI Pilots"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_003_org_001",
+    "name": "IBM",
+    "aliases": [
+      "IBM"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "vendor",
+    "description": "The primary selling organisation referenced in the collateral, identified as a long-term strategic systems integrator partner delivering sustained value to a major UK mutual organisation.",
+    "context": [
+      "For 17 years, IBM is serving as one of Strategic SI Partners"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_003",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_003_off_001",
+    "name": "Strategic SI Partners",
+    "aliases": [
+      "Strategic Systems Integration Partners",
+      "SI Partnership"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "partnership",
+    "description": "A sustained strategic systems integration engagement model that defines the commercial and delivery relationship between the selling organisation and the client over a multi-year period.",
+    "context": [
+      "serving as one of Strategic SI Partners"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_003",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_003_cli_001",
+    "name": "UK's Largest Mutual Organisation",
+    "aliases": [
+      "major UK mutual",
+      "UK mutual organisation"
+    ],
+    "entity_class": "CLIENT",
+    "type": "anonymous_client",
+    "description": "A prominent UK-based mutual organisation that has engaged the selling organisation as a strategic systems integration partner for over 17 years, indicating a high-value, long-term client relationship.",
+    "context": [
+      "for one of the UK's largest mutual organisation"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_003",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_003_loc_001",
+    "name": "United Kingdom",
+    "aliases": [
+      "UK"
+    ],
+    "entity_class": "LOCATION",
+    "type": "country",
+    "description": "The geographic market and jurisdiction where the client operates and where the long-term strategic partnership engagement is deployed.",
+    "context": [
+      "one of the UK's largest mutual organisation"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_003",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cli_001",
+    "name": "Nationwide Building Society",
+    "aliases": [
+      "Nationwide",
+      "the client",
+      "client context"
+    ],
+    "entity_class": "CLIENT",
+    "type": "named_account",
+    "description": "A major UK financial services institution undergoing comprehensive digital and data platform modernization. The client is actively partnering with IBM to accelerate software delivery, reduce legacy technical debt, and integrate GenAI tools into their SDLC to meet aggressive productivity and timeline targets.",
+    "context": [
+      "at Nationwide Building Society",
+      "the client context",
+      "Client challenge",
+      "Nationwide delivery team"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_off_001",
+    "name": "IBM Science of Consulting",
+    "aliases": [
+      "Science of Consulting",
+      "IBM Consulting Framework"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "framework",
+    "description": "IBM's proprietary consulting and delivery methodology applied to drive innovation and quantitative benefits in client modernization engagements. It serves as the foundational approach for structuring AI-driven development, stakeholder collaboration, and iterative proof-of-concept cycles.",
+    "context": [
+      "Using IBM Science of Consulting",
+      "Using IBM Science of Consulting",
+      "live modernization enagements"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_off_002",
+    "name": "Software Modernization Engagements",
+    "aliases": [
+      "modernization projects",
+      "modernizing projects",
+      "software delivery projects"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "transformation_programme",
+    "description": "A suite of targeted software delivery and modernization initiatives focused on migrating legacy codebases and data platforms to modern, cloud-native architectures. These engagements leverage AI-assisted development to accelerate delivery and improve code quality.",
+    "context": [
+      "Mobile Banking App Modernization",
+      "Internet Banking Modernization",
+      "Modernize Data Platform Teradata to Databricks Migration",
+      "modernizing projects"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_001",
+    "name": "Legacy Code Reverse Engineering",
+    "aliases": [
+      "business requirements extraction",
+      "legacy logic analysis"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "technical_capability",
+    "description": "The ability to systematically analyze and deconstruct outdated codebases to extract underlying business logic and requirements. This capability enables the transition from legacy systems to modern architectures by providing accurate foundational documentation for redevelopment.",
+    "context": [
+      "Reverse engineered to extract business requirements",
+      "Reverse engineer Teradata Stored Procedures to understand the logic",
+      "~25% reduction from manual code analysis"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_002",
+    "name": "AI-Driven Code Generation & Refactoring",
+    "aliases": [
+      "automated code generation",
+      "adaptive code suggestions",
+      "production-ready code generation"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "technical_capability",
+    "description": "The use of AI assistants to automatically generate, refactor, and suggest code across multiple programming languages and frameworks. This capability removes low-skill manual processes, accelerates UI development, and improves overall code quality through automated refactoring.",
+    "context": [
+      "Generated Kotlin, Swift code & React, APIs and logic rapidly with adaptive suggestions",
+      "Automated code refactoring for has removed a low skills, manual process",
+      "30% faster UI development",
+      "10% better code quality"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_003",
+    "name": "AI-Driven Test Automation",
+    "aliases": [
+      "autogenerated test cases",
+      "simulated edge case testing",
+      "unit test automation"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "technical_capability",
+    "description": "The capability to automatically generate unit and component test cases, including simulated edge cases, to improve testing speed and reduce software defects. This automation streamlines the testing lifecycle and increases confidence in code deployments.",
+    "context": [
+      "Autogenerated Unit/Component Test cases & simulated edge cases",
+      "15% faster test cycles",
+      "Increased unit test automation resulted in ~30% reduction in testing defects"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_004",
+    "name": "Prompt & Context Engineering",
+    "aliases": [
+      "context engineering",
+      "prompt optimization",
+      "AI tool configuration"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "technical_capability",
+    "description": "The disciplined process of crafting, iterating, and refining AI prompts and context inputs to maximize tool output quality. This capability was critical for overcoming platform limitations and building workarounds during the modernization journey.",
+    "context": [
+      "Careful Prompt -> Context Engineering, iterated over 2 months",
+      "Discovered Copilot limitations, and built utilities for workarounds",
+      "Client provided GenAI tools"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_use_001",
+    "name": "Mobile Banking App Modernization",
+    "aliases": [
+      "Mobile Banking Modernization",
+      "Sencha to React Modernization"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "modernisation",
+    "description": "The modernization of a legacy mobile banking application originally built on a Sencha codebase. The use case involves reverse-engineering legacy logic, generating production-ready React code, and automating testing to accelerate delivery and improve quality.",
+    "context": [
+      "Mobile Banking App Modernization Legacy Sencha App Codebase",
+      "Reverse engineered to extract business requirements",
+      "Figma  Native, React code / components auto generated"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_use_002",
+    "name": "Internet Banking Platform Modernization",
+    "aliases": [
+      "Internet Banking Modernization",
+      "Figma to React Code Generation"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "modernisation",
+    "description": "The transformation of internet banking interfaces from Figma design specifications into production-ready code across multiple platforms. This use case leverages automated code generation to rapidly convert designs into React, Kotlin, and Swift components.",
+    "context": [
+      "Internet Banking Modernization Figma Designs to React Code",
+      "Accelerated development with Figma designs",
+      "Generated production ready code in React, Kotlin & Swift"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_use_003",
+    "name": "Data Platform Migration",
+    "aliases": [
+      "Teradata to Databricks Migration",
+      "Data Platform Modernization"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "migration",
+    "description": "The migration of a legacy Teradata data platform to a modern Databricks cloud data platform. This use case focuses on reverse-engineering stored procedures, generating dbt code based on client standards, and significantly reducing manual coding effort.",
+    "context": [
+      "Modernize Data Platform Teradata to Databricks Migration",
+      "Teradata Stored Procedures",
+      "Generate dbt code based on client frameworks, standards and guardrails"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_001",
+    "name": "Accelerated UI Development Speed",
+    "aliases": [
+      "faster UI development",
+      "speed improvement",
+      "development acceleration"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "speed_improvement",
+    "description": "A measurable reduction in the time required to develop user interfaces, driven by automated code generation and adaptive AI suggestions. This benefit directly addresses client goals for faster delivery and improved productivity.",
+    "context": [
+      "30% faster UI development",
+      "Accelerated development with Figma designs",
+      "Reduced time taken for modernizing projects by 30-40%"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_002",
+    "name": "Enhanced Code Quality & Maintainability",
+    "aliases": [
+      "better code quality",
+      "quality improvement",
+      "high quality code output"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "quality_improvement",
+    "description": "An improvement in the overall quality and maintainability of generated code, achieved through automated refactoring and precise specification context. This benefit reduces technical debt and supports long-term platform stability.",
+    "context": [
+      "10% better code quality",
+      "high quality code output",
+      "Estimation models updated to deliver promised efficiency"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_003",
+    "name": "Reduced Testing Defects & Faster Cycles",
+    "aliases": [
+      "defect reduction",
+      "faster test cycles",
+      "testing efficiency"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "risk_reduction",
+    "description": "A significant decrease in software defects and faster test execution cycles, achieved through automated unit and component test case generation. This benefit increases deployment confidence and reduces post-release risk.",
+    "context": [
+      "15% faster test cycles",
+      "~30% reduction in testing defects (demonstrated in React)",
+      "Autogenerated Unit/Component Test cases & simulated edge cases"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_004",
+    "name": "Significant Coding Effort Reduction",
+    "aliases": [
+      "coding effort reduction",
+      "efficiency gain",
+      "productivity improvement"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "efficiency_gain",
+    "description": "A substantial decrease in manual coding workload and high-accuracy requirement extraction, driven by AI-assisted development processes. This benefit directly supports the client's explicit goal of reducing modernization project timelines by 30-40%.",
+    "context": [
+      "40% reduction in coding effort",
+      "~25% reduction from manual code analysis",
+      "80%+ accurate requirement extraction"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cha_001",
+    "name": "Legacy System Constraints",
+    "aliases": [
+      "legacy codebase",
+      "Sencha codebase",
+      "existing apps"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "legacy_constraint",
+    "description": "The technical debt and operational friction associated with maintaining and modernizing outdated, monolithic legacy codebases. These constraints create bottlenecks in development and require systematic reverse engineering to overcome.",
+    "context": [
+      "Legacy Sencha App Codebase",
+      "legacy Sencha code",
+      "existing apps",
+      "low skills, manual process"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cha_002",
+    "name": "Project Timeline Pressure",
+    "aliases": [
+      "time reduction target",
+      "productivity challenge",
+      "delivery speed constraint"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "scalability_limitation",
+    "description": "The client's explicit requirement to significantly accelerate modernization project delivery timelines to meet business productivity goals. This pressure drives the adoption of AI tools and iterative proof-of-concept methodologies.",
+    "context": [
+      "Reduce time taken for modernizing projects by 30-40%",
+      "challenge of productivity",
+      "Clients want predictable outcomes & results"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cha_003",
+    "name": "AI Tool Limitations & Skill Gaps",
+    "aliases": [
+      "Copilot limitations",
+      "low skills manual process",
+      "SDLC inefficiency"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "operational_inefficiency",
+    "description": "The reliance on manual, low-skill coding tasks that are inefficient and prone to error, combined with the initial limitations of GenAI tools. Overcoming these challenges required careful prompt engineering, iterative testing, and the development of custom workarounds.",
+    "context": [
+      "removed a low skills, manual process",
+      "Discovered Copilot limitations, and built utilities for workarounds",
+      "revealed hidden areas of inefficiency in SDLC"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_001",
+    "name": "IBM Copilot",
+    "aliases": [
+      "Copilot",
+      "AI coding assistant",
+      "GenAI tools"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "ai_platform",
+    "description": "An AI-powered coding assistant used to generate, refactor, and suggest code across multiple programming languages and frameworks. It serves as the core engine for accelerating development, though it required careful context engineering to overcome initial limitations.",
+    "context": [
+      "via Copilot",
+      "Copilot provided with Client Design guideline files",
+      "Discovered Copilot limitations, and built utilities for workarounds",
+      "Client provided GenAI tools"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_002",
+    "name": "Figma",
+    "aliases": [
+      "Figma designs",
+      "design platform",
+      "prototyping tool"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "integration_tool",
+    "description": "A design and prototyping platform used as a source of truth for generating production-ready frontend code and components. It enables the automated translation of visual designs into React, Kotlin, and Swift code.",
+    "context": [
+      "Figma  Native, React code / components auto generated",
+      "Figma Designs to React Code",
+      "Accelerated development with Figma designs"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_003",
+    "name": "Teradata",
+    "aliases": [
+      "Teradata platform",
+      "legacy data warehouse",
+      "Teradata Stored Procedures"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "legacy_system",
+    "description": "A legacy enterprise data warehousing platform whose stored procedures and logic were reverse-engineered for migration. It represents the outdated infrastructure driving the need for modernization.",
+    "context": [
+      "Teradata Stored Procedures",
+      "Teradata to Databricks Migration",
+      "Modernize Data Platform Teradata to Databricks"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_004",
+    "name": "Databricks",
+    "aliases": [
+      "Databricks platform",
+      "cloud data platform",
+      "target data environment"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "cloud_platform",
+    "description": "A modern cloud-based data and AI platform serving as the target environment for the client's data platform migration. It replaces legacy Teradata infrastructure and supports modern data transformation workflows.",
+    "context": [
+      "Teradata to Databricks Migration",
+      "Modernize Data Platform Teradata to Databricks",
+      "cloud data platform"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_005",
+    "name": "dbt (data build tool)",
+    "aliases": [
+      "dbt code",
+      "data transformation framework",
+      "SQL transformation tool"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "framework",
+    "description": "A data transformation framework used to generate SQL-based data models and transformations according to client standards. It enables the automated generation of dbt code based on established guardrails and frameworks.",
+    "context": [
+      "Generate dbt code based on client frameworks, standards and guardrails",
+      "dbt code",
+      "client frameworks, standards and guardrails"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_dif_001",
+    "name": "Evidence-Driven Iterative Delivery",
+    "aliases": [
+      "quick iterations",
+      "POC-driven approach",
+      "data-backed validation"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "track_record",
+    "description": "A delivery approach focused on rapid prototyping, continuous testing, and data-backed validation to prove value and overcome tool limitations. This methodology ensures predictable outcomes by iteratively pushing AI boundaries and refining processes.",
+    "context": [
+      "Evidence driven, quick iterations",
+      "Ran multiple POCs to seek, absorb and push Gen AI Limits",
+      "Careful Prompt -> Context Engineering, iterated over 2 months"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_dif_002",
+    "name": "Deep Client Collaboration & Stakeholder Alignment",
+    "aliases": [
+      "open collaboration",
+      "stakeholder engagement",
+      "client partnership"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "partnership",
+    "description": "A highly collaborative engagement model that actively involves client architects, product owners, and code owners in the modernization journey. This approach brings stakeholders along the learning curve and ensures shared ownership of outcomes.",
+    "context": [
+      "Collaborated deeply with client stakeholders",
+      "Open Collaboration",
+      "Brought them along the learning curve",
+      "Tech Architects",
+      "Product Owners",
+      "Code Owners"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_dif_003",
+    "name": "Expert Cross-Functional Squads",
+    "aliases": [
+      "skilled teams",
+      "domain experts",
+      "multi-disciplinary squads"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "domain_expertise",
+    "description": "The deployment of highly skilled, cross-functional teams combining deep domain knowledge with emerging GenAI tooling expertise. These experts leverage their understanding of existing apps to drive productivity and overcome legacy constraints.",
+    "context": [
+      "Experts across squads",
+      "Architects, Developers, Testers utilized their expertise",
+      "knowledge of the client context"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_per_001",
+    "name": "Client Stakeholders",
+    "aliases": [
+      "client contacts",
+      "client-side team",
+      "client decision-makers"
+    ],
+    "entity_class": "PERSON",
+    "type": "stakeholder",
+    "description": "Key client-side technical and business contributors involved in the modernization process, including tech architects, product owners, and code owners. These individuals were actively engaged to align on goals, share expertise, and adopt new AI-driven workflows.",
+    "context": [
+      "Collaborated deeply with client stakeholders",
+      "Tech Architects",
+      "Product Owners",
+      "Code Owners"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_org_001",
+    "name": "IBM",
+    "aliases": [
+      "IBM Consulting",
+      "the vendor",
+      "IBM delivery team"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "vendor",
+    "description": "The primary technology and consulting vendor delivering the modernization solutions and AI-driven development services. IBM provides the Science of Consulting framework, expert squads, and GenAI tooling to accelerate client modernization projects.",
+    "context": [
+      "Using IBM Science of Consulting",
+      "IBM Science of Consulting",
+      "The Nationwide delivery team is on a continuous journey of innovation"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_eve_001",
+    "name": "Proof of Concept (POC) Cycles",
+    "aliases": [
+      "POCs",
+      "iterative testing phases",
+      "GenAI limit testing"
+    ],
+    "entity_class": "EVENT",
+    "type": "proof_of_concept",
+    "description": "A series of iterative proof-of-concept engagements designed to test AI tool capabilities, identify limitations, and develop workarounds. These POCs were critical for validating GenAI effectiveness and refining prompt engineering over a two-month period.",
+    "context": [
+      "Ran multiple POCs to seek, absorb and push Gen AI Limits",
+      "iterated over 2 months",
+      "Discovered Copilot limitations, and built utilities for workarounds"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cli_001",
+    "name": "Nationwide Building Society",
+    "aliases": [
+      "Nationwide",
+      "the client"
+    ],
+    "entity_class": "CLIENT",
+    "type": "reference_client",
+    "description": "A major UK building society and strategic partner engaged in a collaborative digital transformation and agile delivery programme with IBM. The client is actively involved in co-creating solutions through hackathons, sprint planning, and joint leadership initiatives to modernise digital customer journeys and streamline development workflows.",
+    "context": [
+      "© 2025 - Nationwide Building Society and IBM Confidential",
+      "We are working out on the duration (3 days versus 4-5 weeks).",
+      "Goal: Complete the journey for close account (in React) and make it ready for the developers to pick up in Hackathon.",
+      "Goal: Design the order certificate journey (in Native) and make it ready for the developers to pick up in Hackathon."
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_org_001",
+    "name": "IBM",
+    "aliases": [
+      "the vendor",
+      "IBM code owners"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "partner",
+    "description": "A global technology and consulting firm serving as the primary delivery partner for Nationwide Building Society. IBM provides embedded technical leadership, AI-driven development tools, and agile sprint methodologies to co-deliver digital solutions and drive operational modernisation.",
+    "context": [
+      "© 2025 - Nationwide Building Society and IBM Confidential",
+      "Embedded technical leaders (IBM code owners, tech lead, SME’s)",
+      "Nationwide + IBM Leadership to identify the theme for the teams to ideate.",
+      "The image is a slide presentation detailing \"Hackathon 2025.\""
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_001",
+    "name": "Agile Sprint Teams",
+    "aliases": [
+      "sprint teams",
+      "Agile delivery model"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "A structured delivery framework utilising data-driven and engineering-driven practices to ensure optimal resource allocation, time efficiency, and evidence-based quality checks. The solution is designed to equip development teams for predictable, high-quality digital delivery across pre-sprint, sprint, and post-sprint phases.",
+    "context": [
+      "Agile “sprint” Teams By focusing on data-driven and engineering-driven practices, ensures optimal resource and time utilization, along with evidence-based quality checks at all levels.",
+      "Ensures that our sprint teams are well-equipped to deliver high-quality digital solutions efficiently and predictably.",
+      "2-week sprints",
+      "Pre Sprint Ensures that our sprint teams are well-equipped to deliver high-quality digital solutions efficiently and predictably."
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_002",
+    "name": "Hackathon 2025",
+    "aliases": [
+      "Hackathon",
+      "2025 Innovation Hackathon"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "transformation_programme",
+    "description": "A structured innovation and proof-of-concept programme designed to accelerate idea execution through discovery, ideation, POC, and selection phases. The programme serves as a collaborative engine to test delivery approaches, streamline design handoffs, and identify high-value initiatives for the digital roadmap.",
+    "context": [
+      "The image is a slide presentation detailing \"Hackathon 2025.\"",
+      "We will have 4 phases that will lead to Ideas getting executed.",
+      "Hackathon Goal: Challenge the development teams to deliver on the 2 journeys in both React and Native to understand which gets delivered at pace",
+      "We have a good pipeline of ideas, many of which can be taken up during this hackathon."
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_001",
+    "name": "Automated Build and Deployment Process",
+    "aliases": [
+      "CI/CD pipeline",
+      "automated deployment"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "automation_capability",
+    "description": "A technical delivery capability that automates the compilation, testing, and release of software components. This capability reduces manual intervention, accelerates release cycles, and ensures consistent deployment standards across development environments.",
+    "context": [
+      "- Automated build and deployment process",
+      "Address test automation debt – 70% automation achieved",
+      "Implementing developer led automated UI testing – align technology",
+      "Implement technology specific test automation frameworks"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_002",
+    "name": "Trunk Based Development and Feature Toggling",
+    "aliases": [
+      "TBD",
+      "feature toggling",
+      "Launch Darkly integration"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "technical_capability",
+    "description": "A modern software engineering practice that maintains a single main code branch and uses feature flags to control code visibility. This capability enables safer, faster releases and reduces merge conflicts while allowing controlled rollout of new functionality.",
+    "context": [
+      "- Trunk based development and feature toggling with Launch Darkly",
+      "Pre Sprint Ensures that our sprint teams are well-equipped to deliver high-quality digital solutions efficiently and predictably.",
+      "2-week sprints",
+      "Streamlining post sprint go live signoffs to enable a deployment ever 2 weeks"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_003",
+    "name": "GenAI Code Simplification and Refactoring",
+    "aliases": [
+      "GenAI for code",
+      "AI-driven development assistance"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "ai_capability",
+    "description": "An artificial intelligence-driven capability that assists developers in simplifying complex code, refactoring legacy structures, and generating unit tests. This capability accelerates development velocity, improves code quality, and reduces debugging time through automated AI assistance.",
+    "context": [
+      "- GenAI for code simplification, refactoring, unit testing, debugging",
+      "- GenAI Code Analyser",
+      "- GenAI for userstories & doc",
+      "The picture is a complex data visualization titled \"Trend of PR Review Count vs Comments (Native).\""
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_004",
+    "name": "Environment Virtualisation Stubs",
+    "aliases": [
+      "virtual stubs",
+      "environment virtualisation"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "technical_capability",
+    "description": "A technical capability that replaces physical testing environments and data dependencies with virtualised stubs. This reduces infrastructure overhead, accelerates test execution, and eliminates bottlenecks caused by physical environment provisioning.",
+    "context": [
+      "- Introducing environment virtualisation stubs to remove requirement on physical environments and data (50% reduction of environments)",
+      "Visits to India to remove cultural, organisational and capability divides",
+      "remove requirement on physical environments and data",
+      "Address test automation debt – 70% automation achieved"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_005",
+    "name": "Design Boards and Clear Solution Intent",
+    "aliases": [
+      "design boards",
+      "solution intent alignment",
+      "design-technical feasibility boards"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "delivery_capability",
+    "description": "A collaborative delivery capability that bridges design and engineering through structured design boards and clear solution intent documentation. This ensures design decisions are technically feasible, aligns stakeholder expectations, and standardises reusable patterns for faster implementation.",
+    "context": [
+      "- Design boards to bring together design decisions with technical feasibility",
+      "- Clear Solution Intent to align stakeholders and set expectations.",
+      "Standardised and reusable patterns",
+      "Identify dependencies and potential risks to enable accurate work estimation and planning."
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_use_001",
+    "name": "Digital Solutions Delivery",
+    "aliases": [
+      "digital delivery",
+      "sprint delivery"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "modernisation",
+    "description": "The application of agile sprint methodologies and automated engineering practices to deliver modern digital products. This use case focuses on transforming traditional development workflows into predictable, high-quality, and efficiently resourced delivery cycles.",
+    "context": [
+      "Ensures that our sprint teams are well-equipped to deliver high-quality digital solutions efficiently and predictably.",
+      "By focusing on data-driven and engineering-driven practices, ensures optimal resource and time utilization, along with evidence-based quality checks at all levels.",
+      "Pre Sprint Ensures that our sprint teams are well-equipped to deliver high-quality digital solutions efficiently and predictably.",
+      "Post Sprint Route to Live By focusing on efficient post-sprint processes, we ensure our solutions are deployed quickly and reliably"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_use_002",
+    "name": "Close Account Journey Modernisation",
+    "aliases": [
+      "close account journey",
+      "account closure digitalisation"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "customer_experience",
+    "description": "The digital transformation of the customer account closure process, leveraging React-based development and hackathon-driven validation. This use case aims to streamline user flows, improve developer readiness, and enhance the overall customer experience through rapid prototyping.",
+    "context": [
+      "Goal: Complete the journey for close account (in React) and make it ready for the developers to pick up in Hackathon.",
+      "Hackathon Goal: Challenge the development teams to deliver on the 2 journeys in both React and Native to understand which gets delivered at pace",
+      "This is also to identify how we can further streamline our design handoff process and nurture the close collaboration between design and development teams.",
+      "We have a good pipeline of ideas, many of which can be taken up during this hackathon."
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_use_003",
+    "name": "Order Certificate Journey Design",
+    "aliases": [
+      "order certificate journey",
+      "certificate ordering digitalisation"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "customer_experience",
+    "description": "The design and development of a digital order certificate workflow, utilising native platform capabilities and hackathon validation. This use case focuses on aligning business requirements with technical feasibility to deliver a seamless, standardised customer-facing process.",
+    "context": [
+      "Goal: Design the order certificate journey (in Native) and make it ready for the developers to pick up in Hackathon.",
+      "Produce screen designs that meet both technical and business requirements.",
+      "Standardised and reusable patterns",
+      "Identify dependencies and potential risks to enable accurate work estimation and planning."
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_001",
+    "name": "High-Quality Predictable Delivery",
+    "aliases": [
+      "predictable delivery",
+      "quality delivery"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "quality_improvement",
+    "description": "A measurable outcome where development teams consistently produce digital solutions that meet quality standards while adhering to predictable timelines. This benefit reduces delivery uncertainty and increases stakeholder confidence in project outcomes.",
+    "context": [
+      "Ensures that our sprint teams are well-equipped to deliver high-quality digital solutions efficiently and predictably.",
+      "evidence-based quality checks at all levels",
+      "Predictability",
+      "Reliable Releases"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_002",
+    "name": "Optimal Resource and Time Utilization",
+    "aliases": [
+      "resource optimisation",
+      "time efficiency"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "efficiency_gain",
+    "description": "A quantifiable operational benefit achieved through data-driven and engineering-driven practices. This outcome ensures that development teams maximise productive hours, minimise idle time, and allocate resources precisely to high-value tasks.",
+    "context": [
+      "ensures optimal resource and time utilization, along with evidence-based quality checks at all levels.",
+      "By focusing on efficient post-sprint processes, we ensure our solutions are deployed quickly and reliably",
+      "2-week sprints",
+      "Streamlining post sprint go live signoffs to enable a deployment ever 2 weeks"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_003",
+    "name": "Rapid and Reliable Deployment",
+    "aliases": [
+      "fast deployment",
+      "reliable releases"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "speed_improvement",
+    "description": "A delivery outcome where solutions are moved to production quickly and with high reliability. This benefit minimises deployment risk, accelerates time-to-value, and maximises client impact through streamlined post-sprint processes and automated sign-offs.",
+    "context": [
+      "we ensure our solutions are deployed quickly and reliably, minimizing risk and maximizing value for our clients.",
+      "minimizing risk and maximizing value for our clients.",
+      "Reliable Releases",
+      "Streamlining post sprint go live signoffs to enable a deployment ever 2 weeks"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_004",
+    "name": "50% Reduction in Physical Environments",
+    "aliases": [
+      "environment reduction",
+      "virtualisation cost saving"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "cost_saving",
+    "description": "A quantified infrastructure benefit achieved through environment virtualisation stubs. This outcome eliminates the need for physical testing environments and associated data, directly reducing infrastructure costs and accelerating test cycle times.",
+    "context": [
+      "Introducing environment virtualisation stubs to remove requirement on physical environments and data (50% reduction of environments)",
+      "remove requirement on physical environments and data",
+      "Address test automation debt – 70% automation achieved",
+      "ROI for automation"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_005",
+    "name": "70% Test Automation Achievement",
+    "aliases": [
+      "test automation rate",
+      "automation debt reduction"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "efficiency_gain",
+    "description": "A measurable quality assurance outcome where 70% of testing processes are fully automated. This benefit significantly reduces manual testing effort, accelerates feedback loops, and improves overall software reliability through embedded technical leadership and automated frameworks.",
+    "context": [
+      "Address test automation debt – 70% automation achieved",
+      "Implementing developer led automated UI testing – align technology",
+      "Implement technology specific test automation frameworks",
+      "ROI for automation"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cha_001",
+    "name": "Cultural and Organisational Divides",
+    "aliases": [
+      "organisational silos",
+      "capability gaps",
+      "cultural barriers"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "skill_gap",
+    "description": "A structural and operational challenge stemming from geographical and organisational separation between delivery teams. This challenge hinders effective collaboration, knowledge sharing, and unified execution, requiring targeted interventions such as cross-site visits and embedded leadership.",
+    "context": [
+      "Visits to India to remove cultural, organisational and capability divides",
+      "cultural, organisational and capability divides",
+      "A week in India – 2 journeys and 1 Hackathon",
+      "Identify dependencies and potential risks to enable accurate work estimation and planning."
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cha_002",
+    "name": "Test Automation Debt",
+    "aliases": [
+      "automation backlog",
+      "testing debt"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "technical_debt",
+    "description": "A technical constraint where legacy or manual testing processes create bottlenecks in the development lifecycle. This challenge slows release velocity, increases error risk, and requires systematic investment in automated frameworks and developer-led testing practices.",
+    "context": [
+      "Address test automation debt – 70% automation achieved",
+      "Implementing developer led automated UI testing – align technology",
+      "Implement technology specific test automation frameworks",
+      "ROI for automation"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cha_003",
+    "name": "Physical Environment and Data Dependencies",
+    "aliases": [
+      "infrastructure dependencies",
+      "physical environment constraints"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "legacy_constraint",
+    "description": "An operational constraint where development and testing workflows are bottlenecked by the need for physical environments and real data. This challenge increases provisioning time, raises infrastructure costs, and limits testing agility until virtualisation is implemented.",
+    "context": [
+      "Introducing environment virtualisation stubs to remove requirement on physical environments and data (50% reduction of environments)",
+      "remove requirement on physical environments and data",
+      "Identify dependencies and potential risks to enable accurate work estimation and planning.",
+      "Standardised and reusable patterns"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_tech_001",
+    "name": "Launch Darkly",
+    "aliases": [
+      "LaunchDarkly",
+      "feature flagging platform"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "framework",
+    "description": "A feature flagging and release management platform integrated into the development workflow. This technology enables trunk-based development by allowing teams to merge code safely and toggle features on or off without redeploying, supporting faster and safer releases.",
+    "context": [
+      "- Trunk based development and feature toggling with Launch Darkly",
+      "Trunk based development and feature toggling",
+      "Pre Sprint Ensures that our sprint teams are well-equipped to deliver high-quality digital solutions efficiently and predictably.",
+      "2-week sprints"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_tech_002",
+    "name": "React",
+    "aliases": [
+      "React.js",
+      "frontend framework"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "framework",
+    "description": "A JavaScript UI library used for building the close account journey interface. This technology enables component-based development, improves rendering performance, and supports rapid prototyping during hackathon-driven development cycles.",
+    "context": [
+      "Goal: Complete the journey for close account (in React) and make it ready for the developers to pick up in Hackathon.",
+      "Hackathon Goal: Challenge the development teams to deliver on the 2 journeys in both React and Native to understand which gets delivered at pace",
+      "in React",
+      "Produce screen designs that meet both technical and business requirements."
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_tech_003",
+    "name": "Native",
+    "aliases": [
+      "native platform",
+      "native development"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "platform",
+    "description": "A platform-specific development approach used for building the order certificate journey. This technology leverages device-native capabilities to ensure optimal performance, security, and user experience for mobile or desktop applications.",
+    "context": [
+      "Goal: Design the order certificate journey (in Native) and make it ready for the developers to pick up in Hackathon.",
+      "Hackathon Goal: Challenge the development teams to deliver on the 2 journeys in both React and Native to understand which gets delivered at pace",
+      "in Native",
+      "The picture is a complex data visualization titled \"Trend of PR Review Count vs Comments (Native).\""
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_tech_004",
+    "name": "Figma",
+    "aliases": [
+      "Figma Dev licences",
+      "design collaboration tool"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "design_tool",
+    "description": "A cloud-based design and prototyping platform enabled through developer licences. This technology improves design visibility, version control, and tracking, bridging the gap between design and development teams to streamline handoffs and reduce rework.",
+    "context": [
+      "- Enabling Figma Dev licences to improve visibility, versioning, and tracking",
+      "Enabling Figma Dev licences to improve visibility, versioning, and tracking",
+      "Design boards to bring together design decisions with technical feasibility",
+      "This is also to identify how we can further streamline our design handoff process and nurture the close collaboration between design and development teams."
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_dif_001",
+    "name": "Gamified Quality Incentives",
+    "aliases": [
+      "gamification",
+      "quality rewards"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "innovation",
+    "description": "A unique delivery differentiator that uses gamification to reward developers for producing high-quality code. This approach shifts quality from a compliance requirement to a motivated behaviour, driving higher engagement and reducing defect rates organically.",
+    "context": [
+      "- Gamification – rewarding individuals who produce high quality code",
+      "Gamification – rewarding individuals who produce high quality code",
+      "evidence-based quality checks at all levels",
+      "Address test automation debt – 70% automation achieved"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_dif_002",
+    "name": "Embedded Technical Leadership",
+    "aliases": [
+      "IBM code owners",
+      "embedded SMEs",
+      "tech lead integration"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "domain_expertise",
+    "description": "A competitive advantage where senior technical leaders, code owners, and subject matter experts are embedded directly within client delivery teams. This ensures real-time architectural guidance, faster decision-making, and tighter alignment between business goals and technical execution.",
+    "context": [
+      "- Embedded technical leaders (IBM code owners, tech lead, SME’s)",
+      "Embedded technical leaders (IBM code owners, tech lead, SME’s)",
+      "Identify dependencies and potential risks to enable accurate work estimation and planning.",
+      "Standardised and reusable patterns"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_dif_003",
+    "name": "Bi-Weekly Deployment Cadence",
+    "aliases": [
+      "2-week deployments",
+      "streamlined sign-offs"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "speed",
+    "description": "A delivery differentiator that enables consistent bi-weekly production deployments through streamlined post-sprint sign-off processes. This capability reduces release bottlenecks, accelerates time-to-market, and provides clients with predictable, frequent value delivery.",
+    "context": [
+      "Streamlining post sprint go live signoffs to enable a deployment ever 2 weeks",
+      "Streamlining post sprint go live signoffs to enable a deployment ever 2 weeks",
+      "2-week sprints",
+      "By focusing on efficient post-sprint processes, we ensure our solutions are deployed quickly and reliably"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_dif_004",
+    "name": "Strong Innovation Pipeline",
+    "aliases": [
+      "idea pipeline",
+      "hackathon pipeline"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "scale_advantage",
+    "description": "A competitive advantage characterised by a robust and continuous flow of validated ideas ready for execution. This pipeline ensures sustained innovation, reduces ideation-to-delivery latency, and provides a steady stream of high-impact initiatives for the digital roadmap.",
+    "context": [
+      "We have a good pipeline of ideas, many of which can be taken up during this hackathon.",
+      "good pipeline of ideas, many of which can be taken up during this hackathon.",
+      "The picture is a complex data visualization titled \"Trend of PR Review Count vs Comments (Native).\"",
+      "The image is a slide presentation detailing \"Hackathon 2025.\""
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_loc_001",
+    "name": "India",
+    "aliases": [
+      "India delivery centre",
+      "offshore location"
+    ],
+    "entity_class": "LOCATION",
+    "type": "country",
+    "description": "A key geographic delivery location hosting development and testing teams. This location is strategically leveraged to bridge cultural and organisational divides, enable cross-site collaboration, and support the execution of digital journeys and hackathon initiatives.",
+    "context": [
+      "Visits to India to remove cultural, organisational and capability divides",
+      "A week in India – 2 journeys and 1 Hackathon",
+      "Visits to India to remove cultural, organisational and capability divides",
+      "The image is a slide presentation detailing \"Hackathon 2025.\""
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_evt_001",
+    "name": "Hackathon 2025",
+    "aliases": [
+      "Hackathon",
+      "2025 Innovation Event"
+    ],
+    "entity_class": "EVENT",
+    "type": "proof_of_concept",
+    "description": "A structured innovation event designed to accelerate idea execution through discovery, ideation, POC, and selection phases. This event serves as a collaborative proving ground to test delivery approaches, validate digital journeys, and identify high-value initiatives for sponsorship and roadmap integration.",
+    "context": [
+      "The image is a slide presentation detailing \"Hackathon 2025.\"",
+      "We will have 4 phases that will lead to Ideas getting executed.",
+      "Hackathon Goal: Challenge the development teams to deliver on the 2 journeys in both React and Native to understand which gets delivered at pace",
+      "We have a good pipeline of ideas, many of which can be taken up during this hackathon."
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_006_org_001",
+    "name": "ICA Lab",
+    "aliases": [
+      "ICA Lab"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "partner",
+    "description": "Referenced as a key organizational entity within the engagement context, likely representing a client, internal innovation team, or strategic partner involved in the design and ideation process.",
+    "context": [
+      "ICA Lab",
+      "Industry Lab",
+      "Design Studio Visit"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_006",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_006_org_002",
+    "name": "Industry Lab",
+    "aliases": [
+      "Industry Lab"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "industry_body",
+    "description": "Identified as a distinct organizational or industry-focused entity, suggesting a collaborative or benchmarking role within the broader design and innovation workflow.",
+    "context": [
+      "Industry Lab",
+      "Design Studio Visit",
+      "Studio Showcase"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_006",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_006_off_003",
+    "name": "Design Studio Visit",
+    "aliases": [
+      "Design Studio Visit",
+      "Studio Visit"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "professional_service",
+    "description": "A structured engagement or workshop activity focused on on-site or virtual exploration of design environments to gather inspiration and inform strategic ideation.",
+    "context": [
+      "Design Studio Visit",
+      "Studio Showcase",
+      "Understanding the Context"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_006",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_006_evt_004",
+    "name": "Studio Showcase",
+    "aliases": [
+      "Studio Showcase",
+      "Showcase"
+    ],
+    "entity_class": "EVENT",
+    "type": "demo",
+    "description": "A presentation or exhibition event designed to display design outputs, prototypes, or strategic concepts to stakeholders for feedback and alignment.",
+    "context": [
+      "Studio Showcase",
+      "Understanding the Context",
+      "Ideation Presentation"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_006",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_006_cap_005",
+    "name": "Understanding the Context",
+    "aliases": [
+      "Context Understanding",
+      "Context Analysis"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "delivery_capability",
+    "description": "A foundational analytical and strategic capability focused on mapping stakeholder environments, market conditions, and operational constraints to inform design decisions.",
+    "context": [
+      "Understanding the Context",
+      "Ideation Presentation",
+      "Idea Prioritisation"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_006",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_006_cap_006",
+    "name": "Ideation Presentation",
+    "aliases": [
+      "Ideation Presentation",
+      "Presentation"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "delivery_capability",
+    "description": "A structured communication capability used to articulate creative concepts, strategic directions, and proposed solutions to key stakeholders and decision-makers.",
+    "context": [
+      "Ideation Presentation",
+      "Idea Prioritisation",
+      "Remote Connect for Competitive Analysis"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_006",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_006_cap_007",
+    "name": "Idea Prioritisation",
+    "aliases": [
+      "Idea Prioritisation",
+      "Prioritisation"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "delivery_capability",
+    "description": "A strategic evaluation capability focused on ranking, filtering, and selecting high-impact concepts based on feasibility, value, and alignment with business objectives.",
+    "context": [
+      "Idea Prioritisation",
+      "Remote Connect for Competitive Analysis",
+      "Design in Progress"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_006",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_006_cap_008",
+    "name": "Remote Connect for Competitive Analysis",
+    "aliases": [
+      "Remote Connect",
+      "Competitive Analysis"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "analytics_capability",
+    "description": "A specialized analytical capability leveraging remote collaboration tools and data sources to benchmark competitors, identify market gaps, and inform strategic design directions.",
+    "context": [
+      "Remote Connect for Competitive Analysis",
+      "Design in Progress",
+      "Understanding the Context"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_006",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_006_use_009",
+    "name": "Design in Progress",
+    "aliases": [
+      "Design in Progress",
+      "Active Design"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "modernisation",
+    "description": "An active implementation scenario where design thinking methodologies are being applied to evolve existing processes, products, or customer experiences toward modern standards.",
+    "context": [
+      "Design in Progress",
+      "Ideation Presentation",
+      "Studio Showcase"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_006",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_006_loc_010",
+    "name": "Design Studio",
+    "aliases": [
+      "Design Studio",
+      "Studio"
+    ],
+    "entity_class": "LOCATION",
+    "type": "site",
+    "description": "A dedicated physical or virtual workspace referenced as the primary environment for creative exploration, collaborative workshops, and design execution.",
+    "context": [
+      "Design Studio Visit",
+      "Studio Showcase",
+      "Ideation Presentation"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_006",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cli_001",
+    "name": "Nationwide (NBS)",
+    "aliases": [
+      "NBS",
+      "Nationwide Building Society",
+      "Customer Servicing & Mortgages"
+    ],
+    "entity_class": "CLIENT",
+    "type": "named_account",
+    "description": "A major financial services organization and primary client undergoing a comprehensive test landscape transformation. The engagement focuses on modernizing testing methods, driving automation, and delivering offshore/onsite capabilities across Customer Servicing, Mortgages, and BI portfolios.",
+    "context": [
+      "Nationwide test capability framework – shared skills expectations and growth models across NBS and IBM",
+      "Transforming Nationwide test landscape: Delivering outcomes",
+      "BI dashboard on POMS portal to bring in transparency for resource allocation"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+    "name": "SAMM Test Transformation",
+    "aliases": [
+      "SAMM Test TRANSFORMATION",
+      "Test Delivery Transformation"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "transformation_programme",
+    "description": "A comprehensive testing delivery transformation initiative aimed at modernizing test methods, driving automation, and improving efficiency across multiple business portfolios. It encompasses SIT automation, shift-left testing, and unattended execution frameworks to accelerate release cycles.",
+    "context": [
+      "SAMM Test TRANSFORMATION",
+      "Transforming Nationwide test landscape: Delivering outcomes",
+      "Transformation in Testing Delivery is expected to deliver 60% More Testing Throughput"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_002",
+    "name": "Test Capability Framework",
+    "aliases": [
+      "Shared Skills Framework",
+      "Universal Methodology"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "framework",
+    "description": "A structured approach to standardize testing expectations, skills growth, and delivery models across the client's portfolios. It enables shared capabilities, continuous improvement, and consistent quality standards across offshore and onsite teams.",
+    "context": [
+      "Nationwide test capability framework – shared skills expectations and growth models across NBS and IBM",
+      "Develop our Test capability",
+      "Universal methodology established & rolled out"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_003",
+    "name": "Automation & GenAI Testing Suite",
+    "aliases": [
+      "GenAI PoC",
+      "Automation & GenAI",
+      "AST Innovations"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "A combined offering leveraging automation tools and generative AI to accelerate test case creation, enhance security testing, and drive regression automation across the client's application landscape, specifically applied during migration and security initiatives.",
+    "context": [
+      "Automation & GenAI",
+      "GenAI based Innovations for Security - AST",
+      "Alias GenAI POC in Production"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_001",
+    "name": "Regression Automation & Optimization",
+    "aliases": [
+      "Optimised Regression Tests",
+      "Regression Pack Refactoring"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "automation_capability",
+    "description": "The ability to automate regression testing packs, optimize them based on production transaction volumes, and integrate them with CI/CD pipelines to reduce manual effort and improve test coverage across key business applications.",
+    "context": [
+      "optimised regression tests using production volume data",
+      "Refactoring regression packs by applications",
+      "Continue execution through regression automation packs"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_002",
+    "name": "Unattended Test Execution",
+    "aliases": [
+      "End-to-End Unattended Execution",
+      "ST Unattended Execution"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "delivery_capability",
+    "description": "The capability to execute test scripts in staging environments without manual intervention, enabling end-to-end automated workflows, faster feedback loops, and significantly accelerated release cycles.",
+    "context": [
+      "End-to-end unattended test execution",
+      "Automated Script Execution in ST Without Manual Intervention",
+      "ST Unattended Execution"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_003",
+    "name": "Test Metrics & Defect Management",
+    "aliases": [
+      "Defect Management Dashboard",
+      "Test Metrics Dashboard",
+      "CIO Metrics Reporting"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "analytics_capability",
+    "description": "The ability to track, visualize, and report on test performance, defect rates, and portfolio outcomes using standardized dashboards and CIO-level metrics to drive transparency and resource allocation.",
+    "context": [
+      "Driven by Metrics (Defect management dashboard >> Test metrics dashboard)",
+      "2025: New CIO metrics to provide clear, test value view for all portfolios",
+      "BI dashboard on POMS portal to bring in transparency for resource allocation"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_004",
+    "name": "Shift-Left Testing with Service Virtualization",
+    "aliases": [
+      "Shift left with SV",
+      "SV Testing"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "technical_capability",
+    "description": "The capability to integrate testing earlier in the development lifecycle using service virtualization to simulate dependencies, enabling on-demand testing of critical business scenarios in staging environments.",
+    "context": [
+      "Shift left with SV",
+      "Shift-left testing approach using Service Virtualization in the ST environment",
+      "Enable on-demand testing with a pack of critical business scenarios"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_use_001",
+    "name": "Customer Journey Regression Testing",
+    "aliases": [
+      "Transaction Volume Segmentation",
+      "GRAB Segments Testing"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "automation",
+    "description": "Applying automated regression testing to production customer journey scenarios to ensure system stability and validate transaction flows across key business applications, prioritized based on production volume data.",
+    "context": [
+      "Transaction volume in production for customer journey/scenarios from SAMM Audit database",
+      "Production journey mapped to Regression Tests Histogram of the 114 journeys",
+      "Significant # of transactions & Automated Regression Tests"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_use_002",
+    "name": "Test Case Generation via GenAI",
+    "aliases": [
+      "GenAI Test Creation",
+      "AST Security Testing"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "automation",
+    "description": "Leveraging generative AI to automatically create and optimize test cases, specifically applied during the Alias migration and security testing initiatives to accelerate development and improve coverage.",
+    "context": [
+      "GenAI based Innovations for Security - AST",
+      "Alias GenAI POC in Production",
+      "GenAI PoC (IBM Asset) implemented for Test Case creation in Alias migration"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_use_003",
+    "name": "Performance & OAT Productivity Testing",
+    "aliases": [
+      "OAT Testing",
+      "SAP & E2E Flow Testing"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "analytics",
+    "description": "Conducting performance testing and Operational Acceptance Testing (OAT) to ensure system reliability, optimize throughput, and validate business flows across SAP development, database schemas, and end-to-end processes before release.",
+    "context": [
+      "Performance testing & OAT productivity improvements",
+      "TrBK testing (SAP Enterprise web services, Db schema, UI screens, E2E Business flows",
+      "CDMP testing (SAP development- 60% target automation, Data Migration- 70% target automation"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_001",
+    "name": "Significant Effort & Cost Savings",
+    "aliases": [
+      "Efforts Savings",
+      "56 PDs per Quarter Savings"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "cost_saving",
+    "description": "Quantifiable reduction in testing effort and costs across all portfolios, driven by automation, optimized regression packs, and streamlined onboarding processes that eliminate redundant manual work.",
+    "context": [
+      "Efforts savings in every portfolio",
+      "56 PDs per quarter efforts saving",
+      "Optimise Regression Test pack and save effort"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_002",
+    "name": "Accelerated Release Cycles & Predictability",
+    "aliases": [
+      "Faster Releases",
+      "Improved Predictability"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "speed_improvement",
+    "description": "Faster time-to-market and improved release predictability achieved through unattended automation, reduced environment delays, and shift-left methodologies that streamline the testing pipeline.",
+    "context": [
+      "Improved predictability & faster releases",
+      "significantly accelerating release cycles",
+      "Reduced environment-driven delays"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_003",
+    "name": "Drastic Reduction in Environment-Related Defects",
+    "aliases": [
+      "Defect Slashing",
+      "30% to 3% Defect Reduction"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "risk_reduction",
+    "description": "A measurable decrease in defects caused by environment instability, dropping from 30% to 3% through comprehensive automation, standardized methodologies, and continuous improvement initiatives.",
+    "context": [
+      "slashing environment-related defects from 30% down to just 3%",
+      "Quality maintained / improved",
+      "Measurable Test efficiency improvement"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_004",
+    "name": "Increased Testing Throughput",
+    "aliases": [
+      "60% More Testing Delivered",
+      "Testing Throughput Growth"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "scale_achievement",
+    "description": "A substantial increase in the volume of testing delivered, targeting a 60% improvement in throughput across the test practice, enabling faster validation of business scenarios and applications.",
+    "context": [
+      "Transformation in Testing Delivery is expected to deliver 60% More Testing Throughput",
+      "60% More Testing Delivered",
+      "Drive test efficiency & efficacy"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cha_001",
+    "name": "Environment-Driven Delays & Defects",
+    "aliases": [
+      "Environment Instability",
+      "Legacy Environment Bottlenecks"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "technical_debt",
+    "description": "Legacy testing infrastructure and unstable environments causing significant delays, defects, and bottlenecks in the release pipeline, requiring modernization and unattended automation to resolve.",
+    "context": [
+      "Reduced environment-driven delays",
+      "slashing environment-related defects from 30% down to just 3%",
+      "Significant # of transactions BUT NO Regression Tests"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cha_002",
+    "name": "Manual Testing Bottlenecks & Skill Gaps",
+    "aliases": [
+      "Manual Test Cases",
+      "Cost & HC Control Constraints"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "operational_inefficiency",
+    "description": "Reliance on manual test cases, lack of standardized methodologies, and constrained headcount/cost control limiting testing scalability and efficiency, necessitating automation and process redesign.",
+    "context": [
+      "Significant # of transactions, with manual Regression Tests",
+      "Manual Test cases added to Automation backlog",
+      "Test leads better control over Costs & HC across NBS Test"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cha_003",
+    "name": "Portfolio Visibility & Resource Allocation",
+    "aliases": [
+      "Lack of Transparency",
+      "Resource Allocation Bottlenecks"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "scalability_limitation",
+    "description": "Lack of transparent metrics and standardized dashboards for tracking portfolio performance, resource allocation, and test value across business units, hindering strategic decision-making and scaling.",
+    "context": [
+      "2025: New CIO metrics to provide clear, test value view for all portfolios",
+      "BI dashboard on POMS portal to bring in transparency for resource allocation",
+      "Restructuring test cases in JIRA by feature for improved monitoring and reporting"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_001",
+    "name": "JIRA & Zephyr",
+    "aliases": [
+      "JIRA Restructuring",
+      "Zephyr Test Management"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "integration_tool",
+    "description": "Project management and test management platforms used for test case tracking, JIRA restructuring, and BDD framework integration to improve monitoring, reporting, and automation script execution.",
+    "context": [
+      "JIRA Restructuring",
+      "Develop a regression automation script with the BDD framework and integrate it with JIRA Zephyr",
+      "Restructuring test cases in JIRA by feature for improved monitoring and reporting"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_002",
+    "name": "GitHub",
+    "aliases": [
+      "Code Repository",
+      "GitHub Integration"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "integration_tool",
+    "description": "Centralized code repository platform integrated into the testing workflow to maintain automation scripts, support continuous integration, and ensure version control across the test practice.",
+    "context": [
+      "GitHub Integration",
+      "Integrate with GitHub and maintain code repository in centralized location",
+      "Standardized Dashboard rolled out across Test Practice"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_003",
+    "name": "Service Virtualization (SV)",
+    "aliases": [
+      "SV",
+      "Shift-Left SV"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "automation_tool",
+    "description": "Technology used to simulate dependent systems and enable shift-left testing, allowing critical business scenarios to be tested on-demand in staging environments without full infrastructure dependencies.",
+    "context": [
+      "Shift left with SV",
+      "Shift-left testing approach using Service Virtualization in the ST environment",
+      "Enable on-demand testing with a pack of critical business scenarios"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_004",
+    "name": "SAMM Audit Database",
+    "aliases": [
+      "SAMM Database",
+      "Transaction Volume Database"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "database",
+    "description": "Internal audit database used to extract production transaction volumes for customer journey scenarios, feeding into segmentation analysis and regression testing prioritization based on actual usage data.",
+    "context": [
+      "Transaction volume in production for customer journey/scenarios from SAMM Audit database for 3 months",
+      "SAMM Audit database for 3 months",
+      "Conducted segmentation analysis into 4 buckets – the GRAB segments"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_005",
+    "name": "POMS Portal",
+    "aliases": [
+      "POMS",
+      "BI Dashboard Portal"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "platform",
+    "description": "Client's internal portal used for BI dashboards, resource allocation transparency, and tracking test practice metrics, serving as a central hub for portfolio visibility and process changes.",
+    "context": [
+      "BI dashboard on POMS portal to bring in transparency for resource allocation",
+      "Test Practice led POMS process changes initiated",
+      "2024-25: Maturity assessments in CS, RP & MFW portfolios"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_dif_001",
+    "name": "98.5% IBM Offshore Delivery Model",
+    "aliases": [
+      "Offshore Delivery",
+      "IBM Offshore Teams"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "delivery_model",
+    "description": "A highly leveraged offshore delivery model that drives value, efficiency, and cost savings while maintaining strong partnership and quality standards, enabling scalable testing across all portfolios.",
+    "context": [
+      "Driving value through 98.5% IBM offshore teams",
+      "Offshore",
+      "Working in true partnership to deliver the future of QE"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_dif_002",
+    "name": "Accelerated Tester Onboarding & Standardized Frameworks",
+    "aliases": [
+      "KT Process",
+      "Universal Methodology",
+      "Standardized Dashboard"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "domain_expertise",
+    "description": "Proprietary processes and knowledge transfer (KT) methods that significantly speed up tester onboarding, combined with universal methodologies and standardized dashboards that ensure consistent quality and faster ramp-up.",
+    "context": [
+      "TCD process and KT have accelerated IBM testers on boarding significantly",
+      "Universal methodology established & rolled out",
+      "Standardized Dashboard rolled out across Test Practice"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_dif_003",
+    "name": "Thought Leadership & Innovation Culture",
+    "aliases": [
+      "Innovation & Technology",
+      "Culture & Community Engagement",
+      "TesTalks"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "innovation",
+    "description": "A culture of continuous improvement, best practices, and community engagement, supported by weekly newsletters, webinars, and design thinking workshops that drive test efficiency and methodology adoption.",
+    "context": [
+      "Thought leader",
+      "Innovation & Technology",
+      "Culture & community engagement",
+      "TesTalks- weekly newsletter, quarterly webinar"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_org_001",
+    "name": "IBM",
+    "aliases": [
+      "IBM Offshore",
+      "IBM Asset"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "vendor",
+    "description": "The primary solutions provider and partner delivering the test transformation, offshore capabilities, and GenAI innovations to the client, driving value through structured delivery and continuous improvement.",
+    "context": [
+      "98.5% IBM offshore teams",
+      "NBS and IBM",
+      "GenAI PoC (IBM Asset) implemented"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_org_002",
+    "name": "NBS (Nationwide Building Society)",
+    "aliases": [
+      "Nationwide",
+      "NBS Test",
+      "Customer Servicing & Mortgages"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "partner",
+    "description": "The client organization undergoing the test transformation, with specific focus on Customer Servicing, Mortgages, and BI portfolios, leveraging shared skills frameworks and offshore delivery models.",
+    "context": [
+      "shared skills expectations and growth models across NBS and IBM",
+      "Costs & HC across NBS Test",
+      "Benefitting Portfolios"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_eve_001",
+    "name": "Hackathon",
+    "aliases": [
+      "Hackathon in progress",
+      "Data, AI and Modernisation Hackathon"
+    ],
+    "entity_class": "EVENT",
+    "type": "conference",
+    "description": "An internal or collaborative innovation event focused on testing, data, AI, and modernization, featuring winner announcements, slide presentations, and strategic roadmap discussions.",
+    "context": [
+      "Hackathon",
+      "Hackathon in progress",
+      "Slides for Data, AI and Modernisation to be added"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_eve_002",
+    "name": "Onsite Design Thinking & CI Workshops",
+    "aliases": [
+      "2024 CI Initiatives",
+      "2025 CI Initiatives",
+      "Test Continuous Improvement Workshop"
+    ],
+    "entity_class": "EVENT",
+    "type": "conference",
+    "description": "Scheduled workshops for 2024 and 2025 focused on design thinking and continuous improvement initiatives to drive test efficiency, methodology adoption, and portfolio transformation outcomes.",
+    "context": [
+      "2024: Onsite Design thinking workshop -> 2024 CI Initiatives",
+      "2025: Onsite Test Continuous Improvement workshop -> 2025 CI initiatives",
+      "2024-25: Maturity assessments in CS, RP & MFW portfolios"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_eve_003",
+    "name": "Quarterly Release & Milestone Events",
+    "aliases": [
+      "Sept 23rd Release",
+      "April'25",
+      "Aug'25",
+      "Sep'25"
+    ],
+    "entity_class": "EVENT",
+    "type": "product_launch",
+    "description": "Key release and milestone events tracking the rollout of automation, metrics, and transformation outcomes, serving as checkpoints for measuring throughput, defect reduction, and portfolio benefits.",
+    "context": [
+      "Updates from Sept 23rd release",
+      "April'25",
+      "Aug'25",
+      "Sep'25"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_008_cap_001",
+    "name": "Automated Execution in SIT",
+    "aliases": [
+      "SIT automation",
+      "SIT automated execution"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "automation_capability",
+    "description": "The capability to execute software testing in the System Integration Testing (SIT) environment automatically. The document tracks its progression from 0% to 100% automation coverage across multiple phases. This represents a core operational capability delivered to the client.",
+    "context": [
+      "Automated Execution in SIT",
+      "0% SIT Automated",
+      "80% SIT Automated",
+      "100% SIT automated execution"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_008",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_008_cap_002",
+    "name": "Automated Execution in ST",
+    "aliases": [
+      "ST automation",
+      "Unattended execution"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "automation_capability",
+    "description": "The capability to execute software testing in the System Testing (ST) environment automatically. It achieved unattended execution and reached 100% automation status. This capability directly supports faster release cycles and reduced manual effort.",
+    "context": [
+      "Automated Execution in ST",
+      "73% ST Automated",
+      "100 % ST Automated (Unattended execution)",
+      "100% ST execution was automated"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_008",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_008_ben_001",
+    "name": "Reduction of Environment Defects",
+    "aliases": [
+      "SIT Defects Related to Environment",
+      "Environment Defect Reduction"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "quality_improvement",
+    "description": "A measurable reduction in defects originating from the test environment, dropping from 40% to 3% and stabilizing at 10%. This outcome indicates significantly improved environment stability and testing quality. The reduction directly addresses prior environmental instability.",
+    "context": [
+      "Reduction of Environment Defects",
+      "40% SIT Defects Related to Environment",
+      "3% SIT Defects Related to Environment",
+      "10% SIT Defects Related to Environment"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_008",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_008_ben_002",
+    "name": "User Story Point Efficiency",
+    "aliases": [
+      "Story Points delivered for Path to Live",
+      "Efficiency Gain"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "efficiency_gain",
+    "description": "A significant improvement in development and testing efficiency, reducing estimated story points per user story from 3-5 down to 1. This efficiency gain streamlines the path to production and reduces delivery overhead. The metric reflects optimized team velocity and process maturity.",
+    "context": [
+      "User Points delivered for Path to Live",
+      "3-5 Story Points Estimated Per User Story",
+      "1 Story Point Per User Story",
+      "To be implemented"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_008",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_008_tech_001",
+    "name": "Automation Framework",
+    "aliases": [
+      "API automation framework",
+      "Test framework"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "automation_tool",
+    "description": "A refactored and strengthened software testing framework used to enable automated execution. It serves as the technical foundation for both SIT and ST automation efforts. The framework also supports advanced use cases like API-driven smoke testing.",
+    "context": [
+      "Refactored and strengthened the automation framework.",
+      "Enabled smoke testing with API automation framework."
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_008",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_008_cap_003",
+    "name": "Execution Dashboards & Metrics",
+    "aliases": [
+      "New metrics",
+      "Execution dashboards"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "analytics_capability",
+    "description": "The introduction of new metrics and execution dashboards designed to provide transparency into testing progress. These tools track automation status and execution performance in real time. They enable data-driven decision making for the delivery teams.",
+    "context": [
+      "Introduced new metrics and execution dashboards for transparency."
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_008",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_008_cha_001",
+    "name": "Critical Test Environment Issues",
+    "aliases": [
+      "Environment defects",
+      "Test environment problems"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "technical_debt",
+    "description": "Significant problems and defects within the test environment that required active resolution. These issues previously hindered automation adoption and contributed to high defect rates. Resolving them was a prerequisite for achieving stable automated execution.",
+    "context": [
+      "Resolved critical test environment issues"
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_008",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_008_diff_001",
+    "name": "Synchronized Ways of Working",
+    "aliases": [
+      "Consistent ways of working",
+      "Team alignment"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "delivery_model",
+    "description": "The establishment of consistent, synchronized operational processes embedded across teams. This approach supports broader automation adoption and ensures reliable execution. It represents a key methodological differentiator in the delivery model.",
+    "context": [
+      "Established consistent, synchronized ways of working."
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_008",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_008_use_001",
+    "name": "Smoke Testing",
+    "aliases": [
+      "API smoke testing",
+      "Automated smoke tests"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "automation",
+    "description": "The application of automated API frameworks to perform smoke testing. This use case ensures rapid validation of core system functionality before full execution. It leverages the underlying automation framework for immediate feedback.",
+    "context": [
+      "Enabled smoke testing with API automation framework."
+    ],
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_008",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+    "domain": "sales_collateral"
+  }
+]

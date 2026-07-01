@@ -1,0 +1,3203 @@
+{
+  "embedding": [
+    0.045591354,
+    0.066542454,
+    -0.14499791,
+    -0.08453676,
+    0.023904497,
+    0.011089013,
+    0.06088904,
+    0.026878614,
+    0.0051698084,
+    0.006012276,
+    -0.11406514,
+    0.047473114,
+    0.019279284,
+    -0.043053985,
+    -0.0035281747,
+    -0.025520246,
+    0.087356165,
+    -0.018306429,
+    -0.034852,
+    -0.0053149774,
+    -0.059322286,
+    -0.01627296,
+    -0.014257454,
+    -0.0336797,
+    0.044854466,
+    -0.02042649,
+    -0.032348316,
+    0.009187253,
+    0.014994638,
+    0.017699344,
+    0.0072614895,
+    -0.03371253,
+    -0.058245756,
+    0.0071349936,
+    -0.054975998,
+    -0.04009688,
+    0.07416187,
+    0.044763513,
+    0.028581029,
+    -0.0016118619,
+    0.10996463,
+    0.047868926,
+    -0.0463038,
+    -0.04721916,
+    0.033057977,
+    0.048682872,
+    0.07682909,
+    0.03511562,
+    0.014165021,
+    -0.0019448138,
+    0.05852148,
+    0.0043710475,
+    0.06423978,
+    -0.030240359,
+    0.085884124,
+    0.046664603,
+    0.02505992,
+    -0.005160432,
+    0.029007934,
+    -0.0012439705,
+    0.07257344,
+    0.036815032,
+    0.009026045,
+    0.077827595,
+    0.021399245,
+    -0.03827035,
+    -0.006677444,
+    0.046954125,
+    0.058879633,
+    -0.07752122,
+    0.017149536,
+    -0.015546919,
+    -0.022656573,
+    0.03566195,
+    -0.0058230837,
+    0.016165363,
+    0.0046344125,
+    0.008608041,
+    0.03959123,
+    0.024752343,
+    0.03770785,
+    -0.035718944,
+    0.014505418,
+    -0.01803167,
+    -0.032429446,
+    -0.025141552,
+    0.007307255,
+    -0.0488112,
+    -0.04719882,
+    0.04642219,
+    0.017203066,
+    0.00043925343,
+    0.027042227,
+    0.052736845,
+    -0.030930826,
+    0.030406922,
+    -0.010609828,
+    0.040846854,
+    -0.09928612,
+    0.032896776,
+    -0.04654435,
+    -0.08459505,
+    0.0019817112,
+    0.036338367,
+    0.047416177,
+    0.05539943,
+    0.0075152246,
+    0.010690365,
+    -0.015276512,
+    0.00813958,
+    -0.024979183,
+    0.019474365,
+    -0.062366948,
+    -0.012107062,
+    -0.012493157,
+    0.045182396,
+    0.034813978,
+    -0.017782442,
+    -0.026934447,
+    0.04963781,
+    -0.01882497,
+    0.031806827,
+    0.005535655,
+    0.03419693,
+    0.048162345,
+    0.012999164,
+    -0.01847125,
+    0.011785875,
+    -0.034219243,
+    -0.051187973,
+    0.0076697366,
+    0.0353286,
+    0.0047366745,
+    0.0014600303,
+    0.023025805,
+    0.036050726,
+    0.016260998,
+    -0.02557044,
+    0.008219864,
+    -0.008094812,
+    0.022070577,
+    0.016593464,
+    -0.00412841,
+    0.003306852,
+    -0.023817811,
+    -0.04903649,
+    0.012952817,
+    -0.042737164,
+    -0.08700627,
+    0.021060443,
+    -0.03677809,
+    0.005498606,
+    0.017009716,
+    0.014766869,
+    0.020634972,
+    -0.025017852,
+    0.03603337,
+    0.04059507,
+    0.012824626,
+    0.066548936,
+    0.02001644,
+    -0.028430574,
+    0.008216481,
+    0.07418719,
+    -0.023830261,
+    -0.018932916,
+    0.026474513,
+    0.035371438,
+    0.0020681657,
+    -0.0049888813,
+    -0.027612131,
+    0.0037801934,
+    -0.032727882,
+    -0.037406724,
+    0.0459932,
+    -0.026777897,
+    0.05353068,
+    -0.050235793,
+    -0.026024876,
+    -0.06511259,
+    0.04081157,
+    -0.047259986,
+    0.044701915,
+    -0.03097675,
+    -0.0009128881,
+    -0.004093304,
+    0.017490434,
+    -0.041435882,
+    0.027130438,
+    -0.030979436,
+    0.01889502,
+    0.0139790755,
+    -0.031443782,
+    0.003310624,
+    -0.0034579807,
+    -0.041442797,
+    0.0023616566,
+    0.021590624,
+    -0.027837746,
+    0.010530436,
+    -0.023204627,
+    0.02776192,
+    0.011868911,
+    -0.006722014,
+    -0.04409015,
+    0.07255836,
+    -0.012033039,
+    0.0060840873,
+    -0.022626372,
+    0.0076814326,
+    0.042883504,
+    -0.02145398,
+    -0.003182537,
+    0.029430432,
+    0.0020695014,
+    0.048703317,
+    0.042111866,
+    0.03119958,
+    -0.0063215336,
+    -0.0029322817,
+    0.01728219,
+    0.030202309,
+    -0.022514619,
+    -0.020530516,
+    0.048060335,
+    0.06490686,
+    -0.011819372,
+    -0.017487496,
+    -0.024470042,
+    -0.012185165,
+    -0.012924581,
+    -0.08304442,
+    0.06693069,
+    -0.015057201,
+    -0.020718234,
+    0.048110846,
+    -0.0017954956,
+    -0.015469444,
+    -0.0028136342,
+    0.012875264,
+    -0.062098306,
+    0.025748359,
+    -0.05257686,
+    -0.016171727,
+    -0.05583216,
+    0.023819953,
+    -0.019357953,
+    -0.056406196,
+    0.0068636346,
+    0.05491108,
+    -0.003322814,
+    0.008311873,
+    0.031017276,
+    -0.010813751,
+    0.023888588,
+    -0.0018236387,
+    -0.0659893,
+    0.014777889,
+    -0.025603026,
+    -0.013281307,
+    0.007887215,
+    -0.032262824,
+    0.0026162483,
+    -0.029346352,
+    -0.081346266,
+    -0.053608663,
+    -0.0749919,
+    -0.0014849002,
+    0.018815482,
+    -0.044036873,
+    -0.012052066,
+    0.01981546,
+    0.025147032,
+    0.016897507,
+    0.011503715,
+    -0.013240804,
+    -0.013374913,
+    -0.021793261,
+    -0.040200423,
+    0.006317349,
+    -0.023076197,
+    -0.0020907326,
+    -0.026522567,
+    -0.021988397,
+    -0.023563234,
+    -0.0025777505,
+    -0.0060322327,
+    0.006783307,
+    0.038014602,
+    -0.031917974,
+    0.018224362,
+    0.04924243,
+    -0.025022702,
+    0.04781922,
+    0.020362105,
+    0.034632683,
+    0.07977673,
+    0.01086892,
+    0.036270756,
+    -0.03505731,
+    0.06278179,
+    -0.0052008755,
+    -0.013763668,
+    0.06423806,
+    -0.008993607,
+    0.005958522,
+    0.0011383808,
+    0.025166294,
+    -0.0021338393,
+    -0.047362108,
+    -0.08069017,
+    -0.0059728436,
+    -0.0036522779,
+    -0.007706244,
+    -0.028079536,
+    0.0030474267,
+    0.022771243,
+    0.03322155,
+    0.018740462,
+    0.011667844,
+    -0.026493875,
+    0.056594245,
+    -0.0079609305,
+    -0.054676868,
+    0.031239279,
+    0.06446133,
+    -0.03496986,
+    0.03954064,
+    -0.019739002,
+    -0.05025798,
+    0.006388179,
+    0.02629703,
+    -0.013410541,
+    -0.03330266,
+    -0.05880283,
+    0.02174093,
+    0.027259666,
+    0.0030484311,
+    -0.004123112,
+    -0.008216201,
+    0.0764202,
+    0.0140187545,
+    -0.019168727,
+    -0.049575154,
+    -0.04409197,
+    0.0034953414,
+    -0.079897806,
+    0.018822247,
+    0.032483596,
+    -0.0012359128,
+    0.011455911,
+    -0.030310707,
+    0.0076123485,
+    -0.0029570377,
+    0.007011303,
+    -0.017897777,
+    -0.0115349265,
+    0.018396128,
+    -0.011410725,
+    -0.021656893,
+    0.04563399,
+    0.027887726,
+    0.035115566,
+    -0.035699405,
+    -0.022643926,
+    0.03791733,
+    0.04593082,
+    -0.0013725911,
+    0.014427832,
+    -0.003147796,
+    -0.020397486,
+    -0.022618044,
+    -0.0016086443,
+    0.02767001,
+    -0.00092828623,
+    -0.0116722835,
+    -0.04584859,
+    -0.06371949,
+    -0.0142953675,
+    -0.0087174615,
+    -0.023376653,
+    -0.009568117,
+    0.009867505,
+    0.012526604,
+    0.016920198,
+    -0.012419146,
+    0.027237896,
+    -0.05726579,
+    -0.006388464,
+    -0.03990878,
+    0.0076896683,
+    0.0020447085,
+    -0.045365863,
+    -0.010210171,
+    0.033428747,
+    -0.051718064,
+    0.008469221,
+    -0.054370552,
+    -0.043436367,
+    -0.017805424,
+    -0.019438481,
+    -0.053943433,
+    -0.0040500513,
+    0.014250716,
+    -0.020234747,
+    0.020635184,
+    -0.023753349,
+    -0.07361647,
+    0.040587436,
+    -0.038708754,
+    0.0153306965,
+    0.026334029,
+    -0.03478838,
+    -0.023294576,
+    -0.017512694,
+    0.030394714,
+    0.052844577,
+    0.013853827,
+    -0.0025985397,
+    -0.021035055,
+    0.04498301,
+    0.049178764,
+    -0.009476292,
+    -0.015275625,
+    0.030292608,
+    -0.024513418,
+    0.015293505,
+    -0.018279996,
+    -0.0014709523,
+    -0.03884788,
+    0.020562192,
+    -0.019391175,
+    0.021085808,
+    -0.00790344,
+    0.015056287,
+    0.009860001,
+    0.045139734,
+    0.050319605,
+    0.04418684,
+    0.07688891,
+    0.0685041,
+    -0.0027449771,
+    -0.011445509,
+    -0.0027216645,
+    0.07724138,
+    -0.010047771,
+    0.06188322,
+    0.010892591,
+    0.0076612057,
+    0.0043220543,
+    -0.0077709067,
+    -0.019340767,
+    0.03230824,
+    -0.013741399,
+    0.07351629,
+    -0.026740154,
+    -0.0022459375,
+    -0.0073915576,
+    -0.02579342,
+    0.051603723,
+    0.030829798,
+    -0.0011253743,
+    -0.064864956,
+    0.03832906,
+    0.01590826,
+    -0.052249733,
+    -0.039082102,
+    -0.039857402,
+    0.041590117,
+    -0.0056318967,
+    -0.066611156,
+    0.020964175,
+    0.045817066,
+    -0.032855354,
+    0.043923654,
+    -0.065367915,
+    -0.010654244,
+    -0.0052975975,
+    -0.0017313121,
+    0.09812762,
+    0.024646815,
+    0.02873603,
+    -0.022890007,
+    -0.00818175,
+    0.019446013,
+    0.013302725,
+    -0.022052383,
+    -0.022866651,
+    0.0005407859,
+    -0.010576112,
+    0.025488462,
+    -0.0115246,
+    0.027158769,
+    0.00016999045,
+    -0.008881608,
+    -0.0589327,
+    -0.001894993,
+    0.06731976,
+    0.023442546,
+    0.05841519,
+    0.01742983,
+    0.1115744,
+    -0.039895155,
+    0.0148693975,
+    0.044972416,
+    -0.0511277,
+    -0.0371891,
+    -0.028027155,
+    -0.03619156,
+    0.025140207,
+    -0.013544327,
+    0.016955724,
+    -0.017226579,
+    -0.032597214,
+    0.06987903,
+    -0.011499525,
+    -0.018099353,
+    0.0038010692,
+    0.005976667,
+    0.019452007,
+    -0.01419206,
+    -0.0040439363,
+    -0.028170973,
+    -0.07816639,
+    -0.028385887,
+    -0.005910854,
+    -0.010895394,
+    -0.08852075,
+    0.035175472,
+    -0.017874483,
+    -0.016325356,
+    -0.008325911,
+    -0.023527076,
+    -0.0128801875,
+    0.015798891,
+    0.02776376,
+    -0.029441059,
+    0.056258556,
+    0.010590903,
+    0.045991924,
+    -0.009305607,
+    0.009579261,
+    0.0058524306,
+    0.033792693,
+    0.024288822,
+    -0.0009465388,
+    0.014341002,
+    0.034122735,
+    0.025316957,
+    0.0036727816,
+    0.04751291,
+    -0.044829607,
+    -0.04598471,
+    -0.020890329,
+    0.041796554,
+    -0.018474612,
+    -0.04321162,
+    -0.00041099344,
+    -0.06372252,
+    -0.04602301,
+    0.018466726,
+    0.054521035,
+    0.06392916,
+    0.037169766,
+    -0.026270574,
+    -0.009155184,
+    0.012349534,
+    -0.026309632,
+    0.007195928,
+    0.008695093,
+    -0.005977103,
+    -0.05056873,
+    -0.034251776,
+    -0.01656184,
+    0.025764676,
+    0.016120343,
+    -0.04984197,
+    -0.01859902,
+    -0.046931572,
+    -0.060167212,
+    -0.025210802,
+    -0.00083048025,
+    0.03149083,
+    0.05803038,
+    -0.007426519,
+    0.012589794,
+    -0.040969633,
+    -0.07922127,
+    0.043702103,
+    -0.047389705,
+    0.013992571,
+    0.021573942,
+    0.008696068,
+    -0.016918818,
+    -0.024067042,
+    -0.05434417,
+    0.03635398,
+    -0.044073794,
+    -0.041772455,
+    -0.056136742,
+    5.564025e-05,
+    0.00031790632,
+    0.089668944,
+    -0.0247519,
+    0.021911085,
+    -0.011761657,
+    0.018948508,
+    -0.035599303,
+    0.017335312,
+    -0.0044002514,
+    0.05257669,
+    0.011214986,
+    0.055854827,
+    -0.027178751,
+    0.023732632,
+    -0.052172687,
+    0.07855023,
+    0.018946802,
+    0.01529988,
+    -0.024014063,
+    0.017314864,
+    0.004425454,
+    0.014111498,
+    -0.062409565,
+    0.030215831,
+    -0.019712413,
+    -0.05847536,
+    -0.02063393,
+    -0.016337976,
+    0.010784836,
+    -0.030800406,
+    0.031325955,
+    -0.036133964,
+    -0.047244076,
+    -0.046884894,
+    0.028383648,
+    0.015480725,
+    0.01413679,
+    -0.041238576,
+    0.034301035,
+    0.016524913,
+    0.011020961,
+    -0.03224206,
+    0.04184475,
+    -0.00033326322,
+    -0.010201433,
+    0.054635424,
+    0.03251827,
+    0.068149485,
+    -0.031726923,
+    0.057676397,
+    0.08298257,
+    0.038193412,
+    -0.02771,
+    -0.018446332,
+    -0.016730374,
+    0.04038198,
+    -0.025524408,
+    -0.06164671,
+    -0.04988717,
+    0.007570804,
+    0.045945033,
+    -0.0703058,
+    -0.06605497,
+    0.01516916,
+    -0.02336729,
+    -0.026437877,
+    -0.07964237,
+    -0.036636557,
+    -0.02215238,
+    0.028941832,
+    0.058958463,
+    0.008451395,
+    -0.022626812,
+    0.030717969,
+    0.016055947,
+    0.052677695,
+    0.047473274,
+    0.01854729,
+    0.0024808724,
+    -0.032254953,
+    0.013245661,
+    -0.0019441132,
+    -0.028745662,
+    -0.03886804,
+    -0.043028355,
+    -0.016652526,
+    0.012084288,
+    -0.019274538,
+    -0.012097149,
+    -0.026826596,
+    -0.034210116,
+    0.022416074,
+    -0.01697536,
+    0.011000986,
+    0.0018843561,
+    -0.012471731,
+    -0.024474554,
+    -0.023333965,
+    -0.0037043768,
+    -0.017009728,
+    -0.014056166,
+    -0.01166475,
+    0.036095347,
+    -0.040398784,
+    -0.014606209,
+    0.080652885,
+    0.032875042,
+    0.0009901903,
+    0.03182554,
+    0.031731468,
+    -0.0018433228,
+    -0.010125318,
+    0.02576934,
+    0.105477914,
+    0.013787382,
+    -0.0045921966,
+    -0.015428317,
+    -0.024086187,
+    0.024100892,
+    0.029233696,
+    -0.0034258752,
+    -0.03522423,
+    -0.0507158,
+    0.000104879015,
+    0.017919796,
+    0.05633791,
+    -0.0047374316,
+    -0.026000397,
+    -0.023903672,
+    0.012265326,
+    0.01923023,
+    -0.035422456,
+    0.051894825,
+    -0.03354844,
+    -0.019660914,
+    -0.04925961,
+    0.013213801,
+    -0.017106187,
+    -0.06337224,
+    -0.060198475,
+    -0.013741124,
+    0.003818603,
+    -0.007803462,
+    -0.0016772989,
+    -0.04990572,
+    -0.029044915,
+    0.0031837667,
+    0.006869018,
+    -0.027793985,
+    0.068847425,
+    -0.048296493,
+    -0.008800331,
+    0.06696519,
+    -0.0172127,
+    0.0014397855,
+    0.024736501,
+    0.018461427,
+    0.09433488,
+    0.003941753,
+    0.037050903,
+    -0.004961803,
+    0.016791191,
+    0.00918416,
+    -0.0331546,
+    -0.047319785,
+    0.030883236,
+    -0.054265257
+  ],
+  "chunk_seq": 3,
+  "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+  "doc_id": "54fe739d5f764020ad4396c72af29729",
+  "text": "'Hotel Cosmopolitan Jewel Robbery. John Horner, 26 , plumber, was brought up upon the charge of having upon the 22 nd inst. abstracted from the jewel-case of the Countess of Morcar the valuable gem known as the blue carbuncle. James Ryder, upper-attendant at the hotel, gave his evidence to the effect that he had shown Horner up to the dressing-room of the Countess of Morcar upon the day of the robbery in order that he might solder the second bar of the grate, which was loose. He had remained with Horner some little time, but had finally been called away. On returning, he found that Horner had disappeared, that the bureau had been forced open, and that the small morocco casket in which, as it afterwards transpired, the Countess was accustomed to keep her jewel, was lying empty upon the dressing-table. Ryder instantly gave the alarm, and Horner was arrested the same evening; but the stone could not be found either upon his person or in his rooms. Catherine Cusack, maid to the Countess, deposed to having heard Ryder's cry of dismay on discovering the robbery, and to having rushed into the room, where she found matters as described by the last witness. Inspector Bradstreet, B division, gave evidence as to the arrest of Horner, who struggled frantically, and protested his innocence in the strongest terms. Evidence of a previous conviction for robbery having been given against the prisoner, the magistrate refused to deal summarily with the offence, but referred it to the Assizes. Horner, who had shown signs of intense emotion during the proceedings, fainted away at the conclusion and was carried out of court.'  \n'Hum! So much for the police-court,' said Holmes thoughtfully, tossing aside the paper. 'The question for us now to solve is the sequence of events leading from a rifled jewel-case at one end to the crop of a goose in Tottenham Court Road at the other. You see, Watson, our little deductions have suddenly assumed a much more important and less innocent aspect. Here is the stone; the stone came from the goose, and the goose came from Mr. Henry Baker, the gentleman with the bad hat and all the other characteristics with which I have bored you. So now we must set ourselves very seriously to finding this gentleman and ascertaining what part he has played in this little mystery. To do this, we must try the simplest means first, and these lie undoubtedly in an advertisement in all the evening papers. If this fail, I shall have recourse to other methods.'  \n'What will you say?'  \n'Give me a pencil and that slip of paper. Now, then: 'Found at the corner of Goodge Street, a goose and a black felt hat. Mr. Henry Baker can have the same by applying at 6 . 30 this evening at 221b , Baker Street.' That is clear and concise.'  \n'Very. But will he see it?'  \n'Well, he is sure to keep an eye on the papers, since, to a poor man, the loss was a heavy one. He was clearly so scared by his mischance in breaking the window and by the approach of Peterson that he thought of nothing but flight, but since then he must have bitterly regretted the impulse which caused him to drop his bird. Then, again, the introduction of his name will cause him to see it, for everyone who knows him will direct his attention to it. Here you are, Peterson, run down to the advertising agency and have this put in the evening papers.'  \n'In which, sir?'  \n'Oh, in the Globe, Star, Pall Mall, St. James's, Evening News, Standard, Echo, and any others that occur to you.'  \n'Very well, sir. And this stone?'  \n'Ah, yes, I shall keep the stone. Thank you. And, I say, Peterson, just buy a goose on your way back and leave it here with me, for we must have one to give to this gentleman in place of the one which your family is now devouring.'  \nWhen the commissionaire had gone, Holmes took up the stone and held it against the light. 'It's a bonny thing,' said he. 'Just see how it glints and sparkles. Of course it is a nucleus and focus of crime. Every good stone is. They are the devil's pet baits. In the larger and older jewels every facet may stand for a bloody deed. This stone is not yet twenty years old. It was found in the banks of the Amoy River in southern China and is remarkable in having every characteristic of the carbuncle, save that it is blue in shade instead of ruby red. In spite of its youth, it has already a sinister history. There have been two murders, a vitriol-throwing, a suicide, and several robberies brought about for the sake of this forty-grain weight of crystallised charcoal. Who would think that so pretty a toy would be a purveyor to the gallows and the prison? I'll lock it up in my strong box now and drop a line to the Countess to say that we have it.'  \n'Do you think that this man Horner is innocent?'  \n'I cannot tell.'  \n'Well, then, do you imagine that this other one, Henry Baker, had anything to do with the matter?'  \n'It is, I think, much more likely that Henry Baker is an absolutely innocent man, who had no idea that the bird which he was carrying was of considerably more value than if it were made of solid gold. That, however, I shall determine by a very simple test if we have an answer to our advertisement.'  \n'And you can do nothing until then?'  \n'Nothing.'  \n'In that case I shall continue my professional round. But I shall come back in the evening at the hour you have mentioned, for I should like to see the solution of so tangled a business.'  \n'Very glad to see you. I dine at seven. There is a woodcock, I believe. By the way, in view of recent occurrences, perhaps I ought to ask Mrs. Hudson to examine its crop.'  \nI had been delayed at a case, and it was a little after half-past six when I found myself in Baker Street once more. As I approached the house I saw a tall man in a Scotch bonnet with a coat which was buttoned up to his chin waiting outside in the bright semicircle which was thrown from the fanlight. Just as I arrived the door was opened, and we were shown up together to Holmes' room.  \n'Mr. Henry Baker, I believe,' said he, rising from his armchair and greeting his visitor with the easy air of geniality which he could so readily assume. 'Pray take this chair by the fire, Mr. Baker. It is a cold night, and I observe that your circulation is more adapted for summer than for winter. Ah, Watson, you have just come at the right time. Is that your hat, Mr. Baker?'  \n'Yes, sir, that is undoubtedly my hat.'  \nHe was a large man with rounded shoulders, a massive head, and a broad, intelligent face, sloping down to a pointed beard of grizzled brown. A touch of red in nose and cheeks, with a slight tremor of his extended hand, recalled Holmes' surmise as to his habits. His rusty black frock-coat was buttoned right up in front, with the collar turned up, and his lank wrists protruded from his sleeves without a sign of cuff or shirt. He spoke in a slow staccato fashion, choosing his words with care, and gave the impression generally of a man of learning and letters who had had ill-usage at the hands of fortune.  \n'We have retained these things for some days,' said Holmes, 'because we expected to see an advertisement from you giving your address. I am at a loss to know now why you did not advertise.'",
+  "name": "Chunk 3/7",
+  "domain": "fiction",
+  "prev_chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+  "next_chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+  "raw_entities": [
+    {
+      "id": "char_001",
+      "name": "John Horner",
+      "aliases": [
+        "plumber",
+        "the prisoner",
+        "Horner"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "character",
+      "description": "A 26-year-old plumber falsely accused of stealing the blue carbuncle from the Countess of Morcar. He was arrested after the jewel-case was found empty and protested his innocence, eventually fainting during his trial after evidence of a prior conviction was presented.",
+      "context": [
+        "John Horner, 26 , plumber, was brought up upon the charge of having upon the 22 nd inst. abstracted from the jewel-case of the Countess of Morcar the valuable gem known as the blue carbuncle.",
+        "Horner, who had shown signs of intense emotion during the proceedings, fainted away at the conclusion and was carried out of court."
+      ]
+    },
+    {
+      "id": "char_002",
+      "name": "Countess of Morcar",
+      "aliases": [
+        "the Countess"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "character",
+      "description": "A noblewoman whose valuable blue carbuncle gem was stolen from her dressing-room at the Hotel Cosmopolitan. She is the victim of the central robbery and is later contacted by Holmes regarding the recovered gem.",
+      "context": [
+        "abstracted from the jewel-case of the Countess of Morcar the valuable gem known as the blue carbuncle.",
+        "I'll lock it up in my strong box now and drop a line to the Countess to say that we have it."
+      ]
+    },
+    {
+      "id": "char_003",
+      "name": "James Ryder",
+      "aliases": [
+        "upper-attendant",
+        "the upper-attendant"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "character",
+      "description": "The hotel attendant who supervised John Horner during the repair of the grate. He discovered the robbery, raised the alarm, and provided key testimony against Horner at the police court.",
+      "context": [
+        "James Ryder, upper-attendant at the hotel, gave his evidence to the effect that he had shown Horner up to the dressing-room of the Countess of Morcar upon the day of the robbery in order that he might solder the second bar of the grate, which was loose.",
+        "Ryder instantly gave the alarm, and Horner was arrested the same evening"
+      ]
+    },
+    {
+      "id": "char_004",
+      "name": "Catherine Cusack",
+      "aliases": [
+        "maid to the Countess"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "character",
+      "description": "The Countess's maid who heard the alarm cry and rushed to the dressing-room, confirming the scene of the robbery as described by Ryder.",
+      "context": [
+        "Catherine Cusack, maid to the Countess, deposed to having heard Ryder's cry of dismay on discovering the robbery, and to having rushed into the room, where she found matters as described by the last witness."
+      ]
+    },
+    {
+      "id": "char_005",
+      "name": "Inspector Bradstreet",
+      "aliases": [
+        "Inspector",
+        "B division"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "character",
+      "description": "A police inspector from the B division who arrested John Horner. He testified to Horner's frantic struggle and strong protests of innocence during the arrest.",
+      "context": [
+        "Inspector Bradstreet, B division, gave evidence as to the arrest of Horner, who struggled frantically, and protested his innocence in the strongest terms."
+      ]
+    },
+    {
+      "id": "char_006",
+      "name": "Sherlock Holmes",
+      "aliases": [
+        "Holmes",
+        "Mr. Holmes"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "character",
+      "description": "The consulting detective who takes on the case of the stolen blue carbuncle. He deduces the connection between the stolen gem, a goose, and a lost hat, orchestrating an advertisement to find the owner.",
+      "context": [
+        "'Hum! So much for the police-court,' said Holmes thoughtfully, tossing aside the paper.",
+        "Holmes took up the stone and held it against the light."
+      ]
+    },
+    {
+      "id": "char_007",
+      "name": "Dr. Watson",
+      "aliases": [
+        "Watson",
+        "Dr. Watson"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "character",
+      "description": "Holmes's companion and chronicler, who assists in the investigation and returns to Baker Street in the evening to witness the resolution of the case.",
+      "context": [
+        "You see, Watson, our little deductions have suddenly assumed a much more important and less innocent aspect.",
+        "Ah, Watson, you have just come at the right time."
+      ]
+    },
+    {
+      "id": "char_008",
+      "name": "Mr. Henry Baker",
+      "aliases": [
+        "Henry Baker",
+        "the gentleman with the bad hat",
+        "the gentleman"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "character",
+      "description": "A poor, scholarly man who lost a goose and a black felt hat. Holmes suspects him of being an innocent pawn in the jewel theft, as the blue carbuncle was found in the goose's crop.",
+      "context": [
+        "the goose came from Mr. Henry Baker, the gentleman with the bad hat and all the other characteristics with which I have bored you.",
+        "'Mr. Henry Baker, I believe,' said he, rising from his armchair and greeting his visitor with the easy air of geniality which he could so readily assume."
+      ]
+    },
+    {
+      "id": "char_009",
+      "name": "Peterson",
+      "aliases": [
+        "the commissionaire",
+        "Peterson"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "character",
+      "description": "A hotel commissionaire who assists Holmes by placing the advertisement in the evening papers and purchasing a replacement goose.",
+      "context": [
+        "Here you are, Peterson, run down to the advertising agency and have this put in the evening papers.",
+        "And, I say, Peterson, just buy a goose on your way back and leave it here with me"
+      ]
+    },
+    {
+      "id": "char_010",
+      "name": "Mrs. Hudson",
+      "aliases": [
+        "Mrs. Hudson"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "character",
+      "description": "Holmes's landlady, mentioned by Watson as the person he might ask to examine a woodcock's crop in light of the recent jewel mystery.",
+      "context": [
+        "By the way, in view of recent occurrences, perhaps I ought to ask Mrs. Hudson to examine its crop."
+      ]
+    },
+    {
+      "id": "loc_001",
+      "name": "Hotel Cosmopolitan",
+      "aliases": [
+        "the hotel"
+      ],
+      "entity_class": "LOCATION",
+      "type": "residence",
+      "description": "A London hotel where the Countess of Morcar was staying and where the jewel robbery took place. It serves as the initial crime scene and the setting for the initial police-court report.",
+      "context": [
+        "'Hotel Cosmopolitan Jewel Robbery. John Horner, 26 , plumber, was brought up upon the charge..."
+      ]
+    },
+    {
+      "id": "loc_002",
+      "name": "Countess of Morcar's dressing-room",
+      "aliases": [
+        "the dressing-room",
+        "the room"
+      ],
+      "entity_class": "LOCATION",
+      "type": "room",
+      "description": "The private room within the hotel where the Countess kept her jewel-case. It was the site of the forced entry and the theft of the blue carbuncle.",
+      "context": [
+        "he had shown Horner up to the dressing-room of the Countess of Morcar upon the day of the robbery in order that he might solder the second bar of the grate, which was loose.",
+        "Ryder instantly gave the alarm, and Horner was arrested the same evening; but the stone could not be found either upon his person or in his rooms."
+      ]
+    },
+    {
+      "id": "loc_003",
+      "name": "221b Baker Street",
+      "aliases": [
+        "Baker Street",
+        "221b"
+      ],
+      "entity_class": "LOCATION",
+      "type": "residence",
+      "description": "Holmes and Watson's residence, which serves as the base of operations for the investigation and the meeting place for Mr. Henry Baker.",
+      "context": [
+        "Mr. Henry Baker can have the same by applying at 6 . 30 this evening at 221b , Baker Street.",
+        "I had been delayed at a case, and it was a little after half-past six when I found myself in Baker Street once more."
+      ]
+    },
+    {
+      "id": "loc_004",
+      "name": "Goodge Street",
+      "aliases": [
+        "Goodge Street"
+      ],
+      "entity_class": "LOCATION",
+      "type": "region",
+      "description": "A London street where the goose and black felt hat were found, linking the lost property to the broader mystery.",
+      "context": [
+        "Found at the corner of Goodge Street, a goose and a black felt hat."
+      ]
+    },
+    {
+      "id": "loc_005",
+      "name": "Tottenham Court Road",
+      "aliases": [
+        "Tottenham Court Road"
+      ],
+      "entity_class": "LOCATION",
+      "type": "region",
+      "description": "A London area referenced by Holmes to indicate the geographical endpoint of the stolen goose's journey, contrasting with the jewel-case's origin.",
+      "context": [
+        "the sequence of events leading from a rifled jewel-case at one end to the crop of a goose in Tottenham Court Road at the other."
+      ]
+    },
+    {
+      "id": "loc_006",
+      "name": "Amoy River",
+      "aliases": [
+        "banks of the Amoy River"
+      ],
+      "entity_class": "LOCATION",
+      "type": "region",
+      "description": "A river in southern China where the blue carbuncle gem was originally discovered, establishing its geographical origin and history.",
+      "context": [
+        "It was found in the banks of the Amoy River in southern China and is remarkable in having every characteristic of the carbuncle, save that it is blue in shade instead of ruby red."
+      ]
+    },
+    {
+      "id": "obj_001",
+      "name": "Blue Carbuncle",
+      "aliases": [
+        "the blue carbuncle",
+        "the stone",
+        "the gem",
+        "the jewel"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "A valuable blue gemstone originally found in the Amoy River. It has a sinister history involving murders and robberies, and is the central MacGuffin of the story, hidden inside a goose's crop.",
+      "context": [
+        "abstracted from the jewel-case of the Countess of Morcar the valuable gem known as the blue carbuncle.",
+        "It's a bonny thing,' said he. 'Just see how it glints and sparkles. Of course it is a nucleus and focus of crime."
+      ]
+    },
+    {
+      "id": "obj_002",
+      "name": "Morocco Casket",
+      "aliases": [
+        "jewel-case",
+        "small morocco casket",
+        "bureau"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "The container used by the Countess to store the blue carbuncle. It was forced open during the robbery, leaving the casket empty on the dressing-table.",
+      "context": [
+        "the small morocco casket in which, as it afterwards transpired, the Countess was accustomed to keep her jewel, was lying empty upon the dressing-table.",
+        "the bureau had been forced open, and that the small morocco casket... was lying empty"
+      ]
+    },
+    {
+      "id": "obj_003",
+      "name": "Goose",
+      "aliases": [
+        "the goose",
+        "the bird",
+        "crop of a goose"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "A bird belonging to Henry Baker, whose crop contained the stolen blue carbuncle. It serves as the crucial link between the theft and the lost property.",
+      "context": [
+        "the sequence of events leading from a rifled jewel-case at one end to the crop of a goose in Tottenham Court Road at the other.",
+        "the goose came from Mr. Henry Baker"
+      ]
+    },
+    {
+      "id": "obj_004",
+      "name": "Black Felt Hat",
+      "aliases": [
+        "black felt hat",
+        "bad hat",
+        "your hat"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "A distinctive hat lost by Henry Baker, which Holmes uses alongside the goose to identify and attract the owner through a newspaper advertisement.",
+      "context": [
+        "Found at the corner of Goodge Street, a goose and a black felt hat.",
+        "Is that your hat, Mr. Baker?' 'Yes, sir, that is undoubtedly my hat.'"
+      ]
+    },
+    {
+      "id": "obj_005",
+      "name": "Advertisement",
+      "aliases": [
+        "advertisement",
+        "the notice"
+      ],
+      "entity_class": "OBJECT",
+      "type": "document",
+      "description": "A newspaper notice placed by Holmes to lure Henry Baker to Baker Street, revealing the detective's method of using simple means to solve complex mysteries.",
+      "context": [
+        "To do this, we must try the simplest means first, and these lie undoubtedly in an advertisement in all the evening papers.",
+        "We have retained these things for some days,' said Holmes, 'because we expected to see an advertisement from you giving your address."
+      ]
+    },
+    {
+      "id": "obj_006",
+      "name": "Strong Box",
+      "aliases": [
+        "strong box",
+        "my strong box"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "Holmes's secure storage container where he locks the recovered blue carbuncle to protect it until the case is resolved.",
+      "context": [
+        "I'll lock it up in my strong box now and drop a line to the Countess to say that we have it."
+      ]
+    },
+    {
+      "id": "evt_001",
+      "name": "Hotel Cosmopolitan Jewel Robbery",
+      "aliases": [
+        "the robbery",
+        "the theft",
+        "rifled jewel-case"
+      ],
+      "entity_class": "EVENT",
+      "type": "crime",
+      "description": "The central crime of the narrative, involving the theft of the blue carbuncle from the Countess's dressing-room. It sets the plot in motion and leads to the wrongful accusation of John Horner.",
+      "context": [
+        "'Hotel Cosmopolitan Jewel Robbery. John Horner, 26 , plumber, was brought up upon the charge..."
+      ]
+    },
+    {
+      "id": "evt_002",
+      "name": "Police Court Trial",
+      "aliases": [
+        "the proceedings",
+        "police-court",
+        "the Assizes"
+      ],
+      "entity_class": "EVENT",
+      "type": "meeting",
+      "description": "The legal proceeding where evidence against John Horner is presented. The magistrate's refusal to deal summarily and the introduction of Horner's prior conviction lead to his fainting and the case's referral to the Assizes.",
+      "context": [
+        "Evidence of a previous conviction for robbery having been given against the prisoner, the magistrate refused to deal summarily with the offence, but referred it to the Assizes.",
+        "'Hum! So much for the police-court,' said Holmes thoughtfully, tossing aside the paper."
+      ]
+    },
+    {
+      "id": "evt_003",
+      "name": "Advertisement Placement",
+      "aliases": [
+        "put in the evening papers",
+        "advertisement from you"
+      ],
+      "entity_class": "EVENT",
+      "type": "investigation",
+      "description": "Holmes's strategic decision to place a lost property notice in multiple evening newspapers to locate Henry Baker, demonstrating his reliance on simple, effective investigative methods.",
+      "context": [
+        "'Oh, in the Globe, Star, Pall Mall, St. James's, Evening News, Standard, Echo, and any others that occur to you.'",
+        "Here you are, Peterson, run down to the advertising agency and have this put in the evening papers."
+      ]
+    },
+    {
+      "id": "evt_004",
+      "name": "Meeting with Henry Baker",
+      "aliases": [
+        "greeting his visitor",
+        "shown up together to Holmes' room"
+      ],
+      "entity_class": "EVENT",
+      "type": "meeting",
+      "description": "The pivotal encounter where Holmes confirms Henry Baker's identity and ownership of the lost hat and goose, advancing the investigation toward uncovering the truth behind the jewel theft.",
+      "context": [
+        "Just as I arrived the door was opened, and we were shown up together to Holmes' room.",
+        "'Mr. Henry Baker, I believe,' said he, rising from his armchair and greeting his visitor with the easy air of geniality which he could so readily assume."
+      ]
+    },
+    {
+      "id": "org_001",
+      "name": "B Division",
+      "aliases": [
+        "B division",
+        "police"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "military",
+      "description": "A police division responsible for law enforcement and arrests. Inspector Bradstreet of this division arrested John Horner and provided testimony regarding the crime.",
+      "context": [
+        "Inspector Bradstreet, B division, gave evidence as to the arrest of Horner, who struggled frantically, and protested his innocence in the strongest terms."
+      ]
+    },
+    {
+      "id": "org_002",
+      "name": "Evening Papers",
+      "aliases": [
+        "evening papers",
+        "Globe, Star, Pall Mall, St. James's, Evening News, Standard, Echo",
+        "advertising agency"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "corporation",
+      "description": "A collective of London newspapers and the agency used to place Holmes's lost property advertisement. They serve as the medium through which Holmes successfully locates Henry Baker.",
+      "context": [
+        "'Oh, in the Globe, Star, Pall Mall, St. James's, Evening News, Standard, Echo, and any others that occur to you.'",
+        "Here you are, Peterson, run down to the advertising agency and have this put in the evening papers."
+      ]
+    },
+    {
+      "id": "org_003",
+      "name": "The Assizes",
+      "aliases": [
+        "Assizes",
+        "magistrate"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "government",
+      "description": "The higher judicial body to which the case was referred after the police court magistrate refused to handle it summarily. It represents the formal legal system's involvement in the mystery.",
+      "context": [
+        "Evidence of a previous conviction for robbery having been given against the prisoner, the magistrate refused to deal summarily with the offence, but referred it to the Assizes."
+      ]
+    },
+    {
+      "id": "con_001",
+      "name": "Innocence vs. Guilt",
+      "aliases": [
+        "innocence",
+        "guilt",
+        "innocent man",
+        "protested his innocence"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "theme",
+      "description": "A central thematic tension in the narrative, explored through the wrongful accusation of John Horner and Holmes's suspicion that Henry Baker is an innocent pawn unaware of the jewel hidden in his goose.",
+      "context": [
+        "who struggled frantically, and protested his innocence in the strongest terms.",
+        "It is, I think, much more likely that Henry Baker is an absolutely innocent man, who had no idea that the bird which he was carrying was of considerably more value than if it were made of solid gold."
+      ]
+    },
+    {
+      "id": "con_002",
+      "name": "Sinister History of the Gem",
+      "aliases": [
+        "sinister history",
+        "nucleus and focus of crime",
+        "devil's pet baits"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "mystery",
+      "description": "The dark legacy of the blue carbuncle, which Holmes notes has already caused two murders, a vitriol-throwing, a suicide, and several robberies, framing the gem as a corrupting force.",
+      "context": [
+        "This stone is not yet twenty years old. It was found in the banks of the Amoy River in southern China and is remarkable in having every characteristic of the carbuncle, save that it is blue in shade instead of ruby red. In spite of its youth, it has already a sinister history.",
+        "There have been two murders, a vitriol-throwing, a suicide, and several robberies brought about for the sake of this forty-grain weight of crystallised charcoal."
+      ]
+    },
+    {
+      "id": "con_003",
+      "name": "Deduction and Investigation",
+      "aliases": [
+        "deductions",
+        "simplest means",
+        "solution",
+        "mystery"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "deduction",
+      "description": "The methodological approach Holmes employs, relying on logical inference from physical evidence (the goose, the hat) and strategic public notices to unravel the sequence of events surrounding the theft.",
+      "context": [
+        "You see, Watson, our little deductions have suddenly assumed a much more important and less innocent aspect.",
+        "To do this, we must try the simplest means first, and these lie undoubtedly in an advertisement in all the evening papers."
+      ]
+    }
+  ],
+  "id_map": {
+    "char_001": "54fe739d5f764020ad4396c72af29729_003_char_001",
+    "char_002": "54fe739d5f764020ad4396c72af29729_003_char_002",
+    "char_003": "54fe739d5f764020ad4396c72af29729_003_char_003",
+    "char_004": "54fe739d5f764020ad4396c72af29729_003_char_004",
+    "char_005": "54fe739d5f764020ad4396c72af29729_003_char_005",
+    "char_006": "54fe739d5f764020ad4396c72af29729_003_char_006",
+    "char_007": "54fe739d5f764020ad4396c72af29729_003_char_007",
+    "char_008": "54fe739d5f764020ad4396c72af29729_003_char_008",
+    "char_009": "54fe739d5f764020ad4396c72af29729_003_char_009",
+    "char_010": "54fe739d5f764020ad4396c72af29729_003_char_010",
+    "loc_001": "54fe739d5f764020ad4396c72af29729_003_loc_001",
+    "loc_002": "54fe739d5f764020ad4396c72af29729_003_loc_002",
+    "loc_003": "54fe739d5f764020ad4396c72af29729_003_loc_003",
+    "loc_004": "54fe739d5f764020ad4396c72af29729_003_loc_004",
+    "loc_005": "54fe739d5f764020ad4396c72af29729_003_loc_005",
+    "loc_006": "54fe739d5f764020ad4396c72af29729_003_loc_006",
+    "obj_001": "54fe739d5f764020ad4396c72af29729_003_obj_001",
+    "obj_002": "54fe739d5f764020ad4396c72af29729_003_obj_002",
+    "obj_003": "54fe739d5f764020ad4396c72af29729_003_obj_003",
+    "obj_004": "54fe739d5f764020ad4396c72af29729_003_obj_004",
+    "obj_005": "54fe739d5f764020ad4396c72af29729_003_obj_005",
+    "obj_006": "54fe739d5f764020ad4396c72af29729_003_obj_006",
+    "evt_001": "54fe739d5f764020ad4396c72af29729_003_evt_001",
+    "evt_002": "54fe739d5f764020ad4396c72af29729_003_evt_002",
+    "evt_003": "54fe739d5f764020ad4396c72af29729_003_evt_003",
+    "evt_004": "54fe739d5f764020ad4396c72af29729_003_evt_004",
+    "org_001": "54fe739d5f764020ad4396c72af29729_003_org_001",
+    "org_002": "54fe739d5f764020ad4396c72af29729_003_org_002",
+    "org_003": "54fe739d5f764020ad4396c72af29729_003_org_003",
+    "con_001": "54fe739d5f764020ad4396c72af29729_003_con_001",
+    "con_002": "54fe739d5f764020ad4396c72af29729_003_con_002",
+    "con_003": "54fe739d5f764020ad4396c72af29729_003_con_003"
+  },
+  "entities": [
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_char_001",
+      "name": "John Horner",
+      "aliases": [
+        "plumber",
+        "the prisoner",
+        "Horner"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "character",
+      "description": "A 26-year-old plumber falsely accused of stealing the blue carbuncle from the Countess of Morcar. He was arrested after the jewel-case was found empty and protested his innocence, eventually fainting during his trial after evidence of a prior conviction was presented.",
+      "context": [
+        "John Horner, 26 , plumber, was brought up upon the charge of having upon the 22 nd inst. abstracted from the jewel-case of the Countess of Morcar the valuable gem known as the blue carbuncle.",
+        "Horner, who had shown signs of intense emotion during the proceedings, fainted away at the conclusion and was carried out of court."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_char_002",
+      "name": "Countess of Morcar",
+      "aliases": [
+        "the Countess"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "character",
+      "description": "A noblewoman whose valuable blue carbuncle gem was stolen from her dressing-room at the Hotel Cosmopolitan. She is the victim of the central robbery and is later contacted by Holmes regarding the recovered gem.",
+      "context": [
+        "abstracted from the jewel-case of the Countess of Morcar the valuable gem known as the blue carbuncle.",
+        "I'll lock it up in my strong box now and drop a line to the Countess to say that we have it."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_char_003",
+      "name": "James Ryder",
+      "aliases": [
+        "upper-attendant",
+        "the upper-attendant"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "character",
+      "description": "The hotel attendant who supervised John Horner during the repair of the grate. He discovered the robbery, raised the alarm, and provided key testimony against Horner at the police court.",
+      "context": [
+        "James Ryder, upper-attendant at the hotel, gave his evidence to the effect that he had shown Horner up to the dressing-room of the Countess of Morcar upon the day of the robbery in order that he might solder the second bar of the grate, which was loose.",
+        "Ryder instantly gave the alarm, and Horner was arrested the same evening"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_char_004",
+      "name": "Catherine Cusack",
+      "aliases": [
+        "maid to the Countess"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "character",
+      "description": "The Countess's maid who heard the alarm cry and rushed to the dressing-room, confirming the scene of the robbery as described by Ryder.",
+      "context": [
+        "Catherine Cusack, maid to the Countess, deposed to having heard Ryder's cry of dismay on discovering the robbery, and to having rushed into the room, where she found matters as described by the last witness."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_char_005",
+      "name": "Inspector Bradstreet",
+      "aliases": [
+        "Inspector",
+        "B division"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "character",
+      "description": "A police inspector from the B division who arrested John Horner. He testified to Horner's frantic struggle and strong protests of innocence during the arrest.",
+      "context": [
+        "Inspector Bradstreet, B division, gave evidence as to the arrest of Horner, who struggled frantically, and protested his innocence in the strongest terms."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_char_006",
+      "name": "Sherlock Holmes",
+      "aliases": [
+        "Holmes",
+        "Mr. Holmes"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "character",
+      "description": "The consulting detective who takes on the case of the stolen blue carbuncle. He deduces the connection between the stolen gem, a goose, and a lost hat, orchestrating an advertisement to find the owner.",
+      "context": [
+        "'Hum! So much for the police-court,' said Holmes thoughtfully, tossing aside the paper.",
+        "Holmes took up the stone and held it against the light."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_char_007",
+      "name": "Dr. Watson",
+      "aliases": [
+        "Watson",
+        "Dr. Watson"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "character",
+      "description": "Holmes's companion and chronicler, who assists in the investigation and returns to Baker Street in the evening to witness the resolution of the case.",
+      "context": [
+        "You see, Watson, our little deductions have suddenly assumed a much more important and less innocent aspect.",
+        "Ah, Watson, you have just come at the right time."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_char_008",
+      "name": "Mr. Henry Baker",
+      "aliases": [
+        "Henry Baker",
+        "the gentleman with the bad hat",
+        "the gentleman"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "character",
+      "description": "A poor, scholarly man who lost a goose and a black felt hat. Holmes suspects him of being an innocent pawn in the jewel theft, as the blue carbuncle was found in the goose's crop.",
+      "context": [
+        "the goose came from Mr. Henry Baker, the gentleman with the bad hat and all the other characteristics with which I have bored you.",
+        "'Mr. Henry Baker, I believe,' said he, rising from his armchair and greeting his visitor with the easy air of geniality which he could so readily assume."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_char_009",
+      "name": "Peterson",
+      "aliases": [
+        "the commissionaire",
+        "Peterson"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "character",
+      "description": "A hotel commissionaire who assists Holmes by placing the advertisement in the evening papers and purchasing a replacement goose.",
+      "context": [
+        "Here you are, Peterson, run down to the advertising agency and have this put in the evening papers.",
+        "And, I say, Peterson, just buy a goose on your way back and leave it here with me"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_char_010",
+      "name": "Mrs. Hudson",
+      "aliases": [
+        "Mrs. Hudson"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "character",
+      "description": "Holmes's landlady, mentioned by Watson as the person he might ask to examine a woodcock's crop in light of the recent jewel mystery.",
+      "context": [
+        "By the way, in view of recent occurrences, perhaps I ought to ask Mrs. Hudson to examine its crop."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_loc_001",
+      "name": "Hotel Cosmopolitan",
+      "aliases": [
+        "the hotel"
+      ],
+      "entity_class": "LOCATION",
+      "type": "residence",
+      "description": "A London hotel where the Countess of Morcar was staying and where the jewel robbery took place. It serves as the initial crime scene and the setting for the initial police-court report.",
+      "context": [
+        "'Hotel Cosmopolitan Jewel Robbery. John Horner, 26 , plumber, was brought up upon the charge..."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_loc_002",
+      "name": "Countess of Morcar's dressing-room",
+      "aliases": [
+        "the dressing-room",
+        "the room"
+      ],
+      "entity_class": "LOCATION",
+      "type": "room",
+      "description": "The private room within the hotel where the Countess kept her jewel-case. It was the site of the forced entry and the theft of the blue carbuncle.",
+      "context": [
+        "he had shown Horner up to the dressing-room of the Countess of Morcar upon the day of the robbery in order that he might solder the second bar of the grate, which was loose.",
+        "Ryder instantly gave the alarm, and Horner was arrested the same evening; but the stone could not be found either upon his person or in his rooms."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_loc_003",
+      "name": "221b Baker Street",
+      "aliases": [
+        "Baker Street",
+        "221b"
+      ],
+      "entity_class": "LOCATION",
+      "type": "residence",
+      "description": "Holmes and Watson's residence, which serves as the base of operations for the investigation and the meeting place for Mr. Henry Baker.",
+      "context": [
+        "Mr. Henry Baker can have the same by applying at 6 . 30 this evening at 221b , Baker Street.",
+        "I had been delayed at a case, and it was a little after half-past six when I found myself in Baker Street once more."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_loc_004",
+      "name": "Goodge Street",
+      "aliases": [
+        "Goodge Street"
+      ],
+      "entity_class": "LOCATION",
+      "type": "region",
+      "description": "A London street where the goose and black felt hat were found, linking the lost property to the broader mystery.",
+      "context": [
+        "Found at the corner of Goodge Street, a goose and a black felt hat."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_loc_005",
+      "name": "Tottenham Court Road",
+      "aliases": [
+        "Tottenham Court Road"
+      ],
+      "entity_class": "LOCATION",
+      "type": "region",
+      "description": "A London area referenced by Holmes to indicate the geographical endpoint of the stolen goose's journey, contrasting with the jewel-case's origin.",
+      "context": [
+        "the sequence of events leading from a rifled jewel-case at one end to the crop of a goose in Tottenham Court Road at the other."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_loc_006",
+      "name": "Amoy River",
+      "aliases": [
+        "banks of the Amoy River"
+      ],
+      "entity_class": "LOCATION",
+      "type": "region",
+      "description": "A river in southern China where the blue carbuncle gem was originally discovered, establishing its geographical origin and history.",
+      "context": [
+        "It was found in the banks of the Amoy River in southern China and is remarkable in having every characteristic of the carbuncle, save that it is blue in shade instead of ruby red."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_obj_001",
+      "name": "Blue Carbuncle",
+      "aliases": [
+        "the blue carbuncle",
+        "the stone",
+        "the gem",
+        "the jewel"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "A valuable blue gemstone originally found in the Amoy River. It has a sinister history involving murders and robberies, and is the central MacGuffin of the story, hidden inside a goose's crop.",
+      "context": [
+        "abstracted from the jewel-case of the Countess of Morcar the valuable gem known as the blue carbuncle.",
+        "It's a bonny thing,' said he. 'Just see how it glints and sparkles. Of course it is a nucleus and focus of crime."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_obj_002",
+      "name": "Morocco Casket",
+      "aliases": [
+        "jewel-case",
+        "small morocco casket",
+        "bureau"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "The container used by the Countess to store the blue carbuncle. It was forced open during the robbery, leaving the casket empty on the dressing-table.",
+      "context": [
+        "the small morocco casket in which, as it afterwards transpired, the Countess was accustomed to keep her jewel, was lying empty upon the dressing-table.",
+        "the bureau had been forced open, and that the small morocco casket... was lying empty"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_obj_003",
+      "name": "Goose",
+      "aliases": [
+        "the goose",
+        "the bird",
+        "crop of a goose"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "A bird belonging to Henry Baker, whose crop contained the stolen blue carbuncle. It serves as the crucial link between the theft and the lost property.",
+      "context": [
+        "the sequence of events leading from a rifled jewel-case at one end to the crop of a goose in Tottenham Court Road at the other.",
+        "the goose came from Mr. Henry Baker"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_obj_004",
+      "name": "Black Felt Hat",
+      "aliases": [
+        "black felt hat",
+        "bad hat",
+        "your hat"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "A distinctive hat lost by Henry Baker, which Holmes uses alongside the goose to identify and attract the owner through a newspaper advertisement.",
+      "context": [
+        "Found at the corner of Goodge Street, a goose and a black felt hat.",
+        "Is that your hat, Mr. Baker?' 'Yes, sir, that is undoubtedly my hat.'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_obj_005",
+      "name": "Advertisement",
+      "aliases": [
+        "advertisement",
+        "the notice"
+      ],
+      "entity_class": "OBJECT",
+      "type": "document",
+      "description": "A newspaper notice placed by Holmes to lure Henry Baker to Baker Street, revealing the detective's method of using simple means to solve complex mysteries.",
+      "context": [
+        "To do this, we must try the simplest means first, and these lie undoubtedly in an advertisement in all the evening papers.",
+        "We have retained these things for some days,' said Holmes, 'because we expected to see an advertisement from you giving your address."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_obj_006",
+      "name": "Strong Box",
+      "aliases": [
+        "strong box",
+        "my strong box"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "Holmes's secure storage container where he locks the recovered blue carbuncle to protect it until the case is resolved.",
+      "context": [
+        "I'll lock it up in my strong box now and drop a line to the Countess to say that we have it."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_evt_001",
+      "name": "Hotel Cosmopolitan Jewel Robbery",
+      "aliases": [
+        "the robbery",
+        "the theft",
+        "rifled jewel-case"
+      ],
+      "entity_class": "EVENT",
+      "type": "crime",
+      "description": "The central crime of the narrative, involving the theft of the blue carbuncle from the Countess's dressing-room. It sets the plot in motion and leads to the wrongful accusation of John Horner.",
+      "context": [
+        "'Hotel Cosmopolitan Jewel Robbery. John Horner, 26 , plumber, was brought up upon the charge..."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_evt_002",
+      "name": "Police Court Trial",
+      "aliases": [
+        "the proceedings",
+        "police-court",
+        "the Assizes"
+      ],
+      "entity_class": "EVENT",
+      "type": "meeting",
+      "description": "The legal proceeding where evidence against John Horner is presented. The magistrate's refusal to deal summarily and the introduction of Horner's prior conviction lead to his fainting and the case's referral to the Assizes.",
+      "context": [
+        "Evidence of a previous conviction for robbery having been given against the prisoner, the magistrate refused to deal summarily with the offence, but referred it to the Assizes.",
+        "'Hum! So much for the police-court,' said Holmes thoughtfully, tossing aside the paper."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_evt_003",
+      "name": "Advertisement Placement",
+      "aliases": [
+        "put in the evening papers",
+        "advertisement from you"
+      ],
+      "entity_class": "EVENT",
+      "type": "investigation",
+      "description": "Holmes's strategic decision to place a lost property notice in multiple evening newspapers to locate Henry Baker, demonstrating his reliance on simple, effective investigative methods.",
+      "context": [
+        "'Oh, in the Globe, Star, Pall Mall, St. James's, Evening News, Standard, Echo, and any others that occur to you.'",
+        "Here you are, Peterson, run down to the advertising agency and have this put in the evening papers."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_evt_004",
+      "name": "Meeting with Henry Baker",
+      "aliases": [
+        "greeting his visitor",
+        "shown up together to Holmes' room"
+      ],
+      "entity_class": "EVENT",
+      "type": "meeting",
+      "description": "The pivotal encounter where Holmes confirms Henry Baker's identity and ownership of the lost hat and goose, advancing the investigation toward uncovering the truth behind the jewel theft.",
+      "context": [
+        "Just as I arrived the door was opened, and we were shown up together to Holmes' room.",
+        "'Mr. Henry Baker, I believe,' said he, rising from his armchair and greeting his visitor with the easy air of geniality which he could so readily assume."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_org_001",
+      "name": "B Division",
+      "aliases": [
+        "B division",
+        "police"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "military",
+      "description": "A police division responsible for law enforcement and arrests. Inspector Bradstreet of this division arrested John Horner and provided testimony regarding the crime.",
+      "context": [
+        "Inspector Bradstreet, B division, gave evidence as to the arrest of Horner, who struggled frantically, and protested his innocence in the strongest terms."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_org_002",
+      "name": "Evening Papers",
+      "aliases": [
+        "evening papers",
+        "Globe, Star, Pall Mall, St. James's, Evening News, Standard, Echo",
+        "advertising agency"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "corporation",
+      "description": "A collective of London newspapers and the agency used to place Holmes's lost property advertisement. They serve as the medium through which Holmes successfully locates Henry Baker.",
+      "context": [
+        "'Oh, in the Globe, Star, Pall Mall, St. James's, Evening News, Standard, Echo, and any others that occur to you.'",
+        "Here you are, Peterson, run down to the advertising agency and have this put in the evening papers."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_org_003",
+      "name": "The Assizes",
+      "aliases": [
+        "Assizes",
+        "magistrate"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "government",
+      "description": "The higher judicial body to which the case was referred after the police court magistrate refused to handle it summarily. It represents the formal legal system's involvement in the mystery.",
+      "context": [
+        "Evidence of a previous conviction for robbery having been given against the prisoner, the magistrate refused to deal summarily with the offence, but referred it to the Assizes."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_con_001",
+      "name": "Innocence vs. Guilt",
+      "aliases": [
+        "innocence",
+        "guilt",
+        "innocent man",
+        "protested his innocence"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "theme",
+      "description": "A central thematic tension in the narrative, explored through the wrongful accusation of John Horner and Holmes's suspicion that Henry Baker is an innocent pawn unaware of the jewel hidden in his goose.",
+      "context": [
+        "who struggled frantically, and protested his innocence in the strongest terms.",
+        "It is, I think, much more likely that Henry Baker is an absolutely innocent man, who had no idea that the bird which he was carrying was of considerably more value than if it were made of solid gold."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_con_002",
+      "name": "Sinister History of the Gem",
+      "aliases": [
+        "sinister history",
+        "nucleus and focus of crime",
+        "devil's pet baits"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "mystery",
+      "description": "The dark legacy of the blue carbuncle, which Holmes notes has already caused two murders, a vitriol-throwing, a suicide, and several robberies, framing the gem as a corrupting force.",
+      "context": [
+        "This stone is not yet twenty years old. It was found in the banks of the Amoy River in southern China and is remarkable in having every characteristic of the carbuncle, save that it is blue in shade instead of ruby red. In spite of its youth, it has already a sinister history.",
+        "There have been two murders, a vitriol-throwing, a suicide, and several robberies brought about for the sake of this forty-grain weight of crystallised charcoal."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_con_003",
+      "name": "Deduction and Investigation",
+      "aliases": [
+        "deductions",
+        "simplest means",
+        "solution",
+        "mystery"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "deduction",
+      "description": "The methodological approach Holmes employs, relying on logical inference from physical evidence (the goose, the hat) and strategic public notices to unravel the sequence of events surrounding the theft.",
+      "context": [
+        "You see, Watson, our little deductions have suddenly assumed a much more important and less innocent aspect.",
+        "To do this, we must try the simplest means first, and these lie undoubtedly in an advertisement in all the evening papers."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    }
+  ],
+  "properties": [
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_char_001",
+      "name": "John Horner",
+      "properties": {
+        "occupation": "plumber",
+        "age": 26,
+        "status": "prisoner",
+        "prior_record": "conviction for robbery",
+        "behavior": [
+          "struggled frantically",
+          "protested innocence",
+          "fainted at conclusion"
+        ],
+        "emotional_state": "intense emotion"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_char_002",
+      "name": "Countess of Morcar",
+      "properties": {
+        "role": "noblewoman",
+        "possession": "blue carbuncle",
+        "staff": [
+          "Catherine Cusack",
+          "James Ryder"
+        ],
+        "residence": "Hotel Cosmopolitan"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_char_003",
+      "name": "James Ryder",
+      "properties": {
+        "occupation": "upper-attendant",
+        "employer": "Hotel Cosmopolitan",
+        "action": [
+          "showed Horner to dressing-room",
+          "gave alarm"
+        ],
+        "discovery": "found bureau forced open, casket empty"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_char_004",
+      "name": "Catherine Cusack",
+      "properties": {
+        "occupation": "maid",
+        "employer": "Countess of Morcar",
+        "action": [
+          "heard Ryder's cry",
+          "rushed into room",
+          "found scene as described"
+        ]
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_char_005",
+      "name": "Inspector Bradstreet",
+      "properties": {
+        "role": "police inspector",
+        "affiliation": "B Division",
+        "action": "gave evidence regarding arrest"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_char_006",
+      "name": "Sherlock Holmes",
+      "properties": {
+        "role": "detective",
+        "method": [
+          "deduction",
+          "advertising",
+          "observation"
+        ],
+        "demeanor": [
+          "thoughtful",
+          "genial"
+        ],
+        "actions": [
+          "analyzes case",
+          "keeps stone",
+          "locks in strong box",
+          "meets Baker"
+        ]
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_char_007",
+      "name": "Dr. Watson",
+      "properties": {
+        "role": "companion",
+        "profession": "doctor",
+        "actions": [
+          "asks questions",
+          "has professional round",
+          "arrives at 221b"
+        ]
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_char_008",
+      "name": "Mr. Henry Baker",
+      "properties": {
+        "role": "gentleman",
+        "physical_description": [
+          "large man",
+          "rounded shoulders",
+          "massive head",
+          "broad intelligent face",
+          "pointed grizzled brown beard",
+          "red nose/cheeks",
+          "slight tremor in hand"
+        ],
+        "clothing": "rusty black frock-coat",
+        "speech_pattern": "slow staccato",
+        "background": "man of learning and letters ill-used by fortune",
+        "status": "poor",
+        "innocence": "absolutely innocent"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_char_009",
+      "name": "Peterson",
+      "properties": {
+        "role": "commissionaire",
+        "employer": "Holmes",
+        "action": "runs to advertising agency",
+        "family_status": "devouring a goose"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_char_010",
+      "name": "Mrs. Hudson",
+      "properties": {
+        "role": "housekeeper",
+        "employer": "Holmes",
+        "action": "asked to examine woodcock's crop"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_loc_001",
+      "name": "Hotel Cosmopolitan",
+      "properties": {
+        "type": "hotel",
+        "function": "crime scene",
+        "features": [
+          "dressing-room"
+        ]
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_loc_002",
+      "name": "Countess of Morcar's dressing-room",
+      "properties": {
+        "type": "private room",
+        "function": "crime scene",
+        "features": [
+          "bureau forced open",
+          "morocco casket on dressing-table"
+        ]
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_loc_003",
+      "name": "221b Baker Street",
+      "properties": {
+        "type": "residence",
+        "owner": "Sherlock Holmes",
+        "features": [
+          "fanlight",
+          "armchair",
+          "fireplace"
+        ],
+        "function": "investigation headquarters"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_loc_004",
+      "name": "Goodge Street",
+      "properties": {
+        "type": "street",
+        "function": "discovery site",
+        "feature": "corner"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_loc_005",
+      "name": "Tottenham Court Road",
+      "properties": {
+        "type": "street",
+        "function": "location associated with goose's crop"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_loc_006",
+      "name": "Amoy River",
+      "properties": {
+        "type": "river",
+        "location": "southern China",
+        "function": "gem discovery site"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_obj_001",
+      "name": "Blue Carbuncle",
+      "properties": {
+        "type": "valuable gem",
+        "color": "blue",
+        "weight": "40-grain",
+        "age": "not yet twenty years old",
+        "origin": "banks of Amoy River",
+        "history": [
+          "two murders",
+          "vitriol-throwing",
+          "suicide",
+          "several robberies"
+        ],
+        "symbolic_meaning": "nucleus and focus of crime",
+        "current_location": "Holmes' strong box"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_obj_002",
+      "name": "Morocco Casket",
+      "properties": {
+        "type": "small casket",
+        "owner": "Countess of Morcar",
+        "function": "jewel storage",
+        "state": "empty",
+        "location": "dressing-table"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_obj_003",
+      "name": "Goose",
+      "properties": {
+        "type": "bird",
+        "origin": "Tottenham Court Road crop",
+        "role": "lost item",
+        "plot_function": "vehicle for stolen gem",
+        "replacement": "Holmes buys one for Baker"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_obj_004",
+      "name": "Black Felt Hat",
+      "properties": {
+        "type": "hat",
+        "description": "bad hat",
+        "owner": "Henry Baker",
+        "location": "found at corner of Goodge Street",
+        "role": "lost item used in advertisement"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_obj_005",
+      "name": "Advertisement",
+      "properties": {
+        "type": "newspaper ad",
+        "text": "Found at the corner of Goodge Street, a goose and a black felt hat. Mr. Henry Baker can have the same by applying at 6.30 this evening at 221b, Baker Street.",
+        "purpose": "locate Henry Baker",
+        "placement": "evening papers"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_obj_006",
+      "name": "Strong Box",
+      "properties": {
+        "type": "storage container",
+        "owner": "Sherlock Holmes",
+        "function": "secures the blue carbuncle"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_evt_001",
+      "name": "Hotel Cosmopolitan Jewel Robbery",
+      "properties": {
+        "date": "22nd inst.",
+        "perpetrator": "James Ryder",
+        "suspect": "John Horner",
+        "outcome": "jewel-case rifled, casket empty, Horner arrested",
+        "sequence": "first event"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_evt_002",
+      "name": "Police Court Trial",
+      "properties": {
+        "date": "after 22nd inst.",
+        "judge": "magistrate",
+        "defendant": "John Horner",
+        "outcome": "referred to Assizes due to prior conviction, Horner fainted",
+        "significance": "establishes legal stakes and Horner's emotional state"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_evt_003",
+      "name": "Advertisement Placement",
+      "properties": {
+        "initiator": "Sherlock Holmes",
+        "executor": "Peterson",
+        "target": "evening papers",
+        "purpose": "locate Henry Baker",
+        "outcome": "Baker responds"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_evt_004",
+      "name": "Meeting with Henry Baker",
+      "properties": {
+        "location": "221b Baker Street",
+        "participants": [
+          "Holmes",
+          "Watson",
+          "Henry Baker"
+        ],
+        "time": "evening, after half-past six",
+        "purpose": "verify Baker's identity and investigate the goose",
+        "outcome": "Baker confirms hat ownership, Holmes begins inquiry"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_org_001",
+      "name": "B Division",
+      "properties": {
+        "type": "police force",
+        "leader": "Inspector Bradstreet",
+        "action": "arrested John Horner",
+        "status": "active"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_org_002",
+      "name": "Evening Papers",
+      "properties": {
+        "type": "newspapers",
+        "examples": [
+          "Globe",
+          "Star",
+          "Pall Mall",
+          "St. James's",
+          "Evening News",
+          "Standard",
+          "Echo"
+        ],
+        "function": "medium for Holmes' advertisement"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_org_003",
+      "name": "The Assizes",
+      "properties": {
+        "type": "court",
+        "function": "judicial body for serious crimes",
+        "action": "referred Horner's case",
+        "status": "formal legal institution"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_con_001",
+      "name": "Innocence vs. Guilt",
+      "properties": {
+        "theme": "judging character based on evidence vs. appearance",
+        "embodiment": [
+          "Horner's prior conviction vs. protest of innocence",
+          "Baker's poverty vs. actual innocence"
+        ],
+        "resolution": "Holmes suspects Baker is innocent despite circumstances"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_con_002",
+      "name": "Sinister History of the Gem",
+      "properties": {
+        "description": "gem has caused two murders, vitriol-throwing, suicide, robberies",
+        "quote": "purveyor to the gallows and the prison",
+        "theme": "corrupting influence of wealth/gems"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_003_con_003",
+      "name": "Deduction and Investigation",
+      "properties": {
+        "method": "observing physical details to infer habits",
+        "example": "Holmes deduces Baker's circulation, speech, and background from appearance",
+        "process": "advertising as a test, following the sequence from jewel-case to goose"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_001",
+      "source_name": "John Horner",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_char_002",
+      "target_name": "Countess of Morcar",
+      "rel_type": "deceives",
+      "description": "Horner is charged with stealing the Countess's jewel, implying a fraudulent or criminal act against her property.",
+      "properties": {
+        "method": "theft",
+        "status": "accused",
+        "severity": "high"
+      },
+      "context": "abstracted from the jewel-case of the Countess of Morcar the valuable gem known as the blue carbuncle.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_003",
+      "source_name": "James Ryder",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_char_001",
+      "target_name": "John Horner",
+      "rel_type": "works_with",
+      "description": "Ryder, as an upper-attendant, escorted Horner to the Countess's dressing-room to perform repairs.",
+      "properties": {
+        "role": "supervisor",
+        "nature": "professional",
+        "sentiment": "neutral"
+      },
+      "context": "shown Horner up to the dressing-room of the Countess of Morcar upon the day of the robbery in order that he might solder the second bar of the grate",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_004",
+      "source_name": "Catherine Cusack",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_char_002",
+      "target_name": "Countess of Morcar",
+      "rel_type": "employed_by",
+      "description": "Cusack serves as the personal maid to the Countess.",
+      "properties": {
+        "role": "maid",
+        "employer": "Countess",
+        "duration": "ongoing"
+      },
+      "context": "Catherine Cusack, maid to the Countess, deposed to having heard Ryder's cry of dismay",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_005",
+      "source_name": "Inspector Bradstreet",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_org_001",
+      "target_name": "B Division",
+      "rel_type": "belongs_to",
+      "description": "Bradstreet is an inspector assigned to the B Division of the police force.",
+      "properties": {
+        "rank": "inspector",
+        "jurisdiction": "B Division",
+        "status": "active"
+      },
+      "context": "Inspector Bradstreet, B division, gave evidence as to the arrest of Horner",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_006",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_evt_001",
+      "target_name": "Hotel Cosmopolitan Jewel Robbery",
+      "rel_type": "investigates",
+      "description": "Holmes takes on the case to solve the sequence of events surrounding the jewel theft.",
+      "properties": {
+        "role": "investigator",
+        "status": "active",
+        "method": "deduction"
+      },
+      "context": "The question for us now to solve is the sequence of events leading from a rifled jewel-case at one end to the crop of a goose in Tottenham Court Road at the other.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_006",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_char_008",
+      "target_name": "Mr. Henry Baker",
+      "rel_type": "investigates",
+      "description": "Holmes seeks to determine Henry Baker's involvement in the mystery surrounding the stolen gem.",
+      "properties": {
+        "role": "investigator",
+        "status": "ongoing",
+        "focus": "innocence_verification"
+      },
+      "context": "So now we must set ourselves very seriously to finding this gentleman and ascertaining what part he has played in this little mystery.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_007",
+      "source_name": "Dr. Watson",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_char_006",
+      "target_name": "Sherlock Holmes",
+      "rel_type": "works_with",
+      "description": "Watson collaborates with Holmes on the case, sharing deductions and assisting in the investigation.",
+      "properties": {
+        "role": "assistant",
+        "nature": "professional",
+        "sentiment": "positive"
+      },
+      "context": "You see, Watson, our little deductions have suddenly assumed a much more important and less innocent aspect.",
+      "bidirectional": true,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_009",
+      "source_name": "Peterson",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_char_006",
+      "target_name": "Sherlock Holmes",
+      "rel_type": "assists",
+      "description": "Peterson is tasked by Holmes to place an advertisement in the evening papers.",
+      "properties": {
+        "task": "advertising",
+        "status": "completed",
+        "direction": "subordinate"
+      },
+      "context": "Here you are, Peterson, run down to the advertising agency and have this put in the evening papers.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_006",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_obj_001",
+      "target_name": "Blue Carbuncle",
+      "rel_type": "owns",
+      "description": "Holmes takes possession of the recovered gem to secure it and study it.",
+      "properties": {
+        "possession_type": "evidence",
+        "security_level": "high",
+        "duration": "temporary"
+      },
+      "context": "I shall keep the stone. Thank you.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_006",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_obj_006",
+      "target_name": "Strong Box",
+      "rel_type": "owns",
+      "description": "Holmes uses his personal strong box to store the valuable Blue Carbuncle.",
+      "properties": {
+        "possession_type": "furniture",
+        "security_level": "high",
+        "usage": "storage"
+      },
+      "context": "I'll lock it up in my strong box now and drop a line to the Countess to say that we have it.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_006",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_char_002",
+      "target_name": "Countess of Morcar",
+      "rel_type": "informs",
+      "description": "Holmes intends to notify the Countess that the stolen gem has been recovered.",
+      "properties": {
+        "channel": "letter",
+        "content": "recovery_status",
+        "urgency": "high"
+      },
+      "context": "drop a line to the Countess to say that we have it.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_007",
+      "source_name": "Dr. Watson",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_con_001",
+      "target_name": "Innocence vs. Guilt",
+      "rel_type": "evaluates",
+      "description": "Watson questions Holmes regarding the moral standing and guilt of John Horner.",
+      "properties": {
+        "sentiment": "inquisitive",
+        "basis": "moral_doubt",
+        "focus": "Horner"
+      },
+      "context": "Do you think that this man Horner is innocent? I cannot tell.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_006",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_char_008",
+      "target_name": "Mr. Henry Baker",
+      "rel_type": "evaluates",
+      "description": "Holmes assesses Henry Baker's character and involvement, leaning toward his innocence.",
+      "properties": {
+        "sentiment": "favorable",
+        "basis": "deduction",
+        "conclusion": "likely_innocent"
+      },
+      "context": "It is, I think, much more likely that Henry Baker is an absolutely innocent man, who had no idea that the bird which he was carrying was of considerably more value than if it were made of solid gold.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_007",
+      "source_name": "Dr. Watson",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_loc_003",
+      "target_name": "221b Baker Street",
+      "rel_type": "visits",
+      "description": "Watson returns to Holmes's residence in the evening to observe the case resolution.",
+      "properties": {
+        "purpose": "case_observation",
+        "frequency": "regular",
+        "time": "evening"
+      },
+      "context": "I had been delayed at a case, and it was a little after half-past six when I found myself in Baker Street once more.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_008",
+      "source_name": "Mr. Henry Baker",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_obj_004",
+      "target_name": "Black Felt Hat",
+      "rel_type": "owns",
+      "description": "Henry Baker claims ownership of the black felt hat found with the goose.",
+      "properties": {
+        "possession_type": "clothing",
+        "condition": "damaged",
+        "verification": "claimed"
+      },
+      "context": "Yes, sir, that is undoubtedly my hat.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_006",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_loc_003",
+      "target_name": "221b Baker Street",
+      "rel_type": "resides_at",
+      "description": "Holmes lives and operates his detective practice from this address.",
+      "properties": {
+        "duration": "long-term",
+        "type": "primary",
+        "status": "active"
+      },
+      "context": "applying at 6.30 this evening at 221b, Baker Street.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_003",
+      "source_name": "James Ryder",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_loc_001",
+      "target_name": "Hotel Cosmopolitan",
+      "rel_type": "resides_at",
+      "description": "Ryder works and lives at the Hotel Cosmopolitan as an upper-attendant.",
+      "properties": {
+        "duration": "employment_period",
+        "type": "workplace",
+        "status": "active"
+      },
+      "context": "James Ryder, upper-attendant at the hotel, gave his evidence",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_001",
+      "source_name": "John Horner",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_evt_002",
+      "target_name": "Police Court Trial",
+      "rel_type": "participates_in",
+      "description": "Horner is the defendant in the police court trial regarding the jewel theft.",
+      "properties": {
+        "role": "defendant",
+        "contribution": "testified_protested_innocence",
+        "outcome": "fainted"
+      },
+      "context": "Horner, who had shown signs of intense emotion during the proceedings, fainted away at the conclusion and was carried out of court.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_org_003",
+      "source_name": "The Assizes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_con_001",
+      "target_name": "Innocence vs. Guilt",
+      "rel_type": "resolves",
+      "description": "The Assizes are tasked with determining the legal guilt or innocence in the case.",
+      "properties": {
+        "method": "judicial_review",
+        "status": "pending",
+        "authority": "high_court"
+      },
+      "context": "the magistrate refused to deal summarily with the offence, but referred it to the Assizes.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_006",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_evt_002",
+      "target_name": "Police Court Trial",
+      "rel_type": "investigates",
+      "description": "Holmes reviews the police court proceedings to understand the official narrative and evidence.",
+      "properties": {
+        "role": "observer",
+        "status": "analytical",
+        "focus": "police_procedure"
+      },
+      "context": "Hum! So much for the police-court,' said Holmes thoughtfully, tossing aside the paper.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_006",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_obj_001",
+      "target_name": "Blue Carbuncle",
+      "rel_type": "owns",
+      "description": "Holmes examines the gem closely, noting its physical properties and criminal history.",
+      "properties": {
+        "possession_type": "evidence",
+        "action": "examination",
+        "focus": "provenance"
+      },
+      "context": "When the commissionaire had gone, Holmes took up the stone and held it against the light. 'It's a bonny thing,' said he.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_007",
+      "source_name": "Dr. Watson",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_char_006",
+      "target_name": "Sherlock Holmes",
+      "rel_type": "confides_in",
+      "description": "Watson shares his professional duties and case updates with Holmes, relying on his partnership.",
+      "properties": {
+        "topic": "case_progress",
+        "trust_level": "high",
+        "frequency": "regular"
+      },
+      "context": "In that case I shall continue my professional round. But I shall come back in the evening at the hour you have mentioned, for I should like to see the solution of so tangled a business.",
+      "bidirectional": true,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_008",
+      "source_name": "Mr. Henry Baker",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_loc_003",
+      "target_name": "221b Baker Street",
+      "rel_type": "visits",
+      "description": "Henry Baker travels to Baker Street in response to the advertisement to claim his lost items.",
+      "properties": {
+        "purpose": "claim_property",
+        "frequency": "one_time",
+        "time": "evening"
+      },
+      "context": "Mr. Henry Baker can have the same by applying at 6.30 this evening at 221b, Baker Street.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_006",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_char_008",
+      "target_name": "Mr. Henry Baker",
+      "rel_type": "investigates",
+      "description": "Holmes questions Henry Baker directly to verify his story and assess his innocence.",
+      "properties": {
+        "role": "interrogator",
+        "status": "active",
+        "method": "verbal_examination"
+      },
+      "context": "I am at a loss to know now why you did not advertise.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_006",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_obj_003",
+      "target_name": "Goose",
+      "rel_type": "owns",
+      "description": "Holmes acquires a goose to replace the one Peterson's family consumed, intending to use it for the investigation.",
+      "properties": {
+        "possession_type": "provision",
+        "purpose": "investigation_replacement",
+        "status": "acquired"
+      },
+      "context": "And, I say, Peterson, just buy a goose on your way back and leave it here with me, for we must have one to give to this gentleman in place of the one which your family is now devouring.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_006",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_obj_002",
+      "target_name": "Morocco Casket",
+      "rel_type": "conceals",
+      "description": "The Morocco Casket is used to store the Blue Carbuncle, linking the object to the crime scene.",
+      "properties": {
+        "method": "jewel_case",
+        "purpose": "protection",
+        "status": "found_empty"
+      },
+      "context": "the small morocco casket in which, as it afterwards transpired, the Countess was accustomed to keep her jewel, was lying empty upon the dressing-table.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_obj_001",
+      "source_name": "Blue Carbuncle",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_loc_006",
+      "target_name": "Amoy River",
+      "rel_type": "resides_at",
+      "description": "The Blue Carbuncle originates from the banks of the Amoy River in southern China.",
+      "properties": {
+        "origin": "geographical",
+        "status": "historical",
+        "provenance": "mined"
+      },
+      "context": "This stone is not yet twenty years old. It was found in the banks of the Amoy River in southern China",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_006",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_org_002",
+      "target_name": "Evening Papers",
+      "rel_type": "employs",
+      "description": "Holmes utilizes the Evening Papers as a medium to place an advertisement and attract Henry Baker.",
+      "properties": {
+        "role": "advertising_medium",
+        "status": "utilized",
+        "target_audience": "public"
+      },
+      "context": "these lie undoubtedly in an advertisement in all the evening papers.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_006",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_evt_003",
+      "target_name": "Advertisement Placement",
+      "rel_type": "causes",
+      "description": "Holmes initiates the advertisement placement to solve the mystery and recover the goose.",
+      "properties": {
+        "trigger": "investigation_strategy",
+        "expected_outcome": "contact_with_baker",
+        "status": "initiated"
+      },
+      "context": "To do this, we must try the simplest means first, and these lie undoubtedly in an advertisement in all the evening papers.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_007",
+      "source_name": "Dr. Watson",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_evt_004",
+      "target_name": "Meeting with Henry Baker",
+      "rel_type": "participates_in",
+      "description": "Watson accompanies Holmes to the meeting with Henry Baker to observe the case resolution.",
+      "properties": {
+        "role": "witness",
+        "contribution": "observation",
+        "status": "present"
+      },
+      "context": "Just as I arrived the door was opened, and we were shown up together to Holmes' room.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_006",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003_evt_004",
+      "target_name": "Meeting with Henry Baker",
+      "rel_type": "participates_in",
+      "description": "Holmes hosts and conducts the meeting with Henry Baker to verify his identity and story.",
+      "properties": {
+        "role": "host",
+        "contribution": "interrogation",
+        "status": "active"
+      },
+      "context": "greeting his visitor with the easy air of geniality which he could so readily assume.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_001",
+      "source_name": "John Horner",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_002",
+      "source_name": "Countess of Morcar",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_003",
+      "source_name": "James Ryder",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_004",
+      "source_name": "Catherine Cusack",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_005",
+      "source_name": "Inspector Bradstreet",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_006",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_007",
+      "source_name": "Dr. Watson",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_008",
+      "source_name": "Mr. Henry Baker",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_009",
+      "source_name": "Peterson",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_char_010",
+      "source_name": "Mrs. Hudson",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_loc_001",
+      "source_name": "Hotel Cosmopolitan",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_loc_002",
+      "source_name": "Countess of Morcar's dressing-room",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_loc_003",
+      "source_name": "221b Baker Street",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_loc_004",
+      "source_name": "Goodge Street",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_loc_005",
+      "source_name": "Tottenham Court Road",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_loc_006",
+      "source_name": "Amoy River",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_obj_001",
+      "source_name": "Blue Carbuncle",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_obj_002",
+      "source_name": "Morocco Casket",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_obj_003",
+      "source_name": "Goose",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_obj_004",
+      "source_name": "Black Felt Hat",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_obj_005",
+      "source_name": "Advertisement",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_obj_006",
+      "source_name": "Strong Box",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_evt_001",
+      "source_name": "Hotel Cosmopolitan Jewel Robbery",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_evt_002",
+      "source_name": "Police Court Trial",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_evt_003",
+      "source_name": "Advertisement Placement",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_evt_004",
+      "source_name": "Meeting with Henry Baker",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_org_001",
+      "source_name": "B Division",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_org_002",
+      "source_name": "Evening Papers",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_org_003",
+      "source_name": "The Assizes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_con_001",
+      "source_name": "Innocence vs. Guilt",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_con_002",
+      "source_name": "Sinister History of the Gem",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_003_con_003",
+      "source_name": "Deduction and Investigation",
+      "target_id": "54fe739d5f764020ad4396c72af29729_003",
+      "target_name": "54fe739d5f764020ad4396c72af29729_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    }
+  ]
+}

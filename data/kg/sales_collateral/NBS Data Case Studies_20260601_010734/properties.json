@@ -1,0 +1,2271 @@
+[
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_cli_001",
+    "name": "Large British Building Society",
+    "properties": {
+      "industry": "banking",
+      "geography": "UK",
+      "size": "large",
+      "relationship_status": "active",
+      "named_or_anonymous": true,
+      "pain_points": [
+        "legacy system dependency and technical debt",
+        "aging mainframe Customer Information Systems (CIS)",
+        "reliance on Unisys and Teradata",
+        "aggressive project timelines"
+      ],
+      "engagement_type": "data platform migration and digital transformation"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_off_001",
+    "name": "Acquire and Publish Framework",
+    "properties": {
+      "offering_type": "framework",
+      "scope": "unifying data landscape and consolidating data assets onto Microsoft Azure",
+      "key_phases_or_components": [
+        "Acquire and Publish framework",
+        "ICA-DMA assets",
+        "Workstream Medallion Architecture Bronze milestone",
+        "L1-L2 deliverables"
+      ],
+      "target_client_profile": "large building societies undergoing data platform migration"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_off_002",
+    "name": "Data Platform Migration Strategy",
+    "properties": {
+      "offering_type": "strategy",
+      "scope": "evaluate and align data platform migration architecture with aggressive project timelines",
+      "duration": "targeted for completion by Q1 FY 2026-27",
+      "key_phases_or_components": [
+        "collaborative workshops",
+        "hands-on sessions",
+        "asset deployment",
+        "proof of concept (POC)"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_cap_001",
+    "name": "Data Modeling and Transformation",
+    "properties": {
+      "what_it_does": "designing and developing modular, reusable, version-controlled data models and ensuring data quality through rigorous testing",
+      "technical_components": [
+        "DBT (Data Build Tool)",
+        "SQL",
+        "data validation frameworks"
+      ],
+      "delivery_maturity": "proven",
+      "differentiating_aspect": "modular, reusable, and version-controlled design with built-in validation and auditing",
+      "industry_applicability": [
+        "banking",
+        "data-intensive enterprises"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_cap_002",
+    "name": "Workflow Automation and Orchestration",
+    "properties": {
+      "what_it_does": "implementing performance-optimized ETL jobs and managing data processing workflows to generate standardized extracts",
+      "technical_components": [
+        "Databricks",
+        "Azure Data Factory (ADF)",
+        "Control-M",
+        "ETL jobs"
+      ],
+      "delivery_maturity": "proven",
+      "differentiating_aspect": "performance-optimized workflows aligned with lakehouse architecture and automated consumer integration",
+      "industry_applicability": [
+        "banking",
+        "data platform modernization"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_cap_003",
+    "name": "Asset-Driven Development",
+    "properties": {
+      "what_it_does": "accelerating code development and testing through pre-built, reusable assets to enable faster project delivery",
+      "technical_components": [
+        "GenAI assets",
+        "ICA-DMA assets",
+        "DBT conversion",
+        "git code repository"
+      ],
+      "delivery_maturity": "proven",
+      "differentiating_aspect": "validated via POC to deliver >30% reduction in code build and test activities",
+      "industry_applicability": [
+        "data platform migration",
+        "legacy system modernization"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_use_001",
+    "name": "Legacy System Modernization",
+    "properties": {
+      "problem_context": "migrating customer data and FC/RC feeds to SAP while ending reliance on legacy Unisys/mainframe Customer Information Systems",
+      "approach": "transitioning to a scalable cloud-native data lakehouse architecture on Azure and Databricks",
+      "industry": "banking",
+      "outcome_achieved": "decommissioning of legacy CIS systems, reduced infrastructure costs and technical debt, improved data accessibility and reliability",
+      "complexity_level": "complex"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_use_002",
+    "name": "Advanced Analytics and Machine Learning Enablement",
+    "properties": {
+      "problem_context": "enabling faster, flexible access to customer data across departments to support business units and data consumers",
+      "approach": "implementing a modern lakehouse architecture with real-time processing capabilities to support self-service BI and ML workloads",
+      "industry": "banking",
+      "outcome_achieved": "lays foundation for advanced analytics, machine learning, and self-service BI; accelerates digital transformation",
+      "complexity_level": "complex"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_ben_001",
+    "name": "Operational Cost Reduction",
+    "properties": {
+      "quantified_value": "significant reduction in infrastructure and maintenance costs",
+      "beneficiary": "client",
+      "category": "cost",
+      "evidence_type": "claimed"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_ben_002",
+    "name": "Enhanced Data Accessibility and Agility",
+    "properties": {
+      "quantified_value": "faster and more flexible access to customer data across departments",
+      "beneficiary": "business units and data consumers",
+      "category": "speed",
+      "evidence_type": "claimed"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_ben_003",
+    "name": "Accelerated Project Delivery and Time-to-Value",
+    "properties": {
+      "quantified_value": ">30% reduction in code build and test activities",
+      "beneficiary": "client project team",
+      "category": "speed",
+      "evidence_type": "measured"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_ben_004",
+    "name": "Improved Data Quality and Compliance",
+    "properties": {
+      "quantified_value": "higher data accuracy, consistency, and regulatory compliance",
+      "beneficiary": "client and data consumers",
+      "category": "quality",
+      "evidence_type": "claimed"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_cha_001",
+    "name": "Legacy System Dependency and Technical Debt",
+    "properties": {
+      "root_cause": "aging mainframe platforms and reliance on Unisys and Teradata Vantage",
+      "business_impact": "high infrastructure and maintenance costs, significant technical debt limiting agility",
+      "urgency": "high",
+      "who_faces_it": "large British building society",
+      "current_workaround": "legacy Customer Information Systems (CIS) and Teradata Vantage"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_cha_002",
+    "name": "Aggressive Project Timelines",
+    "properties": {
+      "root_cause": "strategic digital transformation mandate requiring migration completion by Q1 FY 2026-27",
+      "business_impact": "pressure on delivery teams to meet stringent deadlines without compromising quality",
+      "urgency": "critical",
+      "who_faces_it": "client and IBM Consulting delivery team",
+      "current_workaround": "asset-driven development and proactive collaborative delivery model"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_tec_001",
+    "name": "Databricks Lakehouse",
+    "properties": {
+      "vendor": "Databricks",
+      "technology_category": "cloud data platform",
+      "role_in_solution": "core",
+      "maturity": "modern",
+      "key_characteristics": "underlying storage for lakehouse architecture, supports real-time processing and ML workloads"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_tec_002",
+    "name": "Microsoft Azure Ecosystem",
+    "properties": {
+      "vendor": "Microsoft",
+      "technology_category": "cloud platform",
+      "role_in_solution": "target strategic platform",
+      "maturity": "modern",
+      "key_characteristics": "hosts ADLS/Blob, ADF, Entra ID, Key Vault, Monitor, DevOps; enables cloud-native data architecture"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_tec_003",
+    "name": "DBT (Data Build Tool)",
+    "properties": {
+      "technology_category": "data modeling and transformation",
+      "role_in_solution": "core",
+      "maturity": "modern",
+      "key_characteristics": "enables modular, reusable, version-controlled SQL models; converts legacy Teradata procedures"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_tec_004",
+    "name": "Teradata Vantage",
+    "properties": {
+      "vendor": "Teradata",
+      "technology_category": "legacy data platform",
+      "role_in_solution": "replaced",
+      "maturity": "legacy",
+      "key_characteristics": "legacy data mart codebase and procedure source being migrated to lakehouse"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_dif_001",
+    "name": "Proactive and Collaborative Delivery Model",
+    "properties": {
+      "competitive_advantage": "hands-on collaboration and proactive delivery enabling milestones to be completed ahead of schedule",
+      "evidence_or_proof_point": "IBM team delivered Workstream Medallion Architecture Bronze milestone and L1-L2 deliverables ahead of schedule",
+      "uniqueness": "collaborative and embedded",
+      "target_audience": "client stakeholders and delivery teams",
+      "relates_to_offering": "Acquire and Publish Framework"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_dif_002",
+    "name": "Asset-Driven Acceleration",
+    "properties": {
+      "competitive_advantage": "pre-built GenAI and ICA-DMA assets significantly accelerate code development and testing",
+      "evidence_or_proof_point": "POC validated >30% reduction in code build and test activities, fast-tracking project delivery",
+      "uniqueness": "accelerated and validated",
+      "target_audience": "data platform migration clients",
+      "relates_to_offering": "Data Platform Migration Strategy"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_org_001",
+    "name": "IBM Consulting",
+    "properties": {
+      "org_type": "service_provider",
+      "relationship_to_offering": "primary_delivery_partner",
+      "geographic_presence": "global"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_org_002",
+    "name": "Unisys",
+    "properties": {
+      "org_type": "legacy_vendor",
+      "relationship_to_offering": "replaced"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_loc_001",
+    "name": "Pune",
+    "properties": {
+      "market_type": "delivery_center",
+      "strategic_importance": "core",
+      "regulatory_environment": "india"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_evt_001",
+    "name": "Proof of Concept (POC)",
+    "properties": {
+      "event_type": "validation_pilot",
+      "date_or_period": "pre-migration phase",
+      "relevance_to_deal": "validated asset-driven approach and demonstrated >30% acceleration in code development",
+      "key_participants": [
+        "IBM team",
+        "client stakeholders"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_evt_002",
+    "name": "FY 2026-27 Migration Deadline",
+    "properties": {
+      "event_type": "milestone_deadline",
+      "date_or_period": "Q1 FY 2026-27 (Jun-2026)",
+      "relevance_to_deal": "critical target date for completing data platform migration",
+      "key_participants": [
+        "client",
+        "IBM Consulting"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cli_001",
+    "name": "UK based Bank",
+    "properties": {
+      "industry": "banking",
+      "geography": "UK",
+      "relationship_status": "reference_client",
+      "named_or_anonymous": true
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cli_002",
+    "name": "RBS",
+    "properties": {
+      "industry": "banking",
+      "geography": "UK",
+      "size": "enterprise",
+      "relationship_status": "reference_client",
+      "named_or_anonymous": false
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cli_003",
+    "name": "Nationwide",
+    "properties": {
+      "industry": "banking",
+      "geography": "UK",
+      "size": "enterprise",
+      "relationship_status": "reference_client",
+      "named_or_anonymous": false
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_001",
+    "name": "Eco Crime",
+    "properties": {
+      "offering_type": "programme",
+      "scope": "data lineage and quality measurement for Critical Data Elements",
+      "target_client_profile": "banking",
+      "key_phases": [
+        "compute data lineage",
+        "measure data quality",
+        "establish baseline maturity"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_002",
+    "name": "Payments Screening",
+    "properties": {
+      "offering_type": "managed_service",
+      "scope": "technical data reconciliation review and maturity assessment",
+      "target_client_profile": "banking",
+      "key_phases": [
+        "review reconciliation processes",
+        "identify gaps",
+        "produce maturity assessment report"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_003",
+    "name": "Analysis And MI Reporting",
+    "properties": {
+      "offering_type": "product",
+      "scope": "data transformation and management information reporting",
+      "target_client_profile": "banking",
+      "key_phases": [
+        "data ingestion",
+        "processing",
+        "reporting output"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_004",
+    "name": "Maturity Assessment Report",
+    "properties": {
+      "offering_type": "deliverable",
+      "scope": "assessment of as-is technical data reconciliation",
+      "target_client_profile": "banking"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cap_001",
+    "name": "Compute data lineage",
+    "properties": {
+      "what_it_does": "maps and visualizes data flow across systems for Critical Data Elements",
+      "technical_components": [
+        "dataflow diagrams",
+        "interface contracts",
+        "metadata"
+      ],
+      "delivery_maturity": "proven",
+      "differentiating_aspect": "comprehensive SME consultation and documentation review across 78 systems"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cap_002",
+    "name": "Measure data quality",
+    "properties": {
+      "what_it_does": "establishes data quality rules and runs checks against defined dimensions",
+      "technical_components": [
+        "DQ rules",
+        "SSDs",
+        "SAS Tool",
+        "Conformity & Completeness checks"
+      ],
+      "delivery_maturity": "proven",
+      "differentiating_aspect": "collaborative rule creation with business SMEs and automated SAS validation"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cap_003",
+    "name": "Review technical data reconciliation",
+    "properties": {
+      "what_it_does": "evaluates existing technical data reconciliation processes to identify gaps",
+      "technical_components": [
+        "SME interviews",
+        "maturity assessment report"
+      ],
+      "delivery_maturity": "proven",
+      "differentiating_aspect": "structured interview process yielding actionable maturity insights"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cap_004",
+    "name": "Promote capability build",
+    "properties": {
+      "what_it_does": "transfers knowledge and builds internal team capabilities",
+      "technical_components": [
+        "coaching",
+        "handover processes"
+      ],
+      "delivery_maturity": "proven",
+      "differentiating_aspect": "focus on sustainable handover and BAU colleague enablement"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_use_001",
+    "name": "AML T&M",
+    "properties": {
+      "problem_context": "managing Anti-Money Laundering Time & Material tracking and data",
+      "industry": "banking",
+      "outcome_achieved": "structured AML data sets for reporting",
+      "complexity_level": "complex"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_use_002",
+    "name": "MI Reporting",
+    "properties": {
+      "problem_context": "consolidating data from multiple source systems for management information",
+      "industry": "banking",
+      "outcome_achieved": "organized data sets for reporting and analysis",
+      "complexity_level": "complex"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_use_003",
+    "name": "Data Lineage & Quality Baseline",
+    "properties": {
+      "problem_context": "establishing baseline maturity for Critical Data Elements",
+      "industry": "banking",
+      "outcome_achieved": "baseline maturity established for data lineage and quality",
+      "complexity_level": "complex"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_ben_001",
+    "name": "Establishing baseline maturity",
+    "properties": {
+      "quantified_value": "baseline maturity established",
+      "beneficiary": "client",
+      "category": "quality",
+      "evidence_type": "claimed"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_ben_002",
+    "name": "Identifying gaps & immediate steps",
+    "properties": {
+      "quantified_value": "gaps identified with immediate next steps",
+      "beneficiary": "client",
+      "category": "risk",
+      "evidence_type": "claimed"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_ben_003",
+    "name": "Successful handover",
+    "properties": {
+      "quantified_value": "successful handover achieved",
+      "beneficiary": "client",
+      "category": "speed",
+      "evidence_type": "claimed"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cha_001",
+    "name": "Identifying gaps in reconciliation",
+    "properties": {
+      "root_cause": "complex as-is technical data reconciliation processes",
+      "business_impact": "risk of undetected data discrepancies",
+      "urgency": "high",
+      "who_faces_it": "banking client"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cha_002",
+    "name": "Legacy system complexity",
+    "properties": {
+      "root_cause": "fragmented data landscape across 78 systems and multiple feeder sources",
+      "business_impact": "difficulty in tracking data flow and ensuring quality",
+      "urgency": "high",
+      "who_faces_it": "banking client"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cha_003",
+    "name": "Regulatory & compliance burden",
+    "properties": {
+      "root_cause": "strict regulatory requirements for data accuracy and AML tracking",
+      "business_impact": "potential compliance failures and operational risk",
+      "urgency": "critical",
+      "who_faces_it": "banking client"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cha_004",
+    "name": "Knowledge transfer & skill gap",
+    "properties": {
+      "root_cause": "reliance on external expertise and need for internal capability build",
+      "business_impact": "risk of handover failure without proper coaching",
+      "urgency": "high",
+      "who_faces_it": "banking client"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_001",
+    "name": "SAS Analytics",
+    "properties": {
+      "vendor": "SAS",
+      "technology_category": "analytics",
+      "role_in_solution": "core",
+      "maturity": "modern",
+      "key_characteristics": "runs DQ checks against Conformity & Completeness dimensions, processes AML T&M data"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_002",
+    "name": "Planview",
+    "properties": {
+      "vendor": "Planview",
+      "technology_category": "project/portfolio management",
+      "role_in_solution": "supporting",
+      "maturity": "modern",
+      "key_characteristics": "stores functional area, CDE, interface, and SME mapping data"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_003",
+    "name": "Microsoft Excel",
+    "properties": {
+      "vendor": "Microsoft",
+      "technology_category": "spreadsheet/data management",
+      "role_in_solution": "supporting",
+      "maturity": "legacy",
+      "key_characteristics": "used for detailed technical diagrams, mapping files, and rule definition matrices"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_004",
+    "name": "Unisys",
+    "properties": {
+      "vendor": "Unisys",
+      "technology_category": "core banking/processing",
+      "role_in_solution": "source",
+      "maturity": "legacy",
+      "key_characteristics": "feeds data into the FCD processing component"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_005",
+    "name": "SAP",
+    "properties": {
+      "vendor": "SAP",
+      "technology_category": "enterprise resource planning",
+      "role_in_solution": "source",
+      "maturity": "modern",
+      "key_characteristics": "feeds data into the FCD processing component"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_006",
+    "name": "Chaps",
+    "properties": {
+      "vendor": "Chaps",
+      "technology_category": "payments processing",
+      "role_in_solution": "source/processing",
+      "maturity": "legacy",
+      "key_characteristics": "handles payment data flows and feeds into C/W HDS and reporting"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_007",
+    "name": "FCD",
+    "properties": {
+      "vendor": "FCD",
+      "technology_category": "data processing/consolidation",
+      "role_in_solution": "core",
+      "maturity": "modern",
+      "key_characteristics": "central processing component receiving data from multiple feeder systems"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_008",
+    "name": "NetReveal",
+    "properties": {
+      "vendor": "NetReveal",
+      "technology_category": "data reporting/analysis",
+      "role_in_solution": "output",
+      "maturity": "modern",
+      "key_characteristics": "generates data sets for the Analysis And MI Reporting block"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_009",
+    "name": "SUMMIT_DEP",
+    "properties": {
+      "vendor": "SUMMIT",
+      "technology_category": "deposit/transaction processing",
+      "role_in_solution": "source",
+      "maturity": "legacy",
+      "key_characteristics": "referenced in data source columns for deposit details"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_dif_001",
+    "name": "Consulted c. 150+ SMEs",
+    "properties": {
+      "competitive_advantage": "extensive stakeholder engagement and documentation review",
+      "evidence": "c. 150+ SMEs consulted across business and technology",
+      "uniqueness": "scale-based",
+      "target_audience": "enterprise banking clients"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_dif_002",
+    "name": "Created 6 dataflow diagrams and 108 interface contracts",
+    "properties": {
+      "competitive_advantage": "comprehensive visualization and contract mapping for data flows",
+      "evidence": "6 dataflow diagrams and 108 interface contracts for 205 CDEs",
+      "uniqueness": "proprietary",
+      "target_audience": "enterprise banking clients"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_dif_003",
+    "name": "Actively coaching BAU colleagues",
+    "properties": {
+      "competitive_advantage": "focus on sustainable capability transfer and handover",
+      "evidence": "active coaching of BAU colleagues",
+      "uniqueness": "best-in-class",
+      "target_audience": "enterprise banking clients"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_per_001",
+    "name": "Ikant Pawar",
+    "properties": {
+      "role_title": "SME/Consultant",
+      "influence_level": "contributor",
+      "relationship_to_deal": "neutral"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_per_002",
+    "name": "Tom Wheatley",
+    "properties": {
+      "role_title": "SME/Consultant",
+      "influence_level": "contributor",
+      "relationship_to_deal": "neutral"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_per_003",
+    "name": "Dylan Anderson",
+    "properties": {
+      "role_title": "SME/Consultant",
+      "influence_level": "contributor",
+      "relationship_to_deal": "neutral"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_per_004",
+    "name": "Nishkant Pawar",
+    "properties": {
+      "role_title": "SME/Consultant",
+      "influence_level": "contributor",
+      "relationship_to_deal": "neutral"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_obj_001",
+    "name": "Detailed technical diagram",
+    "properties": {
+      "product_category": "data architecture visualization",
+      "key_features": [
+        "illustrates data architecture",
+        "shows reporting flow",
+        "maps source to processing systems"
+      ],
+      "compatibility": "supports FCD and SAS Analytics processing"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_obj_002",
+    "name": "Comprehensive XLS mapping file",
+    "properties": {
+      "product_category": "data mapping spreadsheet",
+      "key_features": [
+        "maps functional areas",
+        "tracks CDEs",
+        "documents interfaces",
+        "lists SMEs"
+      ],
+      "compatibility": "augments Planview data"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_org_001",
+    "name": "NW",
+    "properties": {
+      "org_type": "client",
+      "relationship_to_offering": "collaborator",
+      "geographic_presence": "UK"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_002_loc_001",
+    "name": "UK",
+    "properties": {
+      "market_type": "geographic",
+      "strategic_importance": "core",
+      "regulatory_environment": "strict banking compliance"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_org_001",
+    "name": "IBM",
+    "properties": {
+      "relationship_to_offering": "engaged on a Time and Materials contract",
+      "org_type": "technology/consulting partner"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_org_002",
+    "name": "LexisNexis",
+    "properties": {
+      "org_type": "vendor/partner",
+      "relationship_to_offering": "provides personnel (Senior Consultant)"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cli_001",
+    "name": "organisation",
+    "properties": {
+      "industry": "financial/banking",
+      "relationship_status": "active",
+      "pain_points": [
+        "Lack of evidence to suggest transaction movements and data screening across various systems have been monitored or reconciled",
+        "Data Reconciliation for Payment Screening does not appear to have been implemented yet"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_001",
+    "name": "Reconciliation solution",
+    "properties": {
+      "offering_type": "programme",
+      "scope": "Data reconciliation for Payment Screening across multiple systems",
+      "key_phases": [
+        "NOW (3Q 2023 - 1Q 2024)",
+        "NEAR (2Q 2024)",
+        "NEXT (2024-25)"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_002",
+    "name": "FCTP Data Reconciliation Initiative",
+    "properties": {
+      "offering_type": "assessment/programme",
+      "scope": "Assess existing technical data reconciliation processes for Payment Screening",
+      "engagement_type": "Time and Materials contract"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_003",
+    "name": "MVP - Selected Functional Area",
+    "properties": {
+      "offering_type": "phase/milestone",
+      "scope": "Select Functional Area",
+      "key_phases_or_components": [
+        "Decline 1 Functional Capability Area",
+        "Define Recon Strategy with DQ & A",
+        "System Design",
+        "Tool Configuration and Custom Coding",
+        "Execute Recon, QA, Produce Reports"
+      ],
+      "delivery_model": "In house Tools and Custom Coding"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_004",
+    "name": "Industry Standard DQ & DR tools",
+    "properties": {
+      "offering_type": "toolset",
+      "scope": "Data Quality & Data Reconciliation",
+      "delivery_model": "Commissioned/Industry Standard"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_001",
+    "name": "Data Reconciliation",
+    "properties": {
+      "what_it_does": "Monitors and reconciles transaction movements and data screening across systems",
+      "industry_applicability": [
+        "financial",
+        "banking"
+      ],
+      "delivery_maturity": "emerging/not yet implemented"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_002",
+    "name": "Payment Screening",
+    "properties": {
+      "what_it_does": "Screens transactions for compliance/risk",
+      "industry_applicability": [
+        "financial",
+        "banking"
+      ],
+      "delivery_maturity": "emerging"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_003",
+    "name": "Recon Strategy",
+    "properties": {
+      "what_it_does": "Defines reconciliation strategy, type, and technology verification",
+      "delivery_maturity": "proven"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_004",
+    "name": "System Design",
+    "properties": {
+      "what_it_does": "Architects the technical framework for reconciliation tools",
+      "delivery_maturity": "proven"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_005",
+    "name": "Tool Configuration and Custom Coding",
+    "properties": {
+      "what_it_does": "Configures tools and writes custom code for reconciliation processes",
+      "delivery_maturity": "proven"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_006",
+    "name": "Execute Recon, QA, Produce Reports",
+    "properties": {
+      "what_it_does": "Executes reconciliation, performs QA, and generates reports",
+      "delivery_maturity": "proven"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_007",
+    "name": "BAU Process",
+    "properties": {
+      "what_it_does": "Manages ongoing business-as-usual reconciliation operations",
+      "delivery_maturity": "target"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_008",
+    "name": "DQ & A",
+    "properties": {
+      "what_it_does": "Data Quality and Data Assurance",
+      "industry_applicability": [
+        "financial",
+        "banking"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_use_001",
+    "name": "Payment Screening",
+    "properties": {
+      "problem_context": "Need to monitor and reconcile transaction movements and data screening",
+      "industry": "financial/banking",
+      "complexity_level": "complex"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_use_002",
+    "name": "Reconciliation",
+    "properties": {
+      "problem_context": "Lack of evidence for monitoring/reconciling data across systems",
+      "industry": "financial/banking",
+      "complexity_level": "complex"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_use_003",
+    "name": "Financial or banking management",
+    "properties": {
+      "problem_context": "Managing member accounts, contact details, and financial products",
+      "industry": "financial/banking"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_use_004",
+    "name": "Credit card",
+    "properties": {
+      "problem_context": "Managing credit card accounts and related services",
+      "industry": "financial/banking"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_use_005",
+    "name": "Loans",
+    "properties": {
+      "problem_context": "Managing loan products and lending services",
+      "industry": "financial/banking"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_ben_001",
+    "name": "Prove capabilities",
+    "properties": {
+      "category": "quality/risk",
+      "evidence_type": "projected",
+      "beneficiary": "organisation"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_ben_002",
+    "name": "Scale and Piloterate",
+    "properties": {
+      "category": "scale/efficiency",
+      "evidence_type": "projected",
+      "beneficiary": "organisation"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cha_001",
+    "name": "Lack of evidence to suggest transaction movements and data screening across various systems have been monitored or reconciled",
+    "properties": {
+      "root_cause": "Unmonitored/unreconciled data screening across systems",
+      "business_impact": "Regulatory/compliance risk, lack of audit trail",
+      "urgency": "high",
+      "who_faces_it": "organisation"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cha_002",
+    "name": "Data Reconciliation for Payment Screening does not appear to have been implemented yet",
+    "properties": {
+      "root_cause": "Process not yet implemented",
+      "business_impact": "Active pain point, operational gap",
+      "urgency": "high",
+      "who_faces_it": "organisation"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cha_003",
+    "name": "active pain point for the organisation",
+    "properties": {
+      "root_cause": "Unimplemented reconciliation process",
+      "business_impact": "Operational and compliance risk",
+      "urgency": "high",
+      "who_faces_it": "organisation"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_tech_001",
+    "name": "Internet banking",
+    "properties": {
+      "technology_category": "digital banking",
+      "role_in_solution": "supporting",
+      "key_characteristics": "Member account access channel"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_tech_002",
+    "name": "Savings & ISA",
+    "properties": {
+      "technology_category": "financial products",
+      "role_in_solution": "supporting",
+      "key_characteristics": "Account type for member savings"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_tech_003",
+    "name": "CDES",
+    "properties": {
+      "technology_category": "data/screening system",
+      "role_in_solution": "core",
+      "key_characteristics": "System for payment screening data"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_tech_004",
+    "name": "final reporting system",
+    "properties": {
+      "technology_category": "reporting",
+      "role_in_solution": "target",
+      "key_characteristics": "Endpoint for reconciliation reporting"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_tech_005",
+    "name": "originating sources",
+    "properties": {
+      "technology_category": "data sources",
+      "role_in_solution": "target",
+      "key_characteristics": "Initial data entry points for products"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_tech_006",
+    "name": "In house Tools",
+    "properties": {
+      "technology_category": "internal development",
+      "role_in_solution": "core",
+      "key_characteristics": "Proprietary tools for reconciliation"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_tech_007",
+    "name": "Industry Standard DQ & DR tools",
+    "properties": {
+      "technology_category": "data quality & reconciliation",
+      "role_in_solution": "core",
+      "key_characteristics": "Commercial off-the-shelf tools for DQ & DR"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_diff_001",
+    "name": "Time and Materials contract",
+    "properties": {
+      "competitive_advantage": "Flexible engagement model for assessment phase",
+      "evidence": "Current IBM engagement",
+      "target_audience": "clients needing flexible scoping"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_diff_002",
+    "name": "In house Tools and Custom Coding",
+    "properties": {
+      "competitive_advantage": "Tailored, proprietary tooling approach",
+      "evidence": "Implemented in NOW phase",
+      "target_audience": "clients requiring bespoke solutions"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_diff_003",
+    "name": "Industry Standard DQ & DR tools Commissioned",
+    "properties": {
+      "competitive_advantage": "Leverages proven commercial tools for scalability",
+      "evidence": "Planned for NEAR phase",
+      "target_audience": "clients seeking best-in-class tools"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_diff_004",
+    "name": "30+ meetings with 19 SMEs",
+    "properties": {
+      "competitive_advantage": "Deep stakeholder engagement and thorough discovery",
+      "evidence": "30+ meetings, 19 SMEs consulted",
+      "target_audience": "clients valuing comprehensive analysis"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_001",
+    "name": "Ben Ashwell",
+    "properties": {
+      "role_title": "Electronic Payments Director",
+      "influence_level": "decision_maker"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_002",
+    "name": "Rachel Cardy",
+    "properties": {
+      "role_title": "Product Owner • Assisted Service",
+      "influence_level": "influencer"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_003",
+    "name": "Simon Clydesdale",
+    "properties": {
+      "role_title": "Delivery Manager • Payments",
+      "influence_level": "decision_maker"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_004",
+    "name": "Vaibhav Nioding",
+    "properties": {
+      "role_title": "Test Analyst",
+      "influence_level": "evaluator"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_005",
+    "name": "Nupur Bole",
+    "properties": {
+      "role_title": "Business Designer",
+      "influence_level": "influencer"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_006",
+    "name": "Shipra Saxena",
+    "properties": {
+      "role_title": "Scrum Master",
+      "influence_level": "influencer"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_007",
+    "name": "Karen Gosling",
+    "properties": {
+      "role_title": "Product Owner • Payments CIO",
+      "influence_level": "decision_maker"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_008",
+    "name": "Vinoth Raj Seran",
+    "properties": {
+      "role_title": "Engineer E2",
+      "influence_level": "evaluator"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_009",
+    "name": "Tom Rees",
+    "properties": {
+      "role_title": "Product Owner • Member&Data Protection Rec",
+      "influence_level": "decision_maker"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_010",
+    "name": "Mike Rivet",
+    "properties": {
+      "role_title": "FC Analytics Senior Consultant",
+      "influence_level": "evaluator"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_011",
+    "name": "Adam Stephens",
+    "properties": {
+      "role_title": "Engineer - E2 • Member&Data Protection Rec",
+      "influence_level": "evaluator"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_012",
+    "name": "Jessica Mary",
+    "properties": {
+      "role_title": "Product Owner • Payments",
+      "influence_level": "decision_maker"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_013",
+    "name": "Gary Bodden",
+    "properties": {
+      "role_title": "Product Owner • Payments CIO",
+      "influence_level": "decision_maker"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_014",
+    "name": "Julian Duriez",
+    "properties": {
+      "role_title": "Senior Consultant (LexisNexis)",
+      "influence_level": "influencer"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_015",
+    "name": "HIBA ALAM",
+    "properties": {
+      "role_title": "Engineer 3 • Payments",
+      "influence_level": "evaluator"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_016",
+    "name": "Colin Winter",
+    "properties": {
+      "role_title": "Credit Cards",
+      "influence_level": "influencer"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_017",
+    "name": "Nicholas Polley",
+    "properties": {
+      "role_title": "Engineer E2",
+      "influence_level": "evaluator"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_018",
+    "name": "Ashleigh Batson",
+    "properties": {
+      "role_title": "Cards Value Stream Lead PO",
+      "influence_level": "decision_maker"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_019",
+    "name": "Craig Barnes",
+    "properties": {
+      "role_title": "FC Analytics Consultant • Financial Crime Analytics",
+      "influence_level": "evaluator"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_obj_001",
+    "name": "spreadsheet",
+    "properties": {
+      "product_category": "data management",
+      "key_features": [
+        "columns/rows",
+        "mapping status",
+        "technical details"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_obj_002",
+    "name": "presentation slide",
+    "properties": {
+      "product_category": "communication material",
+      "key_features": [
+        "roadmap phases",
+        "timeline",
+        "process captions"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_obj_003",
+    "name": "document",
+    "properties": {
+      "product_category": "reporting material",
+      "key_features": [
+        "current state",
+        "key facts",
+        "findings"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_obj_004",
+    "name": "screenshot",
+    "properties": {
+      "product_category": "visual evidence",
+      "key_features": [
+        "interface layout",
+        "member summary",
+        "account details"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_obj_005",
+    "name": "interface",
+    "properties": {
+      "product_category": "digital banking platform",
+      "key_features": [
+        "navigation bar",
+        "sidebar menu",
+        "member summary panel"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_obj_006",
+    "name": "Banking app",
+    "properties": {
+      "product_category": "mobile/web application",
+      "key_features": [
+        "member management",
+        "account access",
+        "alerts"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_evt_001",
+    "name": "FCTP Data Reconciliation Initiative",
+    "properties": {
+      "event_type": "programme/initiative",
+      "relevance_to_deal": "core engagement",
+      "key_participants": [
+        "IBM",
+        "19 SMEs"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_evt_002",
+    "name": "Tentative Roadmap for Reconciliation solution",
+    "properties": {
+      "event_type": "planning milestone",
+      "relevance_to_deal": "strategic planning",
+      "key_participants": [
+        "project team",
+        "SMEs"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_evt_003",
+    "name": "NOW (3Q 2023 - 1Q 2024)",
+    "properties": {
+      "event_type": "project phase",
+      "date_or_period": "3Q 2023 - 1Q 2024",
+      "relevance_to_deal": "current execution"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_evt_004",
+    "name": "NEAR (2Q 2024)",
+    "properties": {
+      "event_type": "project phase",
+      "date_or_period": "2Q 2024",
+      "relevance_to_deal": "upcoming milestone"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_evt_005",
+    "name": "NEXT (2024-25)",
+    "properties": {
+      "event_type": "project phase",
+      "date_or_period": "2024-25",
+      "relevance_to_deal": "long-term target"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_evt_006",
+    "name": "Last updated on 10 Jan 2020",
+    "properties": {
+      "event_type": "data refresh",
+      "date_or_period": "10 Jan 2020",
+      "relevance_to_deal": "historical reference"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_003_evt_007",
+    "name": "July 12, 2023",
+    "properties": {
+      "event_type": "document review",
+      "date_or_period": "July 12, 2023",
+      "relevance_to_deal": "BRD review date"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_cli_001",
+    "name": "Nationwide",
+    "properties": {
+      "industry": [
+        "banking",
+        "financial services"
+      ],
+      "size": [
+        "large",
+        "enterprise"
+      ],
+      "pain_points": [
+        "absence of overarching Data Reconciliation process",
+        "disconnected governance frameworks",
+        "undefined payment screening scope",
+        "lack of action plan for audit findings"
+      ],
+      "engagement_type": [
+        "data governance assessment",
+        "payment screening review"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_cha_001",
+    "name": "Absence of Data Reconciliation Process",
+    "properties": {
+      "root_cause": [
+        "lack of defined frameworks and guiding principles",
+        "disconnected governance instances"
+      ],
+      "business_impact": [
+        "regulatory compliance risk",
+        "inability to confirm monitoring of all transactional activities"
+      ],
+      "urgency": [
+        "high"
+      ],
+      "who_faces_it": [
+        "Nationwide",
+        "Data Governance team"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_cha_002",
+    "name": "Disconnected Governance Frameworks",
+    "properties": {
+      "root_cause": [
+        "fragmented policy/process definition",
+        "lack of centralized governance"
+      ],
+      "business_impact": [
+        "operational inefficiency",
+        "governance gaps"
+      ],
+      "urgency": [
+        "high"
+      ],
+      "who_faces_it": [
+        "Nationwide governance teams"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_cha_003",
+    "name": "Undefined Payment Screening Scope",
+    "properties": {
+      "root_cause": [
+        "lack of defined BRD for Screening functional area",
+        "missing Value to Value comparison framework"
+      ],
+      "business_impact": [
+        "inability to verify transaction screening completeness",
+        "compliance blind spots"
+      ],
+      "urgency": [
+        "high"
+      ],
+      "who_faces_it": [
+        "FCTP screening Delivery leads",
+        "Nationwide"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_off_001",
+    "name": "Data Reconciliation Process",
+    "properties": {
+      "offering_type": [
+        "process",
+        "framework"
+      ],
+      "scope": [
+        "end-to-end data reconciliation",
+        "payment screening transaction monitoring",
+        "value-to-value comparison from source to target system"
+      ],
+      "target_client_profile": [
+        "financial institutions requiring regulatory compliance"
+      ],
+      "key_phases_or_components": [
+        "data governance framework definition",
+        "policy/process establishment",
+        "source-to-target validation"
+      ],
+      "delivery_maturity": [
+        "emerging",
+        "under development"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_off_002",
+    "name": "FCTP Screening",
+    "properties": {
+      "offering_type": [
+        "service",
+        "screening process"
+      ],
+      "scope": [
+        "payment transaction screening",
+        "decision management",
+        "data reconciliation for screening"
+      ],
+      "target_client_profile": [
+        "payment processing entities"
+      ],
+      "key_phases_or_components": [
+        "screening decision logic",
+        "data reconciliation validation",
+        "delivery lead oversight"
+      ],
+      "delivery_model": [
+        "hybrid",
+        "multi-system integration"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_use_001",
+    "name": "Payment Screening",
+    "properties": {
+      "problem_context": [
+        "ensuring all required transactions are screened across channels and systems"
+      ],
+      "approach": [
+        "data reconciliation between source and target systems",
+        "value-to-value comparison"
+      ],
+      "industry": [
+        "banking",
+        "financial services"
+      ],
+      "outcome_achieved": [
+        "ongoing",
+        "scope undefined",
+        "requires reconciliation evidence"
+      ],
+      "complexity_level": [
+        "high"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_001",
+    "name": "HLS (Filter Server)",
+    "properties": {
+      "vendor_or_provider": [
+        "NBS"
+      ],
+      "technology_category": [
+        "filtering",
+        "payment routing",
+        "security"
+      ],
+      "role_in_solution": [
+        "core",
+        "central screening node"
+      ],
+      "maturity": [
+        "modern",
+        "established"
+      ],
+      "key_characteristics": [
+        "receives transactions for screening",
+        "requires value-to-value reconciliation",
+        "part of multi-hop payment flow"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_002",
+    "name": "Chaos",
+    "properties": {
+      "vendor_or_provider": [
+        "payment service provider"
+      ],
+      "technology_category": [
+        "payment processing",
+        "transaction routing"
+      ],
+      "role_in_solution": [
+        "supporting",
+        "target payment system"
+      ],
+      "maturity": [
+        "modern"
+      ],
+      "key_characteristics": [
+        "handles payment transactions",
+        "requires screening reconciliation"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_003",
+    "name": "Swift",
+    "properties": {
+      "vendor_or_provider": [
+        "SWIFT"
+      ],
+      "technology_category": [
+        "payment messaging",
+        "cross-border transactions"
+      ],
+      "role_in_solution": [
+        "supporting",
+        "target payment system"
+      ],
+      "maturity": [
+        "modern",
+        "industry standard"
+      ],
+      "key_characteristics": [
+        "processes payment transactions",
+        "requires screening reconciliation"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_004",
+    "name": "SEPA",
+    "properties": {
+      "vendor_or_provider": [
+        "SEPA"
+      ],
+      "technology_category": [
+        "payment messaging",
+        "single euro payments area"
+      ],
+      "role_in_solution": [
+        "supporting",
+        "target payment system"
+      ],
+      "maturity": [
+        "modern",
+        "regional standard"
+      ],
+      "key_characteristics": [
+        "handles euro payments",
+        "requires screening reconciliation"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_005",
+    "name": "First Payment",
+    "properties": {
+      "vendor_or_provider": [
+        "First Payment"
+      ],
+      "technology_category": [
+        "payment processing"
+      ],
+      "role_in_solution": [
+        "supporting",
+        "target payment system"
+      ],
+      "maturity": [
+        "modern"
+      ],
+      "key_characteristics": [
+        "processes payments",
+        "requires screening reconciliation"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_006",
+    "name": "Visa Fund Fast Funds",
+    "properties": {
+      "vendor_or_provider": [
+        "Visa"
+      ],
+      "technology_category": [
+        "payment network",
+        "instant funds"
+      ],
+      "role_in_solution": [
+        "supporting",
+        "target payment system"
+      ],
+      "maturity": [
+        "modern"
+      ],
+      "key_characteristics": [
+        "enables fast fund transfers",
+        "requires screening reconciliation"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_007",
+    "name": "Confluence",
+    "properties": {
+      "vendor_or_provider": [
+        "Atlassian"
+      ],
+      "technology_category": [
+        "knowledge management",
+        "documentation",
+        "collaboration"
+      ],
+      "role_in_solution": [
+        "supporting",
+        "artifact repository"
+      ],
+      "maturity": [
+        "modern",
+        "standard"
+      ],
+      "key_characteristics": [
+        "hosts screening decision artifacts",
+        "tracks project documentation"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_eve_001",
+    "name": "July 12, 2023 Artifact Release",
+    "properties": {
+      "event_type": [
+        "artifact release",
+        "documentation update"
+      ],
+      "date_or_period": [
+        "July 12, 2023"
+      ],
+      "relevance_to_deal": [
+        "milestone",
+        "reference point for screening scope"
+      ],
+      "key_participants": [
+        "FCTP screening Delivery leads"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_004_org_001",
+    "name": "3rd Party Audit",
+    "properties": {
+      "org_type": [
+        "regulatory",
+        "compliance",
+        "audit firm"
+      ],
+      "relationship_to_offering": [
+        "regulates",
+        "identifies gaps"
+      ],
+      "impact": [
+        "identified data reconciliation gaps",
+        "triggered need for action plan"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_005_ev_001",
+    "name": "FCTP DR Assessment Report",
+    "properties": {
+      "event_type": "assessment_report",
+      "date_or_period": "9th February 2024",
+      "relevance_to_deal": "compliance_and_risk_assessment"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_001",
+    "name": "EDB",
+    "properties": {
+      "technology_category": "database",
+      "role_in_solution": "source_system",
+      "key_characteristics": [
+        "Stores Country of birth data",
+        "Functions as CAO/SAO (Country of Origin/Source of Authority)"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_002",
+    "name": "SAMM",
+    "properties": {
+      "technology_category": "integration_layer",
+      "role_in_solution": "intermediary_system",
+      "key_characteristics": [
+        "Exposes countryOfBirth field via Webservice (PUT)"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_003",
+    "name": "PLPOS",
+    "properties": {
+      "technology_category": "database",
+      "role_in_solution": "intermediary_system",
+      "key_characteristics": [
+        "Stores CountryOfBirthCode in Applicant table"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_004",
+    "name": "Summit",
+    "properties": {
+      "technology_category": "core_banking_system",
+      "role_in_solution": "intermediary_system",
+      "key_characteristics": [
+        "Stores Country of birth in Cust_personal_details"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_005",
+    "name": "CIS",
+    "properties": {
+      "technology_category": "data_warehouse",
+      "role_in_solution": "intermediary_system",
+      "key_characteristics": [
+        "Stores COUBIRISO column in BA001 and CIS_CISODS_BA001_SRI tables",
+        "Functions as ODS and Database"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_006",
+    "name": "IMAS",
+    "properties": {
+      "technology_category": "compliance_system",
+      "role_in_solution": "target_system",
+      "key_characteristics": [
+        "Stores BIRTH_COUNTRY_CD in MLR_MCDD_HIST_ACC table",
+        "Functions as MLR (Money Laundering Reporting) system"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_007",
+    "name": "NeRDE",
+    "properties": {
+      "technology_category": "data_integration_platform",
+      "role_in_solution": "intermediary_system",
+      "key_characteristics": [
+        "Handles inbound files and feed/transform schemas",
+        "Processes BIRTH_COUNTRY_CD and COUNTRY_OF_ORIGIN fields",
+        "Feeds into Net Reveal Database"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_008",
+    "name": "Net Reveal Database",
+    "properties": {
+      "technology_category": "database",
+      "role_in_solution": "target_system",
+      "key_characteristics": [
+        "Stores COUNTRY_OF_ORIGIN in CUSTOMERS table"
+      ]
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_005_cap_001",
+    "name": "Data Reconciliation Controls and Checks",
+    "properties": {
+      "what_it_does": "Validates customer data transmission integrity at the CDE level",
+      "technical_components": [
+        "Record count matching between source and target",
+        "String/checksum matching for every customer record",
+        "Format and data type validation",
+        "Invalid data flagging and target system alerting"
+      ],
+      "delivery_maturity": "proven",
+      "differentiating_aspect": "Ensures strict data fidelity and prevents unauthorized modifications across transmission"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_005_cap_002",
+    "name": "Interface Level Key Controls",
+    "properties": {
+      "what_it_does": "Enforces operational controls and error handling at the interface level",
+      "technical_components": [
+        "Job control (system audit, error threshold, altering & restart process)",
+        "Automatic halt on data/count mismatch exceeding threshold",
+        "Alert triggering on breach",
+        "Detailed logging with issue highlighting for resolution"
+      ],
+      "delivery_maturity": "proven",
+      "differentiating_aspect": "Prevents data corruption propagation by halting loads and enforcing strict audit trails"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_005_cap_003",
+    "name": "Country of Origin Data Maintenance",
+    "properties": {
+      "what_it_does": "Ensures the ‘Country of Origin’ data element remains unaltered from entry to utilization",
+      "technical_components": [
+        "Strict prohibition of modification/alteration/update",
+        "End-to-end state preservation across intermediary systems"
+      ],
+      "delivery_maturity": "proven",
+      "differentiating_aspect": "Enforces zero-tolerance policy for data alteration to maintain compliance and risk rating accuracy"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_005_use_001",
+    "name": "Customer Due Diligence (CDD)",
+    "properties": {
+      "problem_context": "Deriving and maintaining accurate Country of Origin data for risk rating and compliance",
+      "approach": "Extracting CDE from CDD output and enforcing strict data controls across systems",
+      "industry": "banking/financial services",
+      "outcome_achieved": "Accurate risk rating and regulatory compliance"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_005_org_001",
+    "name": "FCTP",
+    "properties": {
+      "org_type": "client",
+      "relationship_to_offering": "client"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "id": "fb66b39b82704ca2826c9e19d2eab6f6_005_off_001",
+    "name": "Business Control Framework",
+    "properties": {
+      "offering_type": "framework",
+      "scope": "Data controls and reconciliation for CDEs across systems",
+      "key_phases_or_components": [
+        "Data Reconciliation Controls and Checks",
+        "Interface Level Key Controls"
+      ],
+      "target_client_profile": "financial institutions requiring strict data integrity and compliance"
+    },
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  }
+]

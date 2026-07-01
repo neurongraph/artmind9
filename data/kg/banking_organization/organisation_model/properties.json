@@ -1,0 +1,1947 @@
+[
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_001_org_001",
+    "name": "FirstUK Bank",
+    "properties": {},
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_001",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_001_org_002",
+    "name": "Enterprise Architecture",
+    "properties": {},
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_001",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_001_rol_001",
+    "name": "Chief Operating Officer",
+    "properties": {
+      "department_or_unit": [
+        "Enterprise Architecture"
+      ],
+      "accountable_for": [
+        "Organisation Model document ownership"
+      ],
+      "key_responsibilities": [
+        "Document oversight and approval"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_001",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_002_org_001",
+    "name": "FirstUK Bank",
+    "properties": {
+      "mission": "UK retail banking institution",
+      "location": [
+        "London"
+      ],
+      "key_functions": [
+        "product delivery",
+        "risk management",
+        "regulatory compliance"
+      ],
+      "structure_type": "functional",
+      "founded_year": 2018
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_002",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_002_org_002",
+    "name": "Financial Conduct Authority",
+    "properties": {
+      "regulatory_responsibilities": [
+        "oversight of FirstUK Bank's conduct and compliance"
+      ],
+      "reference_document": [
+        "FCA Handbook"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_002",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_002_org_003",
+    "name": "Prudential Regulation Authority",
+    "properties": {
+      "regulatory_responsibilities": [
+        "oversight of FirstUK Bank's prudential standards"
+      ],
+      "reference_document": [
+        "PRA Rulebook"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_002",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_002_met_004",
+    "name": "Customer Base Size",
+    "properties": {
+      "value": 500,
+      "unit": "customers",
+      "what_it_measures": "Total number of active retail banking clients served",
+      "context": "Indicates the scale of FirstUK Bank's customer reach"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_002",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_002_met_005",
+    "name": "Branch Network Size",
+    "properties": {
+      "value": 12,
+      "unit": "branches",
+      "what_it_measures": "Total number of physical retail locations operating",
+      "context": "Reflects the geographic footprint and customer access infrastructure"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_002",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_003_org_001",
+    "name": "Board of Directors",
+    "properties": {
+      "reporting_to": [],
+      "cross_functional_interfaces": [
+        "Chief Executive Officer",
+        "Chief Financial Officer",
+        "Chief Operating Officer"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_003",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_003_rol_001",
+    "name": "Chief Executive Officer",
+    "properties": {
+      "reports_to": [
+        "Board of Directors"
+      ],
+      "department_or_unit": [
+        "Executive Leadership"
+      ],
+      "accountable_for": [
+        "Retail Banking unit"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_003",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_003_rol_002",
+    "name": "Chief Financial Officer",
+    "properties": {
+      "reports_to": [
+        "Board of Directors"
+      ],
+      "department_or_unit": [
+        "Executive Leadership"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_003",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_003_rol_003",
+    "name": "Chief Operating Officer",
+    "properties": {
+      "reports_to": [
+        "Board of Directors"
+      ],
+      "department_or_unit": [
+        "Executive Leadership"
+      ],
+      "accountable_for": [
+        "Risk & Compliance unit",
+        "Technology unit"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_003",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_003_org_002",
+    "name": "Retail Banking",
+    "properties": {
+      "reporting_to": [
+        "Chief Executive Officer"
+      ],
+      "key_functions": [
+        "retail customer services"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_003",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_003_org_003",
+    "name": "Risk & Compliance",
+    "properties": {
+      "reporting_to": [
+        "Chief Operating Officer"
+      ],
+      "key_functions": [
+        "risk management",
+        "regulatory compliance"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_003",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_003_org_004",
+    "name": "Technology",
+    "properties": {
+      "reporting_to": [
+        "Chief Operating Officer"
+      ],
+      "key_functions": [
+        "IT infrastructure",
+        "system development"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_003",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_004_rol_001",
+    "name": "Chief Executive Officer",
+    "properties": {
+      "reports_to": [
+        "Board of Directors"
+      ],
+      "key_responsibilities": [
+        "Overall strategic direction",
+        "Business performance",
+        "Board liaison"
+      ],
+      "department_or_unit": [
+        "Office of the Chief Executive Officer"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_004",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_004_org_001",
+    "name": "Board of Directors",
+    "properties": {},
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_004",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_004_org_002",
+    "name": "Office of the Chief Executive Officer",
+    "properties": {},
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_004",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_005_rol_001",
+    "name": "Chief Financial Officer",
+    "properties": {
+      "reports_to": [
+        "Board of Directors"
+      ],
+      "key_responsibilities": [
+        "Financial management",
+        "Treasury",
+        "Financial reporting",
+        "Capital management"
+      ],
+      "department_or_unit": [
+        "Finance"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_005",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_005_org_001",
+    "name": "Board of Directors",
+    "properties": {},
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_005",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_005_org_002",
+    "name": "Finance Department",
+    "properties": {
+      "key_functions": [
+        "Financial management",
+        "Treasury",
+        "Financial reporting",
+        "Capital management"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_005",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_006_rol_001",
+    "name": "Chief Operating Officer",
+    "properties": {
+      "reports_to": [
+        "Board of Directors"
+      ],
+      "key_responsibilities": [
+        "Operational efficiency",
+        "Business process management",
+        "Technology governance",
+        "Internal audit"
+      ],
+      "department_or_unit": [
+        "Operations Department"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_006",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_006_org_001",
+    "name": "Board of Directors",
+    "properties": {},
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_006",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_006_org_002",
+    "name": "Operations Department",
+    "properties": {},
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_006",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_007_org_001",
+    "name": "Retail Banking",
+    "properties": {
+      "mission": [
+        "Deliver consumer banking products and services"
+      ],
+      "key_functions": [
+        "Product Management",
+        "Account Services",
+        "Customer Service",
+        "Sales & Onboarding",
+        "Branch Operations"
+      ],
+      "chair_or_head": [
+        "Director of Retail Banking"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_007_rol_001",
+    "name": "Director of Retail Banking",
+    "properties": {
+      "department_or_unit": [
+        "Retail Banking"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_007_org_002",
+    "name": "Product Management",
+    "properties": {
+      "reporting_to": [
+        "Retail Banking"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_007_org_003",
+    "name": "Account Services",
+    "properties": {
+      "reporting_to": [
+        "Retail Banking"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_007_org_004",
+    "name": "Customer Service",
+    "properties": {
+      "reporting_to": [
+        "Retail Banking"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_007_org_005",
+    "name": "Sales & Onboarding",
+    "properties": {
+      "reporting_to": [
+        "Retail Banking"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_007_org_006",
+    "name": "Branch Operations",
+    "properties": {
+      "reporting_to": [
+        "Retail Banking"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_007_met_001",
+    "name": "Customer acquisition",
+    "properties": {
+      "value": 50,
+      "unit": "per quarter",
+      "frequency": "quarterly",
+      "owner": [
+        "Retail Banking"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_007_met_002",
+    "name": "Account activation rate",
+    "properties": {
+      "value": 92,
+      "unit": "%",
+      "owner": [
+        "Retail Banking"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_007_met_003",
+    "name": "Net Promoter Score (NPS)",
+    "properties": {
+      "value": 68,
+      "unit": "score",
+      "owner": [
+        "Retail Banking"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_007_met_004",
+    "name": "Customer retention",
+    "properties": {
+      "value": 94,
+      "unit": "%",
+      "owner": [
+        "Retail Banking"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_007_bnk_001",
+    "name": "SmartSaver Account",
+    "properties": {
+      "relationships_to": [
+        "Retail Banking"
+      ],
+      "definition": [
+        "Primary consumer banking product offered by Retail Banking"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_007_bnk_002",
+    "name": "Current Accounts",
+    "properties": {
+      "relationships_to": [
+        "Retail Banking"
+      ],
+      "definition": [
+        "Primary transactional banking product offered by Retail Banking"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_007_bnk_003",
+    "name": "Mortgages",
+    "properties": {
+      "relationships_to": [
+        "Retail Banking"
+      ],
+      "definition": [
+        "Primary lending product offered by Retail Banking"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_007_bnk_004",
+    "name": "Debit Cards",
+    "properties": {
+      "relationships_to": [
+        "Retail Banking"
+      ],
+      "definition": [
+        "Primary payment instrument product offered by Retail Banking"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_008_org_001",
+    "name": "Risk & Compliance",
+    "properties": {
+      "mission": "Protect FirstUK Bank through proactive risk identification and regulatory compliance",
+      "key_functions": [
+        "Compliance",
+        "Financial Crime",
+        "Fraud Prevention",
+        "Risk Assessment",
+        "Internal Audit"
+      ],
+      "chair_or_head": "Chief Risk Officer",
+      "regulatory_responsibilities": [
+        "AML/KYC compliance",
+        "Customer Due Diligence (CDD)",
+        "Enhanced Due Diligence (EDD) for high-risk customers",
+        "Suspicious Activity Reporting (SAR)"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_008_rol_001",
+    "name": "Chief Risk Officer",
+    "properties": {
+      "department_or_unit": "Risk & Compliance",
+      "key_responsibilities": [
+        "Proactive risk identification",
+        "Regulatory compliance"
+      ],
+      "appointment_type": "executive"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_008_org_002",
+    "name": "Compliance",
+    "properties": {
+      "reporting_to": [
+        "Risk & Compliance"
+      ],
+      "key_functions": [
+        "Regulatory compliance oversight"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_008_org_003",
+    "name": "Financial Crime",
+    "properties": {
+      "reporting_to": [
+        "Risk & Compliance"
+      ],
+      "key_functions": [
+        "Financial crime management and prevention"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_008_org_004",
+    "name": "Internal Audit",
+    "properties": {
+      "reporting_to": [
+        "Risk & Compliance"
+      ],
+      "key_functions": [
+        "Independent audit and assurance"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_001",
+    "name": "AML/KYC Compliance",
+    "properties": {
+      "regulatory_significance": "Core regulatory responsibility mandated for the Risk & Compliance unit",
+      "relationships_to": [
+        "Risk & Compliance"
+      ],
+      "ontology_domain": "Compliance"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_002",
+    "name": "Customer Due Diligence",
+    "properties": {
+      "regulatory_significance": "Mandatory compliance requirement for standard customer verification",
+      "relationships_to": [
+        "Risk & Compliance"
+      ],
+      "ontology_domain": "Compliance"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_003",
+    "name": "Enhanced Due Diligence",
+    "properties": {
+      "definition": "Intensive due diligence process applied to high-risk customers",
+      "regulatory_significance": "Required for elevated risk profiles",
+      "relationships_to": [
+        "Risk & Compliance"
+      ],
+      "ontology_domain": "Compliance"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_004",
+    "name": "Suspicious Activity Reporting",
+    "properties": {
+      "regulatory_significance": "Mandatory reporting obligation to regulatory authorities",
+      "relationships_to": [
+        "Risk & Compliance"
+      ],
+      "ontology_domain": "Compliance"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_005",
+    "name": "Fraud Prevention",
+    "properties": {
+      "regulatory_significance": "Operational risk mitigation requirement",
+      "relationships_to": [
+        "Risk & Compliance"
+      ],
+      "ontology_domain": "Risk Management"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_006",
+    "name": "Risk Assessment",
+    "properties": {
+      "regulatory_significance": "Core component of proactive risk identification",
+      "relationships_to": [
+        "Risk & Compliance"
+      ],
+      "ontology_domain": "Risk Management"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_008_rul_001",
+    "name": "Customer Identification Policy",
+    "properties": {
+      "rule_statement": "Mandates customer identification procedures during onboarding",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Customer onboarding processes"
+      ],
+      "enforcement": "Risk & Compliance unit"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_008_rul_002",
+    "name": "AML Policy",
+    "properties": {
+      "rule_statement": "Establishes anti-money laundering controls and procedures",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Financial crime and compliance operations"
+      ],
+      "enforcement": "Risk & Compliance unit"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_008_rul_003",
+    "name": "Operational Risk Policy",
+    "properties": {
+      "rule_statement": "Defines operational risk management frameworks and controls",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Bank operations and processes"
+      ],
+      "enforcement": "Risk & Compliance unit"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_008_rul_004",
+    "name": "Privacy Policy",
+    "properties": {
+      "rule_statement": "Governs data privacy and protection standards",
+      "rule_type": "obligation",
+      "applies_to": [
+        "All customer data handling"
+      ],
+      "enforcement": "Risk & Compliance unit"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_009_org_001",
+    "name": "Technology",
+    "properties": {
+      "mission": "Provide secure, scalable technology infrastructure",
+      "key_functions": [
+        "Enterprise Architecture",
+        "Application Development",
+        "Infrastructure & Operations",
+        "Information Security",
+        "Data Management"
+      ],
+      "chair_or_head": "Chief Technology Officer",
+      "vision": [
+        "Microservices-based architecture",
+        "Cloud-ready infrastructure",
+        "Real-time data processing",
+        "API-first integration model"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_009",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_009_rol_001",
+    "name": "Chief Technology Officer",
+    "properties": {
+      "department_or_unit": "Technology"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_009",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_009_org_002",
+    "name": "Enterprise Architecture",
+    "properties": {
+      "reporting_to": "Technology",
+      "key_functions": [
+        "Enterprise Architecture"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_009",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_009_org_003",
+    "name": "Application Development",
+    "properties": {
+      "reporting_to": "Technology",
+      "key_functions": [
+        "Application Development"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_009",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_009_org_004",
+    "name": "Infrastructure & Operations",
+    "properties": {
+      "reporting_to": "Technology",
+      "key_functions": [
+        "Infrastructure & Operations"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_009",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_009_org_005",
+    "name": "Information Security",
+    "properties": {
+      "reporting_to": "Technology",
+      "key_functions": [
+        "Information Security"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_009",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_009_org_006",
+    "name": "Data Management",
+    "properties": {
+      "reporting_to": "Technology",
+      "key_functions": [
+        "Data Management"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_009",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_011_org_001",
+    "name": "Retail Banking",
+    "properties": {
+      "key_functions": [
+        "Product delivery",
+        "Customer acquisition"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_011",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_011_org_002",
+    "name": "Product Management",
+    "properties": {
+      "key_functions": [
+        "Product lifecycle",
+        "Pricing",
+        "Features"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_011",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_011_org_003",
+    "name": "Operations",
+    "properties": {
+      "key_functions": [
+        "Back-office processes",
+        "Settlements"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_011",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_011_org_004",
+    "name": "Customer Service",
+    "properties": {
+      "key_functions": [
+        "Support",
+        "Complaints",
+        "Retention"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_011",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_011_org_005",
+    "name": "Financial Crime",
+    "properties": {
+      "key_functions": [
+        "AML",
+        "Sanctions",
+        "Fraud"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_011",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_011_org_006",
+    "name": "Compliance",
+    "properties": {
+      "key_functions": [
+        "Regulatory reporting",
+        "Internal controls"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_011",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_011_org_007",
+    "name": "Risk",
+    "properties": {
+      "key_functions": [
+        "Enterprise risk",
+        "Credit risk",
+        "Operational risk"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_011",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_011_org_008",
+    "name": "Technology",
+    "properties": {
+      "key_functions": [
+        "Systems",
+        "Infrastructure",
+        "Security"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_011",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_011_org_009",
+    "name": "Enterprise Architecture",
+    "properties": {
+      "key_functions": [
+        "Technology strategy",
+        "Integration design"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_011",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_011_org_010",
+    "name": "Marketing",
+    "properties": {
+      "key_functions": [
+        "Brand",
+        "Campaigns",
+        "Market positioning"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_011",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_011_org_011",
+    "name": "Legal",
+    "properties": {
+      "key_functions": [
+        "Contracts",
+        "Regulatory affairs",
+        "Litigation"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_011",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_011_org_012",
+    "name": "Internal Audit",
+    "properties": {
+      "key_functions": [
+        "Control testing",
+        "Audit findings"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_011",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_org_001",
+    "name": "Board Risk Committee",
+    "properties": {
+      "key_functions": [
+        "Product Launch Approval"
+      ],
+      "decision_scope": [
+        "Product Launch"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_org_002",
+    "name": "Compliance Committee",
+    "properties": {
+      "key_functions": [
+        "Policy Changes Approval"
+      ],
+      "decision_scope": [
+        "Policy Changes"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_org_003",
+    "name": "Board Technology Committee",
+    "properties": {
+      "key_functions": [
+        "Technology Investment Approval (>£500k)"
+      ],
+      "decision_scope": [
+        "Technology Investment >£500k"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_org_004",
+    "name": "Executive Committee",
+    "properties": {
+      "key_functions": [
+        "Pricing Changes Approval"
+      ],
+      "decision_scope": [
+        "Pricing Changes"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_org_005",
+    "name": "Risk Committee",
+    "properties": {
+      "key_functions": [
+        "Risk Exceptions Approval"
+      ],
+      "decision_scope": [
+        "Risk Exceptions"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_org_006",
+    "name": "Management",
+    "properties": {
+      "key_functions": [
+        "Customer Escalations Handling"
+      ],
+      "escalation_process": [
+        "Department Head + Escalation Matrix"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_rol_001",
+    "name": "Chief Risk Officer",
+    "properties": {
+      "decision_authority": [
+        "Product Launch",
+        "Policy Changes",
+        "Risk Exceptions"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_rol_002",
+    "name": "Chief Executive Officer",
+    "properties": {
+      "decision_authority": [
+        "Policy Changes",
+        "Pricing Changes",
+        "Risk Exceptions"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_rol_003",
+    "name": "Chief Operating Officer",
+    "properties": {
+      "decision_authority": [
+        "Policy Changes"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_rol_004",
+    "name": "Chief Technology Officer",
+    "properties": {
+      "decision_authority": [
+        "Technology Investment >£500k"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_rol_005",
+    "name": "Chief Financial Officer",
+    "properties": {
+      "decision_authority": [
+        "Technology Investment >£500k",
+        "Pricing Changes"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_rol_006",
+    "name": "Business Unit Head",
+    "properties": {
+      "decision_authority": [
+        "Product Launch",
+        "Pricing Changes"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_rol_007",
+    "name": "Board",
+    "properties": {
+      "decision_authority": [
+        "Product Launch",
+        "Technology Investment >£500k"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_rol_008",
+    "name": "Department Head",
+    "properties": {
+      "decision_authority": [
+        "Customer Escalations"
+      ],
+      "escalation_process": [
+        "Department Head + Escalation Matrix"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_met_001",
+    "name": "Technology Investment Budget Threshold",
+    "properties": {
+      "value": 500,
+      "unit": "GBP",
+      "what_it_measures": "Minimum investment amount triggering Board Technology Committee approval",
+      "context": "Governance framework for technology capital allocation"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_rul_001",
+    "name": "Product Launch Approval Rule",
+    "properties": {
+      "rule_statement": "Product launches require joint approval from the Board Risk Committee, Board, CRO, and Business Unit Head.",
+      "rule_type": "authority",
+      "applies_to": [
+        "Product Launch"
+      ],
+      "enforcement": "Board Risk Committee"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_rul_002",
+    "name": "Policy Changes Approval Rule",
+    "properties": {
+      "rule_statement": "Policy changes require joint approval from the Compliance Committee, CRO, COO, and CEO.",
+      "rule_type": "authority",
+      "applies_to": [
+        "Policy Changes"
+      ],
+      "enforcement": "Compliance Committee"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_rul_003",
+    "name": "Technology Investment Approval Rule",
+    "properties": {
+      "rule_statement": "Technology investments exceeding £500k require joint approval from the Board Technology Committee, Board, CTO, and CFO.",
+      "rule_type": "threshold",
+      "applies_to": [
+        "Technology Investment >£500k"
+      ],
+      "enforcement": "Board Technology Committee"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_rul_004",
+    "name": "Pricing Changes Approval Rule",
+    "properties": {
+      "rule_statement": "Pricing changes require joint approval from the Executive Committee, CEO, CFO, and Business Unit Head.",
+      "rule_type": "authority",
+      "applies_to": [
+        "Pricing Changes"
+      ],
+      "enforcement": "Executive Committee"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_rul_005",
+    "name": "Risk Exceptions Approval Rule",
+    "properties": {
+      "rule_statement": "Risk exceptions require joint approval from the Risk Committee, CRO, and CEO.",
+      "rule_type": "authority",
+      "applies_to": [
+        "Risk Exceptions"
+      ],
+      "enforcement": "Risk Committee"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_rul_006",
+    "name": "Customer Escalations Handling Rule",
+    "properties": {
+      "rule_statement": "Customer escalations are handled by Management via the Department Head and a defined Escalation Matrix.",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Customer Escalations"
+      ],
+      "enforcement": "Management"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_013_org_001",
+    "name": "Branch Network",
+    "properties": {
+      "headcount": 30,
+      "branch_count": 12,
+      "key_functions": [
+        "network oversight",
+        "staffing coordination"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_013",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_013_met_001",
+    "name": "Branch Network Capacity",
+    "properties": {
+      "value": 12,
+      "unit": "count",
+      "what_it_measures": "Total number of physical branches in the network"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_013",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_013_met_002",
+    "name": "Branch Staffing Headcount",
+    "properties": {
+      "value": 30,
+      "unit": "count",
+      "what_it_measures": "Total employee count across all branches",
+      "context": "Approximately 2-3 staff per branch"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_013",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_014_rol_001",
+    "name": "Chief Executive Officer",
+    "properties": {
+      "accountable_for": [
+        "overall bank performance"
+      ],
+      "reports_to": [
+        "Board of Directors"
+      ],
+      "key_responsibilities": [
+        "Strategic initiatives",
+        "Board reporting"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_014",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_014_rol_002",
+    "name": "Chief Operating Officer",
+    "properties": {
+      "accountable_for": [
+        "operational efficiency"
+      ],
+      "key_responsibilities": [
+        "Process optimization",
+        "Technology delivery"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_014",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_014_rol_003",
+    "name": "Chief Risk Officer",
+    "properties": {
+      "accountable_for": [
+        "risk management"
+      ],
+      "key_responsibilities": [
+        "Regulatory compliance",
+        "Internal control effectiveness"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_014",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_014_rol_004",
+    "name": "Chief Technology Officer",
+    "properties": {
+      "accountable_for": [
+        "technology strategy"
+      ],
+      "key_responsibilities": [
+        "System reliability",
+        "Security posture"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_014",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_014_org_001",
+    "name": "Board of Directors",
+    "properties": {},
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_014",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_015_org_001",
+    "name": "Executive Committee",
+    "properties": {
+      "meeting_frequency": [
+        "Weekly"
+      ],
+      "members": [
+        "CEO",
+        "CFO",
+        "COO",
+        "CRO",
+        "CTO"
+      ],
+      "key_functions": [
+        "Strategic decision-making",
+        "Escalation"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_015",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_015_rol_001",
+    "name": "Chief Executive Officer",
+    "properties": {
+      "department_or_unit": [
+        "Executive Committee"
+      ],
+      "key_responsibilities": [
+        "Strategic decision-making",
+        "Escalation management"
+      ],
+      "decision_authority": [
+        "Strategic decisions",
+        "Escalated matters"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_015",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_015_rol_002",
+    "name": "Chief Financial Officer",
+    "properties": {
+      "department_or_unit": [
+        "Executive Committee"
+      ],
+      "key_responsibilities": [
+        "Strategic decision-making",
+        "Escalation management"
+      ],
+      "decision_authority": [
+        "Strategic decisions",
+        "Escalated matters"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_015",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_015_rol_003",
+    "name": "Chief Operating Officer",
+    "properties": {
+      "department_or_unit": [
+        "Executive Committee"
+      ],
+      "key_responsibilities": [
+        "Strategic decision-making",
+        "Escalation management"
+      ],
+      "decision_authority": [
+        "Strategic decisions",
+        "Escalated matters"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_015",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_015_rol_004",
+    "name": "Chief Risk Officer",
+    "properties": {
+      "department_or_unit": [
+        "Executive Committee"
+      ],
+      "key_responsibilities": [
+        "Strategic decision-making",
+        "Escalation management"
+      ],
+      "decision_authority": [
+        "Strategic decisions",
+        "Escalated matters"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_015",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_015_rol_005",
+    "name": "Chief Technology Officer",
+    "properties": {
+      "department_or_unit": [
+        "Executive Committee"
+      ],
+      "key_responsibilities": [
+        "Strategic decision-making",
+        "Escalation management"
+      ],
+      "decision_authority": [
+        "Strategic decisions",
+        "Escalated matters"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_015",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_015_rul_001",
+    "name": "Strategic Decision-Making and Escalation Authority",
+    "properties": {
+      "rule_statement": [
+        "Strategic decisions and escalations are governed by the Executive Committee"
+      ],
+      "rule_type": [
+        "Authority",
+        "Constraint"
+      ],
+      "applies_to": [
+        "Executive Committee",
+        "CEO",
+        "CFO",
+        "COO",
+        "CRO",
+        "CTO"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_015",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_016_org_001",
+    "name": "Board Risk Committee",
+    "properties": {
+      "mission": "Risk oversight",
+      "key_functions": [
+        "policy approval",
+        "audit review"
+      ],
+      "meeting_frequency": "Quarterly",
+      "members": [
+        "Board directors"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_016",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_016_rol_001",
+    "name": "Board Directors",
+    "properties": {
+      "department_or_unit": [
+        "Board Risk Committee"
+      ],
+      "key_responsibilities": [
+        "Risk oversight",
+        "Policy approval",
+        "Audit review"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_016",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_016_rul_001",
+    "name": "Quarterly Meeting Frequency",
+    "properties": {
+      "rule_statement": "The Board Risk Committee must convene meetings on a quarterly basis.",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Board Risk Committee"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_016",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_017_org_001",
+    "name": "Compliance Committee",
+    "properties": {
+      "meeting_frequency": [
+        "Monthly"
+      ],
+      "members": [
+        "Chief Risk Officer",
+        "Compliance Head",
+        "Legal Head",
+        "Business Heads"
+      ],
+      "key_functions": [
+        "Regulatory updates",
+        "policy changes",
+        "compliance metrics"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_017",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_017_rol_001",
+    "name": "Chief Risk Officer",
+    "properties": {},
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_017",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_017_rol_002",
+    "name": "Compliance Head",
+    "properties": {},
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_017",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_017_rol_003",
+    "name": "Legal Head",
+    "properties": {},
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_017",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_017_rol_004",
+    "name": "Business Heads",
+    "properties": {},
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_017",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_018_org_001",
+    "name": "Product Committee",
+    "properties": {
+      "meeting_frequency": [
+        "Bi-weekly"
+      ],
+      "members": [
+        "Product Management",
+        "Retail Banking",
+        "Risk",
+        "Compliance",
+        "Technology"
+      ],
+      "mission": [
+        "Product development",
+        "feature prioritization",
+        "launch planning"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_018",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_018_org_002",
+    "name": "Product Management",
+    "properties": {},
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_018",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_018_org_003",
+    "name": "Retail Banking",
+    "properties": {},
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_018",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_018_org_004",
+    "name": "Risk",
+    "properties": {},
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_018",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_018_org_005",
+    "name": "Compliance",
+    "properties": {},
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_018",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_018_org_006",
+    "name": "Technology",
+    "properties": {},
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_018",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_018_met_007",
+    "name": "Bi-weekly Meeting Frequency",
+    "properties": {
+      "value": "Bi-weekly",
+      "what_it_measures": [
+        "Product Committee meeting cadence"
+      ],
+      "frequency": "Bi-weekly"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_018",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_019_org_001",
+    "name": "Departments",
+    "properties": {
+      "key_functions": [
+        "documenting and maintaining organizational reporting relationships"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_019",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_019_rul_001",
+    "name": "Single Reporting Line Governance Principle",
+    "properties": {
+      "rule_statement": "Clear single reporting line with dotted-line relationships for cross-functional collaboration.",
+      "rule_type": "constraint",
+      "applies_to": [
+        "All organizational reporting relationships",
+        "Departments"
+      ],
+      "exception_process": "Dotted-line relationships are explicitly permitted to facilitate cross-functional collaboration without violating the primary reporting line."
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_019",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_020_org_001",
+    "name": "Customer-facing (Branch)",
+    "properties": {
+      "headcount": 12,
+      "location": [
+        "Branch network"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_020",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_020_org_002",
+    "name": "Product & Strategy",
+    "properties": {
+      "headcount": 4,
+      "location": [
+        "Head Office"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_020",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_020_org_003",
+    "name": "Operations",
+    "properties": {
+      "headcount": 5,
+      "location": [
+        "Head Office",
+        "Branches"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_020",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_020_org_004",
+    "name": "Risk & Compliance",
+    "properties": {
+      "headcount": 5,
+      "location": [
+        "Head Office"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_020",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_020_org_005",
+    "name": "Technology",
+    "properties": {
+      "headcount": 6,
+      "location": [
+        "Head Office"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_020",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_020_org_006",
+    "name": "Finance",
+    "properties": {
+      "headcount": 2,
+      "location": [
+        "Head Office"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_020",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_020_org_007",
+    "name": "Marketing",
+    "properties": {
+      "headcount": 1,
+      "location": [
+        "Head Office"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_020",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_020_met_001",
+    "name": "Total Headcount",
+    "properties": {
+      "value": "30+",
+      "unit": "count",
+      "what_it_measures": "Total number of employees and contractors across all organizational units"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_020",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_021_org_001",
+    "name": "Head Office",
+    "properties": {
+      "location": [
+        "London"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_021",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_022_rul_001",
+    "name": "Customer Identification Policy",
+    "properties": {
+      "policy_code": "CID-POL-001"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_022",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_022_rul_002",
+    "name": "AML Policy",
+    "properties": {
+      "policy_code": "AML-POL-002"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_022",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_022_rul_003",
+    "name": "Privacy Policy",
+    "properties": {
+      "policy_code": "PRI-POL-004"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_022",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_022_rul_004",
+    "name": "Operational Risk Policy",
+    "properties": {
+      "policy_code": "ORP-POL-003"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_022",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_022_rul_005",
+    "name": "Document Retention Policy",
+    "properties": {
+      "policy_code": "RET-POL-005"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_022",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_022_rul_006",
+    "name": "Complaint Handling Policy",
+    "properties": {
+      "policy_code": "COM-POL-006"
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_022",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_023_rol_001",
+    "name": "Chief Technology Officer",
+    "properties": {
+      "appointment_type": [
+        "executive"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_023",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_023_rol_002",
+    "name": "Chief Operating Officer",
+    "properties": {
+      "appointment_type": [
+        "executive"
+      ],
+      "key_responsibilities": [
+        "Operational reporting structure management",
+        "Document version control"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_023",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_023_rol_003",
+    "name": "Chief Executive Officer",
+    "properties": {
+      "appointment_type": [
+        "executive"
+      ],
+      "key_responsibilities": [
+        "Strategic restructuring oversight",
+        "Committee establishment"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_023",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_023_org_001",
+    "name": "Committees",
+    "properties": {
+      "key_functions": [
+        "Governance and oversight"
+      ],
+      "reporting_to": [
+        "Executive Leadership"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_023",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_023_met_001",
+    "name": "Headcount",
+    "properties": {
+      "what_it_measures": [
+        "Total number of staff across the organization"
+      ],
+      "frequency": [
+        "Per organizational update/version"
+      ],
+      "context": [
+        "Tracked alongside executive role additions and restructuring efforts"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_023",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_024_rol_001",
+    "name": "Chief Operating Officer",
+    "properties": {
+      "decision_authority": [
+        "Final sign-off",
+        "Document approval"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_024",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_024_rol_002",
+    "name": "Chief Executive Officer",
+    "properties": {
+      "decision_authority": [
+        "Final sign-off",
+        "Document approval"
+      ]
+    },
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_024",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+  }
+]

@@ -1,0 +1,4616 @@
+[
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_001_org_001",
+    "name": "FirstUK Bank",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "The primary banking institution referenced in the document metadata, serving as the overarching organizational entity for which the Branch Network documentation is authored, governed, and maintained.",
+    "context": [
+      "# FirstUK Bank — Branch Network"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_001",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_001_org_002",
+    "name": "Retail Banking",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "The specific internal department identified as the document owner, responsible for the governance, content authority, and maintenance of the Branch Network documentation.",
+    "context": [
+      "| Department | Retail Banking |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_001",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_001_rol_001",
+    "name": "Director of Retail Banking",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "director",
+    "description": "The named leadership role designated as the document owner, holding defined accountability for the Branch Network metadata and its associated governance framework.",
+    "context": [
+      "| Owner | Director of Retail Banking |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_001",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_002_org_001",
+    "name": "FirstUK Bank",
+    "aliases": [
+      "FirstUK"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "The primary banking entity operating a network of 12 branches across the United Kingdom. The organization delivers full retail banking services including account opening, customer service, and cash handling to serve customer bases in major metropolitan areas and regional centers.",
+    "context": [
+      "FirstUK Bank operates 12 branches across the United Kingdom",
+      "Branches provide full banking services including account opening, customer service, and cash handling."
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_002",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_002_org_002",
+    "name": "Head Office London",
+    "aliases": [
+      "Head Office"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "The central administrative and governance location for FirstUK Bank's operations, situated in London. It serves as the primary hub coordinating the bank's 12-branch network across major metropolitan areas and regional centers.",
+    "context": [
+      "Head Office: London",
+      "strategically located to serve customer bases in major metropolitan areas and regional centers."
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_002",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_002_met_003",
+    "name": "Total Branches",
+    "aliases": [
+      "Branch Count"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "The quantitative measure of the bank's physical retail network capacity, currently established at 12 branches. This metric defines the scale of the bank's geographic footprint across major metropolitan areas and regional centers in the United Kingdom.",
+    "context": [
+      "Total Branches: 12",
+      "operates 12 branches across the United Kingdom"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_002",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_002_met_004",
+    "name": "Total Branch Staff",
+    "aliases": [
+      "Branch Headcount"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "headcount",
+    "description": "The total number of employees allocated to the bank's branch network, currently at 12 staff members. This metric specifies a staffing density of 1–2 personnel per branch to support full banking service delivery.",
+    "context": [
+      "Total Branch Staff: 12 (1–2 per branch)",
+      "Branches provide full banking services including account opening, customer service, and cash handling."
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_002",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_002_met_005",
+    "name": "Service Hours",
+    "aliases": [
+      "Operating Schedule"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "availability_target",
+    "description": "The defined operational availability window for branch services, specifying weekday hours from 09:00 to 17:00 and Saturday hours from 09:00 to 13:00. This metric establishes the standard customer access schedule across all 12 branches.",
+    "context": [
+      "Service Hours: Monday–Friday 09:00–17:00, Saturday 09:00–13:00",
+      "Branches provide full banking services including account opening, customer service, and cash handling."
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_002",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_org_001",
+    "name": "London Head Office",
+    "aliases": [
+      "Head Office",
+      "London HO"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "The central administrative and operational hub for FirstUK Bank's physical branch network, located in Greater London. Serves as the primary reference point for regional oversight, staff deployment, and customer base estimation.",
+    "context": [
+      "London Head Office | London | Greater London | Sarah Williams | 3 | N/A"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_org_002",
+    "name": "London Canary Wharf",
+    "aliases": [
+      "Canary Wharf Branch"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A key commercial branch operating within the Greater London region, focused on serving business and retail clients in the Canary Wharf financial district.",
+    "context": [
+      "London Canary Wharf | London | Greater London | James Chen | 2 | 85"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_org_003",
+    "name": "Manchester Central",
+    "aliases": [
+      "Manchester Branch"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A regional branch operating in the North West, positioned to serve retail and commercial clients across Manchester's central business district.",
+    "context": [
+      "Manchester Central | Manchester | North West | Emma Thompson | 1 | 68"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_org_004",
+    "name": "Birmingham Business",
+    "aliases": [
+      "Birmingham Branch"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A Midlands-focused branch designed to support local commercial and retail banking operations within the Birmingham region.",
+    "context": [
+      "Birmingham Business | Birmingham | Midlands | Michael O'Brien | 1 | 62"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_org_005",
+    "name": "Leeds Financial",
+    "aliases": [
+      "Leeds Branch"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A Yorkshire-region branch positioned to deliver financial services and client support across the Leeds metropolitan area.",
+    "context": [
+      "Leeds Financial | Leeds | Yorkshire | Rachel Murphy | 1 | 55"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_org_006",
+    "name": "Bristol South",
+    "aliases": [
+      "Bristol Branch"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A South West regional branch serving retail and commercial banking needs across the Bristol metropolitan corridor.",
+    "context": [
+      "Bristol South | Bristol | South West | David Kumar | 1 | 51"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_org_007",
+    "name": "Edinburgh Royal",
+    "aliases": [
+      "Edinburgh Branch"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A Scotland-region branch operating within Edinburgh, providing localized banking services and client relationship management.",
+    "context": [
+      "Edinburgh Royal | Edinburgh | Scotland | Fiona MacLeod | 1 | 48"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_org_008",
+    "name": "Glasgow Merchant",
+    "aliases": [
+      "Glasgow Branch"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A Scotland-region branch positioned in Glasgow to support merchant, retail, and commercial banking operations.",
+    "context": [
+      "Glasgow Merchant | Glasgow | Scotland | Andrew Stewart | 1 | 42"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_org_009",
+    "name": "Liverpool Pier",
+    "aliases": [
+      "Liverpool Branch"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A North West regional branch operating in Liverpool, delivering localized banking services and customer support.",
+    "context": [
+      "Liverpool Pier | Liverpool | North West | Catherine Brown | 1 | 38"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_org_010",
+    "name": "Norwich Market",
+    "aliases": [
+      "Norwich Branch"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "An East Anglia-region branch serving retail and commercial clients across the Norwich market area.",
+    "context": [
+      "Norwich Market | Norwich | East Anglia | Peter Newton | 1 | 35"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_org_011",
+    "name": "Southampton Water",
+    "aliases": [
+      "Southampton Branch"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A Southern-region branch positioned in Southampton to support local banking operations and customer engagement.",
+    "context": [
+      "Southampton Water | Southampton | South | Jennifer Adams | 1 | 32"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_org_012",
+    "name": "Belfast Central",
+    "aliases": [
+      "Belfast Branch"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A Northern Ireland-region branch operating in Belfast, serving as the primary physical banking touchpoint for the region.",
+    "context": [
+      "Belfast Central | Belfast | Northern Ireland | Thomas O'Donnell | 1 | 28"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_rol_001",
+    "name": "Sarah Williams",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "Branch Manager responsible for the operational oversight, staff coordination, and customer service delivery at London Head Office.",
+    "context": [
+      "London Head Office | London | Greater London | Sarah Williams | 3 | N/A"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_rol_002",
+    "name": "James Chen",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "Branch Manager overseeing daily operations, client relationships, and service delivery at the London Canary Wharf location.",
+    "context": [
+      "London Canary Wharf | London | Greater London | James Chen | 2 | 85"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_rol_003",
+    "name": "Emma Thompson",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "Branch Manager accountable for operational execution and customer engagement at the Manchester Central branch.",
+    "context": [
+      "Manchester Central | Manchester | North West | Emma Thompson | 1 | 68"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_rol_004",
+    "name": "Michael O'Brien",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "Branch Manager responsible for branch performance, staff supervision, and client service delivery at Birmingham Business.",
+    "context": [
+      "Birmingham Business | Birmingham | Midlands | Michael O'Brien | 1 | 62"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_rol_005",
+    "name": "Rachel Murphy",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "Branch Manager overseeing operational activities and customer relationship management at Leeds Financial.",
+    "context": [
+      "Leeds Financial | Leeds | Yorkshire | Rachel Murphy | 1 | 55"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_rol_006",
+    "name": "David Kumar",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "Branch Manager accountable for branch operations, staff coordination, and service delivery at Bristol South.",
+    "context": [
+      "Bristol South | Bristol | South West | David Kumar | 1 | 51"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_rol_007",
+    "name": "Fiona MacLeod",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "Branch Manager responsible for operational oversight and customer engagement at Edinburgh Royal.",
+    "context": [
+      "Edinburgh Royal | Edinburgh | Scotland | Fiona MacLeod | 1 | 48"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_rol_008",
+    "name": "Andrew Stewart",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "Branch Manager overseeing daily branch operations, staff supervision, and client service delivery at Glasgow Merchant.",
+    "context": [
+      "Glasgow Merchant | Glasgow | Scotland | Andrew Stewart | 1 | 42"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_rol_009",
+    "name": "Catherine Brown",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "Branch Manager accountable for operational execution and customer relationship management at Liverpool Pier.",
+    "context": [
+      "Liverpool Pier | Liverpool | North West | Catherine Brown | 1 | 38"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_rol_010",
+    "name": "Peter Newton",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "Branch Manager responsible for branch performance, staff coordination, and service delivery at Norwich Market.",
+    "context": [
+      "Norwich Market | Norwich | East Anglia | Peter Newton | 1 | 35"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_rol_011",
+    "name": "Jennifer Adams",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "Branch Manager overseeing operational activities and customer engagement at Southampton Water.",
+    "context": [
+      "Southampton Water | Southampton | South | Jennifer Adams | 1 | 32"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_rol_012",
+    "name": "Thomas O'Donnell",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "Branch Manager accountable for branch operations, staff supervision, and client service delivery at Belfast Central.",
+    "context": [
+      "Belfast Central | Belfast | Northern Ireland | Thomas O'Donnell | 1 | 28"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_004_org_001",
+    "name": "London Head Office",
+    "aliases": [
+      "Head Office",
+      "London HQ"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "Serves as the primary headquarters and executive offices for FirstUK Bank in Greater London, housing the main operations center and cash vault. Operates Monday to Friday with extended hours designated specifically for staff support.",
+    "context": [
+      "London Head Office",
+      "Key Functions: Headquarters, executive offices, main operations center",
+      "Facilities: Main office, customer meeting rooms, cash vault"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_004",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_004_org_002",
+    "name": "London Canary Wharf",
+    "aliases": [
+      "Canary Wharf Branch",
+      "CW Branch"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "A retail branch location in Greater London focused on customer service, account opening, and teller services. Features extended Saturday operating hours to support customer deposits and withdrawals alongside standard weekday operations.",
+    "context": [
+      "London Canary Wharf",
+      "Services: Account opening, deposits, withdrawals, product inquiries",
+      "Estimated Customers: 85"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_004",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_004_rol_001",
+    "name": "Branch Manager - Sarah Williams",
+    "aliases": [
+      "Sarah Williams",
+      "Head Office Manager"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "Holds the Branch Manager role with accountability for the London Head Office operations, overseeing a three-person staff structure that includes a Senior Officer and an Officer.",
+    "context": [
+      "Branch Manager: Sarah Williams",
+      "Staff: 3 (Manager, Senior Officer, Officer)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_004",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_004_rol_002",
+    "name": "Branch Manager - James Chen",
+    "aliases": [
+      "James Chen",
+      "Canary Wharf Manager"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "Holds the Branch Manager role with accountability for the London Canary Wharf branch, managing a two-person staff focused on customer service and account opening functions.",
+    "context": [
+      "Branch Manager: James Chen",
+      "Staff: 2 (Manager, Officer)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_004",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_004_met_001",
+    "name": "Head Office Staffing Level",
+    "aliases": [
+      "Head Office Staff Count"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "headcount",
+    "description": "Operational headcount target for the London Head Office branch, comprising one Manager, one Senior Officer, and one Officer to support executive and main operations center functions.",
+    "context": [
+      "Staff: 3 (Manager, Senior Officer, Officer)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_004",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_004_met_002",
+    "name": "Canary Wharf Branch Staffing Level",
+    "aliases": [
+      "CW Staff Count"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "headcount",
+    "description": "Operational headcount target for the London Canary Wharf branch, comprising one Manager and one Officer to support customer service and account opening services.",
+    "context": [
+      "Staff: 2 (Manager, Officer)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_004",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_004_met_003",
+    "name": "Canary Wharf Estimated Customer Base",
+    "aliases": [
+      "CW Customer Count"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "Projected or recorded customer volume metric for the London Canary Wharf branch operations, indicating a baseline capacity of 85 customers.",
+    "context": [
+      "Estimated Customers: 85"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_004",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_005_org_001",
+    "name": "North West Region",
+    "aliases": [
+      "North West"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A regional branch network overseeing two physical retail locations in Manchester and Liverpool. It is responsible for local operational management, staff allocation, and customer service delivery across the designated geographic area.",
+    "context": [
+      "### North West (2 branches)",
+      "- **Manchester Central**",
+      "- **Liverpool Pier**"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_005",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_005_org_002",
+    "name": "Manchester Central Branch",
+    "aliases": [
+      "Manchester Central"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "A physical retail branch located at Deansgate House in Manchester. The facility provides dedicated customer service and account opening desks, operating under a single branch manager with one allocated staff member.",
+    "context": [
+      "**Manchester Central**",
+      "- **Address:** Deansgate House, Manchester, M3 2BA",
+      "- **Branch Manager:** Emma Thompson",
+      "- **Facilities:** Customer service counter, account opening desk"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_005",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_005_org_003",
+    "name": "Liverpool Pier Branch",
+    "aliases": [
+      "Liverpool Pier"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "A physical retail branch situated at Pier Head in Liverpool. The location offers customer service and account opening facilities, managed by a dedicated branch manager with a single staff allocation.",
+    "context": [
+      "**Liverpool Pier**",
+      "- **Address:** Pier Head, Liverpool, L3 1TY",
+      "- **Branch Manager:** Catherine Brown",
+      "- **Facilities:** Customer service, account opening"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_005",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_005_rol_001",
+    "name": "Emma Thompson",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "Branch Manager responsible for overseeing daily operations and staff supervision at the Manchester Central location. She holds defined accountability for ensuring service delivery standards are met within the branch.",
+    "context": [
+      "- **Branch Manager:** Emma Thompson"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_005",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_005_rol_002",
+    "name": "Catherine Brown",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "Branch Manager responsible for overseeing daily operations and staff supervision at the Liverpool Pier location. She holds defined accountability for ensuring service delivery standards are met within the branch.",
+    "context": [
+      "- **Branch Manager:** Catherine Brown"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_005",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_005_met_001",
+    "name": "Manchester Central Branch Staffing Level",
+    "aliases": [
+      "Staff: 1"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "headcount",
+    "description": "Operational staffing metric indicating a single employee is allocated to support branch operations at the Manchester Central location. This headcount figure defines the maximum personnel capacity available for customer-facing and administrative tasks.",
+    "context": [
+      "- **Staff:** 1"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_005",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_005_met_002",
+    "name": "Manchester Central Branch Customer Base Estimate",
+    "aliases": [
+      "Estimated Customers: 68"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "Quantitative estimate of the active customer base served by the Manchester Central branch. This capacity metric reflects the projected volume of retail accounts managed within the branch's catchment area.",
+    "context": [
+      "- **Estimated Customers:** 68"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_005",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_005_met_003",
+    "name": "Liverpool Pier Branch Customer Base Estimate",
+    "aliases": [
+      "Estimated Customers: 38"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "Quantitative estimate of the active customer base served by the Liverpool Pier branch. This capacity metric reflects the projected volume of retail accounts managed within the branch's catchment area.",
+    "context": [
+      "- **Estimated Customers:** 38"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_005",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_005_bnk_001",
+    "name": "Account Opening Service",
+    "aliases": [
+      "account opening",
+      "account opening desk"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "A core retail banking service enabling new customers to establish deposit accounts through dedicated branch facilities. The process is supported by specialized desks and counters to streamline onboarding procedures.",
+    "context": [
+      "- **Facilities:** Customer service counter, account opening desk",
+      "- **Services:** Account opening, customer service, cash handling"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_005",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_005_bnk_002",
+    "name": "Customer Service Delivery",
+    "aliases": [
+      "customer service",
+      "Customer service counter"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "A frontline operational function providing direct assistance to retail customers across physical branch locations. The service is delivered through dedicated counters and desks staffed by trained personnel.",
+    "context": [
+      "- **Facilities:** Customer service counter, account opening desk",
+      "- **Services:** Account opening, customer service"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_005",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_005_bnk_003",
+    "name": "Cash Handling Service",
+    "aliases": [
+      "cash handling"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "A physical banking service facilitating the receipt, storage, and disbursement of physical currency at branch locations. The operation requires secure facilities and strict adherence to cash management protocols.",
+    "context": [
+      "- **Services:** Account opening, customer service, cash handling"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_005",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_005_rul_001",
+    "name": "Branch Operating Hours Schedule",
+    "aliases": [
+      "Hours"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "operational_limit",
+    "description": "Standardized operational schedule dictating branch availability for customer access and service delivery. The constraint enforces Monday through Friday operations from 09:00 to 17:00, with Saturday hours limited to 09:00–13:00.",
+    "context": [
+      "- **Hours:** Monday–Friday 09:00–17:00, Saturday 09:00–13:00"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_005",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_006_org_001",
+    "name": "Midlands Region",
+    "aliases": [
+      "Midlands"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A regional operational division of FirstUK Bank encompassing a single branch location. It is responsible for overseeing local branch operations and coordinating customer delivery across the Midlands area.",
+    "context": [
+      "Midlands (1 branch)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_006",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_006_org_002",
+    "name": "Birmingham Business Branch",
+    "aliases": [
+      "Birmingham Business",
+      "Birmingham Branch"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "A physical retail and business banking office located in Birmingham. It provides dedicated facilities for customer service and account opening, operating on a structured weekday and Saturday schedule.",
+    "context": [
+      "**Birmingham Business**"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_006",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_006_rol_001",
+    "name": "Branch Manager",
+    "aliases": [
+      "Branch Manager"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "The designated leadership role responsible for the day-to-day operations of the Birmingham Business branch. This position holds accountability for staff supervision, service delivery standards, and local operational execution.",
+    "context": [
+      "**Branch Manager:** Michael O'Brien"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_006",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_006_rol_002",
+    "name": "Michael O'Brien",
+    "aliases": [
+      "Michael O'Brien"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "The named individual currently holding the Branch Manager position at the Birmingham Business branch. He is directly accountable for managing branch staff and ensuring compliance with operational service hours.",
+    "context": [
+      "**Branch Manager:** Michael O'Brien"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_006",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_006_met_001",
+    "name": "Branch Staff Headcount",
+    "aliases": [
+      "Staff",
+      "Headcount"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "headcount",
+    "description": "A quantitative operational metric indicating the number of employees allocated to support branch activities. This headcount figure reflects a single-staffing model designed to maintain core service delivery at this location.",
+    "context": [
+      "**Staff:** 1"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_006",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_006_met_002",
+    "name": "Branch Customer Base Estimate",
+    "aliases": [
+      "Estimated Customers",
+      "Customer Count"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "A projected operational metric representing the total number of clients served by the Birmingham Business branch. This capacity target guides resource allocation and service planning for the local customer portfolio.",
+    "context": [
+      "**Estimated Customers:** 62"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_006",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_006_bnk_001",
+    "name": "Account Opening Service",
+    "aliases": [
+      "Account opening",
+      "Opening Accounts"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A core customer-facing process facilitated by the branch to establish new banking relationships. It serves as a primary entry point for both business and personal banking products within the FirstUK Bank ecosystem.",
+    "context": [
+      "Facilities: Customer service, account opening",
+      "Services: Account opening, business and personal banking"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_006",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_006_bnk_002",
+    "name": "Business Banking",
+    "aliases": [
+      "Business banking"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A primary service category offered by the branch catering to corporate and commercial client needs. This product line delivers tailored financial solutions and account management capabilities for enterprise customers.",
+    "context": [
+      "Services: Account opening, business and personal banking"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_006",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_006_bnk_003",
+    "name": "Personal Banking",
+    "aliases": [
+      "Personal banking"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A core retail service category providing standard financial solutions for individual consumers. It encompasses everyday account management, transaction processing, and customer support features.",
+    "context": [
+      "Services: Account opening, business and personal banking"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_006",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_006_bnk_004",
+    "name": "Customer Service Facility",
+    "aliases": [
+      "Customer service"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "A dedicated operational capability provided at the branch to assist clients with inquiries and transactional needs. This feature ensures direct human interaction and support throughout standard operating hours.",
+    "context": [
+      "Facilities: Customer service, account opening"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_006",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_007_org_001",
+    "name": "Leeds Financial Branch",
+    "aliases": [
+      "Leeds Financial",
+      "Yorkshire (1 branch)"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A FirstUK Bank retail branch operating within the Yorkshire regional portfolio. It functions as a physical customer-facing office providing account opening and advisory services with a lean operational footprint.",
+    "context": [
+      "**Leeds Financial**",
+      "Yorkshire (1 branch)",
+      "Facilities: Customer service, account opening"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_007",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_007_rol_001",
+    "name": "Rachel Murphy",
+    "aliases": [
+      "Branch Manager"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "The appointed Branch Manager holding operational accountability for the Leeds Financial branch, responsible for staff supervision and customer service delivery.",
+    "context": [
+      "**Branch Manager:** Rachel Murphy"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_007",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_007_met_001",
+    "name": "Branch Staff Headcount",
+    "aliases": [
+      "Staff"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "headcount",
+    "description": "The authorized operational staffing metric for the Leeds Financial branch, indicating a single dedicated employee responsible for branch operations.",
+    "context": [
+      "**Staff:** 1"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_007",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_007_met_002",
+    "name": "Estimated Customer Base",
+    "aliases": [
+      "Estimated Customers"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "The projected customer volume served by the Leeds Financial branch, serving as a key operational metric for service planning and resource allocation.",
+    "context": [
+      "**Estimated Customers:** 55"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_007",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_007_bnk_001",
+    "name": "Mortgage Advisory Service",
+    "aliases": [
+      "mortgage inquiries"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A banking service concept representing customer-facing advisory and support functions related to mortgage products, explicitly listed as a core branch facility alongside account opening.",
+    "context": [
+      "**Services:** Account opening, customer service, mortgage inquiries"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_007",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_008_org_001",
+    "name": "South West Region",
+    "aliases": [
+      "South West"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A regional business unit within FirstUK Bank responsible for overseeing branch operations and geographic coverage in the South West area. It serves as the parent organizational layer for local retail branches operating under this jurisdiction.",
+    "context": [
+      "South West (1 branch)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_008",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_008_org_002",
+    "name": "Bristol South Branch",
+    "aliases": [
+      "Bristol South",
+      "Waterfront Branch"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "A physical retail branch located at the Waterfront in Bristol, BS1 4SB. It functions as a customer-facing office providing account opening and general support services to the local community.",
+    "context": [
+      "**Bristol South**",
+      "- **Address:** Waterfront, Bristol, BS1 4SB"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_008",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_008_rol_001",
+    "name": "David Kumar",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "branch_manager",
+    "description": "The named Branch Manager holding operational accountability for the Bristol South branch. He is responsible for daily leadership, staff supervision, and ensuring service delivery standards are met at this location.",
+    "context": [
+      "- **Branch Manager:** David Kumar"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_008",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_008_bnk_001",
+    "name": "Account Opening Process",
+    "aliases": [
+      "Account opening"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "service",
+    "description": "A core retail banking service and facility offered at the branch. It encompasses the procedural steps required to onboard new customers and establish their primary deposit or transaction accounts.",
+    "context": [
+      "- **Facilities:** Customer service, account opening",
+      "- **Services:** Account opening, customer service"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_008",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_008_met_001",
+    "name": "Branch Staffing Headcount",
+    "aliases": [
+      "Staff"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "headcount",
+    "description": "A quantitative operational metric indicating the current employee count at the Bristol South branch. The recorded staffing level is one, reflecting a lean operational footprint for this specific location.",
+    "context": [
+      "- **Staff:** 1"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_008",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_008_met_002",
+    "name": "Estimated Customer Footfall",
+    "aliases": [
+      "Estimated Customers"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "A quantitative estimate representing the size of the customer base served by the Bristol South branch. The documented figure stands at 51, indicating the current reach or transaction volume capacity for this office.",
+    "context": [
+      "- **Estimated Customers:** 51"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_008",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_009_org_001",
+    "name": "Edinburgh Royal Branch",
+    "aliases": [
+      "Edinburgh Royal"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "A FirstUK Bank branch located at St Andrew Square, Edinburgh, providing customer service and account opening facilities with a strategic focus on the Scottish market.",
+    "context": [
+      "Scotland (2 branches)",
+      "Edinburgh Royal",
+      "Estimated Customers: 48"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_009",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_009_org_002",
+    "name": "Glasgow Merchant Branch",
+    "aliases": [
+      "Glasgow Merchant"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "A FirstUK Bank branch located at Merchant City, Glasgow, delivering customer service and account opening facilities to support local banking operations.",
+    "context": [
+      "Glasgow Merchant",
+      "Estimated Customers: 42"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_009",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_009_rol_001",
+    "name": "Fiona MacLeod",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "The designated Branch Manager responsible for overseeing daily operations and staff at the Edinburgh Royal branch.",
+    "context": [
+      "Branch Manager: Fiona MacLeod"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_009",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_009_rol_002",
+    "name": "Andrew Stewart",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "The designated Branch Manager responsible for overseeing daily operations and staff at the Glasgow Merchant branch.",
+    "context": [
+      "Branch Manager: Andrew Stewart"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_009",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_009_met_001",
+    "name": "Edinburgh Royal Branch Staffing Level",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "headcount",
+    "description": "The operational staffing target assigned to the Edinburgh Royal branch, quantified at 1 staff member for branch operations.",
+    "context": [
+      "Staff: 1"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_009",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_009_met_002",
+    "name": "Glasgow Merchant Branch Staffing Level",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "headcount",
+    "description": "The operational staffing target assigned to the Glasgow Merchant branch, quantified at 1 staff member for branch operations.",
+    "context": [
+      "Staff: 1"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_009",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_009_met_003",
+    "name": "Edinburgh Royal Branch Estimated Customer Count",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "customer_count",
+    "description": "The projected or actual number of customers served by the Edinburgh Royal branch, quantified at 48.",
+    "context": [
+      "Estimated Customers: 48"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_009",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_009_met_004",
+    "name": "Glasgow Merchant Branch Estimated Customer Count",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "customer_count",
+    "description": "The projected or actual number of customers served by the Glasgow Merchant branch, quantified at 42.",
+    "context": [
+      "Estimated Customers: 42"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_009",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_010_org_001",
+    "name": "East Anglia Regional Unit",
+    "aliases": [
+      "East Anglia"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "Geographic and operational business unit responsible for overseeing branch activities within the East Anglia region. The document indicates it currently comprises a single physical branch location.",
+    "context": [
+      "### East Anglia (1 branch)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_010",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_010_org_002",
+    "name": "Norwich Market Branch",
+    "aliases": [
+      "Norwich Market"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "Physical retail banking office located at Market Hill, Norwich. It operates as the sole branch within the East Anglia unit, providing customer service and account opening facilities during specified weekday and Saturday hours.",
+    "context": [
+      "**Norwich Market**",
+      "- **Address:** Market Hill, Norwich, NR2 1NF"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_010",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_010_rol_001",
+    "name": "Peter Newton",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "Named individual holding the Branch Manager position at the Norwich Market location. Responsible for overseeing daily branch operations, staff management, and customer service delivery.",
+    "context": [
+      "- **Branch Manager:** Peter Newton"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_010",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_010_met_001",
+    "name": "Branch Operational Staff Count",
+    "aliases": [
+      "Staff"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "headcount",
+    "description": "Quantitative measure of the full-time equivalent or total personnel assigned to operate the Norwich Market branch. Indicates a lean operational footprint with a single staff member.",
+    "context": [
+      "- **Staff:** 1"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_010",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_010_met_002",
+    "name": "Branch Estimated Customer Base",
+    "aliases": [
+      "Estimated Customers"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "Quantitative projection of the total customer population served by the Norwich Market branch. Serves as an operational benchmark for service delivery and resource planning.",
+    "context": [
+      "- **Estimated Customers:** 35"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_010",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_010_bnk_001",
+    "name": "Account Opening Process",
+    "aliases": [
+      "account opening"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "service",
+    "description": "Core retail banking facility and operational process facilitated at the branch. Enables new customers to establish deposit or transaction accounts through in-person service channels.",
+    "context": [
+      "- **Facilities:** Customer service, account opening",
+      "- **Services:** Account opening, customer service"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_010",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_011_org_001",
+    "name": "South Region",
+    "aliases": [
+      "South"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A geographical operational division under FirstUK Bank encompassing regional branch operations, specifically serving as the parent network for the Southampton Water branch.",
+    "context": [
+      "South (1 branch)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_011",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_011_org_002",
+    "name": "Southampton Water Branch",
+    "aliases": [
+      "Southampton Water"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "A physical retail banking branch located in Southampton, responsible for delivering customer service and account opening services to the local community.",
+    "context": [
+      "**Southampton Water**",
+      "Facilities: Customer service, account opening"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_011",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_011_rol_001",
+    "name": "Branch Manager",
+    "aliases": [
+      "Branch Manager"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "The leadership role responsible for overseeing the daily operations, staff allocation, and service delivery of a specific FirstUK Bank branch.",
+    "context": [
+      "**Branch Manager:** Jennifer Adams"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_011",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_011_rol_002",
+    "name": "Jennifer Adams",
+    "aliases": [
+      "Jennifer Adams"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "The named individual holding the Branch Manager position at the Southampton Water branch, accountable for its operational management and staff supervision.",
+    "context": [
+      "**Branch Manager:** Jennifer Adams"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_011",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_011_bnk_001",
+    "name": "Customer Service",
+    "aliases": [
+      "customer service"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "service",
+    "description": "A core banking service offering direct support and assistance to customers, listed as a primary facility and operational service delivered at the branch.",
+    "context": [
+      "Facilities: Customer service, account opening",
+      "Services: Account opening, customer service"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_011",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_011_bnk_002",
+    "name": "Account Opening",
+    "aliases": [
+      "account opening"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A fundamental banking process and service enabling new customers to establish deposit or transaction accounts, identified as a key branch facility and service offering.",
+    "context": [
+      "Facilities: Customer service, account opening",
+      "Services: Account opening, customer service"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_011",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_011_met_001",
+    "name": "Branch Staff Headcount",
+    "aliases": [
+      "Staff"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "headcount",
+    "description": "The operational staffing metric for the Southampton Water branch, indicating a total of 1 employee allocated to support branch operations and service delivery.",
+    "context": [
+      "**Staff:** 1"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_011",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_011_met_002",
+    "name": "Estimated Customer Footfall",
+    "aliases": [
+      "Estimated Customers"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "A quantitative operational metric representing the projected number of customers served by or associated with the Southampton Water branch.",
+    "context": [
+      "**Estimated Customers:** 32"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_011",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_012_org_001",
+    "name": "Belfast Central Branch",
+    "aliases": [
+      "Belfast Central"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "A physical retail branch location operating within the Northern Ireland regional network. It is responsible for delivering in-person customer service and facilitating new account creation.",
+    "context": [
+      "**Belfast Central**",
+      "- **Facilities:** Customer service, account opening",
+      "- **Services:** Account opening, customer service"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_012",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_012_org_002",
+    "name": "Northern Ireland Regional Network",
+    "aliases": [
+      "Northern Ireland"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A regional operational division of FirstUK Bank encompassing a single branch location in Belfast. The unit manages local retail banking operations and coordinates staff deployment across the region.",
+    "context": [
+      "### Northern Ireland (1 branch)",
+      "- **Branch Manager:** Thomas O'Donnell"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_012",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_012_rol_001",
+    "name": "Thomas O'Donnell",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "The designated Branch Manager responsible for overseeing daily operations at the Belfast Central location. He supervises branch staff and ensures consistent customer service delivery.",
+    "context": [
+      "- **Branch Manager:** Thomas O'Donnell",
+      "### Northern Ireland (1 branch)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_012",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_012_met_001",
+    "name": "Branch Staffing Level",
+    "aliases": [
+      "Staff"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "headcount",
+    "description": "The authorized operational headcount assigned to the Belfast Central branch. This metric indicates a lean staffing model designed to support daily retail banking activities.",
+    "context": [
+      "- **Staff:** 1"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_012",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_012_met_002",
+    "name": "Belfast Central Customer Footfall",
+    "aliases": [
+      "Estimated Customers"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "The projected number of customers served by the Belfast Central branch. This figure reflects its current market reach and service demand within the Northern Ireland network.",
+    "context": [
+      "- **Estimated Customers:** 28"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_012",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_012_bnk_001",
+    "name": "Customer Service",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "A core retail banking service provided at the branch level. It encompasses direct client support, inquiries, and transaction assistance delivered by branch staff.",
+    "context": [
+      "- **Facilities:** Customer service, account opening",
+      "- **Services:** Account opening, customer service"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_012",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_012_bnk_002",
+    "name": "Account Opening",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "A primary retail banking process facilitated at the branch location. This feature enables new customers to establish deposit or transaction accounts with FirstUK Bank.",
+    "context": [
+      "- **Facilities:** Customer service, account opening",
+      "- **Services:** Account opening, customer service"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_012",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_013_org_001",
+    "name": "FirstUK Bank Branch Network",
+    "aliases": [
+      "All Branches",
+      "Branches"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "The physical branch network responsible for delivering standard customer-facing services, including account opening, cash handling, card management, and complaint resolution.",
+    "context": [
+      "Standard Services (All Branches)",
+      "All Branches"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_013",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_013_bnk_001",
+    "name": "SmartSaver",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A savings account product offered by FirstUK Bank, available for opening through standard branch services alongside current accounts.",
+    "context": [
+      "Account Opening: SmartSaver"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_013",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_013_bnk_002",
+    "name": "Current Account",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "A standard transactional account product offered to customers, available for opening through branch channels and linked to broader product documentation.",
+    "context": [
+      "Account Opening: SmartSaver, Current Account"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_013",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_013_bnk_003",
+    "name": "Standing Order",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "standing_order",
+    "description": "A pre-authorized payment instruction allowing customers to schedule recurring transfers, with branch services supporting setup, modification, and cancellation.",
+    "context": [
+      "Standing Orders & Direct Debits:",
+      "Setup, modification, cancellation"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_013",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_013_bnk_004",
+    "name": "Direct Debit",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "direct_debit",
+    "description": "An authorized payment method enabling third-party collections from customer accounts, managed through branch channels for setup and cancellation.",
+    "context": [
+      "Standing Orders & Direct Debits:",
+      "Setup, modification, cancellation"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_013",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_013_bnk_005",
+    "name": "Debit Card",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "card",
+    "description": "A payment card linked to a customer's account, with branch services providing replacement, blocking, and PIN reset capabilities.",
+    "context": [
+      "Card Services:",
+      "Debit card replacement, blocking, PIN reset"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_013",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_014_org_001",
+    "name": "Head Office",
+    "aliases": [
+      "HO",
+      "Head Office & Selected Branches"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "The primary administrative and operational hub of FirstUK Bank, serving as the central delivery point for extended services including mortgage underwriting, escalated complaints, product training, and fraud investigation.",
+    "context": [
+      "Extended Services (Head Office & Selected Branches)",
+      "Mortgage Underwriting: Head Office",
+      "Escalated Complaints: Head Office",
+      "Product Training: Head Office"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_014",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_014_org_002",
+    "name": "Manchester Branch",
+    "aliases": [
+      "Manchester",
+      "MAN Branch"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "branch",
+    "description": "A selected regional branch participating in the bank's extended services network, specifically authorized to deliver mortgage underwriting and manage escalated complaints.",
+    "context": [
+      "Extended Services (Head Office & Selected Branches)",
+      "Mortgage Underwriting: Head Office, Manchester",
+      "Escalated Complaints: Head Office, Manchester"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_014",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_014_org_003",
+    "name": "Leeds Branch",
+    "aliases": [
+      "Leeds",
+      "LDS Branch"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "branch",
+    "description": "A selected regional branch participating in the bank's extended services network, specifically authorized to deliver mortgage underwriting alongside Head Office and Manchester.",
+    "context": [
+      "Extended Services (Head Office & Selected Branches)",
+      "Mortgage Underwriting: Head Office, Manchester, Leeds"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_014",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_014_org_004",
+    "name": "Fraud Investigation Central Team",
+    "aliases": [
+      "FI Central Team",
+      "Central Fraud Team"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "team",
+    "description": "A centralized operational unit located within the Head Office, exclusively responsible for conducting fraud investigations across the bank's operations.",
+    "context": [
+      "Fraud Investigation: Head Office (central team)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_014",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_015_org_001",
+    "name": "Branch Operations",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "The primary operational domain overseeing all daily activities within a bank branch. It encompasses structured opening and closing procedures, cash management protocols, system connectivity maintenance, and security compliance measures to ensure continuous and secure service delivery.",
+    "context": [
+      "## Branch Operations",
+      "Daily Operations"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_015",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_015_sys_001",
+    "name": "Daily Operations Checklist",
+    "aliases": [
+      "DOC-001"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "document_management",
+    "description": "A standardized operational tracking system and reference document used to enforce consistent execution of branch opening and closing procedures. It serves as the authoritative control mechanism for daily workflow compliance across all branch locations.",
+    "context": [
+      "**See:** Daily Operations Checklist (DOC-001)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_015",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_015_bnk_001",
+    "name": "Automated Teller Machine",
+    "aliases": [
+      "ATM"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A self-service banking device integrated into branch daily operations. The entity requires routine physical stocking, balance verification, and end-of-day cash counting to maintain operational readiness and accurate transaction processing.",
+    "context": [
+      "- ATM stocking and balance",
+      "- ATM cash count"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_015",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_015_bnk_002",
+    "name": "Cash Reconciliation",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "A critical end-of-day financial control process that verifies physical cash holdings against recorded balances. This concept ensures accounting accuracy and regulatory compliance before branch closure.",
+    "context": [
+      "- Cash reconciliation"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_015",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_015_sys_002",
+    "name": "Security Alarm System",
+    "aliases": [
+      "Security alarm"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "security_system",
+    "description": "A physical and digital monitoring infrastructure essential for branch asset protection. The system requires daily connectivity validation during opening procedures and mandatory activation during closing workflows to secure premises.",
+    "context": [
+      "- Security alarm test",
+      "- Security alarm activation"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_015",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_015_bnk_003",
+    "name": "End-of-Day Report",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "report",
+    "description": "A mandatory operational document generated at the conclusion of daily branch activities. It consolidates transaction summaries, system status logs, and cash positions to support audit trails and management review.",
+    "context": [
+      "- End-of-day report"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_015",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_015_bnk_004",
+    "name": "Staff Briefing",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "operational_process",
+    "description": "A daily communication protocol conducted at branch opening to align personnel on operational priorities, system status, and security requirements. It serves as the primary mechanism for ensuring staff readiness before customer service begins.",
+    "context": [
+      "- Staff briefing"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_015",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_015_bnk_005",
+    "name": "Cash Vault",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A secure physical storage facility for branch cash reserves and high-value assets. The entity is subject to daily verification procedures to ensure asset integrity, prevent loss, and maintain compliance with internal controls.",
+    "context": [
+      "- Cash vault verification"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_015",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_016_org_001",
+    "name": "Brinks",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "external_agency",
+    "description": "External contractor engaged by FirstUK Bank to provide secure armored transport services for branch cash collections and logistics.",
+    "context": [
+      "Armored Transport: Provided by external contractor (Brinks)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_016",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_016_rol_001",
+    "name": "Branch Manager",
+    "aliases": [
+      "Manager"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "Senior branch official granted defined approval authority to resolve cash handling disputes up to a specified monetary threshold without escalation.",
+    "context": [
+      "Dispute Resolution: <£1,000 threshold for branch manager approval"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_016",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_016_rol_002",
+    "name": "Officer",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "specialist",
+    "description": "Branch staff member required to maintain dual custody alongside the manager for all vault security and cash handling operations.",
+    "context": [
+      "Vault Security: Dual custody (manager + officer)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_016",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_016_met_001",
+    "name": "Daily Cash Limit",
+    "aliases": [
+      "Branch Cash Cap",
+      "Cash Holding Limit"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "Maximum allowable cash inventory per branch, capped at £20,000 to manage operational risk, liquidity exposure, and vault space constraints.",
+    "context": [
+      "Daily Cash Limit: £20,000 per branch"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_016",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_016_met_002",
+    "name": "Dispute Resolution Threshold",
+    "aliases": [
+      "<£1,000 Threshold",
+      "Branch Approval Limit"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "risk_threshold",
+    "description": "Monetary ceiling defining the maximum value of a cash dispute that can be approved at the branch level before requiring higher-level authorization.",
+    "context": [
+      "Dispute Resolution: <£1,000 threshold for branch manager approval"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_016",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_016_rul_001",
+    "name": "Cash Handling Procedures",
+    "aliases": [
+      "CHP-001",
+      "Cash Handling Policy"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "Governing policy document that establishes mandatory operational controls, security standards, reconciliation schedules, and dispute protocols for branch cash management.",
+    "context": [
+      "Policy: Cash Handling Procedures (CHP-001)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_016",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_016_rul_002",
+    "name": "Vault Dual Custody Control",
+    "aliases": [
+      "Dual Custody",
+      "Vault Security Protocol"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "control",
+    "description": "Mandatory security constraint requiring simultaneous authorization and physical presence of both a manager and an officer to access or secure the branch vault.",
+    "context": [
+      "Vault Security: Dual custody (manager + officer)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_016",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_016_rul_003",
+    "name": "Daily Reconciliation Requirement",
+    "aliases": [
+      "EOD Reconciliation",
+      "End of Day Reconciliation"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "operational_limit",
+    "description": "Operational rule mandating that all branch cash and transaction records must be fully reconciled at the end of each business day.",
+    "context": [
+      "Reconciliation: Daily EOD"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_016",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_016_rul_004",
+    "name": "Cash Collection Schedule",
+    "aliases": [
+      "Weekly Collection",
+      "Armored Transport Schedule"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "operational_limit",
+    "description": "Fixed frequency constraint dictating that cash collections must occur three times per week, specifically on Mondays, Wednesdays, and Fridays.",
+    "context": [
+      "Collection Schedule: 3x weekly (Mon, Wed, Fri)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_016",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_017_sys_001",
+    "name": "CCTV Surveillance System",
+    "aliases": [
+      "CCTV"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "surveillance",
+    "description": "Branch-level video monitoring application responsible for continuous recording of premises. The system enforces a strict data retention window to ensure compliance with security and audit requirements.",
+    "context": [
+      "CCTV (24/7 recording, 30-day retention)",
+      "**Branch Security Measures:**"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_017",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_017_met_001",
+    "name": "CCTV Recording and Retention SLA",
+    "aliases": [
+      "retention_period",
+      "recording_schedule"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "Operational performance target mandating continuous 24/7 video capture and a mandatory 30-day data retention period for all branch surveillance footage.",
+    "context": [
+      "CCTV (24/7 recording, 30-day retention)",
+      "**Branch Security Measures:**"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_017",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_017_sys_002",
+    "name": "Branch Alarm Monitoring System",
+    "aliases": [
+      "Alarm system"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "security_system",
+    "description": "Physical security platform deployed across branch locations to detect intrusions or emergencies. The system is integrated with a third-party vendor for continuous remote monitoring and incident response.",
+    "context": [
+      "Alarm system (monitored by external provider)",
+      "**Branch Security Measures:**"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_017",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_017_org_001",
+    "name": "External Security Monitoring Provider",
+    "aliases": [
+      "external provider"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "external_agency",
+    "description": "Third-party vendor contracted to provide continuous monitoring and alert management for the branch alarm system. Acts as an external control point for physical security incidents.",
+    "context": [
+      "Alarm system (monitored by external provider)",
+      "**Branch Security Measures:**"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_017",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_017_bnk_001",
+    "name": "Branch Safe and Vault",
+    "aliases": [
+      "Safe/vault"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "physical_security_asset",
+    "description": "Secure physical storage facility within the branch used for holding cash, valuables, and sensitive materials. Access is strictly governed by joint authorization controls to prevent unauthorized retrieval.",
+    "context": [
+      "Safe/vault (dual custody)",
+      "**Branch Security Measures:**"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_017",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_017_rul_001",
+    "name": "Dual Custody Access Constraint",
+    "aliases": [
+      "dual custody"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "Mandatory operational control requiring two authorized individuals to be physically present and jointly approve any access to the branch safe or vault. Designed to prevent single-point fraud or unauthorized asset removal.",
+    "context": [
+      "Safe/vault (dual custody)",
+      "**Branch Security Measures:**"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_017",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_017_bnk_002",
+    "name": "Employee Identification Badge",
+    "aliases": [
+      "Employee ID badges"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "identification_document",
+    "description": "Physical credential issued to bank staff to verify employment status and control physical access to branch premises. Serves as a primary authentication mechanism for internal security protocols.",
+    "context": [
+      "Employee ID badges",
+      "**Branch Security Measures:**"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_017",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_017_bnk_003",
+    "name": "Customer Identity Verification Process",
+    "aliases": [
+      "Customer ID verification"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "kyc_verification",
+    "description": "Mandatory authentication procedure requiring customers to present valid identification documents before being granted access to their accounts. Enforces identity proofing as a prerequisite for account interaction.",
+    "context": [
+      "Customer ID verification for account access",
+      "**Branch Security Measures:**"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_017",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_017_rul_002",
+    "name": "Branch Security Policy",
+    "aliases": [
+      "SEC-POL-001",
+      "Branch Security Measures"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "Governing policy document (reference code SEC-POL-001) that establishes mandatory security controls, monitoring standards, and access protocols for all branch locations. Serves as the authoritative baseline for physical and operational security compliance.",
+    "context": [
+      "**See:** Branch Security Policy (SEC-POL-001)",
+      "**Branch Security Measures:**"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_017",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_018_org_001",
+    "name": "London Head Office",
+    "aliases": [
+      "Head Office"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "The primary physical location and operational base for FirstUK Bank. It operates under a distinct schedule that permits extended staff access outside standard customer service windows, differentiating it from general branch locations.",
+    "context": [
+      "Extended Hours (London Head Office):",
+      "Monday–Friday: 08:00–18:00 (staff only, customer hours 09:00–17:00)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_018",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_018_rul_001",
+    "name": "Branch Operating Hours Schedule",
+    "aliases": [
+      "Opening Hours",
+      "Standard Hours",
+      "Extended Hours"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "operational_limit",
+    "description": "A governing operational rule defining the authorized service windows for FirstUK Bank locations. It establishes standard customer-facing hours across the week, mandates closure on Sundays and public holidays, and specifies extended staff-only access at the London Head Office while maintaining standard customer hours.",
+    "context": [
+      "Standard Hours:",
+      "Monday–Friday: 09:00–17:00",
+      "Saturday: 09:00–13:00",
+      "Sunday/Public Holidays: Closed"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_018",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_019_org_001",
+    "name": "Customer Facilities",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "A designated section or category within the branch layout encompassing all physical customer-facing spaces and service points.",
+    "context": [
+      "### Customer Facilities",
+      "**Typical Branch Layout:**"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_019",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_019_org_002",
+    "name": "Branch",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "branch",
+    "description": "The physical retail location housing customer facilities, service desks, and operational spaces as defined in the standard layout.",
+    "context": [
+      "**Typical Branch Layout:**",
+      "- Teller counter (cash services)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_019",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_019_org_003",
+    "name": "Teller Counter",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "A physical service point within the branch dedicated to cash services and face-to-face teller interactions.",
+    "context": [
+      "- Teller counter (cash services)",
+      "**Typical Branch Layout:**"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_019",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_019_org_004",
+    "name": "Account Opening Desk",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "A dedicated physical workspace within the branch for processing new customer onboarding and account setup.",
+    "context": [
+      "- Account opening desk",
+      "**Typical Branch Layout:**"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_019",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_019_org_005",
+    "name": "Waiting Area",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "A seated physical space within the branch designated for customers awaiting service.",
+    "context": [
+      "- Waiting area with seating",
+      "**Typical Branch Layout:**"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_019",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_019_sys_001",
+    "name": "ATM",
+    "aliases": [],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "atm",
+    "description": "An external automated teller machine providing self-service cash access and banking transactions.",
+    "context": [
+      "- ATM (external)",
+      "**Typical Branch Layout:**"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_019",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_019_org_006",
+    "name": "Customer Restroom",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "A physical amenity space within the branch designated for customer use.",
+    "context": [
+      "- Customer restroom",
+      "**Typical Branch Layout:**"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_019",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_019_org_007",
+    "name": "Meeting Room",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "A private physical space within the branch designated for confidential customer interviews.",
+    "context": [
+      "- Meeting room (private interviews)",
+      "**Typical Branch Layout:**"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_019",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_org_001",
+    "name": "London Canary Wharf Branch",
+    "aliases": [
+      "London Canary Wharf"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A FirstUK Bank branch location operating in the Canary Wharf financial district. Performance is tracked against customer volume, active account counts, average balance, and customer satisfaction scores.",
+    "context": [
+      "## Branch Performance Metrics",
+      "| London Canary Wharf | 85 | 142 | £4,521 | 74 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_org_002",
+    "name": "Manchester Central Branch",
+    "aliases": [
+      "Manchester Central"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A FirstUK Bank branch location serving the Manchester central area. Monitored for customer metrics including account activity, balance performance, and satisfaction ratings.",
+    "context": [
+      "| Manchester Central | 68 | 108 | £4,195 | 71 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_org_003",
+    "name": "Leeds Financial Branch",
+    "aliases": [
+      "Leeds Financial"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A FirstUK Bank branch location focused on the Leeds financial sector. Performance tracked via customer count, active accounts, average balance, and satisfaction metrics.",
+    "context": [
+      "| Leeds Financial | 55 | 92 | £3,987 | 70 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_org_004",
+    "name": "Birmingham Business Branch",
+    "aliases": [
+      "Birmingham Business"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A FirstUK Bank branch location serving the Birmingham business district. Evaluated on customer volume, account activity, balance levels, and satisfaction scores.",
+    "context": [
+      "| Birmingham Business | 62 | 105 | £4,287 | 69 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_org_005",
+    "name": "Bristol South Branch",
+    "aliases": [
+      "Bristol South"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A FirstUK Bank branch location operating in southern Bristol. Performance metrics include customer count, active accounts, average balance, and satisfaction ratings.",
+    "context": [
+      "| Bristol South | 51 | 87 | £3,842 | 72 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_org_006",
+    "name": "Edinburgh Royal Branch",
+    "aliases": [
+      "Edinburgh Royal"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A FirstUK Bank branch location serving the Edinburgh royal district. Tracked for customer volume, account activity, balance performance, and satisfaction scores.",
+    "context": [
+      "| Edinburgh Royal | 48 | 82 | £4,012 | 73 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_org_007",
+    "name": "Glasgow Merchant Branch",
+    "aliases": [
+      "Glasgow Merchant"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A FirstUK Bank branch location operating in the Glasgow merchant district. Performance monitored via customer count, active accounts, average balance, and satisfaction metrics.",
+    "context": [
+      "| Glasgow Merchant | 42 | 68 | £3,756 | 71 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_org_008",
+    "name": "Liverpool Pier Branch",
+    "aliases": [
+      "Liverpool Pier"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A FirstUK Bank branch location serving the Liverpool pier area. Evaluated on customer volume, account activity, balance levels, and satisfaction scores.",
+    "context": [
+      "| Liverpool Pier | 38 | 61 | £3,521 | 68 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_org_009",
+    "name": "Norwich Market Branch",
+    "aliases": [
+      "Norwich Market"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A FirstUK Bank branch location operating in the Norwich market district. Performance tracked via customer count, active accounts, average balance, and satisfaction ratings.",
+    "context": [
+      "| Norwich Market | 35 | 58 | £3,214 | 70 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_org_010",
+    "name": "Southampton Water Branch",
+    "aliases": [
+      "Southampton Water"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A FirstUK Bank branch location serving the Southampton water district. Monitored for customer volume, account activity, balance performance, and satisfaction scores.",
+    "context": [
+      "| Southampton Water | 32 | 52 | £3,087 | 69 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_org_011",
+    "name": "Belfast Central Branch",
+    "aliases": [
+      "Belfast Central"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A FirstUK Bank branch location operating in central Belfast. Performance metrics include customer count, active accounts, average balance, and satisfaction ratings.",
+    "context": [
+      "| Belfast Central | 28 | 45 | £2,954 | 67 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_001",
+    "name": "London Canary Wharf Customer Count",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Tracks the total number of customers at the London Canary Wharf branch. Current recorded value is 85.",
+    "context": [
+      "| London Canary Wharf | 85 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_002",
+    "name": "London Canary Wharf Active Accounts",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Measures the number of active accounts held at the London Canary Wharf branch. Current recorded value is 142.",
+    "context": [
+      "| London Canary Wharf | 85 | 142 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_003",
+    "name": "London Canary Wharf Average Balance",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Captures the average account balance across the London Canary Wharf branch. Current recorded value is £4,521.",
+    "context": [
+      "| London Canary Wharf | 85 | 142 | £4,521 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_004",
+    "name": "London Canary Wharf Satisfaction Score",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Records the customer satisfaction rating for the London Canary Wharf branch. Current recorded value is 74.",
+    "context": [
+      "| London Canary Wharf | 85 | 142 | £4,521 | 74 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_005",
+    "name": "Manchester Central Customer Count",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Tracks the total number of customers at the Manchester Central branch. Current recorded value is 68.",
+    "context": [
+      "| Manchester Central | 68 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_006",
+    "name": "Manchester Central Active Accounts",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Measures the number of active accounts held at the Manchester Central branch. Current recorded value is 108.",
+    "context": [
+      "| Manchester Central | 68 | 108 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_007",
+    "name": "Manchester Central Average Balance",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Captures the average account balance across the Manchester Central branch. Current recorded value is £4,195.",
+    "context": [
+      "| Manchester Central | 68 | 108 | £4,195 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_008",
+    "name": "Manchester Central Satisfaction Score",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Records the customer satisfaction rating for the Manchester Central branch. Current recorded value is 71.",
+    "context": [
+      "| Manchester Central | 68 | 108 | £4,195 | 71 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_009",
+    "name": "Leeds Financial Customer Count",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Tracks the total number of customers at the Leeds Financial branch. Current recorded value is 55.",
+    "context": [
+      "| Leeds Financial | 55 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_010",
+    "name": "Leeds Financial Active Accounts",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Measures the number of active accounts held at the Leeds Financial branch. Current recorded value is 92.",
+    "context": [
+      "| Leeds Financial | 55 | 92 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_011",
+    "name": "Leeds Financial Average Balance",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Captures the average account balance across the Leeds Financial branch. Current recorded value is £3,987.",
+    "context": [
+      "| Leeds Financial | 55 | 92 | £3,987 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_012",
+    "name": "Leeds Financial Satisfaction Score",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Records the customer satisfaction rating for the Leeds Financial branch. Current recorded value is 70.",
+    "context": [
+      "| Leeds Financial | 55 | 92 | £3,987 | 70 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_013",
+    "name": "Birmingham Business Customer Count",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Tracks the total number of customers at the Birmingham Business branch. Current recorded value is 62.",
+    "context": [
+      "| Birmingham Business | 62 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_014",
+    "name": "Birmingham Business Active Accounts",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Measures the number of active accounts held at the Birmingham Business branch. Current recorded value is 105.",
+    "context": [
+      "| Birmingham Business | 62 | 105 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_015",
+    "name": "Birmingham Business Average Balance",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Captures the average account balance across the Birmingham Business branch. Current recorded value is £4,287.",
+    "context": [
+      "| Birmingham Business | 62 | 105 | £4,287 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_016",
+    "name": "Birmingham Business Satisfaction Score",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Records the customer satisfaction rating for the Birmingham Business branch. Current recorded value is 69.",
+    "context": [
+      "| Birmingham Business | 62 | 105 | £4,287 | 69 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_017",
+    "name": "Bristol South Customer Count",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Tracks the total number of customers at the Bristol South branch. Current recorded value is 51.",
+    "context": [
+      "| Bristol South | 51 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_018",
+    "name": "Bristol South Active Accounts",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Measures the number of active accounts held at the Bristol South branch. Current recorded value is 87.",
+    "context": [
+      "| Bristol South | 51 | 87 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_019",
+    "name": "Bristol South Average Balance",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Captures the average account balance across the Bristol South branch. Current recorded value is £3,842.",
+    "context": [
+      "| Bristol South | 51 | 87 | £3,842 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_020",
+    "name": "Bristol South Satisfaction Score",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Records the customer satisfaction rating for the Bristol South branch. Current recorded value is 72.",
+    "context": [
+      "| Bristol South | 51 | 87 | £3,842 | 72 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_021",
+    "name": "Edinburgh Royal Customer Count",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Tracks the total number of customers at the Edinburgh Royal branch. Current recorded value is 48.",
+    "context": [
+      "| Edinburgh Royal | 48 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_022",
+    "name": "Edinburgh Royal Active Accounts",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Measures the number of active accounts held at the Edinburgh Royal branch. Current recorded value is 82.",
+    "context": [
+      "| Edinburgh Royal | 48 | 82 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_023",
+    "name": "Edinburgh Royal Average Balance",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Captures the average account balance across the Edinburgh Royal branch. Current recorded value is £4,012.",
+    "context": [
+      "| Edinburgh Royal | 48 | 82 | £4,012 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_024",
+    "name": "Edinburgh Royal Satisfaction Score",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Records the customer satisfaction rating for the Edinburgh Royal branch. Current recorded value is 73.",
+    "context": [
+      "| Edinburgh Royal | 48 | 82 | £4,012 | 73 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_025",
+    "name": "Glasgow Merchant Customer Count",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Tracks the total number of customers at the Glasgow Merchant branch. Current recorded value is 42.",
+    "context": [
+      "| Glasgow Merchant | 42 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_026",
+    "name": "Glasgow Merchant Active Accounts",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Measures the number of active accounts held at the Glasgow Merchant branch. Current recorded value is 68.",
+    "context": [
+      "| Glasgow Merchant | 42 | 68 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_027",
+    "name": "Glasgow Merchant Average Balance",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Captures the average account balance across the Glasgow Merchant branch. Current recorded value is £3,756.",
+    "context": [
+      "| Glasgow Merchant | 42 | 68 | £3,756 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_028",
+    "name": "Glasgow Merchant Satisfaction Score",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Records the customer satisfaction rating for the Glasgow Merchant branch. Current recorded value is 71.",
+    "context": [
+      "| Glasgow Merchant | 42 | 68 | £3,756 | 71 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_029",
+    "name": "Liverpool Pier Customer Count",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Tracks the total number of customers at the Liverpool Pier branch. Current recorded value is 38.",
+    "context": [
+      "| Liverpool Pier | 38 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_030",
+    "name": "Liverpool Pier Active Accounts",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Measures the number of active accounts held at the Liverpool Pier branch. Current recorded value is 61.",
+    "context": [
+      "| Liverpool Pier | 38 | 61 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_031",
+    "name": "Liverpool Pier Average Balance",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Captures the average account balance across the Liverpool Pier branch. Current recorded value is £3,521.",
+    "context": [
+      "| Liverpool Pier | 38 | 61 | £3,521 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_032",
+    "name": "Liverpool Pier Satisfaction Score",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Records the customer satisfaction rating for the Liverpool Pier branch. Current recorded value is 68.",
+    "context": [
+      "| Liverpool Pier | 38 | 61 | £3,521 | 68 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_033",
+    "name": "Norwich Market Customer Count",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Tracks the total number of customers at the Norwich Market branch. Current recorded value is 35.",
+    "context": [
+      "| Norwich Market | 35 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_034",
+    "name": "Norwich Market Active Accounts",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Measures the number of active accounts held at the Norwich Market branch. Current recorded value is 58.",
+    "context": [
+      "| Norwich Market | 35 | 58 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_035",
+    "name": "Norwich Market Average Balance",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Captures the average account balance across the Norwich Market branch. Current recorded value is £3,214.",
+    "context": [
+      "| Norwich Market | 35 | 58 | £3,214 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_036",
+    "name": "Norwich Market Satisfaction Score",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Records the customer satisfaction rating for the Norwich Market branch. Current recorded value is 70.",
+    "context": [
+      "| Norwich Market | 35 | 58 | £3,214 | 70 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_037",
+    "name": "Southampton Water Customer Count",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Tracks the total number of customers at the Southampton Water branch. Current recorded value is 32.",
+    "context": [
+      "| Southampton Water | 32 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_038",
+    "name": "Southampton Water Active Accounts",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Measures the number of active accounts held at the Southampton Water branch. Current recorded value is 52.",
+    "context": [
+      "| Southampton Water | 32 | 52 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_039",
+    "name": "Southampton Water Average Balance",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Captures the average account balance across the Southampton Water branch. Current recorded value is £3,087.",
+    "context": [
+      "| Southampton Water | 32 | 52 | £3,087 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_040",
+    "name": "Southampton Water Satisfaction Score",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Records the customer satisfaction rating for the Southampton Water branch. Current recorded value is 69.",
+    "context": [
+      "| Southampton Water | 32 | 52 | £3,087 | 69 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_041",
+    "name": "Belfast Central Customer Count",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Tracks the total number of customers at the Belfast Central branch. Current recorded value is 28.",
+    "context": [
+      "| Belfast Central | 28 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_042",
+    "name": "Belfast Central Active Accounts",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Measures the number of active accounts held at the Belfast Central branch. Current recorded value is 45.",
+    "context": [
+      "| Belfast Central | 28 | 45 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_043",
+    "name": "Belfast Central Average Balance",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Captures the average account balance across the Belfast Central branch. Current recorded value is £2,954.",
+    "context": [
+      "| Belfast Central | 28 | 45 | £2,954 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_044",
+    "name": "Belfast Central Satisfaction Score",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Records the customer satisfaction rating for the Belfast Central branch. Current recorded value is 67.",
+    "context": [
+      "| Belfast Central | 28 | 45 | £2,954 | 67 |"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_021_met_001",
+    "name": "Account Opening Time (in-branch)",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Measures the average duration required to complete account opening procedures at physical branch locations. The operational target is set below 30 minutes, with an actual recorded performance of 28 minutes on average.",
+    "context": [
+      "Account Opening Time (in-branch)",
+      "<30 min",
+      "28 min avg"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_021",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_021_met_002",
+    "name": "System Availability",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "availability_target",
+    "description": "Tracks the operational uptime percentage of FirstUK Bank's core technology infrastructure and digital platforms. The target is set at 99.9%, with an actual performance recorded at 99.87%.",
+    "context": [
+      "System Availability",
+      "99.9%",
+      "99.87%"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_021",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_021_met_003",
+    "name": "Branch Availability",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "availability_target",
+    "description": "Monitors the operational uptime and physical accessibility of FirstUK Bank's branch network. The target requires 99.5% availability, with an actual performance measured at 99.68%.",
+    "context": [
+      "Branch Availability",
+      "99.5%",
+      "99.68%"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_021",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_021_met_004",
+    "name": "Customer Wait Time",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "Measures the average duration customers spend waiting for service delivery at branch locations. The target is set below 15 minutes, with an actual average of 12 minutes recorded.",
+    "context": [
+      "Customer Wait Time",
+      "<15 min",
+      "12 min avg"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_021",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_021_met_005",
+    "name": "Cash Reconciliation Accuracy",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Tracks the precision of daily cash handling, accounting, and reconciliation processes within branch operations. The target mandates 100% accuracy, with an actual performance recorded at 99.98%.",
+    "context": [
+      "Cash Reconciliation Accuracy",
+      "100%",
+      "99.98%"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_021",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_022_rol_001",
+    "name": "Branch Manager",
+    "aliases": [
+      "Branch Mgr"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "Serves as the primary operational lead for each branch, responsible for overseeing daily branch operations, managing customer service escalations and complaints, supervising cash handling, coordinating staff scheduling, and executing local marketing initiatives. The role requires proven banking experience, strong customer service capabilities, and thorough compliance knowledge. This position reports directly to the Director of Retail Banking.",
+    "context": [
+      "Branch Manager (1 per branch)",
+      "Responsibilities:",
+      "Branch operations oversight",
+      "Customer service escalation",
+      "Complaint management",
+      "Cash handling supervision",
+      "Staff scheduling",
+      "Local marketing",
+      "Qualifications: Banking experience, customer service, compliance knowledge",
+      "Reporting to: Director of Retail Banking"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_022",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_022_rol_002",
+    "name": "Director of Retail Banking",
+    "aliases": [
+      "Director, Retail Banking"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "director",
+    "description": "Senior leadership role within the retail banking division that serves as the direct reporting authority for Branch Managers. This position holds defined accountability for overseeing branch-level operations and ensuring alignment with broader retail banking strategies.",
+    "context": [
+      "Reporting to: Director of Retail Banking"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_022",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_022_met_001",
+    "name": "Branch Manager Staffing Ratio",
+    "aliases": [
+      "1 per branch",
+      "Branch Manager Count"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "headcount",
+    "description": "Specifies the mandatory staffing requirement for the Branch Manager role, establishing a fixed ratio of one manager allocated to each individual branch location. This target ensures consistent operational oversight and localized leadership across the branch network.",
+    "context": [
+      "Branch Manager (1 per branch)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_022",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_023_rol_001",
+    "name": "Branch Officer",
+    "aliases": [
+      "Branch Officer Role"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "specialist",
+    "description": "A frontline banking position located at the branch level, responsible for delivering customer service across counter and phone channels, supporting account opening processes, managing cash handling operations, and maintaining branch administration. The role requires specific training in banking procedures, customer service standards, and cash handling protocols to ensure operational compliance and service delivery.",
+    "context": [
+      "Branch Officer (0–1 per branch)",
+      "Customer service (counter, phone)",
+      "Account opening support",
+      "Cash handling"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_023",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_023_rol_002",
+    "name": "Branch Manager",
+    "aliases": [
+      "Branch Management Role"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "The senior leadership role at the branch level who holds direct supervisory authority over the Branch Officer. This position is responsible for overseeing branch operations and receiving reports from frontline staff to ensure operational compliance and service delivery.",
+    "context": [
+      "Reporting to: Branch Manager"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_023",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_023_met_001",
+    "name": "Branch Officer Headcount Allocation",
+    "aliases": [
+      "Branch Staffing Limit",
+      "0–1 per branch"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "headcount",
+    "description": "A quantitative staffing constraint defining the authorized number of Branch Officer positions permitted within a single branch location. This target establishes a maximum capacity of one officer and allows for zero allocation based on branch operational needs.",
+    "context": [
+      "0–1 per branch"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_023",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_023_rul_001",
+    "name": "Branch Officer Reporting Structure",
+    "aliases": [
+      "Branch Staff Reporting Line"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "operational_limit",
+    "description": "A governance rule establishing the mandatory reporting relationship for the Branch Officer role. It dictates that all branch officer activities, performance metrics, and administrative outputs must be directed to and approved by the Branch Manager.",
+    "context": [
+      "Reporting to: Branch Manager"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_023",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_024_org_001",
+    "name": "Head Office Staff",
+    "aliases": [
+      "Head Office"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "The primary administrative and operational hub for FirstUK Bank, housing three dedicated staff members responsible for core banking functions. This office serves as the central point for coordination, compliance liaison, customer service delivery, and back-office reconciliation.",
+    "context": [
+      "### Head Office Staff (3 at Head Office)",
+      "3 at Head Office"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_024",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_024_rol_002",
+    "name": "Senior Officer",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "department_head",
+    "description": "A senior leadership role within the Head Office responsible for coordinating daily operations across the branch. This position acts as the primary liaison for all compliance matters, ensuring regulatory adherence and operational alignment.",
+    "context": [
+      "**Senior Officer:** Operations coordination, compliance liaison"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_024",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_024_rol_003",
+    "name": "Officer 1",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "specialist",
+    "description": "A frontline staff member at the Head Office tasked with delivering direct customer service and managing the account opening process. This role focuses on client-facing interactions and new product onboarding.",
+    "context": [
+      "**Officer 1:** Customer service, account opening"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_024",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_024_rol_004",
+    "name": "Officer 2",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "specialist",
+    "description": "A back-office staff member at the Head Office responsible for providing operational support and performing financial reconciliation. This position ensures data accuracy and supports daily transaction processing.",
+    "context": [
+      "**Officer 2:** Back-office support, reconciliation"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_024",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_025_bnk_001",
+    "name": "AML Screening",
+    "aliases": [
+      "Compliance & AML"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "aml_screening",
+    "description": "A core regulatory and risk management concept mandated as a foundational training module for new branch staff, covering anti-money laundering procedures and compliance standards.",
+    "context": [
+      "Compliance & AML (1 day)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_025",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_025_bnk_002",
+    "name": "Product",
+    "aliases": [
+      "Product knowledge",
+      "Product updates"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A fundamental banking ontology entity representing financial offerings. Referenced as a key training focus for new hires and subject to quarterly review cycles during ongoing staff development.",
+    "context": [
+      "Product knowledge (1 day, see [[products]])",
+      "Product updates (quarterly)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_025",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_025_rul_003",
+    "name": "Mandatory Compliance Training",
+    "aliases": [
+      "Compliance training"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "An operational governance rule requiring annual refresher training for all staff to ensure continuous adherence to regulatory standards and internal compliance policies.",
+    "context": [
+      "Compliance training (annual)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_025",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_025_sys_004",
+    "name": "Product Training Manual",
+    "aliases": [
+      "PTM-001"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "document_management",
+    "description": "A centralized knowledge repository and reference system used to deliver structured product training content and operational guidelines to branch staff.",
+    "context": [
+      "See: Product Training Manual (PTM-001)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_025",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_025_org_005",
+    "name": "Branch Operations Training Program",
+    "aliases": [
+      "BOT-001"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "training_program",
+    "description": "A structured internal training framework referenced as a key resource for standardizing branch operational procedures and supporting continuous staff development.",
+    "context": [
+      "Branch Operations Training (BOT-001)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_025",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_025_bnk_006",
+    "name": "Customer Service",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "customer",
+    "description": "A core banking concept representing client-facing interaction and support functions, delivered through dedicated training modules and reinforced via monthly coaching sessions.",
+    "context": [
+      "Customer service (1 day)",
+      "Customer service coaching (monthly)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_025",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_025_sys_007",
+    "name": "Core Banking Systems",
+    "aliases": [
+      "Systems training"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "core_banking",
+    "description": "The underlying technology platforms and digital applications used by branch staff, requiring dedicated one-day training sessions to ensure operational proficiency and system compliance.",
+    "context": [
+      "Systems training (1 day)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_025",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_026_org_001",
+    "name": "Branch",
+    "aliases": [
+      "Branch Office",
+      "Physical Branch",
+      "Branch Location"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit | office",
+    "description": "The physical or operational location within FirstUK Bank responsible for executing branch-level compliance activities, maintaining regulatory certifications, and undergoing annual control audits.",
+    "context": [
+      "## Branch Compliance",
+      "All branch managers certified annually",
+      "Annual audit of branch controls"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_026_rol_001",
+    "name": "Branch Manager",
+    "aliases": [
+      "Branch Managers"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "The leadership role accountable for ensuring branch-level regulatory compliance, including maintaining annual certification and overseeing the execution of branch control audits.",
+    "context": [
+      "All branch managers certified annually",
+      "Annual audit of branch controls"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_026_bnk_001",
+    "name": "KYC/CDD Process",
+    "aliases": [
+      "KYC",
+      "CDD",
+      "Know Your Customer/Customer Due Diligence"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "kyc_verification",
+    "description": "A core regulatory compliance concept encompassing Know Your Customer and Customer Due Diligence procedures, governed by the bank's business ontology and SOP-001.",
+    "context": [
+      "KYC/CDD (see [[business_ontology]], KYC-SOP-001)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_026_bnk_002",
+    "name": "AML Screening",
+    "aliases": [
+      "Anti-Money Laundering Screening",
+      "AML"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "aml_screening",
+    "description": "A mandatory compliance concept involving the screening of customers and transactions to prevent money laundering, governed by internal policy AML-POL-002.",
+    "context": [
+      "AML screening (AML-POL-002)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_026_bnk_003",
+    "name": "Complaint Handling",
+    "aliases": [
+      "Complaint Management",
+      "Customer Complaints"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "complaint_management",
+    "description": "The structured operational concept for receiving, processing, and resolving customer complaints in accordance with internal policy COM-POL-006.",
+    "context": [
+      "Complaint handling (COM-POL-006)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_026_bnk_004",
+    "name": "Customer Privacy",
+    "aliases": [
+      "Data Privacy",
+      "Privacy Protection"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "privacy_control",
+    "description": "A regulatory and operational concept focused on protecting customer personal information, aligned with GDPR standards and internal policy PRI-POL-004.",
+    "context": [
+      "Customer privacy (GDPR, PRI-POL-004)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_026_bnk_005",
+    "name": "Data Handling",
+    "aliases": [
+      "Data Processing",
+      "Information Management"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "data_handling",
+    "description": "The operational concept governing the secure processing, storage, and management of bank data in strict compliance with the Data Protection Act (DPA).",
+    "context": [
+      "Data handling (DPA)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_026_met_001",
+    "name": "Annual Compliance Certification",
+    "aliases": [
+      "Branch Manager Certification",
+      "Annual Certification"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi | operational_frequency",
+    "description": "A mandatory operational frequency target requiring all branch managers to complete regulatory compliance certification on an annual basis.",
+    "context": [
+      "All branch managers certified annually"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_026_met_002",
+    "name": "Annual Branch Audit",
+    "aliases": [
+      "Branch Control Audit",
+      "Annual Audit"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla | operational_frequency",
+    "description": "A scheduled operational frequency target dictating that branch-level controls and compliance measures undergo a comprehensive audit every year.",
+    "context": [
+      "Annual audit of branch controls"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_026_rul_001",
+    "name": "KYC/CDD Compliance Requirement",
+    "aliases": [
+      "KYC-SOP-001",
+      "Customer Due Diligence Rule"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation | compliance_requirement",
+    "description": "A binding operational rule mandating adherence to the KYC/CDD standard operating procedure (KYC-SOP-001) as a fundamental branch compliance area.",
+    "context": [
+      "KYC/CDD (see [[business_ontology]], KYC-SOP-001)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_026_rul_002",
+    "name": "AML Screening Policy Constraint",
+    "aliases": [
+      "AML-POL-002",
+      "Anti-Money Laundering Rule"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation | compliance_requirement",
+    "description": "A mandatory policy constraint requiring all branch operations to execute anti-money laundering screening procedures in accordance with AML-POL-002.",
+    "context": [
+      "AML screening (AML-POL-002)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_026_rul_003",
+    "name": "Complaint Handling Policy",
+    "aliases": [
+      "COM-POL-006",
+      "Complaint Management Rule"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement | control",
+    "description": "An operational governance rule dictating the mandatory process for managing customer complaints per internal policy COM-POL-006.",
+    "context": [
+      "Complaint handling (COM-POL-006)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_026_rul_004",
+    "name": "Customer Privacy Policy",
+    "aliases": [
+      "PRI-POL-004",
+      "GDPR Compliance Rule"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation | compliance_requirement",
+    "description": "A governance rule enforcing data privacy standards aligned with GDPR and internal policy PRI-POL-004 for all customer-facing operations.",
+    "context": [
+      "Customer privacy (GDPR, PRI-POL-004)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_026_rul_005",
+    "name": "Data Protection Compliance Rule",
+    "aliases": [
+      "DPA",
+      "Data Handling Constraint"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation | compliance_requirement",
+    "description": "A mandatory rule requiring strict adherence to the Data Protection Act (DPA) for all data processing and handling activities within the branch.",
+    "context": [
+      "Data handling (DPA)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_026_rul_006",
+    "name": "Branch Control Audit Schedule",
+    "aliases": [
+      "Annual Audit Rule",
+      "Branch Audit Constraint"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation | control",
+    "description": "A governance rule mandating an annual audit to verify the effectiveness, accuracy, and compliance of branch-level operational controls.",
+    "context": [
+      "Annual audit of branch controls"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_027_rul_001",
+    "name": "Document Retention Policy",
+    "aliases": [
+      "RET-POL-005",
+      "Document Retention"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "Establishes the mandatory archival and retention framework for FirstUK Bank's operational and customer documentation. It standardizes a six-year retention window across all specified record categories, ensuring regulatory compliance and audit readiness post-account closure or transaction completion.",
+    "context": [
+      "**Policy:** Document Retention Policy (RET-POL-005)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_027",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_027_bnk_001",
+    "name": "Customer Records",
+    "aliases": [
+      "Customer Data",
+      "Client Documentation"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "customer",
+    "description": "Encompasses all archived documentation, identity verification materials, and relationship data associated with a customer. Subject to a mandatory six-year retention period following account closure to satisfy regulatory and operational audit requirements.",
+    "context": [
+      "- **Customer Records:** 6 years post-account closure"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_027",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_027_bnk_002",
+    "name": "Transaction Records",
+    "aliases": [
+      "Transaction Data",
+      "Trade Documentation"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "Represents the complete set of documented evidence for financial transactions processed through the bank. Mandated to be retained for a fixed six-year period to support reconciliation, dispute resolution, and regulatory reporting.",
+    "context": [
+      "- **Transaction Records:** 6 years"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_027",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_027_bnk_003",
+    "name": "Complaint Records",
+    "aliases": [
+      "Complaint Data",
+      "Customer Dispute Documentation"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "complaint",
+    "description": "Captures all documented customer complaints, investigation notes, and resolution outcomes. Required to be archived for a six-year timeframe to ensure accountability, regulatory oversight, and historical dispute tracking.",
+    "context": [
+      "- **Complaint Records:** 6 years"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_027",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_027_bnk_004",
+    "name": "AML Records",
+    "aliases": [
+      "Anti-Money Laundering Documentation",
+      "AML Screening Files"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "aml_screening",
+    "description": "Encompasses all documentation related to anti-money laundering screening, suspicious activity reporting, and compliance checks. Subject to a strict six-year retention mandate to meet financial crime regulatory obligations.",
+    "context": [
+      "- **AML Records:** 6 years"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_027",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_027_met_001",
+    "name": "Customer Record Retention Period",
+    "aliases": [
+      "Post-Closure Customer Archival Duration"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "Defines the mandatory archival duration for customer records, set at six years following account closure. Serves as a compliance threshold to ensure data availability for regulatory audits and dispute resolution.",
+    "context": [
+      "- **Customer Records:** 6 years post-account closure"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_027",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_027_met_002",
+    "name": "Transaction Record Retention Period",
+    "aliases": [
+      "Transaction Archival Duration"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "Establishes the fixed retention window for transaction records, mandated at six years. Functions as an operational compliance target to maintain audit trails and support financial reconciliation.",
+    "context": [
+      "- **Transaction Records:** 6 years"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_027",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_027_met_003",
+    "name": "Complaint Record Retention Period",
+    "aliases": [
+      "Complaint Archival Duration"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "Sets the required retention timeframe for complaint records, established at six years. Acts as a governance threshold to ensure historical accountability and regulatory reporting capability.",
+    "context": [
+      "- **Complaint Records:** 6 years"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_027",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_027_met_004",
+    "name": "AML Record Retention Period",
+    "aliases": [
+      "AML Archival Duration"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "risk_threshold",
+    "description": "Defines the mandatory retention period for anti-money laundering records, set at six years. Serves as a compliance threshold to satisfy financial crime regulatory obligations and audit requirements.",
+    "context": [
+      "- **AML Records:** 6 years"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_027",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_028_bnk_001",
+    "name": "Customer Data",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "customer",
+    "description": "Customer data subject to mandatory encryption, strict access controls, and comprehensive audit logging to ensure security compliance and regulatory adherence.",
+    "context": [
+      "Customer Data: Encrypted, access-controlled, audit-logged"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_028",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_028_org_001",
+    "name": "Head Office",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "The central administrative location designated as the secure destination for daily encrypted data backups and the primary escalation point for security incidents.",
+    "context": [
+      "Daily encrypted backup to Head Office",
+      "Escalate to Head Office within 2 hours"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_028",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_028_met_001",
+    "name": "Incident Response Escalation Timeframe",
+    "aliases": [
+      "2 hours"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "response_time",
+    "description": "Maximum allowable operational timeframe for escalating security incidents to the Head Office.",
+    "context": [
+      "Escalate to Head Office within 2 hours"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_028",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_028_rul_001",
+    "name": "Information Security Policy (SEC-POL-002)",
+    "aliases": [
+      "SEC-POL-002",
+      "Information Security Policy"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "Governing policy document that establishes the mandatory data security standards, encryption requirements, and audit controls referenced in this section.",
+    "context": [
+      "**See:** Information Security Policy (SEC-POL-002)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_028",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_029_org_001",
+    "name": "Manchester Branch",
+    "aliases": [
+      "Manchester"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "A branch location identified in the 2026 Branch Expansion & Optimization plan. It is designated as the target site for an Extended Hours Trial initiative, which is currently in the planning phase. The branch will undergo operational adjustments to test extended service hours.",
+    "context": [
+      "Extended Hours Trial",
+      "Manchester",
+      "Planning"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_029",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_029_org_002",
+    "name": "Leeds Branch",
+    "aliases": [
+      "Leeds"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "A branch location targeted for strategic staffing expansion within the 2026 optimization framework. It serves as the designated location for deploying a dedicated Mortgage Specialist role. The initiative has received formal approval and is ready for execution.",
+    "context": [
+      "Mortgage Specialist (Leeds)",
+      "1 FTE",
+      "Approved"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_029",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_029_rol_003",
+    "name": "Mortgage Specialist",
+    "aliases": [
+      "Mortgage Specialist (Leeds)"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "specialist",
+    "description": "A specialized banking role focused on mortgage advisory and processing services. This position is specifically allocated to the Leeds branch to enhance local lending capabilities. The role carries defined accountability for customer mortgage interactions within the branch structure.",
+    "context": [
+      "Mortgage Specialist (Leeds)",
+      "1 FTE",
+      "Approved"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_029",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_029_met_004",
+    "name": "1 FTE Headcount Target",
+    "aliases": [
+      "1 FTE"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "headcount",
+    "description": "A quantitative staffing metric specifying one full-time equivalent (FTE) position. This target defines the exact headcount allocation required to fulfill the Mortgage Specialist role at the Leeds branch. It serves as a measurable operational benchmark for recruitment and resource planning.",
+    "context": [
+      "Mortgage Specialist (Leeds)",
+      "1 FTE",
+      "Approved"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_029",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_030_org_001",
+    "name": "Branches",
+    "aliases": [
+      "Physical Branches",
+      "Branch Locations"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "Physical branch locations serving as operational hubs that currently support a suite of digital integration features and customer-facing services. They act as the primary point of delivery for both legacy and emerging digital capabilities within the bank's retail network.",
+    "context": [
+      "**Branches Now Support:**",
+      "Digital Integration"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_030",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_030_bnk_001",
+    "name": "Contactless Payments",
+    "aliases": [
+      "Tap-to-Pay",
+      "NFC Payments"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "A branch-enabled payment capability that allows customers to complete transactions without physical card contact. This feature is currently supported as part of the branches' digital integration suite.",
+    "context": [
+      "- Contactless payments",
+      "**Branches Now Support:**"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_030",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_030_sys_001",
+    "name": "Digital Account Opening Platform",
+    "aliases": [
+      "Digital Onboarding",
+      "Wet Signature Account Opening"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "digital_channel",
+    "description": "A branch-supported digital platform that facilitates new customer onboarding and account creation through electronic workflows. The system integrates physical wet signature capture to ensure compliance while maintaining a digital-first experience.",
+    "context": [
+      "- Digital account opening with wet signature",
+      "**Branches Now Support:**"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_030",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_030_sys_002",
+    "name": "Mobile App Download QR System",
+    "aliases": [
+      "QR Code App Download",
+      "Branch QR Scanner"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "mobile_banking",
+    "description": "A branch-provided scannable code mechanism designed to direct customers to download the bank's official mobile application. It serves as a physical-to-digital bridge for customer acquisition and app adoption.",
+    "context": [
+      "- QR code for app download",
+      "**Branches Now Support:**"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_030",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_030_sys_003",
+    "name": "Online Appointment Booking System",
+    "aliases": [
+      "Digital Booking Portal",
+      "Branch Scheduling Tool"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "internet_banking",
+    "description": "A web-based scheduling tool integrated into branch operations, enabling customers to book in-person appointments digitally. It streamlines customer flow and reduces physical queue times at branch locations.",
+    "context": [
+      "- Online appointment booking",
+      "**Branches Now Support:**"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_030",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_030_sys_004",
+    "name": "Video Account Opening Service",
+    "aliases": [
+      "Remote Video Onboarding",
+      "Virtual Branch Account Opening"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "digital_channel",
+    "description": "A planned future digital onboarding method leveraging video conferencing technology to verify identity and open accounts remotely. It represents a shift toward fully virtualized branch experiences.",
+    "context": [
+      "- Video account opening",
+      "**Future (2027):**"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_030",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_030_sys_005",
+    "name": "Mobile Payment Demonstration Platform",
+    "aliases": [
+      "Mobile Payment Demos",
+      "Branch Payment Showcases"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "mobile_banking",
+    "description": "A planned branch activity or system demonstration showcasing mobile payment functionalities to customers. It serves as an educational and promotional tool for the bank's digital payment ecosystem.",
+    "context": [
+      "- Mobile payment demos",
+      "**Future (2027):**"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_030",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_030_bnk_002",
+    "name": "Digital Check Deposit",
+    "aliases": [
+      "Mobile Check Deposit",
+      "Electronic Check Capture"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "A future digital banking capability allowing customers to deposit checks electronically. The feature is currently in the planning phase and slated for integration into the broader product suite.",
+    "context": [
+      "- Digital check deposit (planned for [[products]])",
+      "**Future (2027):**"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_030",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_030_met_001",
+    "name": "2027 Digital Rollout Target",
+    "aliases": [
+      "Future 2027 Timeline",
+      "2027 Branch Digitalization Goal"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "target_date",
+    "description": "The strategic timeline target set for the implementation and launch of future digital branch capabilities, including video account opening and mobile payment demos. It serves as a key operational milestone for the bank's digital integration roadmap.",
+    "context": [
+      "**Future (2027):**",
+      "Digital Integration"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_030",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_031_bnk_001",
+    "name": "Wheelchair Access",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "Physical branch infrastructure standard mandating step-free entry and navigation for customers requiring mobility assistance.",
+    "context": [
+      "Wheelchair access at all branches"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_031",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_031_bnk_002",
+    "name": "Accessible Customer Restrooms",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "Branch facility design requirement ensuring restrooms comply with accessibility standards for customer use.",
+    "context": [
+      "Accessible customer restrooms"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_031",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_031_bnk_003",
+    "name": "Large-Print Materials",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "Printed documentation format specification providing enlarged text to accommodate visual impairment needs across branch operations.",
+    "context": [
+      "Large-print materials available"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_031",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_031_bnk_004",
+    "name": "Hearing Loop Systems",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "Branch audio technology deployment enabling direct sound transmission to hearing aid users in designated service areas.",
+    "context": [
+      "Hearing loop systems (where needed)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_031",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_031_bnk_005",
+    "name": "Large-Text Statements",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "Account statement delivery specification allowing customers to request statements formatted with enlarged typography upon request.",
+    "context": [
+      "Large-text statements (on request)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_031",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_031_sys_001",
+    "name": "Digital Banking Channels",
+    "aliases": [],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "internet_banking | mobile_banking",
+    "description": "Customer-facing online and mobile platforms explicitly configured to meet digital accessibility standards and screen reader compatibility.",
+    "context": [
+      "Accessible online/mobile banking"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_031",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_031_org_001",
+    "name": "Accessibility Support Team",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "team",
+    "description": "Dedicated customer service function responsible for coordinating and resolving accessibility-related inquiries and support requirements.",
+    "context": [
+      "Customer support for accessibility needs"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_031",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_031_bnk_006",
+    "name": "Interpreter Services",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "Language assistance provision enabling customers to request professional interpretation support during banking interactions upon request.",
+    "context": [
+      "Interpreter services (on request)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_031",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_032_rul_001",
+    "name": "30-Day Customer Notice Requirement",
+    "aliases": [
+      "30-day customer notice"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "Establishes a mandatory 30-day advance notification period for customers prior to any branch closure. This operational constraint ensures adequate lead time for service transition and customer communication, minimizing disruption during physical branch shutdowns.",
+    "context": [
+      "30-day customer notice required"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_032",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_032_bnk_001",
+    "name": "Disaster Recovery Process",
+    "aliases": [
+      "Disaster Recovery",
+      "DR"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "disaster_recovery",
+    "description": "A core operational framework that dictates how banking services are dynamically rerouted to the nearest branch during service disruptions. It encompasses data security protocols and communication plan activations to maintain service continuity and protect customer assets.",
+    "context": [
+      "**Disaster Recovery:**",
+      "- Banking services rerouted to nearest branch",
+      "- Customer data secured in off-site backup"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_032",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_032_met_001",
+    "name": "BCP Testing Frequency Target",
+    "aliases": [
+      "Regular BCP testing",
+      "Annual BCP test"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Defines an annual operational frequency requirement for conducting Business Continuity Plan (BCP) testing. This performance target ensures that FirstUK Bank's continuity protocols are regularly validated and remain compliant with internal readiness standards.",
+    "context": [
+      "- Regular BCP testing (annual)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_032",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_032_rul_002",
+    "name": "Business Continuity Plan (BCP-001)",
+    "aliases": [
+      "BCP-001",
+      "Business Continuity Plan"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "control",
+    "description": "The primary governing document and operational control framework referenced for all continuity-related procedures. It serves as the authoritative source dictating branch closure protocols, disaster recovery workflows, data security measures, and communication activations.",
+    "context": [
+      "**See:** Business Continuity Plan (BCP-001)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_032",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_032_bnk_002",
+    "name": "Branch Closure Procedures",
+    "aliases": [
+      "Branch Closure",
+      "Closure Procedures"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "branch_closure",
+    "description": "A structured operational process designed to manage the transition during physical branch shutdowns. It integrates customer data transfer support, alternative branch assignment mechanisms, and digital services promotion to maintain seamless customer access.",
+    "context": [
+      "**Branch Closure Procedures:**",
+      "- Customer data transfer support",
+      "- Alternative branch assignment",
+      "- Digital services promotion"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_032",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_032_rul_003",
+    "name": "Off-Site Data Backup Control",
+    "aliases": [
+      "Customer data secured in off-site backup"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "control",
+    "description": "A mandatory data protection constraint requiring that all customer data be secured and maintained in an off-site backup location. This control ensures data integrity and availability during physical disasters or branch-level service interruptions.",
+    "context": [
+      "- Customer data secured in off-site backup"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_032",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_033_org_001",
+    "name": "Retail Banking Department",
+    "aliases": [
+      "departments",
+      "Retail Banking"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A core internal department within FirstUK Bank responsible for managing retail customer relationships, branch operations, and consumer-facing service delivery. Referenced as a primary structural component in the bank's organisational model.",
+    "context": [
+      "[[departments]] — Retail Banking Department"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_033",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_033_bnk_001",
+    "name": "Product Offerings",
+    "aliases": [
+      "products",
+      "Product Catalogue"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "The structured portfolio of banking products and financial services provided by FirstUK Bank to its customer base. Referenced as a key domain requiring formal documentation, feature definition, and lifecycle management.",
+    "context": [
+      "[[products]] — Product offerings"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_033",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_033_rul_001",
+    "name": "Daily Operations Checklist",
+    "aliases": [
+      "DOC-001",
+      "Daily Ops Checklist"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "operational_limit",
+    "description": "A mandatory procedural framework outlining daily operational checkpoints, verification steps, and task sequencing required to maintain standard banking workflows. Serves as a control mechanism to ensure consistent execution of routine branch and back-office activities.",
+    "context": [
+      "Daily Operations Checklist (DOC-001)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_033",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_033_rul_002",
+    "name": "Escalation Matrix",
+    "aliases": [
+      "ESC-001",
+      "Escalation Protocol"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "decision_authority",
+    "description": "A governance document defining the hierarchical reporting structure and approval thresholds for escalating customer complaints, system incidents, or compliance breaches. Establishes clear decision authority and accountability pathways across FirstUK Bank's operational tiers.",
+    "context": [
+      "Escalation Matrix (ESC-001)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_033",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_033_rul_003",
+    "name": "Branch Security Policy",
+    "aliases": [
+      "SEC-POL-001",
+      "Branch Security Procedures"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "A formal regulatory and operational control document establishing mandatory physical security standards, access protocols, and safety procedures for all FirstUK Bank branch locations. Enforces strict adherence to internal governance and external security regulations.",
+    "context": [
+      "Branch Security Policy (SEC-POL-001)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_033",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_033_rul_004",
+    "name": "Cash Handling Procedures",
+    "aliases": [
+      "CHP-001",
+      "Cash Management Protocols"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "control",
+    "description": "Standardised operational guidelines governing the secure receipt, processing, storage, reconciliation, and disposal of physical cash transactions. Functions as a critical internal control to mitigate fraud risk and ensure regulatory compliance in cash-intensive operations.",
+    "context": [
+      "Cash Handling Procedures (CHP-001)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_033",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_033_rul_005",
+    "name": "Compliance Bulletins",
+    "aliases": [
+      "COMP-BULL-2026",
+      "Regulatory Updates"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "Periodic internal communications disseminating updated regulatory requirements, policy amendments, and compliance directives that FirstUK Bank staff must acknowledge and implement. Serves as a binding governance mechanism to align bank operations with evolving legal and supervisory expectations.",
+    "context": [
+      "Compliance Bulletins (COMP-BULL-2026)"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_033",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_033_org_002",
+    "name": "Organisation Model",
+    "aliases": [
+      "organisation_model",
+      "Org Structure"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "The foundational structural framework defining the hierarchy, functional divisions, reporting lines, and governance boundaries within FirstUK Bank. Referenced as a core reference document for understanding departmental relationships and operational scope.",
+    "context": [
+      "[[organisation_model]] — Organizational structure"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_033",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_034_rol_001",
+    "name": "Director of Retail Banking",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "director",
+    "description": "A named leadership role within FirstUK Bank responsible for the retail banking division, explicitly designated as an approving authority on the document sign-off page.",
+    "context": [
+      "Director of Retail Banking — **Date: 2026-01-15**"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_034",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_034_rol_002",
+    "name": "Chief Operating Officer",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "A C-suite executive role at FirstUK Bank responsible for operational oversight and governance, holding formal sign-off authority on the document.",
+    "context": [
+      "Chief Operating Officer — **Date: 2026-01-15**"
+    ],
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_034",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814",
+    "domain": "banking_organization"
+  }
+]

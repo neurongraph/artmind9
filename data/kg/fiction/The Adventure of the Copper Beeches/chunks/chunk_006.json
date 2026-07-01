@@ -1,0 +1,2667 @@
+{
+  "embedding": [
+    0.016285848,
+    0.033634126,
+    -0.14816329,
+    -0.0409218,
+    0.032425325,
+    0.022503233,
+    0.037321106,
+    0.035000764,
+    0.013798652,
+    -0.06405922,
+    -0.08689089,
+    0.033045437,
+    0.0054150936,
+    0.046111245,
+    -0.030453732,
+    0.010582002,
+    0.12354363,
+    0.006095725,
+    -0.019328656,
+    -0.014827908,
+    -0.085425176,
+    -6.6128465e-05,
+    -0.04114029,
+    -0.063009076,
+    0.014699569,
+    0.019029744,
+    -0.01202817,
+    0.0053714844,
+    -0.009566082,
+    0.048482947,
+    0.039581288,
+    -0.009229847,
+    -0.033511538,
+    0.016984727,
+    -0.080507666,
+    -0.05317321,
+    0.00022027515,
+    0.06282955,
+    0.003212155,
+    -0.0047573783,
+    0.059360716,
+    0.044546336,
+    -0.016349696,
+    -0.047903303,
+    0.02448145,
+    0.003106993,
+    0.017140834,
+    -0.028616477,
+    0.040436503,
+    0.013260032,
+    0.012030212,
+    -0.027305927,
+    0.03410787,
+    -0.0037275471,
+    0.10609748,
+    0.028498108,
+    0.0033659022,
+    -0.051027477,
+    0.039721187,
+    0.005401424,
+    0.06429839,
+    -0.022297123,
+    0.020958647,
+    0.05144404,
+    0.0061828154,
+    -0.021955896,
+    0.00328301,
+    0.038328644,
+    0.019491106,
+    -0.092112795,
+    0.0584208,
+    -0.054444022,
+    -0.026586156,
+    0.013379395,
+    -0.021265982,
+    0.044074643,
+    0.041117247,
+    0.017824393,
+    0.053061217,
+    -0.0022813918,
+    -0.020202423,
+    -0.07410415,
+    0.0517387,
+    -0.019275729,
+    0.006408956,
+    0.022353945,
+    0.039480183,
+    -0.032683436,
+    -0.036222406,
+    0.039084736,
+    0.04217699,
+    -0.001537266,
+    0.025146803,
+    -0.0031381773,
+    -0.00728461,
+    0.046584863,
+    0.032530196,
+    0.004437043,
+    -0.050670464,
+    -0.0044013336,
+    -0.023381189,
+    -0.043265164,
+    -0.001667104,
+    0.045964222,
+    0.016361864,
+    0.080530845,
+    -0.0069148787,
+    -0.012655478,
+    0.0062311157,
+    -0.0009167542,
+    -0.018748842,
+    0.028614944,
+    -0.048293743,
+    -0.063679844,
+    0.025729544,
+    -0.013887034,
+    0.016813135,
+    -0.01595482,
+    0.048483685,
+    0.02824069,
+    -0.014978486,
+    0.06964961,
+    -0.017007843,
+    0.047079645,
+    0.047371298,
+    0.002552046,
+    -0.057553627,
+    0.03414556,
+    -0.012067483,
+    -0.045790628,
+    0.007919358,
+    0.019822273,
+    -0.0116123,
+    0.04253141,
+    0.06684601,
+    0.05391573,
+    0.043762226,
+    -0.022695005,
+    -0.015810445,
+    0.013246016,
+    0.027352676,
+    0.06094523,
+    0.0009454514,
+    -0.042430677,
+    -0.004484653,
+    -0.014971062,
+    0.0012423738,
+    -0.035682075,
+    -0.0713384,
+    0.0172142,
+    0.010105183,
+    0.022725133,
+    -0.03412445,
+    0.06889695,
+    -0.0069920057,
+    -0.04052486,
+    -0.00088008743,
+    0.042109337,
+    -0.0036105537,
+    0.06874091,
+    -0.010220279,
+    0.029429115,
+    -0.023418002,
+    0.02310213,
+    0.016085384,
+    -0.036609143,
+    0.0036414862,
+    0.03656662,
+    -0.008283701,
+    -0.012189183,
+    -0.061436135,
+    0.008641401,
+    0.021421218,
+    -0.031176785,
+    0.014944555,
+    0.0038813858,
+    0.040090654,
+    -0.058094382,
+    -0.054612108,
+    -0.046495307,
+    0.06110334,
+    -0.013623944,
+    0.0560103,
+    -0.036750562,
+    -0.021052161,
+    -0.01555003,
+    0.013969851,
+    -0.031454302,
+    -0.048301376,
+    -0.03432208,
+    0.013704082,
+    -0.018452385,
+    -0.066946335,
+    0.021179477,
+    -0.026243875,
+    -0.0044274856,
+    -0.0155224595,
+    0.0149668045,
+    -0.007003081,
+    0.012335467,
+    -0.037976414,
+    -0.008106202,
+    0.057561204,
+    -0.018340744,
+    -0.04161296,
+    0.08111664,
+    -0.013181959,
+    -0.0194055,
+    -0.002467386,
+    -0.007536392,
+    0.02772793,
+    -0.047205515,
+    0.0034234617,
+    0.0171136,
+    0.029769275,
+    -0.004961298,
+    0.03563197,
+    0.011261566,
+    -0.050871182,
+    -0.008828744,
+    0.023684103,
+    0.049523804,
+    -0.052832033,
+    0.0062256358,
+    0.037876394,
+    0.05947446,
+    -0.033378117,
+    -0.019435288,
+    -0.03734767,
+    -0.010855847,
+    -0.010754822,
+    -0.1164334,
+    0.06392757,
+    0.020353578,
+    -0.03760272,
+    0.012927449,
+    -0.03266136,
+    0.029783526,
+    -0.010070608,
+    0.016803134,
+    0.0072529134,
+    -0.013943423,
+    -0.020735862,
+    -0.0023281006,
+    -0.06606704,
+    0.0143374875,
+    0.019212626,
+    -0.040014446,
+    -0.006326978,
+    0.035036355,
+    0.026054692,
+    0.0076550534,
+    0.050538618,
+    -0.0043663634,
+    0.014492805,
+    -0.020632435,
+    -0.028456151,
+    -0.0027561095,
+    -0.070857964,
+    -0.001501169,
+    0.047923185,
+    -0.066343054,
+    -0.038834333,
+    -0.030293847,
+    -0.038340602,
+    -0.037502613,
+    -0.046595242,
+    0.0048483307,
+    0.046739563,
+    -0.02359815,
+    0.023589568,
+    0.07268273,
+    0.020659098,
+    0.004842416,
+    0.009305709,
+    0.026351608,
+    -0.0012813179,
+    0.008763646,
+    0.034668382,
+    0.00017675148,
+    -0.025667243,
+    0.013984209,
+    -0.047058973,
+    -0.02017753,
+    -0.009336551,
+    0.00032027604,
+    0.016927514,
+    -0.0057959603,
+    0.054775417,
+    -0.04919323,
+    0.0129615655,
+    0.014082544,
+    -0.025463982,
+    0.082422964,
+    0.009718803,
+    -0.015097579,
+    0.011273918,
+    -0.02941007,
+    -0.02697666,
+    -0.00677462,
+    0.06557617,
+    0.04045512,
+    -0.015692666,
+    0.037701536,
+    -0.034726072,
+    -0.03690031,
+    0.0005557868,
+    0.0011566194,
+    -0.009243145,
+    -0.023417786,
+    -0.11036134,
+    0.0028658484,
+    -0.011086755,
+    -0.027619235,
+    -0.021479806,
+    0.013415496,
+    0.031801026,
+    0.040991418,
+    0.026270686,
+    0.018876228,
+    -0.013780394,
+    0.044963047,
+    -0.010599155,
+    -0.06766714,
+    0.015920874,
+    0.030113129,
+    -0.011202384,
+    0.05127573,
+    -0.033671536,
+    -0.021563949,
+    0.027884254,
+    0.024037192,
+    0.019971589,
+    -0.029355893,
+    -0.038408607,
+    0.025914956,
+    -0.018481813,
+    0.0316383,
+    -0.017141912,
+    -0.019510102,
+    0.042094424,
+    -0.035645682,
+    0.027872393,
+    -0.031633366,
+    -0.029576404,
+    0.041022573,
+    -0.049827,
+    0.030647058,
+    0.06482431,
+    0.014074352,
+    -0.027899042,
+    -0.02155726,
+    -0.02416019,
+    -0.010068411,
+    0.01858986,
+    0.027451122,
+    -0.04206828,
+    0.043115173,
+    -0.007546827,
+    -0.028501766,
+    0.029762283,
+    0.027935999,
+    0.007774663,
+    -0.086170286,
+    -0.02789546,
+    0.06334796,
+    0.09285188,
+    0.0029210558,
+    -0.0011492372,
+    0.012881652,
+    -0.04826231,
+    -0.020174325,
+    -0.022438804,
+    0.017182082,
+    0.035431623,
+    -0.02830308,
+    -0.05932792,
+    -0.055868216,
+    -0.018052123,
+    0.04675476,
+    -0.04430577,
+    0.013146724,
+    0.02778674,
+    0.0062119686,
+    0.05652873,
+    0.004224689,
+    0.026651766,
+    -0.00796013,
+    0.00031570936,
+    0.0027654688,
+    -0.014050701,
+    0.006600362,
+    -0.059513867,
+    -0.018119114,
+    0.051242713,
+    -0.021548042,
+    0.0022962363,
+    -0.015820393,
+    -0.011889758,
+    0.009487455,
+    -0.03824492,
+    -0.058320846,
+    0.022746935,
+    0.01742755,
+    -0.033056445,
+    0.0104458425,
+    0.021986907,
+    -0.012505288,
+    0.0365835,
+    -0.04201643,
+    0.010998058,
+    0.039227564,
+    -0.038374174,
+    -0.040772717,
+    -0.050860867,
+    0.040506873,
+    0.046384264,
+    -0.01733425,
+    0.0022864686,
+    -0.028055431,
+    0.0020601505,
+    0.05306221,
+    -0.022942357,
+    0.006699307,
+    0.017371297,
+    0.01085876,
+    0.02070023,
+    0.016407523,
+    -0.028158696,
+    -0.044080034,
+    0.02241855,
+    -0.012590669,
+    0.030009462,
+    -0.019446453,
+    0.026890818,
+    0.0030815897,
+    0.019714583,
+    0.016198548,
+    0.051595155,
+    0.0785152,
+    0.03594562,
+    0.025284851,
+    0.006458038,
+    -0.012348928,
+    -0.013368268,
+    -0.0056326687,
+    0.061216265,
+    -0.031999495,
+    0.012235871,
+    0.031259518,
+    -0.012364963,
+    0.012625194,
+    -0.008836427,
+    0.016381206,
+    0.08096067,
+    -0.019896738,
+    -0.030940887,
+    0.013046257,
+    0.0022672918,
+    0.033918627,
+    0.006258524,
+    0.019616947,
+    -0.07343593,
+    0.024199404,
+    0.02634553,
+    0.019632662,
+    -0.0071194274,
+    -0.03791701,
+    0.035591047,
+    0.016113183,
+    -0.039233662,
+    0.023354758,
+    0.017204316,
+    -0.03419997,
+    0.040418744,
+    -0.019724967,
+    -0.019897468,
+    -0.006873403,
+    -0.049468856,
+    0.11211718,
+    0.0017815465,
+    -0.012830057,
+    0.032580607,
+    -0.042971358,
+    0.014874812,
+    -0.008476621,
+    -0.020338586,
+    -0.005952001,
+    -0.020631839,
+    -0.012344522,
+    -0.011900958,
+    0.006970152,
+    -0.037017424,
+    -0.015399731,
+    -0.018289378,
+    -0.051038697,
+    -0.002216932,
+    0.07926645,
+    0.006691913,
+    0.040950406,
+    0.0067777266,
+    0.08515452,
+    -0.0020899945,
+    0.03961949,
+    0.0194963,
+    -0.02165385,
+    -0.012856146,
+    -0.07377435,
+    -0.03428325,
+    -0.020077387,
+    -0.051279817,
+    -0.005131588,
+    -0.024265455,
+    0.0099674715,
+    0.12671462,
+    -0.04980209,
+    -0.033156063,
+    0.02670974,
+    -0.029505044,
+    0.003436492,
+    -0.007483121,
+    -0.07426309,
+    0.010491883,
+    -0.06530358,
+    -0.06654357,
+    0.030689327,
+    -0.038218644,
+    -0.08574366,
+    0.004184754,
+    0.018644037,
+    -0.025837634,
+    0.043454934,
+    -0.04311196,
+    -0.046892453,
+    -0.0052425563,
+    0.012174581,
+    -0.021221694,
+    0.014035252,
+    0.029685697,
+    0.031146606,
+    -0.0203226,
+    0.0067753345,
+    0.00026045903,
+    -0.0155816,
+    -0.0024008434,
+    0.014428507,
+    0.0012442854,
+    0.013069916,
+    -0.024577644,
+    0.014550727,
+    0.038762826,
+    -0.037811354,
+    -0.04367836,
+    0.0013307416,
+    0.03507593,
+    -0.024397919,
+    -0.0056667677,
+    -0.042382866,
+    -0.04987509,
+    -0.034783434,
+    -0.0015329433,
+    0.0059737875,
+    0.0048971856,
+    0.015148123,
+    0.0009981404,
+    -0.02357427,
+    -0.020120619,
+    -0.023726244,
+    -0.029130513,
+    0.017390253,
+    0.0130998315,
+    -0.06071516,
+    -0.028097453,
+    0.010958263,
+    0.005375897,
+    0.011839998,
+    0.008685207,
+    -0.0023681652,
+    -0.06832611,
+    -0.04735039,
+    -0.0084787095,
+    -0.005265784,
+    0.04200587,
+    0.0008610563,
+    -0.02955277,
+    0.02370557,
+    -0.033710737,
+    -0.04056655,
+    0.07417303,
+    -0.07392806,
+    -0.01974463,
+    -0.0043971003,
+    0.016887818,
+    0.025456531,
+    0.043405138,
+    -0.011701367,
+    0.034783166,
+    -0.043334022,
+    -0.025401406,
+    -0.009465978,
+    0.0046118842,
+    0.061611842,
+    0.053372845,
+    -0.034096286,
+    -0.012883029,
+    0.010794171,
+    -0.0018590274,
+    0.007577412,
+    0.035057016,
+    -0.0045719,
+    0.059369713,
+    0.04954783,
+    0.022118144,
+    -0.010414324,
+    -0.0012954441,
+    -0.046463802,
+    0.07990509,
+    -0.031022472,
+    0.025585525,
+    0.01237065,
+    -0.0005050013,
+    -0.0683132,
+    0.019460166,
+    -0.07192148,
+    0.037588816,
+    0.0063590393,
+    -0.06231553,
+    -0.020026017,
+    -0.013070093,
+    0.016166126,
+    -0.0775857,
+    -0.034077633,
+    -0.032970544,
+    -0.00010567218,
+    -0.03734417,
+    0.0060804505,
+    0.009084511,
+    0.021893054,
+    -0.02643819,
+    0.02018931,
+    0.042576417,
+    -0.02149228,
+    -0.023772268,
+    0.022764327,
+    0.054252047,
+    -0.025041508,
+    0.0077107395,
+    0.006257578,
+    0.057663914,
+    -0.025943762,
+    0.038468238,
+    0.04572844,
+    0.030651156,
+    0.0006549864,
+    -0.009112216,
+    0.004168508,
+    0.027450474,
+    -0.06839141,
+    -0.05722451,
+    -0.052175295,
+    0.04462809,
+    0.010746113,
+    -0.052715536,
+    -0.028689872,
+    0.014775822,
+    0.0063841315,
+    -0.008944964,
+    -0.021452505,
+    -0.047531668,
+    0.004888237,
+    0.07488883,
+    0.03774882,
+    -0.042514388,
+    -0.0010856102,
+    -0.032655284,
+    -0.016574306,
+    0.10423416,
+    0.05074038,
+    0.05036135,
+    -0.034938417,
+    -0.043092243,
+    -0.031245502,
+    0.038592137,
+    -0.01262309,
+    0.008729504,
+    0.00037756457,
+    0.03612431,
+    -0.014748091,
+    -0.06377456,
+    -0.041176364,
+    -0.033406567,
+    -0.060317196,
+    0.057008963,
+    -0.0052218297,
+    0.003839876,
+    0.020966612,
+    -1.6684617e-05,
+    -0.019201718,
+    -0.028416052,
+    -0.0019424417,
+    -0.025092188,
+    0.01047756,
+    -0.0041091884,
+    0.025094349,
+    -0.014777595,
+    -0.019658834,
+    0.048956696,
+    0.011873147,
+    0.015323169,
+    0.024245659,
+    0.048541784,
+    0.0701336,
+    -0.03699579,
+    0.037708603,
+    0.055307463,
+    -0.0052082706,
+    -0.0005793443,
+    -0.012031789,
+    -0.0028741453,
+    0.03967993,
+    0.045673355,
+    -0.04482575,
+    -0.06353948,
+    0.0006100933,
+    0.033774346,
+    0.044341046,
+    0.0628115,
+    -0.017414711,
+    0.01806264,
+    -0.0100384895,
+    0.036380604,
+    -0.014132983,
+    -0.041177653,
+    -0.009342114,
+    -0.055803254,
+    0.018237615,
+    -0.045594193,
+    -0.012431552,
+    -0.010550483,
+    -0.042310882,
+    -0.051886994,
+    0.025820598,
+    0.041784912,
+    0.03204108,
+    0.05208613,
+    -0.02823984,
+    -0.038244594,
+    0.014763503,
+    0.030221025,
+    0.015587074,
+    0.047865815,
+    0.03092178,
+    -0.036370598,
+    0.034140456,
+    -0.021171702,
+    -0.016878892,
+    -0.015180143,
+    0.025247887,
+    0.039610676,
+    0.022998681,
+    0.029645897,
+    0.0064847907,
+    0.04987297,
+    0.004944527,
+    -0.04587753,
+    -0.03133204,
+    0.025800413,
+    -0.043697234
+  ],
+  "chunk_seq": 6,
+  "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+  "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+  "text": "'I assured him that I was not offended. 'By the way,' said I, 'you seem to have quite a suite of spare rooms up there, and one of them has the shutters up.'  \n'He looked surprised and, as it seemed to me, a little startled at my remark.  \n''Photography is one of my hobbies,' said he. 'I have made my dark room up there. But, dear me! what an observant young lady we have come upon. Who would have believed it? Who would have ever believed it?' He spoke in a jesting tone, but there was no jest in his eyes as he looked at me. I read suspicion there and annoyance, but no jest.  \n'Well, Mr. Holmes, from the moment that I understood that there was something about that suite of rooms which I was not to know, I was all on fire to go over them. It was not mere curiosity, though I have my share of that. It was more a feeling of duty-a feeling that some good might come from my penetrating to this place. They talk of woman's instinct; perhaps it was woman's instinct which gave me that feeling. At any rate, it was there, and I was keenly on the lookout for any chance to pass the forbidden door.  \n'It was only yesterday that the chance came. I may tell you that, besides Mr. Rucastle, both Toller and his wife find something to do in these deserted rooms, and I once saw him carrying a large black linen bag with him through the door. Recently he has been drinking hard, and yesterday evening he was very drunk; and when I came upstairs there was the key in the door. I have no doubt at all that he had left it there. Mr. and Mrs. Rucastle were both downstairs, and the child was with them, so that I had an admirable opportunity. I turned the key gently in the lock, opened the door, and slipped through.  \n'There was a little passage in front of me, unpapered and uncarpeted, which turned at a right angle at the farther end. Round this corner were three doors in a line, the first and third of which were open. They each led into an empty room, dusty and cheerless, with two windows in the one and one in the other, so thick with dirt that the evening light glimmered dimly through them. The centre door was closed, and across the outside of it had been fastened one of the broad bars of an iron bed, padlocked at one end to a ring in the wall, and fastened at the other with stout cord. The door itself was locked as well, and the key was not there. This barricaded door corresponded clearly with the shuttered window outside, and yet I could see by the glimmer from beneath it that the room was not in darkness. Evidently there was a skylight which let in light from above. As I stood in the passage gazing at the sinister door and wondering what secret it might veil, I suddenly heard the sound of steps within the room and saw a shadow pass backward and forward against the little slit of dim light which shone out from under the door. A mad, unreasoning terror rose up in me at the sight, Mr. Holmes. My overstrung nerves failed me suddenly, and I turned and ran-ran as though some dreadful hand were behind me clutching at the skirt of my dress. I rushed down the passage, through the door, and straight into the arms of Mr. Rucastle, who was waiting outside.  \n' 'So,' said he, smiling, 'it was you, then. I thought that it must be when I saw the door open.'  \n- ' 'Oh, I am so frightened!' I panted.\n- ''My dear young lady! my dear young lady!'-you cannot think how caressing and soothing his manner was-'and what has frightened you, my dear young lady?'  \n'But his voice was just a little too coaxing. He overdid it. I was keenly on my guard against him.  \n- ' 'I was foolish enough to go into the empty wing,' I answered. 'But it is so lonely and eerie in this dim light that I was frightened and ran out again. Oh, it is so dreadfully still in there!'\n- ' 'Only that?' said he, looking at me keenly.\n- ' 'Why, what did you think?' I asked.\n- ' 'Why do you think that I lock this door?'\n- ' 'I am sure that I do not know.'\n- ''It is to keep people out who have no business there. Do you see?' He was still smiling in the most amiable manner.\n- ' 'I am sure if I had known-'\n- ' 'Well, then, you know now. And if you ever put your foot over that threshold again'-here in an instant the smile hardened into a grin of rage, and he glared down at me with the face of a demon-'I'll throw you to the mastiff.'  \n'I was so terrified that I do not know what I did. I suppose that I must have rushed past him into my room. I remember nothing until I found myself lying on my bed trembling all over. Then I thought of you, Mr. Holmes. I could not live there longer without some advice. I was frightened of the house, of the man, of the woman, of the servants, even of the child. They were all horrible to me. If I could only bring you down all would be well. Of course I might have fled from the house, but my curiosity was almost as strong as my fears. My mind was soon made up. I would send you a wire. I put on my hat and cloak, went down to the office, which is about half a mile from the house, and then returned, feeling very much easier. A horrible doubt came into my mind as I approached the door lest the dog might be loose, but I remembered that Toller had drunk himself into a state of insensibility that evening, and I knew that he was the only one in the household who had any influence with the savage creature, or who would venture to set him free. I slipped in in safety and lay awake half the night in my joy at the thought of seeing you. I had no difficulty in getting leave to come into Winchester this morning, but I must be back before three o'clock, for Mr. and Mrs. Rucastle are going on a visit, and will be away all the evening, so that I must look after the child. Now I have told you all my adventures, Mr. Holmes, and I should be very glad if you could tell me what it all means, and, above all, what I should do.'  \nHolmes and I had listened spellbound to this extraordinary story. My friend rose now and paced up and down the room, his hands in his pockets, and an expression of the most profound gravity upon his face.  \n'Is Toller still drunk?' he asked.  \n'Yes. I heard his wife tell Mrs. Rucastle that she could do nothing with him.'  \n'That is well. And the Rucastles go out to-night?'  \n'Yes.'  \n'Is there a cellar with a good strong lock?'  \n'Yes, the wine-cellar.'  \n'You seem to me to have acted all through this matter like a very brave and sensible girl, Miss Hunter. Do you think that you could perform one more feat? I should not ask it of you if I did not think you a quite exceptional woman.'  \n'I will try. What is it?'  \n'We shall be at the Copper Beeches by seven o'clock, my friend and I. The Rucastles will be gone by that time, and Toller will, we hope, be incapable. There only remains Mrs. Toller, who might give the alarm. If you could send her into the cellar on some errand, and then turn the key upon her, you would facilitate matters immensely.'  \n'I will do it.'",
+  "name": "Chunk 6/8",
+  "domain": "fiction",
+  "prev_chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+  "next_chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+  "raw_entities": [
+    {
+      "id": "char_001",
+      "name": "Miss Hunter",
+      "aliases": [
+        "the young lady",
+        "I",
+        "Miss Hunter"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "protagonist",
+      "description": "The narrator and client who seeks Holmes's advice after experiencing terror in the Rucastle household. She is highly observant, driven by a blend of curiosity and moral duty, and ultimately proves brave enough to assist Holmes in his planned operation to uncover the household's secrets.",
+      "context": [
+        "'By the way,' said I, 'you seem to have quite a suite of spare rooms up there, and one of them has the shutters up.'",
+        "I was so terrified that I do not know what I did. I suppose that I must have rushed past him into my room.",
+        "You seem to me to have acted all through this matter like a very brave and sensible girl, Miss Hunter."
+      ]
+    },
+    {
+      "id": "char_002",
+      "name": "Mr. Holmes",
+      "aliases": [
+        "Sherlock Holmes",
+        "my friend",
+        "Holmes"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "protagonist",
+      "description": "The consulting detective who listens to Miss Hunter's account and quickly formulates a strategic plan to investigate the Rucastle household. He displays profound gravity and tactical precision, directing the narrator's actions to secure the barred room while the Rucastles are away.",
+      "context": [
+        "Holmes and I had listened spellbound to this extraordinary story.",
+        "'Is Toller still drunk?' he asked.",
+        "'We shall be at the Copper Beeches by seven o'clock, my friend and I.'"
+      ]
+    },
+    {
+      "id": "char_003",
+      "name": "Mr. Rucastle",
+      "aliases": [
+        "the master",
+        "he",
+        "Mr. Rucastle"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "antagonist",
+      "description": "The head of the household who exhibits suspicion and menace toward Miss Hunter. His demeanor shifts from a coaxing smile to a demonic grin when confronted about the barred room, revealing his controlling nature and reliance on intimidation to maintain secrecy.",
+      "context": [
+        "'Photography is one of my hobbies,' said he. 'I have made my dark room up there.'",
+        "He was still smiling in the most amiable manner.",
+        "here in an instant the smile hardened into a grin of rage, and he glared down at me with the face of a demon-'I'll throw you to the mastiff.'"
+      ]
+    },
+    {
+      "id": "char_004",
+      "name": "Mrs. Rucastle",
+      "aliases": [
+        "the mistress",
+        "she",
+        "Mrs. Rucastle"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "The wife of the household head, mentioned as being downstairs with the child and involved in the household's daily dynamics. Her presence, along with her husband's, contributes to the narrator's pervasive sense of dread and suspicion.",
+      "context": [
+        "Mr. and Mrs. Rucastle were both downstairs, and the child was with them",
+        "I heard his wife tell Mrs. Rucastle that she could do nothing with him.",
+        "Mr. and Mrs. Rucastle are going on a visit, and will be away all the evening"
+      ]
+    },
+    {
+      "id": "char_005",
+      "name": "Toller",
+      "aliases": [
+        "the servant",
+        "him",
+        "Toller"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "A household servant who assists in the mysterious activities within the barred rooms. He is prone to heavy drinking, which Miss Hunter exploits to gain access to the forbidden space, and his drunken state is crucial to Holmes's planned infiltration.",
+      "context": [
+        "besides Mr. Rucastle, both Toller and his wife find something to do in these deserted rooms",
+        "Recently he has been drinking hard, and yesterday evening he was very drunk",
+        "I remembered that Toller had drunk himself into a state of insensibility that evening"
+      ]
+    },
+    {
+      "id": "char_006",
+      "name": "Mrs. Toller",
+      "aliases": [
+        "the servant's wife",
+        "she",
+        "Mrs. Toller"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "The wife of Toller, who works in the deserted rooms alongside him. She is identified by Holmes as a potential security risk who must be temporarily detained in the cellar to prevent her from raising an alarm during the planned break-in.",
+      "context": [
+        "besides Mr. Rucastle, both Toller and his wife find something to do in these deserted rooms",
+        "I heard his wife tell Mrs. Rucastle that she could do nothing with him.",
+        "There only remains Mrs. Toller, who might give the alarm."
+      ]
+    },
+    {
+      "id": "char_007",
+      "name": "The Child",
+      "aliases": [
+        "the child"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "A young member of the Rucastle household whose presence is closely monitored by Miss Hunter. The child's supervision dictates Miss Hunter's schedule and adds to the oppressive, watchful atmosphere of the estate.",
+      "context": [
+        "Mr. and Mrs. Rucastle were both downstairs, and the child was with them",
+        "I must be back before three o'clock, for Mr. and Mrs. Rucastle are going on a visit, and will be away all the evening, so that I must look after the child.",
+        "I was frightened of the house, of the man, of the woman, of the servants, even of the child."
+      ]
+    },
+    {
+      "id": "loc_001",
+      "name": "Copper Beeches",
+      "aliases": [
+        "the house",
+        "the Rucastle residence",
+        "this place"
+      ],
+      "entity_class": "LOCATION",
+      "type": "residence",
+      "description": "The Rucastle family estate where the narrative's central mystery unfolds. It is characterized by a suite of spare rooms, a barred door, and an atmosphere of dread that drives Miss Hunter to seek Holmes's counsel and ultimately facilitates the planned investigation.",
+      "context": [
+        "We shall be at the Copper Beeches by seven o'clock, my friend and I.",
+        "I was frightened of the house, of the man, of the woman, of the servants, even of the child.",
+        "I could not live there longer without some advice."
+      ]
+    },
+    {
+      "id": "loc_002",
+      "name": "Winchester",
+      "aliases": [
+        "the city",
+        "the office"
+      ],
+      "entity_class": "LOCATION",
+      "type": "city",
+      "description": "The nearby city where Miss Hunter travels to send a telegram to Holmes and secure leave for her visit. It serves as the logistical link between the isolated estate and the detective, highlighting the distance and secrecy surrounding the household.",
+      "context": [
+        "I had no difficulty in getting leave to come into Winchester this morning",
+        "I put on my hat and cloak, went down to the office, which is about half a mile from the house",
+        "I slipped in in safety and lay awake half the night in my joy at the thought of seeing you."
+      ]
+    },
+    {
+      "id": "loc_003",
+      "name": "The Dark Room",
+      "aliases": [
+        "the suite of spare rooms",
+        "the forbidden room",
+        "the deserted rooms",
+        "the centre room"
+      ],
+      "entity_class": "LOCATION",
+      "type": "room",
+      "description": "A shuttered, dusty room on the upper floor used by Mr. Rucastle for photography. It is the focal point of the mystery, barricaded from the inside and emitting a mysterious light that terrifies Miss Hunter and hints at clandestine activities.",
+      "context": [
+        "'Photography is one of my hobbies,' said he. 'I have made my dark room up there.'",
+        "I was all on fire to go over them. It was not mere curiosity, though I have my share of that.",
+        "This barricaded door corresponded clearly with the shuttered window outside"
+      ]
+    },
+    {
+      "id": "loc_004",
+      "name": "The Wine-Cellar",
+      "aliases": [
+        "the cellar",
+        "a cellar with a good strong lock"
+      ],
+      "entity_class": "LOCATION",
+      "type": "room",
+      "description": "A locked storage room in the house that Holmes identifies as a strategic location. It is used to temporarily detain Mrs. Toller to prevent her from raising an alarm during the planned investigation of the barred room.",
+      "context": [
+        "Is there a cellar with a good strong lock?",
+        "Yes, the wine-cellar.",
+        "If you could send her into the cellar on some errand, and then turn the key upon her, you would facilitate matters immensely."
+      ]
+    },
+    {
+      "id": "obj_001",
+      "name": "Black Linen Bag",
+      "aliases": [
+        "the large black linen bag"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "A large bag carried by Toller into the barred rooms, suggesting the transport of mysterious or illicit materials. Its presence hints at the clandestine activities occurring within the house and fuels Miss Hunter's suspicion.",
+      "context": [
+        "I once saw him carrying a large black linen bag with him through the door.",
+        "Recently he has been drinking hard, and yesterday evening he was very drunk",
+        "I have no doubt at all that he had left it there."
+      ]
+    },
+    {
+      "id": "obj_002",
+      "name": "Barricade",
+      "aliases": [
+        "the iron bed bar",
+        "the padlock",
+        "the stout cord",
+        "the barricaded door"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "A makeshift security measure consisting of an iron bed bar, padlock, and cord securing the centre door. It physically enforces the secrecy of the room and symbolizes the household's oppressive control over its inhabitants and visitors.",
+      "context": [
+        "across the outside of it had been fastened one of the broad bars of an iron bed, padlocked at one end to a ring in the wall, and fastened at the other with stout cord.",
+        "This barricaded door corresponded clearly with the shuttered window outside",
+        "Evidently there was a skylight which let in light from above."
+      ]
+    },
+    {
+      "id": "obj_003",
+      "name": "Key",
+      "aliases": [
+        "the key",
+        "the lock"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "The access mechanism for the barred room, left in the lock by a drunk Toller. It serves as the crucial plot device that enables Miss Hunter's unauthorized entry and subsequent discovery of the shadow within.",
+      "context": [
+        "when I came upstairs there was the key in the door. I have no doubt at all that he had left it there.",
+        "I turned the key gently in the lock, opened the door, and slipped through.",
+        "The door itself was locked as well, and the key was not there."
+      ]
+    },
+    {
+      "id": "obj_004",
+      "name": "Mastiff",
+      "aliases": [
+        "the savage creature",
+        "the dog",
+        "mastiff"
+      ],
+      "entity_class": "OBJECT",
+      "type": "animal",
+      "description": "A vicious dog kept by the Rucastles, used as a tool of intimidation and control. Mr. Rucastle threatens to unleash it on Miss Hunter, and its potential release dictates her movements, fears, and the household's security dynamics.",
+      "context": [
+        "'I'll throw you to the mastiff.'",
+        "A horrible doubt came into my mind as I approached the door lest the dog might be loose",
+        "I knew that he was the only one in the household who had any influence with the savage creature"
+      ]
+    },
+    {
+      "id": "evt_001",
+      "name": "The Forbidden Room Investigation",
+      "aliases": [
+        "penetrating to this place",
+        "going over them",
+        "the discovery"
+      ],
+      "entity_class": "EVENT",
+      "type": "discovery",
+      "description": "Miss Hunter's unauthorized entry into the barred suite of rooms, driven by curiosity and a sense of duty. The event culminates in her witnessing a shadow and fleeing in terror, directly triggering the narrative's central conflict and her appeal to Holmes.",
+      "context": [
+        "from the moment that I understood that there was something about that suite of rooms which I was not to know, I was all on fire to go over them.",
+        "I turned the key gently in the lock, opened the door, and slipped through.",
+        "A mad, unreasoning terror rose up in me at the sight, Mr. Holmes."
+      ]
+    },
+    {
+      "id": "evt_002",
+      "name": "The Mastiff Threat",
+      "aliases": [
+        "the confrontation",
+        "the warning",
+        "the grin of rage"
+      ],
+      "entity_class": "EVENT",
+      "type": "confrontation",
+      "description": "Mr. Rucastle's aggressive confrontation with Miss Hunter after discovering her in the forbidden passage. His shift from a coaxing smile to a demonic grin and his threat to unleash the mastiff solidify his role as a menacing antagonist and escalate the narrative's suspense.",
+      "context": [
+        "'Why do you think that I lock this door?'",
+        "here in an instant the smile hardened into a grin of rage, and he glared down at me with the face of a demon-'I'll throw you to the mastiff.'",
+        "I was so terrified that I do not know what I did. I suppose that I must have rushed past him into my room."
+      ]
+    },
+    {
+      "id": "evt_003",
+      "name": "The Holmesian Plan",
+      "aliases": [
+        "the operation",
+        "the break-in",
+        "the strategy"
+      ],
+      "entity_class": "EVENT",
+      "type": "investigation",
+      "description": "Holmes's strategic directive to Miss Hunter to infiltrate the Rucastle household while they are away. He coordinates the timing, exploits Toller's drunkenness, and plans to neutralize Mrs. Toller to secure the barred room and uncover the household's secrets.",
+      "context": [
+        "'We shall be at the Copper Beeches by seven o'clock, my friend and I.'",
+        "The Rucastles will be gone by that time, and Toller will, we hope, be incapable.",
+        "If you could send her into the cellar on some errand, and then turn the key upon her, you would facilitate matters immensely."
+      ]
+    },
+    {
+      "id": "con_001",
+      "name": "Woman's Instinct",
+      "aliases": [
+        "instinct",
+        "feeling of duty",
+        "woman's instinct"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "theme",
+      "description": "The intuitive drive that compels Miss Hunter to investigate the sealed rooms despite her fear. It represents a blend of curiosity and moral duty, framing her actions as guided by an innate, almost supernatural perception of hidden wrongs and unspoken household secrets.",
+      "context": [
+        "They talk of woman's instinct; perhaps it was woman's instinct which gave me that feeling.",
+        "It was more a feeling of duty-a feeling that some good might come from my penetrating to this place.",
+        "I was keenly on my lookout for any chance to pass the forbidden door."
+      ]
+    },
+    {
+      "id": "con_002",
+      "name": "The Mystery of the Barred Room",
+      "aliases": [
+        "the secret it might veil",
+        "what it all means",
+        "the sinister door"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "mystery",
+      "description": "The central enigma of the narrative, centered on the shuttered, barricaded room that emits light and casts a shadow. It represents the hidden truth of the Rucastle household that Miss Hunter and Holmes seek to uncover, driving the plot's suspense and investigative momentum.",
+      "context": [
+        "As I stood in the passage gazing at the sinister door and wondering what secret it might veil",
+        "Now I have told you all my adventures, Mr. Holmes, and I should be very glad if you could tell me what it all means",
+        "Evidently there was a skylight which let in light from above."
+      ]
+    },
+    {
+      "id": "con_003",
+      "name": "Terror and Oppression",
+      "aliases": [
+        "mad, unreasoning terror",
+        "horrible doubt",
+        "dread",
+        "horrible to me"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "theme",
+      "description": "The pervasive atmosphere of fear that envelops Miss Hunter within the household. It stems from the Rucastles' menacing behavior, the locked rooms, and the threat of the mastiff, driving the narrative's suspense and urgency while highlighting the psychological toll of the household's secrecy.",
+      "context": [
+        "A mad, unreasoning terror rose up in me at the sight, Mr. Holmes.",
+        "I was frightened of the house, of the man, of the woman, of the servants, even of the child. They were all horrible to me.",
+        "I slipped in in safety and lay awake half the night in my joy at the thought of seeing you."
+      ]
+    }
+  ],
+  "id_map": {
+    "char_001": "843f020a05ad4ab6a40f48fe19f0918e_006_char_001",
+    "char_002": "843f020a05ad4ab6a40f48fe19f0918e_006_char_002",
+    "char_003": "843f020a05ad4ab6a40f48fe19f0918e_006_char_003",
+    "char_004": "843f020a05ad4ab6a40f48fe19f0918e_006_char_004",
+    "char_005": "843f020a05ad4ab6a40f48fe19f0918e_006_char_005",
+    "char_006": "843f020a05ad4ab6a40f48fe19f0918e_006_char_006",
+    "char_007": "843f020a05ad4ab6a40f48fe19f0918e_006_char_007",
+    "loc_001": "843f020a05ad4ab6a40f48fe19f0918e_006_loc_001",
+    "loc_002": "843f020a05ad4ab6a40f48fe19f0918e_006_loc_002",
+    "loc_003": "843f020a05ad4ab6a40f48fe19f0918e_006_loc_003",
+    "loc_004": "843f020a05ad4ab6a40f48fe19f0918e_006_loc_004",
+    "obj_001": "843f020a05ad4ab6a40f48fe19f0918e_006_obj_001",
+    "obj_002": "843f020a05ad4ab6a40f48fe19f0918e_006_obj_002",
+    "obj_003": "843f020a05ad4ab6a40f48fe19f0918e_006_obj_003",
+    "obj_004": "843f020a05ad4ab6a40f48fe19f0918e_006_obj_004",
+    "evt_001": "843f020a05ad4ab6a40f48fe19f0918e_006_evt_001",
+    "evt_002": "843f020a05ad4ab6a40f48fe19f0918e_006_evt_002",
+    "evt_003": "843f020a05ad4ab6a40f48fe19f0918e_006_evt_003",
+    "con_001": "843f020a05ad4ab6a40f48fe19f0918e_006_con_001",
+    "con_002": "843f020a05ad4ab6a40f48fe19f0918e_006_con_002",
+    "con_003": "843f020a05ad4ab6a40f48fe19f0918e_006_con_003"
+  },
+  "entities": [
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_001",
+      "name": "Miss Hunter",
+      "aliases": [
+        "the young lady",
+        "I",
+        "Miss Hunter"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "protagonist",
+      "description": "The narrator and client who seeks Holmes's advice after experiencing terror in the Rucastle household. She is highly observant, driven by a blend of curiosity and moral duty, and ultimately proves brave enough to assist Holmes in his planned operation to uncover the household's secrets.",
+      "context": [
+        "'By the way,' said I, 'you seem to have quite a suite of spare rooms up there, and one of them has the shutters up.'",
+        "I was so terrified that I do not know what I did. I suppose that I must have rushed past him into my room.",
+        "You seem to me to have acted all through this matter like a very brave and sensible girl, Miss Hunter."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_002",
+      "name": "Mr. Holmes",
+      "aliases": [
+        "Sherlock Holmes",
+        "my friend",
+        "Holmes"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "protagonist",
+      "description": "The consulting detective who listens to Miss Hunter's account and quickly formulates a strategic plan to investigate the Rucastle household. He displays profound gravity and tactical precision, directing the narrator's actions to secure the barred room while the Rucastles are away.",
+      "context": [
+        "Holmes and I had listened spellbound to this extraordinary story.",
+        "'Is Toller still drunk?' he asked.",
+        "'We shall be at the Copper Beeches by seven o'clock, my friend and I.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_003",
+      "name": "Mr. Rucastle",
+      "aliases": [
+        "the master",
+        "he",
+        "Mr. Rucastle"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "antagonist",
+      "description": "The head of the household who exhibits suspicion and menace toward Miss Hunter. His demeanor shifts from a coaxing smile to a demonic grin when confronted about the barred room, revealing his controlling nature and reliance on intimidation to maintain secrecy.",
+      "context": [
+        "'Photography is one of my hobbies,' said he. 'I have made my dark room up there.'",
+        "He was still smiling in the most amiable manner.",
+        "here in an instant the smile hardened into a grin of rage, and he glared down at me with the face of a demon-'I'll throw you to the mastiff.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_004",
+      "name": "Mrs. Rucastle",
+      "aliases": [
+        "the mistress",
+        "she",
+        "Mrs. Rucastle"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "The wife of the household head, mentioned as being downstairs with the child and involved in the household's daily dynamics. Her presence, along with her husband's, contributes to the narrator's pervasive sense of dread and suspicion.",
+      "context": [
+        "Mr. and Mrs. Rucastle were both downstairs, and the child was with them",
+        "I heard his wife tell Mrs. Rucastle that she could do nothing with him.",
+        "Mr. and Mrs. Rucastle are going on a visit, and will be away all the evening"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_005",
+      "name": "Toller",
+      "aliases": [
+        "the servant",
+        "him",
+        "Toller"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "A household servant who assists in the mysterious activities within the barred rooms. He is prone to heavy drinking, which Miss Hunter exploits to gain access to the forbidden space, and his drunken state is crucial to Holmes's planned infiltration.",
+      "context": [
+        "besides Mr. Rucastle, both Toller and his wife find something to do in these deserted rooms",
+        "Recently he has been drinking hard, and yesterday evening he was very drunk",
+        "I remembered that Toller had drunk himself into a state of insensibility that evening"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_006",
+      "name": "Mrs. Toller",
+      "aliases": [
+        "the servant's wife",
+        "she",
+        "Mrs. Toller"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "The wife of Toller, who works in the deserted rooms alongside him. She is identified by Holmes as a potential security risk who must be temporarily detained in the cellar to prevent her from raising an alarm during the planned break-in.",
+      "context": [
+        "besides Mr. Rucastle, both Toller and his wife find something to do in these deserted rooms",
+        "I heard his wife tell Mrs. Rucastle that she could do nothing with him.",
+        "There only remains Mrs. Toller, who might give the alarm."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_007",
+      "name": "The Child",
+      "aliases": [
+        "the child"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "A young member of the Rucastle household whose presence is closely monitored by Miss Hunter. The child's supervision dictates Miss Hunter's schedule and adds to the oppressive, watchful atmosphere of the estate.",
+      "context": [
+        "Mr. and Mrs. Rucastle were both downstairs, and the child was with them",
+        "I must be back before three o'clock, for Mr. and Mrs. Rucastle are going on a visit, and will be away all the evening, so that I must look after the child.",
+        "I was frightened of the house, of the man, of the woman, of the servants, even of the child."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_loc_001",
+      "name": "Copper Beeches",
+      "aliases": [
+        "the house",
+        "the Rucastle residence",
+        "this place"
+      ],
+      "entity_class": "LOCATION",
+      "type": "residence",
+      "description": "The Rucastle family estate where the narrative's central mystery unfolds. It is characterized by a suite of spare rooms, a barred door, and an atmosphere of dread that drives Miss Hunter to seek Holmes's counsel and ultimately facilitates the planned investigation.",
+      "context": [
+        "We shall be at the Copper Beeches by seven o'clock, my friend and I.",
+        "I was frightened of the house, of the man, of the woman, of the servants, even of the child.",
+        "I could not live there longer without some advice."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_loc_002",
+      "name": "Winchester",
+      "aliases": [
+        "the city",
+        "the office"
+      ],
+      "entity_class": "LOCATION",
+      "type": "city",
+      "description": "The nearby city where Miss Hunter travels to send a telegram to Holmes and secure leave for her visit. It serves as the logistical link between the isolated estate and the detective, highlighting the distance and secrecy surrounding the household.",
+      "context": [
+        "I had no difficulty in getting leave to come into Winchester this morning",
+        "I put on my hat and cloak, went down to the office, which is about half a mile from the house",
+        "I slipped in in safety and lay awake half the night in my joy at the thought of seeing you."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_loc_003",
+      "name": "The Dark Room",
+      "aliases": [
+        "the suite of spare rooms",
+        "the forbidden room",
+        "the deserted rooms",
+        "the centre room"
+      ],
+      "entity_class": "LOCATION",
+      "type": "room",
+      "description": "A shuttered, dusty room on the upper floor used by Mr. Rucastle for photography. It is the focal point of the mystery, barricaded from the inside and emitting a mysterious light that terrifies Miss Hunter and hints at clandestine activities.",
+      "context": [
+        "'Photography is one of my hobbies,' said he. 'I have made my dark room up there.'",
+        "I was all on fire to go over them. It was not mere curiosity, though I have my share of that.",
+        "This barricaded door corresponded clearly with the shuttered window outside"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_loc_004",
+      "name": "The Wine-Cellar",
+      "aliases": [
+        "the cellar",
+        "a cellar with a good strong lock"
+      ],
+      "entity_class": "LOCATION",
+      "type": "room",
+      "description": "A locked storage room in the house that Holmes identifies as a strategic location. It is used to temporarily detain Mrs. Toller to prevent her from raising an alarm during the planned investigation of the barred room.",
+      "context": [
+        "Is there a cellar with a good strong lock?",
+        "Yes, the wine-cellar.",
+        "If you could send her into the cellar on some errand, and then turn the key upon her, you would facilitate matters immensely."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_obj_001",
+      "name": "Black Linen Bag",
+      "aliases": [
+        "the large black linen bag"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "A large bag carried by Toller into the barred rooms, suggesting the transport of mysterious or illicit materials. Its presence hints at the clandestine activities occurring within the house and fuels Miss Hunter's suspicion.",
+      "context": [
+        "I once saw him carrying a large black linen bag with him through the door.",
+        "Recently he has been drinking hard, and yesterday evening he was very drunk",
+        "I have no doubt at all that he had left it there."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_obj_002",
+      "name": "Barricade",
+      "aliases": [
+        "the iron bed bar",
+        "the padlock",
+        "the stout cord",
+        "the barricaded door"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "A makeshift security measure consisting of an iron bed bar, padlock, and cord securing the centre door. It physically enforces the secrecy of the room and symbolizes the household's oppressive control over its inhabitants and visitors.",
+      "context": [
+        "across the outside of it had been fastened one of the broad bars of an iron bed, padlocked at one end to a ring in the wall, and fastened at the other with stout cord.",
+        "This barricaded door corresponded clearly with the shuttered window outside",
+        "Evidently there was a skylight which let in light from above."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_obj_003",
+      "name": "Key",
+      "aliases": [
+        "the key",
+        "the lock"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "The access mechanism for the barred room, left in the lock by a drunk Toller. It serves as the crucial plot device that enables Miss Hunter's unauthorized entry and subsequent discovery of the shadow within.",
+      "context": [
+        "when I came upstairs there was the key in the door. I have no doubt at all that he had left it there.",
+        "I turned the key gently in the lock, opened the door, and slipped through.",
+        "The door itself was locked as well, and the key was not there."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_obj_004",
+      "name": "Mastiff",
+      "aliases": [
+        "the savage creature",
+        "the dog",
+        "mastiff"
+      ],
+      "entity_class": "OBJECT",
+      "type": "animal",
+      "description": "A vicious dog kept by the Rucastles, used as a tool of intimidation and control. Mr. Rucastle threatens to unleash it on Miss Hunter, and its potential release dictates her movements, fears, and the household's security dynamics.",
+      "context": [
+        "'I'll throw you to the mastiff.'",
+        "A horrible doubt came into my mind as I approached the door lest the dog might be loose",
+        "I knew that he was the only one in the household who had any influence with the savage creature"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_evt_001",
+      "name": "The Forbidden Room Investigation",
+      "aliases": [
+        "penetrating to this place",
+        "going over them",
+        "the discovery"
+      ],
+      "entity_class": "EVENT",
+      "type": "discovery",
+      "description": "Miss Hunter's unauthorized entry into the barred suite of rooms, driven by curiosity and a sense of duty. The event culminates in her witnessing a shadow and fleeing in terror, directly triggering the narrative's central conflict and her appeal to Holmes.",
+      "context": [
+        "from the moment that I understood that there was something about that suite of rooms which I was not to know, I was all on fire to go over them.",
+        "I turned the key gently in the lock, opened the door, and slipped through.",
+        "A mad, unreasoning terror rose up in me at the sight, Mr. Holmes."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_evt_002",
+      "name": "The Mastiff Threat",
+      "aliases": [
+        "the confrontation",
+        "the warning",
+        "the grin of rage"
+      ],
+      "entity_class": "EVENT",
+      "type": "confrontation",
+      "description": "Mr. Rucastle's aggressive confrontation with Miss Hunter after discovering her in the forbidden passage. His shift from a coaxing smile to a demonic grin and his threat to unleash the mastiff solidify his role as a menacing antagonist and escalate the narrative's suspense.",
+      "context": [
+        "'Why do you think that I lock this door?'",
+        "here in an instant the smile hardened into a grin of rage, and he glared down at me with the face of a demon-'I'll throw you to the mastiff.'",
+        "I was so terrified that I do not know what I did. I suppose that I must have rushed past him into my room."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_evt_003",
+      "name": "The Holmesian Plan",
+      "aliases": [
+        "the operation",
+        "the break-in",
+        "the strategy"
+      ],
+      "entity_class": "EVENT",
+      "type": "investigation",
+      "description": "Holmes's strategic directive to Miss Hunter to infiltrate the Rucastle household while they are away. He coordinates the timing, exploits Toller's drunkenness, and plans to neutralize Mrs. Toller to secure the barred room and uncover the household's secrets.",
+      "context": [
+        "'We shall be at the Copper Beeches by seven o'clock, my friend and I.'",
+        "The Rucastles will be gone by that time, and Toller will, we hope, be incapable.",
+        "If you could send her into the cellar on some errand, and then turn the key upon her, you would facilitate matters immensely."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_con_001",
+      "name": "Woman's Instinct",
+      "aliases": [
+        "instinct",
+        "feeling of duty",
+        "woman's instinct"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "theme",
+      "description": "The intuitive drive that compels Miss Hunter to investigate the sealed rooms despite her fear. It represents a blend of curiosity and moral duty, framing her actions as guided by an innate, almost supernatural perception of hidden wrongs and unspoken household secrets.",
+      "context": [
+        "They talk of woman's instinct; perhaps it was woman's instinct which gave me that feeling.",
+        "It was more a feeling of duty-a feeling that some good might come from my penetrating to this place.",
+        "I was keenly on my lookout for any chance to pass the forbidden door."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_con_002",
+      "name": "The Mystery of the Barred Room",
+      "aliases": [
+        "the secret it might veil",
+        "what it all means",
+        "the sinister door"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "mystery",
+      "description": "The central enigma of the narrative, centered on the shuttered, barricaded room that emits light and casts a shadow. It represents the hidden truth of the Rucastle household that Miss Hunter and Holmes seek to uncover, driving the plot's suspense and investigative momentum.",
+      "context": [
+        "As I stood in the passage gazing at the sinister door and wondering what secret it might veil",
+        "Now I have told you all my adventures, Mr. Holmes, and I should be very glad if you could tell me what it all means",
+        "Evidently there was a skylight which let in light from above."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_con_003",
+      "name": "Terror and Oppression",
+      "aliases": [
+        "mad, unreasoning terror",
+        "horrible doubt",
+        "dread",
+        "horrible to me"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "theme",
+      "description": "The pervasive atmosphere of fear that envelops Miss Hunter within the household. It stems from the Rucastles' menacing behavior, the locked rooms, and the threat of the mastiff, driving the narrative's suspense and urgency while highlighting the psychological toll of the household's secrecy.",
+      "context": [
+        "A mad, unreasoning terror rose up in me at the sight, Mr. Holmes.",
+        "I was frightened of the house, of the man, of the woman, of the servants, even of the child. They were all horrible to me.",
+        "I slipped in in safety and lay awake half the night in my joy at the thought of seeing you."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    }
+  ],
+  "properties": [
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_001",
+      "name": "Miss Hunter",
+      "properties": {
+        "role": "governess and client",
+        "personality_traits": [
+          "observant",
+          "curious",
+          "brave",
+          "sensible",
+          "cautious"
+        ],
+        "motivations": [
+          "solve the mystery of the barred room",
+          "escape the oppressive household",
+          "fulfill a sense of duty"
+        ],
+        "signature_behaviours": [
+          "penetrating forbidden areas",
+          "sending a wire to Holmes",
+          "following instructions precisely"
+        ],
+        "narrative_arc": "Moves from fearful isolation to taking decisive action with Holmes's guidance"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_002",
+      "name": "Mr. Holmes",
+      "properties": {
+        "role": "consulting detective",
+        "personality_traits": [
+          "analytical",
+          "methodical",
+          "strategic",
+          "grave"
+        ],
+        "motivations": [
+          "solve the mystery",
+          "protect Miss Hunter",
+          "uncover the truth"
+        ],
+        "signature_behaviours": [
+          "pacing while thinking",
+          "asking precise logistical questions",
+          "devising strategic plans"
+        ],
+        "physical_description": [
+          "paces up and down",
+          "hands in pockets"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_003",
+      "name": "Mr. Rucastle",
+      "properties": {
+        "role": "master of the house and employer",
+        "personality_traits": [
+          "suspicious",
+          "coaxing",
+          "capriciously violent",
+          "controlling"
+        ],
+        "motivations": [
+          "keep the barred room secret",
+          "maintain household control",
+          "prevent unauthorized access"
+        ],
+        "signature_behaviours": [
+          "smiling amiably then hardening into rage",
+          "threatening with the mastiff",
+          "locking doors"
+        ],
+        "narrative_function": [
+          "antagonist",
+          "enforcer of the household's secrets"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_004",
+      "name": "Mrs. Rucastle",
+      "properties": {
+        "role": "mistress of the house",
+        "narrative_function": [
+          "part of the oppressive household",
+          "absent during the planned investigation"
+        ],
+        "motivations": [
+          "maintain household routine",
+          "accompany husband on visits"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_005",
+      "name": "Toller",
+      "properties": {
+        "role": "servant",
+        "personality_traits": [
+          "drunkard",
+          "insensible when intoxicated"
+        ],
+        "narrative_function": [
+          "controls the mastiff",
+          "carries the black linen bag",
+          "key to the barred room's access"
+        ],
+        "motivations": [
+          "maintain household duties",
+          "manage the locked room"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_006",
+      "name": "Mrs. Toller",
+      "properties": {
+        "role": "servant",
+        "narrative_function": [
+          "unable to control Toller",
+          "potential alarm risk during investigation"
+        ],
+        "motivations": [
+          "assist in household duties",
+          "manage the locked room"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_007",
+      "name": "The Child",
+      "properties": {
+        "role": "child in the household",
+        "narrative_function": [
+          "kept with the Rucastles",
+          "part of the oppressive household dynamic"
+        ],
+        "motivations": [
+          "remain with the household staff"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_loc_001",
+      "name": "Copper Beeches",
+      "properties": {
+        "physical_description": [
+          "suite of spare rooms",
+          "deserted rooms",
+          "empty wing with dim light"
+        ],
+        "atmosphere": [
+          "sinister",
+          "eerie",
+          "oppressive",
+          "dreadfully still"
+        ],
+        "narrative_function": [
+          "primary setting for the mystery",
+          "site of the barred room and mastiff threat"
+        ],
+        "isolation_level": "high",
+        "symbolic_meaning": "represents confinement and hidden secrets"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_loc_002",
+      "name": "Winchester",
+      "properties": {
+        "narrative_function": [
+          "location of the telegraph office",
+          "Holmes's base of operations"
+        ],
+        "physical_description": [
+          "town with an office half a mile from the house"
+        ],
+        "real_world_vs_fictional": "real_world"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_loc_003",
+      "name": "The Dark Room",
+      "properties": {
+        "physical_description": [
+          "shuttered window",
+          "skylight letting in light",
+          "unpapered and uncarpeted passage leading to it"
+        ],
+        "atmosphere": [
+          "sinister",
+          "dusty",
+          "cheerless"
+        ],
+        "narrative_function": [
+          "central mystery location",
+          "site of the barred door and hidden secret"
+        ],
+        "symbolic_meaning": "represents the hidden truth and psychological dread"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_loc_004",
+      "name": "The Wine-Cellar",
+      "properties": {
+        "physical_description": [
+          "has a good strong lock"
+        ],
+        "narrative_function": [
+          "strategic location for trapping Mrs. Toller",
+          "part of the house's lower level"
+        ],
+        "isolation_level": "high"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_obj_001",
+      "name": "Black Linen Bag",
+      "properties": {
+        "physical_description": [
+          "large"
+        ],
+        "narrative_role": [
+          "suspicious clue",
+          "implies hidden activity in the barred room"
+        ],
+        "who_uses_it": [
+          "Toller"
+        ],
+        "significance": "mysterious",
+        "plot_connection": "suggests something is being moved into or out of the barred room"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_obj_002",
+      "name": "Barricade",
+      "properties": {
+        "physical_description": [
+          "broad iron bed bar",
+          "padlocked to a wall ring",
+          "fastened with stout cord"
+        ],
+        "narrative_role": [
+          "physical barrier",
+          "symbol of restriction and hidden secrets"
+        ],
+        "who_uses_it": [
+          "Mr. Rucastle"
+        ],
+        "significance": "resolved",
+        "plot_connection": "physically enforces the mystery of the barred room"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_obj_003",
+      "name": "Key",
+      "properties": {
+        "narrative_role": [
+          "crucial clue for access",
+          "left behind by Toller"
+        ],
+        "who_uses_it": [
+          "Toller",
+          "Mr. Rucastle"
+        ],
+        "significance": "resolved",
+        "plot_connection": "enables Miss Hunter's initial investigation and Holmes's planned entry"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_obj_004",
+      "name": "Mastiff",
+      "properties": {
+        "physical_description": [
+          "savage creature",
+          "dog"
+        ],
+        "narrative_role": [
+          "weapon of intimidation",
+          "threat used to enforce silence"
+        ],
+        "who_controls_it": [
+          "Toller"
+        ],
+        "significance": "mysterious",
+        "plot_connection": "used by Rucastle to threaten Miss Hunter and maintain control"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_evt_001",
+      "name": "The Forbidden Room Investigation",
+      "properties": {
+        "date_and_time": [
+          "yesterday evening (Miss Hunter's entry)",
+          "by seven o'clock (Holmes's planned entry)"
+        ],
+        "sequence_number": [
+          "initial exploration",
+          "planned counter-investigation"
+        ],
+        "what_changed": [
+          "Miss Hunter discovers the barred room and flees in terror",
+          "Holmes devises a plan to break in"
+        ],
+        "who_was_involved": [
+          "Miss Hunter",
+          "Mr. Rucastle",
+          "Toller",
+          "Mr. Holmes"
+        ],
+        "emotions": [
+          "terror",
+          "suspicion",
+          "curiosity",
+          "dread"
+        ],
+        "cause": [
+          "Miss Hunter's curiosity and sense of duty"
+        ],
+        "immediate_consequence": [
+          "Confrontation with Rucastle",
+          "Decision to seek Holmes's help"
+        ],
+        "why_it_matters": "drives the central mystery and sets the plot in motion"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_evt_002",
+      "name": "The Mastiff Threat",
+      "properties": {
+        "date_and_time": [
+          "after Miss Hunter's discovery"
+        ],
+        "sequence_number": [
+          "follows the barred room discovery"
+        ],
+        "what_changed": [
+          "Rucastle reveals his true nature and issues a lethal threat"
+        ],
+        "who_was_involved": [
+          "Miss Hunter",
+          "Mr. Rucastle"
+        ],
+        "emotions": [
+          "terror",
+          "rage",
+          "fear"
+        ],
+        "cause": [
+          "Miss Hunter entering the forbidden wing"
+        ],
+        "immediate_consequence": [
+          "Miss Hunter flees to her room",
+          "Decision to send for Holmes"
+        ],
+        "why_it_matters": "escalates the danger and forces the protagonist to seek external help"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_evt_003",
+      "name": "The Holmesian Plan",
+      "properties": {
+        "date_and_time": [
+          "tonight (after the Rucastles leave)"
+        ],
+        "sequence_number": [
+          "follows the threat and Miss Hunter's arrival"
+        ],
+        "what_changed": [
+          "Holmes outlines a precise plan involving trapping Mrs. Toller and entering the house"
+        ],
+        "who_was_involved": [
+          "Mr. Holmes",
+          "Miss Hunter",
+          "Mrs. Toller"
+        ],
+        "emotions": [
+          "determination",
+          "strategic focus"
+        ],
+        "cause": [
+          "Need to investigate the barred room safely"
+        ],
+        "immediate_consequence": [
+          "Miss Hunter agrees to the plan",
+          "Sets the stage for the break-in"
+        ],
+        "why_it_matters": "transitions the story from passive fear to active investigation"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_con_001",
+      "name": "Woman's Instinct",
+      "properties": {
+        "manifestation": [
+          "Miss Hunter's feeling of duty and drive to penetrate the forbidden place"
+        ],
+        "embodiment": [
+          "Miss Hunter's actions and motivations"
+        ],
+        "theme_role": [
+          "Justifies intuitive action over rational caution",
+          "drives the protagonist's investigation"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_con_002",
+      "name": "The Mystery of the Barred Room",
+      "properties": {
+        "puzzle": [
+          "What is behind the barred door?",
+          "Why is it locked and barricaded?",
+          "Who is inside?"
+        ],
+        "resolution_status": [
+          "unresolved",
+          "central to the plot"
+        ],
+        "theme_role": [
+          "drives Miss Hunter's investigation and Holmes's plan",
+          "represents hidden truths"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_006_con_003",
+      "name": "Terror and Oppression",
+      "properties": {
+        "manifestation": [
+          "Eerie atmosphere",
+          "Threat of the mastiff",
+          "Locked doors",
+          "Rucastles' controlling behavior"
+        ],
+        "embodiment": [
+          "The household dynamic",
+          "Rucastle's threats",
+          "The barred room"
+        ],
+        "theme_role": [
+          "Creates the story's central conflict and motivates the protagonist's flight for help"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_001",
+      "source_name": "Miss Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_002",
+      "target_name": "Mr. Holmes",
+      "rel_type": "knows",
+      "description": "Miss Hunter knows Mr. Holmes and seeks his professional advice regarding her situation at Copper Beeches.",
+      "properties": {
+        "sentiment": "positive",
+        "nature": "professional"
+      },
+      "context": "I thought of you, Mr. Holmes. I could not live there longer without some advice.",
+      "bidirectional": true,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_001",
+      "source_name": "Miss Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_003",
+      "target_name": "Mr. Rucastle",
+      "rel_type": "fears",
+      "description": "Miss Hunter feels intense fear and dread towards Mr. Rucastle due to his oppressive and threatening behavior.",
+      "properties": {
+        "sentiment": "negative",
+        "nature": "personal"
+      },
+      "context": "I was frightened of the house, of the man, of the woman, of the servants, even of the child. They were all horrible to me.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_001",
+      "source_name": "Miss Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006_obj_003",
+      "target_name": "Key",
+      "rel_type": "uses",
+      "description": "Miss Hunter uses the key to unlock the door to the barred room and enter the passage.",
+      "properties": {
+        "purpose": "enter_room",
+        "method": "gentle_turning"
+      },
+      "context": "I turned the key gently in the lock, opened the door, and slipped through.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_001",
+      "source_name": "Miss Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006_obj_002",
+      "target_name": "Barricade",
+      "rel_type": "discovers",
+      "description": "Miss Hunter discovers the iron bed bar and cord used to barricade the door to the dark room.",
+      "properties": {
+        "discovery_context": "investigation",
+        "observation": "physical_exploration"
+      },
+      "context": "across the outside of it had been fastened one of the broad bars of an iron bed, padlocked at one end to a ring in the wall, and fastened at the other with stout cord.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_001",
+      "source_name": "Miss Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006_obj_001",
+      "target_name": "Black Linen Bag",
+      "rel_type": "discovers",
+      "description": "Miss Hunter observes Toller carrying the black linen bag through the forbidden door, sparking her suspicion.",
+      "properties": {
+        "discovery_method": "visual_observation",
+        "significance": "suspicious_carrying"
+      },
+      "context": "I once saw him carrying a large black linen bag with him through the door.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_001",
+      "source_name": "Miss Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006_evt_001",
+      "target_name": "The Forbidden Room Investigation",
+      "rel_type": "participates_in",
+      "description": "Miss Hunter actively investigates the forbidden room and its barred door to uncover the hidden secret.",
+      "properties": {
+        "role": "investigator",
+        "contribution": "physical_exploration_and_observation"
+      },
+      "context": "from the moment that I understood that there was something about that suite of rooms which I was not to know, I was all on fire to go over them.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_001",
+      "source_name": "Miss Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006_evt_002",
+      "target_name": "The Mastiff Threat",
+      "rel_type": "participates_in",
+      "description": "Miss Hunter is the target of Mr. Rucastle's threat to throw her to the mastiff if she enters the forbidden room again.",
+      "properties": {
+        "role": "victim",
+        "contribution": "target_of_threat"
+      },
+      "context": "I'll throw you to the mastiff.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_001",
+      "source_name": "Miss Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006_evt_003",
+      "target_name": "The Holmesian Plan",
+      "rel_type": "participates_in",
+      "description": "Miss Hunter agrees to assist in Mr. Holmes's plan by locking Mrs. Toller in the wine-cellar.",
+      "properties": {
+        "role": "helper",
+        "contribution": "cellar_locking_and_cooperation"
+      },
+      "context": "If you could send her into the cellar on some errand, and then turn the key upon her, you would facilitate matters immensely. 'I will do it.'",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_001",
+      "source_name": "Miss Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_007",
+      "target_name": "The Child",
+      "rel_type": "works_with",
+      "description": "Miss Hunter is responsible for looking after the child while the Rucastles are away.",
+      "properties": {
+        "nature": "professional_care",
+        "context": "governess_duties"
+      },
+      "context": "so that I must look after the child.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_001",
+      "source_name": "Miss Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006_loc_002",
+      "target_name": "Winchester",
+      "rel_type": "visits",
+      "description": "Miss Hunter travels to Winchester to seek Mr. Holmes's advice and assistance.",
+      "properties": {
+        "purpose": "seek_advice",
+        "duration": "day_trip"
+      },
+      "context": "I had no difficulty in getting leave to come into Winchester this morning",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_001",
+      "source_name": "Miss Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006_con_001",
+      "target_name": "Woman's Instinct",
+      "rel_type": "expressed_through",
+      "description": "Miss Hunter attributes her strong urge to investigate the forbidden rooms to woman's instinct.",
+      "properties": {
+        "expression_type": "internal_motivation",
+        "context": "psychological_driving_force"
+      },
+      "context": "They talk of woman's instinct; perhaps it was woman's instinct which gave me that feeling.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_001",
+      "source_name": "Miss Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006_con_003",
+      "target_name": "Terror and Oppression",
+      "rel_type": "emotions_felt",
+      "description": "Miss Hunter experiences overwhelming terror and a sense of oppression from the house, its inhabitants, and the barred room.",
+      "properties": {
+        "expression_type": "emotional_state",
+        "intensity": "overwhelming"
+      },
+      "context": "A mad, unreasoning terror rose up in me at the sight... I was frightened of the house, of the man, of the woman, of the servants, even of the child. They were all horrible to me.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_002",
+      "source_name": "Mr. Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006_evt_001",
+      "target_name": "The Forbidden Room Investigation",
+      "rel_type": "investigates",
+      "description": "Mr. Holmes investigates the mystery of the barred room and the Rucastle household based on Miss Hunter's account.",
+      "properties": {
+        "role": "investigator",
+        "contribution": "analytical_planning_and_strategy"
+      },
+      "context": "Holmes and I had listened spellbound to this extraordinary story. My friend rose now and paced up and down the room, his hands in his pockets, and an expression of the most profound gravity upon his face.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_002",
+      "source_name": "Mr. Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006_evt_003",
+      "target_name": "The Holmesian Plan",
+      "rel_type": "participates_in",
+      "description": "Mr. Holmes devises and leads the plan to infiltrate the Copper Beeches and uncover the secret.",
+      "properties": {
+        "role": "investigator",
+        "contribution": "strategic_development_and_leadership"
+      },
+      "context": "We shall be at the Copper Beeches by seven o'clock, my friend and I. The Rucastles will be gone by that time, and Toller will, we hope, be incapable.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_003",
+      "source_name": "Mr. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_001",
+      "target_name": "Miss Hunter",
+      "rel_type": "deceives",
+      "description": "Mr. Rucastle deceives Miss Hunter about the purpose of the dark room and the barred door, masking his true intentions.",
+      "properties": {
+        "method": "false_explanation",
+        "target": "dark_room_secret",
+        "tone": "coaxing_then_threatening"
+      },
+      "context": "He spoke in a jesting tone, but there was no jest in his eyes as he looked at me. I read suspicion there and annoyance, but no jest.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_003",
+      "source_name": "Mr. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_004",
+      "target_name": "Mrs. Rucastle",
+      "rel_type": "married_to",
+      "description": "Mr. Rucastle is married to Mrs. Rucastle, and they reside together at Copper Beeches.",
+      "properties": {
+        "status": "married",
+        "context": "shared_residence"
+      },
+      "context": "Mr. and Mrs. Rucastle are going on a visit, and will be away all the evening",
+      "bidirectional": true,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_003",
+      "source_name": "Mr. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006_obj_004",
+      "target_name": "Mastiff",
+      "rel_type": "controls",
+      "description": "Mr. Rucastle controls the mastiff, using it as a tool of intimidation and threat against Miss Hunter.",
+      "properties": {
+        "control_method": "ownership_and_threat",
+        "context": "household_guard"
+      },
+      "context": "I knew that he was the only one in the household who had any influence with the savage creature... I'll throw you to the mastiff.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_005",
+      "source_name": "Toller",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006_obj_001",
+      "target_name": "Black Linen Bag",
+      "rel_type": "owns",
+      "description": "Toller possesses and carries the black linen bag, which is central to the mystery of the barred room.",
+      "properties": {
+        "possession_type": "temporary_carrying",
+        "significance": "suspicious_object"
+      },
+      "context": "I once saw him carrying a large black linen bag with him through the door.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_evt_001",
+      "source_name": "The Forbidden Room Investigation",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006_loc_003",
+      "target_name": "The Dark Room",
+      "rel_type": "occurs_at",
+      "description": "The investigation of the forbidden room takes place within and around the dark room.",
+      "properties": {
+        "location_type": "primary_scene",
+        "context": "physical_exploration"
+      },
+      "context": "I have made my dark room up there... The centre door was closed... I suddenly heard the sound of steps within the room",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_evt_002",
+      "source_name": "The Mastiff Threat",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006_loc_001",
+      "target_name": "Copper Beeches",
+      "rel_type": "occurs_at",
+      "description": "The threat involving the mastiff is issued within the Copper Beeches household.",
+      "properties": {
+        "location_type": "secondary_scene",
+        "context": "household_intimidation"
+      },
+      "context": "I'll throw you to the mastiff.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_evt_003",
+      "source_name": "The Holmesian Plan",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006_loc_001",
+      "target_name": "Copper Beeches",
+      "rel_type": "occurs_at",
+      "description": "The execution of Mr. Holmes's plan is set to take place at the Copper Beeches estate.",
+      "properties": {
+        "location_type": "planning_and_execution_location",
+        "context": "strategic_infiltration"
+      },
+      "context": "We shall be at the Copper Beeches by seven o'clock, my friend and I. The Rucastles will be gone by that time",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_con_002",
+      "source_name": "The Mystery of the Barred Room",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_001",
+      "target_name": "Miss Hunter",
+      "rel_type": "involves",
+      "description": "The mystery of the barred room directly involves Miss Hunter as the central observer and investigator.",
+      "properties": {
+        "involvement_type": "central_subject",
+        "context": "mystery_focus"
+      },
+      "context": "I was foolish enough to go into the empty wing... The centre door was closed, and across the outside of it had been fastened one of the broad bars of an iron bed",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_con_002",
+      "source_name": "The Mystery of the Barred Room",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_003",
+      "target_name": "Mr. Rucastle",
+      "rel_type": "involves",
+      "description": "The mystery of the barred room involves Mr. Rucastle as the keeper of the secret and the one who barricades the room.",
+      "properties": {
+        "involvement_type": "secret_keeper",
+        "context": "mystery_focus"
+      },
+      "context": "I have made my dark room up there... He spoke in a jesting tone, but there was no jest in his eyes",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_001",
+      "source_name": "Miss Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_002",
+      "source_name": "Mr. Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_003",
+      "source_name": "Mr. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_004",
+      "source_name": "Mrs. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_005",
+      "source_name": "Toller",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_006",
+      "source_name": "Mrs. Toller",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_007",
+      "source_name": "The Child",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_loc_001",
+      "source_name": "Copper Beeches",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_loc_002",
+      "source_name": "Winchester",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_loc_003",
+      "source_name": "The Dark Room",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_loc_004",
+      "source_name": "The Wine-Cellar",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_obj_001",
+      "source_name": "Black Linen Bag",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_obj_002",
+      "source_name": "Barricade",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_obj_003",
+      "source_name": "Key",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_obj_004",
+      "source_name": "Mastiff",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_evt_001",
+      "source_name": "The Forbidden Room Investigation",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_evt_002",
+      "source_name": "The Mastiff Threat",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_evt_003",
+      "source_name": "The Holmesian Plan",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_con_001",
+      "source_name": "Woman's Instinct",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_con_002",
+      "source_name": "The Mystery of the Barred Room",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_006_con_003",
+      "source_name": "Terror and Oppression",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    }
+  ]
+}

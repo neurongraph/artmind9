@@ -1,0 +1,1134 @@
+[
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_001",
+    "source_name": "Elias Thorne",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_loc_006",
+    "target_name": "Sub-Level 4",
+    "rel_type": "resides_at",
+    "description": "Elias lives and operates his workshop in the underground level of the Lower Sprawl.",
+    "properties": {
+      "type": "workshop",
+      "status": "active"
+    },
+    "context": "Deep within Sub-Level 4 of the Lower Sprawl, Elias Thorne adjusted his spectacles.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_001",
+    "source_name": "Elias Thorne",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_obj_002",
+    "target_name": "Great Engine",
+    "rel_type": "uses",
+    "description": "Elias maintains and operates the Great Engine as an Aether-Engineer.",
+    "properties": {
+      "role": "operator",
+      "condition": "maintaining"
+    },
+    "context": "He was an Aether-Engineer whose hands were permanently stained with the iridescent oil of the Great Engine.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_001",
+    "source_name": "Elias Thorne",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_char_004",
+    "target_name": "Ticker",
+    "rel_type": "owns",
+    "description": "Elias created and maintains the Brass Automaton C-42, whom he calls Ticker.",
+    "properties": {
+      "nature": "creator",
+      "sentiment": "affectionate"
+    },
+    "context": "Before him sat a Brass Automaton designated C-42, though Elias simply called him Ticker.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_001",
+    "source_name": "Elias Thorne",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_org_001",
+    "target_name": "Ministry of Order",
+    "rel_type": "opposes",
+    "description": "Elias actively defies the Ministry's authority and seeks to dismantle their control.",
+    "properties": {
+      "sentiment": "hostile",
+      "nature": "ideological"
+    },
+    "context": "If the Ministry of Order finds out I’m using a Temporal Relic to jump-start your core, we’ll both be melted down for scrap.",
+    "bidirectional": true,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_004",
+    "source_name": "Ticker",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_char_001",
+    "target_name": "Elias Thorne",
+    "rel_type": "informs",
+    "description": "Ticker provides Elias with tactical data regarding patrol movements and discovery probabilities.",
+    "properties": {
+      "sentiment": "neutral",
+      "nature": "professional"
+    },
+    "context": "Ticker’s glass eyes flickered. “Probability of discovery is 74%, Elias. High Inquisitor Valerius has increased patrols near the Smog-Tunnels.”",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_003",
+    "source_name": "High Inquisitor Valerius",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_loc_007",
+    "target_name": "Smog-Tunnels",
+    "rel_type": "surveils",
+    "description": "Valerius has increased military patrols to monitor the Smog-Tunnels.",
+    "properties": {
+      "intensity": "high",
+      "purpose": "security"
+    },
+    "context": "High Inquisitor Valerius has increased patrols near the Smog-Tunnels.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_002",
+    "source_name": "Lyra Belacqua",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_org_002",
+    "target_name": "Under-Market Syndicate",
+    "rel_type": "belongs_to",
+    "description": "Lyra operates as a Shadow-Thief affiliated with the criminal syndicate.",
+    "properties": {
+      "role": "Shadow-Thief",
+      "status": "active"
+    },
+    "context": "She wasn't just a thief; she was a Shadow-Thief of the Under-Market Syndicate, and she was carrying something wrapped in velvet that pulsed with a rhythmic, golden light.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_002",
+    "source_name": "Lyra Belacqua",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_obj_001",
+    "target_name": "Kyber Crystal",
+    "rel_type": "owns",
+    "description": "Lyra steals and carries the pulsing Kyber Crystal during the heist.",
+    "properties": {
+      "condition": "pulsing",
+      "weight": "heavy"
+    },
+    "context": "Lyra pulled back the velvet to reveal a Kyber Crystal. It was the size of a human heart and twice as heavy.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_org_003",
+    "source_name": "Iron-Bound Guards",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_loc_004",
+    "target_name": "Gilded Spire",
+    "rel_type": "occupies",
+    "description": "The Iron-Bound Guards patrol and control the Gilded Spire.",
+    "properties": {
+      "status": "patrolling",
+      "control_level": "high"
+    },
+    "context": "The Gilded Spire is crawling with Iron-Bound Guards, Elias.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_003",
+    "source_name": "High Inquisitor Valerius",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_loc_008",
+    "target_name": "Market Square",
+    "rel_type": "controls",
+    "description": "Valerius has ordered a strict lockdown of the Market Square.",
+    "properties": {
+      "status": "locked_down",
+      "authority": "military"
+    },
+    "context": "He’s already ordered a lockdown of the Market Square.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_002",
+    "source_name": "Lyra Belacqua",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_char_001",
+    "target_name": "Elias Thorne",
+    "rel_type": "emotions_felt",
+    "description": "Lyra experiences a profound romantic and emotional connection with Elias.",
+    "properties": {
+      "sentiment": "romantic",
+      "nature": "personal"
+    },
+    "context": "In a world of cold metal and calculated magic, the warmth of her hand felt like a localized Resonance Breach.",
+    "bidirectional": true,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_001",
+    "source_name": "Elias Thorne",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_evt_002",
+    "target_name": "Chronos Fracture",
+    "rel_type": "participates_in",
+    "description": "Elias risks triggering the Chronos Fracture to alter the timeline.",
+    "properties": {
+      "role": "perpetrator",
+      "contribution": "risking"
+    },
+    "context": "The Chronos Fracture they were risking wasn't just a mathematical probability anymore; it was a choice.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_001",
+    "source_name": "Elias Thorne",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_evt_005",
+    "target_name": "Timeline Collapse",
+    "rel_type": "participates_in",
+    "description": "Elias's actions directly cause and experience the collapse of the timeline.",
+    "properties": {
+      "role": "perpetrator",
+      "contribution": "causing"
+    },
+    "context": "if we fix the engine… we change the timeline.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_org_001",
+    "source_name": "Ministry of Order",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_char_001",
+    "target_name": "Elias Thorne",
+    "rel_type": "opposes",
+    "description": "The Ministry actively hunts Elias and Lyra to maintain their control.",
+    "properties": {
+      "sentiment": "hostile",
+      "nature": "ideological"
+    },
+    "context": "The Ministry would hunt us to the ends of the Glassreach.",
+    "bidirectional": true,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_002",
+    "source_name": "Lyra Belacqua",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_char_001",
+    "target_name": "Elias Thorne",
+    "rel_type": "knows",
+    "description": "Lyra deeply understands Elias's idealistic nature and shares a personal bond with him.",
+    "properties": {
+      "sentiment": "affectionate",
+      "nature": "personal"
+    },
+    "context": "“You’re a dreamer, Elias,” Lyra murmured, her lips brushing his in a brief, desperate kiss that tasted of copper and rain. “But you’re the only dreamer left in Oakhaven.”",
+    "bidirectional": true,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_001",
+    "source_name": "Elias Thorne",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_loc_001",
+    "target_name": "Oakhaven",
+    "rel_type": "resides_at",
+    "description": "Elias lives in Oakhaven, though he views it as a tomb and seeks to change its fate.",
+    "properties": {
+      "status": "native",
+      "sentiment": "conflicted"
+    },
+    "context": "The rain over Oakhaven didn’t smell of water; it smelled of ozone and scorched brass.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_003",
+    "source_name": "High Inquisitor Valerius",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_obj_003",
+    "target_name": "Volt-Blade",
+    "rel_type": "uses",
+    "description": "Valerius wields the charged Volt-Blade as his primary weapon.",
+    "properties": {
+      "condition": "charged",
+      "purpose": "combat"
+    },
+    "context": "In his right hand, he gripped a Volt-Blade, its blue arcing electricity illuminating the cold, calculated fury in his eyes.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_003",
+    "source_name": "High Inquisitor Valerius",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_org_001",
+    "target_name": "Ministry of Order",
+    "rel_type": "belongs_to",
+    "description": "Valerius serves as a High Inquisitor for the Ministry of Order.",
+    "properties": {
+      "role": "High Inquisitor",
+      "status": "active"
+    },
+    "context": "His ceremonial robes of the Ministry of Order billowing in the updraft of the cooling fans.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_002",
+    "source_name": "Lyra Belacqua",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_char_003",
+    "target_name": "High Inquisitor Valerius",
+    "rel_type": "opposes",
+    "description": "Lyra directly confronts and opposes Valerius's oppressive control.",
+    "properties": {
+      "sentiment": "hostile",
+      "nature": "ideological"
+    },
+    "context": "The stability you crave is a cage, Valerius!\" Lyra countered, stepping into the light.",
+    "bidirectional": true,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_003",
+    "source_name": "High Inquisitor Valerius",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_org_001",
+    "target_name": "Ministry of Order",
+    "rel_type": "leads",
+    "description": "Valerius holds supreme authority and leads the Ministry's operations.",
+    "properties": {
+      "role": "High Inquisitor",
+      "authority": "absolute"
+    },
+    "context": "High Inquisitor Valerius had arrived at the perimeter, his Volt-Blade crackling with the intent to preserve the status quo at any cost.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_002",
+    "source_name": "Lyra Belacqua",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_obj_004",
+    "target_name": "Gravity-Snare",
+    "rel_type": "uses",
+    "description": "Lyra deploys a forbidden Gravity-Snare device to restrain Valerius.",
+    "properties": {
+      "condition": "forbidden",
+      "purpose": "restraint"
+    },
+    "context": "She threw a Gravity-Snare, a forbidden device from the Under-Market Syndicate.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_002",
+    "source_name": "Lyra Belacqua",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_char_001",
+    "target_name": "Elias Thorne",
+    "rel_type": "assists",
+    "description": "Lyra supports Elias's mission to change the world by creating an opening for him.",
+    "properties": {
+      "sentiment": "supportive",
+      "nature": "cooperative"
+    },
+    "context": "In that heartbeat of frozen time, Lyra looked at Elias. The chaos of the room faded. There was no Ministry, no rebellion—only the two of them. She reached out, her fingers brushing his sleeve one last time. ",
+    "world.": "",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_001",
+    "source_name": "Elias Thorne",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_obj_001",
+    "target_name": "Kyber Crystal",
+    "rel_type": "uses",
+    "description": "Elias carries and ultimately slots the Kyber Crystal into the Memory Anchor.",
+    "properties": {
+      "condition": "erratic",
+      "purpose": "power_source"
+    },
+    "context": "Elias Thorne clutched the Kyber Crystal to his chest, its golden pulse now erratic, mirroring his own heartbeat.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_001",
+    "source_name": "Elias Thorne",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_obj_005",
+    "target_name": "Memory Anchor",
+    "rel_type": "uses",
+    "description": "Elias uses the Memory Anchor to stabilize and channel the Kyber Crystal's energy.",
+    "properties": {
+      "condition": "active",
+      "purpose": "stabilization"
+    },
+    "context": "Elias slammed the Kyber Crystal into the Memory Anchor.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_002",
+    "source_name": "Lyra Belacqua",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_obj_006",
+    "target_name": "Shimmer-Field",
+    "rel_type": "uses",
+    "description": "Lyra activates the Shimmer-Field to destroy the Gilded Spire and its occupants.",
+    "properties": {
+      "condition": "expanding",
+      "purpose": "destruction"
+    },
+    "context": "As the Shimmer-Field expanded, devouring the Gilded Spire and everyone within it, the last thing Elias saw was Valerius’s face twisting in realization.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_003",
+    "source_name": "High Inquisitor Valerius",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_con_004",
+    "target_name": "The Future / Past",
+    "rel_type": "conceals",
+    "description": "Valerius hides the truth that the future has already been lost.",
+    "properties": {
+      "sentiment": "deceptive",
+      "nature": "ideological"
+    },
+    "context": "The Inquisitor hadn't been protecting the past; he had been hiding the fact that the future was already gone.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_001",
+    "source_name": "Elias Thorne",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_evt_001",
+    "target_name": "Resonance Breach",
+    "rel_type": "participates_in",
+    "description": "Elias's actions trigger and are directly affected by the Resonance Breach.",
+    "properties": {
+      "role": "perpetrator",
+      "contribution": "triggering"
+    },
+    "context": "to return it now, after the Resonance Breach has begun, is suicide.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_002",
+    "source_name": "Lyra Belacqua",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_loc_002",
+    "target_name": "Glassreach Valley",
+    "rel_type": "visits",
+    "description": "Lyra forages in the Glassreach Valley to harvest paralytic toxins for her daggers.",
+    "properties": {
+      "status": "foraging",
+      "purpose": "resource_gathering"
+    },
+    "context": "their edges coated in a paralytic toxin harvested from the Glassreach Valley flora.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_001",
+    "source_name": "Elias Thorne",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_loc_005",
+    "target_name": "Chrono-Chamber",
+    "rel_type": "visits",
+    "description": "Elias enters the Chrono-Chamber to complete his objective.",
+    "properties": {
+      "status": "entering",
+      "purpose": "objective"
+    },
+    "context": "The Chrono-Chamber is just beyond the central meridian,",
+    "levels.": "bidirectional",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_001",
+    "source_name": "Elias Thorne",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_loc_004",
+    "target_name": "Gilded Spire",
+    "rel_type": "visits",
+    "description": "Elias infiltrates the Gilded Spire during the heist.",
+    "properties": {
+      "status": "infiltrating",
+      "purpose": "mission"
+    },
+    "context": "The climb up the Spiral of Ascension felt like ascending the throat of a dying god. Steam hissed from the brass floor-gratings of the Gilded Spire",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_002",
+    "source_name": "Lyra Belacqua",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_loc_004",
+    "target_name": "Gilded Spire",
+    "rel_type": "visits",
+    "description": "Lyra infiltrates the Gilded Spire alongside Elias.",
+    "properties": {
+      "status": "infiltrating",
+      "purpose": "mission"
+    },
+    "context": "Beside him, Lyra Belacqua moved like a flicker of shadow... They burst through the heavy mahogany doors into the heart of the Spire.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_003",
+    "source_name": "High Inquisitor Valerius",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_loc_004",
+    "target_name": "Gilded Spire",
+    "rel_type": "visits",
+    "description": "Valerius patrols and stands guard within the Gilded Spire.",
+    "properties": {
+      "status": "patrolling",
+      "purpose": "security"
+    },
+    "context": "Standing before it was High Inquisitor Valerius. His ceremonial robes of the Ministry of Order billowing in the updraft of the cooling fans.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_org_001",
+    "source_name": "Ministry of Order",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_loc_004",
+    "target_name": "Gilded Spire",
+    "rel_type": "headquartered_at",
+    "description": "The Ministry of Order uses the Gilded Spire as its central command and operational base.",
+    "properties": {
+      "status": "active",
+      "control_level": "high"
+    },
+    "context": "The Gilded Spire is crawling with Iron-Bound Guards, Elias. Valerius knows it’s gone. He’s already ordered a lockdown of the Market Square.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_001",
+    "source_name": "Elias Thorne",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_evt_003",
+    "target_name": "14th of Harvest-Moon",
+    "rel_type": "participates_in",
+    "description": "Elias experiences the events of the 14th of Harvest-Moon as the timeline begins to collapse.",
+    "properties": {
+      "role": "witness",
+      "contribution": "experiencing"
+    },
+    "context": "The 14th of Harvest-Moon was about to become the day the clock stopped.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_002",
+    "source_name": "Lyra Belacqua",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_evt_003",
+    "target_name": "14th of Harvest-Moon",
+    "rel_type": "participates_in",
+    "description": "Lyra experiences the events of the 14th of Harvest-Moon as the timeline begins to collapse.",
+    "properties": {
+      "role": "witness",
+      "contribution": "experiencing"
+    },
+    "context": "The 14th of Harvest-Moon was about to become the day the clock stopped.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_003",
+    "source_name": "High Inquisitor Valerius",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_con_003",
+    "target_name": "Status Quo",
+    "rel_type": "evaluates",
+    "description": "Valerius values and seeks to preserve the Status Quo at any cost.",
+    "properties": {
+      "sentiment": "protective",
+      "nature": "ideological"
+    },
+    "context": "his Volt-Blade crackling with the intent to preserve the status quo at any cost.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_001",
+    "source_name": "Elias Thorne",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_con_003",
+    "target_name": "Status Quo",
+    "rel_type": "evaluates",
+    "description": "Elias views the Status Quo as a cage and seeks to dismantle it.",
+    "properties": {
+      "sentiment": "hostile",
+      "nature": "ideological"
+    },
+    "context": "The stability you crave is a cage, Valerius!",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_002",
+    "source_name": "Lyra Belacqua",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_con_003",
+    "target_name": "Status Quo",
+    "rel_type": "evaluates",
+    "description": "Lyra views the Status Quo as a cage and opposes it.",
+    "properties": {
+      "sentiment": "hostile",
+      "nature": "ideological"
+    },
+    "context": "The stability you crave is a cage, Valerius!",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_001",
+    "source_name": "Elias Thorne",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_evt_005",
+    "target_name": "Timeline Collapse",
+    "rel_type": "participates_in",
+    "description": "Elias experiences the physical and mental effects of the collapsing timeline.",
+    "properties": {
+      "role": "victim",
+      "contribution": "experiencing"
+    },
+    "context": "Elias felt his memories stretching—the smell of the rain, the heat of Lyra’s kiss, the weight of the crystal—all of it becoming data points in a collapsing timeline.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_002",
+    "source_name": "Lyra Belacqua",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_evt_005",
+    "target_name": "Timeline Collapse",
+    "rel_type": "participates_in",
+    "description": "Lyra experiences the physical and mental effects of the collapsing timeline.",
+    "properties": {
+      "role": "victim",
+      "contribution": "experiencing"
+    },
+    "context": "As the Shimmer-Field expanded, devouring the Gilded Spire and everyone within it, the last thing Elias saw was Valerius’s face twisting in realization.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_001",
+    "source_name": "Elias Thorne",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_evt_004",
+    "target_name": "The Heist",
+    "rel_type": "participates_in",
+    "description": "Elias participates in the heist to steal the Kyber Crystal.",
+    "properties": {
+      "role": "perpetrator",
+      "contribution": "planning"
+    },
+    "context": "She moved closer to him, the tension of the heist still radiating off her in waves.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_002",
+    "source_name": "Lyra Belacqua",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_loc_009",
+    "target_name": "Outlands",
+    "rel_type": "flee",
+    "description": "Lyra proposes fleeing to the Outlands to escape the city and the Ministry.",
+    "properties": {
+      "status": "planned",
+      "purpose": "escape"
+    },
+    "context": "Take the crystal, head past the Outlands, and never look back at this soot-stained city.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_001",
+    "source_name": "Elias Thorne",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_loc_006",
+    "target_name": "Spiral of Ascension",
+    "rel_type": "visits",
+    "description": "Elias climbs the Spiral of Ascension to reach the Gilded Spire.",
+    "properties": {
+      "status": "ascending",
+      "purpose": "infiltration"
+    },
+    "context": "The climb up the Spiral of Ascension felt like ascending the throat of a dying god.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_002",
+    "source_name": "Lyra Belacqua",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_loc_006",
+    "target_name": "Spiral of Ascension",
+    "rel_type": "visits",
+    "description": "Lyra climbs the Spiral of Ascension alongside Elias.",
+    "properties": {
+      "status": "ascending",
+      "purpose": "infiltration"
+    },
+    "context": "The climb up the Spiral of Ascension felt like ascending the throat of a dying god.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_org_002",
+    "source_name": "Under-Market Syndicate",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_obj_004",
+    "target_name": "Gravity-Snare",
+    "rel_type": "distributes",
+    "description": "The Syndicate provides or manufactures the forbidden Gravity-Snare device.",
+    "properties": {
+      "status": "forbidden",
+      "purpose": "weaponry"
+    },
+    "context": "She threw a Gravity-Snare, a forbidden device from the Under-Market Syndicate.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_003",
+    "source_name": "High Inquisitor Valerius",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_org_003",
+    "target_name": "Iron-Bound Guards",
+    "rel_type": "employs",
+    "description": "Valerius commands and utilizes the Iron-Bound Guards for security and enforcement.",
+    "properties": {
+      "status": "active",
+      "control_level": "high"
+    },
+    "context": "The Gilded Spire is crawling with Iron-Bound Guards, Elias. Valerius knows it’s gone.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_con_001",
+    "source_name": "Essence Reservoirs",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_evt_001",
+    "target_name": "Resonance Breach",
+    "rel_type": "triggers",
+    "description": "The leaking Essence Reservoirs cause the Resonance Breach event.",
+    "properties": {
+      "status": "leaking",
+      "contribution": "causal"
+    },
+    "context": "Essence Reservoirs leaking into the upper atmosphere... after the Resonance Breach has begun",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_001",
+    "source_name": "Elias Thorne",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001_loc_003",
+    "target_name": "Lower Sprawl",
+    "rel_type": "resides_at",
+    "description": "Elias lives and works in the Lower Sprawl.",
+    "properties": {
+      "status": "native",
+      "sentiment": "conflicted"
+    },
+    "context": "Deep within Sub-Level 4 of the Lower Sprawl, Elias Thorne adjusted his spectacles.",
+    "bidirectional": false,
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_001",
+    "source_name": "Elias Thorne",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_002",
+    "source_name": "Lyra Belacqua",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_003",
+    "source_name": "High Inquisitor Valerius",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_char_004",
+    "source_name": "Ticker",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_loc_001",
+    "source_name": "Oakhaven",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_loc_002",
+    "source_name": "Glassreach Valley",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_loc_003",
+    "source_name": "Lower Sprawl",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_loc_004",
+    "source_name": "Gilded Spire",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_loc_005",
+    "source_name": "Chrono-Chamber",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_loc_006",
+    "source_name": "Spiral of Ascension",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_loc_007",
+    "source_name": "Smog-Tunnels",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_loc_008",
+    "source_name": "Market Square",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_loc_009",
+    "source_name": "Outlands",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_loc_010",
+    "source_name": "Sub-Level 4",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_obj_001",
+    "source_name": "Kyber Crystal",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_obj_002",
+    "source_name": "Great Engine",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_obj_003",
+    "source_name": "Volt-Blade",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_obj_004",
+    "source_name": "Gravity-Snare",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_obj_005",
+    "source_name": "Memory Anchor",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_obj_006",
+    "source_name": "Shimmer-Field",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_obj_007",
+    "source_name": "Brass Automaton C-42",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_evt_001",
+    "source_name": "Resonance Breach",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_evt_002",
+    "source_name": "Chronos Fracture",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_evt_003",
+    "source_name": "14th of Harvest-Moon",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_evt_004",
+    "source_name": "The Heist",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_evt_005",
+    "source_name": "Timeline Collapse",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_org_001",
+    "source_name": "Ministry of Order",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_org_002",
+    "source_name": "Under-Market Syndicate",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_org_003",
+    "source_name": "Iron-Bound Guards",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_con_001",
+    "source_name": "Essence Reservoirs",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_con_002",
+    "source_name": "Aetheric Age",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_con_003",
+    "source_name": "Status Quo",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "source_id": "ddb88a92c727451796755224652ac8ee_001_con_004",
+    "source_name": "The Future / Past",
+    "target_id": "ddb88a92c727451796755224652ac8ee_001",
+    "target_name": "ddb88a92c727451796755224652ac8ee_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  }
+]

@@ -1,0 +1,3443 @@
+{
+  "embedding": [
+    0.07523567,
+    0.052760698,
+    -0.11530297,
+    -0.057669748,
+    0.05429037,
+    0.004475584,
+    0.0026881464,
+    0.032190286,
+    -0.010244935,
+    -0.018088542,
+    -0.123837546,
+    0.040240176,
+    0.03358303,
+    -0.03482298,
+    -0.024791736,
+    -0.03974084,
+    0.11393048,
+    -0.03990961,
+    -0.04287113,
+    -0.008272242,
+    -0.070396386,
+    0.019324217,
+    0.002339203,
+    0.027906982,
+    0.085864946,
+    -0.010286603,
+    -0.045041025,
+    0.018780336,
+    -0.007950805,
+    0.0241052,
+    0.054249488,
+    -0.02583996,
+    -0.015444301,
+    0.010014486,
+    -0.101998806,
+    -0.05252888,
+    0.014080809,
+    0.08842837,
+    0.01030206,
+    -0.01662657,
+    0.085687876,
+    0.03370509,
+    -0.057230417,
+    -0.080947325,
+    -0.015391325,
+    -0.054042295,
+    0.03156401,
+    -0.023915209,
+    0.0133934645,
+    -0.0016793001,
+    -0.00036027565,
+    0.00044960252,
+    0.060101274,
+    0.007356803,
+    0.12105824,
+    0.064698644,
+    5.0312003e-05,
+    0.014383383,
+    0.028520916,
+    0.008447157,
+    0.092748314,
+    0.030726857,
+    -0.031370394,
+    0.053091154,
+    0.018002678,
+    -0.05128578,
+    -0.03264227,
+    0.06880275,
+    0.005412258,
+    -0.0818279,
+    0.056993756,
+    -0.034624457,
+    -0.0007001063,
+    -0.011228282,
+    0.010281975,
+    -0.016411783,
+    0.039521035,
+    0.00229854,
+    0.022360012,
+    -0.018997438,
+    0.014855037,
+    -0.038507145,
+    0.02999361,
+    0.014750647,
+    -0.05258387,
+    0.0034197944,
+    0.010672975,
+    -0.0173027,
+    -0.0548198,
+    0.034249283,
+    0.022261765,
+    0.019056806,
+    0.0051365513,
+    0.019732943,
+    -0.04628033,
+    0.01043448,
+    0.026016988,
+    0.016323924,
+    -0.020220913,
+    0.014667396,
+    -0.03769815,
+    -0.061219916,
+    -0.028701134,
+    0.05670361,
+    0.02822682,
+    0.08293456,
+    0.02042918,
+    0.017680792,
+    0.005011112,
+    0.0048521827,
+    -0.03351681,
+    0.026537873,
+    -0.054123454,
+    -0.020608943,
+    0.011235964,
+    -0.033265498,
+    0.029945575,
+    -0.0067170574,
+    0.013334683,
+    0.016284227,
+    -0.04184313,
+    0.043231122,
+    -0.013827931,
+    0.037553895,
+    0.0573172,
+    0.01953576,
+    -0.007157989,
+    0.02511893,
+    -0.031628296,
+    -0.041054793,
+    -0.014471338,
+    0.003770407,
+    0.01760648,
+    0.010111571,
+    0.081872955,
+    0.032563273,
+    0.027425505,
+    -0.024254078,
+    -0.0077776415,
+    -0.008364193,
+    0.0079939375,
+    0.059537314,
+    0.009948756,
+    0.015377675,
+    -0.036156315,
+    0.011908921,
+    0.049552936,
+    0.0019176868,
+    -0.04119058,
+    0.06796893,
+    0.011104558,
+    0.03235002,
+    -0.021954296,
+    0.042674415,
+    -0.022972155,
+    -0.029693246,
+    0.020761348,
+    0.017198836,
+    0.03691518,
+    0.06039868,
+    0.015900072,
+    0.028353104,
+    -0.031945117,
+    0.050824758,
+    -0.017904796,
+    -0.022451775,
+    -0.009514645,
+    0.045221914,
+    -0.010031081,
+    -0.03404517,
+    -0.069618374,
+    -0.03431435,
+    -0.0029602698,
+    0.028274447,
+    0.020584116,
+    -0.0053670756,
+    0.032507353,
+    -0.08018755,
+    -0.041249525,
+    -0.03243546,
+    0.04129694,
+    -0.022116551,
+    0.057206374,
+    -0.05664521,
+    -0.014117215,
+    0.0043797637,
+    -0.009898429,
+    -0.05585734,
+    -0.021421768,
+    -0.014646381,
+    0.014100635,
+    0.024948511,
+    -0.047190093,
+    0.016197361,
+    -0.018232165,
+    -0.035775132,
+    -0.01291165,
+    -0.0047302227,
+    -0.016252441,
+    -0.0051070363,
+    -0.030951677,
+    0.0074343225,
+    0.027319567,
+    -0.006191594,
+    -0.02076229,
+    0.042708933,
+    -0.03721911,
+    0.010367869,
+    0.006262871,
+    0.014373898,
+    0.029384065,
+    -0.03933947,
+    0.01675059,
+    0.04108815,
+    0.009501486,
+    0.007581996,
+    0.042955242,
+    -0.0096347695,
+    -0.027490452,
+    0.0024495085,
+    0.028288906,
+    0.04103228,
+    -0.016464248,
+    0.019203102,
+    0.025145778,
+    0.038795386,
+    -0.03238842,
+    -0.04034891,
+    -0.07017347,
+    -0.029835103,
+    -0.017419677,
+    -0.0823932,
+    0.08036337,
+    0.023522275,
+    -0.031416908,
+    0.02136535,
+    -0.02540881,
+    0.016143369,
+    -0.047054794,
+    0.041439317,
+    -0.013142906,
+    -0.027348768,
+    -0.058228835,
+    -0.0357255,
+    -0.036864907,
+    0.042236146,
+    -0.0006130223,
+    -0.041971397,
+    0.022493962,
+    0.026441377,
+    0.0002604764,
+    0.01632195,
+    0.059028015,
+    -0.02232912,
+    0.019347336,
+    -0.035205834,
+    -0.027824651,
+    0.052602325,
+    -0.033337884,
+    0.018564511,
+    0.0432915,
+    0.013219576,
+    -0.025137268,
+    -0.025900248,
+    -0.07380343,
+    -0.0378291,
+    -0.03376817,
+    -0.0069652824,
+    0.038868293,
+    -0.018158317,
+    -0.008281828,
+    0.036993895,
+    0.0023535546,
+    -0.013118575,
+    0.026607659,
+    -0.0047626086,
+    0.016001094,
+    -0.020185856,
+    -0.009735305,
+    0.0018725306,
+    -0.047959458,
+    0.017888037,
+    -0.034609035,
+    -0.052289948,
+    -0.0008912196,
+    -0.01642596,
+    -0.013577814,
+    -0.005242871,
+    0.055967428,
+    -0.01809041,
+    0.041087363,
+    0.041209277,
+    -0.001510082,
+    0.053288493,
+    0.036335364,
+    0.04859612,
+    0.036062136,
+    0.018424494,
+    -0.03906067,
+    -0.014838713,
+    0.047972146,
+    0.021368006,
+    -0.015605937,
+    0.060198266,
+    -0.023144722,
+    0.009981745,
+    -0.01431523,
+    0.0014669072,
+    -0.021899158,
+    -0.05834369,
+    -0.11098155,
+    -0.02964141,
+    -0.03209131,
+    -0.04405515,
+    -0.033829965,
+    -0.013174952,
+    0.030028034,
+    0.026051316,
+    -0.003806142,
+    0.0062250746,
+    -0.023432333,
+    0.028241504,
+    -0.018124165,
+    -0.05725576,
+    -0.015304068,
+    0.030314373,
+    -0.0343289,
+    0.013434036,
+    -0.04556208,
+    -0.030484758,
+    0.024721488,
+    0.023945145,
+    0.035008322,
+    -0.019661516,
+    -0.049515907,
+    0.020692496,
+    -0.006641534,
+    0.0109864045,
+    -0.033168543,
+    0.019356212,
+    0.012674017,
+    -0.009992741,
+    -0.0015022332,
+    -0.049826175,
+    -0.04052466,
+    0.011569946,
+    -0.043340787,
+    -0.037648767,
+    0.051920094,
+    -0.009406687,
+    -0.02880367,
+    -0.009918303,
+    -0.046211477,
+    0.0030776944,
+    0.001051789,
+    -0.015743146,
+    -0.03253523,
+    0.0017596518,
+    -0.056956686,
+    -0.055161346,
+    0.034240548,
+    0.017359728,
+    0.017663622,
+    -0.038023166,
+    -0.003792955,
+    0.042835854,
+    0.086698264,
+    -0.009740221,
+    -0.015229298,
+    0.0054855966,
+    -0.0625338,
+    -0.011024119,
+    0.00019711585,
+    0.007882883,
+    0.009498842,
+    -0.0021406538,
+    -0.06805302,
+    -0.019439999,
+    -0.03155128,
+    0.0125922505,
+    -0.0010192281,
+    0.024634,
+    -0.014964414,
+    0.015246381,
+    0.028011888,
+    -0.0018672576,
+    0.040796835,
+    0.006840639,
+    -0.0065362407,
+    -0.019164814,
+    -0.008806799,
+    0.010602752,
+    -0.04038944,
+    -0.03270567,
+    0.03475282,
+    -0.023383643,
+    0.0018929059,
+    -0.004597114,
+    -0.029195338,
+    -0.012727606,
+    -0.0052362927,
+    -0.08876561,
+    -0.010991899,
+    0.017322376,
+    -0.028397137,
+    0.06264056,
+    -0.041700754,
+    -0.042168934,
+    0.06582146,
+    -0.010327095,
+    0.031225586,
+    0.05937691,
+    -0.023080999,
+    -0.01747152,
+    -0.020374792,
+    0.04402847,
+    0.013192195,
+    0.010397343,
+    0.020976424,
+    -0.019783687,
+    0.047831777,
+    0.04084343,
+    -0.0077324407,
+    -0.021072403,
+    -0.0052341167,
+    0.03674763,
+    0.009488466,
+    0.0017993574,
+    -0.010732973,
+    -0.05274421,
+    -0.00084216264,
+    0.0077871177,
+    0.032686483,
+    -0.012402557,
+    -0.0026171638,
+    0.030271444,
+    0.012549575,
+    0.01225346,
+    0.028722249,
+    0.113019824,
+    0.041907113,
+    0.05473166,
+    0.023548689,
+    -0.03863747,
+    -0.024104442,
+    -0.017786343,
+    0.03966554,
+    -0.04706517,
+    -0.020345071,
+    0.02896416,
+    0.0027196829,
+    0.0343549,
+    0.009937297,
+    0.01701424,
+    0.06237316,
+    -0.02848681,
+    -0.034404885,
+    -0.026040647,
+    0.0013177703,
+    0.041025,
+    0.0584544,
+    0.026862022,
+    -0.04144663,
+    0.03227973,
+    0.01109798,
+    -0.056908507,
+    -0.005548273,
+    -0.052030556,
+    0.04328972,
+    0.0074671097,
+    -0.09605112,
+    0.009971138,
+    0.059841633,
+    -0.011497657,
+    0.03970462,
+    -0.03536003,
+    -0.06699381,
+    -0.0023039011,
+    -0.06830802,
+    0.0835893,
+    0.005388422,
+    0.028268173,
+    0.021588681,
+    -0.05636878,
+    0.0084113395,
+    0.023463456,
+    0.0021097073,
+    -0.0044350047,
+    0.007878303,
+    -0.015596712,
+    -0.015225473,
+    0.012183726,
+    0.015561837,
+    0.0017882928,
+    -0.010068128,
+    -0.05533192,
+    0.027459176,
+    0.0390996,
+    0.014575605,
+    0.04424043,
+    0.043807816,
+    0.052486308,
+    -0.0069834176,
+    0.043155745,
+    0.028325116,
+    -0.012040718,
+    0.0043954407,
+    -0.060517356,
+    -0.03381798,
+    -0.0105775045,
+    -0.023007827,
+    0.015679305,
+    -0.019638525,
+    -0.027903425,
+    0.049004316,
+    -0.015312407,
+    -0.008129422,
+    0.05387767,
+    -0.014486499,
+    0.015472332,
+    0.022135729,
+    -0.03103761,
+    0.008815943,
+    -0.057655066,
+    -0.054369446,
+    0.01037249,
+    -0.0074804244,
+    -0.079547256,
+    0.0021386938,
+    0.00759888,
+    -0.055643845,
+    0.023127753,
+    -0.051080458,
+    -0.024854729,
+    -0.008073452,
+    0.01489937,
+    -0.011397674,
+    0.027138494,
+    0.024599431,
+    0.004116243,
+    -0.0044339546,
+    -0.005156801,
+    -0.003464818,
+    -0.0017556419,
+    0.011206698,
+    0.032470427,
+    -0.013832124,
+    0.013577718,
+    2.378171e-05,
+    -0.02392412,
+    0.039116703,
+    -0.042134047,
+    -0.040011812,
+    -0.021911241,
+    0.030461142,
+    -0.015706709,
+    0.0472645,
+    -0.00031034174,
+    -0.040313587,
+    -0.010630491,
+    0.015850255,
+    0.049654882,
+    0.016772727,
+    0.025934203,
+    -0.01207659,
+    -0.020962492,
+    -0.026726404,
+    -0.027579658,
+    -0.00439721,
+    -0.0041262168,
+    -0.009101791,
+    -0.08462454,
+    -0.022093283,
+    -0.0037098639,
+    0.02167054,
+    -0.013476065,
+    0.0032593645,
+    0.021010617,
+    -0.07336005,
+    -0.033075918,
+    -0.0101359,
+    0.005267891,
+    0.007733017,
+    0.07713975,
+    0.0144402515,
+    0.01921713,
+    -0.061071664,
+    -0.029653355,
+    0.052829742,
+    -0.02971363,
+    -0.012124859,
+    0.0049739503,
+    0.008126921,
+    -0.005205044,
+    -0.016232975,
+    -0.008428038,
+    0.011052233,
+    -0.02664344,
+    -0.00077798206,
+    -0.028918669,
+    0.010229822,
+    0.029374285,
+    0.07283643,
+    -0.020417197,
+    0.012086529,
+    -0.02549162,
+    0.028302787,
+    -0.013779305,
+    0.012464325,
+    -0.019643111,
+    0.069309235,
+    0.029777424,
+    0.0092010535,
+    -0.007138941,
+    0.0043610153,
+    -0.03902311,
+    0.08919622,
+    0.02931299,
+    -0.024121903,
+    0.006798362,
+    0.027452152,
+    -0.0638735,
+    0.040825002,
+    -0.04501294,
+    0.053307652,
+    0.0038305707,
+    -0.06447609,
+    -0.022871155,
+    -0.032150283,
+    0.040124893,
+    -0.029155834,
+    0.00389557,
+    -0.0211293,
+    -0.03793435,
+    -0.026283316,
+    0.047084484,
+    0.0044924333,
+    0.035918538,
+    -0.033962592,
+    0.034784913,
+    0.050419707,
+    -0.0026405116,
+    -0.040367827,
+    0.04373313,
+    0.02298557,
+    -0.0063233343,
+    0.004148389,
+    0.035419878,
+    0.042266045,
+    -0.001712766,
+    0.0663189,
+    0.06632158,
+    -0.02032781,
+    0.0038104109,
+    0.009050517,
+    -0.05494732,
+    0.0077652303,
+    -0.051196426,
+    -0.06343773,
+    -0.06542036,
+    0.03051102,
+    0.01045191,
+    -0.017769918,
+    -0.023502959,
+    0.0036187915,
+    -0.011995244,
+    0.0059084315,
+    -0.048052162,
+    -0.03275181,
+    -0.004330441,
+    0.06806195,
+    0.007987686,
+    0.011298199,
+    -0.0018118479,
+    -0.012237951,
+    -0.022171184,
+    0.08161218,
+    0.044558775,
+    0.0073118536,
+    -0.021375254,
+    -0.019380957,
+    -0.004022193,
+    0.02702982,
+    0.0018756518,
+    -0.008919324,
+    -0.027702786,
+    0.029061409,
+    -0.022830538,
+    -0.10171471,
+    -0.011765959,
+    -0.033602074,
+    -0.0069189505,
+    0.032638304,
+    -0.010485662,
+    0.0108654,
+    -0.004219563,
+    -0.024914838,
+    0.03373654,
+    -0.008874808,
+    0.039718233,
+    0.018331317,
+    -0.025985695,
+    -0.00017270127,
+    0.026542386,
+    -0.037109297,
+    -0.0062372196,
+    -0.002996769,
+    0.020854995,
+    0.0034294617,
+    0.045956668,
+    0.054674532,
+    0.06725041,
+    -0.05106283,
+    0.033977985,
+    0.06938363,
+    -0.01747339,
+    -0.028470606,
+    -0.0004609115,
+    -0.049964365,
+    -0.009967251,
+    0.057194643,
+    -0.0016732388,
+    -0.03249882,
+    -0.01739968,
+    0.018592322,
+    -0.0018570645,
+    0.09559033,
+    0.017298574,
+    -0.034887113,
+    -0.05556692,
+    0.017969843,
+    0.039217338,
+    -0.03502443,
+    0.014936919,
+    -0.021194555,
+    0.013259157,
+    -0.08067216,
+    -0.031914514,
+    -0.05922335,
+    -0.05032509,
+    -0.043135762,
+    0.012663568,
+    0.0064535392,
+    0.009758074,
+    0.046736974,
+    -0.022081556,
+    -0.041611586,
+    0.037832,
+    0.034424223,
+    0.0014563649,
+    0.037190296,
+    0.029950827,
+    -0.050580196,
+    0.07459352,
+    0.026868591,
+    -0.02129615,
+    -0.0085404655,
+    0.07547612,
+    0.07622153,
+    0.021102214,
+    0.052157264,
+    0.0014091199,
+    0.013057546,
+    0.023321552,
+    -0.051883407,
+    -0.017183209,
+    0.0074784597,
+    -0.050481502
+  ],
+  "chunk_seq": 7,
+  "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+  "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+  "text": "'Excellent! We shall then look thoroughly into the affair. Of course there is only one feasible explanation. You have been brought there to personate someone, and the real person is imprisoned in this chamber. That is obvious. As to who this prisoner is, I have no doubt that it is the daughter, Miss Alice Rucastle, if I remember right, who was said to have gone to America. You were chosen, doubtless, as resembling her in height, figure, and the colour of your hair. Hers had been cut off, very possibly in some illness through which she has passed, and so, of course, yours had to be sacrificed also. By a curious chance you came upon her tresses. The man in the road was undoubtedly some friend of hers-possibly her fianc´ e-and no doubt, as you wore the girl's dress and were so like her, he was convinced from your laughter, whenever he saw you, and afterwards from your gesture, that Miss Rucastle was perfectly happy, and that she no longer desired his attentions. The dog is let loose at night to prevent him from endeavouring to communicate with her. So much is fairly clear. The most serious point in the case is the disposition of the child.'  \n'What on earth has that to do with it?' I ejaculated.  \n'My dear Watson, you as a medical man are continually gaining light as to the tendencies of a child by the study of the parents. Don't you see that the converse is equally valid. I have frequently gained my first real insight into the character of parents by studying their children. This child's disposition is abnormally cruel, merely for cruelty's sake, and whether he derives this from his smiling father, as I should suspect, or from his mother, it bodes evil for the poor girl who is in their power.'  \n'I am sure that you are right, Mr. Holmes,' cried our client. 'A thousand things come back to me which make me certain that you have hit it. Oh, let us lose not an instant in bringing help to this poor creature.'  \n'We must be circumspect, for we are dealing with a very cunning man. We can do nothing until seven o'clock. At that hour we shall be with you, and it will not be long before we solve the mystery.'  \nWe were as good as our word, for it was just seven when we reached the Copper Beeches, having put up our trap at a wayside public-house. The group of trees, with their dark leaves shining like burnished metal in the light of the setting sun, were sufficient to mark the house even had Miss Hunter not been standing smiling on the door-step.  \n'Have you managed it?' asked Holmes.  \nA loud thudding noise came from somewhere downstairs. 'That is Mrs. Toller in the cellar,' said she. 'Her husband lies snoring on the kitchen rug. Here are his keys, which are the duplicates of Mr. Rucastle's.'  \n'You have done well indeed!' cried Holmes with enthusiasm. 'Now lead the way, and we shall soon see the end of this black business.'  \nWe passed up the stair, unlocked the door, followed on down a passage, and found ourselves in front of the barricade which Miss Hunter had described. Holmes cut the cord and removed the transverse bar. Then he tried the various keys in the lock, but without success. No sound came from within, and at the silence Holmes' face clouded over.  \n'I trust that we are not too late,' said he. 'I think, Miss Hunter, that we had better go in without you. Now, Watson, put your shoulder to it, and we shall see whether we cannot make our way in.'  \nIt was an old rickety door and gave at once before our united strength. Together we rushed into the room. It was empty. There was no furniture save a little pallet bed, a small table, and a basketful of linen. The skylight above was open, and the prisoner gone.  \n'There has been some villainy here,' said Holmes; 'this beauty has guessed Miss Hunter's intentions and has carried his victim off.'  \n'But how?'  \n'Through the skylight. We shall soon see how he managed it.' He swung himself up onto the roof. 'Ah, yes,' he cried, 'here's the end of a long light ladder against the eaves. That is how he did it.'  \n'But it is impossible,' said Miss Hunter; 'the ladder was not there when the Rucastles went away.'  \n'He has come back and done it. I tell you that he is a clever and dangerous man. I should not be very much surprised if this were he whose step I hear now upon the stair. I think, Watson, that it would be as well for you to have your pistol ready.'  \nThe words were hardly out of his mouth before a man appeared at the door of the room, a very fat and burly man, with a heavy stick in his hand. Miss Hunter screamed and shrunk against the wall at the sight of him, but Sherlock Holmes sprang forward and confronted him.  \n'You villain!' said he, 'where's your daughter?'  \nThe fat man cast his eyes round, and then up at the open skylight.  \n'It is for me to ask you that,' he shrieked, 'you thieves! Spies and thieves! I have caught you, have I?  \nYou are in my power. I'll serve you!' He turned and clattered down the stairs as hard as he could go.  \n'He's gone for the dog!' cried Miss Hunter.  \n'I have my revolver,' said I.  \n'Better close the front door,' cried Holmes, and we all rushed down the stairs together. We had hardly reached the hall when we heard the baying of a hound, and then a scream of agony, with a horrible worrying sound which it was dreadful to listen to. An elderly man with a red face and shaking limbs came staggering out at a side door.  \n'My God!' he cried. 'Someone has loosed the dog. It's not been fed for two days. Quick, quick, or it'll be too late!'  \nHolmes and I rushed out and round the angle of the house, with Toller hurrying behind us. There was the huge famished brute, its black muzzle buried in Rucastle's throat, while he writhed and screamed upon the ground. Running up, I blew its brains out, and it fell over with its keen white teeth still meeting in the great creases of his neck. With much labour we separated them and carried him, living but horribly mangled, into the house. We laid him upon the drawing-room sofa, and having dispatched the sobered Toller to bear the news to his wife, I did what I could to relieve his pain. We were all assembled round him when the door opened, and a tall, gaunt woman entered the room.  \n'Mrs. Toller!' cried Miss Hunter.  \n'Yes, miss. Mr. Rucastle let me out when he came back before he went up to you. Ah, miss, it is a pity you didn't let me know what you were planning, for I would have told you that your pains were wasted.'  \n'Ha!' said Holmes, looking keenly at her. 'It is clear that Mrs. Toller knows more about this matter than anyone else.'  \n'Yes, sir, I do, and I am ready enough to tell what I know.'  \n'Then, pray, sit down, and let us hear it for there are several points on which I must confess that I am still in the dark.'  \n'I will soon make it clear to you,' said she; 'and I'd have done so before now if I could ha' got out from the cellar. If there's police-court business over this, you'll remember that I was the one that stood your friend, and that I was Miss Alice's friend too.",
+  "name": "Chunk 7/8",
+  "domain": "fiction",
+  "prev_chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+  "next_chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+  "raw_entities": [
+    {
+      "id": "char_001",
+      "name": "Sherlock Holmes",
+      "aliases": [
+        "Mr. Holmes",
+        "Holmes"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "protagonist",
+      "description": "A consulting detective whose deductive reasoning drives the narrative. He meticulously analyzes the prisoner's situation, deduces the father's cruelty from the child's disposition, and orchestrates the rescue with Watson. His analytical approach transforms scattered clues into a coherent understanding of the villain's scheme.",
+      "context": [
+        "'I am sure that you are right, Mr. Holmes,' cried our client.",
+        "'Better close the front door,' cried Holmes, and we all rushed down the stairs together.",
+        "'Ha!' said Holmes, looking keenly at her. 'It is clear that Mrs. Toller knows more about this matter than anyone else.'"
+      ]
+    },
+    {
+      "id": "char_002",
+      "name": "Dr. Watson",
+      "aliases": [
+        "Watson",
+        "I"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "Holmes's companion and the story's narrator. A medical man whose professional perspective aligns with Holmes's deductions, and who physically assists in the rescue and combat. His actions during the climax, particularly shooting the hound, directly resolve the immediate physical threat.",
+      "context": [
+        "'What on earth has that to do with it?' I ejaculated.",
+        "'I have my revolver,' said I.",
+        "Running up, I blew its brains out, and it fell over with its keen white teeth still meeting in the great creases of his neck."
+      ]
+    },
+    {
+      "id": "char_003",
+      "name": "Miss Hunter",
+      "aliases": [
+        "Miss Hunter",
+        "our client",
+        "you"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "The client who was brought to personate the imprisoned Miss Alice Rucastle. She resembles Alice in height, figure, and hair color, and provides crucial keys and information to Holmes. Her presence at the doorstep signals the successful execution of the rescue plan.",
+      "context": [
+        "'Have you managed it?' asked Holmes.",
+        "'You have done well indeed!' cried Holmes with enthusiasm.",
+        "'But it is impossible,' said Miss Hunter; 'the ladder was not there when the Rucastles went away.'"
+      ]
+    },
+    {
+      "id": "char_004",
+      "name": "Miss Alice Rucastle",
+      "aliases": [
+        "Miss Alice Rucastle",
+        "the daughter",
+        "Miss Rucastle",
+        "the prisoner",
+        "the poor girl",
+        "this beauty"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "The true daughter of Mr. Rucastle, imprisoned in a chamber at Copper Beeches. She was disguised by Miss Hunter, and her hair was cut off, likely due to illness. She escapes through the skylight during the rescue, evading her captor's immediate grasp.",
+      "context": [
+        "'I have no doubt that it is the daughter, Miss Alice Rucastle, if I remember right, who was said to have gone to America.'",
+        "'The skylight above was open, and the prisoner gone.'",
+        "'Ah, miss, it is a pity you didn't let me know what you were planning, for I would have told you that your pains were wasted.'"
+      ]
+    },
+    {
+      "id": "char_005",
+      "name": "Mr. Rucastle",
+      "aliases": [
+        "Mr. Rucastle",
+        "the smiling father",
+        "this beauty",
+        "he"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "antagonist",
+      "description": "The cunning and dangerous father who imprisons his daughter. He is described as fat and burly, carries a heavy stick, and is ultimately attacked by his own famished hound after Holmes and Watson's intervention. His cruelty is mirrored in his child's disposition.",
+      "context": [
+        "'The most serious point in the case is the disposition of the child.'",
+        "'You villain!' said he, 'where's your daughter?'",
+        "'My God!' he cried. 'Someone has loosed the dog. It's not been fed for two days. Quick, quick, or it'll be too late!'"
+      ]
+    },
+    {
+      "id": "char_006",
+      "name": "Mrs. Toller",
+      "aliases": [
+        "Mrs. Toller",
+        "she",
+        "the one that stood your friend"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "A tall, gaunt woman imprisoned in the cellar who holds the duplicate keys to the house. She secretly aids Holmes and reveals crucial information about the Rucastle family's villainy. Her emergence marks a turning point in the investigation.",
+      "context": [
+        "'That is Mrs. Toller in the cellar,' said she.",
+        "'Yes, miss. Mr. Rucastle let me out when he came back before he went up to you.'",
+        "'Yes, sir, I do, and I am ready enough to tell what I know.'"
+      ]
+    },
+    {
+      "id": "char_007",
+      "name": "Toller",
+      "aliases": [
+        "Toller",
+        "her husband",
+        "the sobered Toller"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "Mrs. Toller's husband, found snoring on the kitchen rug. He possesses the house keys and is present during the climax, hurrying behind Holmes and Watson. His passive state contrasts with the violent events unfolding around him.",
+      "context": [
+        "'Her husband lies snoring on the kitchen rug.'",
+        "With much labour we separated them and carried him, living but horribly mangled, into the house. We laid him upon the drawing-room sofa, and having dispatched the sobered Toller to bear the news to his wife...",
+        "Toller hurrying behind us."
+      ]
+    },
+    {
+      "id": "char_008",
+      "name": "The Man in the Road",
+      "aliases": [
+        "The man in the road",
+        "his fiancé",
+        "he whose step I hear now upon the stair"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "A friend or fiancé of Miss Alice Rucastle who was convinced by the disguised Miss Hunter that the prisoner was happy and no longer desired his attentions. He represents the outside world manipulated by the Rucastle family's deception.",
+      "context": [
+        "'The man in the road was undoubtedly some friend of hers-possibly her fianc´ e-and no doubt, as you wore the girl's dress and were so like her, he was convinced from your laughter, whenever he saw you, and afterwards from your gesture, that Miss Rucastle was perfectly happy'",
+        "I should not be very much surprised if this were he whose step I hear now upon the stair."
+      ]
+    },
+    {
+      "id": "char_009",
+      "name": "The Child",
+      "aliases": [
+        "the child",
+        "the disposition of the child"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "The offspring of Mr. Rucastle, whose abnormally cruel disposition Holmes uses as a key to deducing the father's malevolent character and the danger facing the imprisoned daughter. The child serves as a living symbol of inherited villainy.",
+      "context": [
+        "'This child's disposition is abnormally cruel, merely for cruelty's sake, and whether he derives this from his smiling father, as I should suspect, or from his mother, it bodes evil for the poor girl who is in their power.'",
+        "'The most serious point in the case is the disposition of the child.'"
+      ]
+    },
+    {
+      "id": "loc_001",
+      "name": "Copper Beeches",
+      "aliases": [
+        "Copper Beeches",
+        "the house"
+      ],
+      "entity_class": "LOCATION",
+      "type": "residence",
+      "description": "The estate house where the central events unfold. Marked by a group of trees with dark leaves shining like burnished metal, it houses the imprisoned daughter, the cellar, and the drawing-room. It serves as the primary setting for the mystery and its resolution.",
+      "context": [
+        "'At that hour we shall be with you, and it will not be long before we solve the mystery.' We were as good as our word, for it was just seven when we reached the Copper Beeches...",
+        "'The group of trees, with their dark leaves shining like burnished metal in the light of the setting sun, were sufficient to mark the house even had Miss Hunter not been standing smiling on the door-step.'"
+      ]
+    },
+    {
+      "id": "loc_002",
+      "name": "Cellar",
+      "aliases": [
+        "cellar",
+        "the cellar"
+      ],
+      "entity_class": "LOCATION",
+      "type": "room",
+      "description": "A subterranean room where Mrs. Toller is confined. It serves as a hiding place for her and the duplicate keys, and is where she eventually emerges to aid the investigation. The cellar represents the hidden, oppressive nature of the Rucastle household.",
+      "context": [
+        "'That is Mrs. Toller in the cellar,' said she.",
+        "'I will soon make it clear to you,' said she; 'and I'd have done so before now if I could ha' got out from the cellar.'"
+      ]
+    },
+    {
+      "id": "loc_003",
+      "name": "Kitchen",
+      "aliases": [
+        "kitchen"
+      ],
+      "entity_class": "LOCATION",
+      "type": "room",
+      "description": "A room in the house where Toller is found snoring on a rug. It is adjacent to the cellar and serves as a transit point during the climax. Its mundane description contrasts with the violence occurring elsewhere in the house.",
+      "context": [
+        "'Her husband lies snoring on the kitchen rug.'"
+      ]
+    },
+    {
+      "id": "loc_004",
+      "name": "Chamber",
+      "aliases": [
+        "chamber",
+        "the room",
+        "the barricade"
+      ],
+      "entity_class": "LOCATION",
+      "type": "room",
+      "description": "The locked room where Miss Alice Rucastle is imprisoned. It contains a pallet bed, a table, and a basket of linen, and features an open skylight used for escape. The chamber functions as the physical manifestation of the prisoner's captivity.",
+      "context": [
+        "'You have been brought there to personate someone, and the real person is imprisoned in this chamber.'",
+        "It was an old rickety door and gave at once before our united strength. Together we rushed into the room. It was empty.",
+        "We passed up the stair, unlocked the door, followed on down a passage, and found ourselves in front of the barricade which Miss Hunter had described."
+      ]
+    },
+    {
+      "id": "loc_005",
+      "name": "Skylight",
+      "aliases": [
+        "skylight",
+        "the roof"
+      ],
+      "entity_class": "LOCATION",
+      "type": "landmark",
+      "description": "An opening in the roof of the prisoner's chamber, through which Miss Alice Rucastle escapes. Holmes discovers a light ladder propped against the eaves to facilitate the exit. It represents the narrow avenue of freedom exploited by the victim.",
+      "context": [
+        "'The skylight above was open, and the prisoner gone.'",
+        "'He swung himself up onto the roof. 'Ah, yes,' he cried, 'here's the end of a long light ladder against the eaves. That is how he did it.'",
+        "'Through the skylight. We shall soon see how he managed it.'"
+      ]
+    },
+    {
+      "id": "loc_006",
+      "name": "Drawing-room",
+      "aliases": [
+        "drawing-room"
+      ],
+      "entity_class": "LOCATION",
+      "type": "room",
+      "description": "A room in the house where the mangled Mr. Rucastle is laid upon a sofa for medical attention after the dog attack. It serves as the final stage where the consequences of the villain's cruelty are physically manifested and treated.",
+      "context": [
+        "We laid him upon the drawing-room sofa, and having dispatched the sobered Toller to bear the news to his wife...",
+        "a tall, gaunt woman entered the room."
+      ]
+    },
+    {
+      "id": "obj_001",
+      "name": "Ladder",
+      "aliases": [
+        "light ladder",
+        "ladder"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "A long, light ladder used to facilitate Miss Alice Rucastle's escape through the skylight. Holmes discovers it propped against the eaves, proving the prisoner's recent departure. It is the tangible evidence of the escape plan.",
+      "context": [
+        "'Ah, yes,' he cried, 'here's the end of a long light ladder against the eaves. That is how he did it.'",
+        "'But it is impossible,' said Miss Hunter; 'the ladder was not there when the Rucastles went away.'"
+      ]
+    },
+    {
+      "id": "obj_002",
+      "name": "Hound",
+      "aliases": [
+        "dog",
+        "hound",
+        "huge famished brute",
+        "brute"
+      ],
+      "entity_class": "OBJECT",
+      "type": "animal",
+      "description": "A black-muzzled hound kept by Mr. Rucastle to prevent the prisoner from communicating with the outside world. It is let loose during the climax, attacks Rucastle, and is shot by Watson. The dog functions as an extension of the master's cruelty.",
+      "context": [
+        "'The dog is let loose at night to prevent him from endeavouring to communicate with her.'",
+        "There was the huge famished brute, its black muzzle buried in Rucastle's throat, while he writhed and screamed upon the ground.",
+        "Running up, I blew its brains out, and it fell over with its keen white teeth still meeting in the great creases of his neck."
+      ]
+    },
+    {
+      "id": "obj_003",
+      "name": "Keys",
+      "aliases": [
+        "keys",
+        "duplicates",
+        "his keys"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "Duplicate keys to the house, held by Mrs. Toller. They are crucial to Holmes's plan, allowing him and Watson to access the prisoner's chamber and confront Rucastle. They symbolize the controlled access and hidden vulnerabilities of the estate.",
+      "context": [
+        "'Here are his keys, which are the duplicates of Mr. Rucastle's.'",
+        "Then he tried the various keys in the lock, but without success.",
+        "We passed up the stair, unlocked the door, followed on down a passage..."
+      ]
+    },
+    {
+      "id": "obj_004",
+      "name": "Revolver",
+      "aliases": [
+        "revolver",
+        "pistol"
+      ],
+      "entity_class": "OBJECT",
+      "type": "weapon",
+      "description": "A firearm carried by Watson, which he uses to shoot the attacking hound. Holmes also prepares it for use during the confrontation. It represents the shift from intellectual deduction to physical intervention.",
+      "context": [
+        "'I have my revolver,' said I.",
+        "'I think, Watson, that it would be as well for you to have your pistol ready.'",
+        "Running up, I blew its brains out, and it fell over with its keen white teeth still meeting in the great creases of his neck."
+      ]
+    },
+    {
+      "id": "obj_005",
+      "name": "Heavy Stick",
+      "aliases": [
+        "heavy stick",
+        "stick"
+      ],
+      "entity_class": "OBJECT",
+      "type": "weapon",
+      "description": "A weapon carried by Mr. Rucastle when he confronts Holmes and Watson in the prisoner's room, indicating his intent to use force. It underscores his aggressive and threatening nature during the climax.",
+      "context": [
+        "'The words were hardly out of his mouth before a man appeared at the door of the room, a very fat and burly man, with a heavy stick in his hand.'",
+        "Miss Hunter screamed and shrunk against the wall at the sight of him, but Sherlock Holmes sprang forward and confronted him."
+      ]
+    },
+    {
+      "id": "obj_006",
+      "name": "Transverse Bar and Cord",
+      "aliases": [
+        "cord",
+        "transverse bar",
+        "barricade"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "The locking mechanism used to secure the prisoner's chamber. Holmes cuts the cord and removes the bar to gain entry to the room. It physically represents the barriers of imprisonment that the detectives must overcome.",
+      "context": [
+        "Holmes cut the cord and removed the transverse bar.",
+        "We passed up the stair, unlocked the door, followed on down a passage, and found ourselves in front of the barricade which Miss Hunter had described.",
+        "It was an old rickety door and gave at once before our united strength."
+      ]
+    },
+    {
+      "id": "evt_001",
+      "name": "The Rescue Mission",
+      "aliases": [
+        "rescue",
+        "bringing help",
+        "solve the mystery"
+      ],
+      "entity_class": "EVENT",
+      "type": "investigation",
+      "description": "Holmes and Watson's coordinated effort to locate and free Miss Alice Rucastle from her imprisonment at Copper Beeches, culminating in a confrontation and the discovery of her escape. The mission drives the narrative forward and tests the detectives' deductive and physical capabilities.",
+      "context": [
+        "'Oh, let us lose not an instant in bringing help to this poor creature.'",
+        "'We must be circumspect, for we are dealing with a very cunning man. We can do nothing until seven o'clock.'",
+        "'Now lead the way, and we shall soon see the end of this black business.'"
+      ]
+    },
+    {
+      "id": "evt_002",
+      "name": "The Prisoner's Escape",
+      "aliases": [
+        "escape",
+        "carried his victim off",
+        "prisoner gone"
+      ],
+      "entity_class": "EVENT",
+      "type": "escape",
+      "description": "Miss Alice Rucastle's flight from her locked chamber through the skylight, facilitated by a ladder left by her captor, which Holmes deduces immediately upon finding the room empty. The escape shifts the power dynamic and forces the antagonist into a desperate confrontation.",
+      "context": [
+        "'The skylight above was open, and the prisoner gone.'",
+        "'There has been some villainy here,' said Holmes; 'this beauty has guessed Miss Hunter's intentions and has carried his victim off.'",
+        "'Through the skylight. We shall soon see how he managed it.'"
+      ]
+    },
+    {
+      "id": "evt_003",
+      "name": "The Hound Attack",
+      "aliases": [
+        "dog attack",
+        "loosed the dog",
+        "worrying sound"
+      ],
+      "entity_class": "EVENT",
+      "type": "confrontation",
+      "description": "The climax where Mr. Rucastle is attacked by his own famished hound after Holmes and Watson's intervention. The attack leaves Rucastle horribly mangled before Watson shoots the beast. It serves as poetic justice and physically neutralizes the primary threat.",
+      "context": [
+        "'We had hardly reached the hall when we heard the baying of a hound, and then a scream of agony, with a horrible worrying sound which it was dreadful to listen to.'",
+        "'My God!' he cried. 'Someone has loosed the dog. It's not been fed for two days.'",
+        "Running up, I blew its brains out, and it fell over with its keen white teeth still meeting in the great creases of his neck."
+      ]
+    },
+    {
+      "id": "con_001",
+      "name": "Cruelty",
+      "aliases": [
+        "disposition of the child",
+        "abnormally cruel",
+        "merely for cruelty's sake"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "theme",
+      "description": "A central thematic element representing the inherited malevolence of the Rucastle family. Holmes uses the child's cruel nature as a deductive key to understand the father's character and the peril facing the imprisoned daughter. It underscores the psychological horror of the narrative.",
+      "context": [
+        "'This child's disposition is abnormally cruel, merely for cruelty's sake, and whether he derives this from his smiling father, as I should suspect, or from his mother, it bodes evil for the poor girl who is in their power.'",
+        "'The most serious point in the case is the disposition of the child.'",
+        "I have frequently gained my first real insight into the character of parents by studying their children."
+      ]
+    },
+    {
+      "id": "con_002",
+      "name": "Villainy",
+      "aliases": [
+        "black business",
+        "villainy",
+        "cunning man",
+        "dangerous man"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "mystery",
+      "description": "The overarching scheme of deception and imprisonment orchestrated by Mr. Rucastle. It encompasses the substitution of Miss Hunter for Alice, the use of the hound, and the psychological manipulation of the outside world. The concept drives the investigative tension and defines the antagonist's methods.",
+      "context": [
+        "'Excellent! We shall then look thoroughly into the affair.'",
+        "'Now lead the way, and we shall soon see the end of this black business.'",
+        "'There has been some villainy here,' said Holmes; 'this beauty has guessed Miss Hunter's intentions and has carried his victim off.'",
+        "'I tell you that he is a clever and dangerous man.'"
+      ]
+    }
+  ],
+  "id_map": {
+    "char_001": "843f020a05ad4ab6a40f48fe19f0918e_007_char_001",
+    "char_002": "843f020a05ad4ab6a40f48fe19f0918e_007_char_002",
+    "char_003": "843f020a05ad4ab6a40f48fe19f0918e_007_char_003",
+    "char_004": "843f020a05ad4ab6a40f48fe19f0918e_007_char_004",
+    "char_005": "843f020a05ad4ab6a40f48fe19f0918e_007_char_005",
+    "char_006": "843f020a05ad4ab6a40f48fe19f0918e_007_char_006",
+    "char_007": "843f020a05ad4ab6a40f48fe19f0918e_007_char_007",
+    "char_008": "843f020a05ad4ab6a40f48fe19f0918e_007_char_008",
+    "char_009": "843f020a05ad4ab6a40f48fe19f0918e_007_char_009",
+    "loc_001": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_001",
+    "loc_002": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_002",
+    "loc_003": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_003",
+    "loc_004": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_004",
+    "loc_005": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_005",
+    "loc_006": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_006",
+    "obj_001": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_001",
+    "obj_002": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_002",
+    "obj_003": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_003",
+    "obj_004": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_004",
+    "obj_005": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_005",
+    "obj_006": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_006",
+    "evt_001": "843f020a05ad4ab6a40f48fe19f0918e_007_evt_001",
+    "evt_002": "843f020a05ad4ab6a40f48fe19f0918e_007_evt_002",
+    "evt_003": "843f020a05ad4ab6a40f48fe19f0918e_007_evt_003",
+    "con_001": "843f020a05ad4ab6a40f48fe19f0918e_007_con_001",
+    "con_002": "843f020a05ad4ab6a40f48fe19f0918e_007_con_002"
+  },
+  "entities": [
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_001",
+      "name": "Sherlock Holmes",
+      "aliases": [
+        "Mr. Holmes",
+        "Holmes"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "protagonist",
+      "description": "A consulting detective whose deductive reasoning drives the narrative. He meticulously analyzes the prisoner's situation, deduces the father's cruelty from the child's disposition, and orchestrates the rescue with Watson. His analytical approach transforms scattered clues into a coherent understanding of the villain's scheme.",
+      "context": [
+        "'I am sure that you are right, Mr. Holmes,' cried our client.",
+        "'Better close the front door,' cried Holmes, and we all rushed down the stairs together.",
+        "'Ha!' said Holmes, looking keenly at her. 'It is clear that Mrs. Toller knows more about this matter than anyone else.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_002",
+      "name": "Dr. Watson",
+      "aliases": [
+        "Watson",
+        "I"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "Holmes's companion and the story's narrator. A medical man whose professional perspective aligns with Holmes's deductions, and who physically assists in the rescue and combat. His actions during the climax, particularly shooting the hound, directly resolve the immediate physical threat.",
+      "context": [
+        "'What on earth has that to do with it?' I ejaculated.",
+        "'I have my revolver,' said I.",
+        "Running up, I blew its brains out, and it fell over with its keen white teeth still meeting in the great creases of his neck."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_003",
+      "name": "Miss Hunter",
+      "aliases": [
+        "Miss Hunter",
+        "our client",
+        "you"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "The client who was brought to personate the imprisoned Miss Alice Rucastle. She resembles Alice in height, figure, and hair color, and provides crucial keys and information to Holmes. Her presence at the doorstep signals the successful execution of the rescue plan.",
+      "context": [
+        "'Have you managed it?' asked Holmes.",
+        "'You have done well indeed!' cried Holmes with enthusiasm.",
+        "'But it is impossible,' said Miss Hunter; 'the ladder was not there when the Rucastles went away.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_004",
+      "name": "Miss Alice Rucastle",
+      "aliases": [
+        "Miss Alice Rucastle",
+        "the daughter",
+        "Miss Rucastle",
+        "the prisoner",
+        "the poor girl",
+        "this beauty"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "The true daughter of Mr. Rucastle, imprisoned in a chamber at Copper Beeches. She was disguised by Miss Hunter, and her hair was cut off, likely due to illness. She escapes through the skylight during the rescue, evading her captor's immediate grasp.",
+      "context": [
+        "'I have no doubt that it is the daughter, Miss Alice Rucastle, if I remember right, who was said to have gone to America.'",
+        "'The skylight above was open, and the prisoner gone.'",
+        "'Ah, miss, it is a pity you didn't let me know what you were planning, for I would have told you that your pains were wasted.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_005",
+      "name": "Mr. Rucastle",
+      "aliases": [
+        "Mr. Rucastle",
+        "the smiling father",
+        "this beauty",
+        "he"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "antagonist",
+      "description": "The cunning and dangerous father who imprisons his daughter. He is described as fat and burly, carries a heavy stick, and is ultimately attacked by his own famished hound after Holmes and Watson's intervention. His cruelty is mirrored in his child's disposition.",
+      "context": [
+        "'The most serious point in the case is the disposition of the child.'",
+        "'You villain!' said he, 'where's your daughter?'",
+        "'My God!' he cried. 'Someone has loosed the dog. It's not been fed for two days. Quick, quick, or it'll be too late!'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_006",
+      "name": "Mrs. Toller",
+      "aliases": [
+        "Mrs. Toller",
+        "she",
+        "the one that stood your friend"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "A tall, gaunt woman imprisoned in the cellar who holds the duplicate keys to the house. She secretly aids Holmes and reveals crucial information about the Rucastle family's villainy. Her emergence marks a turning point in the investigation.",
+      "context": [
+        "'That is Mrs. Toller in the cellar,' said she.",
+        "'Yes, miss. Mr. Rucastle let me out when he came back before he went up to you.'",
+        "'Yes, sir, I do, and I am ready enough to tell what I know.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_007",
+      "name": "Toller",
+      "aliases": [
+        "Toller",
+        "her husband",
+        "the sobered Toller"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "Mrs. Toller's husband, found snoring on the kitchen rug. He possesses the house keys and is present during the climax, hurrying behind Holmes and Watson. His passive state contrasts with the violent events unfolding around him.",
+      "context": [
+        "'Her husband lies snoring on the kitchen rug.'",
+        "With much labour we separated them and carried him, living but horribly mangled, into the house. We laid him upon the drawing-room sofa, and having dispatched the sobered Toller to bear the news to his wife...",
+        "Toller hurrying behind us."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_008",
+      "name": "The Man in the Road",
+      "aliases": [
+        "The man in the road",
+        "his fiancé",
+        "he whose step I hear now upon the stair"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "A friend or fiancé of Miss Alice Rucastle who was convinced by the disguised Miss Hunter that the prisoner was happy and no longer desired his attentions. He represents the outside world manipulated by the Rucastle family's deception.",
+      "context": [
+        "'The man in the road was undoubtedly some friend of hers-possibly her fianc´ e-and no doubt, as you wore the girl's dress and were so like her, he was convinced from your laughter, whenever he saw you, and afterwards from your gesture, that Miss Rucastle was perfectly happy'",
+        "I should not be very much surprised if this were he whose step I hear now upon the stair."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_009",
+      "name": "The Child",
+      "aliases": [
+        "the child",
+        "the disposition of the child"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "The offspring of Mr. Rucastle, whose abnormally cruel disposition Holmes uses as a key to deducing the father's malevolent character and the danger facing the imprisoned daughter. The child serves as a living symbol of inherited villainy.",
+      "context": [
+        "'This child's disposition is abnormally cruel, merely for cruelty's sake, and whether he derives this from his smiling father, as I should suspect, or from his mother, it bodes evil for the poor girl who is in their power.'",
+        "'The most serious point in the case is the disposition of the child.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_001",
+      "name": "Copper Beeches",
+      "aliases": [
+        "Copper Beeches",
+        "the house"
+      ],
+      "entity_class": "LOCATION",
+      "type": "residence",
+      "description": "The estate house where the central events unfold. Marked by a group of trees with dark leaves shining like burnished metal, it houses the imprisoned daughter, the cellar, and the drawing-room. It serves as the primary setting for the mystery and its resolution.",
+      "context": [
+        "'At that hour we shall be with you, and it will not be long before we solve the mystery.' We were as good as our word, for it was just seven when we reached the Copper Beeches...",
+        "'The group of trees, with their dark leaves shining like burnished metal in the light of the setting sun, were sufficient to mark the house even had Miss Hunter not been standing smiling on the door-step.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_002",
+      "name": "Cellar",
+      "aliases": [
+        "cellar",
+        "the cellar"
+      ],
+      "entity_class": "LOCATION",
+      "type": "room",
+      "description": "A subterranean room where Mrs. Toller is confined. It serves as a hiding place for her and the duplicate keys, and is where she eventually emerges to aid the investigation. The cellar represents the hidden, oppressive nature of the Rucastle household.",
+      "context": [
+        "'That is Mrs. Toller in the cellar,' said she.",
+        "'I will soon make it clear to you,' said she; 'and I'd have done so before now if I could ha' got out from the cellar.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_003",
+      "name": "Kitchen",
+      "aliases": [
+        "kitchen"
+      ],
+      "entity_class": "LOCATION",
+      "type": "room",
+      "description": "A room in the house where Toller is found snoring on a rug. It is adjacent to the cellar and serves as a transit point during the climax. Its mundane description contrasts with the violence occurring elsewhere in the house.",
+      "context": [
+        "'Her husband lies snoring on the kitchen rug.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_004",
+      "name": "Chamber",
+      "aliases": [
+        "chamber",
+        "the room",
+        "the barricade"
+      ],
+      "entity_class": "LOCATION",
+      "type": "room",
+      "description": "The locked room where Miss Alice Rucastle is imprisoned. It contains a pallet bed, a table, and a basket of linen, and features an open skylight used for escape. The chamber functions as the physical manifestation of the prisoner's captivity.",
+      "context": [
+        "'You have been brought there to personate someone, and the real person is imprisoned in this chamber.'",
+        "It was an old rickety door and gave at once before our united strength. Together we rushed into the room. It was empty.",
+        "We passed up the stair, unlocked the door, followed on down a passage, and found ourselves in front of the barricade which Miss Hunter had described."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_005",
+      "name": "Skylight",
+      "aliases": [
+        "skylight",
+        "the roof"
+      ],
+      "entity_class": "LOCATION",
+      "type": "landmark",
+      "description": "An opening in the roof of the prisoner's chamber, through which Miss Alice Rucastle escapes. Holmes discovers a light ladder propped against the eaves to facilitate the exit. It represents the narrow avenue of freedom exploited by the victim.",
+      "context": [
+        "'The skylight above was open, and the prisoner gone.'",
+        "'He swung himself up onto the roof. 'Ah, yes,' he cried, 'here's the end of a long light ladder against the eaves. That is how he did it.'",
+        "'Through the skylight. We shall soon see how he managed it.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_006",
+      "name": "Drawing-room",
+      "aliases": [
+        "drawing-room"
+      ],
+      "entity_class": "LOCATION",
+      "type": "room",
+      "description": "A room in the house where the mangled Mr. Rucastle is laid upon a sofa for medical attention after the dog attack. It serves as the final stage where the consequences of the villain's cruelty are physically manifested and treated.",
+      "context": [
+        "We laid him upon the drawing-room sofa, and having dispatched the sobered Toller to bear the news to his wife...",
+        "a tall, gaunt woman entered the room."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_001",
+      "name": "Ladder",
+      "aliases": [
+        "light ladder",
+        "ladder"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "A long, light ladder used to facilitate Miss Alice Rucastle's escape through the skylight. Holmes discovers it propped against the eaves, proving the prisoner's recent departure. It is the tangible evidence of the escape plan.",
+      "context": [
+        "'Ah, yes,' he cried, 'here's the end of a long light ladder against the eaves. That is how he did it.'",
+        "'But it is impossible,' said Miss Hunter; 'the ladder was not there when the Rucastles went away.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_002",
+      "name": "Hound",
+      "aliases": [
+        "dog",
+        "hound",
+        "huge famished brute",
+        "brute"
+      ],
+      "entity_class": "OBJECT",
+      "type": "animal",
+      "description": "A black-muzzled hound kept by Mr. Rucastle to prevent the prisoner from communicating with the outside world. It is let loose during the climax, attacks Rucastle, and is shot by Watson. The dog functions as an extension of the master's cruelty.",
+      "context": [
+        "'The dog is let loose at night to prevent him from endeavouring to communicate with her.'",
+        "There was the huge famished brute, its black muzzle buried in Rucastle's throat, while he writhed and screamed upon the ground.",
+        "Running up, I blew its brains out, and it fell over with its keen white teeth still meeting in the great creases of his neck."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_003",
+      "name": "Keys",
+      "aliases": [
+        "keys",
+        "duplicates",
+        "his keys"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "Duplicate keys to the house, held by Mrs. Toller. They are crucial to Holmes's plan, allowing him and Watson to access the prisoner's chamber and confront Rucastle. They symbolize the controlled access and hidden vulnerabilities of the estate.",
+      "context": [
+        "'Here are his keys, which are the duplicates of Mr. Rucastle's.'",
+        "Then he tried the various keys in the lock, but without success.",
+        "We passed up the stair, unlocked the door, followed on down a passage..."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_004",
+      "name": "Revolver",
+      "aliases": [
+        "revolver",
+        "pistol"
+      ],
+      "entity_class": "OBJECT",
+      "type": "weapon",
+      "description": "A firearm carried by Watson, which he uses to shoot the attacking hound. Holmes also prepares it for use during the confrontation. It represents the shift from intellectual deduction to physical intervention.",
+      "context": [
+        "'I have my revolver,' said I.",
+        "'I think, Watson, that it would be as well for you to have your pistol ready.'",
+        "Running up, I blew its brains out, and it fell over with its keen white teeth still meeting in the great creases of his neck."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_005",
+      "name": "Heavy Stick",
+      "aliases": [
+        "heavy stick",
+        "stick"
+      ],
+      "entity_class": "OBJECT",
+      "type": "weapon",
+      "description": "A weapon carried by Mr. Rucastle when he confronts Holmes and Watson in the prisoner's room, indicating his intent to use force. It underscores his aggressive and threatening nature during the climax.",
+      "context": [
+        "'The words were hardly out of his mouth before a man appeared at the door of the room, a very fat and burly man, with a heavy stick in his hand.'",
+        "Miss Hunter screamed and shrunk against the wall at the sight of him, but Sherlock Holmes sprang forward and confronted him."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_006",
+      "name": "Transverse Bar and Cord",
+      "aliases": [
+        "cord",
+        "transverse bar",
+        "barricade"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "The locking mechanism used to secure the prisoner's chamber. Holmes cuts the cord and removes the bar to gain entry to the room. It physically represents the barriers of imprisonment that the detectives must overcome.",
+      "context": [
+        "Holmes cut the cord and removed the transverse bar.",
+        "We passed up the stair, unlocked the door, followed on down a passage, and found ourselves in front of the barricade which Miss Hunter had described.",
+        "It was an old rickety door and gave at once before our united strength."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_evt_001",
+      "name": "The Rescue Mission",
+      "aliases": [
+        "rescue",
+        "bringing help",
+        "solve the mystery"
+      ],
+      "entity_class": "EVENT",
+      "type": "investigation",
+      "description": "Holmes and Watson's coordinated effort to locate and free Miss Alice Rucastle from her imprisonment at Copper Beeches, culminating in a confrontation and the discovery of her escape. The mission drives the narrative forward and tests the detectives' deductive and physical capabilities.",
+      "context": [
+        "'Oh, let us lose not an instant in bringing help to this poor creature.'",
+        "'We must be circumspect, for we are dealing with a very cunning man. We can do nothing until seven o'clock.'",
+        "'Now lead the way, and we shall soon see the end of this black business.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_evt_002",
+      "name": "The Prisoner's Escape",
+      "aliases": [
+        "escape",
+        "carried his victim off",
+        "prisoner gone"
+      ],
+      "entity_class": "EVENT",
+      "type": "escape",
+      "description": "Miss Alice Rucastle's flight from her locked chamber through the skylight, facilitated by a ladder left by her captor, which Holmes deduces immediately upon finding the room empty. The escape shifts the power dynamic and forces the antagonist into a desperate confrontation.",
+      "context": [
+        "'The skylight above was open, and the prisoner gone.'",
+        "'There has been some villainy here,' said Holmes; 'this beauty has guessed Miss Hunter's intentions and has carried his victim off.'",
+        "'Through the skylight. We shall soon see how he managed it.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_evt_003",
+      "name": "The Hound Attack",
+      "aliases": [
+        "dog attack",
+        "loosed the dog",
+        "worrying sound"
+      ],
+      "entity_class": "EVENT",
+      "type": "confrontation",
+      "description": "The climax where Mr. Rucastle is attacked by his own famished hound after Holmes and Watson's intervention. The attack leaves Rucastle horribly mangled before Watson shoots the beast. It serves as poetic justice and physically neutralizes the primary threat.",
+      "context": [
+        "'We had hardly reached the hall when we heard the baying of a hound, and then a scream of agony, with a horrible worrying sound which it was dreadful to listen to.'",
+        "'My God!' he cried. 'Someone has loosed the dog. It's not been fed for two days.'",
+        "Running up, I blew its brains out, and it fell over with its keen white teeth still meeting in the great creases of his neck."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_con_001",
+      "name": "Cruelty",
+      "aliases": [
+        "disposition of the child",
+        "abnormally cruel",
+        "merely for cruelty's sake"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "theme",
+      "description": "A central thematic element representing the inherited malevolence of the Rucastle family. Holmes uses the child's cruel nature as a deductive key to understand the father's character and the peril facing the imprisoned daughter. It underscores the psychological horror of the narrative.",
+      "context": [
+        "'This child's disposition is abnormally cruel, merely for cruelty's sake, and whether he derives this from his smiling father, as I should suspect, or from his mother, it bodes evil for the poor girl who is in their power.'",
+        "'The most serious point in the case is the disposition of the child.'",
+        "I have frequently gained my first real insight into the character of parents by studying their children."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_con_002",
+      "name": "Villainy",
+      "aliases": [
+        "black business",
+        "villainy",
+        "cunning man",
+        "dangerous man"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "mystery",
+      "description": "The overarching scheme of deception and imprisonment orchestrated by Mr. Rucastle. It encompasses the substitution of Miss Hunter for Alice, the use of the hound, and the psychological manipulation of the outside world. The concept drives the investigative tension and defines the antagonist's methods.",
+      "context": [
+        "'Excellent! We shall then look thoroughly into the affair.'",
+        "'Now lead the way, and we shall soon see the end of this black business.'",
+        "'There has been some villainy here,' said Holmes; 'this beauty has guessed Miss Hunter's intentions and has carried his victim off.'",
+        "'I tell you that he is a clever and dangerous man.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    }
+  ],
+  "properties": [
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_001",
+      "name": "Sherlock Holmes",
+      "properties": {
+        "role": "consulting detective",
+        "personality_traits": [
+          "logical",
+          "observant",
+          "methodical",
+          "confident"
+        ],
+        "motivations": [
+          "solve the mystery",
+          "rescue the prisoner",
+          "expose the villain"
+        ],
+        "signature_behaviours": [
+          "deducing from minimal data",
+          "studying children to understand parents",
+          "tactical waiting",
+          "physical confrontation"
+        ],
+        "occupation": "consulting detective"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_002",
+      "name": "Dr. Watson",
+      "properties": {
+        "role": "medical man and narrator",
+        "personality_traits": [
+          "loyal",
+          "practical",
+          "medically trained",
+          "trusting"
+        ],
+        "motivations": [
+          "assist Holmes",
+          "protect Miss Hunter",
+          "provide medical aid"
+        ],
+        "signature_behaviours": [
+          "shooting the hound",
+          "providing medical aid",
+          "asking clarifying questions"
+        ],
+        "occupation": "doctor"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_003",
+      "name": "Miss Hunter",
+      "properties": {
+        "role": "client and decoy",
+        "personality_traits": [
+          "courageous",
+          "observant",
+          "loyal",
+          "proactive"
+        ],
+        "motivations": [
+          "rescue Miss Alice",
+          "expose the Rucastles' plot"
+        ],
+        "signature_behaviours": [
+          "cutting the cord and bar",
+          "unlocking the door",
+          "leading Holmes to the chamber"
+        ],
+        "narrative_arc": "transitions from victim/decoy to active agent in the rescue"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_004",
+      "name": "Miss Alice Rucastle",
+      "properties": {
+        "role": "prisoner and daughter",
+        "physical_description": [
+          "similar height and figure to Miss Hunter",
+          "hair cut off possibly due to illness"
+        ],
+        "motivations": [
+          "escape captivity",
+          "reunite with her fiancé"
+        ],
+        "narrative_arc": "imprisoned, escapes through skylight, rescued"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_005",
+      "name": "Mr. Rucastle",
+      "properties": {
+        "role": "villain and father",
+        "personality_traits": [
+          "cunning",
+          "cruel",
+          "violent",
+          "controlling",
+          "fat and burly"
+        ],
+        "motivations": [
+          "keep Miss Alice imprisoned",
+          "prevent communication with her fiancé",
+          "maintain control"
+        ],
+        "signature_behaviours": [
+          "letting the dog loose",
+          "carrying a heavy stick",
+          "fleeing when confronted",
+          "being attacked by the hound"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_006",
+      "name": "Mrs. Toller",
+      "properties": {
+        "role": "cellar prisoner and informant",
+        "personality_traits": [
+          "loyal to Miss Alice",
+          "cooperative",
+          "observant",
+          "constrained"
+        ],
+        "motivations": [
+          "help Miss Hunter and Holmes",
+          "expose the truth",
+          "free herself"
+        ],
+        "signature_behaviours": [
+          "making loud thudding noises",
+          "providing keys",
+          "revealing crucial information",
+          "being locked in the cellar"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_007",
+      "name": "Toller",
+      "properties": {
+        "role": "husband and accomplice",
+        "personality_traits": [
+          "passive",
+          "obedient to his wife",
+          "physically present but uninvolved"
+        ],
+        "motivations": [
+          "follow his wife's lead",
+          "avoid trouble"
+        ],
+        "signature_behaviours": [
+          "snoring on the kitchen rug",
+          "hurrying behind Holmes",
+          "being sent to bear news to his wife"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_008",
+      "name": "The Man in the Road",
+      "properties": {
+        "role": "friend and fiancé of Miss Alice",
+        "motivations": [
+          "communicate with Miss Alice",
+          "rescue her"
+        ],
+        "signature_behaviours": [
+          "waving from the road",
+          "laughing to mislead",
+          "gesturing to show Miss Alice is happy"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_009",
+      "name": "The Child",
+      "properties": {
+        "role": "son of the Rucastles",
+        "personality_traits": [
+          "abnormally cruel",
+          "cruel for cruelty's sake"
+        ],
+        "narrative_function": "serves as a mirror to the parents' evil nature"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_001",
+      "name": "Copper Beeches",
+      "properties": {
+        "physical_description": [
+          "house surrounded by trees with dark leaves shining like burnished metal"
+        ],
+        "atmosphere": [
+          "ominous",
+          "secretive",
+          "isolated"
+        ],
+        "narrative_function": [
+          "primary setting for the mystery and climax",
+          "symbol of captivity"
+        ],
+        "isolation_level": [
+          "high"
+        ],
+        "owner_or_controller": [
+          "Mr. Rucastle"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_002",
+      "name": "Cellar",
+      "properties": {
+        "physical_description": [
+          "underground room accessible via stairs"
+        ],
+        "narrative_function": [
+          "prison for the Tollers",
+          "source of clues"
+        ],
+        "owner_or_controller": [
+          "Mr. Rucastle"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_003",
+      "name": "Kitchen",
+      "properties": {
+        "physical_description": [
+          "contains a rug where Toller snores",
+          "leads to the cellar"
+        ],
+        "narrative_function": [
+          "transitional space",
+          "location of Toller's passive state"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_004",
+      "name": "Chamber",
+      "properties": {
+        "physical_description": [
+          "small room with pallet bed, table, linen basket",
+          "barricaded door",
+          "skylight above"
+        ],
+        "narrative_function": [
+          "prison for Miss Alice Rucastle",
+          "site of the escape"
+        ],
+        "isolation_level": [
+          "high"
+        ],
+        "owner_or_controller": [
+          "Mr. Rucastle"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_005",
+      "name": "Skylight",
+      "properties": {
+        "physical_description": [
+          "open window above the chamber"
+        ],
+        "narrative_function": [
+          "escape route for the prisoner",
+          "evidence of the villain's plan"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_006",
+      "name": "Drawing-room",
+      "properties": {
+        "physical_description": [
+          "contains a sofa"
+        ],
+        "narrative_function": [
+          "site of the aftermath and confrontation",
+          "gathering place for characters"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_001",
+      "name": "Ladder",
+      "properties": {
+        "physical_description": [
+          "long, light ladder propped against the eaves"
+        ],
+        "owner_or_user": [
+          "Mr. Rucastle"
+        ],
+        "narrative_role": [
+          "tool for escape",
+          "evidence of premeditation"
+        ],
+        "symbolic_meaning": [
+          "represents the calculated nature of the villain's plan"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_002",
+      "name": "Hound",
+      "properties": {
+        "physical_description": [
+          "huge, famished brute",
+          "black muzzle",
+          "keen white teeth"
+        ],
+        "owner_or_user": [
+          "Mr. Rucastle"
+        ],
+        "narrative_role": [
+          "weapon of intimidation and violence",
+          "instrument of the villain's cruelty"
+        ],
+        "symbolic_meaning": [
+          "embodiment of the household's danger and the Rucastles' malice"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_003",
+      "name": "Keys",
+      "properties": {
+        "physical_description": [
+          "duplicates of Mr. Rucastle's keys"
+        ],
+        "owner_or_user": [
+          "Mrs. Toller"
+        ],
+        "narrative_role": [
+          "crucial clue",
+          "enables the rescue"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_004",
+      "name": "Revolver",
+      "properties": {
+        "physical_description": [
+          "pistol carried by Watson"
+        ],
+        "owner_or_user": [
+          "Dr. Watson"
+        ],
+        "narrative_role": [
+          "weapon used to kill the hound",
+          "tool for protection"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_005",
+      "name": "Heavy Stick",
+      "properties": {
+        "physical_description": [
+          "carried by Mr. Rucastle"
+        ],
+        "owner_or_user": [
+          "Mr. Rucastle"
+        ],
+        "narrative_role": [
+          "weapon/prop indicating threat and violence"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_006",
+      "name": "Transverse Bar and Cord",
+      "properties": {
+        "physical_description": [
+          "barricade components securing the chamber door"
+        ],
+        "owner_or_user": [
+          "Mr. Rucastle"
+        ],
+        "narrative_role": [
+          "physical barrier",
+          "removed by Miss Hunter to enable entry"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_evt_001",
+      "name": "The Rescue Mission",
+      "properties": {
+        "time": [
+          "7 o'clock"
+        ],
+        "sequence_number": [
+          2
+        ],
+        "consequence": [
+          "Holmes and Watson arrive at Copper Beeches; Miss Hunter provides keys; they locate the chamber"
+        ],
+        "involved_characters": [
+          "Sherlock Holmes",
+          "Dr. Watson",
+          "Miss Hunter"
+        ],
+        "emotions": [
+          "anticipation",
+          "urgency",
+          "determination"
+        ],
+        "is_turning_point": [
+          "true"
+        ],
+        "cause": [
+          "Miss Hunter's report and Holmes's deduction"
+        ],
+        "immediate_consequence": [
+          "discovery of the empty chamber and the skylight escape"
+        ],
+        "significance": [
+          "drives the plot toward the climax and resolution"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_evt_002",
+      "name": "The Prisoner's Escape",
+      "properties": {
+        "time": [
+          "evening, before Holmes's arrival"
+        ],
+        "sequence_number": [
+          1
+        ],
+        "consequence": [
+          "Miss Alice Rucastle is freed from the chamber"
+        ],
+        "involved_characters": [
+          "Miss Alice Rucastle",
+          "Mr. Rucastle"
+        ],
+        "emotions": [
+          "desperation",
+          "relief"
+        ],
+        "is_turning_point": [
+          "true"
+        ],
+        "cause": [
+          "Mr. Rucastle's intervention; Miss Hunter's plan was discovered"
+        ],
+        "immediate_consequence": [
+          "chamber found empty; Holmes deduces skylight escape"
+        ],
+        "significance": [
+          "exposes the villain's cunning and sets up the final confrontation"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_evt_003",
+      "name": "The Hound Attack",
+      "properties": {
+        "time": [
+          "evening, after the escape"
+        ],
+        "sequence_number": [
+          3
+        ],
+        "consequence": [
+          "Mr. Rucastle is severely mangled by the hound; Toller is sobered"
+        ],
+        "involved_characters": [
+          "Mr. Rucastle",
+          "Hound",
+          "Dr. Watson",
+          "Sherlock Holmes",
+          "Miss Hunter",
+          "Toller"
+        ],
+        "emotions": [
+          "terror",
+          "agony",
+          "shock",
+          "relief"
+        ],
+        "is_turning_point": [
+          "true"
+        ],
+        "cause": [
+          "Mr. Rucastle let the dog loose to attack the intruders; dog was famished"
+        ],
+        "immediate_consequence": [
+          "Rucastle is incapacitated; Watson shoots the hound; Toller is sent to his wife"
+        ],
+        "significance": [
+          "resolves the immediate physical threat; delivers poetic justice"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_con_001",
+      "name": "Cruelty",
+      "properties": {
+        "manifestation": [
+          "the child's abnormally cruel disposition",
+          "the Rucastles' imprisonment and use of a famished hound",
+          "the overall atmosphere of the house"
+        ],
+        "embodied_by": [
+          "The Child",
+          "Mr. Rucastle",
+          "the Hound"
+        ],
+        "resolution": [
+          "exposed and punished through the hound's attack on Rucastle; the prisoner is freed"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_007_con_002",
+      "name": "Villainy",
+      "properties": {
+        "manifestation": [
+          "Mr. Rucastle's cunning plot to imprison his daughter",
+          "use of a decoy",
+          "control over the household",
+          "letting the hound loose"
+        ],
+        "embodied_by": [
+          "Mr. Rucastle",
+          "the overall plot against Miss Alice"
+        ],
+        "resolution": [
+          "unmasked by Holmes; the villain is physically subdued and his scheme foiled"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_004",
+      "target_name": "Miss Alice Rucastle",
+      "rel_type": "knows",
+      "description": "Holmes deduces the true identity and imprisoned status of Miss Alice Rucastle.",
+      "properties": {
+        "nature": "professional",
+        "sentiment": "analytical"
+      },
+      "context": "I have no doubt that it is the daughter, Miss Alice Rucastle, if I remember right, who was said to have gone to America.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_008",
+      "target_name": "The Man in the Road",
+      "rel_type": "knows",
+      "description": "Holmes identifies the man in the road as a friend and possible fiancé of Miss Alice Rucastle.",
+      "properties": {
+        "nature": "personal",
+        "sentiment": "positive"
+      },
+      "context": "The man in the road was undoubtedly some friend of hers-possibly her fianc´ e-and no doubt, as you wore the girl's dress and were so like her, he was convinced from your laughter, whenever he saw you, and afterwards from your gesture, that Miss Rucastle was perfectly happy",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_008",
+      "source_name": "The Man in the Road",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_004",
+      "target_name": "Miss Alice Rucastle",
+      "rel_type": "engaged_to",
+      "description": "The man in the road is suspected to be Miss Alice Rucastle's fiancé.",
+      "properties": {
+        "nature": "romantic",
+        "sentiment": "positive"
+      },
+      "context": "The man in the road was undoubtedly some friend of hers-possibly her fianc´ e",
+      "bidirectional": true,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_005",
+      "source_name": "Mr. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_004",
+      "target_name": "Miss Alice Rucastle",
+      "rel_type": "imprisons",
+      "description": "Mr. Rucastle holds Miss Alice Rucastle captive in the chamber.",
+      "properties": {
+        "nature": "physical",
+        "sentiment": "negative"
+      },
+      "context": "You have been brought there to personate someone, and the real person is imprisoned in this chamber.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_009",
+      "source_name": "The Child",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_con_001",
+      "target_name": "Cruelty",
+      "rel_type": "expresses_through",
+      "description": "The child's disposition manifests as abnormally cruel behavior.",
+      "properties": {
+        "nature": "inherent",
+        "sentiment": "negative"
+      },
+      "context": "This child's disposition is abnormally cruel, merely for cruelty's sake",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_009",
+      "source_name": "The Child",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_con_001",
+      "target_name": "Cruelty",
+      "rel_type": "triggers",
+      "description": "The child's cruel nature bodes evil for the imprisoned girl.",
+      "properties": {
+        "nature": "causal",
+        "sentiment": "negative"
+      },
+      "context": "This child's disposition is abnormally cruel, merely for cruelty's sake, and whether he derives this from his smiling father, as I should suspect, or from his mother, it bodes evil for the poor girl who is in their power.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_005",
+      "source_name": "Mr. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_009",
+      "target_name": "The Child",
+      "rel_type": "parent_of",
+      "description": "Mr. Rucastle is suspected to be the father of the cruel child.",
+      "properties": {
+        "nature": "biological",
+        "sentiment": "neutral"
+      },
+      "context": "whether he derives this from his smiling father, as I should suspect, or from his mother",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_002",
+      "source_name": "Dr. Watson",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_001",
+      "target_name": "Sherlock Holmes",
+      "rel_type": "works_with",
+      "description": "Watson collaborates with Holmes as his medical and investigative partner.",
+      "properties": {
+        "nature": "professional",
+        "sentiment": "positive"
+      },
+      "context": "My dear Watson, you as a medical man are continually gaining light as to the tendencies of a child by the study of the parents.",
+      "bidirectional": true,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_003",
+      "source_name": "Miss Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_001",
+      "target_name": "Sherlock Holmes",
+      "rel_type": "trusts",
+      "description": "Miss Hunter expresses confidence in Holmes's deductions and plans.",
+      "properties": {
+        "nature": "personal",
+        "sentiment": "positive"
+      },
+      "context": "I am sure that you are right, Mr. Holmes,' cried our client. 'A thousand things come back to me which make me certain that you have hit it.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_003",
+      "source_name": "Miss Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_004",
+      "target_name": "Miss Alice Rucastle",
+      "rel_type": "assists",
+      "description": "Miss Hunter seeks to bring help to the imprisoned Miss Alice Rucastle.",
+      "properties": {
+        "nature": "personal",
+        "sentiment": "positive"
+      },
+      "context": "Oh, let us lose not an instant in bringing help to this poor creature.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_001",
+      "target_name": "Copper Beeches",
+      "rel_type": "visits",
+      "description": "Holmes travels to and investigates the Copper Beeches estate.",
+      "properties": {
+        "nature": "professional",
+        "sentiment": "neutral"
+      },
+      "context": "We were as good as our word, for it was just seven when we reached the Copper Beeches, having put up our trap at a wayside public-house.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_002",
+      "source_name": "Dr. Watson",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_001",
+      "target_name": "Copper Beeches",
+      "rel_type": "visits",
+      "description": "Watson accompanies Holmes to the Copper Beeches estate.",
+      "properties": {
+        "nature": "professional",
+        "sentiment": "neutral"
+      },
+      "context": "We were as good as our word, for it was just seven when we reached the Copper Beeches, having put up our trap at a wayside public-house.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_006",
+      "source_name": "Mrs. Toller",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_002",
+      "target_name": "Cellar",
+      "rel_type": "imprisoned_at",
+      "description": "Mrs. Toller is confined to the cellar by Mr. Rucastle.",
+      "properties": {
+        "nature": "physical",
+        "sentiment": "negative"
+      },
+      "context": "I'd have done so before now if I could ha' got out from the cellar.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_007",
+      "source_name": "Toller",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_003",
+      "target_name": "Kitchen",
+      "rel_type": "resides_at",
+      "description": "Toller is found resting in the kitchen.",
+      "properties": {
+        "nature": "domestic",
+        "sentiment": "neutral"
+      },
+      "context": "Her husband lies snoring on the kitchen rug.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_007",
+      "source_name": "Toller",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_006",
+      "target_name": "Mrs. Toller",
+      "rel_type": "married_to",
+      "description": "Toller is the husband of Mrs. Toller.",
+      "properties": {
+        "nature": "legal",
+        "sentiment": "neutral"
+      },
+      "context": "Her husband lies snoring on the kitchen rug.",
+      "bidirectional": true,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_007",
+      "source_name": "Toller",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_003",
+      "target_name": "Keys",
+      "rel_type": "owns",
+      "description": "Toller possesses duplicate keys to the chamber.",
+      "properties": {
+        "nature": "possession",
+        "sentiment": "neutral"
+      },
+      "context": "Here are his keys, which are the duplicates of Mr. Rucastle's.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_005",
+      "source_name": "Mr. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_003",
+      "target_name": "Keys",
+      "rel_type": "owns",
+      "description": "Mr. Rucastle is the original owner of the chamber keys.",
+      "properties": {
+        "nature": "possession",
+        "sentiment": "neutral"
+      },
+      "context": "Here are his keys, which are the duplicates of Mr. Rucastle's.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_003",
+      "target_name": "Miss Hunter",
+      "rel_type": "assists",
+      "description": "Holmes aids Miss Hunter in her plan to rescue the prisoner.",
+      "properties": {
+        "nature": "professional",
+        "sentiment": "positive"
+      },
+      "context": "Now lead the way, and we shall soon see the end of this black business.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_004",
+      "target_name": "Chamber",
+      "rel_type": "visits",
+      "description": "Holmes enters and investigates the chamber where the prisoner was held.",
+      "properties": {
+        "nature": "professional",
+        "sentiment": "neutral"
+      },
+      "context": "We passed up the stair, unlocked the door, followed on down a passage, and found ourselves in front of the barricade which Miss Hunter had described.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_006",
+      "target_name": "Transverse Bar and Cord",
+      "rel_type": "uses",
+      "description": "Holmes cuts the cord and removes the transverse bar to breach the barricade.",
+      "properties": {
+        "nature": "tool",
+        "sentiment": "neutral"
+      },
+      "context": "Holmes cut the cord and removed the transverse bar.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_003",
+      "target_name": "Keys",
+      "rel_type": "uses",
+      "description": "Holmes attempts to use the keys to unlock the chamber door.",
+      "properties": {
+        "nature": "tool",
+        "sentiment": "neutral"
+      },
+      "context": "Then he tried the various keys in the lock, but without success.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_002",
+      "target_name": "Dr. Watson",
+      "rel_type": "works_with",
+      "description": "Holmes and Watson collaborate physically to force open the chamber door.",
+      "properties": {
+        "nature": "professional",
+        "sentiment": "positive"
+      },
+      "context": "Now, Watson, put your shoulder to it, and we shall see whether we cannot make our way in.",
+      "bidirectional": true,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_evt_001",
+      "target_name": "The Rescue Mission",
+      "rel_type": "participates_in",
+      "description": "Holmes leads the investigation and rescue effort at Copper Beeches.",
+      "properties": {
+        "role": "investigator",
+        "contribution": "leads investigation and breach"
+      },
+      "context": "We were as good as our word, for it was just seven when we reached the Copper Beeches",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_002",
+      "source_name": "Dr. Watson",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_evt_001",
+      "target_name": "The Rescue Mission",
+      "rel_type": "participates_in",
+      "description": "Watson assists Holmes in the rescue mission.",
+      "properties": {
+        "role": "helper",
+        "contribution": "physical assistance and medical aid"
+      },
+      "context": "Now, Watson, put your shoulder to it, and we shall see whether we cannot make our way in.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_003",
+      "source_name": "Miss Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_evt_001",
+      "target_name": "The Rescue Mission",
+      "rel_type": "participates_in",
+      "description": "Miss Hunter facilitates the rescue by providing keys and guidance.",
+      "properties": {
+        "role": "helper",
+        "contribution": "provides keys and leads the way"
+      },
+      "context": "Here are his keys, which are the duplicates of Mr. Rucastle's.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_004",
+      "source_name": "Miss Alice Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_evt_002",
+      "target_name": "The Prisoner's Escape",
+      "rel_type": "participates_in",
+      "description": "Miss Alice Rucastle escapes from the chamber through the skylight.",
+      "properties": {
+        "role": "victim",
+        "contribution": "flees captivity"
+      },
+      "context": "The skylight above was open, and the prisoner gone.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_005",
+      "source_name": "Mr. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_evt_002",
+      "target_name": "The Prisoner's Escape",
+      "rel_type": "participates_in",
+      "description": "Mr. Rucastle orchestrates or is responsible for the prisoner's escape.",
+      "properties": {
+        "role": "perpetrator",
+        "contribution": "carries victim off"
+      },
+      "context": "this beauty has guessed Miss Hunter's intentions and has carried his victim off.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_005",
+      "source_name": "Mr. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_001",
+      "target_name": "Ladder",
+      "rel_type": "uses",
+      "description": "Mr. Rucastle uses a ladder to escape through the skylight.",
+      "properties": {
+        "nature": "tool",
+        "sentiment": "neutral"
+      },
+      "context": "here's the end of a long light ladder against the eaves. That is how he did it.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_005",
+      "source_name": "Mr. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_001",
+      "target_name": "Copper Beeches",
+      "rel_type": "owns_property",
+      "description": "Mr. Rucastle owns the Copper Beeches estate.",
+      "properties": {
+        "nature": "legal",
+        "sentiment": "neutral"
+      },
+      "context": "the ladder was not there when the Rucastles went away.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_002",
+      "source_name": "Dr. Watson",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_004",
+      "target_name": "Revolver",
+      "rel_type": "owns",
+      "description": "Watson carries a revolver for protection during the investigation.",
+      "properties": {
+        "nature": "possession",
+        "sentiment": "neutral"
+      },
+      "context": "I have my revolver,' said I.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_005",
+      "source_name": "Mr. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_005",
+      "target_name": "Heavy Stick",
+      "rel_type": "owns",
+      "description": "Mr. Rucastle carries a heavy stick when confronting Holmes.",
+      "properties": {
+        "nature": "possession",
+        "sentiment": "neutral"
+      },
+      "context": "a very fat and burly man, with a heavy stick in his hand.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_003",
+      "source_name": "Miss Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_005",
+      "target_name": "Mr. Rucastle",
+      "rel_type": "fears",
+      "description": "Miss Hunter is terrified by Mr. Rucastle's appearance.",
+      "properties": {
+        "nature": "emotional",
+        "sentiment": "negative"
+      },
+      "context": "Miss Hunter screamed and shrunk against the wall at the sight of him",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_005",
+      "target_name": "Mr. Rucastle",
+      "rel_type": "investigates",
+      "description": "Holmes confronts and investigates Mr. Rucastle's villainy.",
+      "properties": {
+        "nature": "professional",
+        "sentiment": "negative"
+      },
+      "context": "Sherlock Holmes sprang forward and confronted him. 'You villain!' said he, 'where's your daughter?'",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_005",
+      "source_name": "Mr. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_004",
+      "target_name": "Miss Alice Rucastle",
+      "rel_type": "parent_of",
+      "description": "Mr. Rucastle is the father of Miss Alice Rucastle.",
+      "properties": {
+        "nature": "biological",
+        "sentiment": "neutral"
+      },
+      "context": "'You villain!' said he, 'where's your daughter?'",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_005",
+      "source_name": "Mr. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_005",
+      "target_name": "Skylight",
+      "rel_type": "visits",
+      "description": "Mr. Rucastle uses the skylight to escape the chamber.",
+      "properties": {
+        "nature": "physical",
+        "sentiment": "neutral"
+      },
+      "context": "The fat man cast his eyes round, and then up at the open skylight.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_005",
+      "source_name": "Mr. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_001",
+      "target_name": "Sherlock Holmes",
+      "rel_type": "imprisons",
+      "description": "Mr. Rucastle temporarily holds Holmes and his party captive.",
+      "properties": {
+        "nature": "physical",
+        "sentiment": "negative"
+      },
+      "context": "You are in my power. I'll serve you! He turned and clattered down the stairs as hard as he could go.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_005",
+      "source_name": "Mr. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_002",
+      "target_name": "Hound",
+      "rel_type": "employs",
+      "description": "Mr. Rucastle uses the hound as a guard to prevent communication with the prisoner.",
+      "properties": {
+        "role": "guard",
+        "sentiment": "negative"
+      },
+      "context": "The dog is let loose at night to prevent him from endeavouring to communicate with her.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_002",
+      "source_name": "Hound",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_evt_003",
+      "target_name": "The Hound Attack",
+      "rel_type": "participates_in",
+      "description": "The hound attacks Mr. Rucastle after being loosed.",
+      "properties": {
+        "role": "perpetrator",
+        "contribution": "bites and mangles"
+      },
+      "context": "There was the huge famished brute, its black muzzle buried in Rucastle's throat, while he writhed and screamed upon the ground.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_005",
+      "source_name": "Mr. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_evt_003",
+      "target_name": "The Hound Attack",
+      "rel_type": "participates_in",
+      "description": "Mr. Rucastle is the victim of the hound's attack.",
+      "properties": {
+        "role": "victim",
+        "contribution": "suffers mauling"
+      },
+      "context": "There was the huge famished brute, its black muzzle buried in Rucastle's throat, while he writhed and screamed upon the ground.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_evt_003",
+      "target_name": "The Hound Attack",
+      "rel_type": "participates_in",
+      "description": "Holmes rushes to the scene to investigate and assist after the attack.",
+      "properties": {
+        "role": "investigator",
+        "contribution": "responds to scene"
+      },
+      "context": "Holmes and I rushed out and round the angle of the house, with Toller hurrying behind us.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_002",
+      "source_name": "Dr. Watson",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_evt_003",
+      "target_name": "The Hound Attack",
+      "rel_type": "participates_in",
+      "description": "Watson shoots the hound and rescues Mr. Rucastle.",
+      "properties": {
+        "role": "helper",
+        "contribution": "kills hound and provides medical aid"
+      },
+      "context": "Running up, I blew its brains out, and it fell over with its keen white teeth still meeting in the great creases of his neck.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_007",
+      "source_name": "Toller",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_evt_003",
+      "target_name": "The Hound Attack",
+      "rel_type": "participates_in",
+      "description": "Toller follows Holmes and Watson to the scene of the attack.",
+      "properties": {
+        "role": "witness",
+        "contribution": "observes and follows"
+      },
+      "context": "Holmes and I rushed out and round the angle of the house, with Toller hurrying behind us.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_002",
+      "source_name": "Dr. Watson",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_005",
+      "target_name": "Mr. Rucastle",
+      "rel_type": "rescues",
+      "description": "Watson saves Mr. Rucastle from the hound and provides medical relief.",
+      "properties": {
+        "nature": "physical",
+        "sentiment": "positive"
+      },
+      "context": "Running up, I blew its brains out, and it fell over with its keen white teeth still meeting in the great creases of his neck. With much labour we separated them and carried him, living but horribly mangled, into the house.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_005",
+      "target_name": "Mr. Rucastle",
+      "rel_type": "assists",
+      "description": "Holmes helps carry the mangled Mr. Rucastle into the house.",
+      "properties": {
+        "nature": "physical",
+        "sentiment": "neutral"
+      },
+      "context": "With much labour we separated them and carried him, living but horribly mangled, into the house.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_006",
+      "target_name": "Drawing-room",
+      "rel_type": "visits",
+      "description": "Holmes enters the drawing-room where Mr. Rucastle is laid on the sofa.",
+      "properties": {
+        "nature": "physical",
+        "sentiment": "neutral"
+      },
+      "context": "We laid him upon the drawing-room sofa, and having dispatched the sobered Toller to bear the news to his wife, I did what I could to relieve his pain.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_006",
+      "source_name": "Mrs. Toller",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_006",
+      "target_name": "Drawing-room",
+      "rel_type": "visits",
+      "description": "Mrs. Toller enters the drawing-room after being let out by Mr. Rucastle.",
+      "properties": {
+        "nature": "physical",
+        "sentiment": "neutral"
+      },
+      "context": "We were all assembled round him when the door opened, and a tall, gaunt woman entered the room. 'Mrs. Toller!' cried Miss Hunter.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_006",
+      "source_name": "Mrs. Toller",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_005",
+      "target_name": "Mr. Rucastle",
+      "rel_type": "knows",
+      "description": "Mrs. Toller possesses extensive knowledge of Mr. Rucastle's schemes.",
+      "properties": {
+        "nature": "professional",
+        "sentiment": "complex"
+      },
+      "context": "It is clear that Mrs. Toller knows more about this matter than anyone else.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_006",
+      "source_name": "Mrs. Toller",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_003",
+      "target_name": "Miss Hunter",
+      "rel_type": "assists",
+      "description": "Mrs. Toller offers to help Miss Hunter but warns her plans are wasted.",
+      "properties": {
+        "nature": "personal",
+        "sentiment": "neutral"
+      },
+      "context": "Ah, miss, it is a pity you didn't let me know what you were planning, for I would have told you that your pains were wasted.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_006",
+      "target_name": "Mrs. Toller",
+      "rel_type": "evaluates",
+      "description": "Holmes assesses Mrs. Toller's knowledge and motives with suspicion.",
+      "properties": {
+        "sentiment": "suspicious",
+        "quote": "It is clear that Mrs. Toller knows more about this matter than anyone else."
+      },
+      "context": "'Ha!' said Holmes, looking keenly at her. 'It is clear that Mrs. Toller knows more about this matter than anyone else.'",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_006",
+      "source_name": "Mrs. Toller",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_004",
+      "target_name": "Miss Alice Rucastle",
+      "rel_type": "assists",
+      "description": "Mrs. Toller claims to have been Miss Alice's friend and intended to help her.",
+      "properties": {
+        "nature": "personal",
+        "sentiment": "positive"
+      },
+      "context": "If there's police-court business over this, you'll remember that I was the one that stood your friend, and that I was Miss Alice's friend too.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_005",
+      "source_name": "Mr. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007_con_002",
+      "target_name": "Villainy",
+      "rel_type": "expresses_through",
+      "description": "Mr. Rucastle's actions are characterized by villainy.",
+      "properties": {
+        "nature": "behavioral",
+        "sentiment": "negative"
+      },
+      "context": "There has been some villainy here,' said Holmes; 'this beauty has guessed Miss Hunter's intentions and has carried his victim off.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_002",
+      "source_name": "Dr. Watson",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_003",
+      "source_name": "Miss Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_004",
+      "source_name": "Miss Alice Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_005",
+      "source_name": "Mr. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_006",
+      "source_name": "Mrs. Toller",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_007",
+      "source_name": "Toller",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_008",
+      "source_name": "The Man in the Road",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_009",
+      "source_name": "The Child",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_001",
+      "source_name": "Copper Beeches",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_002",
+      "source_name": "Cellar",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_003",
+      "source_name": "Kitchen",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_004",
+      "source_name": "Chamber",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_005",
+      "source_name": "Skylight",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_006",
+      "source_name": "Drawing-room",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_001",
+      "source_name": "Ladder",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_002",
+      "source_name": "Hound",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_003",
+      "source_name": "Keys",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_004",
+      "source_name": "Revolver",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_005",
+      "source_name": "Heavy Stick",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_006",
+      "source_name": "Transverse Bar and Cord",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_evt_001",
+      "source_name": "The Rescue Mission",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_evt_002",
+      "source_name": "The Prisoner's Escape",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_evt_003",
+      "source_name": "The Hound Attack",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_con_001",
+      "source_name": "Cruelty",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_007_con_002",
+      "source_name": "Villainy",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    }
+  ]
+}

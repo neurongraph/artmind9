@@ -1,0 +1,3201 @@
+[
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_001",
+    "name": "Sherlock Holmes",
+    "properties": {
+      "role": "consulting detective",
+      "personality_traits": [
+        "logical",
+        "observant",
+        "egotistical",
+        "methodical",
+        "impersonal"
+      ],
+      "signature_behaviours": [
+        "puffing on a cherry-wood pipe",
+        "reading advertisement columns",
+        "deducing from minimal data",
+        "answering thoughts rather than words"
+      ],
+      "occupation": "consulting detective",
+      "narrative_arc": "feels his practice has degenerated to trivial matters, marking a 'zero-point' before Violet Hunter's arrival"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_002",
+    "name": "Dr. Watson",
+    "properties": {
+      "role": "narrator and companion",
+      "personality_traits": [
+        "reflective",
+        "defensive",
+        "loyal",
+        "literary"
+      ],
+      "signature_behaviours": [
+        "writing case records",
+        "smiling during debates",
+        "noting Holmes's thoughts"
+      ],
+      "occupation": "writer and companion"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_003",
+    "name": "Violet Hunter",
+    "properties": {
+      "role": "client and governess",
+      "personality_traits": [
+        "anxious",
+        "independent",
+        "well-mannered",
+        "brisk"
+      ],
+      "physical_description": "plainly but neatly dressed, bright quick face, freckled like a plover's egg",
+      "motivations": [
+        "seeking advice on accepting a governess position",
+        "financially strained after losing previous employment"
+      ],
+      "signature_behaviours": [
+        "advertising for work",
+        "visiting Westaway's agency weekly"
+      ],
+      "occupation": "governess"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_004",
+    "name": "Colonel Spence Munro",
+    "properties": {
+      "role": "former employer",
+      "occupation": "Colonel",
+      "narrative_arc": "received an appointment at Halifax, Nova Scotia, and relocated his family to America"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_005",
+    "name": "Miss Stoper",
+    "properties": {
+      "role": "manager",
+      "occupation": "manager of Westaway's agency",
+      "narrative_function": "oversees the placement of governesses, sits in her own office with ledgers"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_006",
+    "name": "King of Bohemia",
+    "properties": {
+      "role": "past client",
+      "narrative_function": "cited as an example of a trivial matter that Holmes helped with, outside the pale of the law"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_007",
+    "name": "Miss Mary Sutherland",
+    "properties": {
+      "role": "past client",
+      "narrative_function": "cited as an example of a singular experience outside the pale of the law"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_loc_001",
+    "name": "Baker Street",
+    "properties": {
+      "physical_description": "old room with a cheery fire, gas lit, white cloth and china on table",
+      "atmosphere": "cold spring morning, foggy, cozy interior",
+      "narrative_function": "primary setting for detective work and client consultations"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_loc_002",
+    "name": "Montague Place",
+    "properties": {
+      "narrative_function": "residential address of Violet Hunter, source of the consultation letter"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_loc_003",
+    "name": "Halifax, Nova Scotia",
+    "properties": {
+      "narrative_function": "new posting for Colonel Munro, catalyst for Violet Hunter's job search"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_loc_004",
+    "name": "West End",
+    "properties": {
+      "narrative_function": "London district housing Westaway's agency, center for governess employment"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_obj_001",
+    "name": "Daily Telegraph",
+    "properties": {
+      "physical_description": "advertisement sheet",
+      "narrative_role": "reading material discarded by Holmes during philosophical debate"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_obj_002",
+    "name": "Long cherry-wood pipe",
+    "properties": {
+      "physical_description": "long cherry-wood pipe",
+      "narrative_role": "Holmes's smoking pipe, lit with a glowing cinder",
+      "symbolic_meaning": "associated with Holmes's disputatious and meditative moods"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_obj_003",
+    "name": "Crumpled letter",
+    "properties": {
+      "physical_description": "crumpled letter",
+      "narrative_role": "consultation request from Violet Hunter, marks the beginning of a new case",
+      "symbolic_meaning": "catalyst for the current investigation"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_obj_004",
+    "name": "Blue carbuncle",
+    "properties": {
+      "narrative_role": "referenced past case, cited as an example of a seemingly trivial matter that developed into a serious investigation",
+      "symbolic_meaning": "symbol of Holmes's deductive depth"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_evt_001",
+    "name": "Philosophical Debate on Sensationalism",
+    "properties": {
+      "date": "early spring morning",
+      "sequence_number": 1,
+      "what_changed": "establishes thematic conflict between logical deduction and sensationalism",
+      "who_was_involved": [
+        "Sherlock Holmes",
+        "Dr. Watson"
+      ],
+      "emotions": [
+        "Holmes: dismissive, egotistical",
+        "Watson: defensive, repelled"
+      ],
+      "cause": "Holmes critiquing Watson's literary style and reading newspapers",
+      "immediate_consequence": "Holmes receives Violet Hunter's consultation letter",
+      "why_it_matters": "frames the narrative's thematic focus and introduces the inciting incident"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_evt_002",
+    "name": "Arrival of Violet Hunter",
+    "properties": {
+      "date": "half-past ten",
+      "sequence_number": 2,
+      "what_changed": "introduces the client and shifts narrative from theory to practice",
+      "who_was_involved": [
+        "Violet Hunter",
+        "Sherlock Holmes",
+        "Dr. Watson"
+      ],
+      "emotions": [
+        "Violet: anxious",
+        "Holmes: favourably impressed"
+      ],
+      "is_turning_point": true,
+      "cause": "scheduled appointment for consultation",
+      "immediate_consequence": "Holmes prepares to hear Violet Hunter's story",
+      "why_it_matters": "transitions the story from philosophical debate to active case investigation"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_org_001",
+    "name": "Westaway's",
+    "properties": {
+      "structure": "governess employment agency",
+      "leadership": "Miss Stoper (manager)",
+      "purpose": "match governesses with employment",
+      "resources": "ledgers, office, anteroom",
+      "status": "active, well-known",
+      "plot_impact": "provides Violet Hunter's current employment context and sets up the mystery"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_org_002",
+    "name": "Boarding-schools",
+    "properties": {
+      "plot_impact": "cited as a source of clients for Holmes's degenerating practice, highlighting his professional decline"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_con_001",
+    "name": "Logic / Deduction",
+    "properties": {
+      "theme": "Holmes's special province and the core of his art",
+      "manifestation": "severe reasoning from cause to effect, valued over crime itself",
+      "embodiment": "Sherlock Holmes",
+      "significance": "central theme contrasting with sensationalism and triviality"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_con_002",
+    "name": "Sensationalism",
+    "properties": {
+      "theme": "Watson's perceived literary flaw and the public's preference",
+      "manifestation": "putting colour and life into statements, focusing on sensational trials",
+      "embodiment": "Dr. Watson, the 'great unobservant public'",
+      "significance": "contrasts with Holmes's ideal of pure logic and deduction"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_con_003",
+    "name": "Art for its own sake",
+    "properties": {
+      "theme": "Holmes's professional philosophy",
+      "manifestation": "treating deduction as an impersonal art, valuing the process over the crime",
+      "embodiment": "Sherlock Holmes",
+      "significance": "justifies Holmes's focus on logic and his dismissal of sensationalism"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_001_con_004",
+    "name": "Zero-point",
+    "properties": {
+      "theme": "Holmes's metaphor for professional nadir",
+      "manifestation": "practice degenerating into trivial matters like finding pencils and advising boarding-school girls",
+      "embodiment": "Sherlock Holmes",
+      "significance": "catalyst for the new case, marking a potential shift from decline to renewed interest"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_char_001",
+    "name": "Miss Hunter",
+    "properties": {
+      "role": "governess applicant",
+      "physical_description": "luxuriant chestnut hair",
+      "personality_traits": [
+        "observant",
+        "proud",
+        "principled",
+        "destitute"
+      ],
+      "motivations": [
+        "financial stability",
+        "overcoming pride to secure employment"
+      ],
+      "narrative_arc": "refuses job due to bizarre demand, regrets decision, receives counter-offer",
+      "occupation": "governess"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_char_002",
+    "name": "Jephro Rucastle",
+    "properties": {
+      "role": "employer seeking a governess",
+      "physical_description": "comfortable-looking, fat hands, small shining eyes, white creases on face",
+      "personality_traits": [
+        "enthusiastic",
+        "genial",
+        "calculating",
+        "persistent",
+        "eccentric"
+      ],
+      "motivations": [
+        "secure a governess who obeys his wife's whims",
+        "compensate for eccentric demands with high pay"
+      ],
+      "signature_behaviours": [
+        "rubs hands together",
+        "throws hands out in passion",
+        "watches eagerly",
+        "follows up with increased salary"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_char_003",
+    "name": "Miss Stoper",
+    "properties": {
+      "role": "employment agency manageress",
+      "personality_traits": [
+        "annoyed",
+        "sharp",
+        "practical",
+        "commission-driven"
+      ],
+      "motivations": [
+        "secure commissions",
+        "maintain agency business"
+      ],
+      "signature_behaviours": [
+        "glances with annoyance",
+        "strikes a gong",
+        "dismisses clients sharply"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_char_004",
+    "name": "Colonel Spence Munro",
+    "properties": {
+      "role": "former employer",
+      "occupation": "military officer",
+      "narrative_function": "establishes Miss Hunter's previous low salary (£4/month)"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_char_005",
+    "name": "Mrs. Rucastle",
+    "properties": {
+      "role": "employer's wife",
+      "personality_traits": [
+        "faddy",
+        "anxious",
+        "fond of specific aesthetics"
+      ],
+      "motivations": [
+        "wants governess to wear electric blue dress",
+        "wants governess to cut her hair"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_char_006",
+    "name": "Alice",
+    "properties": {
+      "role": "employer's daughter",
+      "status": "currently residing in Philadelphia",
+      "narrative_function": "owner of the electric blue dress intended for the governess"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_loc_001",
+    "name": "The Copper Beeches",
+    "properties": {
+      "physical_description": "dearest old country-house",
+      "atmosphere": "charming rural place, lovely country",
+      "narrative_function": "setting for the governess position, source of the employer's strange demands",
+      "parent_location": "near Winchester"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_loc_002",
+    "name": "Winchester",
+    "properties": {
+      "narrative_function": "reference point for location, meeting point for the dog-cart",
+      "relationship_to_other_locations": "town near The Copper Beeches (5 miles away)"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_loc_003",
+    "name": "Philadelphia",
+    "properties": {
+      "narrative_function": "distant city where Alice is located, explains dress availability",
+      "status": "foreign location"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_obj_001",
+    "name": "The Letter",
+    "properties": {
+      "owner": "Jephro Rucastle (author), Miss Hunter (recipient)",
+      "narrative_role": "plot device offering increased salary and reiterating demands",
+      "significance": "resolves immediate rejection, pushes plot forward with counter-offer"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_obj_002",
+    "name": "The Electric Blue Dress",
+    "properties": {
+      "physical_description": "electric blue color",
+      "owner": "Alice (intended for Miss Hunter)",
+      "narrative_role": "practical requirement for the job, symbol of the employer's fads",
+      "symbolic_meaning": "eccentricity and control over the governess"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_obj_003",
+    "name": "The Pocketbook",
+    "properties": {
+      "owner": "Jephro Rucastle",
+      "narrative_role": "demonstrates financial capability and advances salary",
+      "significance": "establishes credibility of the employment offer"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_evt_001",
+    "name": "The Governess Interview",
+    "properties": {
+      "sequence_number": 1,
+      "what_changed": "Miss Hunter refuses the position due to the hair-cutting demand",
+      "who_involved": [
+        "Miss Hunter",
+        "Jephro Rucastle",
+        "Miss Stoper"
+      ],
+      "emotions": [
+        "enthusiasm",
+        "incredulity",
+        "annoyance",
+        "firmness"
+      ],
+      "cause": "conflict between Hunter's pride/principles and Rucastle's unusual demands",
+      "immediate_consequence": "Hunter leaves agency and begins to regret her decision",
+      "why_it_matters": "establishes central conflict and introduces the story's bizarre fads"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_evt_002",
+    "name": "The Salary Negotiation",
+    "properties": {
+      "sequence_number": 2,
+      "what_changed": "Salary increased from £100 to £120 per year to compensate for fads",
+      "who_involved": [
+        "Miss Hunter",
+        "Jephro Rucastle"
+      ],
+      "emotions": [
+        "incredulity",
+        "temptation",
+        "regret"
+      ],
+      "cause": "Hunter's refusal based on the hair-cutting demand",
+      "immediate_consequence": "Hunter receives letter offering more money and reconsiders",
+      "why_it_matters": "highlights transactional nature of demands and drives plot forward"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_org_001",
+    "name": "The Employment Agency",
+    "properties": {
+      "structure": "manageress-led, uses books/records, employs a page",
+      "leadership": "Miss Stoper",
+      "purpose": "find employment for young ladies and governesses",
+      "resources": [
+        "books/records",
+        "gong",
+        "page"
+      ],
+      "status": "active, commercial",
+      "plot_impact": "facilitates meeting, highlights Hunter's destitution and agency's profit motive"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_con_001",
+    "name": "The Hair-Cutting Demand",
+    "properties": {
+      "what_the_puzzle_is": "Why must the governess cut her hair?",
+      "who_embodies_it": [
+        "Jephro Rucastle",
+        "Mrs. Rucastle"
+      ],
+      "certainty": "non-negotiable, presented as essential",
+      "narrative_function": "central bizarre requirement driving the plot's mystery"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_002_con_002",
+    "name": "The Strange Fads",
+    "properties": {
+      "what_the_puzzle_is": "The nature and purpose of the employer's eccentric demands",
+      "who_embodies_it": [
+        "The Rucastles"
+      ],
+      "manifestation": [
+        "hair cutting",
+        "wearing specific dress indoors",
+        "sitting in indicated positions"
+      ],
+      "narrative_function": "establishes tone of eccentricity and control, creates central mystery"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_char_001",
+    "name": "Sherlock Holmes",
+    "properties": {
+      "role": "consulting detective",
+      "personality_traits": [
+        "logical",
+        "skeptical",
+        "methodical",
+        "gravely serious",
+        "impatient with insufficient data"
+      ],
+      "motivations": [
+        "solve the mystery behind the job offer",
+        "protect Miss Hunter",
+        "understand the strong reason for the high salary"
+      ],
+      "signature_behaviours": [
+        "pacing with knitted brows",
+        "muttering about data",
+        "advising clients to send telegrams if in danger",
+        "postponing chemical analysis for investigation"
+      ],
+      "occupation": "consulting detective",
+      "archetype": "rational investigator"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_char_002",
+    "name": "Miss Hunter",
+    "properties": {
+      "role": "client",
+      "personality_traits": [
+        "anxious but decisive",
+        "practical",
+        "grateful",
+        "independent"
+      ],
+      "motivations": [
+        "secure the high-paying job",
+        "seek Holmes's advice and protection"
+      ],
+      "signature_behaviours": [
+        "sacrificing her hair",
+        "writing to Mr. Rucastle",
+        "sending an urgent telegram",
+        "traveling to Winchester"
+      ],
+      "narrative_arc": "Consults Holmes, accepts job, later sends distress telegram, reaches out for help"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_char_003",
+    "name": "Mr. Rucastle",
+    "properties": {
+      "role": "employer",
+      "personality_traits": [
+        "described as kind and good-natured",
+        "secretive",
+        "manipulative (suspected)"
+      ],
+      "motivations": [
+        "keep a matter quiet",
+        "humour his wife's fancies",
+        "secure a companion"
+      ],
+      "narrative_function": "Central figure of the mystery, employer whose motives are suspect"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_char_004",
+    "name": "Dr. Watson",
+    "properties": {
+      "role": "narrator",
+      "personality_traits": [
+        "enthusiastic",
+        "observant",
+        "sympathetic",
+        "practical",
+        "less analytical than Holmes"
+      ],
+      "motivations": [
+        "help Miss Hunter",
+        "accompany Holmes",
+        "understand the case"
+      ],
+      "signature_behaviours": [
+        "looking up trains in Bradshaw",
+        "commenting on scenery",
+        "noting Holmes's habits",
+        "traveling to Winchester"
+      ],
+      "narrative_arc": "Observes Holmes's methods, travels with him, provides contrast to Holmes's cynicism"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_char_005",
+    "name": "Mr. Rucastle's wife",
+    "properties": {
+      "role": "employer's wife",
+      "personality_traits": [
+        "described as having 'fancies'",
+        "condition drives household secrecy"
+      ],
+      "motivations": [
+        "unknown",
+        "her condition/fancies dictate the household's quiet"
+      ],
+      "narrative_function": "Speculative figure whose alleged condition explains the employer's secrecy and high pay"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_loc_001",
+    "name": "Winchester",
+    "properties": {
+      "atmosphere": "old English capital",
+      "physical_description": "town setting",
+      "narrative_function": "Meeting point for Holmes and Miss Hunter",
+      "isolation_level": "low",
+      "symbolic_meaning": "Civilization and legal recourse"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_loc_002",
+    "name": "Hampshire",
+    "properties": {
+      "atmosphere": "fresh and beautiful",
+      "physical_description": "countryside with rolling hills",
+      "narrative_function": "Setting of the mystery",
+      "isolation_level": "high",
+      "symbolic_meaning": "Rural anonymity enabling hidden crime"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_loc_003",
+    "name": "Black Swan Hotel",
+    "properties": {
+      "atmosphere": "urgent summons location",
+      "physical_description": "hotel in Winchester",
+      "narrative_function": "Rendezvous point for Holmes and Miss Hunter",
+      "isolation_level": "low",
+      "symbolic_meaning": "Temporary base of operations"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_loc_004",
+    "name": "Aldershot",
+    "properties": {
+      "atmosphere": "rural",
+      "physical_description": "area near Hampshire with rolling hills",
+      "narrative_function": "Geographical reference point for the countryside setting",
+      "isolation_level": "high",
+      "symbolic_meaning": "Part of the isolated rural landscape"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_loc_005",
+    "name": "London",
+    "properties": {
+      "atmosphere": "foggy",
+      "physical_description": "city with alleys and lanes",
+      "narrative_function": "Contrast to the countryside",
+      "isolation_level": "low",
+      "symbolic_meaning": "Civilization where public opinion and law prevent crime"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_obj_001",
+    "name": "The Letter",
+    "properties": {
+      "physical_description": "document received by Miss Hunter",
+      "owner": [
+        "Miss Hunter",
+        "Sherlock Holmes"
+      ],
+      "narrative_role": "inciting incident",
+      "symbolic_meaning": "Catalyst for the plot",
+      "significance": "resolved as the starting point of the investigation"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_obj_002",
+    "name": "The Telegram",
+    "properties": {
+      "physical_description": "yellow envelope",
+      "owner": [
+        "Miss Hunter",
+        "Sherlock Holmes",
+        "Dr. Watson"
+      ],
+      "narrative_role": "turning point",
+      "symbolic_meaning": "Escalation of danger",
+      "significance": "drives the plot forward to the countryside"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_obj_003",
+    "name": "Bradshaw",
+    "properties": {
+      "physical_description": "railway timetable/guidebook",
+      "owner": [
+        "Dr. Watson"
+      ],
+      "narrative_role": "practical tool for planning the journey",
+      "significance": "provides logistical details for the investigation"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_evt_001",
+    "name": "The Job Offer",
+    "properties": {
+      "date_and_time": "unspecified, before the story begins",
+      "sequence_number": 1,
+      "what_changed": "Miss Hunter decides to accept it and seeks Holmes's advice",
+      "who_was_involved": [
+        "Miss Hunter",
+        "Mr. Rucastle"
+      ],
+      "emotions": [
+        "Miss Hunter's anxiety and determination",
+        "Holmes's skepticism"
+      ],
+      "is_turning_point": true,
+      "cause": "Mr. Rucastle's need for a companion/employee",
+      "immediate_consequence": "Miss Hunter consults Holmes, plans to travel to Hampshire",
+      "why_it_matters": "Sets up the central mystery and the anomaly of the high salary"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_evt_002",
+    "name": "The Journey to Winchester",
+    "properties": {
+      "date_and_time": "next day, train at half-past nine, due at 11:30",
+      "sequence_number": 2,
+      "what_changed": "Holmes and Watson travel to the scene, Holmes begins observing the countryside",
+      "who_was_involved": [
+        "Sherlock Holmes",
+        "Dr. Watson"
+      ],
+      "emotions": [
+        "Watson's enthusiasm",
+        "Holmes's grim observation"
+      ],
+      "is_turning_point": true,
+      "cause": "Miss Hunter's telegram summoning them",
+      "immediate_consequence": "Holmes analyzes the rural isolation and its connection to crime",
+      "why_it_matters": "Establishes the geographical and thematic context of the mystery"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_evt_003",
+    "name": "The Chemical Research",
+    "properties": {
+      "date_and_time": "late one night",
+      "sequence_number": 1.5,
+      "what_changed": "Holmes is engaged in scientific work, interrupted by the telegram",
+      "who_was_involved": [
+        "Sherlock Holmes",
+        "Dr. Watson"
+      ],
+      "emotions": [
+        "Holmes's focused intensity",
+        "Watson's observation"
+      ],
+      "is_turning_point": false,
+      "cause": "Holmes's methodical nature and need for data",
+      "immediate_consequence": "Holmes postpones his analysis to investigate the case",
+      "why_it_matters": "Highlights Holmes's dual nature and sets up the interruption by the case"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_con_001",
+    "name": "Isolation",
+    "properties": {
+      "theme_manifestation": "Holmes's commentary on lonely houses and rural countryside enabling impunity for crime",
+      "characters_involved": [
+        "Sherlock Holmes",
+        "Miss Hunter"
+      ],
+      "narrative_significance": "Central theme explaining the danger of the remote setting and the employer's secrecy"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_con_002",
+    "name": "Public Opinion and Law",
+    "properties": {
+      "theme_manifestation": "Contrast between town and country; public opinion and law prevent crime in towns but fail in isolated areas",
+      "characters_involved": [
+        "Sherlock Holmes",
+        "Dr. Watson"
+      ],
+      "narrative_significance": "Explains why the countryside is dangerous and why the law cannot easily reach the victims"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_003_con_003",
+    "name": "Data",
+    "properties": {
+      "theme_manifestation": "Holmes's obsession with having enough facts, his inability to solve the case without more information",
+      "characters_involved": [
+        "Sherlock Holmes"
+      ],
+      "narrative_significance": "Drives Holmes's investigative process and highlights the limits of deduction without sufficient evidence"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_003",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_char_001",
+    "name": "Sherlock Holmes",
+    "properties": {
+      "role": "consulting detective",
+      "physical_description": "long thin legs",
+      "personality_traits": [
+        "patient",
+        "methodical",
+        "attentive"
+      ],
+      "signature_behaviours": [
+        "thrusting legs out towards fire to listen",
+        "insisting on all details"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_char_002",
+    "name": "Miss Hunter",
+    "properties": {
+      "role": "young lady/employee",
+      "physical_description": "young",
+      "motivations": [
+        "seeking advice",
+        "returning to employer before 3 PM"
+      ],
+      "personality_traits": [
+        "earnest",
+        "observant",
+        "polite",
+        "anxious"
+      ],
+      "signature_behaviours": [
+        "cutting her hair on request",
+        "laughing until weary to please employer"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_char_003",
+    "name": "Mr. Rucastle",
+    "properties": {
+      "role": "employer/landowner",
+      "physical_description": "hardly less than forty-five",
+      "bluff_and_boisterous": true,
+      "personality_traits": [
+        "amiable",
+        "kind",
+        "humorous",
+        "controlling"
+      ],
+      "motivations": [
+        "make Miss Hunter laugh",
+        "maintain household routine"
+      ],
+      "signature_behaviours": [
+        "driving in dog-cart",
+        "telling funny stories to make Miss Hunter laugh",
+        "insisting on hair cutting"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_char_004",
+    "name": "Mrs. Rucastle",
+    "properties": {
+      "physical_description": "pale-faced",
+      "age": "not more than thirty",
+      "eye_color": "light grey",
+      "personality_traits": [
+        "devoted",
+        "silent",
+        "sad",
+        "anxious",
+        "colourless"
+      ],
+      "motivations": [
+        "protect husband and son",
+        "hide sorrow"
+      ],
+      "signature_behaviours": [
+        "eyes wandering to husband and son",
+        "sitting with hands in lap",
+        "never smiling",
+        "surprised in tears"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_char_005",
+    "name": "Little Edward",
+    "properties": {
+      "physical_description": "small for his age",
+      "head_proportion": "disproportionately large",
+      "personality_traits": [
+        "spoiled",
+        "ill-natured",
+        "cruel",
+        "sulky"
+      ],
+      "motivations": [
+        "amuse himself by causing pain",
+        "capture weak creatures"
+      ],
+      "signature_behaviours": [
+        "alternating between savage fits of passion and gloomy sulking",
+        "planning captures of mice and birds"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_char_006",
+    "name": "Toller",
+    "properties": {
+      "role": "servant",
+      "physical_description": "rough",
+      "uncouth": true,
+      "hair": "grizzled hair and whiskers",
+      "smell": "perpetual smell of drink",
+      "personality_traits": [
+        "drunk",
+        "uncouth",
+        "rough"
+      ],
+      "signature_behaviours": [
+        "being drunk twice",
+        "smelling of drink"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_char_007",
+    "name": "Lord Southerton",
+    "properties": {
+      "role": "landowner",
+      "narrative_function": "owns surrounding woods/preserves",
+      "ownership": "owns the woods surrounding Copper Beeches"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_loc_001",
+    "name": "The Black Swan",
+    "properties": {
+      "physical_description": "inn of repute in the High Street",
+      "narrative_function": "meeting point for Holmes and Miss Hunter",
+      "atmosphere": "professional, welcoming",
+      "who_owns": "innkeeper"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_loc_002",
+    "name": "Copper Beeches",
+    "properties": {
+      "physical_description": "large square block of a house, whitewashed but stained with damp",
+      "grounds": "woods on three sides, field on fourth",
+      "narrative_function": "primary setting for the mystery",
+      "isolation_level": "semi-isolated (woods on three sides, field on fourth)",
+      "who_owns": "Mr. Rucastle",
+      "symbolic_meaning": "name derived from the copper beeches in front"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_loc_003",
+    "name": "Baker Street",
+    "properties": {
+      "narrative_function": "Holmes's residence/office where initial theories were formed",
+      "real_world_vs_fictional": "fictional (London address)"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_loc_004",
+    "name": "Drawing-room",
+    "properties": {
+      "physical_description": "very large room stretching along the entire front",
+      "windows": "three long windows reaching to the floor",
+      "narrative_function": "stage for the hair-cutting ritual",
+      "who_owns": "Mr. Rucastle",
+      "symbolic_meaning": "space of control and performance"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_loc_005",
+    "name": "Nursery",
+    "properties": {
+      "physical_description": "located in one corner of the building, next to Miss Hunter's room",
+      "narrative_function": "where Miss Hunter spends time and where Little Edward resides",
+      "who_owns": "Mr. Rucastle"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_obj_001",
+    "name": "Electric-blue dress",
+    "properties": {
+      "physical_description": "electric-blue",
+      "material": "excellent material, a sort of beige",
+      "condition": "unmistakable signs of having been worn before",
+      "fit": "perfect",
+      "narrative_role": "prop for the hair-cutting ritual",
+      "symbolic_meaning": "represents control and past ownership",
+      "who_owns": "Mr. and Mrs. Rucastle",
+      "significance": "mysterious (signs of previous wear, exaggerated delight)"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_obj_002",
+    "name": "Dog-cart",
+    "properties": {
+      "physical_description": "vehicle used for transport",
+      "narrative_role": "means of transport to the estate",
+      "who_owns": "Mr. Rucastle"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_evt_001",
+    "name": "Hair Cutting",
+    "properties": {
+      "date": "third day after arrival",
+      "sequence_number": 3,
+      "what_changed": "Miss Hunter complied with a strange request",
+      "who_was_involved": [
+        "Miss Hunter",
+        "Mr. Rucastle",
+        "Mrs. Rucastle"
+      ],
+      "emotions": [
+        "obliged",
+        "delight",
+        "exaggerated vehemence"
+      ],
+      "is_turning_point": true,
+      "cause": "Mr. and Mrs. Rucastle's whims",
+      "immediate_consequence": "Miss Hunter changes into the electric-blue dress",
+      "why_it_matters": "central mystery element, highly unusual request"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_evt_002",
+    "name": "The Hour of Laughter",
+    "properties": {
+      "date": "after hair cutting",
+      "sequence_number": 4,
+      "what_changed": "Miss Hunter sat by the window while Mr. Rucastle told stories",
+      "who_was_involved": [
+        "Miss Hunter",
+        "Mr. Rucastle",
+        "Mrs. Rucastle"
+      ],
+      "emotions": [
+        "weary from laughing",
+        "sad",
+        "anxious",
+        "no sense of humour"
+      ],
+      "is_turning_point": true,
+      "cause": "Mr. Rucastle's request to sit by the window",
+      "immediate_consequence": "Miss Hunter becomes exhausted from laughing",
+      "why_it_matters": "reveals strange household dynamic and Mrs. Rucastle's distress"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_con_001",
+    "name": "Seven Explanations",
+    "properties": {
+      "type": "deduction/mystery",
+      "manifestation": "Holmes's initial theoretical framework for the case",
+      "resolution_status": "unresolved",
+      "method": "hypothesis generation based on known facts",
+      "certainty": "low until fresh information arrives"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_con_002",
+    "name": "Secret Sorrow",
+    "properties": {
+      "type": "mystery/emotion",
+      "manifestation": "Mrs. Rucastle's hidden grief and tears",
+      "resolution_status": "unresolved",
+      "who_experiences": "Mrs. Rucastle",
+      "method": "observation of facial expressions and tears",
+      "certainty": "high"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_004_con_003",
+    "name": "Servants' Conduct",
+    "properties": {
+      "type": "mystery/atmosphere",
+      "manifestation": "Toller's drunkenness and the couple's unpleasant demeanor",
+      "resolution_status": "unresolved",
+      "who_experiences": "Miss Hunter",
+      "method": "observation of behavior and appearance",
+      "certainty": "high",
+      "plot_impact": "adds to the unsettling atmosphere of the house"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_001",
+    "name": "Miss Hunter",
+    "properties": {
+      "role": "governess/employee",
+      "personality_traits": [
+        "observant",
+        "curious",
+        "methodical",
+        "suspicious"
+      ],
+      "motivations": [
+        "solve the strange routine",
+        "discover what is behind her",
+        "uncover the house's secrets"
+      ],
+      "signature_behaviours": [
+        "devising a mirror trick to see behind her",
+        "keeping a mental map of the house",
+        "carefully observing household routines"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_002",
+    "name": "Jephro Rucastle",
+    "properties": {
+      "role": "employer/master of the house",
+      "personality_traits": [
+        "jovial",
+        "controlling",
+        "secretive",
+        "quick-tempered",
+        "storyteller"
+      ],
+      "motivations": [
+        "maintain a strict routine",
+        "hide what lies behind the locked wing",
+        "control Miss Hunter's movements"
+      ],
+      "signature_behaviours": [
+        "telling inimitable funny stories",
+        "moving Miss Hunter's chair to avoid his shadow",
+        "abruptly ordering her to change dress",
+        "locking the wing door and hurrying past"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_003",
+    "name": "Mrs. Rucastle",
+    "properties": {
+      "role": "mistress of the house",
+      "personality_traits": [
+        "perceptive",
+        "controlling",
+        "suspicious",
+        "authoritative"
+      ],
+      "motivations": [
+        "enforce the window routine",
+        "prevent Miss Hunter from seeing behind her"
+      ],
+      "signature_behaviours": [
+        "drawing down the blind immediately",
+        "watching Miss Hunter with a searching gaze",
+        "suspecting the hidden mirror"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_004",
+    "name": "Old Toller",
+    "properties": {
+      "role": "groom",
+      "responsibilities": [
+        "feeding Carlo once daily",
+        "restraining the mastiff",
+        "letting Carlo loose at night"
+      ],
+      "narrative_function": "keeper of the dangerous dog",
+      "status": "subservient to Rucastle"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_005",
+    "name": "The Man in the Road",
+    "properties": {
+      "physical_description": [
+        "small",
+        "bearded",
+        "wears a grey suit"
+      ],
+      "actions": [
+        "leaning against railings",
+        "looking earnestly up at the window"
+      ],
+      "narrative_function": "catalyst for routine escalation",
+      "status": "unidentified observer"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_006",
+    "name": "The Child",
+    "properties": {
+      "role": "charge/dependent",
+      "context": [
+        "put to bed early each evening",
+        "subject of Miss Hunter's walk with Mr. Rucastle"
+      ],
+      "narrative_function": "part of the household routine",
+      "status": "unseen but present"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_loc_001",
+    "name": "Copper Beeches",
+    "properties": {
+      "physical_description": [
+        "estate with grounds and lawn",
+        "kitchen door with outhouse",
+        "locked wing with four windows",
+        "shuttered windows"
+      ],
+      "atmosphere": [
+        "seemingly peaceful but secretive",
+        "controlled and monitored"
+      ],
+      "narrative_function": "primary setting for the mystery",
+      "symbolic_meaning": "symbol of confinement and hidden secrets"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_loc_002",
+    "name": "The Window",
+    "properties": {
+      "physical_description": [
+        "window in Miss Hunter's room/quarters"
+      ],
+      "narrative_function": "stage for the daily routine",
+      "symbolic_meaning": "focal point of surveillance",
+      "isolation_level": "private but monitored"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_loc_003",
+    "name": "The Locked Wing",
+    "properties": {
+      "physical_description": [
+        "suite of rooms",
+        "four windows in a row",
+        "three dirty windows",
+        "one shuttered window",
+        "deserted"
+      ],
+      "narrative_function": "restricted area hiding a secret",
+      "symbolic_meaning": "implies a concealed person or secret",
+      "who_controls": "Jephro Rucastle"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_loc_004",
+    "name": "The Southampton Road",
+    "properties": {
+      "physical_description": [
+        "important highway",
+        "borders the field with railings"
+      ],
+      "narrative_function": "vantage point for the observer",
+      "real_world_vs_fictional": "real-world location bordering the estate"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_001",
+    "name": "The Blue Dress",
+    "properties": {
+      "physical_description": [
+        "dress worn by Miss Hunter"
+      ],
+      "narrative_role": "part of the daily routine",
+      "significance": "discontinued after the man in the road appeared"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_002",
+    "name": "Carlo",
+    "properties": {
+      "physical_description": [
+        "giant mastiff",
+        "large as a calf",
+        "tawny",
+        "hanging jowl",
+        "black muzzle",
+        "huge projecting bones"
+      ],
+      "owner": "Jephro Rucastle (claimed)",
+      "narrative_role": "sentinel/guard dog",
+      "significance": "enforcer of isolation, fed once daily to keep it hungry"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_003",
+    "name": "The Coil of Hair",
+    "properties": {
+      "physical_description": [
+        "coil of hair",
+        "same peculiar tint and thickness as Miss Hunter's"
+      ],
+      "narrative_role": "central mystery object",
+      "significance": "identical to Miss Hunter's hair, found locked in the lower drawer"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_004",
+    "name": "The Trunk",
+    "properties": {
+      "physical_description": [
+        "storage trunk for Miss Hunter's belongings"
+      ],
+      "narrative_role": "container for her coil of hair",
+      "significance": "opened to reveal the identical hair"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_005",
+    "name": "The Old Chest of Drawers",
+    "properties": {
+      "physical_description": [
+        "old chest",
+        "two upper drawers empty and open",
+        "lower drawer locked"
+      ],
+      "narrative_role": "container for the coil of hair",
+      "significance": "locked drawer symbolizes hidden secret"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_006",
+    "name": "The Hand-Mirror",
+    "properties": {
+      "physical_description": [
+        "broken"
+      ],
+      "narrative_role": "tool for covert observation",
+      "significance": "piece used in a handkerchief to see behind Miss Hunter"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_007",
+    "name": "The Yellow-Backed Novel",
+    "properties": {
+      "physical_description": [
+        "novel with a yellow back"
+      ],
+      "narrative_role": "prop for the daily reading routine",
+      "significance": "used to keep Miss Hunter seated and facing away"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_evt_001",
+    "name": "The Performance",
+    "properties": {
+      "sequence_number": "daily recurring event",
+      "what_changed": "Miss Hunter's curiosity escalates to active investigation",
+      "who_was_involved": [
+        "Miss Hunter",
+        "Jephro Rucastle",
+        "Mrs. Rucastle"
+      ],
+      "emotions": [
+        "curiosity",
+        "amusement",
+        "control",
+        "suspicion"
+      ],
+      "cause": "Rucastle's need to keep Miss Hunter facing away from the window",
+      "immediate_consequence": "Miss Hunter spots the man in the road, routine is abruptly stopped",
+      "is_turning_point": true,
+      "why_it_matters": "central mechanism of the mystery, reveals surveillance and hidden motives"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_con_001",
+    "name": "The Mystery of the Hair",
+    "properties": {
+      "puzzle": "How did Miss Hunter's identical coil of hair end up locked in the chest of drawers?",
+      "status": "unresolved",
+      "manifestation": "identical hair found in locked drawer",
+      "significance": "suggests duplication, hidden identity, or secret room"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_005_con_002",
+    "name": "The Locked Wing Mystery",
+    "properties": {
+      "puzzle": "What is hidden behind the locked wing door and why is it deserted?",
+      "status": "unresolved",
+      "manifestation": "locked door, shuttered windows, Rucastle's secretive and angry demeanor",
+      "significance": "implies a concealed person or secret"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_001",
+    "name": "Miss Hunter",
+    "properties": {
+      "role": "governess and client",
+      "personality_traits": [
+        "observant",
+        "curious",
+        "brave",
+        "sensible",
+        "cautious"
+      ],
+      "motivations": [
+        "solve the mystery of the barred room",
+        "escape the oppressive household",
+        "fulfill a sense of duty"
+      ],
+      "signature_behaviours": [
+        "penetrating forbidden areas",
+        "sending a wire to Holmes",
+        "following instructions precisely"
+      ],
+      "narrative_arc": "Moves from fearful isolation to taking decisive action with Holmes's guidance"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_002",
+    "name": "Mr. Holmes",
+    "properties": {
+      "role": "consulting detective",
+      "personality_traits": [
+        "analytical",
+        "methodical",
+        "strategic",
+        "grave"
+      ],
+      "motivations": [
+        "solve the mystery",
+        "protect Miss Hunter",
+        "uncover the truth"
+      ],
+      "signature_behaviours": [
+        "pacing while thinking",
+        "asking precise logistical questions",
+        "devising strategic plans"
+      ],
+      "physical_description": [
+        "paces up and down",
+        "hands in pockets"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_003",
+    "name": "Mr. Rucastle",
+    "properties": {
+      "role": "master of the house and employer",
+      "personality_traits": [
+        "suspicious",
+        "coaxing",
+        "capriciously violent",
+        "controlling"
+      ],
+      "motivations": [
+        "keep the barred room secret",
+        "maintain household control",
+        "prevent unauthorized access"
+      ],
+      "signature_behaviours": [
+        "smiling amiably then hardening into rage",
+        "threatening with the mastiff",
+        "locking doors"
+      ],
+      "narrative_function": [
+        "antagonist",
+        "enforcer of the household's secrets"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_004",
+    "name": "Mrs. Rucastle",
+    "properties": {
+      "role": "mistress of the house",
+      "narrative_function": [
+        "part of the oppressive household",
+        "absent during the planned investigation"
+      ],
+      "motivations": [
+        "maintain household routine",
+        "accompany husband on visits"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_005",
+    "name": "Toller",
+    "properties": {
+      "role": "servant",
+      "personality_traits": [
+        "drunkard",
+        "insensible when intoxicated"
+      ],
+      "narrative_function": [
+        "controls the mastiff",
+        "carries the black linen bag",
+        "key to the barred room's access"
+      ],
+      "motivations": [
+        "maintain household duties",
+        "manage the locked room"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_006",
+    "name": "Mrs. Toller",
+    "properties": {
+      "role": "servant",
+      "narrative_function": [
+        "unable to control Toller",
+        "potential alarm risk during investigation"
+      ],
+      "motivations": [
+        "assist in household duties",
+        "manage the locked room"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_char_007",
+    "name": "The Child",
+    "properties": {
+      "role": "child in the household",
+      "narrative_function": [
+        "kept with the Rucastles",
+        "part of the oppressive household dynamic"
+      ],
+      "motivations": [
+        "remain with the household staff"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_loc_001",
+    "name": "Copper Beeches",
+    "properties": {
+      "physical_description": [
+        "suite of spare rooms",
+        "deserted rooms",
+        "empty wing with dim light"
+      ],
+      "atmosphere": [
+        "sinister",
+        "eerie",
+        "oppressive",
+        "dreadfully still"
+      ],
+      "narrative_function": [
+        "primary setting for the mystery",
+        "site of the barred room and mastiff threat"
+      ],
+      "isolation_level": "high",
+      "symbolic_meaning": "represents confinement and hidden secrets"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_loc_002",
+    "name": "Winchester",
+    "properties": {
+      "narrative_function": [
+        "location of the telegraph office",
+        "Holmes's base of operations"
+      ],
+      "physical_description": [
+        "town with an office half a mile from the house"
+      ],
+      "real_world_vs_fictional": "real_world"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_loc_003",
+    "name": "The Dark Room",
+    "properties": {
+      "physical_description": [
+        "shuttered window",
+        "skylight letting in light",
+        "unpapered and uncarpeted passage leading to it"
+      ],
+      "atmosphere": [
+        "sinister",
+        "dusty",
+        "cheerless"
+      ],
+      "narrative_function": [
+        "central mystery location",
+        "site of the barred door and hidden secret"
+      ],
+      "symbolic_meaning": "represents the hidden truth and psychological dread"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_loc_004",
+    "name": "The Wine-Cellar",
+    "properties": {
+      "physical_description": [
+        "has a good strong lock"
+      ],
+      "narrative_function": [
+        "strategic location for trapping Mrs. Toller",
+        "part of the house's lower level"
+      ],
+      "isolation_level": "high"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_obj_001",
+    "name": "Black Linen Bag",
+    "properties": {
+      "physical_description": [
+        "large"
+      ],
+      "narrative_role": [
+        "suspicious clue",
+        "implies hidden activity in the barred room"
+      ],
+      "who_uses_it": [
+        "Toller"
+      ],
+      "significance": "mysterious",
+      "plot_connection": "suggests something is being moved into or out of the barred room"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_obj_002",
+    "name": "Barricade",
+    "properties": {
+      "physical_description": [
+        "broad iron bed bar",
+        "padlocked to a wall ring",
+        "fastened with stout cord"
+      ],
+      "narrative_role": [
+        "physical barrier",
+        "symbol of restriction and hidden secrets"
+      ],
+      "who_uses_it": [
+        "Mr. Rucastle"
+      ],
+      "significance": "resolved",
+      "plot_connection": "physically enforces the mystery of the barred room"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_obj_003",
+    "name": "Key",
+    "properties": {
+      "narrative_role": [
+        "crucial clue for access",
+        "left behind by Toller"
+      ],
+      "who_uses_it": [
+        "Toller",
+        "Mr. Rucastle"
+      ],
+      "significance": "resolved",
+      "plot_connection": "enables Miss Hunter's initial investigation and Holmes's planned entry"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_obj_004",
+    "name": "Mastiff",
+    "properties": {
+      "physical_description": [
+        "savage creature",
+        "dog"
+      ],
+      "narrative_role": [
+        "weapon of intimidation",
+        "threat used to enforce silence"
+      ],
+      "who_controls_it": [
+        "Toller"
+      ],
+      "significance": "mysterious",
+      "plot_connection": "used by Rucastle to threaten Miss Hunter and maintain control"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_evt_001",
+    "name": "The Forbidden Room Investigation",
+    "properties": {
+      "date_and_time": [
+        "yesterday evening (Miss Hunter's entry)",
+        "by seven o'clock (Holmes's planned entry)"
+      ],
+      "sequence_number": [
+        "initial exploration",
+        "planned counter-investigation"
+      ],
+      "what_changed": [
+        "Miss Hunter discovers the barred room and flees in terror",
+        "Holmes devises a plan to break in"
+      ],
+      "who_was_involved": [
+        "Miss Hunter",
+        "Mr. Rucastle",
+        "Toller",
+        "Mr. Holmes"
+      ],
+      "emotions": [
+        "terror",
+        "suspicion",
+        "curiosity",
+        "dread"
+      ],
+      "cause": [
+        "Miss Hunter's curiosity and sense of duty"
+      ],
+      "immediate_consequence": [
+        "Confrontation with Rucastle",
+        "Decision to seek Holmes's help"
+      ],
+      "why_it_matters": "drives the central mystery and sets the plot in motion"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_evt_002",
+    "name": "The Mastiff Threat",
+    "properties": {
+      "date_and_time": [
+        "after Miss Hunter's discovery"
+      ],
+      "sequence_number": [
+        "follows the barred room discovery"
+      ],
+      "what_changed": [
+        "Rucastle reveals his true nature and issues a lethal threat"
+      ],
+      "who_was_involved": [
+        "Miss Hunter",
+        "Mr. Rucastle"
+      ],
+      "emotions": [
+        "terror",
+        "rage",
+        "fear"
+      ],
+      "cause": [
+        "Miss Hunter entering the forbidden wing"
+      ],
+      "immediate_consequence": [
+        "Miss Hunter flees to her room",
+        "Decision to send for Holmes"
+      ],
+      "why_it_matters": "escalates the danger and forces the protagonist to seek external help"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_evt_003",
+    "name": "The Holmesian Plan",
+    "properties": {
+      "date_and_time": [
+        "tonight (after the Rucastles leave)"
+      ],
+      "sequence_number": [
+        "follows the threat and Miss Hunter's arrival"
+      ],
+      "what_changed": [
+        "Holmes outlines a precise plan involving trapping Mrs. Toller and entering the house"
+      ],
+      "who_was_involved": [
+        "Mr. Holmes",
+        "Miss Hunter",
+        "Mrs. Toller"
+      ],
+      "emotions": [
+        "determination",
+        "strategic focus"
+      ],
+      "cause": [
+        "Need to investigate the barred room safely"
+      ],
+      "immediate_consequence": [
+        "Miss Hunter agrees to the plan",
+        "Sets the stage for the break-in"
+      ],
+      "why_it_matters": "transitions the story from passive fear to active investigation"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_con_001",
+    "name": "Woman's Instinct",
+    "properties": {
+      "manifestation": [
+        "Miss Hunter's feeling of duty and drive to penetrate the forbidden place"
+      ],
+      "embodiment": [
+        "Miss Hunter's actions and motivations"
+      ],
+      "theme_role": [
+        "Justifies intuitive action over rational caution",
+        "drives the protagonist's investigation"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_con_002",
+    "name": "The Mystery of the Barred Room",
+    "properties": {
+      "puzzle": [
+        "What is behind the barred door?",
+        "Why is it locked and barricaded?",
+        "Who is inside?"
+      ],
+      "resolution_status": [
+        "unresolved",
+        "central to the plot"
+      ],
+      "theme_role": [
+        "drives Miss Hunter's investigation and Holmes's plan",
+        "represents hidden truths"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_006_con_003",
+    "name": "Terror and Oppression",
+    "properties": {
+      "manifestation": [
+        "Eerie atmosphere",
+        "Threat of the mastiff",
+        "Locked doors",
+        "Rucastles' controlling behavior"
+      ],
+      "embodiment": [
+        "The household dynamic",
+        "Rucastle's threats",
+        "The barred room"
+      ],
+      "theme_role": [
+        "Creates the story's central conflict and motivates the protagonist's flight for help"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_001",
+    "name": "Sherlock Holmes",
+    "properties": {
+      "role": "consulting detective",
+      "personality_traits": [
+        "logical",
+        "observant",
+        "methodical",
+        "confident"
+      ],
+      "motivations": [
+        "solve the mystery",
+        "rescue the prisoner",
+        "expose the villain"
+      ],
+      "signature_behaviours": [
+        "deducing from minimal data",
+        "studying children to understand parents",
+        "tactical waiting",
+        "physical confrontation"
+      ],
+      "occupation": "consulting detective"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_002",
+    "name": "Dr. Watson",
+    "properties": {
+      "role": "medical man and narrator",
+      "personality_traits": [
+        "loyal",
+        "practical",
+        "medically trained",
+        "trusting"
+      ],
+      "motivations": [
+        "assist Holmes",
+        "protect Miss Hunter",
+        "provide medical aid"
+      ],
+      "signature_behaviours": [
+        "shooting the hound",
+        "providing medical aid",
+        "asking clarifying questions"
+      ],
+      "occupation": "doctor"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_003",
+    "name": "Miss Hunter",
+    "properties": {
+      "role": "client and decoy",
+      "personality_traits": [
+        "courageous",
+        "observant",
+        "loyal",
+        "proactive"
+      ],
+      "motivations": [
+        "rescue Miss Alice",
+        "expose the Rucastles' plot"
+      ],
+      "signature_behaviours": [
+        "cutting the cord and bar",
+        "unlocking the door",
+        "leading Holmes to the chamber"
+      ],
+      "narrative_arc": "transitions from victim/decoy to active agent in the rescue"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_004",
+    "name": "Miss Alice Rucastle",
+    "properties": {
+      "role": "prisoner and daughter",
+      "physical_description": [
+        "similar height and figure to Miss Hunter",
+        "hair cut off possibly due to illness"
+      ],
+      "motivations": [
+        "escape captivity",
+        "reunite with her fiancé"
+      ],
+      "narrative_arc": "imprisoned, escapes through skylight, rescued"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_005",
+    "name": "Mr. Rucastle",
+    "properties": {
+      "role": "villain and father",
+      "personality_traits": [
+        "cunning",
+        "cruel",
+        "violent",
+        "controlling",
+        "fat and burly"
+      ],
+      "motivations": [
+        "keep Miss Alice imprisoned",
+        "prevent communication with her fiancé",
+        "maintain control"
+      ],
+      "signature_behaviours": [
+        "letting the dog loose",
+        "carrying a heavy stick",
+        "fleeing when confronted",
+        "being attacked by the hound"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_006",
+    "name": "Mrs. Toller",
+    "properties": {
+      "role": "cellar prisoner and informant",
+      "personality_traits": [
+        "loyal to Miss Alice",
+        "cooperative",
+        "observant",
+        "constrained"
+      ],
+      "motivations": [
+        "help Miss Hunter and Holmes",
+        "expose the truth",
+        "free herself"
+      ],
+      "signature_behaviours": [
+        "making loud thudding noises",
+        "providing keys",
+        "revealing crucial information",
+        "being locked in the cellar"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_007",
+    "name": "Toller",
+    "properties": {
+      "role": "husband and accomplice",
+      "personality_traits": [
+        "passive",
+        "obedient to his wife",
+        "physically present but uninvolved"
+      ],
+      "motivations": [
+        "follow his wife's lead",
+        "avoid trouble"
+      ],
+      "signature_behaviours": [
+        "snoring on the kitchen rug",
+        "hurrying behind Holmes",
+        "being sent to bear news to his wife"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_008",
+    "name": "The Man in the Road",
+    "properties": {
+      "role": "friend and fiancé of Miss Alice",
+      "motivations": [
+        "communicate with Miss Alice",
+        "rescue her"
+      ],
+      "signature_behaviours": [
+        "waving from the road",
+        "laughing to mislead",
+        "gesturing to show Miss Alice is happy"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_char_009",
+    "name": "The Child",
+    "properties": {
+      "role": "son of the Rucastles",
+      "personality_traits": [
+        "abnormally cruel",
+        "cruel for cruelty's sake"
+      ],
+      "narrative_function": "serves as a mirror to the parents' evil nature"
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_001",
+    "name": "Copper Beeches",
+    "properties": {
+      "physical_description": [
+        "house surrounded by trees with dark leaves shining like burnished metal"
+      ],
+      "atmosphere": [
+        "ominous",
+        "secretive",
+        "isolated"
+      ],
+      "narrative_function": [
+        "primary setting for the mystery and climax",
+        "symbol of captivity"
+      ],
+      "isolation_level": [
+        "high"
+      ],
+      "owner_or_controller": [
+        "Mr. Rucastle"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_002",
+    "name": "Cellar",
+    "properties": {
+      "physical_description": [
+        "underground room accessible via stairs"
+      ],
+      "narrative_function": [
+        "prison for the Tollers",
+        "source of clues"
+      ],
+      "owner_or_controller": [
+        "Mr. Rucastle"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_003",
+    "name": "Kitchen",
+    "properties": {
+      "physical_description": [
+        "contains a rug where Toller snores",
+        "leads to the cellar"
+      ],
+      "narrative_function": [
+        "transitional space",
+        "location of Toller's passive state"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_004",
+    "name": "Chamber",
+    "properties": {
+      "physical_description": [
+        "small room with pallet bed, table, linen basket",
+        "barricaded door",
+        "skylight above"
+      ],
+      "narrative_function": [
+        "prison for Miss Alice Rucastle",
+        "site of the escape"
+      ],
+      "isolation_level": [
+        "high"
+      ],
+      "owner_or_controller": [
+        "Mr. Rucastle"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_005",
+    "name": "Skylight",
+    "properties": {
+      "physical_description": [
+        "open window above the chamber"
+      ],
+      "narrative_function": [
+        "escape route for the prisoner",
+        "evidence of the villain's plan"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_loc_006",
+    "name": "Drawing-room",
+    "properties": {
+      "physical_description": [
+        "contains a sofa"
+      ],
+      "narrative_function": [
+        "site of the aftermath and confrontation",
+        "gathering place for characters"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_001",
+    "name": "Ladder",
+    "properties": {
+      "physical_description": [
+        "long, light ladder propped against the eaves"
+      ],
+      "owner_or_user": [
+        "Mr. Rucastle"
+      ],
+      "narrative_role": [
+        "tool for escape",
+        "evidence of premeditation"
+      ],
+      "symbolic_meaning": [
+        "represents the calculated nature of the villain's plan"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_002",
+    "name": "Hound",
+    "properties": {
+      "physical_description": [
+        "huge, famished brute",
+        "black muzzle",
+        "keen white teeth"
+      ],
+      "owner_or_user": [
+        "Mr. Rucastle"
+      ],
+      "narrative_role": [
+        "weapon of intimidation and violence",
+        "instrument of the villain's cruelty"
+      ],
+      "symbolic_meaning": [
+        "embodiment of the household's danger and the Rucastles' malice"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_003",
+    "name": "Keys",
+    "properties": {
+      "physical_description": [
+        "duplicates of Mr. Rucastle's keys"
+      ],
+      "owner_or_user": [
+        "Mrs. Toller"
+      ],
+      "narrative_role": [
+        "crucial clue",
+        "enables the rescue"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_004",
+    "name": "Revolver",
+    "properties": {
+      "physical_description": [
+        "pistol carried by Watson"
+      ],
+      "owner_or_user": [
+        "Dr. Watson"
+      ],
+      "narrative_role": [
+        "weapon used to kill the hound",
+        "tool for protection"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_005",
+    "name": "Heavy Stick",
+    "properties": {
+      "physical_description": [
+        "carried by Mr. Rucastle"
+      ],
+      "owner_or_user": [
+        "Mr. Rucastle"
+      ],
+      "narrative_role": [
+        "weapon/prop indicating threat and violence"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_obj_006",
+    "name": "Transverse Bar and Cord",
+    "properties": {
+      "physical_description": [
+        "barricade components securing the chamber door"
+      ],
+      "owner_or_user": [
+        "Mr. Rucastle"
+      ],
+      "narrative_role": [
+        "physical barrier",
+        "removed by Miss Hunter to enable entry"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_evt_001",
+    "name": "The Rescue Mission",
+    "properties": {
+      "time": [
+        "7 o'clock"
+      ],
+      "sequence_number": [
+        2
+      ],
+      "consequence": [
+        "Holmes and Watson arrive at Copper Beeches; Miss Hunter provides keys; they locate the chamber"
+      ],
+      "involved_characters": [
+        "Sherlock Holmes",
+        "Dr. Watson",
+        "Miss Hunter"
+      ],
+      "emotions": [
+        "anticipation",
+        "urgency",
+        "determination"
+      ],
+      "is_turning_point": [
+        "true"
+      ],
+      "cause": [
+        "Miss Hunter's report and Holmes's deduction"
+      ],
+      "immediate_consequence": [
+        "discovery of the empty chamber and the skylight escape"
+      ],
+      "significance": [
+        "drives the plot toward the climax and resolution"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_evt_002",
+    "name": "The Prisoner's Escape",
+    "properties": {
+      "time": [
+        "evening, before Holmes's arrival"
+      ],
+      "sequence_number": [
+        1
+      ],
+      "consequence": [
+        "Miss Alice Rucastle is freed from the chamber"
+      ],
+      "involved_characters": [
+        "Miss Alice Rucastle",
+        "Mr. Rucastle"
+      ],
+      "emotions": [
+        "desperation",
+        "relief"
+      ],
+      "is_turning_point": [
+        "true"
+      ],
+      "cause": [
+        "Mr. Rucastle's intervention; Miss Hunter's plan was discovered"
+      ],
+      "immediate_consequence": [
+        "chamber found empty; Holmes deduces skylight escape"
+      ],
+      "significance": [
+        "exposes the villain's cunning and sets up the final confrontation"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_evt_003",
+    "name": "The Hound Attack",
+    "properties": {
+      "time": [
+        "evening, after the escape"
+      ],
+      "sequence_number": [
+        3
+      ],
+      "consequence": [
+        "Mr. Rucastle is severely mangled by the hound; Toller is sobered"
+      ],
+      "involved_characters": [
+        "Mr. Rucastle",
+        "Hound",
+        "Dr. Watson",
+        "Sherlock Holmes",
+        "Miss Hunter",
+        "Toller"
+      ],
+      "emotions": [
+        "terror",
+        "agony",
+        "shock",
+        "relief"
+      ],
+      "is_turning_point": [
+        "true"
+      ],
+      "cause": [
+        "Mr. Rucastle let the dog loose to attack the intruders; dog was famished"
+      ],
+      "immediate_consequence": [
+        "Rucastle is incapacitated; Watson shoots the hound; Toller is sent to his wife"
+      ],
+      "significance": [
+        "resolves the immediate physical threat; delivers poetic justice"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_con_001",
+    "name": "Cruelty",
+    "properties": {
+      "manifestation": [
+        "the child's abnormally cruel disposition",
+        "the Rucastles' imprisonment and use of a famished hound",
+        "the overall atmosphere of the house"
+      ],
+      "embodied_by": [
+        "The Child",
+        "Mr. Rucastle",
+        "the Hound"
+      ],
+      "resolution": [
+        "exposed and punished through the hound's attack on Rucastle; the prisoner is freed"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_007_con_002",
+    "name": "Villainy",
+    "properties": {
+      "manifestation": [
+        "Mr. Rucastle's cunning plot to imprison his daughter",
+        "use of a decoy",
+        "control over the household",
+        "letting the hound loose"
+      ],
+      "embodied_by": [
+        "Mr. Rucastle",
+        "the overall plot against Miss Alice"
+      ],
+      "resolution": [
+        "unmasked by Holmes; the villain is physically subdued and his scheme foiled"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_001",
+    "name": "Alice Rucastle",
+    "properties": {
+      "role": "imprisoned daughter",
+      "personality_traits": [
+        "quiet",
+        "patient",
+        "slighted"
+      ],
+      "physical_description": [
+        "worn to a shadow",
+        "beautiful hair cut off"
+      ],
+      "motivations": [
+        "protect inherited money",
+        "escape imprisonment"
+      ],
+      "narrative_arc": "endures father's control and illness, escapes with Fowler, marries him",
+      "signature_behaviours": [
+        "silently leaves finances to father",
+        "endures hardship without complaint"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_002",
+    "name": "Mr. Rucastle",
+    "properties": {
+      "role": "controlling father",
+      "personality_traits": [
+        "greedy",
+        "persistent",
+        "broken"
+      ],
+      "physical_description": [
+        "broken man"
+      ],
+      "motivations": [
+        "control daughter's money",
+        "prevent her marriage"
+      ],
+      "narrative_arc": "imprisons daughter to secure wealth, survives but becomes physically and mentally broken",
+      "signature_behaviours": [
+        "worrying/pressuring daughter",
+        "maintaining imprisonment system"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_003",
+    "name": "Mr. Fowler",
+    "properties": {
+      "role": "persevering seaman suitor",
+      "personality_traits": [
+        "true",
+        "kind-spoken",
+        "free-handed",
+        "persevering"
+      ],
+      "physical_description": [
+        "seaman"
+      ],
+      "motivations": [
+        "marry Alice",
+        "secure her financial interests"
+      ],
+      "narrative_arc": "persists in courtship, blockades house, marries Alice, obtains government job",
+      "signature_behaviours": [
+        "blockading the house",
+        "using arguments and money to win over servants"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_004",
+    "name": "Miss Violet Hunter",
+    "properties": {
+      "role": "governess",
+      "physical_description": [
+        "from London"
+      ],
+      "narrative_arc": "assists in escape, returns to Winchester, becomes head of private school",
+      "occupation": [
+        "governess",
+        "head of private school"
+      ],
+      "signature_behaviours": [
+        "transporting escape ladder",
+        "cooperating with Fowler"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_005",
+    "name": "Mrs. Toller",
+    "properties": {
+      "role": "servant",
+      "personality_traits": [
+        "serene",
+        "kind-spoken",
+        "free-handed"
+      ],
+      "narrative_arc": "cooperates with Fowler, helps clear up mystery for Holmes",
+      "signature_behaviours": [
+        "providing drinks",
+        "keeping ladder ready",
+        "allying with Fowler"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_006",
+    "name": "Holmes",
+    "properties": {
+      "role": "detective",
+      "personality_traits": [
+        "deductive",
+        "observant",
+        "apologetic",
+        "disappointed by lack of romance"
+      ],
+      "signature_behaviours": [
+        "deducing remaining facts from testimony",
+        "apologizing to Mrs. Toller",
+        "questioning legal standing to stay"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_007",
+    "name": "Watson",
+    "properties": {
+      "role": "narrator and companion",
+      "personality_traits": [
+        "observant",
+        "disappointed by Holmes's romantic indifference"
+      ],
+      "signature_behaviours": [
+        "accompanying Holmes",
+        "narrating events and outcomes"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_008",
+    "name": "Mrs. Rucastle",
+    "properties": {
+      "role": "stepmother and devoted wife",
+      "personality_traits": [
+        "devoted",
+        "caring"
+      ],
+      "narrative_arc": "cares for broken husband, lives with old servants",
+      "signature_behaviours": [
+        "providing care to husband",
+        "maintaining household with servants"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_001",
+    "name": "The Sinister House",
+    "properties": {
+      "atmosphere": [
+        "sinister",
+        "oppressive",
+        "mysterious"
+      ],
+      "physical_description": [
+        "copper beeches in front of the door"
+      ],
+      "narrative_function": [
+        "site of imprisonment",
+        "central mystery location"
+      ],
+      "isolation_level": [
+        "high",
+        "blockaded"
+      ],
+      "symbolic_meaning": [
+        "patriarchal control",
+        "hidden secrets"
+      ],
+      "real_world_vs_fictional": [
+        "fictional setting in real-world geography"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_002",
+    "name": "London",
+    "properties": {
+      "narrative_function": [
+        "origin point for Miss Hunter"
+      ],
+      "real_world_vs_fictional": [
+        "real-world"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_003",
+    "name": "Winchester",
+    "properties": {
+      "narrative_function": [
+        "destination for Miss Hunter's return"
+      ],
+      "real_world_vs_fictional": [
+        "real-world"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_004",
+    "name": "Southampton",
+    "properties": {
+      "narrative_function": [
+        "location of Alice and Fowler's marriage"
+      ],
+      "real_world_vs_fictional": [
+        "real-world"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_005",
+    "name": "Island of Mauritius",
+    "properties": {
+      "narrative_function": [
+        "location of Fowler's government appointment"
+      ],
+      "real_world_vs_fictional": [
+        "real-world"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_006",
+    "name": "Walsall",
+    "properties": {
+      "narrative_function": [
+        "location of Miss Hunter's private school"
+      ],
+      "real_world_vs_fictional": [
+        "real-world"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_obj_001",
+    "name": "The Ladder",
+    "properties": {
+      "physical_description": [
+        "escape tool"
+      ],
+      "who_owns_or_uses_it": [
+        "Mrs. Toller",
+        "Mr. Fowler",
+        "Miss Hunter"
+      ],
+      "narrative_role": [
+        "key to breaking imprisonment",
+        "escape mechanism"
+      ],
+      "symbolic_meaning": [
+        "freedom",
+        "escape from confinement"
+      ],
+      "how_it_connects_to_plot_or_mystery": [
+        "enables the physical escape from the house"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_obj_002",
+    "name": "The Paper",
+    "properties": {
+      "physical_description": [
+        "legal document"
+      ],
+      "who_owns_or_uses_it": [
+        "Mr. Rucastle"
+      ],
+      "narrative_role": [
+        "instrument of financial control",
+        "legal trap"
+      ],
+      "symbolic_meaning": [
+        "loss of autonomy",
+        "patriarchal greed"
+      ],
+      "how_it_connects_to_plot_or_mystery": [
+        "drives the conflict as Rucastle forces Alice to sign it to secure her money"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_evt_001",
+    "name": "The Imprisonment System",
+    "properties": {
+      "sequence_number": [
+        "central conflict"
+      ],
+      "what_changed": [
+        "Alice confined",
+        "house isolated",
+        "servants controlled"
+      ],
+      "who_was_involved": [
+        "Mr. Rucastle",
+        "Alice Rucastle",
+        "Mrs. Toller",
+        "Miss Hunter"
+      ],
+      "emotions": [
+        "fear",
+        "worry",
+        "oppression"
+      ],
+      "is_turning_point": [
+        "yes"
+      ],
+      "cause": [
+        "Mr. Rucastle's desire to control money and prevent marriage"
+      ],
+      "immediate_consequence": [
+        "Alice's illness",
+        "house blockade",
+        "escape planning"
+      ],
+      "why_it_matters": [
+        "establishes the central mystery and victim's plight"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_evt_002",
+    "name": "The Blockade",
+    "properties": {
+      "sequence_number": [
+        "climax/escape phase"
+      ],
+      "what_changed": [
+        "house isolated",
+        "servants turned",
+        "escape facilitated"
+      ],
+      "who_was_involved": [
+        "Mr. Fowler",
+        "Mrs. Toller",
+        "Mr. Rucastle"
+      ],
+      "emotions": [
+        "determination",
+        "secrecy"
+      ],
+      "is_turning_point": [
+        "yes"
+      ],
+      "cause": [
+        "Fowler's persistence to marry Alice"
+      ],
+      "immediate_consequence": [
+        "ladder provided",
+        "escape executed"
+      ],
+      "why_it_matters": [
+        "shifts power dynamics and enables the resolution"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_evt_003",
+    "name": "Brain-fever",
+    "properties": {
+      "sequence_number": [
+        "mid-story crisis"
+      ],
+      "what_changed": [
+        "Alice's health severely damaged",
+        "hair cut",
+        "weakened"
+      ],
+      "who_was_involved": [
+        "Alice Rucastle",
+        "Mr. Rucastle"
+      ],
+      "emotions": [
+        "despair",
+        "physical suffering"
+      ],
+      "is_turning_point": [
+        "yes"
+      ],
+      "cause": [
+        "Mr. Rucastle's persistent worrying/pressure"
+      ],
+      "immediate_consequence": [
+        "Alice's physical decline",
+        "temporary vulnerability"
+      ],
+      "why_it_matters": [
+        "tests Alice's resolve and highlights the severity of the imprisonment"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_org_001",
+    "name": "Government Appointment",
+    "properties": {
+      "purpose/goal": [
+        "colonial administration"
+      ],
+      "status": [
+        "active"
+      ],
+      "plot_impact": [
+        "provides Fowler's new life and status post-escape"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_org_002",
+    "name": "Private School",
+    "properties": {
+      "purpose/goal": [
+        "education"
+      ],
+      "status": [
+        "active"
+      ],
+      "plot_impact": [
+        "provides Miss Hunter's successful future career"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_con_001",
+    "name": "Locus Standi",
+    "properties": {
+      "definition": [
+        "legal right or standing to act or intervene"
+      ],
+      "manifestation": [
+        "Holmes questions their right to remain after solving the case"
+      ],
+      "resolution": [
+        "acknowledged as questionable, prompting immediate departure"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  },
+  {
+    "id": "843f020a05ad4ab6a40f48fe19f0918e_008_con_002",
+    "name": "Rights by Will",
+    "properties": {
+      "definition": [
+        "legal entitlement to property/wealth via inheritance"
+      ],
+      "manifestation": [
+        "Alice's quiet patience vs. father's greed"
+      ],
+      "resolution": [
+        "father attempts to force signature, but escape/marriage secures them"
+      ],
+      "mystery_aspect": [
+        "central legal conflict driving the imprisonment"
+      ]
+    },
+    "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+    "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+  }
+]

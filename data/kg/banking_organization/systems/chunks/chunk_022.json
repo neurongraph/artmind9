@@ -1,0 +1,1793 @@
+{
+  "embedding": [
+    0.004347885,
+    0.04608536,
+    -0.18561858,
+    -0.027363641,
+    0.02997339,
+    -0.081364624,
+    0.040305708,
+    0.03184304,
+    -0.0012891337,
+    -0.037913676,
+    -0.006280299,
+    0.025913933,
+    0.052561164,
+    -0.03819687,
+    -0.022540428,
+    0.025372863,
+    -0.028765345,
+    -0.019019574,
+    -0.014665932,
+    0.01968798,
+    -0.04109501,
+    -0.055214502,
+    -0.036759127,
+    0.022730032,
+    0.06906538,
+    0.07522517,
+    -0.003738194,
+    -0.034308366,
+    -0.034891896,
+    -0.0006126778,
+    0.007995482,
+    0.022217507,
+    -0.018521542,
+    -0.031033177,
+    -0.0067082318,
+    -0.08331574,
+    0.009140091,
+    0.007680766,
+    0.01846824,
+    -0.0507647,
+    0.005925444,
+    -0.013207543,
+    0.014550848,
+    -0.060389306,
+    -0.0007274229,
+    -0.017044172,
+    0.05239054,
+    -0.0033323555,
+    0.06389181,
+    -0.019084454,
+    -0.013855205,
+    0.044779625,
+    0.014710403,
+    0.011089842,
+    0.029238252,
+    0.008063219,
+    0.00082916796,
+    0.057477914,
+    0.0056054434,
+    -0.08282046,
+    0.08809518,
+    0.048937876,
+    -0.031142704,
+    0.0870435,
+    0.05262475,
+    -0.04851873,
+    0.0014738111,
+    0.023958534,
+    -0.014633283,
+    -0.051687706,
+    0.016292153,
+    0.046538226,
+    0.013994894,
+    -0.005643376,
+    0.08437243,
+    0.020814357,
+    -0.034928996,
+    -0.032398697,
+    0.05713566,
+    0.025896475,
+    0.054739345,
+    -0.016354948,
+    0.07471853,
+    -0.019452585,
+    0.020364434,
+    0.018619698,
+    -0.052893154,
+    -0.010894489,
+    -0.02756082,
+    0.057961106,
+    -0.005390397,
+    0.020658975,
+    0.014208991,
+    0.022858934,
+    -0.053909134,
+    0.03220969,
+    0.018822221,
+    -0.014286771,
+    -0.058648072,
+    -0.016702138,
+    -0.016701385,
+    -0.030707426,
+    0.01093242,
+    0.028779905,
+    0.034677867,
+    0.004453575,
+    -0.027652659,
+    0.03298275,
+    -0.019432839,
+    0.047439136,
+    -0.026172182,
+    0.033102218,
+    0.0028892113,
+    -0.011752,
+    -0.000317493,
+    0.011492726,
+    0.085964605,
+    -0.045936164,
+    0.007159702,
+    -0.0111634955,
+    -0.041706115,
+    -0.035207655,
+    0.017047724,
+    0.030946245,
+    -0.059103966,
+    0.0024246122,
+    -0.07272395,
+    -0.007699044,
+    0.006839618,
+    0.004415125,
+    0.0039416994,
+    -0.019611295,
+    -0.058104195,
+    0.04389642,
+    0.058553606,
+    0.039059225,
+    0.03444432,
+    -0.03771148,
+    -0.007487082,
+    0.006995859,
+    0.008502797,
+    0.030471593,
+    -0.026679413,
+    -0.0357146,
+    0.040121794,
+    -0.020818643,
+    0.033876542,
+    0.0062617757,
+    -0.0375952,
+    0.05242643,
+    -0.015890047,
+    -0.012596266,
+    -0.004300242,
+    0.023363262,
+    0.0023301162,
+    -0.06707508,
+    0.016239658,
+    -0.0077059474,
+    0.08086055,
+    0.03797325,
+    0.06800319,
+    0.009090393,
+    -0.0057298033,
+    0.04870447,
+    0.023875475,
+    -0.08990526,
+    -0.003090281,
+    0.061586116,
+    0.07588822,
+    0.015473979,
+    -0.010925384,
+    -0.03254746,
+    -0.018980855,
+    0.0028770135,
+    0.0067261998,
+    0.012661282,
+    0.012906605,
+    -0.0131755425,
+    0.06317277,
+    -0.029788407,
+    0.018012132,
+    -0.02742769,
+    0.05756211,
+    0.056101266,
+    -0.048841026,
+    0.010974445,
+    -0.016591463,
+    0.0027303132,
+    -0.0130384425,
+    -0.04358243,
+    0.023438143,
+    0.036252514,
+    -0.057686117,
+    0.0077506457,
+    -0.013195032,
+    -0.012812951,
+    0.032283254,
+    -0.007980906,
+    0.010148411,
+    -0.07234229,
+    -0.012758697,
+    -0.01589755,
+    -0.046732794,
+    0.04077114,
+    0.027497616,
+    0.022899799,
+    -0.009311266,
+    0.030069819,
+    0.0004374624,
+    0.049051832,
+    0.05579529,
+    0.0036014183,
+    0.017422296,
+    0.021588057,
+    0.026874166,
+    -0.021023747,
+    0.02476067,
+    -0.0035033415,
+    0.012220274,
+    -0.0020920131,
+    0.017048499,
+    -0.032105953,
+    0.025144681,
+    -0.012516395,
+    0.0067931404,
+    -0.012092355,
+    -0.019370936,
+    -0.005367177,
+    -0.0046490985,
+    -0.020700071,
+    -0.025727334,
+    -0.06647772,
+    -0.002916282,
+    -0.023267094,
+    0.031210361,
+    0.0016415579,
+    -0.013023968,
+    0.04388117,
+    0.00930913,
+    0.0030371943,
+    -0.014866204,
+    0.05146496,
+    -0.04804666,
+    0.02388891,
+    -0.016422126,
+    0.010334496,
+    0.021301895,
+    -0.008364798,
+    0.034768645,
+    0.042576108,
+    0.026588088,
+    -0.042154476,
+    0.012547498,
+    -0.006563536,
+    0.041644555,
+    -0.05355512,
+    0.002360054,
+    -0.02466539,
+    0.053353854,
+    -0.02354709,
+    0.009523342,
+    -0.008792461,
+    0.037357025,
+    -0.045671683,
+    0.0044946517,
+    -0.034237504,
+    -0.057299796,
+    -0.0063296957,
+    0.025825065,
+    -0.012853766,
+    0.037325863,
+    0.021205785,
+    0.004030018,
+    0.06602017,
+    0.031223321,
+    0.008508156,
+    0.002120289,
+    -0.027088264,
+    -0.088993736,
+    0.052833617,
+    -0.019852797,
+    -0.06406969,
+    0.007535648,
+    0.01690352,
+    -0.0008513269,
+    0.021534527,
+    0.04428676,
+    0.01198431,
+    0.009308488,
+    0.036209937,
+    0.04965651,
+    0.008672185,
+    -0.016138181,
+    0.018379724,
+    -0.0430181,
+    -0.008698363,
+    0.019912489,
+    0.018488832,
+    0.0406178,
+    -0.013616968,
+    -0.00038772085,
+    0.020526035,
+    0.07494159,
+    0.028522102,
+    -0.03171978,
+    -0.016473154,
+    0.0064159697,
+    -0.016293062,
+    0.009373833,
+    0.0127910515,
+    -0.0017507237,
+    -0.018888177,
+    -0.041575037,
+    -0.018700792,
+    -0.06282832,
+    0.030657642,
+    0.026547521,
+    0.012109127,
+    0.026109718,
+    -0.0054731704,
+    -0.018871583,
+    -0.08569281,
+    -0.027091695,
+    -0.041744277,
+    0.01555026,
+    0.024555475,
+    -0.07199586,
+    0.045323066,
+    -0.04018274,
+    -0.015733276,
+    0.004120398,
+    0.0022752003,
+    0.0530186,
+    -0.047929034,
+    -0.010161317,
+    0.05737668,
+    0.027172958,
+    -0.0057912897,
+    -0.021068197,
+    0.013413363,
+    0.04294749,
+    -0.06795521,
+    -0.012045707,
+    -0.06664355,
+    -0.002451704,
+    -0.028693585,
+    -0.017010206,
+    0.022010969,
+    0.042277887,
+    0.029770367,
+    -0.010429494,
+    0.008087988,
+    -0.0051846546,
+    -0.0023081326,
+    -0.022709861,
+    -0.025474664,
+    0.01712255,
+    0.047122348,
+    0.00042141977,
+    0.0031989135,
+    0.02993053,
+    0.006277681,
+    0.034034528,
+    0.01832193,
+    -0.0062582325,
+    0.05634376,
+    0.020367911,
+    -0.05951903,
+    0.042891007,
+    0.0038798358,
+    -0.0375084,
+    -0.035382453,
+    0.008370104,
+    -0.020701453,
+    -0.0025223326,
+    -0.05101175,
+    -0.077118926,
+    0.016005933,
+    -0.014900654,
+    0.08026674,
+    0.029507343,
+    -0.013294229,
+    -0.018860698,
+    0.030490484,
+    -0.061340503,
+    -0.0135910185,
+    -0.007116315,
+    -0.009032269,
+    -0.025649678,
+    0.04069552,
+    -0.048641957,
+    -0.0010724794,
+    -0.044145502,
+    -0.023400107,
+    0.06461602,
+    -0.012627616,
+    -0.0060107573,
+    0.024894644,
+    0.0007526999,
+    0.057462774,
+    -0.0673214,
+    -0.041717455,
+    0.017663773,
+    -0.08370791,
+    0.0045367097,
+    -0.007973463,
+    -0.051393162,
+    -0.009780553,
+    -0.0017100212,
+    0.006199857,
+    -0.0017186513,
+    0.035588067,
+    0.0041492768,
+    -0.05603593,
+    0.014853127,
+    0.017213833,
+    0.06195057,
+    -0.004247012,
+    0.009938854,
+    -0.03418357,
+    0.079446286,
+    0.03050479,
+    0.035251625,
+    -0.005750704,
+    0.05332302,
+    0.035919506,
+    0.0048385425,
+    0.0073217414,
+    0.0015896693,
+    -0.032398775,
+    0.025251156,
+    0.00887014,
+    0.06351094,
+    0.02090073,
+    -0.044673823,
+    0.019285917,
+    0.071151465,
+    0.023735292,
+    -0.020835752,
+    0.06382587,
+    0.025790686,
+    -0.06403754,
+    -0.00086019107,
+    -0.031132532,
+    0.03207226,
+    0.08705595,
+    0.005626076,
+    -0.034303423,
+    0.0007189354,
+    0.0027208745,
+    0.05844836,
+    0.017537016,
+    0.021453023,
+    0.04358389,
+    0.057678275,
+    -0.016641187,
+    0.04706768,
+    0.013501609,
+    0.046697944,
+    0.055002067,
+    -0.01897884,
+    0.021734003,
+    -0.045165155,
+    -0.008357643,
+    0.0003555861,
+    -0.037867896,
+    0.02220141,
+    -0.06010862,
+    0.008526835,
+    0.005310702,
+    -0.049010694,
+    -0.012258133,
+    0.038349546,
+    -0.061330587,
+    0.0040074037,
+    0.05390894,
+    0.03489452,
+    0.018523991,
+    0.019153403,
+    0.027940976,
+    0.029671205,
+    0.032937862,
+    -0.06902118,
+    -0.026621865,
+    -0.017479878,
+    0.0023912583,
+    0.06603786,
+    -0.05995456,
+    -0.0020490973,
+    0.018118452,
+    -0.013635906,
+    -0.019697612,
+    0.02942055,
+    0.0024703913,
+    0.014215585,
+    -0.0020122582,
+    -0.0049932892,
+    0.048797097,
+    0.02629749,
+    0.0016496845,
+    0.032942347,
+    0.06303307,
+    -0.002640976,
+    -0.008087954,
+    0.006722173,
+    -0.029365739,
+    0.04957101,
+    -0.03468169,
+    -0.056214135,
+    -0.032385454,
+    0.016538985,
+    0.037494425,
+    0.011354812,
+    -0.0035919494,
+    0.0025179284,
+    -0.059190974,
+    0.012080817,
+    -0.004501001,
+    -0.034947872,
+    -0.008221957,
+    -0.02470286,
+    -0.0028625347,
+    0.0005319458,
+    -0.05932813,
+    -0.0818619,
+    0.03888335,
+    0.020732565,
+    -0.02813428,
+    0.053762212,
+    -0.0096782,
+    0.0237719,
+    0.059543703,
+    -0.029222138,
+    -0.015254275,
+    0.012816776,
+    -0.036227077,
+    -0.081426196,
+    0.0008876519,
+    0.044962082,
+    0.041003764,
+    -0.0060806423,
+    -0.0011313024,
+    -0.030176774,
+    -0.03749917,
+    0.014607547,
+    -0.06326762,
+    0.00073468743,
+    0.013618342,
+    0.00757492,
+    -0.010330819,
+    0.024254916,
+    -0.048752546,
+    0.008942574,
+    -0.029724874,
+    0.019801835,
+    -0.0245563,
+    0.012157558,
+    -0.008308673,
+    -0.041283123,
+    -0.024597872,
+    0.020496232,
+    0.045676816,
+    0.07823121,
+    0.03335231,
+    0.04469747,
+    -0.021338612,
+    -0.012042895,
+    0.0011222486,
+    -0.0049511483,
+    -0.0028148233,
+    0.019437658,
+    -0.026786285,
+    -0.022776417,
+    -0.017398406,
+    0.03800946,
+    0.04306779,
+    -0.029360363,
+    -0.010158572,
+    -0.0077939085,
+    -0.04426523,
+    0.020840617,
+    -0.036359243,
+    0.05025458,
+    0.06535431,
+    -0.01966865,
+    -0.018366776,
+    -0.013398077,
+    0.010675803,
+    -0.038254924,
+    -0.024872396,
+    0.0036358202,
+    0.053084973,
+    0.012450151,
+    -0.04402429,
+    0.0107864905,
+    0.03360528,
+    0.015191204,
+    0.007819927,
+    -0.03543519,
+    -0.053470656,
+    -0.023916736,
+    0.004710228,
+    -0.004414788,
+    -0.015089456,
+    0.035215937,
+    0.026748965,
+    -0.022094745,
+    0.022101883,
+    -0.01992946,
+    -0.007185733,
+    0.030267728,
+    -0.024196832,
+    -0.033349153,
+    -0.013184095,
+    0.028466431,
+    -0.03914998,
+    0.05520798,
+    0.012604345,
+    0.006372553,
+    -0.030109396,
+    -0.040340517,
+    -0.054723244,
+    -0.021423806,
+    -0.020005988,
+    0.038722854,
+    -0.023341456,
+    -0.020147279,
+    -0.059857875,
+    0.0033867718,
+    0.07596187,
+    -0.021057524,
+    0.06244085,
+    -0.068695135,
+    -0.036035772,
+    -0.037562087,
+    0.0020084996,
+    -0.028707357,
+    0.055037454,
+    -0.00033953253,
+    0.00201515,
+    0.06814459,
+    -0.009948109,
+    -0.027082914,
+    0.029284019,
+    0.027445305,
+    -0.031679127,
+    0.0059968983,
+    0.070421115,
+    0.07177608,
+    -0.04966633,
+    0.075019285,
+    0.054586593,
+    0.00021664331,
+    -0.01812935,
+    0.015051494,
+    -0.039712597,
+    0.037178446,
+    -0.012786941,
+    -0.01117143,
+    -0.058824226,
+    -0.004164146,
+    0.028240193,
+    0.024894852,
+    -0.037634693,
+    0.032031592,
+    -0.0071028518,
+    0.014634081,
+    0.015655564,
+    -0.056357026,
+    -0.030414118,
+    -0.025058376,
+    0.009772502,
+    0.0113046,
+    -0.0265314,
+    -0.00983705,
+    0.06237796,
+    0.0616933,
+    6.473001e-05,
+    -0.017379731,
+    -0.029078836,
+    -0.009283861,
+    0.012050502,
+    0.045190558,
+    -0.05858577,
+    0.019093094,
+    -0.029450055,
+    -0.023731265,
+    0.014315565,
+    -0.012233831,
+    -0.026340753,
+    -0.025163138,
+    -0.10832088,
+    -0.0071267067,
+    -0.013409854,
+    -0.010352608,
+    0.034784433,
+    -0.014804697,
+    -0.070435226,
+    -0.03394862,
+    0.023143312,
+    -0.021190375,
+    -0.0098743215,
+    0.00051527895,
+    0.053454023,
+    -0.01234308,
+    -0.030141117,
+    0.025625309,
+    0.010404051,
+    0.032453272,
+    0.016634403,
+    -0.043315683,
+    -0.024646357,
+    -0.016185118,
+    0.050624013,
+    0.004362299,
+    -0.012573035,
+    -0.08477742,
+    -0.05674481,
+    -0.04437102,
+    0.014592237,
+    0.0543695,
+    0.007813244,
+    -0.06408765,
+    -0.026546784,
+    -0.012012031,
+    0.019867012,
+    0.017421471,
+    -0.026760772,
+    -0.015683604,
+    -0.0591331,
+    -0.019225514,
+    -0.010012557,
+    -0.10027432,
+    0.083748125,
+    -0.03802121,
+    0.028406005,
+    -0.03471465,
+    -0.01475354,
+    -0.046853162,
+    -0.031158498,
+    -0.050475344,
+    -0.019698717,
+    -0.0495065,
+    0.010961095,
+    -0.008065785,
+    -0.03533799,
+    0.0059281616,
+    0.012597011,
+    0.032634333,
+    -0.040301293,
+    0.020473415,
+    -0.04754993,
+    -0.03929878,
+    -0.052741468,
+    -0.034585636,
+    0.012345744,
+    0.055682927,
+    0.032169834,
+    0.068630666,
+    0.03705118,
+    0.022327809,
+    0.00027595545,
+    0.036789596,
+    0.013573881,
+    0.0052515264,
+    -0.065762326,
+    -0.073067114,
+    0.0053761965
+  ],
+  "chunk_seq": 22,
+  "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+  "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+  "text": "## Database Architecture  \n### Primary Database (PostgreSQL)  \n**Database:** `firstuk_prod`  \n**Schemas:**\n- `public.accounts` — Account records (800 records)\n- `public.customers` — Customer records (500 records)\n- `public.transactions` — Transaction log (2,000+ records/month)\n- `public.account_holders` — Joint account holders\n- `public.standing_orders` — Recurring transfers\n- `public.direct_debits` — Recurring bill payments\n- `public.cards` — Debit card records (800 cards)\n- `public.compliance_kyc` — KYC verification records\n- `public.compliance_aml` — AML screening records\n- `public.products` — Product definitions (5 products)  \n**Indexes:**\n- Customer ID (for lookups)\n- Account ID (for queries)\n- Transaction date (for history)\n- Account status (for reporting)  \n**Backup Strategy:**\n- Continuous replication to standby database\n- Daily encrypted backup to AWS S3\n- RPO: 15 minutes\n- RTO: 2 hours",
+  "name": "Chunk 22/39",
+  "domain": "banking_organization",
+  "prev_chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_021",
+  "next_chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_023",
+  "raw_entities": [
+    {
+      "id": "sys_001",
+      "name": "FirstUK Production Database",
+      "aliases": [
+        "firstuk_prod",
+        "Primary Database"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "database",
+      "description": "The primary PostgreSQL relational database serving as the central data store for FirstUK Bank's core banking operations. It hosts critical schemas for customer, account, transaction, and compliance data, supporting high-volume operational queries and historical reporting.",
+      "context": [
+        "### Primary Database (PostgreSQL)",
+        "**Database:** `firstuk_prod`"
+      ]
+    },
+    {
+      "id": "sys_002",
+      "name": "Standby Database",
+      "aliases": [
+        "replica",
+        "secondary database"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "database",
+      "description": "A continuously replicated secondary database instance designed to ensure high availability and support disaster recovery operations. It maintains a synchronized copy of the primary database to minimize service disruption during failover events.",
+      "context": [
+        "- Continuous replication to standby database"
+      ]
+    },
+    {
+      "id": "bnk_001",
+      "name": "Account",
+      "aliases": [
+        "accounts"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "account",
+      "description": "Represents individual and joint account records stored within the primary database schema. It tracks customer financial positions, balances, and lifecycle states for operational and reporting purposes.",
+      "context": [
+        "`public.accounts` — Account records (800 records)"
+      ]
+    },
+    {
+      "id": "bnk_002",
+      "name": "Customer",
+      "aliases": [
+        "customers"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "customer",
+      "description": "Stores core customer identification and profile data required for banking relationships and regulatory compliance. It serves as the foundational party entity linked to accounts, transactions, and cards.",
+      "context": [
+        "`public.customers` — Customer records (500 records)"
+      ]
+    },
+    {
+      "id": "bnk_003",
+      "name": "Transaction",
+      "aliases": [
+        "transactions"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "transaction",
+      "description": "Captures detailed transactional activity logs, processing a volume exceeding 2,000 records per month. It maintains chronological financial event data for historical analysis, reconciliation, and customer reporting.",
+      "context": [
+        "`public.transactions` — Transaction log (2,000+ records/month)"
+      ]
+    },
+    {
+      "id": "bnk_004",
+      "name": "Account Holder",
+      "aliases": [
+        "account_holders"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "account_holder",
+      "description": "Manages joint account holder relationships and ownership structures within the database schema. It defines multi-party access rights and liability allocations for shared financial products.",
+      "context": [
+        "`public.account_holders` — Joint account holders"
+      ]
+    },
+    {
+      "id": "bnk_005",
+      "name": "Standing Order",
+      "aliases": [
+        "standing_orders"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "standing_order",
+      "description": "Tracks recurring customer transfer instructions and scheduled payment mandates. It stores authorization details, frequency parameters, and execution history for automated fund movements.",
+      "context": [
+        "`public.standing_orders` — Recurring transfers"
+      ]
+    },
+    {
+      "id": "bnk_006",
+      "name": "Direct Debit",
+      "aliases": [
+        "direct_debits"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "direct_debit",
+      "description": "Records automated bill payment authorizations and recurring debit instructions for customers. It maintains mandate validity, collection schedules, and dispute statuses for utility and service payments.",
+      "context": [
+        "`public.direct_debits` — Recurring bill payments"
+      ]
+    },
+    {
+      "id": "bnk_007",
+      "name": "Card",
+      "aliases": [
+        "cards"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "card",
+      "description": "Stores debit card issuance details, status, and lifecycle records for the bank's payment portfolio. It tracks cardholder assignments, PIN statuses, and authorization limits.",
+      "context": [
+        "`public.cards` — Debit card records (800 cards)"
+      ]
+    },
+    {
+      "id": "bnk_008",
+      "name": "KYC Verification",
+      "aliases": [
+        "compliance_kyc"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "kyc_verification",
+      "description": "Maintains Know Your Customer verification records and identity documentation for regulatory compliance. It stores customer due diligence results, risk ratings, and document expiry dates.",
+      "context": [
+        "`public.compliance_kyc` — KYC verification records"
+      ]
+    },
+    {
+      "id": "bnk_009",
+      "name": "AML Screening",
+      "aliases": [
+        "compliance_aml"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "aml_screening",
+      "description": "Holds Anti-Money Laundering screening results, watchlist checks, and compliance audit data. It records transactional risk assessments and regulatory reporting outcomes for suspicious activity monitoring.",
+      "context": [
+        "`public.compliance_aml` — AML screening records"
+      ]
+    },
+    {
+      "id": "bnk_010",
+      "name": "Product",
+      "aliases": [
+        "products"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "product",
+      "description": "Defines the bank's core financial offerings, including their structural parameters and feature sets. It serves as the master reference for account types, interest rates, and eligibility criteria.",
+      "context": [
+        "`public.products` — Product definitions (5 products)"
+      ]
+    },
+    {
+      "id": "met_001",
+      "name": "Recovery Point Objective (RPO)",
+      "aliases": [
+        "RPO"
+      ],
+      "entity_class": "METRIC_TARGET",
+      "type": "sla",
+      "description": "Specifies the maximum acceptable data loss window during a disaster recovery event, mandated at 15 minutes. It dictates the required frequency of database replication and backup operations to meet continuity standards.",
+      "context": [
+        "- RPO: 15 minutes"
+      ]
+    },
+    {
+      "id": "met_002",
+      "name": "Recovery Time Objective (RTO)",
+      "aliases": [
+        "RTO"
+      ],
+      "entity_class": "METRIC_TARGET",
+      "type": "sla",
+      "description": "Defines the maximum allowable downtime for system restoration following a disruption, set at 2 hours. It establishes the operational performance threshold for failover processes and infrastructure recovery procedures.",
+      "context": [
+        "- RTO: 2 hours"
+      ]
+    }
+  ],
+  "id_map": {
+    "sys_001": "c98d3d3d6b9945b1b7e79a809edddbcb_022_sys_001",
+    "sys_002": "c98d3d3d6b9945b1b7e79a809edddbcb_022_sys_002",
+    "bnk_001": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_001",
+    "bnk_002": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_002",
+    "bnk_003": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_003",
+    "bnk_004": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_004",
+    "bnk_005": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_005",
+    "bnk_006": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_006",
+    "bnk_007": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_007",
+    "bnk_008": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_008",
+    "bnk_009": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_009",
+    "bnk_010": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_010",
+    "met_001": "c98d3d3d6b9945b1b7e79a809edddbcb_022_met_001",
+    "met_002": "c98d3d3d6b9945b1b7e79a809edddbcb_022_met_002"
+  },
+  "entities": [
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_sys_001",
+      "name": "FirstUK Production Database",
+      "aliases": [
+        "firstuk_prod",
+        "Primary Database"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "database",
+      "description": "The primary PostgreSQL relational database serving as the central data store for FirstUK Bank's core banking operations. It hosts critical schemas for customer, account, transaction, and compliance data, supporting high-volume operational queries and historical reporting.",
+      "context": [
+        "### Primary Database (PostgreSQL)",
+        "**Database:** `firstuk_prod`"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_sys_002",
+      "name": "Standby Database",
+      "aliases": [
+        "replica",
+        "secondary database"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "database",
+      "description": "A continuously replicated secondary database instance designed to ensure high availability and support disaster recovery operations. It maintains a synchronized copy of the primary database to minimize service disruption during failover events.",
+      "context": [
+        "- Continuous replication to standby database"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_001",
+      "name": "Account",
+      "aliases": [
+        "accounts"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "account",
+      "description": "Represents individual and joint account records stored within the primary database schema. It tracks customer financial positions, balances, and lifecycle states for operational and reporting purposes.",
+      "context": [
+        "`public.accounts` — Account records (800 records)"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_002",
+      "name": "Customer",
+      "aliases": [
+        "customers"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "customer",
+      "description": "Stores core customer identification and profile data required for banking relationships and regulatory compliance. It serves as the foundational party entity linked to accounts, transactions, and cards.",
+      "context": [
+        "`public.customers` — Customer records (500 records)"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_003",
+      "name": "Transaction",
+      "aliases": [
+        "transactions"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "transaction",
+      "description": "Captures detailed transactional activity logs, processing a volume exceeding 2,000 records per month. It maintains chronological financial event data for historical analysis, reconciliation, and customer reporting.",
+      "context": [
+        "`public.transactions` — Transaction log (2,000+ records/month)"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_004",
+      "name": "Account Holder",
+      "aliases": [
+        "account_holders"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "account_holder",
+      "description": "Manages joint account holder relationships and ownership structures within the database schema. It defines multi-party access rights and liability allocations for shared financial products.",
+      "context": [
+        "`public.account_holders` — Joint account holders"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_005",
+      "name": "Standing Order",
+      "aliases": [
+        "standing_orders"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "standing_order",
+      "description": "Tracks recurring customer transfer instructions and scheduled payment mandates. It stores authorization details, frequency parameters, and execution history for automated fund movements.",
+      "context": [
+        "`public.standing_orders` — Recurring transfers"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_006",
+      "name": "Direct Debit",
+      "aliases": [
+        "direct_debits"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "direct_debit",
+      "description": "Records automated bill payment authorizations and recurring debit instructions for customers. It maintains mandate validity, collection schedules, and dispute statuses for utility and service payments.",
+      "context": [
+        "`public.direct_debits` — Recurring bill payments"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_007",
+      "name": "Card",
+      "aliases": [
+        "cards"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "card",
+      "description": "Stores debit card issuance details, status, and lifecycle records for the bank's payment portfolio. It tracks cardholder assignments, PIN statuses, and authorization limits.",
+      "context": [
+        "`public.cards` — Debit card records (800 cards)"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_008",
+      "name": "KYC Verification",
+      "aliases": [
+        "compliance_kyc"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "kyc_verification",
+      "description": "Maintains Know Your Customer verification records and identity documentation for regulatory compliance. It stores customer due diligence results, risk ratings, and document expiry dates.",
+      "context": [
+        "`public.compliance_kyc` — KYC verification records"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_009",
+      "name": "AML Screening",
+      "aliases": [
+        "compliance_aml"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "aml_screening",
+      "description": "Holds Anti-Money Laundering screening results, watchlist checks, and compliance audit data. It records transactional risk assessments and regulatory reporting outcomes for suspicious activity monitoring.",
+      "context": [
+        "`public.compliance_aml` — AML screening records"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_010",
+      "name": "Product",
+      "aliases": [
+        "products"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "product",
+      "description": "Defines the bank's core financial offerings, including their structural parameters and feature sets. It serves as the master reference for account types, interest rates, and eligibility criteria.",
+      "context": [
+        "`public.products` — Product definitions (5 products)"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_met_001",
+      "name": "Recovery Point Objective (RPO)",
+      "aliases": [
+        "RPO"
+      ],
+      "entity_class": "METRIC_TARGET",
+      "type": "sla",
+      "description": "Specifies the maximum acceptable data loss window during a disaster recovery event, mandated at 15 minutes. It dictates the required frequency of database replication and backup operations to meet continuity standards.",
+      "context": [
+        "- RPO: 15 minutes"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_met_002",
+      "name": "Recovery Time Objective (RTO)",
+      "aliases": [
+        "RTO"
+      ],
+      "entity_class": "METRIC_TARGET",
+      "type": "sla",
+      "description": "Defines the maximum allowable downtime for system restoration following a disruption, set at 2 hours. It establishes the operational performance threshold for failover processes and infrastructure recovery procedures.",
+      "context": [
+        "- RTO: 2 hours"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    }
+  ],
+  "properties": [
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_sys_001",
+      "name": "FirstUK Production Database",
+      "properties": {
+        "system_id": "firstuk_prod",
+        "technology_stack": [
+          "PostgreSQL"
+        ],
+        "data_stored": [
+          "Account records",
+          "Customer records",
+          "Transaction log",
+          "Joint account holders",
+          "Recurring transfers",
+          "Recurring bill payments",
+          "Debit card records",
+          "KYC verification records",
+          "AML screening records",
+          "Product definitions"
+        ],
+        "integrations": [
+          "Standby Database",
+          "AWS S3"
+        ],
+        "key_features": [
+          "Continuous replication to standby",
+          "Daily encrypted backup",
+          "Indexed lookups for Customer ID, Account ID, Transaction date, Account status"
+        ]
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_sys_002",
+      "name": "Standby Database",
+      "properties": {
+        "system_id": "Standby Database",
+        "purpose": "Disaster recovery and failover target",
+        "integrations": [
+          "FirstUK Production Database"
+        ]
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_001",
+      "name": "Account",
+      "properties": {
+        "key_attributes": [
+          "Account ID",
+          "Account status"
+        ],
+        "relationships_to": [
+          "Customer",
+          "Account Holder",
+          "Transaction"
+        ]
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_002",
+      "name": "Customer",
+      "properties": {
+        "key_attributes": [
+          "Customer ID"
+        ],
+        "relationships_to": [
+          "Account",
+          "Account Holder"
+        ]
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_003",
+      "name": "Transaction",
+      "properties": {
+        "key_attributes": [
+          "Transaction date"
+        ],
+        "business_rules": [
+          "Volume threshold: 2,000+ records/month"
+        ],
+        "relationships_to": [
+          "Account"
+        ]
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_004",
+      "name": "Account Holder",
+      "properties": {
+        "key_attributes": [
+          "Joint account holders"
+        ],
+        "relationships_to": [
+          "Account"
+        ]
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_005",
+      "name": "Standing Order",
+      "properties": {
+        "key_attributes": [
+          "Recurring transfers"
+        ],
+        "relationships_to": [
+          "Account"
+        ]
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_006",
+      "name": "Direct Debit",
+      "properties": {
+        "key_attributes": [
+          "Recurring bill payments"
+        ],
+        "relationships_to": [
+          "Account"
+        ]
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_007",
+      "name": "Card",
+      "properties": {
+        "key_attributes": [
+          "Debit card records"
+        ],
+        "relationships_to": [
+          "Account",
+          "Customer"
+        ]
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_008",
+      "name": "KYC Verification",
+      "properties": {
+        "regulatory_significance": [
+          "Mandatory compliance requirement for customer identity verification"
+        ],
+        "relationships_to": [
+          "Customer"
+        ]
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_009",
+      "name": "AML Screening",
+      "properties": {
+        "regulatory_significance": [
+          "Mandatory compliance requirement for transaction and account monitoring"
+        ],
+        "relationships_to": [
+          "Transaction",
+          "Account"
+        ]
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_010",
+      "name": "Product",
+      "properties": {
+        "key_attributes": [
+          "Product definitions"
+        ],
+        "relationships_to": [
+          "Account",
+          "Customer"
+        ]
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_met_001",
+      "name": "Recovery Point Objective (RPO)",
+      "properties": {
+        "value": 15,
+        "unit": "minutes",
+        "what_it_measures": "Maximum acceptable data loss window during a disaster recovery event",
+        "context": "Defined in primary database backup strategy"
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_met_002",
+      "name": "Recovery Time Objective (RTO)",
+      "properties": {
+        "value": 2,
+        "unit": "hours",
+        "what_it_measures": "Maximum acceptable downtime before systems must be restored to operational status",
+        "context": "Defined in primary database backup strategy"
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_sys_001",
+      "source_name": "FirstUK Production Database",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_001",
+      "target_name": "Account",
+      "rel_type": "stores",
+      "description": "Stores account records in the public.accounts schema",
+      "properties": {
+        "table_name": "public.accounts",
+        "record_count": "800"
+      },
+      "context": "- `public.accounts` — Account records (800 records)",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_sys_001",
+      "source_name": "FirstUK Production Database",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_002",
+      "target_name": "Customer",
+      "rel_type": "stores",
+      "description": "Stores customer records in the public.customers schema",
+      "properties": {
+        "table_name": "public.customers",
+        "record_count": "500"
+      },
+      "context": "- `public.customers` — Customer records (500 records)",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_sys_001",
+      "source_name": "FirstUK Production Database",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_003",
+      "target_name": "Transaction",
+      "rel_type": "stores",
+      "description": "Stores transaction logs in the public.transactions schema",
+      "properties": {
+        "table_name": "public.transactions",
+        "record_count": "2,000+ records/month"
+      },
+      "context": "- `public.transactions` — Transaction log (2,000+ records/month)",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_sys_001",
+      "source_name": "FirstUK Production Database",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_004",
+      "target_name": "Account Holder",
+      "rel_type": "stores",
+      "description": "Stores joint account holder data in the public.account_holders schema",
+      "properties": {
+        "table_name": "public.account_holders"
+      },
+      "context": "- `public.account_holders` — Joint account holders",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_sys_001",
+      "source_name": "FirstUK Production Database",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_005",
+      "target_name": "Standing Order",
+      "rel_type": "stores",
+      "description": "Stores recurring transfer instructions in the public.standing_orders schema",
+      "properties": {
+        "table_name": "public.standing_orders"
+      },
+      "context": "- `public.standing_orders` — Recurring transfers",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_sys_001",
+      "source_name": "FirstUK Production Database",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_006",
+      "target_name": "Direct Debit",
+      "rel_type": "stores",
+      "description": "Stores recurring bill payment data in the public.direct_debits schema",
+      "properties": {
+        "table_name": "public.direct_debits"
+      },
+      "context": "- `public.direct_debits` — Recurring bill payments",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_sys_001",
+      "source_name": "FirstUK Production Database",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_007",
+      "target_name": "Card",
+      "rel_type": "stores",
+      "description": "Stores debit card records in the public.cards schema",
+      "properties": {
+        "table_name": "public.cards",
+        "record_count": "800 cards"
+      },
+      "context": "- `public.cards` — Debit card records (800 cards)",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_sys_001",
+      "source_name": "FirstUK Production Database",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_008",
+      "target_name": "KYC Verification",
+      "rel_type": "stores",
+      "description": "Stores KYC verification records in the public.compliance_kyc schema",
+      "properties": {
+        "table_name": "public.compliance_kyc"
+      },
+      "context": "- `public.compliance_kyc` — KYC verification records",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_sys_001",
+      "source_name": "FirstUK Production Database",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_009",
+      "target_name": "AML Screening",
+      "rel_type": "stores",
+      "description": "Stores AML screening records in the public.compliance_aml schema",
+      "properties": {
+        "table_name": "public.compliance_aml"
+      },
+      "context": "- `public.compliance_aml` — AML screening records",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_sys_001",
+      "source_name": "FirstUK Production Database",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_010",
+      "target_name": "Product",
+      "rel_type": "stores",
+      "description": "Stores product definitions in the public.products schema",
+      "properties": {
+        "table_name": "public.products",
+        "record_count": "5 products"
+      },
+      "context": "- `public.products` — Product definitions (5 products)",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_sys_001",
+      "source_name": "FirstUK Production Database",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_sys_002",
+      "target_name": "Standby Database",
+      "rel_type": "feeds_data_to",
+      "description": "Replicates data continuously to the standby database for disaster recovery and high availability",
+      "properties": {
+        "integration_type": "continuous_replication",
+        "direction": "primary_to_standby"
+      },
+      "context": "- Continuous replication to standby database",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_sys_001",
+      "source_name": "FirstUK Production Database",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_met_001",
+      "target_name": "Recovery Point Objective (RPO)",
+      "rel_type": "measured_by",
+      "description": "Tracks data loss tolerance to ensure recovery point does not exceed 15 minutes",
+      "properties": {
+        "target_value": "15 minutes",
+        "frequency": "continuous_replication_check"
+      },
+      "context": "- RPO: 15 minutes",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_sys_001",
+      "source_name": "FirstUK Production Database",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_met_002",
+      "target_name": "Recovery Time Objective (RTO)",
+      "rel_type": "measured_by",
+      "description": "Tracks system restoration tolerance to ensure recovery time does not exceed 2 hours",
+      "properties": {
+        "target_value": "2 hours",
+        "frequency": "disaster_recovery_test"
+      },
+      "context": "- RTO: 2 hours",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_sys_001",
+      "source_name": "FirstUK Production Database",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_sys_002",
+      "source_name": "Standby Database",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_001",
+      "source_name": "Account",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_002",
+      "source_name": "Customer",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_003",
+      "source_name": "Transaction",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_004",
+      "source_name": "Account Holder",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_005",
+      "source_name": "Standing Order",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_006",
+      "source_name": "Direct Debit",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_007",
+      "source_name": "Card",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_008",
+      "source_name": "KYC Verification",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_009",
+      "source_name": "AML Screening",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_010",
+      "source_name": "Product",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_met_001",
+      "source_name": "Recovery Point Objective (RPO)",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_met_002",
+      "source_name": "Recovery Time Objective (RTO)",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    }
+  ]
+}

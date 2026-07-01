@@ -1,0 +1,1930 @@
+{
+  "embedding": [
+    0.024039602,
+    0.029363364,
+    -0.1474616,
+    -0.03432471,
+    0.033603217,
+    -0.057931714,
+    0.08245659,
+    -0.021267049,
+    0.06065238,
+    -0.012905312,
+    -0.032600056,
+    0.023941116,
+    0.06427835,
+    -0.01793562,
+    -0.015846316,
+    0.04199536,
+    -0.032958787,
+    -0.004163443,
+    -0.012567734,
+    -0.03037771,
+    -0.012757553,
+    -0.07482332,
+    -0.0060392767,
+    0.010235586,
+    0.07533704,
+    0.08154058,
+    -0.014702987,
+    -0.027971845,
+    -0.03662738,
+    0.015018618,
+    0.036844186,
+    0.020459495,
+    -0.029945377,
+    -0.028214982,
+    -0.014310827,
+    -0.04286752,
+    0.02961724,
+    0.014966284,
+    -0.018371124,
+    -0.045132067,
+    0.0030364709,
+    0.007738139,
+    0.006568425,
+    -0.008123692,
+    0.01835935,
+    0.044926353,
+    0.08018138,
+    0.0111834,
+    0.0765793,
+    -0.04578743,
+    -0.018931197,
+    0.008778691,
+    0.014993545,
+    0.05104451,
+    0.027056804,
+    -0.03291779,
+    -0.009563899,
+    0.043115765,
+    -0.037614264,
+    -0.0702313,
+    0.11827967,
+    0.05878159,
+    -0.0035468817,
+    0.10138496,
+    0.039812967,
+    -0.01112646,
+    -0.01772636,
+    0.019410904,
+    -0.00044187147,
+    -0.03357006,
+    0.027077848,
+    0.016857177,
+    -0.0041225664,
+    -0.021172227,
+    0.06975563,
+    -0.0009931772,
+    -0.036615223,
+    -0.035895333,
+    0.036740374,
+    0.0353651,
+    0.06678249,
+    0.023440279,
+    0.067650884,
+    -0.009819135,
+    0.052621324,
+    -0.037333768,
+    -0.05958941,
+    -0.043455057,
+    -0.040389378,
+    0.052415233,
+    -0.0022237087,
+    0.033261076,
+    0.0060046725,
+    -0.020664025,
+    -0.095361084,
+    0.037384912,
+    0.017818715,
+    -0.019932857,
+    -0.085434355,
+    0.017728675,
+    -0.04322347,
+    -0.053274825,
+    0.053401433,
+    0.027640158,
+    0.08101819,
+    0.017101374,
+    0.0042426945,
+    0.029804077,
+    0.018039411,
+    0.03276394,
+    0.032011542,
+    0.029469699,
+    -0.027139928,
+    -0.030170495,
+    -0.012440395,
+    0.0077392217,
+    0.057366822,
+    0.03420869,
+    -0.021510758,
+    0.04456821,
+    -0.00912004,
+    -0.056902863,
+    -0.008209946,
+    0.027432721,
+    -0.014948632,
+    0.00069400924,
+    -0.053586926,
+    0.0029369388,
+    0.021408422,
+    -0.009009736,
+    -0.019832607,
+    -0.033789136,
+    -0.044529345,
+    -0.020824527,
+    0.036066025,
+    0.024530811,
+    0.0038861148,
+    -0.05585998,
+    -0.004016085,
+    0.0039613736,
+    0.019348409,
+    0.012852042,
+    -0.0057755746,
+    0.025627319,
+    -0.022362871,
+    -0.045844134,
+    0.05290469,
+    0.0009744651,
+    -0.017015234,
+    0.03341232,
+    -0.025741043,
+    -0.013544675,
+    -0.014981881,
+    0.03384694,
+    -0.004814116,
+    -0.060415823,
+    -0.028910637,
+    -0.01969028,
+    0.032597013,
+    0.027033165,
+    0.04015434,
+    -0.0030183105,
+    0.0077432515,
+    0.0373067,
+    -0.008596117,
+    -0.0963008,
+    -0.016265009,
+    0.069908895,
+    0.08440797,
+    -0.013632997,
+    -0.0004389979,
+    -0.009986173,
+    -0.016303362,
+    -0.0053266627,
+    0.056196243,
+    0.036659908,
+    0.049287885,
+    -0.02979365,
+    0.075185895,
+    -0.027894584,
+    0.00583463,
+    -0.06310573,
+    0.04862776,
+    0.06725138,
+    -0.05759962,
+    -0.013563363,
+    0.034899276,
+    -0.03815738,
+    -0.021259898,
+    -0.047334656,
+    0.005022727,
+    0.017411863,
+    -0.041011244,
+    -0.01125776,
+    -0.03796697,
+    0.01734964,
+    0.055727847,
+    -0.0002803001,
+    0.005970052,
+    -0.06089919,
+    0.01807964,
+    0.01875819,
+    -0.03738615,
+    0.020058107,
+    0.002527001,
+    0.008921684,
+    0.010408657,
+    0.026638182,
+    -0.009958459,
+    0.022389388,
+    0.052575074,
+    -0.004939036,
+    -0.019795781,
+    -0.0122737605,
+    0.0064582946,
+    0.02568067,
+    0.016996186,
+    -0.016382588,
+    0.02165923,
+    0.015901513,
+    0.024631904,
+    -0.040954355,
+    0.026999215,
+    -0.019268775,
+    0.048678614,
+    -0.00878569,
+    -0.030083062,
+    -0.008882771,
+    -0.003020775,
+    -0.018700214,
+    -0.031269997,
+    -0.034466404,
+    0.03768239,
+    -0.015378477,
+    -0.0035866064,
+    -0.016994951,
+    -0.020397937,
+    0.061372604,
+    -0.008123806,
+    0.019140698,
+    0.0048214914,
+    0.058592185,
+    -0.034245294,
+    0.039854933,
+    -0.021723121,
+    0.06236701,
+    0.0077651194,
+    -0.01509795,
+    0.023071958,
+    0.026356898,
+    0.011408828,
+    -0.009030228,
+    0.034647975,
+    -0.030361012,
+    0.034026682,
+    -0.0716133,
+    0.0061656623,
+    -0.03919227,
+    0.030020572,
+    0.014202183,
+    0.035391096,
+    0.006086869,
+    0.050960816,
+    0.0034952718,
+    0.037976924,
+    -0.04845161,
+    -0.052663624,
+    -0.013833937,
+    0.055856165,
+    0.010537367,
+    0.01974004,
+    0.03159636,
+    -0.041109446,
+    0.1055211,
+    0.007974364,
+    -0.032135423,
+    0.013697979,
+    -0.016465034,
+    -0.0361948,
+    0.07088178,
+    -0.05036118,
+    -0.08311712,
+    -0.009426813,
+    0.0041982853,
+    -0.04194429,
+    0.027729023,
+    0.015382,
+    0.015695564,
+    0.03701358,
+    0.02002923,
+    0.065662846,
+    0.009924494,
+    -0.02748498,
+    0.010474935,
+    -0.044737495,
+    -0.02740637,
+    0.048097335,
+    -0.0013431074,
+    0.039632823,
+    -0.039013974,
+    0.017519446,
+    0.026188657,
+    0.034937423,
+    0.027930109,
+    -0.050759055,
+    -0.029570894,
+    0.028169353,
+    0.0017378104,
+    0.0128932865,
+    0.013094486,
+    -0.030042624,
+    -0.02910193,
+    -0.01301178,
+    -0.02755663,
+    -0.02860854,
+    0.058375422,
+    0.040491,
+    0.01158134,
+    0.07164246,
+    0.002221168,
+    -0.026356075,
+    -0.037999917,
+    -0.017503753,
+    -0.026694784,
+    0.0100190155,
+    0.036880527,
+    -0.06605543,
+    0.03561593,
+    -0.047096085,
+    -0.023459926,
+    -0.016613962,
+    0.0076105124,
+    0.031568773,
+    -0.045781966,
+    0.01122974,
+    0.030984256,
+    0.05245,
+    -0.0096370485,
+    -0.0067135463,
+    -0.02058974,
+    0.025998991,
+    -0.011246871,
+    0.014603982,
+    -0.064784,
+    -0.03375886,
+    -0.01684095,
+    -0.018944984,
+    0.0037303062,
+    0.04424134,
+    0.02213189,
+    -0.0006136728,
+    0.0035456338,
+    0.007992812,
+    -0.042673793,
+    -0.026921315,
+    -0.05892124,
+    -0.0035058095,
+    0.06273666,
+    0.035951458,
+    -0.014747825,
+    0.036666326,
+    -0.031243011,
+    0.0074543627,
+    -0.011950134,
+    0.018044462,
+    0.02484257,
+    0.03111498,
+    -0.05618664,
+    0.031697188,
+    -0.038418602,
+    0.050732527,
+    -0.034369353,
+    0.0016731047,
+    0.0049592485,
+    0.027475722,
+    -0.024526006,
+    -0.101638086,
+    -0.016341932,
+    -0.021340678,
+    0.03803914,
+    0.01615148,
+    -0.008535238,
+    0.027208949,
+    0.03684516,
+    -0.04951628,
+    -0.017604873,
+    -0.024714703,
+    -0.021697348,
+    0.003680636,
+    0.00080483523,
+    -0.008329286,
+    0.003879275,
+    -0.057863206,
+    -0.025678102,
+    0.033855412,
+    -0.04659257,
+    -0.003160269,
+    -0.011008833,
+    0.012519933,
+    0.070531555,
+    -0.058511954,
+    -0.020966984,
+    -0.0035447208,
+    -0.05232157,
+    0.0091666905,
+    0.017435152,
+    -0.023956476,
+    -0.056085374,
+    0.010081763,
+    -0.008404221,
+    0.055537116,
+    0.029779421,
+    0.011966096,
+    -0.024305,
+    0.030832373,
+    -0.00079774176,
+    0.07302473,
+    -0.0040061506,
+    0.01183358,
+    -0.05210411,
+    0.04681313,
+    0.046772856,
+    0.015052483,
+    -0.012354467,
+    0.010062351,
+    0.01290235,
+    -0.009114911,
+    0.0160161,
+    -0.018006433,
+    -0.04213254,
+    0.007927704,
+    0.024553258,
+    0.044367485,
+    -0.011402159,
+    -0.007923834,
+    0.030544909,
+    0.048185367,
+    -0.037186902,
+    0.030768802,
+    0.050039522,
+    0.04668889,
+    -0.039672732,
+    0.0038582808,
+    -0.02028817,
+    0.036816336,
+    0.063541956,
+    0.0072553456,
+    -0.049753778,
+    -0.014281607,
+    0.04107986,
+    0.05594953,
+    0.020936124,
+    0.010225846,
+    -0.0038183536,
+    0.039529566,
+    -0.05851514,
+    0.030542593,
+    -0.0036594179,
+    0.017692477,
+    0.031566825,
+    0.0064945547,
+    0.055810563,
+    -0.04172494,
+    0.016913172,
+    -0.010550802,
+    -0.026530031,
+    0.049493942,
+    -0.046662398,
+    0.025936276,
+    0.05193201,
+    -0.040548053,
+    -0.029364271,
+    0.01614648,
+    -0.05206289,
+    0.02140765,
+    0.034702417,
+    -0.0021131025,
+    -0.015498634,
+    0.0281412,
+    0.041058276,
+    0.005800011,
+    -0.00343318,
+    -0.056162022,
+    -0.015260498,
+    -0.021012858,
+    0.0056056245,
+    0.053665537,
+    -0.06441498,
+    0.029205853,
+    0.014376062,
+    0.0018303263,
+    -0.020892939,
+    0.027093349,
+    -0.031045942,
+    0.02063673,
+    0.006800443,
+    -0.02648933,
+    0.0108317435,
+    0.014942437,
+    -0.028680084,
+    0.05449738,
+    0.051892366,
+    -0.0319679,
+    0.019231243,
+    -0.008337827,
+    -0.056683384,
+    -0.0045966655,
+    -0.056229603,
+    -0.013959032,
+    0.0046588355,
+    0.005653672,
+    0.0025013534,
+    0.02681078,
+    0.014056036,
+    0.033822507,
+    -0.06728503,
+    -0.017110184,
+    0.0413539,
+    -0.022145193,
+    -0.0016068002,
+    -0.045485154,
+    -0.017286928,
+    0.016891064,
+    -0.023837568,
+    -0.041414667,
+    0.024716265,
+    0.06007906,
+    -0.040791012,
+    0.07500268,
+    -0.015198582,
+    0.020669643,
+    0.04625995,
+    0.017266495,
+    -0.01807371,
+    0.046346966,
+    -0.043146092,
+    -0.063513964,
+    0.026175426,
+    0.073803365,
+    0.028530428,
+    0.018920312,
+    -0.01326648,
+    -0.039972365,
+    -0.032588534,
+    0.010175173,
+    -0.061402384,
+    0.0075102923,
+    0.016769817,
+    0.023633761,
+    -0.05147608,
+    0.021084653,
+    -0.041602362,
+    0.022437014,
+    -0.07221388,
+    0.017640615,
+    0.02709203,
+    -0.0033975253,
+    0.0050751963,
+    -0.02403007,
+    -0.023765897,
+    0.004012671,
+    0.026609035,
+    0.0640197,
+    0.018257994,
+    0.014582933,
+    -0.053766403,
+    0.013645411,
+    0.017700633,
+    0.0024766533,
+    0.014201357,
+    0.027610952,
+    -0.015106784,
+    -0.013960737,
+    -0.018090136,
+    0.03507316,
+    0.027475134,
+    -0.030980404,
+    -0.00984657,
+    -0.03629808,
+    -0.020447487,
+    0.010057627,
+    -0.04577046,
+    0.03794204,
+    0.05153873,
+    -0.01090467,
+    -0.008999684,
+    -0.02286952,
+    -0.061964545,
+    0.016821459,
+    -0.05310712,
+    -0.0194529,
+    0.042565428,
+    0.042851873,
+    -0.009026552,
+    -0.022753956,
+    0.023239031,
+    -0.0023034308,
+    -0.02049187,
+    -0.016578916,
+    -0.07415145,
+    -0.005436521,
+    -0.00030928335,
+    0.020120429,
+    -0.0330527,
+    0.013443927,
+    0.016856913,
+    -0.0012433912,
+    0.008808923,
+    0.002176505,
+    -0.0047837836,
+    0.0076713213,
+    -0.029667737,
+    -0.061103515,
+    0.016158981,
+    0.036932994,
+    -0.012216452,
+    0.06586835,
+    0.0030597216,
+    -0.004717505,
+    -0.013988127,
+    -0.06807066,
+    -0.041907102,
+    0.037556317,
+    -0.029778248,
+    0.011286892,
+    -0.061911024,
+    -0.028056197,
+    -0.03219769,
+    -0.03808562,
+    0.050117694,
+    -0.021007696,
+    0.045977704,
+    -0.02895101,
+    -0.054214302,
+    -0.06603306,
+    0.020410981,
+    3.5198544e-05,
+    -0.0023960238,
+    -0.0072398745,
+    -0.0060504433,
+    0.026288006,
+    0.013151404,
+    -0.002378538,
+    0.041958783,
+    0.030856455,
+    -0.04671761,
+    0.0070182197,
+    0.06649846,
+    0.0777332,
+    -0.0037769575,
+    0.0897232,
+    0.05311582,
+    0.06583019,
+    -0.038600646,
+    -0.006390394,
+    -0.070927456,
+    0.007351489,
+    -0.036157813,
+    -0.012358558,
+    -0.039868463,
+    -0.024503587,
+    0.008147254,
+    -0.013772961,
+    -0.04149653,
+    0.03416977,
+    0.015773619,
+    -0.0016326556,
+    0.038331654,
+    -0.04261641,
+    -0.03731558,
+    -0.013463203,
+    0.006525362,
+    -0.016082907,
+    0.013725077,
+    -0.03431198,
+    0.036418997,
+    0.04593332,
+    -0.020614276,
+    -0.022301678,
+    -0.025744041,
+    0.025081988,
+    -0.00027808294,
+    0.022933098,
+    -0.013476662,
+    0.042059947,
+    -0.037978113,
+    0.014205523,
+    0.03428895,
+    -0.0045861364,
+    -0.034450147,
+    -0.023356069,
+    -0.06749115,
+    -0.007025346,
+    -0.024125053,
+    0.010606973,
+    0.03313499,
+    0.01950893,
+    -0.03865596,
+    -0.003148413,
+    0.0016930464,
+    -0.051902734,
+    -0.02216021,
+    0.018454628,
+    0.08478503,
+    -0.020988662,
+    -0.045619868,
+    0.028256563,
+    0.002666976,
+    -0.028067322,
+    -0.016520156,
+    -0.06399746,
+    -0.0068420446,
+    -0.009623286,
+    0.03583229,
+    -0.004207769,
+    -0.014547646,
+    -0.043855138,
+    -0.01563967,
+    -0.026999813,
+    0.031408656,
+    0.051122095,
+    -0.009604876,
+    -0.061995264,
+    -0.06312174,
+    -0.031750076,
+    -0.0061965496,
+    0.034117933,
+    -0.04182984,
+    -0.034904003,
+    -0.07298693,
+    -0.03513755,
+    -0.008920694,
+    -0.054947894,
+    0.070672244,
+    -0.015360428,
+    -0.0053982236,
+    -0.05821269,
+    -0.041275878,
+    -0.0701257,
+    -0.03586962,
+    -0.069975205,
+    -0.018709054,
+    -0.062736474,
+    -0.0074355924,
+    0.023389546,
+    -0.0104157245,
+    0.047595523,
+    0.016548818,
+    0.021197706,
+    -0.02667055,
+    0.023100791,
+    -0.024794374,
+    -0.029264912,
+    0.011529565,
+    0.012475854,
+    0.042384878,
+    0.03869954,
+    0.015889425,
+    0.055445157,
+    0.017986143,
+    0.016988192,
+    -0.015087863,
+    0.041226305,
+    0.04471766,
+    -0.026539743,
+    -0.08753611,
+    -0.040238004,
+    0.044007454
+  ],
+  "chunk_seq": 4,
+  "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+  "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+  "text": "## Application Landscape  \n### Core Banking Systems  \n#### 1. Account Management System (AMS)  \n**System ID:** AMS-001\n**Purpose:** Central repository for customer accounts, balances, and transactions\n**Technology:** Java microservices, PostgreSQL database\n**Deployment:** Cloud (AWS)\n**Availability:** 99.9% (SLA)  \n**Key Functions:**\n- Account creation and lifecycle\n- Balance management\n- Transaction recording\n- Interest calculation\n- Account status tracking  \n**Data Model:**\n- Customers\n- Accounts (see [[business_ontology]])\n- Account Holders (primary, secondary, joint)\n- Transactions\n- Account Status  \n**APIs Exposed:**\n- `POST /accounts` — Create account\n- `GET /accounts/{accountId}` — Retrieve account details\n- `GET /accounts/{accountId}/balance` — Get balance\n- `GET /accounts/{accountId}/transactions` — Transaction history\n- `POST /accounts/{accountId}/transactions` — Record transaction  \n**Integration:**\n- Internet Banking Platform (IBP)\n- Mobile Banking App\n- Fraud Detection Engine\n- Data Warehouse  \n**Database:**\n- PostgreSQL 13+\n- 800 accounts × 2,000+ transactions = 1.6M records\n- Backup: Daily encrypted backup to S3\n- Recovery Point Objective (RPO): 15 minutes  \n---",
+  "name": "Chunk 4/39",
+  "domain": "banking_organization",
+  "prev_chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_003",
+  "next_chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+  "raw_entities": [
+    {
+      "id": "sys_001",
+      "name": "Account Management System",
+      "aliases": [
+        "AMS",
+        "AMS-001"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "core_banking",
+      "description": "Serves as the central repository for managing customer accounts, balances, and transactions. Built on Java microservices and PostgreSQL, it operates in a cloud environment (AWS) and exposes RESTful APIs for account lifecycle management, balance retrieval, and transaction recording. It integrates with internet banking, mobile apps, fraud detection, and data warehousing systems.",
+      "context": [
+        "Central repository for customer accounts, balances, and transactions",
+        "Account creation and lifecycle",
+        "Balance management",
+        "Transaction recording"
+      ]
+    },
+    {
+      "id": "sys_002",
+      "name": "Internet Banking Platform",
+      "aliases": [
+        "IBP"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "internet_banking",
+      "description": "A customer-facing digital channel that integrates with the core account management system to deliver online banking services and facilitate account access through web interfaces.",
+      "context": [
+        "Internet Banking Platform (IBP)"
+      ]
+    },
+    {
+      "id": "sys_003",
+      "name": "Mobile Banking App",
+      "aliases": [],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "mobile_banking",
+      "description": "A mobile application integrated with the core banking infrastructure to provide customers with account access and transaction capabilities on mobile devices.",
+      "context": [
+        "Mobile Banking App"
+      ]
+    },
+    {
+      "id": "sys_004",
+      "name": "Fraud Detection Engine",
+      "aliases": [],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "fraud_detection",
+      "description": "A security and compliance system integrated with the account management platform to monitor and identify potentially fraudulent activities across customer accounts and transactions.",
+      "context": [
+        "Fraud Detection Engine"
+      ]
+    },
+    {
+      "id": "sys_005",
+      "name": "Data Warehouse",
+      "aliases": [],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "analytics",
+      "description": "A centralized data repository that ingests information from the account management system to support analytical reporting, business intelligence, and historical data analysis.",
+      "context": [
+        "Data Warehouse"
+      ]
+    },
+    {
+      "id": "sys_006",
+      "name": "PostgreSQL Database",
+      "aliases": [
+        "PostgreSQL 13+"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "database",
+      "description": "The underlying relational database technology powering the Account Management System, storing core banking data and supporting high-volume transaction processing with defined record scaling.",
+      "context": [
+        "PostgreSQL 13+",
+        "800 accounts × 2,000+ transactions = 1.6M records"
+      ]
+    },
+    {
+      "id": "sys_007",
+      "name": "AWS Cloud Infrastructure",
+      "aliases": [
+        "Cloud (AWS)"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "cloud_infrastructure",
+      "description": "The cloud hosting environment where the Account Management System and its associated microservices are deployed to ensure scalability, performance, and high availability.",
+      "context": [
+        "Deployment: Cloud (AWS)"
+      ]
+    },
+    {
+      "id": "met_001",
+      "name": "System Availability SLA",
+      "aliases": [
+        "99.9% SLA"
+      ],
+      "entity_class": "METRIC_TARGET",
+      "type": "availability_target",
+      "description": "The defined service level agreement specifying the required uptime percentage for the Account Management System to ensure continuous operational access and meet customer expectations.",
+      "context": [
+        "Availability: 99.9% (SLA)"
+      ]
+    },
+    {
+      "id": "met_002",
+      "name": "Recovery Point Objective",
+      "aliases": [
+        "RPO",
+        "15 minutes RPO"
+      ],
+      "entity_class": "METRIC_TARGET",
+      "type": "operational_limit",
+      "description": "The maximum acceptable amount of data loss measured in time, defining the recovery target for the system's database backups and ensuring minimal data disruption during failover events.",
+      "context": [
+        "Recovery Point Objective (RPO): 15 minutes"
+      ]
+    },
+    {
+      "id": "met_003",
+      "name": "Daily Encrypted Backup Schedule",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "operational_limit",
+      "description": "A defined data protection frequency and security standard ensuring regular, encrypted preservation of critical banking records to S3 storage for disaster recovery compliance.",
+      "context": [
+        "Backup: Daily encrypted backup to S3"
+      ]
+    },
+    {
+      "id": "bnk_001",
+      "name": "Customer",
+      "aliases": [
+        "Customers"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "customer",
+      "description": "A primary party entity within the banking ontology, representing individuals or entities whose accounts and transactions are managed by the core system.",
+      "context": [
+        "Customers",
+        "Central repository for customer accounts"
+      ]
+    },
+    {
+      "id": "bnk_002",
+      "name": "Account",
+      "aliases": [
+        "Accounts"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "account",
+      "description": "A core banking product entity that holds balances and records transactions, serving as a fundamental data model component within the account management system.",
+      "context": [
+        "Accounts (see [[business_ontology]])",
+        "Account creation and lifecycle"
+      ]
+    },
+    {
+      "id": "bnk_003",
+      "name": "Account Holder",
+      "aliases": [],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "account_holder",
+      "description": "A party role associated with an account, defined by primary, secondary, or joint ownership structures within the banking data model.",
+      "context": [
+        "Account Holders (primary, secondary, joint)"
+      ]
+    },
+    {
+      "id": "bnk_004",
+      "name": "Transaction",
+      "aliases": [
+        "Transactions"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "transaction",
+      "description": "A financial event recorded within an account, representing the movement or recording of funds that contributes to balance management and historical tracking.",
+      "context": [
+        "Transaction recording",
+        "GET /accounts/{accountId}/transactions — Transaction history"
+      ]
+    },
+    {
+      "id": "bnk_005",
+      "name": "Interest Rate",
+      "aliases": [],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "interest_rate",
+      "description": "A financial parameter calculated and applied to accounts, representing the cost of borrowing or return on deposits as part of account lifecycle management.",
+      "context": [
+        "Interest calculation"
+      ]
+    },
+    {
+      "id": "bnk_006",
+      "name": "Account Status",
+      "aliases": [],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "feature",
+      "description": "A tracking attribute that defines the current operational state or lifecycle phase of a customer account within the banking system.",
+      "context": [
+        "Account status tracking",
+        "Account Status"
+      ]
+    }
+  ],
+  "id_map": {
+    "sys_001": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_001",
+    "sys_002": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_002",
+    "sys_003": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_003",
+    "sys_004": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_004",
+    "sys_005": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_005",
+    "sys_006": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_006",
+    "sys_007": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_007",
+    "met_001": "c98d3d3d6b9945b1b7e79a809edddbcb_004_met_001",
+    "met_002": "c98d3d3d6b9945b1b7e79a809edddbcb_004_met_002",
+    "met_003": "c98d3d3d6b9945b1b7e79a809edddbcb_004_met_003",
+    "bnk_001": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_001",
+    "bnk_002": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_002",
+    "bnk_003": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_003",
+    "bnk_004": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_004",
+    "bnk_005": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_005",
+    "bnk_006": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_006"
+  },
+  "entities": [
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_001",
+      "name": "Account Management System",
+      "aliases": [
+        "AMS",
+        "AMS-001"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "core_banking",
+      "description": "Serves as the central repository for managing customer accounts, balances, and transactions. Built on Java microservices and PostgreSQL, it operates in a cloud environment (AWS) and exposes RESTful APIs for account lifecycle management, balance retrieval, and transaction recording. It integrates with internet banking, mobile apps, fraud detection, and data warehousing systems.",
+      "context": [
+        "Central repository for customer accounts, balances, and transactions",
+        "Account creation and lifecycle",
+        "Balance management",
+        "Transaction recording"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_002",
+      "name": "Internet Banking Platform",
+      "aliases": [
+        "IBP"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "internet_banking",
+      "description": "A customer-facing digital channel that integrates with the core account management system to deliver online banking services and facilitate account access through web interfaces.",
+      "context": [
+        "Internet Banking Platform (IBP)"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_003",
+      "name": "Mobile Banking App",
+      "aliases": [],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "mobile_banking",
+      "description": "A mobile application integrated with the core banking infrastructure to provide customers with account access and transaction capabilities on mobile devices.",
+      "context": [
+        "Mobile Banking App"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_004",
+      "name": "Fraud Detection Engine",
+      "aliases": [],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "fraud_detection",
+      "description": "A security and compliance system integrated with the account management platform to monitor and identify potentially fraudulent activities across customer accounts and transactions.",
+      "context": [
+        "Fraud Detection Engine"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_005",
+      "name": "Data Warehouse",
+      "aliases": [],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "analytics",
+      "description": "A centralized data repository that ingests information from the account management system to support analytical reporting, business intelligence, and historical data analysis.",
+      "context": [
+        "Data Warehouse"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_006",
+      "name": "PostgreSQL Database",
+      "aliases": [
+        "PostgreSQL 13+"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "database",
+      "description": "The underlying relational database technology powering the Account Management System, storing core banking data and supporting high-volume transaction processing with defined record scaling.",
+      "context": [
+        "PostgreSQL 13+",
+        "800 accounts × 2,000+ transactions = 1.6M records"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_007",
+      "name": "AWS Cloud Infrastructure",
+      "aliases": [
+        "Cloud (AWS)"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "cloud_infrastructure",
+      "description": "The cloud hosting environment where the Account Management System and its associated microservices are deployed to ensure scalability, performance, and high availability.",
+      "context": [
+        "Deployment: Cloud (AWS)"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_met_001",
+      "name": "System Availability SLA",
+      "aliases": [
+        "99.9% SLA"
+      ],
+      "entity_class": "METRIC_TARGET",
+      "type": "availability_target",
+      "description": "The defined service level agreement specifying the required uptime percentage for the Account Management System to ensure continuous operational access and meet customer expectations.",
+      "context": [
+        "Availability: 99.9% (SLA)"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_met_002",
+      "name": "Recovery Point Objective",
+      "aliases": [
+        "RPO",
+        "15 minutes RPO"
+      ],
+      "entity_class": "METRIC_TARGET",
+      "type": "operational_limit",
+      "description": "The maximum acceptable amount of data loss measured in time, defining the recovery target for the system's database backups and ensuring minimal data disruption during failover events.",
+      "context": [
+        "Recovery Point Objective (RPO): 15 minutes"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_met_003",
+      "name": "Daily Encrypted Backup Schedule",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "operational_limit",
+      "description": "A defined data protection frequency and security standard ensuring regular, encrypted preservation of critical banking records to S3 storage for disaster recovery compliance.",
+      "context": [
+        "Backup: Daily encrypted backup to S3"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_001",
+      "name": "Customer",
+      "aliases": [
+        "Customers"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "customer",
+      "description": "A primary party entity within the banking ontology, representing individuals or entities whose accounts and transactions are managed by the core system.",
+      "context": [
+        "Customers",
+        "Central repository for customer accounts"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_002",
+      "name": "Account",
+      "aliases": [
+        "Accounts"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "account",
+      "description": "A core banking product entity that holds balances and records transactions, serving as a fundamental data model component within the account management system.",
+      "context": [
+        "Accounts (see [[business_ontology]])",
+        "Account creation and lifecycle"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_003",
+      "name": "Account Holder",
+      "aliases": [],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "account_holder",
+      "description": "A party role associated with an account, defined by primary, secondary, or joint ownership structures within the banking data model.",
+      "context": [
+        "Account Holders (primary, secondary, joint)"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_004",
+      "name": "Transaction",
+      "aliases": [
+        "Transactions"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "transaction",
+      "description": "A financial event recorded within an account, representing the movement or recording of funds that contributes to balance management and historical tracking.",
+      "context": [
+        "Transaction recording",
+        "GET /accounts/{accountId}/transactions — Transaction history"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_005",
+      "name": "Interest Rate",
+      "aliases": [],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "interest_rate",
+      "description": "A financial parameter calculated and applied to accounts, representing the cost of borrowing or return on deposits as part of account lifecycle management.",
+      "context": [
+        "Interest calculation"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_006",
+      "name": "Account Status",
+      "aliases": [],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "feature",
+      "description": "A tracking attribute that defines the current operational state or lifecycle phase of a customer account within the banking system.",
+      "context": [
+        "Account status tracking",
+        "Account Status"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    }
+  ],
+  "properties": [
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_001",
+      "name": "Account Management System",
+      "properties": {
+        "system_id": "AMS-001",
+        "purpose": "Central repository for customer accounts, balances, and transactions",
+        "technology_stack": [
+          "Java microservices",
+          "PostgreSQL database"
+        ],
+        "deployment": "Cloud (AWS)",
+        "availability_sla": "99.9%",
+        "key_functions": [
+          "Account creation and lifecycle",
+          "Balance management",
+          "Transaction recording",
+          "Interest calculation",
+          "Account status tracking"
+        ],
+        "apis_exposed": [
+          "POST /accounts",
+          "GET /accounts/{accountId}",
+          "GET /accounts/{accountId}/balance",
+          "GET /accounts/{accountId}/transactions",
+          "POST /accounts/{accountId}/transactions"
+        ],
+        "integrations": [
+          "Internet Banking Platform",
+          "Mobile Banking App",
+          "Fraud Detection Engine",
+          "Data Warehouse"
+        ]
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_002",
+      "name": "Internet Banking Platform",
+      "properties": {
+        "integrated_with": [
+          "Account Management System"
+        ]
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_003",
+      "name": "Mobile Banking App",
+      "properties": {
+        "integrated_with": [
+          "Account Management System"
+        ]
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_004",
+      "name": "Fraud Detection Engine",
+      "properties": {
+        "integrated_with": [
+          "Account Management System"
+        ]
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_005",
+      "name": "Data Warehouse",
+      "properties": {
+        "integrated_with": [
+          "Account Management System"
+        ]
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_006",
+      "name": "PostgreSQL Database",
+      "properties": {
+        "technology_stack": [
+          "PostgreSQL 13+"
+        ],
+        "data_volume": "1.6M records (800 accounts × 2,000+ transactions)",
+        "backup_method": "Daily encrypted backup to S3"
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_007",
+      "name": "AWS Cloud Infrastructure",
+      "properties": {
+        "deployment_environment": [
+          "AWS"
+        ],
+        "used_by": [
+          "Account Management System"
+        ]
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_met_001",
+      "name": "System Availability SLA",
+      "properties": {
+        "value": "99.9",
+        "unit": "percentage",
+        "what_it_measures": "Target system uptime/availability",
+        "applies_to": [
+          "Account Management System"
+        ]
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_met_002",
+      "name": "Recovery Point Objective",
+      "properties": {
+        "value": "15",
+        "unit": "minutes",
+        "what_it_measures": "Maximum acceptable data loss window during recovery",
+        "applies_to": [
+          "Account Management System"
+        ]
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_met_003",
+      "name": "Daily Encrypted Backup Schedule",
+      "properties": {
+        "value": "Daily",
+        "unit": "frequency",
+        "what_it_measures": "Cadence of data backup operations",
+        "storage_target": "S3",
+        "encryption": "Encrypted",
+        "applies_to": [
+          "Account Management System"
+        ]
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_001",
+      "name": "Customer",
+      "properties": {
+        "definition": "Entities whose financial records are managed by the AMS",
+        "relationships_to": [
+          "Account",
+          "Account Holder"
+        ]
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_002",
+      "name": "Account",
+      "properties": {
+        "definition": "Financial record managed by the AMS containing balances and transactions",
+        "key_attributes": [
+          "balance"
+        ],
+        "business_rules": [
+          "Requires lifecycle management and balance tracking"
+        ],
+        "relationships_to": [
+          "Customer",
+          "Transaction",
+          "Account Holder"
+        ]
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_003",
+      "name": "Account Holder",
+      "properties": {
+        "definition": "Entity linked to an account for ownership or access purposes",
+        "subtypes": [
+          "primary",
+          "secondary",
+          "joint"
+        ],
+        "relationships_to": [
+          "Account",
+          "Customer"
+        ]
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_004",
+      "name": "Transaction",
+      "properties": {
+        "definition": "Record of financial movement linked to an account",
+        "business_rules": [
+          "Must be recorded against a valid account"
+        ],
+        "relationships_to": [
+          "Account",
+          "Customer"
+        ]
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_005",
+      "name": "Interest Rate",
+      "properties": {
+        "definition": "Rate used for calculating interest on accounts",
+        "business_rules": [
+          "Calculated during account lifecycle management"
+        ],
+        "relationships_to": [
+          "Account"
+        ]
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_006",
+      "name": "Account Status",
+      "properties": {
+        "definition": "Current state or phase of an account",
+        "business_rules": [
+          "Must be tracked throughout the account lifecycle"
+        ],
+        "relationships_to": [
+          "Account"
+        ]
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_001",
+      "source_name": "Account Management System",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_002",
+      "target_name": "Internet Banking Platform",
+      "rel_type": "integrates_with",
+      "description": "AMS integrates with the Internet Banking Platform to provide account data and transaction services.",
+      "properties": {
+        "integration_type": "sync_api",
+        "protocol": "REST"
+      },
+      "context": "Integration: - Internet Banking Platform (IBP)",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_001",
+      "source_name": "Account Management System",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_003",
+      "target_name": "Mobile Banking App",
+      "rel_type": "integrates_with",
+      "description": "AMS integrates with the Mobile Banking App to support mobile account access and transactions.",
+      "properties": {
+        "integration_type": "sync_api",
+        "protocol": "REST"
+      },
+      "context": "Integration: - Mobile Banking App",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_001",
+      "source_name": "Account Management System",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_004",
+      "target_name": "Fraud Detection Engine",
+      "rel_type": "integrates_with",
+      "description": "AMS integrates with the Fraud Detection Engine to enable real-time transaction monitoring and fraud prevention.",
+      "properties": {
+        "integration_type": "sync_api",
+        "use_case": "fraud_monitoring"
+      },
+      "context": "Integration: - Fraud Detection Engine",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_001",
+      "source_name": "Account Management System",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_005",
+      "target_name": "Data Warehouse",
+      "rel_type": "feeds_data_to",
+      "description": "AMS feeds account and transaction data to the Data Warehouse for analytics and reporting.",
+      "properties": {
+        "integration_type": "batch",
+        "data_flow": "account_transaction_history"
+      },
+      "context": "Integration: - Data Warehouse",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_001",
+      "source_name": "Account Management System",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_006",
+      "target_name": "PostgreSQL Database",
+      "rel_type": "depends_on",
+      "description": "AMS relies on PostgreSQL as its primary relational database for storing account and transaction data.",
+      "properties": {
+        "version": "13+",
+        "role": "primary_persistence_layer"
+      },
+      "context": "Technology: Java microservices, PostgreSQL database",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_001",
+      "source_name": "Account Management System",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_007",
+      "target_name": "AWS Cloud Infrastructure",
+      "rel_type": "depends_on",
+      "description": "AMS is deployed on and depends on AWS Cloud Infrastructure for hosting and scalability.",
+      "properties": {
+        "deployment_model": "cloud",
+        "provider": "AWS"
+      },
+      "context": "Deployment: Cloud (AWS)",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_001",
+      "source_name": "Account Management System",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_met_001",
+      "target_name": "System Availability SLA",
+      "rel_type": "measured_by",
+      "description": "AMS performance and reliability are measured against a 99.9% System Availability SLA.",
+      "properties": {
+        "target_value": "99.9%",
+        "metric_type": "uptime_percentage"
+      },
+      "context": "Availability: 99.9% (SLA)",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_001",
+      "source_name": "Account Management System",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_met_002",
+      "target_name": "Recovery Point Objective",
+      "rel_type": "measured_by",
+      "description": "AMS data loss tolerance is measured by a 15-minute Recovery Point Objective.",
+      "properties": {
+        "target_value": "15 minutes",
+        "metric_type": "data_recovery_window"
+      },
+      "context": "Recovery Point Objective (RPO): 15 minutes",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_001",
+      "source_name": "Account Management System",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_met_003",
+      "target_name": "Daily Encrypted Backup Schedule",
+      "rel_type": "subject_to",
+      "description": "AMS data persistence is subject to a daily encrypted backup schedule to S3.",
+      "properties": {
+        "frequency": "daily",
+        "encryption": true,
+        "storage_target": "S3"
+      },
+      "context": "Backup: Daily encrypted backup to S3",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_001",
+      "source_name": "Account Management System",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_001",
+      "target_name": "Customer",
+      "rel_type": "stores",
+      "description": "AMS stores core customer entity data as part of its central repository function.",
+      "properties": {
+        "data_category": "entity_reference",
+        "storage_location": "primary_db"
+      },
+      "context": "Data Model: - Customers",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_001",
+      "source_name": "Account Management System",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_002",
+      "target_name": "Account",
+      "rel_type": "manages",
+      "description": "AMS manages account lifecycle, balances, and core account attributes.",
+      "properties": {
+        "management_scope": "lifecycle_and_balances",
+        "api_exposed": true
+      },
+      "context": "Key Functions: - Account creation and lifecycle",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_001",
+      "source_name": "Account Management System",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_003",
+      "target_name": "Account Holder",
+      "rel_type": "stores",
+      "description": "AMS stores account holder relationships including primary, secondary, and joint structures.",
+      "properties": {
+        "relationship_types": [
+          "primary",
+          "secondary",
+          "joint"
+        ]
+      },
+      "context": "Data Model: - Account Holders (primary, secondary, joint)",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_001",
+      "source_name": "Account Management System",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_004",
+      "target_name": "Transaction",
+      "rel_type": "processes",
+      "description": "AMS processes and records transaction data for all managed accounts.",
+      "properties": {
+        "operation": "record_and_validate",
+        "volume_estimate": "1.6M records"
+      },
+      "context": "Key Functions: - Transaction recording",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_001",
+      "source_name": "Account Management System",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_005",
+      "target_name": "Interest Rate",
+      "rel_type": "manages",
+      "description": "AMS calculates and applies interest rates to accounts based on configured business rules.",
+      "properties": {
+        "operation": "calculation_engine",
+        "frequency": "periodic"
+      },
+      "context": "Key Functions: - Interest calculation",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_001",
+      "source_name": "Account Management System",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_006",
+      "target_name": "Account Status",
+      "rel_type": "tracks",
+      "description": "AMS tracks the current status of accounts throughout their lifecycle.",
+      "properties": {
+        "tracking_scope": "lifecycle_states",
+        "update_trigger": "transaction_or_admin_action"
+      },
+      "context": "Key Functions: - Account status tracking",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_001",
+      "source_name": "Account Management System",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_002",
+      "source_name": "Internet Banking Platform",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_003",
+      "source_name": "Mobile Banking App",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_004",
+      "source_name": "Fraud Detection Engine",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_005",
+      "source_name": "Data Warehouse",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_006",
+      "source_name": "PostgreSQL Database",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_007",
+      "source_name": "AWS Cloud Infrastructure",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_met_001",
+      "source_name": "System Availability SLA",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_met_002",
+      "source_name": "Recovery Point Objective",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_met_003",
+      "source_name": "Daily Encrypted Backup Schedule",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_001",
+      "source_name": "Customer",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_002",
+      "source_name": "Account",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_003",
+      "source_name": "Account Holder",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_004",
+      "source_name": "Transaction",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_005",
+      "source_name": "Interest Rate",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_006",
+      "source_name": "Account Status",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    }
+  ]
+}

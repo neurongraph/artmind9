@@ -1,0 +1,282 @@
+[
+  {
+    "id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_001",
+    "name": "Elara",
+    "aliases": [
+      "the protagonist",
+      "seventy-four-year-old",
+      "the woman"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "protagonist",
+    "description": "A seventy-four-year-old widow who runs an antique bookstore. Initially emotionally guarded and focused strictly on the present, she undergoes a transformative journey of reclaiming her past memories and rediscovering her capacity for bravery and joy after a supernatural encounter with her younger self.",
+    "context": [
+      "Elara was seventy-four years old the first time she found the orchard behind the antique bookstore.",
+      "For the last decade, since her husband had passed, Elara had focused strictly on the present.",
+      "She decided, with a firm nod, that she would stop looking at the photographs, and start living inside the memories again."
+    ],
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1",
+    "domain": "fiction"
+  },
+  {
+    "id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_002",
+    "name": "Younger Elara",
+    "aliases": [
+      "the woman",
+      "I am you, at thirty-two",
+      "the younger woman"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "A manifestation of Elara's self at age thirty-two, appearing in the memory orchard to guide her back to her lost emotions and adventurous spirit. She serves as a bridge between Elara's guarded present and her vibrant past, urging her to reclaim sensory memories rather than just photographs.",
+    "context": [
+      "The most peculiar thing, however, was that she knew the voice of the woman sitting on a stone bench beneath the largest tree, even though she couldn’t place the face.",
+      "I am you, at thirty-two. Back when you still remembered how to laugh when things broke.",
+      "You haven’t looked back in ten years, Elara. Not really."
+    ],
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1",
+    "domain": "fiction"
+  },
+  {
+    "id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_003",
+    "name": "Young Man",
+    "aliases": [
+      "a young man with a backpack",
+      "the customer"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "A lost customer who enters the antique bookstore, serving as a catalyst for Elara's behavioral shift. His request for something adventurous prompts Elara to recommend a book and ultimately break her routine of emotional detachment and rigid routine.",
+    "context": [
+      "A customer entered—a young man with a backpack, looking lost.",
+      "Um, maybe something on local history? Or, I don't know, something adventurous?",
+      "The young man took the book, his eyes lighting up."
+    ],
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1",
+    "domain": "fiction"
+  },
+  {
+    "id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_loc_001",
+    "name": "The Memory Orchard",
+    "aliases": [
+      "the orchard",
+      "where the forgotten moments go"
+    ],
+    "entity_class": "LOCATION",
+    "type": "region",
+    "description": "A hidden, magical space located behind the antique bookstore, accessible only through a stone archway covered in wisteria. It is a liminal space where forgotten memories reside, characterized by heavy sweet air, ozone, and trees bearing vibrantly colored apples that hold specific past experiences.",
+    "context": [
+      "Elara was seventy-four years old the first time she found the orchard behind the antique bookstore.",
+      "The air in the orchard was heavy and sweet, smelling intensely of apple blossoms and ozone.",
+      "This is where the forgotten moments go. When you stop looking back, you stop being able to look forward."
+    ],
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1",
+    "domain": "fiction"
+  },
+  {
+    "id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_loc_002",
+    "name": "Antique Bookstore",
+    "aliases": [
+      "the shop",
+      "the store"
+    ],
+    "entity_class": "LOCATION",
+    "type": "institution",
+    "description": "Elara's place of business and residence, initially described as cold and filled with dust and old paper. It represents her structured, emotionally guarded life, but gradually becomes a space of warmth and connection as she reclaims her memories and changes her approach to customers.",
+    "context": [
+      "Elara was seventy-four years old the first time she found the orchard behind the antique bookstore.",
+      "The shop was cold when she opened it, the smell of dust and old paper welcoming.",
+      "She didn't go back to the store immediately."
+    ],
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1",
+    "domain": "fiction"
+  },
+  {
+    "id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_loc_003",
+    "name": "Main Street",
+    "aliases": [],
+    "entity_class": "LOCATION",
+    "type": "city",
+    "description": "The street where Elara finds herself standing after leaving the orchard. It marks the transition from the magical encounter back to the mundane world, now perceived with renewed clarity, physical ease, and a sense of grounded presence.",
+    "context": [
+      "When she blinked, she was standing outside the store on Main Street.",
+      "The sun was setting, casting long, dramatic shadows.",
+      "The wisteria arch was gone. But Elara stood taller, her breath coming easier."
+    ],
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1",
+    "domain": "fiction"
+  },
+  {
+    "id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_loc_004",
+    "name": "The Pier",
+    "aliases": [],
+    "entity_class": "LOCATION",
+    "type": "landmark",
+    "description": "A coastal structure overlooking the grey ocean where Elara reflects on her emotional state. It serves as the setting for her realization that she is no longer lonely and has regained her sense of self after consuming the memory apple.",
+    "context": [
+      "Instead, she walked to the pier, watching the grey ocean, and for the first time in years, she didn’t feel lonely.",
+      "She felt, for the first time in a long time, entirely herself."
+    ],
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1",
+    "domain": "fiction"
+  },
+  {
+    "id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_obj_001",
+    "name": "Golden Apple",
+    "aliases": [
+      "the apple",
+      "a golden, sunny yellow"
+    ],
+    "entity_class": "OBJECT",
+    "type": "symbolic",
+    "description": "A fruit from a basket in the orchard that embodies the memory of Elara's bravery when she moved to the coast. Eating it physically and emotionally reconnects her to the sensations of her past, acting as the catalyst for her transformation and the reclamation of her lost emotions.",
+    "context": [
+      "The younger woman handed her an apple, not from a tree, but from a basket that appeared on the bench between them.",
+      "It was a golden, sunny yellow.",
+      "If I eat it, what happens?",
+      "You won't *not* be seventy-four. But you will remember how it felt to be brave."
+    ],
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1",
+    "domain": "fiction"
+  },
+  {
+    "id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_obj_002",
+    "name": "Photographs",
+    "aliases": [
+      "photos"
+    ],
+    "entity_class": "OBJECT",
+    "type": "symbolic",
+    "description": "Visual records of Elara's past that she clings to instead of truly remembering. They represent her emotional detachment and the gray state of her life, contrasting with the lived, sensory experiences her younger self urges her to reclaim.",
+    "context": [
+      "You have *photographs* of memories,",
+      "the young woman countered gently.",
+      "You haven’t felt the wind of 1985 on your face, or remembered the smell of the ink on your first published poem.",
+      "She decided, with a firm nod, that she would stop looking at the photographs, and start living inside the memories again."
+    ],
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1",
+    "domain": "fiction"
+  },
+  {
+    "id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_obj_003",
+    "name": "Blue-covered Book",
+    "aliases": [
+      "a thin, blue-covered book"
+    ],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "A book about a woman who leaves everything to study sea turtles, recommended by Elara to the young customer. It symbolizes the adventurous, uncomfortable, and wonderful life Elara is choosing to embrace, reflecting her newfound willingness to seek out meaningful experiences.",
+    "context": [
+      "Read this. It’s about a woman who leaves everything to study sea turtles.",
+      "It’s dangerous, uncomfortable, and absolutely wonderful.",
+      "The young man took the book, his eyes lighting up."
+    ],
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1",
+    "domain": "fiction"
+  },
+  {
+    "id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_obj_004",
+    "name": "Old Journals and Letters",
+    "aliases": [
+      "a drawer that she hadn’t opened since her husband’s funeral"
+    ],
+    "entity_class": "OBJECT",
+    "type": "document",
+    "description": "Suppressed personal writings kept in a desk drawer since her husband's death. They represent the dormant memories and emotions Elara must confront, ultimately leading her to write about the sensory details of her past rather than mundane daily sales.",
+    "context": [
+      "She pulled out a drawer that she hadn’t opened since her husband’s funeral—the one filled with old journals and letters.",
+      "She opened her journal, not to write about the day's sales, but to write about the smell of apples and ozone, and the color of the sky on the day she turned thirty-two."
+    ],
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1",
+    "domain": "fiction"
+  },
+  {
+    "id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_evt_001",
+    "name": "The Orchard Encounter",
+    "aliases": [
+      "meeting her younger self",
+      "the memory orchard visit"
+    ],
+    "entity_class": "EVENT",
+    "type": "revelation",
+    "description": "A pivotal supernatural meeting where Elara confronts her thirty-two-year-old self in a hidden orchard. This event forces her to acknowledge her decade-long emotional stagnation and provides the means (the golden apple) to reclaim her lost memories, shifting her from passive observation to active remembrance.",
+    "context": [
+      "This is where the forgotten moments go. When you stop looking back, you stop being able to look forward.",
+      "You haven’t looked back in ten years, Elara. Not really.",
+      "Instantly, the sound of seagulls screaming and the smell of salty air filled her nose.",
+      "She felt a lightness in her chest—not a void, but a lack of burden."
+    ],
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1",
+    "domain": "fiction"
+  },
+  {
+    "id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_evt_002",
+    "name": "The Morning After",
+    "aliases": [
+      "waking up energized",
+      "the shift in routine"
+    ],
+    "entity_class": "EVENT",
+    "type": "resolution",
+    "description": "The day following the orchard visit, where Elara's internal transformation manifests externally. She breaks her routine, interacts warmly with a customer, revisits suppressed writings, and consciously chooses to live within her memories rather than just observe them, completing her character arc.",
+    "context": [
+      "Elara woke up not in her armchair, but in her bed, with a strange, lingering sense of energy.",
+      "She didn't go back to the store immediately.",
+      "She opened her journal, not to write about the day's sales, but to write about the smell of apples and ozone...",
+      "The gray, she realized, was only as thick as she allowed it to be."
+    ],
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1",
+    "domain": "fiction"
+  },
+  {
+    "id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_con_001",
+    "name": "Forgotten Moments",
+    "aliases": [
+      "where the forgotten moments go",
+      "the past"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "mystery",
+    "description": "A metaphysical repository for memories that are abandoned when a person stops looking back. The story posits that neglecting the past severs the ability to move forward, creating a spiritual stagnation that must be actively reclaimed through sensory engagement and emotional courage.",
+    "context": [
+      "This is where the forgotten moments go.",
+      "When you stop looking back, you stop being able to look forward.",
+      "The colors of her past were not lost; they were just waiting for her to remember how to look for them."
+    ],
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1",
+    "domain": "fiction"
+  },
+  {
+    "id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_con_002",
+    "name": "Emotional Grayness",
+    "aliases": [
+      "the gray",
+      "losing the colors"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "theme",
+    "description": "A metaphorical state of emotional numbness and detachment resulting from prolonged grief and a refusal to engage with the past. It represents the loss of sensory and emotional vitality, which Elara overcomes by choosing to remember and feel again, transforming her life from a guarded routine into a vibrant experience.",
+    "context": [
+      "You are losing the colors, Elara. Everything is turning gray.",
+      "The gray, she realized, was only as thick as she allowed it to be.",
+      "She felt, for the first time in a long time, entirely herself."
+    ],
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1",
+    "domain": "fiction"
+  }
+]

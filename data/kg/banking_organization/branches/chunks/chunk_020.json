@@ -1,0 +1,4158 @@
+{
+  "embedding": [
+    0.00026666504,
+    0.045642804,
+    -0.22159967,
+    -0.03147428,
+    0.041712243,
+    -0.026085041,
+    0.071873456,
+    0.015128613,
+    0.009970936,
+    -0.022673825,
+    0.009997607,
+    0.014935544,
+    0.022944322,
+    -0.07016406,
+    0.023459088,
+    -0.044018686,
+    -0.029216027,
+    -0.035886385,
+    0.0011421088,
+    0.03602627,
+    0.0034473073,
+    -0.019003475,
+    -0.018131873,
+    -0.032957472,
+    0.04402446,
+    0.07400069,
+    0.002593399,
+    -0.05672099,
+    -0.067982025,
+    0.03827788,
+    0.01939353,
+    0.014057108,
+    -0.020786189,
+    -0.071361065,
+    -0.051706124,
+    -0.006690191,
+    0.023898665,
+    0.007904305,
+    0.0013088753,
+    0.008902645,
+    0.0830549,
+    -0.046379622,
+    -0.005005036,
+    -0.01924181,
+    0.027738037,
+    -0.04228132,
+    0.06713276,
+    0.01705279,
+    0.04958841,
+    -0.01103756,
+    -0.03114879,
+    0.00520905,
+    0.013561684,
+    0.0633906,
+    0.04679374,
+    0.06866442,
+    -0.035116922,
+    0.04457104,
+    -0.018614996,
+    -0.010764479,
+    0.05151013,
+    0.0038003763,
+    0.015134068,
+    0.07777344,
+    0.019965889,
+    0.014015929,
+    -0.023524733,
+    0.024699187,
+    -0.05008987,
+    -0.0407939,
+    0.019905193,
+    -0.03801598,
+    -0.015078781,
+    0.0028448973,
+    -0.054344878,
+    0.015443406,
+    -0.06180792,
+    -0.02090673,
+    0.012497818,
+    0.04118991,
+    0.037250802,
+    0.006309355,
+    0.045769766,
+    0.0068254247,
+    0.046588786,
+    -0.014430285,
+    -0.014066538,
+    -0.031266995,
+    -0.02349021,
+    0.070081644,
+    -0.011537382,
+    0.01859581,
+    0.074513264,
+    0.038430013,
+    -0.10703035,
+    0.038024098,
+    0.00083116477,
+    -0.02925565,
+    -0.013803545,
+    -0.017410876,
+    -0.014569859,
+    0.022563647,
+    0.002073867,
+    -0.006517574,
+    0.05025862,
+    0.03418191,
+    0.039264787,
+    0.024839137,
+    -0.036378197,
+    -0.0028496296,
+    -0.0035905396,
+    0.039662756,
+    -0.032626286,
+    0.01255181,
+    -0.014255573,
+    0.023334686,
+    0.04688033,
+    -0.055434898,
+    -0.03244548,
+    0.02394871,
+    0.009616493,
+    -0.008643403,
+    -0.00059705676,
+    0.00665695,
+    -0.004835193,
+    0.0039996705,
+    -0.07277997,
+    0.027724624,
+    -0.021167716,
+    -0.028429449,
+    -0.006766915,
+    -0.0232267,
+    -0.062935315,
+    -0.0006148701,
+    0.03443158,
+    0.05458082,
+    -0.0054498045,
+    -0.059475604,
+    0.033161264,
+    0.01658579,
+    0.015465052,
+    0.0044047534,
+    0.0071927663,
+    0.024664856,
+    0.03443056,
+    -0.08037301,
+    0.05486206,
+    -0.010318809,
+    -0.018443627,
+    0.075475946,
+    0.0036885347,
+    0.020044722,
+    0.027201656,
+    0.042715203,
+    0.011635404,
+    -0.08055659,
+    0.0091770375,
+    0.009685401,
+    0.020080242,
+    0.0307406,
+    0.048633564,
+    -0.028829101,
+    -0.014521503,
+    -0.00086363056,
+    -0.0017875442,
+    -0.09930283,
+    0.0149165355,
+    0.04798647,
+    0.069960974,
+    0.040877026,
+    -0.05827098,
+    -0.024676949,
+    0.008944461,
+    0.008444646,
+    0.019957596,
+    -0.0011220821,
+    0.0066645266,
+    0.0025781104,
+    0.025820099,
+    -0.020277267,
+    0.027547358,
+    -0.039358545,
+    0.043266047,
+    -0.0089228805,
+    -0.03453743,
+    -0.032372743,
+    -0.0071122088,
+    -0.022081548,
+    -0.018526433,
+    -0.038337927,
+    0.000537752,
+    0.026616005,
+    -0.015481431,
+    -0.02842712,
+    -0.035574887,
+    -0.0062332465,
+    0.10954836,
+    0.010336795,
+    0.027645363,
+    -0.039001048,
+    0.022605076,
+    -0.009236793,
+    -0.033976223,
+    0.009311063,
+    -0.019557795,
+    0.08086216,
+    -0.012753908,
+    0.04129347,
+    0.023306992,
+    0.03264832,
+    0.026419621,
+    -0.04940489,
+    0.006068624,
+    0.013343808,
+    0.056449562,
+    -0.005397112,
+    0.0037538263,
+    -0.008456064,
+    0.017604664,
+    0.023614788,
+    0.024635652,
+    -0.023211103,
+    0.033384446,
+    -0.008419204,
+    0.062340785,
+    0.009674402,
+    0.011992031,
+    0.025426462,
+    0.02056312,
+    -0.001052927,
+    -0.018833363,
+    -0.035291076,
+    0.030746888,
+    -0.00142818,
+    -0.006501227,
+    0.0056723254,
+    -0.015913878,
+    -0.0019099109,
+    0.032189164,
+    0.028301723,
+    0.03832215,
+    0.0436017,
+    -0.049091004,
+    0.0021665115,
+    -0.026497692,
+    0.009067138,
+    0.024860058,
+    -0.022431057,
+    0.028867949,
+    0.0039812187,
+    -0.010602832,
+    0.017243756,
+    0.06857627,
+    -0.0037169312,
+    0.061343104,
+    0.021520523,
+    -0.046835195,
+    0.022118436,
+    -0.02301369,
+    -0.0032168138,
+    -0.032941144,
+    -0.0009627911,
+    0.07776309,
+    -0.008336052,
+    -0.030349536,
+    -0.045320787,
+    -0.02840242,
+    -0.06109759,
+    0.01268822,
+    -0.049448278,
+    0.017348953,
+    0.013064735,
+    -0.04122264,
+    0.06321444,
+    0.0064566866,
+    -0.014575538,
+    0.020286746,
+    -0.023193384,
+    -0.03325053,
+    0.02278443,
+    -0.0021834753,
+    -0.08483914,
+    -0.02845839,
+    -0.02767909,
+    0.017709298,
+    0.0647219,
+    0.032423835,
+    -0.030472761,
+    0.066063665,
+    -0.000709706,
+    0.044830285,
+    0.016707107,
+    0.0076528774,
+    0.010098334,
+    -0.01921382,
+    -0.0021184897,
+    0.086200744,
+    -0.038581587,
+    0.016994068,
+    -0.07889323,
+    0.019183502,
+    0.016074726,
+    0.0037711754,
+    0.041849054,
+    -0.006080052,
+    -0.00044248224,
+    -0.010840896,
+    -0.010923459,
+    0.05033641,
+    -0.033945512,
+    0.00962943,
+    -0.03747114,
+    -0.038866125,
+    -0.013990372,
+    0.0002542931,
+    -0.04664881,
+    0.05838983,
+    0.057535727,
+    0.04110972,
+    0.026389856,
+    0.007999674,
+    -0.034778938,
+    0.0054647624,
+    -0.02699495,
+    0.0129513955,
+    0.0278545,
+    -0.042326536,
+    0.06084486,
+    -0.0019441161,
+    0.01799013,
+    -0.0052198856,
+    -0.002135658,
+    0.057808463,
+    -0.038173873,
+    -0.015513733,
+    0.03513867,
+    0.061169624,
+    0.0124505805,
+    -0.0010475233,
+    0.047647066,
+    0.052555777,
+    -0.004884957,
+    -0.0291914,
+    -0.034992397,
+    0.0012393589,
+    -0.026812447,
+    -0.076043665,
+    -0.026921878,
+    0.041903626,
+    0.030031098,
+    -0.02305133,
+    -0.066134706,
+    -0.021935545,
+    0.023709552,
+    0.011446565,
+    -0.01690486,
+    0.01242748,
+    0.021627558,
+    -0.008856366,
+    0.039429612,
+    0.056546234,
+    0.009327728,
+    0.037996776,
+    -0.019095903,
+    -0.033439167,
+    0.011928442,
+    0.042315573,
+    -0.044484273,
+    0.021084888,
+    -0.01787578,
+    0.029051878,
+    -0.0122371195,
+    0.011202863,
+    -0.0039279736,
+    -0.011894307,
+    -0.01804223,
+    -0.070695855,
+    -0.0056616114,
+    0.001992264,
+    0.048372593,
+    0.012663961,
+    -0.02601506,
+    0.0030876708,
+    0.028300526,
+    -0.017330505,
+    -0.07462822,
+    -0.013790842,
+    -0.0519314,
+    5.584586e-05,
+    -0.024626141,
+    -0.049067944,
+    -0.023153579,
+    -0.015178035,
+    0.0453809,
+    0.0378107,
+    -0.058891557,
+    0.04196244,
+    0.020555703,
+    0.016897839,
+    0.07032675,
+    -0.041781668,
+    -0.077833965,
+    0.0043481505,
+    0.031898916,
+    -0.0351319,
+    -0.043322776,
+    -0.04883834,
+    0.0037707256,
+    -0.010331776,
+    0.03153554,
+    -0.021008095,
+    0.05106015,
+    0.0018466295,
+    -0.09150613,
+    0.03668254,
+    0.02610851,
+    0.04946504,
+    -0.043663505,
+    0.004314794,
+    -0.014109766,
+    0.07998173,
+    0.043667,
+    0.02292908,
+    -0.04000948,
+    0.040692974,
+    0.010363955,
+    0.042851422,
+    -0.02732192,
+    0.0025760874,
+    -0.034515183,
+    0.019673275,
+    -0.004298204,
+    0.047707442,
+    0.0387959,
+    0.029071487,
+    0.013142913,
+    0.016794696,
+    -0.027125169,
+    0.054948732,
+    0.019698042,
+    0.012971048,
+    -0.050501224,
+    -0.043612637,
+    -0.049814194,
+    0.017508034,
+    0.052862853,
+    0.0029083192,
+    -0.066571034,
+    -0.016060593,
+    0.028162664,
+    0.04155081,
+    0.0063576205,
+    0.010720514,
+    -0.0057242773,
+    0.059333906,
+    -0.05491149,
+    0.06397583,
+    0.04574097,
+    -0.0068373675,
+    0.02618588,
+    0.023415197,
+    -0.01561822,
+    -0.06522769,
+    -0.02368246,
+    0.0037483156,
+    -0.03496067,
+    0.017419238,
+    0.0046184706,
+    0.008118439,
+    0.054846082,
+    -0.007580019,
+    -0.008413246,
+    0.026897183,
+    -0.050034814,
+    0.00919341,
+    -0.017224764,
+    -0.030873138,
+    0.032943532,
+    0.014532996,
+    0.007346805,
+    0.0149730155,
+    0.003519266,
+    0.0029947115,
+    -0.03172421,
+    -0.037486825,
+    0.02373873,
+    0.028997686,
+    -0.0812929,
+    0.0058895987,
+    -0.00836322,
+    0.016394194,
+    0.017493512,
+    -0.006213648,
+    -0.0059203403,
+    -0.026158204,
+    0.00036782728,
+    -0.009172951,
+    0.042270154,
+    0.0030161936,
+    -0.009557263,
+    0.015213141,
+    0.09827589,
+    0.0024846455,
+    -0.014318718,
+    0.027331194,
+    0.036677387,
+    0.022294207,
+    -0.06493107,
+    -0.03476401,
+    0.0020034304,
+    -0.03883957,
+    -0.027011415,
+    0.019306654,
+    -0.013535983,
+    0.03871943,
+    -0.050771277,
+    0.037685182,
+    -0.00022509992,
+    -0.023720054,
+    0.011597305,
+    0.020980855,
+    0.011201629,
+    -0.009491179,
+    -0.044028606,
+    -0.0666835,
+    0.0015528456,
+    0.007556344,
+    -0.032842316,
+    0.0645554,
+    -0.048600882,
+    0.048291523,
+    0.033162072,
+    -0.036622725,
+    -0.027889295,
+    -0.0051165298,
+    -0.00019821544,
+    -0.047611997,
+    0.025607089,
+    0.024823433,
+    0.042137615,
+    -0.04301574,
+    -0.009531867,
+    -0.034566287,
+    0.006916087,
+    -0.0029539554,
+    -0.028260706,
+    -0.007801427,
+    0.0013759827,
+    -0.0023799,
+    -0.039071508,
+    0.06436627,
+    -0.058364417,
+    0.009279001,
+    -0.06479668,
+    0.023278497,
+    -0.011903381,
+    -0.044577073,
+    -0.014992431,
+    -0.076843835,
+    -0.03636151,
+    0.007658298,
+    0.0051006,
+    0.08097208,
+    0.03239475,
+    0.015327477,
+    -0.037461244,
+    -0.026607772,
+    0.033983,
+    0.004196772,
+    0.009625243,
+    -0.025077332,
+    -0.022475112,
+    -0.03967916,
+    -0.03201777,
+    0.0028277752,
+    -9.2427304e-05,
+    0.01621101,
+    -0.002249869,
+    -0.025523575,
+    0.0069726044,
+    0.03267517,
+    -0.03702603,
+    0.019900877,
+    0.030930564,
+    -0.015117955,
+    -0.029122807,
+    -0.019943671,
+    -0.046691656,
+    0.018112807,
+    -0.022579225,
+    -0.01120726,
+    0.01099678,
+    0.02109395,
+    -0.043323256,
+    0.00029575045,
+    -0.059119944,
+    0.038378395,
+    -0.056372605,
+    -0.059956204,
+    -0.04713821,
+    -0.00036849576,
+    -0.0064421687,
+    0.07688726,
+    -0.08076969,
+    0.03867504,
+    0.031694237,
+    -0.004440699,
+    -0.0071266782,
+    -0.036169272,
+    0.005252264,
+    0.014523494,
+    0.028979477,
+    0.005405128,
+    0.005177141,
+    0.020159874,
+    -0.057384904,
+    0.07094472,
+    -0.027289947,
+    -0.0040180706,
+    -0.05726682,
+    -0.03619537,
+    -0.0720964,
+    -0.008314071,
+    -0.060595892,
+    0.058190458,
+    -0.01982728,
+    0.0026164902,
+    -0.03984233,
+    -0.039030954,
+    0.016316282,
+    0.008525387,
+    0.033648573,
+    -0.04790786,
+    -0.062383328,
+    -0.05798928,
+    0.034967635,
+    -0.019772727,
+    0.010492522,
+    -0.04180425,
+    0.021061229,
+    0.061635457,
+    -0.0014872655,
+    -0.054243412,
+    0.016575662,
+    0.039142232,
+    -0.05558245,
+    0.021002172,
+    0.03330236,
+    0.011457895,
+    0.043744702,
+    0.029645886,
+    0.05401682,
+    0.028407678,
+    0.011245201,
+    -0.021260832,
+    -0.030006072,
+    -0.009530689,
+    0.012319923,
+    -0.017644549,
+    -0.013461646,
+    -0.0063291024,
+    0.01656371,
+    0.0015873875,
+    0.023066193,
+    0.04344183,
+    -0.013176502,
+    -0.05464245,
+    -0.0069243214,
+    -0.04148627,
+    -0.05289195,
+    -0.00022661132,
+    -0.0026785512,
+    -0.009709011,
+    0.00060864596,
+    -0.0033416569,
+    0.095107764,
+    0.024662407,
+    0.01127581,
+    -0.0109589165,
+    0.002619058,
+    0.0064724265,
+    0.018419746,
+    0.024379974,
+    0.004699293,
+    -0.04126421,
+    -0.029164854,
+    -0.028463067,
+    -0.020823741,
+    0.05958371,
+    -0.037608724,
+    0.006611135,
+    -0.008254845,
+    0.019089386,
+    -0.013138335,
+    0.03223628,
+    0.016145341,
+    -0.0018385219,
+    0.024812194,
+    -0.048938174,
+    0.0016050381,
+    -0.014804654,
+    0.04433019,
+    0.006391529,
+    0.07079438,
+    -0.000258773,
+    0.0015353072,
+    -0.008312291,
+    -0.060484022,
+    -0.010383285,
+    -0.0021949054,
+    0.0077410126,
+    -0.01710441,
+    -0.011853855,
+    0.015116929,
+    0.03789326,
+    0.0012028561,
+    -0.041530762,
+    -0.095875315,
+    0.013322336,
+    0.023311513,
+    0.038098615,
+    0.036886964,
+    0.015550979,
+    -0.027926032,
+    -0.019272543,
+    -0.023918105,
+    0.056798574,
+    -0.055935595,
+    -0.014056243,
+    -0.015578063,
+    -0.0061758533,
+    -0.01806922,
+    -0.07558832,
+    0.088341765,
+    -0.027253682,
+    -0.0075373417,
+    0.035831112,
+    0.0070586014,
+    -0.057993494,
+    0.002822984,
+    -0.047729053,
+    0.031169087,
+    -0.006968121,
+    0.04404287,
+    -0.012795739,
+    -0.021221047,
+    0.037080467,
+    0.04577444,
+    0.0033919862,
+    -0.013443634,
+    0.05815915,
+    0.00650033,
+    -0.07719206,
+    0.010736505,
+    -0.018975843,
+    -0.005505496,
+    0.012703163,
+    0.030970462,
+    0.06450288,
+    -0.0018164098,
+    0.026709026,
+    -0.024053339,
+    0.025010984,
+    0.0066395327,
+    -0.021169512,
+    -0.03491586,
+    -0.06674188,
+    -0.0064949775
+  ],
+  "chunk_seq": 20,
+  "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+  "doc_id": "c89f41859fb44925be5b4ed628d31814",
+  "text": "## Branch Performance Metrics  \n### Customer Metrics  \n| Branch | Customers | Active Accounts | Average Balance | Satisfaction |\n|--------|-----------|-----------------|------------------|--------------|\n| London Canary Wharf | 85 | 142 | £4,521 | 74 |\n| Manchester Central | 68 | 108 | £4,195 | 71 |\n| Leeds Financial | 55 | 92 | £3,987 | 70 |\n| Birmingham Business | 62 | 105 | £4,287 | 69 |\n| Bristol South | 51 | 87 | £3,842 | 72 |\n| Edinburgh Royal | 48 | 82 | £4,012 | 73 |\n| Glasgow Merchant | 42 | 68 | £3,756 | 71 |\n| Liverpool Pier | 38 | 61 | £3,521 | 68 |\n| Norwich Market | 35 | 58 | £3,214 | 70 |\n| Southampton Water | 32 | 52 | £3,087 | 69 |\n| Belfast Central | 28 | 45 | £2,954 | 67 |",
+  "name": "Chunk 20/34",
+  "domain": "banking_organization",
+  "prev_chunk_id": "c89f41859fb44925be5b4ed628d31814_019",
+  "next_chunk_id": "c89f41859fb44925be5b4ed628d31814_021",
+  "raw_entities": [
+    {
+      "id": "org_001",
+      "name": "London Canary Wharf Branch",
+      "aliases": [
+        "London Canary Wharf"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A FirstUK Bank branch location operating in the Canary Wharf financial district. Performance is tracked against customer volume, active account counts, average balance, and customer satisfaction scores.",
+      "context": [
+        "## Branch Performance Metrics",
+        "| London Canary Wharf | 85 | 142 | £4,521 | 74 |"
+      ]
+    },
+    {
+      "id": "org_002",
+      "name": "Manchester Central Branch",
+      "aliases": [
+        "Manchester Central"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A FirstUK Bank branch location serving the Manchester central area. Monitored for customer metrics including account activity, balance performance, and satisfaction ratings.",
+      "context": [
+        "| Manchester Central | 68 | 108 | £4,195 | 71 |"
+      ]
+    },
+    {
+      "id": "org_003",
+      "name": "Leeds Financial Branch",
+      "aliases": [
+        "Leeds Financial"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A FirstUK Bank branch location focused on the Leeds financial sector. Performance tracked via customer count, active accounts, average balance, and satisfaction metrics.",
+      "context": [
+        "| Leeds Financial | 55 | 92 | £3,987 | 70 |"
+      ]
+    },
+    {
+      "id": "org_004",
+      "name": "Birmingham Business Branch",
+      "aliases": [
+        "Birmingham Business"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A FirstUK Bank branch location serving the Birmingham business district. Evaluated on customer volume, account activity, balance levels, and satisfaction scores.",
+      "context": [
+        "| Birmingham Business | 62 | 105 | £4,287 | 69 |"
+      ]
+    },
+    {
+      "id": "org_005",
+      "name": "Bristol South Branch",
+      "aliases": [
+        "Bristol South"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A FirstUK Bank branch location operating in southern Bristol. Performance metrics include customer count, active accounts, average balance, and satisfaction ratings.",
+      "context": [
+        "| Bristol South | 51 | 87 | £3,842 | 72 |"
+      ]
+    },
+    {
+      "id": "org_006",
+      "name": "Edinburgh Royal Branch",
+      "aliases": [
+        "Edinburgh Royal"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A FirstUK Bank branch location serving the Edinburgh royal district. Tracked for customer volume, account activity, balance performance, and satisfaction scores.",
+      "context": [
+        "| Edinburgh Royal | 48 | 82 | £4,012 | 73 |"
+      ]
+    },
+    {
+      "id": "org_007",
+      "name": "Glasgow Merchant Branch",
+      "aliases": [
+        "Glasgow Merchant"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A FirstUK Bank branch location operating in the Glasgow merchant district. Performance monitored via customer count, active accounts, average balance, and satisfaction metrics.",
+      "context": [
+        "| Glasgow Merchant | 42 | 68 | £3,756 | 71 |"
+      ]
+    },
+    {
+      "id": "org_008",
+      "name": "Liverpool Pier Branch",
+      "aliases": [
+        "Liverpool Pier"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A FirstUK Bank branch location serving the Liverpool pier area. Evaluated on customer volume, account activity, balance levels, and satisfaction scores.",
+      "context": [
+        "| Liverpool Pier | 38 | 61 | £3,521 | 68 |"
+      ]
+    },
+    {
+      "id": "org_009",
+      "name": "Norwich Market Branch",
+      "aliases": [
+        "Norwich Market"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A FirstUK Bank branch location operating in the Norwich market district. Performance tracked via customer count, active accounts, average balance, and satisfaction ratings.",
+      "context": [
+        "| Norwich Market | 35 | 58 | £3,214 | 70 |"
+      ]
+    },
+    {
+      "id": "org_010",
+      "name": "Southampton Water Branch",
+      "aliases": [
+        "Southampton Water"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A FirstUK Bank branch location serving the Southampton water district. Monitored for customer volume, account activity, balance performance, and satisfaction scores.",
+      "context": [
+        "| Southampton Water | 32 | 52 | £3,087 | 69 |"
+      ]
+    },
+    {
+      "id": "org_011",
+      "name": "Belfast Central Branch",
+      "aliases": [
+        "Belfast Central"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A FirstUK Bank branch location operating in central Belfast. Performance metrics include customer count, active accounts, average balance, and satisfaction ratings.",
+      "context": [
+        "| Belfast Central | 28 | 45 | £2,954 | 67 |"
+      ]
+    },
+    {
+      "id": "met_001",
+      "name": "London Canary Wharf Customer Count",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Tracks the total number of customers at the London Canary Wharf branch. Current recorded value is 85.",
+      "context": [
+        "| London Canary Wharf | 85 |"
+      ]
+    },
+    {
+      "id": "met_002",
+      "name": "London Canary Wharf Active Accounts",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Measures the number of active accounts held at the London Canary Wharf branch. Current recorded value is 142.",
+      "context": [
+        "| London Canary Wharf | 85 | 142 |"
+      ]
+    },
+    {
+      "id": "met_003",
+      "name": "London Canary Wharf Average Balance",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Captures the average account balance across the London Canary Wharf branch. Current recorded value is £4,521.",
+      "context": [
+        "| London Canary Wharf | 85 | 142 | £4,521 |"
+      ]
+    },
+    {
+      "id": "met_004",
+      "name": "London Canary Wharf Satisfaction Score",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Records the customer satisfaction rating for the London Canary Wharf branch. Current recorded value is 74.",
+      "context": [
+        "| London Canary Wharf | 85 | 142 | £4,521 | 74 |"
+      ]
+    },
+    {
+      "id": "met_005",
+      "name": "Manchester Central Customer Count",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Tracks the total number of customers at the Manchester Central branch. Current recorded value is 68.",
+      "context": [
+        "| Manchester Central | 68 |"
+      ]
+    },
+    {
+      "id": "met_006",
+      "name": "Manchester Central Active Accounts",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Measures the number of active accounts held at the Manchester Central branch. Current recorded value is 108.",
+      "context": [
+        "| Manchester Central | 68 | 108 |"
+      ]
+    },
+    {
+      "id": "met_007",
+      "name": "Manchester Central Average Balance",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Captures the average account balance across the Manchester Central branch. Current recorded value is £4,195.",
+      "context": [
+        "| Manchester Central | 68 | 108 | £4,195 |"
+      ]
+    },
+    {
+      "id": "met_008",
+      "name": "Manchester Central Satisfaction Score",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Records the customer satisfaction rating for the Manchester Central branch. Current recorded value is 71.",
+      "context": [
+        "| Manchester Central | 68 | 108 | £4,195 | 71 |"
+      ]
+    },
+    {
+      "id": "met_009",
+      "name": "Leeds Financial Customer Count",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Tracks the total number of customers at the Leeds Financial branch. Current recorded value is 55.",
+      "context": [
+        "| Leeds Financial | 55 |"
+      ]
+    },
+    {
+      "id": "met_010",
+      "name": "Leeds Financial Active Accounts",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Measures the number of active accounts held at the Leeds Financial branch. Current recorded value is 92.",
+      "context": [
+        "| Leeds Financial | 55 | 92 |"
+      ]
+    },
+    {
+      "id": "met_011",
+      "name": "Leeds Financial Average Balance",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Captures the average account balance across the Leeds Financial branch. Current recorded value is £3,987.",
+      "context": [
+        "| Leeds Financial | 55 | 92 | £3,987 |"
+      ]
+    },
+    {
+      "id": "met_012",
+      "name": "Leeds Financial Satisfaction Score",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Records the customer satisfaction rating for the Leeds Financial branch. Current recorded value is 70.",
+      "context": [
+        "| Leeds Financial | 55 | 92 | £3,987 | 70 |"
+      ]
+    },
+    {
+      "id": "met_013",
+      "name": "Birmingham Business Customer Count",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Tracks the total number of customers at the Birmingham Business branch. Current recorded value is 62.",
+      "context": [
+        "| Birmingham Business | 62 |"
+      ]
+    },
+    {
+      "id": "met_014",
+      "name": "Birmingham Business Active Accounts",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Measures the number of active accounts held at the Birmingham Business branch. Current recorded value is 105.",
+      "context": [
+        "| Birmingham Business | 62 | 105 |"
+      ]
+    },
+    {
+      "id": "met_015",
+      "name": "Birmingham Business Average Balance",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Captures the average account balance across the Birmingham Business branch. Current recorded value is £4,287.",
+      "context": [
+        "| Birmingham Business | 62 | 105 | £4,287 |"
+      ]
+    },
+    {
+      "id": "met_016",
+      "name": "Birmingham Business Satisfaction Score",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Records the customer satisfaction rating for the Birmingham Business branch. Current recorded value is 69.",
+      "context": [
+        "| Birmingham Business | 62 | 105 | £4,287 | 69 |"
+      ]
+    },
+    {
+      "id": "met_017",
+      "name": "Bristol South Customer Count",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Tracks the total number of customers at the Bristol South branch. Current recorded value is 51.",
+      "context": [
+        "| Bristol South | 51 |"
+      ]
+    },
+    {
+      "id": "met_018",
+      "name": "Bristol South Active Accounts",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Measures the number of active accounts held at the Bristol South branch. Current recorded value is 87.",
+      "context": [
+        "| Bristol South | 51 | 87 |"
+      ]
+    },
+    {
+      "id": "met_019",
+      "name": "Bristol South Average Balance",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Captures the average account balance across the Bristol South branch. Current recorded value is £3,842.",
+      "context": [
+        "| Bristol South | 51 | 87 | £3,842 |"
+      ]
+    },
+    {
+      "id": "met_020",
+      "name": "Bristol South Satisfaction Score",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Records the customer satisfaction rating for the Bristol South branch. Current recorded value is 72.",
+      "context": [
+        "| Bristol South | 51 | 87 | £3,842 | 72 |"
+      ]
+    },
+    {
+      "id": "met_021",
+      "name": "Edinburgh Royal Customer Count",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Tracks the total number of customers at the Edinburgh Royal branch. Current recorded value is 48.",
+      "context": [
+        "| Edinburgh Royal | 48 |"
+      ]
+    },
+    {
+      "id": "met_022",
+      "name": "Edinburgh Royal Active Accounts",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Measures the number of active accounts held at the Edinburgh Royal branch. Current recorded value is 82.",
+      "context": [
+        "| Edinburgh Royal | 48 | 82 |"
+      ]
+    },
+    {
+      "id": "met_023",
+      "name": "Edinburgh Royal Average Balance",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Captures the average account balance across the Edinburgh Royal branch. Current recorded value is £4,012.",
+      "context": [
+        "| Edinburgh Royal | 48 | 82 | £4,012 |"
+      ]
+    },
+    {
+      "id": "met_024",
+      "name": "Edinburgh Royal Satisfaction Score",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Records the customer satisfaction rating for the Edinburgh Royal branch. Current recorded value is 73.",
+      "context": [
+        "| Edinburgh Royal | 48 | 82 | £4,012 | 73 |"
+      ]
+    },
+    {
+      "id": "met_025",
+      "name": "Glasgow Merchant Customer Count",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Tracks the total number of customers at the Glasgow Merchant branch. Current recorded value is 42.",
+      "context": [
+        "| Glasgow Merchant | 42 |"
+      ]
+    },
+    {
+      "id": "met_026",
+      "name": "Glasgow Merchant Active Accounts",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Measures the number of active accounts held at the Glasgow Merchant branch. Current recorded value is 68.",
+      "context": [
+        "| Glasgow Merchant | 42 | 68 |"
+      ]
+    },
+    {
+      "id": "met_027",
+      "name": "Glasgow Merchant Average Balance",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Captures the average account balance across the Glasgow Merchant branch. Current recorded value is £3,756.",
+      "context": [
+        "| Glasgow Merchant | 42 | 68 | £3,756 |"
+      ]
+    },
+    {
+      "id": "met_028",
+      "name": "Glasgow Merchant Satisfaction Score",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Records the customer satisfaction rating for the Glasgow Merchant branch. Current recorded value is 71.",
+      "context": [
+        "| Glasgow Merchant | 42 | 68 | £3,756 | 71 |"
+      ]
+    },
+    {
+      "id": "met_029",
+      "name": "Liverpool Pier Customer Count",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Tracks the total number of customers at the Liverpool Pier branch. Current recorded value is 38.",
+      "context": [
+        "| Liverpool Pier | 38 |"
+      ]
+    },
+    {
+      "id": "met_030",
+      "name": "Liverpool Pier Active Accounts",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Measures the number of active accounts held at the Liverpool Pier branch. Current recorded value is 61.",
+      "context": [
+        "| Liverpool Pier | 38 | 61 |"
+      ]
+    },
+    {
+      "id": "met_031",
+      "name": "Liverpool Pier Average Balance",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Captures the average account balance across the Liverpool Pier branch. Current recorded value is £3,521.",
+      "context": [
+        "| Liverpool Pier | 38 | 61 | £3,521 |"
+      ]
+    },
+    {
+      "id": "met_032",
+      "name": "Liverpool Pier Satisfaction Score",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Records the customer satisfaction rating for the Liverpool Pier branch. Current recorded value is 68.",
+      "context": [
+        "| Liverpool Pier | 38 | 61 | £3,521 | 68 |"
+      ]
+    },
+    {
+      "id": "met_033",
+      "name": "Norwich Market Customer Count",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Tracks the total number of customers at the Norwich Market branch. Current recorded value is 35.",
+      "context": [
+        "| Norwich Market | 35 |"
+      ]
+    },
+    {
+      "id": "met_034",
+      "name": "Norwich Market Active Accounts",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Measures the number of active accounts held at the Norwich Market branch. Current recorded value is 58.",
+      "context": [
+        "| Norwich Market | 35 | 58 |"
+      ]
+    },
+    {
+      "id": "met_035",
+      "name": "Norwich Market Average Balance",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Captures the average account balance across the Norwich Market branch. Current recorded value is £3,214.",
+      "context": [
+        "| Norwich Market | 35 | 58 | £3,214 |"
+      ]
+    },
+    {
+      "id": "met_036",
+      "name": "Norwich Market Satisfaction Score",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Records the customer satisfaction rating for the Norwich Market branch. Current recorded value is 70.",
+      "context": [
+        "| Norwich Market | 35 | 58 | £3,214 | 70 |"
+      ]
+    },
+    {
+      "id": "met_037",
+      "name": "Southampton Water Customer Count",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Tracks the total number of customers at the Southampton Water branch. Current recorded value is 32.",
+      "context": [
+        "| Southampton Water | 32 |"
+      ]
+    },
+    {
+      "id": "met_038",
+      "name": "Southampton Water Active Accounts",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Measures the number of active accounts held at the Southampton Water branch. Current recorded value is 52.",
+      "context": [
+        "| Southampton Water | 32 | 52 |"
+      ]
+    },
+    {
+      "id": "met_039",
+      "name": "Southampton Water Average Balance",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Captures the average account balance across the Southampton Water branch. Current recorded value is £3,087.",
+      "context": [
+        "| Southampton Water | 32 | 52 | £3,087 |"
+      ]
+    },
+    {
+      "id": "met_040",
+      "name": "Southampton Water Satisfaction Score",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Records the customer satisfaction rating for the Southampton Water branch. Current recorded value is 69.",
+      "context": [
+        "| Southampton Water | 32 | 52 | £3,087 | 69 |"
+      ]
+    },
+    {
+      "id": "met_041",
+      "name": "Belfast Central Customer Count",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Tracks the total number of customers at the Belfast Central branch. Current recorded value is 28.",
+      "context": [
+        "| Belfast Central | 28 |"
+      ]
+    },
+    {
+      "id": "met_042",
+      "name": "Belfast Central Active Accounts",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Measures the number of active accounts held at the Belfast Central branch. Current recorded value is 45.",
+      "context": [
+        "| Belfast Central | 28 | 45 |"
+      ]
+    },
+    {
+      "id": "met_043",
+      "name": "Belfast Central Average Balance",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Captures the average account balance across the Belfast Central branch. Current recorded value is £2,954.",
+      "context": [
+        "| Belfast Central | 28 | 45 | £2,954 |"
+      ]
+    },
+    {
+      "id": "met_044",
+      "name": "Belfast Central Satisfaction Score",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Records the customer satisfaction rating for the Belfast Central branch. Current recorded value is 67.",
+      "context": [
+        "| Belfast Central | 28 | 45 | £2,954 | 67 |"
+      ]
+    }
+  ],
+  "id_map": {
+    "org_001": "c89f41859fb44925be5b4ed628d31814_020_org_001",
+    "org_002": "c89f41859fb44925be5b4ed628d31814_020_org_002",
+    "org_003": "c89f41859fb44925be5b4ed628d31814_020_org_003",
+    "org_004": "c89f41859fb44925be5b4ed628d31814_020_org_004",
+    "org_005": "c89f41859fb44925be5b4ed628d31814_020_org_005",
+    "org_006": "c89f41859fb44925be5b4ed628d31814_020_org_006",
+    "org_007": "c89f41859fb44925be5b4ed628d31814_020_org_007",
+    "org_008": "c89f41859fb44925be5b4ed628d31814_020_org_008",
+    "org_009": "c89f41859fb44925be5b4ed628d31814_020_org_009",
+    "org_010": "c89f41859fb44925be5b4ed628d31814_020_org_010",
+    "org_011": "c89f41859fb44925be5b4ed628d31814_020_org_011",
+    "met_001": "c89f41859fb44925be5b4ed628d31814_020_met_001",
+    "met_002": "c89f41859fb44925be5b4ed628d31814_020_met_002",
+    "met_003": "c89f41859fb44925be5b4ed628d31814_020_met_003",
+    "met_004": "c89f41859fb44925be5b4ed628d31814_020_met_004",
+    "met_005": "c89f41859fb44925be5b4ed628d31814_020_met_005",
+    "met_006": "c89f41859fb44925be5b4ed628d31814_020_met_006",
+    "met_007": "c89f41859fb44925be5b4ed628d31814_020_met_007",
+    "met_008": "c89f41859fb44925be5b4ed628d31814_020_met_008",
+    "met_009": "c89f41859fb44925be5b4ed628d31814_020_met_009",
+    "met_010": "c89f41859fb44925be5b4ed628d31814_020_met_010",
+    "met_011": "c89f41859fb44925be5b4ed628d31814_020_met_011",
+    "met_012": "c89f41859fb44925be5b4ed628d31814_020_met_012",
+    "met_013": "c89f41859fb44925be5b4ed628d31814_020_met_013",
+    "met_014": "c89f41859fb44925be5b4ed628d31814_020_met_014",
+    "met_015": "c89f41859fb44925be5b4ed628d31814_020_met_015",
+    "met_016": "c89f41859fb44925be5b4ed628d31814_020_met_016",
+    "met_017": "c89f41859fb44925be5b4ed628d31814_020_met_017",
+    "met_018": "c89f41859fb44925be5b4ed628d31814_020_met_018",
+    "met_019": "c89f41859fb44925be5b4ed628d31814_020_met_019",
+    "met_020": "c89f41859fb44925be5b4ed628d31814_020_met_020",
+    "met_021": "c89f41859fb44925be5b4ed628d31814_020_met_021",
+    "met_022": "c89f41859fb44925be5b4ed628d31814_020_met_022",
+    "met_023": "c89f41859fb44925be5b4ed628d31814_020_met_023",
+    "met_024": "c89f41859fb44925be5b4ed628d31814_020_met_024",
+    "met_025": "c89f41859fb44925be5b4ed628d31814_020_met_025",
+    "met_026": "c89f41859fb44925be5b4ed628d31814_020_met_026",
+    "met_027": "c89f41859fb44925be5b4ed628d31814_020_met_027",
+    "met_028": "c89f41859fb44925be5b4ed628d31814_020_met_028",
+    "met_029": "c89f41859fb44925be5b4ed628d31814_020_met_029",
+    "met_030": "c89f41859fb44925be5b4ed628d31814_020_met_030",
+    "met_031": "c89f41859fb44925be5b4ed628d31814_020_met_031",
+    "met_032": "c89f41859fb44925be5b4ed628d31814_020_met_032",
+    "met_033": "c89f41859fb44925be5b4ed628d31814_020_met_033",
+    "met_034": "c89f41859fb44925be5b4ed628d31814_020_met_034",
+    "met_035": "c89f41859fb44925be5b4ed628d31814_020_met_035",
+    "met_036": "c89f41859fb44925be5b4ed628d31814_020_met_036",
+    "met_037": "c89f41859fb44925be5b4ed628d31814_020_met_037",
+    "met_038": "c89f41859fb44925be5b4ed628d31814_020_met_038",
+    "met_039": "c89f41859fb44925be5b4ed628d31814_020_met_039",
+    "met_040": "c89f41859fb44925be5b4ed628d31814_020_met_040",
+    "met_041": "c89f41859fb44925be5b4ed628d31814_020_met_041",
+    "met_042": "c89f41859fb44925be5b4ed628d31814_020_met_042",
+    "met_043": "c89f41859fb44925be5b4ed628d31814_020_met_043",
+    "met_044": "c89f41859fb44925be5b4ed628d31814_020_met_044"
+  },
+  "entities": [
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_org_001",
+      "name": "London Canary Wharf Branch",
+      "aliases": [
+        "London Canary Wharf"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A FirstUK Bank branch location operating in the Canary Wharf financial district. Performance is tracked against customer volume, active account counts, average balance, and customer satisfaction scores.",
+      "context": [
+        "## Branch Performance Metrics",
+        "| London Canary Wharf | 85 | 142 | £4,521 | 74 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_org_002",
+      "name": "Manchester Central Branch",
+      "aliases": [
+        "Manchester Central"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A FirstUK Bank branch location serving the Manchester central area. Monitored for customer metrics including account activity, balance performance, and satisfaction ratings.",
+      "context": [
+        "| Manchester Central | 68 | 108 | £4,195 | 71 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_org_003",
+      "name": "Leeds Financial Branch",
+      "aliases": [
+        "Leeds Financial"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A FirstUK Bank branch location focused on the Leeds financial sector. Performance tracked via customer count, active accounts, average balance, and satisfaction metrics.",
+      "context": [
+        "| Leeds Financial | 55 | 92 | £3,987 | 70 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_org_004",
+      "name": "Birmingham Business Branch",
+      "aliases": [
+        "Birmingham Business"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A FirstUK Bank branch location serving the Birmingham business district. Evaluated on customer volume, account activity, balance levels, and satisfaction scores.",
+      "context": [
+        "| Birmingham Business | 62 | 105 | £4,287 | 69 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_org_005",
+      "name": "Bristol South Branch",
+      "aliases": [
+        "Bristol South"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A FirstUK Bank branch location operating in southern Bristol. Performance metrics include customer count, active accounts, average balance, and satisfaction ratings.",
+      "context": [
+        "| Bristol South | 51 | 87 | £3,842 | 72 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_org_006",
+      "name": "Edinburgh Royal Branch",
+      "aliases": [
+        "Edinburgh Royal"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A FirstUK Bank branch location serving the Edinburgh royal district. Tracked for customer volume, account activity, balance performance, and satisfaction scores.",
+      "context": [
+        "| Edinburgh Royal | 48 | 82 | £4,012 | 73 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_org_007",
+      "name": "Glasgow Merchant Branch",
+      "aliases": [
+        "Glasgow Merchant"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A FirstUK Bank branch location operating in the Glasgow merchant district. Performance monitored via customer count, active accounts, average balance, and satisfaction metrics.",
+      "context": [
+        "| Glasgow Merchant | 42 | 68 | £3,756 | 71 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_org_008",
+      "name": "Liverpool Pier Branch",
+      "aliases": [
+        "Liverpool Pier"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A FirstUK Bank branch location serving the Liverpool pier area. Evaluated on customer volume, account activity, balance levels, and satisfaction scores.",
+      "context": [
+        "| Liverpool Pier | 38 | 61 | £3,521 | 68 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_org_009",
+      "name": "Norwich Market Branch",
+      "aliases": [
+        "Norwich Market"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A FirstUK Bank branch location operating in the Norwich market district. Performance tracked via customer count, active accounts, average balance, and satisfaction ratings.",
+      "context": [
+        "| Norwich Market | 35 | 58 | £3,214 | 70 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_org_010",
+      "name": "Southampton Water Branch",
+      "aliases": [
+        "Southampton Water"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A FirstUK Bank branch location serving the Southampton water district. Monitored for customer volume, account activity, balance performance, and satisfaction scores.",
+      "context": [
+        "| Southampton Water | 32 | 52 | £3,087 | 69 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_org_011",
+      "name": "Belfast Central Branch",
+      "aliases": [
+        "Belfast Central"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A FirstUK Bank branch location operating in central Belfast. Performance metrics include customer count, active accounts, average balance, and satisfaction ratings.",
+      "context": [
+        "| Belfast Central | 28 | 45 | £2,954 | 67 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_001",
+      "name": "London Canary Wharf Customer Count",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Tracks the total number of customers at the London Canary Wharf branch. Current recorded value is 85.",
+      "context": [
+        "| London Canary Wharf | 85 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_002",
+      "name": "London Canary Wharf Active Accounts",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Measures the number of active accounts held at the London Canary Wharf branch. Current recorded value is 142.",
+      "context": [
+        "| London Canary Wharf | 85 | 142 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_003",
+      "name": "London Canary Wharf Average Balance",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Captures the average account balance across the London Canary Wharf branch. Current recorded value is £4,521.",
+      "context": [
+        "| London Canary Wharf | 85 | 142 | £4,521 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_004",
+      "name": "London Canary Wharf Satisfaction Score",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Records the customer satisfaction rating for the London Canary Wharf branch. Current recorded value is 74.",
+      "context": [
+        "| London Canary Wharf | 85 | 142 | £4,521 | 74 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_005",
+      "name": "Manchester Central Customer Count",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Tracks the total number of customers at the Manchester Central branch. Current recorded value is 68.",
+      "context": [
+        "| Manchester Central | 68 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_006",
+      "name": "Manchester Central Active Accounts",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Measures the number of active accounts held at the Manchester Central branch. Current recorded value is 108.",
+      "context": [
+        "| Manchester Central | 68 | 108 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_007",
+      "name": "Manchester Central Average Balance",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Captures the average account balance across the Manchester Central branch. Current recorded value is £4,195.",
+      "context": [
+        "| Manchester Central | 68 | 108 | £4,195 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_008",
+      "name": "Manchester Central Satisfaction Score",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Records the customer satisfaction rating for the Manchester Central branch. Current recorded value is 71.",
+      "context": [
+        "| Manchester Central | 68 | 108 | £4,195 | 71 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_009",
+      "name": "Leeds Financial Customer Count",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Tracks the total number of customers at the Leeds Financial branch. Current recorded value is 55.",
+      "context": [
+        "| Leeds Financial | 55 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_010",
+      "name": "Leeds Financial Active Accounts",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Measures the number of active accounts held at the Leeds Financial branch. Current recorded value is 92.",
+      "context": [
+        "| Leeds Financial | 55 | 92 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_011",
+      "name": "Leeds Financial Average Balance",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Captures the average account balance across the Leeds Financial branch. Current recorded value is £3,987.",
+      "context": [
+        "| Leeds Financial | 55 | 92 | £3,987 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_012",
+      "name": "Leeds Financial Satisfaction Score",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Records the customer satisfaction rating for the Leeds Financial branch. Current recorded value is 70.",
+      "context": [
+        "| Leeds Financial | 55 | 92 | £3,987 | 70 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_013",
+      "name": "Birmingham Business Customer Count",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Tracks the total number of customers at the Birmingham Business branch. Current recorded value is 62.",
+      "context": [
+        "| Birmingham Business | 62 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_014",
+      "name": "Birmingham Business Active Accounts",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Measures the number of active accounts held at the Birmingham Business branch. Current recorded value is 105.",
+      "context": [
+        "| Birmingham Business | 62 | 105 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_015",
+      "name": "Birmingham Business Average Balance",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Captures the average account balance across the Birmingham Business branch. Current recorded value is £4,287.",
+      "context": [
+        "| Birmingham Business | 62 | 105 | £4,287 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_016",
+      "name": "Birmingham Business Satisfaction Score",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Records the customer satisfaction rating for the Birmingham Business branch. Current recorded value is 69.",
+      "context": [
+        "| Birmingham Business | 62 | 105 | £4,287 | 69 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_017",
+      "name": "Bristol South Customer Count",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Tracks the total number of customers at the Bristol South branch. Current recorded value is 51.",
+      "context": [
+        "| Bristol South | 51 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_018",
+      "name": "Bristol South Active Accounts",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Measures the number of active accounts held at the Bristol South branch. Current recorded value is 87.",
+      "context": [
+        "| Bristol South | 51 | 87 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_019",
+      "name": "Bristol South Average Balance",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Captures the average account balance across the Bristol South branch. Current recorded value is £3,842.",
+      "context": [
+        "| Bristol South | 51 | 87 | £3,842 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_020",
+      "name": "Bristol South Satisfaction Score",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Records the customer satisfaction rating for the Bristol South branch. Current recorded value is 72.",
+      "context": [
+        "| Bristol South | 51 | 87 | £3,842 | 72 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_021",
+      "name": "Edinburgh Royal Customer Count",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Tracks the total number of customers at the Edinburgh Royal branch. Current recorded value is 48.",
+      "context": [
+        "| Edinburgh Royal | 48 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_022",
+      "name": "Edinburgh Royal Active Accounts",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Measures the number of active accounts held at the Edinburgh Royal branch. Current recorded value is 82.",
+      "context": [
+        "| Edinburgh Royal | 48 | 82 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_023",
+      "name": "Edinburgh Royal Average Balance",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Captures the average account balance across the Edinburgh Royal branch. Current recorded value is £4,012.",
+      "context": [
+        "| Edinburgh Royal | 48 | 82 | £4,012 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_024",
+      "name": "Edinburgh Royal Satisfaction Score",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Records the customer satisfaction rating for the Edinburgh Royal branch. Current recorded value is 73.",
+      "context": [
+        "| Edinburgh Royal | 48 | 82 | £4,012 | 73 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_025",
+      "name": "Glasgow Merchant Customer Count",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Tracks the total number of customers at the Glasgow Merchant branch. Current recorded value is 42.",
+      "context": [
+        "| Glasgow Merchant | 42 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_026",
+      "name": "Glasgow Merchant Active Accounts",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Measures the number of active accounts held at the Glasgow Merchant branch. Current recorded value is 68.",
+      "context": [
+        "| Glasgow Merchant | 42 | 68 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_027",
+      "name": "Glasgow Merchant Average Balance",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Captures the average account balance across the Glasgow Merchant branch. Current recorded value is £3,756.",
+      "context": [
+        "| Glasgow Merchant | 42 | 68 | £3,756 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_028",
+      "name": "Glasgow Merchant Satisfaction Score",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Records the customer satisfaction rating for the Glasgow Merchant branch. Current recorded value is 71.",
+      "context": [
+        "| Glasgow Merchant | 42 | 68 | £3,756 | 71 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_029",
+      "name": "Liverpool Pier Customer Count",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Tracks the total number of customers at the Liverpool Pier branch. Current recorded value is 38.",
+      "context": [
+        "| Liverpool Pier | 38 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_030",
+      "name": "Liverpool Pier Active Accounts",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Measures the number of active accounts held at the Liverpool Pier branch. Current recorded value is 61.",
+      "context": [
+        "| Liverpool Pier | 38 | 61 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_031",
+      "name": "Liverpool Pier Average Balance",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Captures the average account balance across the Liverpool Pier branch. Current recorded value is £3,521.",
+      "context": [
+        "| Liverpool Pier | 38 | 61 | £3,521 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_032",
+      "name": "Liverpool Pier Satisfaction Score",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Records the customer satisfaction rating for the Liverpool Pier branch. Current recorded value is 68.",
+      "context": [
+        "| Liverpool Pier | 38 | 61 | £3,521 | 68 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_033",
+      "name": "Norwich Market Customer Count",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Tracks the total number of customers at the Norwich Market branch. Current recorded value is 35.",
+      "context": [
+        "| Norwich Market | 35 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_034",
+      "name": "Norwich Market Active Accounts",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Measures the number of active accounts held at the Norwich Market branch. Current recorded value is 58.",
+      "context": [
+        "| Norwich Market | 35 | 58 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_035",
+      "name": "Norwich Market Average Balance",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Captures the average account balance across the Norwich Market branch. Current recorded value is £3,214.",
+      "context": [
+        "| Norwich Market | 35 | 58 | £3,214 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_036",
+      "name": "Norwich Market Satisfaction Score",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Records the customer satisfaction rating for the Norwich Market branch. Current recorded value is 70.",
+      "context": [
+        "| Norwich Market | 35 | 58 | £3,214 | 70 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_037",
+      "name": "Southampton Water Customer Count",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Tracks the total number of customers at the Southampton Water branch. Current recorded value is 32.",
+      "context": [
+        "| Southampton Water | 32 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_038",
+      "name": "Southampton Water Active Accounts",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Measures the number of active accounts held at the Southampton Water branch. Current recorded value is 52.",
+      "context": [
+        "| Southampton Water | 32 | 52 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_039",
+      "name": "Southampton Water Average Balance",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Captures the average account balance across the Southampton Water branch. Current recorded value is £3,087.",
+      "context": [
+        "| Southampton Water | 32 | 52 | £3,087 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_040",
+      "name": "Southampton Water Satisfaction Score",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Records the customer satisfaction rating for the Southampton Water branch. Current recorded value is 69.",
+      "context": [
+        "| Southampton Water | 32 | 52 | £3,087 | 69 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_041",
+      "name": "Belfast Central Customer Count",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Tracks the total number of customers at the Belfast Central branch. Current recorded value is 28.",
+      "context": [
+        "| Belfast Central | 28 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_042",
+      "name": "Belfast Central Active Accounts",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Measures the number of active accounts held at the Belfast Central branch. Current recorded value is 45.",
+      "context": [
+        "| Belfast Central | 28 | 45 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_043",
+      "name": "Belfast Central Average Balance",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Captures the average account balance across the Belfast Central branch. Current recorded value is £2,954.",
+      "context": [
+        "| Belfast Central | 28 | 45 | £2,954 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_044",
+      "name": "Belfast Central Satisfaction Score",
+      "aliases": [],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "Records the customer satisfaction rating for the Belfast Central branch. Current recorded value is 67.",
+      "context": [
+        "| Belfast Central | 28 | 45 | £2,954 | 67 |"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    }
+  ],
+  "properties": [
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_org_001",
+      "name": "London Canary Wharf Branch",
+      "properties": {
+        "location": "Canary Wharf, London"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_001",
+      "name": "London Canary Wharf Customer Count",
+      "properties": {
+        "value": 85,
+        "unit": "count",
+        "what_it_measures": "Total number of customers at the branch"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_002",
+      "name": "London Canary Wharf Active Accounts",
+      "properties": {
+        "value": 142,
+        "unit": "count",
+        "what_it_measures": "Number of active accounts held by customers"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_003",
+      "name": "London Canary Wharf Average Balance",
+      "properties": {
+        "value": 4521,
+        "unit": "GBP",
+        "what_it_measures": "Mean account balance per customer"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_004",
+      "name": "London Canary Wharf Satisfaction Score",
+      "properties": {
+        "value": 74,
+        "unit": "score",
+        "what_it_measures": "Customer satisfaction rating"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_org_002",
+      "name": "Manchester Central Branch",
+      "properties": {
+        "location": "Central, Manchester"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_005",
+      "name": "Manchester Central Customer Count",
+      "properties": {
+        "value": 68,
+        "unit": "count",
+        "what_it_measures": "Total number of customers at the branch"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_006",
+      "name": "Manchester Central Active Accounts",
+      "properties": {
+        "value": 108,
+        "unit": "count",
+        "what_it_measures": "Number of active accounts held by customers"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_007",
+      "name": "Manchester Central Average Balance",
+      "properties": {
+        "value": 4195,
+        "unit": "GBP",
+        "what_it_measures": "Mean account balance per customer"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_008",
+      "name": "Manchester Central Satisfaction Score",
+      "properties": {
+        "value": 71,
+        "unit": "score",
+        "what_it_measures": "Customer satisfaction rating"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_org_003",
+      "name": "Leeds Financial Branch",
+      "properties": {
+        "location": "Financial District, Leeds"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_009",
+      "name": "Leeds Financial Customer Count",
+      "properties": {
+        "value": 55,
+        "unit": "count",
+        "what_it_measures": "Total number of customers at the branch"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_010",
+      "name": "Leeds Financial Active Accounts",
+      "properties": {
+        "value": 92,
+        "unit": "count",
+        "what_it_measures": "Number of active accounts held by customers"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_011",
+      "name": "Leeds Financial Average Balance",
+      "properties": {
+        "value": 3987,
+        "unit": "GBP",
+        "what_it_measures": "Mean account balance per customer"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_012",
+      "name": "Leeds Financial Satisfaction Score",
+      "properties": {
+        "value": 70,
+        "unit": "score",
+        "what_it_measures": "Customer satisfaction rating"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_org_004",
+      "name": "Birmingham Business Branch",
+      "properties": {
+        "location": "Business District, Birmingham"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_013",
+      "name": "Birmingham Business Customer Count",
+      "properties": {
+        "value": 62,
+        "unit": "count",
+        "what_it_measures": "Total number of customers at the branch"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_014",
+      "name": "Birmingham Business Active Accounts",
+      "properties": {
+        "value": 105,
+        "unit": "count",
+        "what_it_measures": "Number of active accounts held by customers"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_015",
+      "name": "Birmingham Business Average Balance",
+      "properties": {
+        "value": 4287,
+        "unit": "GBP",
+        "what_it_measures": "Mean account balance per customer"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_016",
+      "name": "Birmingham Business Satisfaction Score",
+      "properties": {
+        "value": 69,
+        "unit": "score",
+        "what_it_measures": "Customer satisfaction rating"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_org_005",
+      "name": "Bristol South Branch",
+      "properties": {
+        "location": "South, Bristol"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_017",
+      "name": "Bristol South Customer Count",
+      "properties": {
+        "value": 51,
+        "unit": "count",
+        "what_it_measures": "Total number of customers at the branch"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_018",
+      "name": "Bristol South Active Accounts",
+      "properties": {
+        "value": 87,
+        "unit": "count",
+        "what_it_measures": "Number of active accounts held by customers"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_019",
+      "name": "Bristol South Average Balance",
+      "properties": {
+        "value": 3842,
+        "unit": "GBP",
+        "what_it_measures": "Mean account balance per customer"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_020",
+      "name": "Bristol South Satisfaction Score",
+      "properties": {
+        "value": 72,
+        "unit": "score",
+        "what_it_measures": "Customer satisfaction rating"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_org_006",
+      "name": "Edinburgh Royal Branch",
+      "properties": {
+        "location": "Royal Mile, Edinburgh"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_021",
+      "name": "Edinburgh Royal Customer Count",
+      "properties": {
+        "value": 48,
+        "unit": "count",
+        "what_it_measures": "Total number of customers at the branch"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_022",
+      "name": "Edinburgh Royal Active Accounts",
+      "properties": {
+        "value": 82,
+        "unit": "count",
+        "what_it_measures": "Number of active accounts held by customers"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_023",
+      "name": "Edinburgh Royal Average Balance",
+      "properties": {
+        "value": 4012,
+        "unit": "GBP",
+        "what_it_measures": "Mean account balance per customer"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_024",
+      "name": "Edinburgh Royal Satisfaction Score",
+      "properties": {
+        "value": 73,
+        "unit": "score",
+        "what_it_measures": "Customer satisfaction rating"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_org_007",
+      "name": "Glasgow Merchant Branch",
+      "properties": {
+        "location": "Merchant City, Glasgow"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_025",
+      "name": "Glasgow Merchant Customer Count",
+      "properties": {
+        "value": 42,
+        "unit": "count",
+        "what_it_measures": "Total number of customers at the branch"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_026",
+      "name": "Glasgow Merchant Active Accounts",
+      "properties": {
+        "value": 68,
+        "unit": "count",
+        "what_it_measures": "Number of active accounts held by customers"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_027",
+      "name": "Glasgow Merchant Average Balance",
+      "properties": {
+        "value": 3756,
+        "unit": "GBP",
+        "what_it_measures": "Mean account balance per customer"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_028",
+      "name": "Glasgow Merchant Satisfaction Score",
+      "properties": {
+        "value": 71,
+        "unit": "score",
+        "what_it_measures": "Customer satisfaction rating"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_org_008",
+      "name": "Liverpool Pier Branch",
+      "properties": {
+        "location": "Pier District, Liverpool"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_029",
+      "name": "Liverpool Pier Customer Count",
+      "properties": {
+        "value": 38,
+        "unit": "count",
+        "what_it_measures": "Total number of customers at the branch"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_030",
+      "name": "Liverpool Pier Active Accounts",
+      "properties": {
+        "value": 61,
+        "unit": "count",
+        "what_it_measures": "Number of active accounts held by customers"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_031",
+      "name": "Liverpool Pier Average Balance",
+      "properties": {
+        "value": 3521,
+        "unit": "GBP",
+        "what_it_measures": "Mean account balance per customer"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_032",
+      "name": "Liverpool Pier Satisfaction Score",
+      "properties": {
+        "value": 68,
+        "unit": "score",
+        "what_it_measures": "Customer satisfaction rating"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_org_009",
+      "name": "Norwich Market Branch",
+      "properties": {
+        "location": "Market District, Norwich"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_033",
+      "name": "Norwich Market Customer Count",
+      "properties": {
+        "value": 35,
+        "unit": "count",
+        "what_it_measures": "Total number of customers at the branch"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_034",
+      "name": "Norwich Market Active Accounts",
+      "properties": {
+        "value": 58,
+        "unit": "count",
+        "what_it_measures": "Number of active accounts held by customers"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_035",
+      "name": "Norwich Market Average Balance",
+      "properties": {
+        "value": 3214,
+        "unit": "GBP",
+        "what_it_measures": "Mean account balance per customer"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_036",
+      "name": "Norwich Market Satisfaction Score",
+      "properties": {
+        "value": 70,
+        "unit": "score",
+        "what_it_measures": "Customer satisfaction rating"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_org_010",
+      "name": "Southampton Water Branch",
+      "properties": {
+        "location": "Waterfront, Southampton"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_037",
+      "name": "Southampton Water Customer Count",
+      "properties": {
+        "value": 32,
+        "unit": "count",
+        "what_it_measures": "Total number of customers at the branch"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_038",
+      "name": "Southampton Water Active Accounts",
+      "properties": {
+        "value": 52,
+        "unit": "count",
+        "what_it_measures": "Number of active accounts held by customers"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_039",
+      "name": "Southampton Water Average Balance",
+      "properties": {
+        "value": 3087,
+        "unit": "GBP",
+        "what_it_measures": "Mean account balance per customer"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_040",
+      "name": "Southampton Water Satisfaction Score",
+      "properties": {
+        "value": 69,
+        "unit": "score",
+        "what_it_measures": "Customer satisfaction rating"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_org_011",
+      "name": "Belfast Central Branch",
+      "properties": {
+        "location": "Central, Belfast"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_041",
+      "name": "Belfast Central Customer Count",
+      "properties": {
+        "value": 28,
+        "unit": "count",
+        "what_it_measures": "Total number of customers at the branch"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_042",
+      "name": "Belfast Central Active Accounts",
+      "properties": {
+        "value": 45,
+        "unit": "count",
+        "what_it_measures": "Number of active accounts held by customers"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_043",
+      "name": "Belfast Central Average Balance",
+      "properties": {
+        "value": 2954,
+        "unit": "GBP",
+        "what_it_measures": "Mean account balance per customer"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_020_met_044",
+      "name": "Belfast Central Satisfaction Score",
+      "properties": {
+        "value": 67,
+        "unit": "score",
+        "what_it_measures": "Customer satisfaction rating"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_001",
+      "source_name": "London Canary Wharf Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_001",
+      "target_name": "London Canary Wharf Customer Count",
+      "rel_type": "measured_by",
+      "description": "The branch tracks its total customer count as a primary performance metric.",
+      "properties": {
+        "value": "85",
+        "unit": "count"
+      },
+      "context": "London Canary Wharf | 85 | 142 | £4,521 | 74",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_001",
+      "source_name": "London Canary Wharf Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_002",
+      "target_name": "London Canary Wharf Active Accounts",
+      "rel_type": "measured_by",
+      "description": "The branch monitors the number of actively used customer accounts.",
+      "properties": {
+        "value": "142",
+        "unit": "count"
+      },
+      "context": "London Canary Wharf | 85 | 142 | £4,521 | 74",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_001",
+      "source_name": "London Canary Wharf Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_003",
+      "target_name": "London Canary Wharf Average Balance",
+      "rel_type": "measured_by",
+      "description": "The branch calculates and reports the average account balance held by customers.",
+      "properties": {
+        "value": "£4,521",
+        "unit": "currency"
+      },
+      "context": "London Canary Wharf | 85 | 142 | £4,521 | 74",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_001",
+      "source_name": "London Canary Wharf Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_004",
+      "target_name": "London Canary Wharf Satisfaction Score",
+      "rel_type": "measured_by",
+      "description": "The branch tracks customer satisfaction through periodic survey scoring.",
+      "properties": {
+        "value": "74",
+        "unit": "score"
+      },
+      "context": "London Canary Wharf | 85 | 142 | £4,521 | 74",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_002",
+      "source_name": "Manchester Central Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_005",
+      "target_name": "Manchester Central Customer Count",
+      "rel_type": "measured_by",
+      "description": "The branch tracks its total customer count as a primary performance metric.",
+      "properties": {
+        "value": "68",
+        "unit": "count"
+      },
+      "context": "Manchester Central | 68 | 108 | £4,195 | 71",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_002",
+      "source_name": "Manchester Central Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_006",
+      "target_name": "Manchester Central Active Accounts",
+      "rel_type": "measured_by",
+      "description": "The branch monitors the number of actively used customer accounts.",
+      "properties": {
+        "value": "108",
+        "unit": "count"
+      },
+      "context": "Manchester Central | 68 | 108 | £4,195 | 71",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_002",
+      "source_name": "Manchester Central Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_007",
+      "target_name": "Manchester Central Average Balance",
+      "rel_type": "measured_by",
+      "description": "The branch calculates and reports the average account balance held by customers.",
+      "properties": {
+        "value": "£4,195",
+        "unit": "currency"
+      },
+      "context": "Manchester Central | 68 | 108 | £4,195 | 71",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_002",
+      "source_name": "Manchester Central Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_008",
+      "target_name": "Manchester Central Satisfaction Score",
+      "rel_type": "measured_by",
+      "description": "The branch tracks customer satisfaction through periodic survey scoring.",
+      "properties": {
+        "value": "71",
+        "unit": "score"
+      },
+      "context": "Manchester Central | 68 | 108 | £4,195 | 71",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_003",
+      "source_name": "Leeds Financial Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_009",
+      "target_name": "Leeds Financial Customer Count",
+      "rel_type": "measured_by",
+      "description": "The branch tracks its total customer count as a primary performance metric.",
+      "properties": {
+        "value": "55",
+        "unit": "count"
+      },
+      "context": "Leeds Financial | 55 | 92 | £3,987 | 70",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_003",
+      "source_name": "Leeds Financial Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_010",
+      "target_name": "Leeds Financial Active Accounts",
+      "rel_type": "measured_by",
+      "description": "The branch monitors the number of actively used customer accounts.",
+      "properties": {
+        "value": "92",
+        "unit": "count"
+      },
+      "context": "Leeds Financial | 55 | 92 | £3,987 | 70",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_003",
+      "source_name": "Leeds Financial Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_011",
+      "target_name": "Leeds Financial Average Balance",
+      "rel_type": "measured_by",
+      "description": "The branch calculates and reports the average account balance held by customers.",
+      "properties": {
+        "value": "£3,987",
+        "unit": "currency"
+      },
+      "context": "Leeds Financial | 55 | 92 | £3,987 | 70",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_003",
+      "source_name": "Leeds Financial Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_012",
+      "target_name": "Leeds Financial Satisfaction Score",
+      "rel_type": "measured_by",
+      "description": "The branch tracks customer satisfaction through periodic survey scoring.",
+      "properties": {
+        "value": "70",
+        "unit": "score"
+      },
+      "context": "Leeds Financial | 55 | 92 | £3,987 | 70",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_004",
+      "source_name": "Birmingham Business Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_013",
+      "target_name": "Birmingham Business Customer Count",
+      "rel_type": "measured_by",
+      "description": "The branch tracks its total customer count as a primary performance metric.",
+      "properties": {
+        "value": "62",
+        "unit": "count"
+      },
+      "context": "Birmingham Business | 62 | 105 | £4,287 | 69",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_004",
+      "source_name": "Birmingham Business Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_014",
+      "target_name": "Birmingham Business Active Accounts",
+      "rel_type": "measured_by",
+      "description": "The branch monitors the number of actively used customer accounts.",
+      "properties": {
+        "value": "105",
+        "unit": "count"
+      },
+      "context": "Birmingham Business | 62 | 105 | £4,287 | 69",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_004",
+      "source_name": "Birmingham Business Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_015",
+      "target_name": "Birmingham Business Average Balance",
+      "rel_type": "measured_by",
+      "description": "The branch calculates and reports the average account balance held by customers.",
+      "properties": {
+        "value": "£4,287",
+        "unit": "currency"
+      },
+      "context": "Birmingham Business | 62 | 105 | £4,287 | 69",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_004",
+      "source_name": "Birmingham Business Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_016",
+      "target_name": "Birmingham Business Satisfaction Score",
+      "rel_type": "measured_by",
+      "description": "The branch tracks customer satisfaction through periodic survey scoring.",
+      "properties": {
+        "value": "69",
+        "unit": "score"
+      },
+      "context": "Birmingham Business | 62 | 105 | £4,287 | 69",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_005",
+      "source_name": "Bristol South Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_017",
+      "target_name": "Bristol South Customer Count",
+      "rel_type": "measured_by",
+      "description": "The branch tracks its total customer count as a primary performance metric.",
+      "properties": {
+        "value": "51",
+        "unit": "count"
+      },
+      "context": "Bristol South | 51 | 87 | £3,842 | 72",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_005",
+      "source_name": "Bristol South Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_018",
+      "target_name": "Bristol South Active Accounts",
+      "rel_type": "measured_by",
+      "description": "The branch monitors the number of actively used customer accounts.",
+      "properties": {
+        "value": "87",
+        "unit": "count"
+      },
+      "context": "Bristol South | 51 | 87 | £3,842 | 72",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_005",
+      "source_name": "Bristol South Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_019",
+      "target_name": "Bristol South Average Balance",
+      "rel_type": "measured_by",
+      "description": "The branch calculates and reports the average account balance held by customers.",
+      "properties": {
+        "value": "£3,842",
+        "unit": "currency"
+      },
+      "context": "Bristol South | 51 | 87 | £3,842 | 72",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_005",
+      "source_name": "Bristol South Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_020",
+      "target_name": "Bristol South Satisfaction Score",
+      "rel_type": "measured_by",
+      "description": "The branch tracks customer satisfaction through periodic survey scoring.",
+      "properties": {
+        "value": "72",
+        "unit": "score"
+      },
+      "context": "Bristol South | 51 | 87 | £3,842 | 72",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_006",
+      "source_name": "Edinburgh Royal Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_021",
+      "target_name": "Edinburgh Royal Customer Count",
+      "rel_type": "measured_by",
+      "description": "The branch tracks its total customer count as a primary performance metric.",
+      "properties": {
+        "value": "48",
+        "unit": "count"
+      },
+      "context": "Edinburgh Royal | 48 | 82 | £4,012 | 73",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_006",
+      "source_name": "Edinburgh Royal Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_022",
+      "target_name": "Edinburgh Royal Active Accounts",
+      "rel_type": "measured_by",
+      "description": "The branch monitors the number of actively used customer accounts.",
+      "properties": {
+        "value": "82",
+        "unit": "count"
+      },
+      "context": "Edinburgh Royal | 48 | 82 | £4,012 | 73",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_006",
+      "source_name": "Edinburgh Royal Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_023",
+      "target_name": "Edinburgh Royal Average Balance",
+      "rel_type": "measured_by",
+      "description": "The branch calculates and reports the average account balance held by customers.",
+      "properties": {
+        "value": "£4,012",
+        "unit": "currency"
+      },
+      "context": "Edinburgh Royal | 48 | 82 | £4,012 | 73",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_006",
+      "source_name": "Edinburgh Royal Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_024",
+      "target_name": "Edinburgh Royal Satisfaction Score",
+      "rel_type": "measured_by",
+      "description": "The branch tracks customer satisfaction through periodic survey scoring.",
+      "properties": {
+        "value": "73",
+        "unit": "score"
+      },
+      "context": "Edinburgh Royal | 48 | 82 | £4,012 | 73",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_007",
+      "source_name": "Glasgow Merchant Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_025",
+      "target_name": "Glasgow Merchant Customer Count",
+      "rel_type": "measured_by",
+      "description": "The branch tracks its total customer count as a primary performance metric.",
+      "properties": {
+        "value": "42",
+        "unit": "count"
+      },
+      "context": "Glasgow Merchant | 42 | 68 | £3,756 | 71",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_007",
+      "source_name": "Glasgow Merchant Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_026",
+      "target_name": "Glasgow Merchant Active Accounts",
+      "rel_type": "measured_by",
+      "description": "The branch monitors the number of actively used customer accounts.",
+      "properties": {
+        "value": "68",
+        "unit": "count"
+      },
+      "context": "Glasgow Merchant | 42 | 68 | £3,756 | 71",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_007",
+      "source_name": "Glasgow Merchant Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_027",
+      "target_name": "Glasgow Merchant Average Balance",
+      "rel_type": "measured_by",
+      "description": "The branch calculates and reports the average account balance held by customers.",
+      "properties": {
+        "value": "£3,756",
+        "unit": "currency"
+      },
+      "context": "Glasgow Merchant | 42 | 68 | £3,756 | 71",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_007",
+      "source_name": "Glasgow Merchant Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_028",
+      "target_name": "Glasgow Merchant Satisfaction Score",
+      "rel_type": "measured_by",
+      "description": "The branch tracks customer satisfaction through periodic survey scoring.",
+      "properties": {
+        "value": "71",
+        "unit": "score"
+      },
+      "context": "Glasgow Merchant | 42 | 68 | £3,756 | 71",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_008",
+      "source_name": "Liverpool Pier Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_029",
+      "target_name": "Liverpool Pier Customer Count",
+      "rel_type": "measured_by",
+      "description": "The branch tracks its total customer count as a primary performance metric.",
+      "properties": {
+        "value": "38",
+        "unit": "count"
+      },
+      "context": "Liverpool Pier | 38 | 61 | £3,521 | 68",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_008",
+      "source_name": "Liverpool Pier Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_030",
+      "target_name": "Liverpool Pier Active Accounts",
+      "rel_type": "measured_by",
+      "description": "The branch monitors the number of actively used customer accounts.",
+      "properties": {
+        "value": "61",
+        "unit": "count"
+      },
+      "context": "Liverpool Pier | 38 | 61 | £3,521 | 68",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_008",
+      "source_name": "Liverpool Pier Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_031",
+      "target_name": "Liverpool Pier Average Balance",
+      "rel_type": "measured_by",
+      "description": "The branch calculates and reports the average account balance held by customers.",
+      "properties": {
+        "value": "£3,521",
+        "unit": "currency"
+      },
+      "context": "Liverpool Pier | 38 | 61 | £3,521 | 68",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_008",
+      "source_name": "Liverpool Pier Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_032",
+      "target_name": "Liverpool Pier Satisfaction Score",
+      "rel_type": "measured_by",
+      "description": "The branch tracks customer satisfaction through periodic survey scoring.",
+      "properties": {
+        "value": "68",
+        "unit": "score"
+      },
+      "context": "Liverpool Pier | 38 | 61 | £3,521 | 68",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_009",
+      "source_name": "Norwich Market Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_033",
+      "target_name": "Norwich Market Customer Count",
+      "rel_type": "measured_by",
+      "description": "The branch tracks its total customer count as a primary performance metric.",
+      "properties": {
+        "value": "35",
+        "unit": "count"
+      },
+      "context": "Norwich Market | 35 | 58 | £3,214 | 70",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_009",
+      "source_name": "Norwich Market Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_034",
+      "target_name": "Norwich Market Active Accounts",
+      "rel_type": "measured_by",
+      "description": "The branch monitors the number of actively used customer accounts.",
+      "properties": {
+        "value": "58",
+        "unit": "count"
+      },
+      "context": "Norwich Market | 35 | 58 | £3,214 | 70",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_009",
+      "source_name": "Norwich Market Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_035",
+      "target_name": "Norwich Market Average Balance",
+      "rel_type": "measured_by",
+      "description": "The branch calculates and reports the average account balance held by customers.",
+      "properties": {
+        "value": "£3,214",
+        "unit": "currency"
+      },
+      "context": "Norwich Market | 35 | 58 | £3,214 | 70",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_009",
+      "source_name": "Norwich Market Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_036",
+      "target_name": "Norwich Market Satisfaction Score",
+      "rel_type": "measured_by",
+      "description": "The branch tracks customer satisfaction through periodic survey scoring.",
+      "properties": {
+        "value": "70",
+        "unit": "score"
+      },
+      "context": "Norwich Market | 35 | 58 | £3,214 | 70",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_010",
+      "source_name": "Southampton Water Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_037",
+      "target_name": "Southampton Water Customer Count",
+      "rel_type": "measured_by",
+      "description": "The branch tracks its total customer count as a primary performance metric.",
+      "properties": {
+        "value": "32",
+        "unit": "count"
+      },
+      "context": "Southampton Water | 32 | 52 | £3,087 | 69",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_010",
+      "source_name": "Southampton Water Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_038",
+      "target_name": "Southampton Water Active Accounts",
+      "rel_type": "measured_by",
+      "description": "The branch monitors the number of actively used customer accounts.",
+      "properties": {
+        "value": "52",
+        "unit": "count"
+      },
+      "context": "Southampton Water | 32 | 52 | £3,087 | 69",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_010",
+      "source_name": "Southampton Water Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_039",
+      "target_name": "Southampton Water Average Balance",
+      "rel_type": "measured_by",
+      "description": "The branch calculates and reports the average account balance held by customers.",
+      "properties": {
+        "value": "£3,087",
+        "unit": "currency"
+      },
+      "context": "Southampton Water | 32 | 52 | £3,087 | 69",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_010",
+      "source_name": "Southampton Water Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_040",
+      "target_name": "Southampton Water Satisfaction Score",
+      "rel_type": "measured_by",
+      "description": "The branch tracks customer satisfaction through periodic survey scoring.",
+      "properties": {
+        "value": "69",
+        "unit": "score"
+      },
+      "context": "Southampton Water | 32 | 52 | £3,087 | 69",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_011",
+      "source_name": "Belfast Central Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_041",
+      "target_name": "Belfast Central Customer Count",
+      "rel_type": "measured_by",
+      "description": "The branch tracks its total customer count as a primary performance metric.",
+      "properties": {
+        "value": "28",
+        "unit": "count"
+      },
+      "context": "Belfast Central | 28 | 45 | £2,954 | 67",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_011",
+      "source_name": "Belfast Central Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_042",
+      "target_name": "Belfast Central Active Accounts",
+      "rel_type": "measured_by",
+      "description": "The branch monitors the number of actively used customer accounts.",
+      "properties": {
+        "value": "45",
+        "unit": "count"
+      },
+      "context": "Belfast Central | 28 | 45 | £2,954 | 67",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_011",
+      "source_name": "Belfast Central Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_043",
+      "target_name": "Belfast Central Average Balance",
+      "rel_type": "measured_by",
+      "description": "The branch calculates and reports the average account balance held by customers.",
+      "properties": {
+        "value": "£2,954",
+        "unit": "currency"
+      },
+      "context": "Belfast Central | 28 | 45 | £2,954 | 67",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_011",
+      "source_name": "Belfast Central Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020_met_044",
+      "target_name": "Belfast Central Satisfaction Score",
+      "rel_type": "measured_by",
+      "description": "The branch tracks customer satisfaction through periodic survey scoring.",
+      "properties": {
+        "value": "67",
+        "unit": "score"
+      },
+      "context": "Belfast Central | 28 | 45 | £2,954 | 67",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_001",
+      "source_name": "London Canary Wharf Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_002",
+      "source_name": "Manchester Central Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_003",
+      "source_name": "Leeds Financial Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_004",
+      "source_name": "Birmingham Business Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_005",
+      "source_name": "Bristol South Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_006",
+      "source_name": "Edinburgh Royal Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_007",
+      "source_name": "Glasgow Merchant Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_008",
+      "source_name": "Liverpool Pier Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_009",
+      "source_name": "Norwich Market Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_010",
+      "source_name": "Southampton Water Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_org_011",
+      "source_name": "Belfast Central Branch",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_001",
+      "source_name": "London Canary Wharf Customer Count",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_002",
+      "source_name": "London Canary Wharf Active Accounts",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_003",
+      "source_name": "London Canary Wharf Average Balance",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_004",
+      "source_name": "London Canary Wharf Satisfaction Score",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_005",
+      "source_name": "Manchester Central Customer Count",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_006",
+      "source_name": "Manchester Central Active Accounts",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_007",
+      "source_name": "Manchester Central Average Balance",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_008",
+      "source_name": "Manchester Central Satisfaction Score",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_009",
+      "source_name": "Leeds Financial Customer Count",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_010",
+      "source_name": "Leeds Financial Active Accounts",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_011",
+      "source_name": "Leeds Financial Average Balance",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_012",
+      "source_name": "Leeds Financial Satisfaction Score",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_013",
+      "source_name": "Birmingham Business Customer Count",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_014",
+      "source_name": "Birmingham Business Active Accounts",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_015",
+      "source_name": "Birmingham Business Average Balance",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_016",
+      "source_name": "Birmingham Business Satisfaction Score",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_017",
+      "source_name": "Bristol South Customer Count",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_018",
+      "source_name": "Bristol South Active Accounts",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_019",
+      "source_name": "Bristol South Average Balance",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_020",
+      "source_name": "Bristol South Satisfaction Score",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_021",
+      "source_name": "Edinburgh Royal Customer Count",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_022",
+      "source_name": "Edinburgh Royal Active Accounts",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_023",
+      "source_name": "Edinburgh Royal Average Balance",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_024",
+      "source_name": "Edinburgh Royal Satisfaction Score",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_025",
+      "source_name": "Glasgow Merchant Customer Count",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_026",
+      "source_name": "Glasgow Merchant Active Accounts",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_027",
+      "source_name": "Glasgow Merchant Average Balance",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_028",
+      "source_name": "Glasgow Merchant Satisfaction Score",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_029",
+      "source_name": "Liverpool Pier Customer Count",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_030",
+      "source_name": "Liverpool Pier Active Accounts",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_031",
+      "source_name": "Liverpool Pier Average Balance",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_032",
+      "source_name": "Liverpool Pier Satisfaction Score",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_033",
+      "source_name": "Norwich Market Customer Count",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_034",
+      "source_name": "Norwich Market Active Accounts",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_035",
+      "source_name": "Norwich Market Average Balance",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_036",
+      "source_name": "Norwich Market Satisfaction Score",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_037",
+      "source_name": "Southampton Water Customer Count",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_038",
+      "source_name": "Southampton Water Active Accounts",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_039",
+      "source_name": "Southampton Water Average Balance",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_040",
+      "source_name": "Southampton Water Satisfaction Score",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_041",
+      "source_name": "Belfast Central Customer Count",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_042",
+      "source_name": "Belfast Central Active Accounts",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_043",
+      "source_name": "Belfast Central Average Balance",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_020_met_044",
+      "source_name": "Belfast Central Satisfaction Score",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_020",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    }
+  ]
+}

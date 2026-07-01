@@ -1,0 +1,2427 @@
+{
+  "embedding": [
+    0.027485825,
+    0.047551762,
+    -0.18405561,
+    -0.039870974,
+    0.07499166,
+    -0.01805177,
+    0.044291843,
+    0.0023978094,
+    -0.030026684,
+    0.0068191877,
+    -0.011829908,
+    0.01337156,
+    0.08059528,
+    -0.033836454,
+    0.0076739243,
+    0.01852601,
+    -0.017460795,
+    -0.012364691,
+    -0.04377644,
+    0.046158496,
+    0.02828789,
+    -0.07777887,
+    -9.8615135e-05,
+    -0.04486804,
+    0.03586166,
+    0.015670225,
+    0.025702542,
+    0.00038764544,
+    -0.01041933,
+    0.010663878,
+    0.052996855,
+    0.011359152,
+    -0.017255228,
+    -0.0015071527,
+    -0.036656536,
+    -0.009620099,
+    0.014258632,
+    -0.02814262,
+    0.012948573,
+    -0.058318015,
+    0.007355734,
+    -0.04538356,
+    -0.018454447,
+    -0.050153702,
+    0.07555637,
+    0.015357368,
+    0.05187573,
+    -0.028554613,
+    0.08598695,
+    -0.06975066,
+    -0.006631492,
+    0.04280935,
+    -0.0028618127,
+    0.04403405,
+    0.020167299,
+    0.025509093,
+    -0.021602295,
+    0.05050708,
+    -0.008960464,
+    -0.05045697,
+    0.11017006,
+    0.04757199,
+    0.013315006,
+    0.077044606,
+    0.04832616,
+    -0.014424257,
+    -0.011193839,
+    0.015779069,
+    0.0021398691,
+    -0.09555707,
+    0.0442722,
+    0.032683823,
+    -0.004545239,
+    0.030160682,
+    -0.019264359,
+    -0.05276082,
+    0.019562954,
+    -0.08048959,
+    -0.056463774,
+    0.0043493467,
+    0.04698902,
+    -0.04786481,
+    0.022612905,
+    0.005924392,
+    0.06797657,
+    0.0055306465,
+    -0.0004457746,
+    -0.0050531533,
+    -0.061197422,
+    0.049725804,
+    0.021961126,
+    -0.00034956684,
+    0.028157413,
+    0.011760469,
+    -0.1001197,
+    0.019143432,
+    -0.024949988,
+    0.039326433,
+    -0.03974223,
+    -0.035234805,
+    -0.024581676,
+    -0.040705692,
+    -0.0058677136,
+    0.0019500366,
+    0.007930354,
+    0.050229188,
+    -0.004464961,
+    0.0077299927,
+    -0.023585893,
+    0.02630289,
+    -0.04000656,
+    0.027389942,
+    -0.027062053,
+    0.0183168,
+    0.026325934,
+    -0.039606884,
+    0.05972051,
+    -0.012999109,
+    -0.036116853,
+    0.0036055048,
+    -0.0038554717,
+    -0.042131096,
+    0.024496181,
+    0.009439184,
+    0.019630492,
+    -0.0056211045,
+    -0.105319016,
+    -0.01936659,
+    -0.016412614,
+    -0.035050683,
+    -0.0064215004,
+    -0.025905022,
+    -0.05052648,
+    -0.00245069,
+    0.03124866,
+    0.03486744,
+    -0.023928963,
+    -0.07279003,
+    0.03929699,
+    0.04802091,
+    0.037321184,
+    0.019193511,
+    0.01471151,
+    0.0001467456,
+    -0.00482712,
+    -0.023147209,
+    -0.00026253497,
+    0.0037485545,
+    -0.03407624,
+    0.013530906,
+    0.0045961305,
+    -0.0043584327,
+    -0.0060473424,
+    0.01530338,
+    0.060284793,
+    -0.086861946,
+    -0.026134964,
+    0.007366309,
+    0.026444517,
+    0.012162586,
+    0.015100898,
+    0.02035862,
+    -0.033193927,
+    0.008810597,
+    0.034547627,
+    -0.07924405,
+    -0.0188452,
+    0.0627289,
+    0.050096624,
+    -0.015905695,
+    -0.047141448,
+    -0.010291579,
+    0.014352915,
+    -0.012062921,
+    0.03981475,
+    0.014113332,
+    0.084639646,
+    0.03242354,
+    -0.0062327017,
+    -0.030461334,
+    0.02079726,
+    -0.05718752,
+    0.026053613,
+    -0.008232691,
+    -0.06795558,
+    -0.010601582,
+    0.006528839,
+    -0.022554552,
+    0.007969657,
+    -0.05985046,
+    0.046885755,
+    -0.014844249,
+    -0.028344048,
+    0.025244223,
+    -0.05062159,
+    -0.055444304,
+    0.04872573,
+    -0.003907984,
+    0.038342234,
+    -0.059174646,
+    -0.010944045,
+    -0.007162551,
+    -0.020860313,
+    0.006458178,
+    -0.019894097,
+    0.0327497,
+    0.0349466,
+    -0.004211544,
+    -0.007745604,
+    0.00065926934,
+    0.047451988,
+    -0.02276782,
+    -0.020365046,
+    0.014429001,
+    0.028260717,
+    0.018805448,
+    0.012709848,
+    -0.02339484,
+    -0.011276425,
+    0.021313725,
+    -0.0072165146,
+    0.0054111984,
+    0.0129832495,
+    -0.015647186,
+    0.058054466,
+    -0.013888269,
+    -0.03858492,
+    -0.03630504,
+    0.013017815,
+    -0.019642549,
+    0.0040856665,
+    -0.029165827,
+    0.04612482,
+    -0.00023311938,
+    0.024583882,
+    0.04897712,
+    -0.010998451,
+    0.06506187,
+    0.012282124,
+    0.02178183,
+    -0.006512118,
+    0.039689377,
+    -0.03419246,
+    0.016750611,
+    -0.023960754,
+    0.005056872,
+    0.026208464,
+    0.0027629551,
+    0.019117752,
+    0.029172912,
+    0.031246392,
+    -0.020034777,
+    0.019980656,
+    -0.017866937,
+    0.020171773,
+    -0.034662113,
+    -0.03604259,
+    -0.0011717665,
+    -0.018846396,
+    -0.0037595755,
+    0.008241127,
+    -0.008173742,
+    0.05575793,
+    -0.033016197,
+    -0.008902889,
+    0.01677373,
+    -0.061442487,
+    0.00090453203,
+    0.019973535,
+    -0.01636802,
+    0.039438006,
+    0.030877437,
+    0.028061127,
+    0.07975392,
+    -0.026911959,
+    -0.029550802,
+    0.007907596,
+    -0.029156571,
+    -0.032761652,
+    0.042884365,
+    -0.078871824,
+    -0.067753255,
+    -0.030760359,
+    0.010511355,
+    -0.034659613,
+    0.03435247,
+    -0.0081082,
+    0.016370773,
+    0.028687023,
+    0.02695049,
+    0.04053302,
+    -0.011126261,
+    -0.013899914,
+    -5.5493856e-05,
+    -0.0050568255,
+    -0.020725759,
+    0.0370006,
+    0.006529982,
+    0.05163707,
+    -0.06918327,
+    0.0054741213,
+    0.07251382,
+    0.06121469,
+    0.005661293,
+    0.02934009,
+    -0.0011949941,
+    0.015560591,
+    0.0146683855,
+    -0.03375249,
+    -0.053786073,
+    -0.028707996,
+    -0.044251837,
+    -0.025928428,
+    -0.011550484,
+    -0.046437524,
+    -0.026129305,
+    0.03769819,
+    -0.008324222,
+    0.027904488,
+    -0.002146716,
+    -0.013263834,
+    -0.026257873,
+    0.005726801,
+    -0.025972813,
+    -0.015603175,
+    0.050540242,
+    -0.040260877,
+    0.03220094,
+    -0.028047135,
+    0.014405197,
+    -0.008695575,
+    0.011693371,
+    0.03765493,
+    -0.035261977,
+    -0.020319583,
+    0.07297089,
+    0.04922436,
+    0.015167721,
+    0.01212837,
+    0.039840546,
+    0.0187674,
+    0.0041696783,
+    -0.007263804,
+    -0.0068340367,
+    -0.009312247,
+    -0.0061385566,
+    0.0045794253,
+    -0.018076096,
+    0.058175046,
+    0.03788563,
+    -0.020448498,
+    -0.03278538,
+    0.005487094,
+    -0.027059505,
+    0.009912409,
+    -0.00628897,
+    -0.013823568,
+    0.06250853,
+    -0.02182024,
+    -0.012035146,
+    0.04403408,
+    0.0010722702,
+    0.081099875,
+    0.019713862,
+    -0.044135842,
+    0.050271653,
+    0.03848211,
+    0.0032816464,
+    0.03233022,
+    0.045909215,
+    0.016714338,
+    -0.052820742,
+    -0.041654382,
+    0.03985009,
+    -0.030492162,
+    -0.023523217,
+    -0.06083855,
+    -0.023819601,
+    -0.024146128,
+    0.026023021,
+    0.03205692,
+    -0.0069289543,
+    -0.043155216,
+    0.023912992,
+    0.0016415877,
+    -0.02512184,
+    0.011232714,
+    -0.0084955925,
+    0.039206743,
+    0.0022538016,
+    -0.04083712,
+    -0.030305896,
+    -0.0057950206,
+    -0.0016036145,
+    0.031077234,
+    -0.022476543,
+    0.012949085,
+    0.037646033,
+    0.045836024,
+    0.051311117,
+    -0.07067266,
+    -0.043435853,
+    -0.0014551678,
+    -0.00013588238,
+    -0.0076954584,
+    0.004692051,
+    -0.019314582,
+    -0.026157064,
+    0.0013777941,
+    -0.00029121723,
+    0.056161083,
+    0.036269322,
+    -0.013344952,
+    -0.0401322,
+    0.057274792,
+    -0.0027160228,
+    0.024335474,
+    -0.041774224,
+    -0.04095854,
+    0.022055218,
+    0.023513684,
+    0.025354821,
+    0.057042234,
+    -0.020441221,
+    0.062113047,
+    0.040167496,
+    0.039485507,
+    -0.0019263334,
+    -0.009428558,
+    -0.03392829,
+    0.004149828,
+    0.041168194,
+    -0.0057996497,
+    -0.022627203,
+    -0.051265594,
+    0.023433762,
+    0.054353148,
+    0.0039138743,
+    0.014738971,
+    0.032531485,
+    0.030247066,
+    -0.026441218,
+    -0.029624702,
+    -0.04513048,
+    -0.025989966,
+    0.080377,
+    0.035600152,
+    -0.057105448,
+    -0.0026651367,
+    0.0702272,
+    0.017440734,
+    0.03518499,
+    0.009208115,
+    0.0351836,
+    0.08032159,
+    -0.01387533,
+    -0.012720938,
+    -0.02273144,
+    -0.017133966,
+    0.026320267,
+    0.0050844764,
+    0.0069463663,
+    -0.05305519,
+    -0.027393535,
+    0.010167883,
+    -0.032907054,
+    -0.007092768,
+    -0.038178314,
+    0.04905761,
+    0.049797494,
+    -0.09718619,
+    0.006716675,
+    -0.020714028,
+    -0.02092986,
+    -0.010044136,
+    0.04179408,
+    -5.9153917e-05,
+    -0.029694458,
+    0.08652014,
+    0.047652617,
+    -0.017804945,
+    -0.018413909,
+    -0.039146677,
+    -0.037345998,
+    -0.039668508,
+    0.025324317,
+    0.022182195,
+    -0.06858307,
+    0.05019893,
+    -0.03286819,
+    -0.019990947,
+    -0.034968738,
+    0.024853542,
+    0.005042455,
+    -0.0013063598,
+    0.033161264,
+    -0.037358634,
+    0.030977413,
+    0.012021996,
+    -0.008061447,
+    0.071667284,
+    0.04107474,
+    -0.05254825,
+    0.026473554,
+    0.042530842,
+    -0.036643285,
+    0.07775163,
+    -0.038309626,
+    -0.0026947977,
+    -0.022084966,
+    -0.022923319,
+    -0.010507568,
+    0.0061610825,
+    -0.015342035,
+    0.04935254,
+    -0.08225725,
+    0.01357728,
+    0.045585983,
+    -0.05727215,
+    -0.021749478,
+    -0.032934964,
+    0.00078873086,
+    -0.006326797,
+    -0.030584067,
+    -0.041882705,
+    0.03968667,
+    0.022461312,
+    -0.03459884,
+    0.020812817,
+    0.0045017954,
+    -0.005543486,
+    0.06856805,
+    -0.04235723,
+    -0.016996397,
+    0.009254394,
+    -0.021091927,
+    -0.052507974,
+    0.008504677,
+    0.06539574,
+    0.00396146,
+    -0.007385164,
+    0.019510917,
+    -0.0029201803,
+    0.019173391,
+    0.00558179,
+    -0.037626963,
+    -0.02062857,
+    0.027936574,
+    0.025753796,
+    -0.04780459,
+    0.03869554,
+    -0.045259368,
+    0.012013347,
+    -0.06014041,
+    0.027750729,
+    -0.005063014,
+    0.034505013,
+    -0.016366858,
+    -0.06998692,
+    -0.022360519,
+    0.023758389,
+    0.028578833,
+    0.07489679,
+    0.02704,
+    -0.005418831,
+    -0.010789247,
+    0.014968952,
+    0.034672923,
+    0.00679713,
+    0.011423721,
+    0.01590035,
+    -0.051736593,
+    -0.035629448,
+    -0.008854265,
+    0.0043861754,
+    0.0011973336,
+    0.04787859,
+    -0.014196543,
+    -0.047748726,
+    -0.035975765,
+    0.008961499,
+    -0.048481587,
+    0.027627638,
+    0.03761728,
+    -0.045885198,
+    0.011606884,
+    -0.03532503,
+    -0.083224446,
+    0.01714808,
+    -0.053643566,
+    -0.046558995,
+    0.044615988,
+    0.052309386,
+    -0.019571597,
+    -0.0239172,
+    0.034679104,
+    -0.020272674,
+    -0.015314176,
+    -0.039214663,
+    -0.061434977,
+    -0.016226564,
+    0.007625167,
+    0.0539828,
+    -0.045261282,
+    0.008396166,
+    0.03765517,
+    0.007237463,
+    0.0021837759,
+    -0.041376624,
+    -0.048559338,
+    0.07034771,
+    -0.02005741,
+    -0.029811198,
+    -0.025231954,
+    0.0011918003,
+    0.030075062,
+    0.06543446,
+    0.020220676,
+    0.004109406,
+    -0.038499072,
+    -0.0067202323,
+    -0.024315612,
+    0.031553518,
+    0.0029138024,
+    -0.01645059,
+    -0.031658094,
+    -0.041919593,
+    -0.031230267,
+    -0.01658991,
+    0.03480222,
+    -0.013591785,
+    0.037644174,
+    -0.07821159,
+    -0.029456422,
+    -0.11831811,
+    -0.0008787331,
+    0.038126264,
+    0.0014378314,
+    -0.025180418,
+    -0.01434326,
+    0.05073421,
+    -0.0034178568,
+    -0.056021027,
+    0.041232463,
+    0.073401876,
+    -0.046015296,
+    -0.0072430475,
+    0.021670831,
+    0.08237763,
+    -0.0020324353,
+    0.061286155,
+    0.06083632,
+    0.01701094,
+    -0.04208362,
+    -0.0070369155,
+    -0.024788396,
+    -0.01668552,
+    -0.038358316,
+    -0.06406951,
+    -0.025010988,
+    -0.02889691,
+    0.01722314,
+    0.0047240527,
+    0.03738719,
+    0.017133296,
+    0.028432699,
+    -0.0028232175,
+    0.027837107,
+    -0.027310606,
+    -0.069698185,
+    0.021955434,
+    0.065697044,
+    -0.027923753,
+    -0.012545023,
+    -0.04620542,
+    0.045009628,
+    0.0506599,
+    0.018773759,
+    -0.0031604772,
+    0.035985194,
+    -0.0035043939,
+    0.0010804058,
+    0.02826318,
+    -0.053335473,
+    0.0026298272,
+    -0.01722241,
+    0.016681079,
+    0.03370356,
+    -0.030401437,
+    -0.039832287,
+    -0.027723167,
+    -0.011062805,
+    -0.006468861,
+    -0.011499663,
+    0.013223426,
+    0.03873577,
+    0.02741959,
+    -0.05809575,
+    -0.017485097,
+    0.048170533,
+    -0.018039064,
+    0.0007411085,
+    0.025508363,
+    0.037574273,
+    -0.028678795,
+    0.031340368,
+    0.06329224,
+    -0.010139979,
+    0.003857838,
+    -0.016060285,
+    0.0027338297,
+    0.02204858,
+    -0.013992438,
+    0.017830227,
+    0.0035514792,
+    0.057163503,
+    0.004579585,
+    -0.018809695,
+    -0.024536049,
+    0.0038856585,
+    0.018156001,
+    -0.0065178424,
+    -0.0713013,
+    -0.012968924,
+    -0.02021557,
+    0.029762391,
+    0.0048170784,
+    -0.06672908,
+    0.028852904,
+    -0.04704679,
+    -0.009971702,
+    -0.010582374,
+    -0.055913616,
+    0.07607526,
+    0.0041967737,
+    -0.0019837539,
+    -0.02320456,
+    0.0075730593,
+    -0.016408179,
+    -0.0068446356,
+    -0.053987354,
+    0.0031307822,
+    -0.025514673,
+    0.013416035,
+    -0.01740094,
+    0.011833845,
+    -0.008042648,
+    0.056684848,
+    0.011374659,
+    -0.010508371,
+    0.004257857,
+    0.01084923,
+    -0.06101095,
+    0.035588384,
+    -0.03575923,
+    0.0013683017,
+    0.04672988,
+    0.035814893,
+    0.08530036,
+    0.060479444,
+    0.010207865,
+    -0.02417184,
+    0.046132557,
+    -0.0050984304,
+    -0.017138483,
+    -0.06870105,
+    -0.036914088,
+    0.01462184
+  ],
+  "chunk_seq": 3,
+  "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+  "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+  "text": "# Nationwide Building Society  \nneeded to migrate data assets from Teradata vantage to Lakehouse (Databricks) by first quarter of FY 2026-27 (i.e. Jun-2026).  \nIBM Consulting was engaged to optimise and unify the data landscape across the organization by consolidating all data assets onto a strategic technology platform—Microsoft Azure. Subject Matter Experts from IBM were brought in to evaluate the data platform migration strategy and architecture, ensuring alignment with aggressive project timelines. A collaborative workshop was conducted in Pune, bringing together client stakeholders and IBM SMEs for hands-on sessions and direct access to the Acquire and Publish framework. IBM team was recognized for their proactive approach in delivering the Workstream Medallion Architecture Bronze milestone and L1-L2 deliverables ahead of schedule.  \nA key advantage was the development of GenAI assets during the conversion of Teradata procedures to DBT. IBM’s value proposition was focused on ICA-DMA assets, which is currently being deployed in the client’s environment. This significantly accelerated code development and testing, enabling faster project delivery and improved time-to-value.  \nThe data platform migration strategy necessitated the deployment of IBM assets within the client’s network, a process currently underway. POC was executed using a complex data mart codebase, demonstrating a significant acceleration in code development and testing. This validated the asset-driven approach as a key enabler for faster project delivery and improved time-to-value.  \n© 2025 IBM Corporation - Confidential  \n&gt;30% reduction in code build and test activities.  \nIncreased efficiency &amp; productivity which helped to fast track the project delivery and meet the stringent timelines.  \nIBM Consulting  \nKey Success Factors:  \n- Use of IBM GenAI assets DMA(anticipated post deployment of assets in client environment)\n- Engage business users early and often\n- Embed the right capacity &amp; capability into the data access, extraction and preparation process\n- Priorities upfront architectural design with a view to the future",
+  "name": "Chunk 3/7",
+  "domain": "sales_collateral",
+  "prev_chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_002",
+  "next_chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_004",
+  "raw_entities": [
+    {
+      "id": "cli_001",
+      "name": "Nationwide Building Society",
+      "aliases": [
+        "Nationwide"
+      ],
+      "entity_class": "CLIENT",
+      "type": "named_account",
+      "description": "A major UK financial services organization that required a strategic data platform migration to modernize its data landscape and meet aggressive FY 2026-27 deadlines.",
+      "context": [
+        "Nationwide Building Society needed to migrate data assets from Teradata vantage to Lakehouse (Databricks) by first quarter of FY 2026-27",
+        "ensuring alignment with aggressive project timelines."
+      ]
+    },
+    {
+      "id": "org_001",
+      "name": "IBM Consulting",
+      "aliases": [
+        "IBM"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "partner",
+      "description": "The consulting and implementation partner engaged by the client to optimize data landscapes, execute platform migrations, and deliver GenAI-driven asset development.",
+      "context": [
+        "IBM Consulting was engaged to optimise and unify the data landscape across the organization",
+        "Subject Matter Experts from IBM were brought in to evaluate the data platform migration strategy"
+      ]
+    },
+    {
+      "id": "tech_001",
+      "name": "Teradata vantage",
+      "aliases": [
+        "Teradata"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "legacy_system",
+      "description": "The client's existing on-premises data warehouse platform serving as the source system for the migration initiative.",
+      "context": [
+        "migrate data assets from Teradata vantage to Lakehouse (Databricks)",
+        "conversion of Teradata procedures to DBT."
+      ]
+    },
+    {
+      "id": "tech_002",
+      "name": "Databricks Lakehouse",
+      "aliases": [
+        "Lakehouse",
+        "Databricks"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "cloud_platform",
+      "description": "The target cloud-based data platform where the client's data assets are consolidated to replace legacy systems and enable modern analytics.",
+      "context": [
+        "to Lakehouse (Databricks) by first quarter of FY 2026-27",
+        "migrate data assets from Teradata vantage to Lakehouse (Databricks)"
+      ]
+    },
+    {
+      "id": "tech_003",
+      "name": "Microsoft Azure",
+      "aliases": [
+        "Azure"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "cloud_platform",
+      "description": "The strategic cloud infrastructure platform selected by the client to host and unify the consolidated data assets.",
+      "context": [
+        "consolidating all data assets onto a strategic technology platform—Microsoft Azure.",
+        "deployment of IBM assets within the client’s network"
+      ]
+    },
+    {
+      "id": "off_001",
+      "name": "IBM Data Platform Migration Service",
+      "aliases": [
+        "data platform migration strategy",
+        "data landscape optimization"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "managed_service",
+      "description": "A comprehensive engagement focused on evaluating, architecting, and executing the migration of client data assets to a modern cloud lakehouse architecture.",
+      "context": [
+        "IBM Consulting was engaged to optimise and unify the data landscape across the organization",
+        "The data platform migration strategy necessitated the deployment of IBM assets within the client’s network"
+      ]
+    },
+    {
+      "id": "off_002",
+      "name": "ICA-DMA Assets",
+      "aliases": [
+        "GenAI assets",
+        "Acquire and Publish framework"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "platform",
+      "description": "IBM's proprietary GenAI-driven data management and automation assets deployed to accelerate code development, testing, and data mart processing.",
+      "context": [
+        "IBM’s value proposition was focused on ICA-DMA assets, which is currently being deployed in the client’s environment.",
+        "development of GenAI assets during the conversion of Teradata procedures to DBT."
+      ]
+    },
+    {
+      "id": "cap_001",
+      "name": "Code Development Acceleration",
+      "aliases": [
+        "faster project delivery",
+        "accelerated code development"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "automation_capability",
+      "description": "The ability to significantly reduce manual coding efforts and testing cycles through automated, asset-driven development methodologies.",
+      "context": [
+        "significantly accelerated code development and testing, enabling faster project delivery",
+        "validated the asset-driven approach as a key enabler for faster project delivery"
+      ]
+    },
+    {
+      "id": "use_001",
+      "name": "Legacy Data Warehouse Migration",
+      "aliases": [
+        "Teradata to Lakehouse migration",
+        "data migration"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "migration",
+      "description": "The operational scenario of migrating historical data assets from a legacy Teradata environment to a modern cloud lakehouse architecture.",
+      "context": [
+        "needed to migrate data assets from Teradata vantage to Lakehouse (Databricks)",
+        "POC was executed using a complex data mart codebase"
+      ]
+    },
+    {
+      "id": "ben_001",
+      "name": ">30% Reduction in Code Build & Test",
+      "aliases": [
+        "code build reduction",
+        "testing efficiency"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "efficiency_gain",
+      "description": "A quantified operational improvement resulting from automated asset deployment, directly reducing the effort required for code construction and validation.",
+      "context": [
+        ">30% reduction in code build and test activities.",
+        "Increased efficiency & productivity which helped to fast track the project delivery"
+      ]
+    },
+    {
+      "id": "ben_002",
+      "name": "Improved Time-to-Value",
+      "aliases": [
+        "faster project delivery",
+        "speed_improvement"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "speed_improvement",
+      "description": "The accelerated realization of business value and project milestones enabled by streamlined development processes and early asset deployment.",
+      "context": [
+        "enabling faster project delivery and improved time-to-value.",
+        "meet the stringent timelines."
+      ]
+    },
+    {
+      "id": "cha_001",
+      "name": "Aggressive Project Timelines",
+      "aliases": [
+        "stringent deadlines",
+        "FY 2026-27 deadline"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "operational_inefficiency",
+      "description": "The constraint of meeting a strict first-quarter FY 2026-27 deadline for a complex data migration, requiring rapid execution and optimized delivery.",
+      "context": [
+        "by first quarter of FY 2026-27 (i.e. Jun-2026).",
+        "ensuring alignment with aggressive project timelines."
+      ]
+    },
+    {
+      "id": "cha_002",
+      "name": "Complex Data Mart Codebase",
+      "aliases": [
+        "legacy code complexity",
+        "data mart complexity"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "legacy_constraint",
+      "description": "The technical difficulty associated with processing and migrating a highly complex, legacy data mart codebase during the POC and migration phases.",
+      "context": [
+        "POC was executed using a complex data mart codebase, demonstrating a significant acceleration",
+        "conversion of Teradata procedures to DBT."
+      ]
+    },
+    {
+      "id": "dif_001",
+      "name": "Proactive Delivery Approach",
+      "aliases": [
+        "early engagement",
+        "proactive SME involvement"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "delivery_model",
+      "description": "The consulting team's recognized proactive methodology in delivering key architecture milestones ahead of schedule through early stakeholder collaboration.",
+      "context": [
+        "IBM team was recognized for their proactive approach in delivering the Workstream Medallion Architecture Bronze milestone",
+        "ahead of schedule."
+      ]
+    },
+    {
+      "id": "dif_002",
+      "name": "Asset-Driven Development Framework",
+      "aliases": [
+        "GenAI asset deployment",
+        "DMA framework"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "proprietary_asset",
+      "description": "The use of pre-built, automated IBM assets to replace manual coding processes, serving as a key enabler for accelerated delivery and reduced effort.",
+      "context": [
+        "validated the asset-driven approach as a key enabler for faster project delivery",
+        "Use of IBM GenAI assets DMA(anticipated post deployment of assets in client environment)"
+      ]
+    },
+    {
+      "id": "loc_001",
+      "name": "Pune",
+      "aliases": [
+        "Pune office"
+      ],
+      "entity_class": "LOCATION",
+      "type": "office",
+      "description": "The geographic location where the collaborative architecture workshop and hands-on sessions were conducted with client stakeholders and IBM SMEs.",
+      "context": [
+        "A collaborative workshop was conducted in Pune, bringing together client stakeholders",
+        "direct access to the Acquire and Publish framework."
+      ]
+    },
+    {
+      "id": "evt_001",
+      "name": "Data Platform Migration POC",
+      "aliases": [
+        "POC execution",
+        "complex data mart POC"
+      ],
+      "entity_class": "EVENT",
+      "type": "proof_of_concept",
+      "description": "A targeted proof of concept executed to validate the asset-driven migration approach against a complex data mart codebase, demonstrating accelerated development capabilities.",
+      "context": [
+        "POC was executed using a complex data mart codebase, demonstrating a significant acceleration",
+        "validated the asset-driven approach as a key enabler"
+      ]
+    },
+    {
+      "id": "evt_002",
+      "name": "Collaborative Architecture Workshop",
+      "aliases": [
+        "Pune workshop",
+        "hands-on sessions"
+      ],
+      "entity_class": "EVENT",
+      "type": "demo",
+      "description": "A joint working session between client stakeholders and IBM subject matter experts focused on evaluating migration strategy and architecture.",
+      "context": [
+        "A collaborative workshop was conducted in Pune, bringing together client stakeholders",
+        "for hands-on sessions and direct access to the Acquire and Publish framework."
+      ]
+    }
+  ],
+  "id_map": {
+    "cli_001": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cli_001",
+    "org_001": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_org_001",
+    "tech_001": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_tech_001",
+    "tech_002": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_tech_002",
+    "tech_003": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_tech_003",
+    "off_001": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_off_001",
+    "off_002": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_off_002",
+    "cap_001": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cap_001",
+    "use_001": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_use_001",
+    "ben_001": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_ben_001",
+    "ben_002": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_ben_002",
+    "cha_001": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cha_001",
+    "cha_002": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cha_002",
+    "dif_001": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_dif_001",
+    "dif_002": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_dif_002",
+    "loc_001": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_loc_001",
+    "evt_001": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_evt_001",
+    "evt_002": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_evt_002"
+  },
+  "entities": [
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cli_001",
+      "name": "Nationwide Building Society",
+      "aliases": [
+        "Nationwide"
+      ],
+      "entity_class": "CLIENT",
+      "type": "named_account",
+      "description": "A major UK financial services organization that required a strategic data platform migration to modernize its data landscape and meet aggressive FY 2026-27 deadlines.",
+      "context": [
+        "Nationwide Building Society needed to migrate data assets from Teradata vantage to Lakehouse (Databricks) by first quarter of FY 2026-27",
+        "ensuring alignment with aggressive project timelines."
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_org_001",
+      "name": "IBM Consulting",
+      "aliases": [
+        "IBM"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "partner",
+      "description": "The consulting and implementation partner engaged by the client to optimize data landscapes, execute platform migrations, and deliver GenAI-driven asset development.",
+      "context": [
+        "IBM Consulting was engaged to optimise and unify the data landscape across the organization",
+        "Subject Matter Experts from IBM were brought in to evaluate the data platform migration strategy"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_tech_001",
+      "name": "Teradata vantage",
+      "aliases": [
+        "Teradata"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "legacy_system",
+      "description": "The client's existing on-premises data warehouse platform serving as the source system for the migration initiative.",
+      "context": [
+        "migrate data assets from Teradata vantage to Lakehouse (Databricks)",
+        "conversion of Teradata procedures to DBT."
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_tech_002",
+      "name": "Databricks Lakehouse",
+      "aliases": [
+        "Lakehouse",
+        "Databricks"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "cloud_platform",
+      "description": "The target cloud-based data platform where the client's data assets are consolidated to replace legacy systems and enable modern analytics.",
+      "context": [
+        "to Lakehouse (Databricks) by first quarter of FY 2026-27",
+        "migrate data assets from Teradata vantage to Lakehouse (Databricks)"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_tech_003",
+      "name": "Microsoft Azure",
+      "aliases": [
+        "Azure"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "cloud_platform",
+      "description": "The strategic cloud infrastructure platform selected by the client to host and unify the consolidated data assets.",
+      "context": [
+        "consolidating all data assets onto a strategic technology platform—Microsoft Azure.",
+        "deployment of IBM assets within the client’s network"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_off_001",
+      "name": "IBM Data Platform Migration Service",
+      "aliases": [
+        "data platform migration strategy",
+        "data landscape optimization"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "managed_service",
+      "description": "A comprehensive engagement focused on evaluating, architecting, and executing the migration of client data assets to a modern cloud lakehouse architecture.",
+      "context": [
+        "IBM Consulting was engaged to optimise and unify the data landscape across the organization",
+        "The data platform migration strategy necessitated the deployment of IBM assets within the client’s network"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_off_002",
+      "name": "ICA-DMA Assets",
+      "aliases": [
+        "GenAI assets",
+        "Acquire and Publish framework"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "platform",
+      "description": "IBM's proprietary GenAI-driven data management and automation assets deployed to accelerate code development, testing, and data mart processing.",
+      "context": [
+        "IBM’s value proposition was focused on ICA-DMA assets, which is currently being deployed in the client’s environment.",
+        "development of GenAI assets during the conversion of Teradata procedures to DBT."
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cap_001",
+      "name": "Code Development Acceleration",
+      "aliases": [
+        "faster project delivery",
+        "accelerated code development"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "automation_capability",
+      "description": "The ability to significantly reduce manual coding efforts and testing cycles through automated, asset-driven development methodologies.",
+      "context": [
+        "significantly accelerated code development and testing, enabling faster project delivery",
+        "validated the asset-driven approach as a key enabler for faster project delivery"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_use_001",
+      "name": "Legacy Data Warehouse Migration",
+      "aliases": [
+        "Teradata to Lakehouse migration",
+        "data migration"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "migration",
+      "description": "The operational scenario of migrating historical data assets from a legacy Teradata environment to a modern cloud lakehouse architecture.",
+      "context": [
+        "needed to migrate data assets from Teradata vantage to Lakehouse (Databricks)",
+        "POC was executed using a complex data mart codebase"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_ben_001",
+      "name": ">30% Reduction in Code Build & Test",
+      "aliases": [
+        "code build reduction",
+        "testing efficiency"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "efficiency_gain",
+      "description": "A quantified operational improvement resulting from automated asset deployment, directly reducing the effort required for code construction and validation.",
+      "context": [
+        ">30% reduction in code build and test activities.",
+        "Increased efficiency & productivity which helped to fast track the project delivery"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_ben_002",
+      "name": "Improved Time-to-Value",
+      "aliases": [
+        "faster project delivery",
+        "speed_improvement"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "speed_improvement",
+      "description": "The accelerated realization of business value and project milestones enabled by streamlined development processes and early asset deployment.",
+      "context": [
+        "enabling faster project delivery and improved time-to-value.",
+        "meet the stringent timelines."
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cha_001",
+      "name": "Aggressive Project Timelines",
+      "aliases": [
+        "stringent deadlines",
+        "FY 2026-27 deadline"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "operational_inefficiency",
+      "description": "The constraint of meeting a strict first-quarter FY 2026-27 deadline for a complex data migration, requiring rapid execution and optimized delivery.",
+      "context": [
+        "by first quarter of FY 2026-27 (i.e. Jun-2026).",
+        "ensuring alignment with aggressive project timelines."
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cha_002",
+      "name": "Complex Data Mart Codebase",
+      "aliases": [
+        "legacy code complexity",
+        "data mart complexity"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "legacy_constraint",
+      "description": "The technical difficulty associated with processing and migrating a highly complex, legacy data mart codebase during the POC and migration phases.",
+      "context": [
+        "POC was executed using a complex data mart codebase, demonstrating a significant acceleration",
+        "conversion of Teradata procedures to DBT."
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_dif_001",
+      "name": "Proactive Delivery Approach",
+      "aliases": [
+        "early engagement",
+        "proactive SME involvement"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "delivery_model",
+      "description": "The consulting team's recognized proactive methodology in delivering key architecture milestones ahead of schedule through early stakeholder collaboration.",
+      "context": [
+        "IBM team was recognized for their proactive approach in delivering the Workstream Medallion Architecture Bronze milestone",
+        "ahead of schedule."
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_dif_002",
+      "name": "Asset-Driven Development Framework",
+      "aliases": [
+        "GenAI asset deployment",
+        "DMA framework"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "proprietary_asset",
+      "description": "The use of pre-built, automated IBM assets to replace manual coding processes, serving as a key enabler for accelerated delivery and reduced effort.",
+      "context": [
+        "validated the asset-driven approach as a key enabler for faster project delivery",
+        "Use of IBM GenAI assets DMA(anticipated post deployment of assets in client environment)"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_loc_001",
+      "name": "Pune",
+      "aliases": [
+        "Pune office"
+      ],
+      "entity_class": "LOCATION",
+      "type": "office",
+      "description": "The geographic location where the collaborative architecture workshop and hands-on sessions were conducted with client stakeholders and IBM SMEs.",
+      "context": [
+        "A collaborative workshop was conducted in Pune, bringing together client stakeholders",
+        "direct access to the Acquire and Publish framework."
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_evt_001",
+      "name": "Data Platform Migration POC",
+      "aliases": [
+        "POC execution",
+        "complex data mart POC"
+      ],
+      "entity_class": "EVENT",
+      "type": "proof_of_concept",
+      "description": "A targeted proof of concept executed to validate the asset-driven migration approach against a complex data mart codebase, demonstrating accelerated development capabilities.",
+      "context": [
+        "POC was executed using a complex data mart codebase, demonstrating a significant acceleration",
+        "validated the asset-driven approach as a key enabler"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_evt_002",
+      "name": "Collaborative Architecture Workshop",
+      "aliases": [
+        "Pune workshop",
+        "hands-on sessions"
+      ],
+      "entity_class": "EVENT",
+      "type": "demo",
+      "description": "A joint working session between client stakeholders and IBM subject matter experts focused on evaluating migration strategy and architecture.",
+      "context": [
+        "A collaborative workshop was conducted in Pune, bringing together client stakeholders",
+        "for hands-on sessions and direct access to the Acquire and Publish framework."
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    }
+  ],
+  "properties": [
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cli_001",
+      "name": "Nationwide Building Society",
+      "properties": {
+        "industry": [
+          "financial_services",
+          "building_society"
+        ],
+        "size": [
+          "large",
+          "enterprise"
+        ],
+        "pain_points": [
+          "aggressive_project_timelines",
+          "complex_data_mart_codebase",
+          "Q1_FY_2026-27_migration_deadline"
+        ],
+        "engagement_type": [
+          "data_platform_migration",
+          "poc",
+          "collaborative_workshop"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_org_001",
+      "name": "IBM Consulting",
+      "properties": {
+        "org_type": [
+          "consulting_partner",
+          "technology_provider"
+        ],
+        "relationship_to_offering": [
+          "primary_vendor",
+          "implementation_partner"
+        ],
+        "geographic_presence": [
+          "UK",
+          "India_(Pune)"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_tech_001",
+      "name": "Teradata vantage",
+      "properties": {
+        "vendor": [
+          "Teradata"
+        ],
+        "technology_category": [
+          "data_warehouse",
+          "legacy_platform"
+        ],
+        "role_in_solution": [
+          "source_system",
+          "legacy_target"
+        ],
+        "maturity": [
+          "legacy"
+        ],
+        "key_characteristics": [
+          "source_data_assets_for_migration",
+          "procedures_converted_to_DBT"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_tech_002",
+      "name": "Databricks Lakehouse",
+      "properties": {
+        "vendor": [
+          "Databricks"
+        ],
+        "technology_category": [
+          "lakehouse",
+          "data_platform"
+        ],
+        "role_in_solution": [
+          "target_platform",
+          "strategic_technology_platform"
+        ],
+        "maturity": [
+          "modern"
+        ],
+        "key_characteristics": [
+          "target_for_data_asset_consolidation",
+          "supports_GenAI_assets"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_tech_003",
+      "name": "Microsoft Azure",
+      "properties": {
+        "vendor": [
+          "Microsoft"
+        ],
+        "technology_category": [
+          "cloud_platform",
+          "infrastructure"
+        ],
+        "role_in_solution": [
+          "strategic_technology_platform",
+          "hosting_environment"
+        ],
+        "maturity": [
+          "modern"
+        ],
+        "key_characteristics": [
+          "consolidation_target_for_all_data_assets",
+          "client_network_deployment"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_off_001",
+      "name": "IBM Data Platform Migration Service",
+      "properties": {
+        "offering_type": [
+          "consulting_engagement",
+          "migration_service"
+        ],
+        "delivery_model": [
+          "hybrid",
+          "global_delivery"
+        ],
+        "scope": [
+          "data_platform_migration_strategy",
+          "architecture_evaluation",
+          "asset_deployment",
+          "code_conversion"
+        ],
+        "target_client_profile": [
+          "financial_services",
+          "large_enterprise"
+        ],
+        "key_phases_or_components": [
+          "Workstream_Medallion_Architecture_Bronze_milestone",
+          "L1-L2_deliverables",
+          "Acquire_and_Publish_framework"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_off_002",
+      "name": "ICA-DMA Assets",
+      "properties": {
+        "offering_type": [
+          "accelerator",
+          "asset_library"
+        ],
+        "scope": [
+          "code_development_acceleration",
+          "DBT_conversion",
+          "GenAI_asset_development"
+        ],
+        "target_client_profile": [
+          "financial_services",
+          "data_platform_migrators"
+        ],
+        "named_assets_or_accelerators": [
+          "ICA-DMA",
+          "GenAI_assets",
+          "Acquire_and_Publish_framework"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cap_001",
+      "name": "Code Development Acceleration",
+      "properties": {
+        "what_it_does": [
+          "accelerates_code_build_and_testing",
+          "fast_tracks_project_delivery"
+        ],
+        "technical_components": [
+          "GenAI_assets",
+          "DBT_conversion",
+          "Acquire_and_Publish_framework"
+        ],
+        "delivery_maturity": [
+          "proven"
+        ],
+        "differentiating_aspect": [
+          "asset-driven_approach",
+          "GenAI_integration"
+        ],
+        "industry_applicability": [
+          "financial_services",
+          "data_migration"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_use_001",
+      "name": "Legacy Data Warehouse Migration",
+      "properties": {
+        "problem_context": [
+          "migrating_data_assets_from_Teradata_to_Lakehouse",
+          "consolidating_data_assets_onto_Azure"
+        ],
+        "approach": [
+          "collaborative_architecture_workshop",
+          "asset-driven_development",
+          "POC_execution"
+        ],
+        "industry_or_vertical": [
+          "financial_services",
+          "building_society"
+        ],
+        "outcome_achieved": [
+          ">30%_reduction_in_code_build_test",
+          "faster_project_delivery",
+          "improved_time-to-value"
+        ],
+        "complexity_level": [
+          "complex"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_ben_001",
+      "name": ">30% Reduction in Code Build & Test",
+      "properties": {
+        "quantified_value": [
+          ">30%"
+        ],
+        "beneficiary": [
+          "client",
+          "project_team"
+        ],
+        "time_to_value": [
+          "improved",
+          "fast_tracked"
+        ],
+        "category": [
+          "speed",
+          "efficiency"
+        ],
+        "evidence_type": [
+          "measured"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_ben_002",
+      "name": "Improved Time-to-Value",
+      "properties": {
+        "quantified_value": [
+          "improved"
+        ],
+        "beneficiary": [
+          "client",
+          "end_users"
+        ],
+        "time_to_value": [
+          "faster",
+          "accelerated"
+        ],
+        "category": [
+          "speed",
+          "productivity"
+        ],
+        "evidence_type": [
+          "claimed",
+          "projected"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cha_001",
+      "name": "Aggressive Project Timelines",
+      "properties": {
+        "root_cause": [
+          "FY_2026-27_Q1_deadline",
+          "stringent_timelines"
+        ],
+        "business_impact": [
+          "risk_of_delayed_delivery",
+          "pressure_on_code_build_test"
+        ],
+        "urgency": [
+          "critical",
+          "high"
+        ],
+        "who_faces_it": [
+          "client",
+          "IBM_team"
+        ],
+        "current_workaround": [
+          "proactive_delivery_approach",
+          "asset-driven_development"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cha_002",
+      "name": "Complex Data Mart Codebase",
+      "properties": {
+        "root_cause": [
+          "legacy_Teradata_procedures",
+          "complex_data_mart_structure"
+        ],
+        "business_impact": [
+          "slows_code_development",
+          "increases_testing_complexity"
+        ],
+        "urgency": [
+          "high"
+        ],
+        "who_faces_it": [
+          "client",
+          "IBM_team"
+        ],
+        "current_workaround": [
+          "POC_execution",
+          "GenAI_asset_conversion"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_dif_001",
+      "name": "Proactive Delivery Approach",
+      "properties": {
+        "competitive_advantage": [
+          "delivers_milestones_ahead_of_schedule",
+          "optimizes_and_unifies_data_landscape"
+        ],
+        "evidence_or_proof_point": [
+          "Workstream_Medallion_Architecture_Bronze_milestone_delivered_ahead_of_schedule",
+          "L1-L2_deliverables_delivered_ahead_of_schedule"
+        ],
+        "uniqueness": [
+          "proactive",
+          "SME-driven"
+        ],
+        "target_audience": [
+          "clients_with_stringent_timelines"
+        ],
+        "relates_to_offering": [
+          "IBM_Data_Platform_Migration_Service"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_dif_002",
+      "name": "Asset-Driven Development Framework",
+      "properties": {
+        "competitive_advantage": [
+          "significantly_accelerates_code_development_and_testing",
+          "enables_faster_project_delivery"
+        ],
+        "evidence_or_proof_point": [
+          ">30%_reduction_in_code_build_and_test_activities",
+          "validated_through_POC"
+        ],
+        "uniqueness": [
+          "asset-driven",
+          "GenAI-enabled"
+        ],
+        "target_audience": [
+          "data_platform_migrators",
+          "financial_services"
+        ],
+        "relates_to_offering": [
+          "ICA-DMA_Assets",
+          "IBM_Data_Platform_Migration_Service"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_loc_001",
+      "name": "Pune",
+      "properties": {
+        "market_type": [
+          "geographic",
+          "delivery_hub"
+        ],
+        "strategic_importance": [
+          "core",
+          "delivery_center"
+        ],
+        "regulatory_environment": [
+          "India"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_evt_001",
+      "name": "Data Platform Migration POC",
+      "properties": {
+        "event_type": [
+          "proof_of_concept",
+          "validation_engagement"
+        ],
+        "date_or_period": [
+          "FY_2026-27_Q1_timeline_context"
+        ],
+        "relevance_to_deal": [
+          "milestone",
+          "validation"
+        ],
+        "key_participants": [
+          "IBM_team",
+          "client_stakeholders"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_evt_002",
+      "name": "Collaborative Architecture Workshop",
+      "properties": {
+        "event_type": [
+          "workshop",
+          "collaborative_session"
+        ],
+        "date_or_period": [
+          "pre-POC",
+          "strategy_evaluation_phase"
+        ],
+        "relevance_to_deal": [
+          "opportunity",
+          "alignment"
+        ],
+        "key_participants": [
+          "client_stakeholders",
+          "IBM_SMEs"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cli_001",
+      "source_name": "Nationwide Building Society",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cha_001",
+      "target_name": "Aggressive Project Timelines",
+      "rel_type": "faces",
+      "description": "Client faces strict deadlines requiring accelerated delivery to meet Q1 FY 2026-27 targets",
+      "properties": {
+        "urgency_level": "high",
+        "deadline": "Q1 FY 2026-27"
+      },
+      "context": "ensuring alignment with aggressive project timelines",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cli_001",
+      "source_name": "Nationwide Building Society",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cha_002",
+      "target_name": "Complex Data Mart Codebase",
+      "rel_type": "faces",
+      "description": "Client struggles with intricate legacy data mart structures hindering migration",
+      "properties": {
+        "complexity_level": "high",
+        "legacy_system": "Teradata"
+      },
+      "context": "POC was executed using a complex data mart codebase",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cli_001",
+      "source_name": "Nationwide Building Society",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_tech_001",
+      "target_name": "Teradata vantage",
+      "rel_type": "is_migrating_from",
+      "description": "Client is transitioning away from the legacy Teradata platform",
+      "properties": {
+        "migration_status": "in_progress",
+        "target_date": "Jun-2026"
+      },
+      "context": "needed to migrate data assets from Teradata vantage to Lakehouse",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cli_001",
+      "source_name": "Nationwide Building Society",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_tech_002",
+      "target_name": "Databricks Lakehouse",
+      "rel_type": "migrates_to",
+      "description": "Client is adopting Databricks as the target data lakehouse",
+      "properties": {
+        "migration_status": "planned",
+        "target_date": "Jun-2026"
+      },
+      "context": "needed to migrate data assets from Teradata vantage to Lakehouse (Databricks)",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cli_001",
+      "source_name": "Nationwide Building Society",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_org_001",
+      "target_name": "IBM Consulting",
+      "rel_type": "engaged_with",
+      "description": "Client hired IBM Consulting to optimize and unify the data landscape",
+      "properties": {
+        "engagement_scope": "data platform migration & optimization",
+        "status": "active"
+      },
+      "context": "IBM Consulting was engaged to optimise and unify the data landscape across the organization",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_off_001",
+      "source_name": "IBM Data Platform Migration Service",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_tech_003",
+      "target_name": "Microsoft Azure",
+      "rel_type": "built_on",
+      "description": "The migration service is architected on Microsoft Azure as the strategic platform",
+      "properties": {
+        "platform_type": "cloud_infrastructure",
+        "deployment_model": "strategic_technology_platform"
+      },
+      "context": "consolidating all data assets onto a strategic technology platform—Microsoft Azure",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_off_001",
+      "source_name": "IBM Data Platform Migration Service",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cha_001",
+      "target_name": "Aggressive Project Timelines",
+      "rel_type": "mitigates",
+      "description": "The service accelerates delivery to meet tight deadlines",
+      "properties": {
+        "approach": "accelerated_deployment",
+        "completeness": "full"
+      },
+      "context": "ensuring alignment with aggressive project timelines",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_off_001",
+      "source_name": "IBM Data Platform Migration Service",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_evt_001",
+      "target_name": "Data Platform Migration POC",
+      "rel_type": "proven_in",
+      "description": "The service's effectiveness was validated through the POC",
+      "properties": {
+        "validation_method": "proof_of_concept",
+        "status": "completed"
+      },
+      "context": "POC was executed using a complex data mart codebase",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_off_002",
+      "source_name": "ICA-DMA Assets",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cap_001",
+      "target_name": "Code Development Acceleration",
+      "rel_type": "comprises",
+      "description": "The assets include capabilities that accelerate code development and testing",
+      "properties": {
+        "component_type": "genai_assets",
+        "optional": false
+      },
+      "context": "A key advantage was the development of GenAI assets during the conversion of Teradata procedures to DBT",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_off_002",
+      "source_name": "ICA-DMA Assets",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cli_001",
+      "target_name": "Nationwide Building Society",
+      "rel_type": "is_target_for",
+      "description": "The assets are being deployed into the client's environment",
+      "properties": {
+        "deployment_status": "in_progress",
+        "target_environment": "client_network"
+      },
+      "context": "IBM’s value proposition was focused on ICA-DMA assets, which is currently being deployed in the client’s environment",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cap_001",
+      "source_name": "Code Development Acceleration",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_ben_001",
+      "target_name": ">30% Reduction in Code Build & Test",
+      "rel_type": "achieved",
+      "description": "The capability directly delivered a quantified reduction in build and test activities",
+      "properties": {
+        "metric": "code_build_test_reduction",
+        "value": ">30%",
+        "timeframe": "POC_phase"
+      },
+      "context": ">30% reduction in code build and test activities.",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cap_001",
+      "source_name": "Code Development Acceleration",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_ben_002",
+      "target_name": "Improved Time-to-Value",
+      "rel_type": "delivers",
+      "description": "Accelerated code development enables faster project delivery and value realization",
+      "properties": {
+        "impact_area": "project_delivery_speed",
+        "quantified": false
+      },
+      "context": "enabling faster project delivery and improved time-to-value.",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cli_001",
+      "source_name": "Nationwide Building Society",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_ben_002",
+      "target_name": "Improved Time-to-Value",
+      "rel_type": "achieved",
+      "description": "Client realized faster project delivery and improved time-to-value",
+      "properties": {
+        "metric": "time_to_value",
+        "value": "improved",
+        "timeframe": "ongoing"
+      },
+      "context": "Increased efficiency & productivity which helped to fast track the project delivery and meet the stringent timelines.",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_dif_001",
+      "source_name": "Proactive Delivery Approach",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_org_001",
+      "target_name": "IBM Consulting",
+      "rel_type": "distinguishes",
+      "description": "The proactive approach differentiates IBM Consulting's delivery methodology",
+      "properties": {
+        "differentiation_type": "service_methodology",
+        "recognition": "ahead_of_schedule"
+      },
+      "context": "IBM team was recognized for their proactive approach in delivering the Workstream Medallion Architecture Bronze milestone",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_dif_002",
+      "source_name": "Asset-Driven Development Framework",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_off_002",
+      "target_name": "ICA-DMA Assets",
+      "rel_type": "distinguishes",
+      "description": "The asset-driven framework differentiates the ICA-DMA assets",
+      "properties": {
+        "differentiation_type": "architectural_approach",
+        "validation": "POC_success"
+      },
+      "context": "validated the asset-driven approach as a key enabler for faster project delivery",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_evt_002",
+      "source_name": "Collaborative Architecture Workshop",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cli_001",
+      "target_name": "Nationwide Building Society",
+      "rel_type": "involves",
+      "description": "The workshop engaged client stakeholders for hands-on sessions",
+      "properties": {
+        "participant_type": "client_stakeholders",
+        "activity": "hands_on_sessions"
+      },
+      "context": "A collaborative workshop was conducted in Pune, bringing together client stakeholders and IBM SMEs",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_evt_002",
+      "source_name": "Collaborative Architecture Workshop",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_loc_001",
+      "target_name": "Pune",
+      "rel_type": "deployed_in",
+      "description": "The workshop took place in Pune",
+      "properties": {
+        "location_type": "workshop_venue",
+        "region": "India"
+      },
+      "context": "A collaborative workshop was conducted in Pune",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_use_001",
+      "source_name": "Legacy Data Warehouse Migration",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cha_002",
+      "target_name": "Complex Data Mart Codebase",
+      "rel_type": "addresses",
+      "description": "The migration use case directly tackles the complex codebase challenge",
+      "properties": {
+        "approach": "code_conversion",
+        "completeness": "full"
+      },
+      "context": "POC was executed using a complex data mart codebase",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_off_001",
+      "source_name": "IBM Data Platform Migration Service",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_use_001",
+      "target_name": "Legacy Data Warehouse Migration",
+      "rel_type": "addresses",
+      "description": "The service is designed to execute the legacy data warehouse migration",
+      "properties": {
+        "approach": "platform_migration",
+        "completeness": "full"
+      },
+      "context": "needed to migrate data assets... IBM Consulting was engaged to optimise... data platform migration strategy",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cap_001",
+      "source_name": "Code Development Acceleration",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_ben_002",
+      "target_name": "Improved Time-to-Value",
+      "rel_type": "enables",
+      "description": "The capability acts as a key enabler for faster delivery and value realization",
+      "properties": {
+        "impact_area": "project_delivery_speed",
+        "quantified": false
+      },
+      "context": "validated the asset-driven approach as a key enabler for faster project delivery and improved time-to-value",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_off_002",
+      "source_name": "ICA-DMA Assets",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_ben_001",
+      "target_name": ">30% Reduction in Code Build & Test",
+      "rel_type": "has_delivered",
+      "description": "The assets have delivered the quantified reduction in code build and test",
+      "properties": {
+        "metric": "code_build_test_reduction",
+        "value": ">30%",
+        "timeframe": "POC_phase"
+      },
+      "context": "A key advantage was the development of GenAI assets... >30% reduction in code build and test activities",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_org_001",
+      "source_name": "IBM Consulting",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_off_001",
+      "target_name": "IBM Data Platform Migration Service",
+      "rel_type": "distributes",
+      "description": "IBM Consulting provides and deploys the data platform migration service",
+      "properties": {
+        "distribution_model": "professional_services",
+        "status": "active"
+      },
+      "context": "IBM Consulting was engaged to optimise and unify the data landscape",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_evt_001",
+      "source_name": "Data Platform Migration POC",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cha_002",
+      "target_name": "Complex Data Mart Codebase",
+      "rel_type": "involves",
+      "description": "The POC execution utilized the complex data mart codebase",
+      "properties": {
+        "validation_method": "proof_of_concept",
+        "status": "completed"
+      },
+      "context": "POC was executed using a complex data mart codebase",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cli_001",
+      "source_name": "Nationwide Building Society",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_org_001",
+      "source_name": "IBM Consulting",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_tech_001",
+      "source_name": "Teradata vantage",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_tech_002",
+      "source_name": "Databricks Lakehouse",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_tech_003",
+      "source_name": "Microsoft Azure",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_off_001",
+      "source_name": "IBM Data Platform Migration Service",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_off_002",
+      "source_name": "ICA-DMA Assets",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cap_001",
+      "source_name": "Code Development Acceleration",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_use_001",
+      "source_name": "Legacy Data Warehouse Migration",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_ben_001",
+      "source_name": ">30% Reduction in Code Build & Test",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_ben_002",
+      "source_name": "Improved Time-to-Value",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cha_001",
+      "source_name": "Aggressive Project Timelines",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cha_002",
+      "source_name": "Complex Data Mart Codebase",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_dif_001",
+      "source_name": "Proactive Delivery Approach",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_dif_002",
+      "source_name": "Asset-Driven Development Framework",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_loc_001",
+      "source_name": "Pune",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_evt_001",
+      "source_name": "Data Platform Migration POC",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_evt_002",
+      "source_name": "Collaborative Architecture Workshop",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    }
+  ]
+}

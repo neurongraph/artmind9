@@ -1,0 +1,2316 @@
+{
+  "embedding": [
+    -0.025181776,
+    0.021757623,
+    -0.19001636,
+    -0.018119628,
+    0.025737077,
+    -0.019020284,
+    0.013478184,
+    -0.01533316,
+    0.048730373,
+    -0.052913487,
+    -0.025761068,
+    0.0074878777,
+    0.046284005,
+    -0.03510544,
+    0.0014534976,
+    -0.049750656,
+    -0.055312738,
+    0.016458234,
+    -0.0228161,
+    0.007535357,
+    -0.019384963,
+    -0.031570926,
+    0.017161788,
+    0.014288776,
+    0.06313196,
+    0.07194004,
+    0.01359519,
+    -0.03340499,
+    -0.05739834,
+    -0.0041011116,
+    0.04953555,
+    -0.023645764,
+    -0.041137207,
+    -0.0858177,
+    -0.061603975,
+    -0.020292172,
+    -0.0010335485,
+    0.0058804755,
+    -0.042316206,
+    0.049999237,
+    0.11793622,
+    -0.031039964,
+    -0.0475624,
+    -0.090259425,
+    -0.0059879343,
+    -0.049695674,
+    0.056298148,
+    0.036377903,
+    0.009270736,
+    -0.018365953,
+    -0.033899326,
+    0.019130012,
+    0.028782794,
+    0.06754338,
+    0.05175923,
+    0.06277914,
+    -0.009616576,
+    0.050275028,
+    -0.0017042289,
+    -0.004934024,
+    0.04999447,
+    0.011549921,
+    0.007135826,
+    0.064525664,
+    0.010749823,
+    -0.009791087,
+    -0.045809977,
+    0.07803301,
+    -0.024848105,
+    -0.04083742,
+    -0.0037979777,
+    -0.038879875,
+    0.023662603,
+    0.034127124,
+    -0.00955973,
+    0.0155066755,
+    -0.021965705,
+    -0.03268679,
+    0.0047235084,
+    0.03747944,
+    0.05836595,
+    0.009804833,
+    0.04112441,
+    0.016518274,
+    -0.006387009,
+    -0.0008781681,
+    -0.024660232,
+    -0.05638216,
+    -0.010668067,
+    0.08848284,
+    0.008338863,
+    0.06382934,
+    0.059704762,
+    0.037973627,
+    -0.057607215,
+    0.01217834,
+    -0.00015376465,
+    -0.051009115,
+    -0.02283106,
+    -0.042719793,
+    -0.030438894,
+    -0.020169988,
+    0.022632347,
+    0.025218062,
+    0.030075079,
+    0.03849697,
+    0.0042149704,
+    -0.002957854,
+    -0.011158096,
+    0.020083513,
+    -0.017212631,
+    0.013613139,
+    -0.040486634,
+    0.059175994,
+    -0.01957044,
+    0.018699689,
+    0.04964983,
+    -0.056879424,
+    0.02164712,
+    0.021615706,
+    -0.03470351,
+    -0.006604753,
+    -0.016414244,
+    -0.01791408,
+    0.0028233803,
+    0.0075419676,
+    -0.093179725,
+    0.011339004,
+    -0.00065856054,
+    -0.013441927,
+    -0.011458923,
+    -0.025052302,
+    -0.026577914,
+    0.010455346,
+    0.061975226,
+    0.042122435,
+    -0.03691893,
+    -0.0823532,
+    0.02409739,
+    0.01860627,
+    0.011381052,
+    -0.01151203,
+    0.0039573372,
+    -0.014602413,
+    0.047566917,
+    -0.05895009,
+    0.04442447,
+    -0.012981373,
+    -0.047653135,
+    0.06614903,
+    0.008955542,
+    0.007930103,
+    -0.007630473,
+    0.0068177823,
+    0.023167126,
+    -0.076500885,
+    0.016044034,
+    -0.004967551,
+    0.02695174,
+    0.04367719,
+    0.041365735,
+    -0.0010283722,
+    -0.047438942,
+    0.019030968,
+    -0.01765984,
+    -0.073559925,
+    0.011043611,
+    0.02114409,
+    0.0519132,
+    0.03728503,
+    -0.031612556,
+    -0.036336027,
+    -8.6258064e-05,
+    0.01685803,
+    0.0073311515,
+    0.014128806,
+    0.06318831,
+    -0.018667685,
+    0.041439008,
+    -0.008822693,
+    0.045296934,
+    -0.02544135,
+    0.026625521,
+    0.0011446677,
+    -0.028577264,
+    -0.008177113,
+    -0.033288527,
+    -0.00080403325,
+    0.0045024697,
+    -0.0610296,
+    -0.030648453,
+    0.02610382,
+    -0.04786116,
+    -0.025957938,
+    -0.019310396,
+    -0.009207438,
+    0.073194385,
+    -0.0019356947,
+    0.022101052,
+    -0.018549806,
+    -0.016430756,
+    -0.024858259,
+    -0.05202184,
+    0.040544026,
+    -0.021612652,
+    0.060136437,
+    0.008905611,
+    0.062089823,
+    0.009853523,
+    0.012023288,
+    0.0082681645,
+    -0.033599522,
+    0.0177577,
+    0.0034491217,
+    0.057179738,
+    0.0025567992,
+    0.02041753,
+    0.005474722,
+    -0.009418564,
+    -0.0058535016,
+    0.06665093,
+    -0.019312955,
+    0.043146472,
+    -0.06180581,
+    0.039175846,
+    0.006506867,
+    -0.006560096,
+    -0.0006151392,
+    -0.017999427,
+    0.0077972217,
+    -0.050038893,
+    -0.0019453062,
+    -0.0029886016,
+    -0.019280257,
+    -0.033594888,
+    -0.021130405,
+    -0.018586524,
+    0.029263502,
+    -0.02055876,
+    -0.018080486,
+    0.032448605,
+    0.03729101,
+    -0.020123132,
+    -0.0039933915,
+    -0.015667189,
+    -0.00916723,
+    0.035187647,
+    -0.018476289,
+    0.022284813,
+    0.021292966,
+    -0.009476897,
+    -0.023120461,
+    0.045730673,
+    0.019127086,
+    0.0665364,
+    -0.011532644,
+    -0.013075953,
+    0.014487907,
+    -0.014591564,
+    -0.013537819,
+    -0.03031649,
+    -0.010865436,
+    0.06868923,
+    0.0128412265,
+    -0.009903862,
+    -0.011006691,
+    -0.0088353995,
+    -0.040294506,
+    0.0074313204,
+    -0.045000788,
+    0.013708711,
+    0.007955318,
+    -0.046202768,
+    0.06131722,
+    -0.017133104,
+    -0.0011537012,
+    0.033832397,
+    -0.0022097388,
+    -0.07336945,
+    0.018016683,
+    -0.021655079,
+    -0.045032147,
+    -0.010427399,
+    -0.040330894,
+    0.0054343226,
+    0.027287195,
+    0.05251986,
+    -0.007098678,
+    0.046293706,
+    -0.025989741,
+    0.060837068,
+    0.0018413847,
+    0.030689714,
+    0.007374065,
+    -0.030267669,
+    -0.001596316,
+    0.07897187,
+    -0.04851876,
+    -0.025599226,
+    -0.036861546,
+    0.005670998,
+    0.030915767,
+    0.0013482672,
+    0.057226714,
+    0.019284055,
+    -0.0121354805,
+    -0.012179282,
+    0.012263631,
+    0.059579913,
+    -0.029631983,
+    -0.044282623,
+    -0.011410733,
+    -0.01029894,
+    -0.00912452,
+    0.020416956,
+    -0.026190976,
+    0.037121713,
+    0.04090523,
+    0.032213848,
+    0.03815617,
+    -0.016759505,
+    5.6160552e-05,
+    0.034530282,
+    -0.022586886,
+    0.01042205,
+    0.036757104,
+    -0.017186642,
+    0.032218542,
+    -0.011162103,
+    0.005744989,
+    0.006834419,
+    -0.006777632,
+    0.066235915,
+    -0.04193246,
+    -0.013840939,
+    0.056927375,
+    0.0227039,
+    0.011349386,
+    -0.014120892,
+    0.042663086,
+    0.09108855,
+    0.009578126,
+    -0.0070188963,
+    -0.066831745,
+    0.035374604,
+    -0.0130020315,
+    -0.11445995,
+    0.0025147775,
+    0.01795254,
+    0.04654006,
+    -0.03979978,
+    -0.033015653,
+    -0.022921633,
+    -0.00022615293,
+    0.010290528,
+    -0.034804255,
+    0.0009869606,
+    0.03557192,
+    -0.008628058,
+    0.007645305,
+    0.01837043,
+    -0.013900988,
+    0.05348061,
+    -0.054457337,
+    -0.04868806,
+    0.035763633,
+    0.0730441,
+    -0.043842297,
+    0.050513536,
+    -0.020439237,
+    0.031032773,
+    -0.009455145,
+    0.019422673,
+    0.015375426,
+    -0.016379375,
+    -0.0067542903,
+    -0.05556463,
+    -0.0034130008,
+    0.010173403,
+    0.044011503,
+    -0.025357835,
+    0.004952015,
+    -0.014452195,
+    0.060372524,
+    -0.020640729,
+    -0.017588176,
+    -0.0064717103,
+    -0.03519261,
+    -0.022000447,
+    0.027714891,
+    -0.04677699,
+    -0.04569965,
+    -0.025395285,
+    -0.0004810854,
+    0.022269506,
+    -0.044524994,
+    0.054105707,
+    0.03242226,
+    0.0025409772,
+    0.0832097,
+    -0.018546687,
+    -0.10720843,
+    0.0072097084,
+    0.007769877,
+    -0.03716442,
+    -0.017938642,
+    -0.04480396,
+    -0.0546626,
+    -0.003433899,
+    0.035852257,
+    0.02432376,
+    0.061633054,
+    0.026857127,
+    -0.06614317,
+    0.02998483,
+    0.0030872447,
+    0.08491795,
+    -0.03927683,
+    -0.020459723,
+    -0.0021528502,
+    0.06415243,
+    0.03061332,
+    0.006364217,
+    -0.026534166,
+    0.020383392,
+    0.041531723,
+    0.05404862,
+    -0.012489334,
+    0.0039986023,
+    0.002589018,
+    0.0067481706,
+    0.012009165,
+    0.037793364,
+    0.025418587,
+    -0.0043894197,
+    -0.02617457,
+    0.043366577,
+    -0.022849321,
+    0.03505786,
+    -0.0010913153,
+    0.02025336,
+    -0.03885726,
+    -0.058170967,
+    -0.048016984,
+    0.005183991,
+    0.043567047,
+    0.018547269,
+    -0.057711992,
+    -0.04411088,
+    0.04361956,
+    0.05558907,
+    0.044763714,
+    -0.0019227476,
+    0.0084850285,
+    0.0582601,
+    -0.021290474,
+    0.024482368,
+    0.0077760806,
+    -0.0154092405,
+    0.01005569,
+    0.029222997,
+    -0.035232242,
+    -0.06623322,
+    -0.006149648,
+    -0.015554004,
+    -0.047141485,
+    -0.015517576,
+    0.022380829,
+    -0.011708695,
+    0.037522405,
+    -0.004500415,
+    0.006443143,
+    0.04654086,
+    -0.031212157,
+    -0.00049367873,
+    -0.019184876,
+    0.013154023,
+    0.019481767,
+    0.008228188,
+    -0.011070449,
+    0.040178474,
+    -0.008935935,
+    -0.010279616,
+    -0.018696206,
+    -0.018989874,
+    0.03178768,
+    0.03398374,
+    -0.032669667,
+    -0.0043295226,
+    0.008317003,
+    0.05040933,
+    0.015899636,
+    0.0038008762,
+    0.009343818,
+    -0.015398219,
+    -0.031182777,
+    0.0034735883,
+    0.06340784,
+    -0.021744253,
+    -0.0007337472,
+    0.039239284,
+    0.10901656,
+    -0.05005987,
+    0.005899201,
+    0.011603151,
+    0.025015814,
+    0.02612952,
+    -0.076746605,
+    -0.033105418,
+    -0.029484179,
+    -0.038621075,
+    -0.03575549,
+    -0.03882059,
+    -0.0024922746,
+    0.059854258,
+    -0.06697569,
+    -0.016370123,
+    0.0029067332,
+    -0.036730554,
+    0.025838478,
+    -0.020962536,
+    0.013243239,
+    0.009398427,
+    -0.018553222,
+    -0.0450937,
+    0.028680718,
+    0.0015886689,
+    -0.026655558,
+    0.035636876,
+    -0.04025194,
+    0.01704878,
+    0.049724095,
+    -0.062243905,
+    -0.012261243,
+    0.009189229,
+    0.01920301,
+    -0.044031356,
+    0.039132573,
+    0.029593099,
+    0.044204343,
+    -0.0083630225,
+    -0.033889387,
+    -0.037856217,
+    -0.010022443,
+    -0.04130984,
+    -0.035052367,
+    0.022542272,
+    0.026413072,
+    -0.00077319896,
+    -0.008123863,
+    0.067627646,
+    -0.095759645,
+    -0.008322155,
+    -0.06346528,
+    0.002916473,
+    -0.03075954,
+    -0.0028963021,
+    -0.023785058,
+    -0.053403046,
+    -0.0104617365,
+    -0.015620131,
+    0.00021075823,
+    0.061381266,
+    0.00072027405,
+    0.0034279595,
+    0.0045013335,
+    -0.048940703,
+    0.011681686,
+    -0.01738842,
+    -0.0021051501,
+    -0.036874138,
+    -0.051412374,
+    -0.039823018,
+    -0.021289974,
+    -0.00038644546,
+    -0.0045024715,
+    0.050533123,
+    -0.0066146487,
+    -0.03027145,
+    -0.012193395,
+    4.3249885e-05,
+    -0.028404893,
+    0.03915345,
+    0.045997016,
+    0.006523554,
+    0.016211674,
+    -0.044271093,
+    -0.02716123,
+    0.043888055,
+    -0.032261122,
+    -0.007941861,
+    0.008724117,
+    0.028764231,
+    0.009699927,
+    0.015186757,
+    -0.029762331,
+    0.045156322,
+    -0.0024735641,
+    -0.006055543,
+    -0.034024376,
+    -0.041957606,
+    -0.019437846,
+    0.06971114,
+    -0.053241182,
+    0.039931905,
+    0.06467992,
+    0.0137980925,
+    0.006999526,
+    -0.02364069,
+    -0.008269886,
+    0.04814391,
+    0.023235403,
+    0.024391819,
+    -0.003243778,
+    0.052230712,
+    -0.055356003,
+    0.04472226,
+    -0.01769408,
+    -0.04556373,
+    -0.038141914,
+    -0.001817385,
+    -0.045013107,
+    0.0053532133,
+    -0.04050669,
+    0.06197955,
+    -0.019583153,
+    -0.008151447,
+    -0.0448232,
+    -0.065384865,
+    0.030968163,
+    0.026217261,
+    0.07316037,
+    -0.060307067,
+    -0.07581161,
+    -0.046536833,
+    0.03759897,
+    -0.03223117,
+    0.008921078,
+    -0.044612728,
+    0.004438277,
+    0.014588755,
+    -0.039006557,
+    -0.05093668,
+    0.04664476,
+    0.055849276,
+    -0.022708615,
+    0.03281388,
+    0.05650987,
+    0.028574824,
+    0.043511577,
+    0.043881834,
+    0.06367953,
+    0.023579242,
+    -0.010867143,
+    -0.012205247,
+    -0.025585717,
+    0.022539394,
+    -0.0070221676,
+    -0.011166237,
+    -0.044651464,
+    -0.03874946,
+    0.01606987,
+    -0.004443314,
+    -0.003670314,
+    0.0547515,
+    0.008156849,
+    0.003062155,
+    -0.0035933696,
+    -0.07462406,
+    -0.07588104,
+    -0.03366869,
+    0.0018779341,
+    0.025523616,
+    -0.0052505294,
+    -0.0056479056,
+    0.06142189,
+    0.041813463,
+    0.053121638,
+    -0.03788682,
+    0.012252469,
+    0.034866802,
+    0.016075093,
+    0.021567632,
+    -0.025857301,
+    0.008046342,
+    -0.047446154,
+    -0.01302931,
+    -0.014005565,
+    0.042146266,
+    -0.03733769,
+    -0.018193582,
+    -0.033872303,
+    -0.012504585,
+    -0.03764679,
+    0.021353966,
+    0.029667934,
+    7.812796e-07,
+    0.0070215724,
+    -0.041900467,
+    0.006693101,
+    0.014045718,
+    0.06006527,
+    0.0060721347,
+    0.051921014,
+    -0.007397622,
+    -0.013853292,
+    0.011200088,
+    -0.018901723,
+    -0.0020678844,
+    -0.0068440083,
+    0.009440671,
+    0.010092567,
+    0.020385493,
+    0.04240721,
+    0.014145632,
+    0.010544616,
+    -0.051891144,
+    -0.07358452,
+    -0.006706571,
+    0.031931937,
+    0.055126783,
+    0.011830626,
+    -0.0111870095,
+    -0.015374197,
+    -0.046642434,
+    0.023006957,
+    0.0642919,
+    -0.040687963,
+    0.016237544,
+    -0.034898486,
+    -0.004975155,
+    -0.00599596,
+    -0.072234645,
+    0.06152881,
+    -0.035523072,
+    -0.01439402,
+    -0.013808418,
+    -0.035453852,
+    -0.062253367,
+    -0.059750512,
+    -0.0033569422,
+    -0.009126185,
+    0.027345294,
+    0.022163581,
+    -0.012056669,
+    -0.020956693,
+    0.034853965,
+    0.038772777,
+    0.026649874,
+    -0.0135819055,
+    0.03816784,
+    -0.012211643,
+    -0.04503866,
+    0.009744494,
+    -0.029026369,
+    0.025095677,
+    0.04079369,
+    0.040372156,
+    0.099115714,
+    0.010719012,
+    0.014388547,
+    -0.051500667,
+    0.01830052,
+    0.033903994,
+    -0.02424204,
+    -0.01672664,
+    -0.054464642,
+    0.0024307545
+  ],
+  "chunk_seq": 3,
+  "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+  "doc_id": "c89f41859fb44925be5b4ed628d31814",
+  "text": "## Branch Network Overview  \n| Branch | Location | Region | Manager | Staff | Est. Customers |\n|--------|----------|--------|---------|-------|-----------------|\n| London Head Office | London | Greater London | Sarah Williams | 3 | N/A |\n| London Canary Wharf | London | Greater London | James Chen | 2 | 85 |\n| Manchester Central | Manchester | North West | Emma Thompson | 1 | 68 |\n| Birmingham Business | Birmingham | Midlands | Michael O'Brien | 1 | 62 |\n| Leeds Financial | Leeds | Yorkshire | Rachel Murphy | 1 | 55 |\n| Bristol South | Bristol | South West | David Kumar | 1 | 51 |\n| Edinburgh Royal | Edinburgh | Scotland | Fiona MacLeod | 1 | 48 |\n| Glasgow Merchant | Glasgow | Scotland | Andrew Stewart | 1 | 42 |\n| Liverpool Pier | Liverpool | North West | Catherine Brown | 1 | 38 |\n| Norwich Market | Norwich | East Anglia | Peter Newton | 1 | 35 |\n| Southampton Water | Southampton | South | Jennifer Adams | 1 | 32 |\n| Belfast Central | Belfast | Northern Ireland | Thomas O'Donnell | 1 | 28 |  \n---",
+  "name": "Chunk 3/34",
+  "domain": "banking_organization",
+  "prev_chunk_id": "c89f41859fb44925be5b4ed628d31814_002",
+  "next_chunk_id": "c89f41859fb44925be5b4ed628d31814_004",
+  "raw_entities": [
+    {
+      "id": "org_001",
+      "name": "London Head Office",
+      "aliases": [
+        "Head Office",
+        "London HO"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "The central administrative and operational hub for FirstUK Bank's physical branch network, located in Greater London. Serves as the primary reference point for regional oversight, staff deployment, and customer base estimation.",
+      "context": [
+        "London Head Office | London | Greater London | Sarah Williams | 3 | N/A"
+      ]
+    },
+    {
+      "id": "org_002",
+      "name": "London Canary Wharf",
+      "aliases": [
+        "Canary Wharf Branch"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A key commercial branch operating within the Greater London region, focused on serving business and retail clients in the Canary Wharf financial district.",
+      "context": [
+        "London Canary Wharf | London | Greater London | James Chen | 2 | 85"
+      ]
+    },
+    {
+      "id": "org_003",
+      "name": "Manchester Central",
+      "aliases": [
+        "Manchester Branch"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A regional branch operating in the North West, positioned to serve retail and commercial clients across Manchester's central business district.",
+      "context": [
+        "Manchester Central | Manchester | North West | Emma Thompson | 1 | 68"
+      ]
+    },
+    {
+      "id": "org_004",
+      "name": "Birmingham Business",
+      "aliases": [
+        "Birmingham Branch"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A Midlands-focused branch designed to support local commercial and retail banking operations within the Birmingham region.",
+      "context": [
+        "Birmingham Business | Birmingham | Midlands | Michael O'Brien | 1 | 62"
+      ]
+    },
+    {
+      "id": "org_005",
+      "name": "Leeds Financial",
+      "aliases": [
+        "Leeds Branch"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A Yorkshire-region branch positioned to deliver financial services and client support across the Leeds metropolitan area.",
+      "context": [
+        "Leeds Financial | Leeds | Yorkshire | Rachel Murphy | 1 | 55"
+      ]
+    },
+    {
+      "id": "org_006",
+      "name": "Bristol South",
+      "aliases": [
+        "Bristol Branch"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A South West regional branch serving retail and commercial banking needs across the Bristol metropolitan corridor.",
+      "context": [
+        "Bristol South | Bristol | South West | David Kumar | 1 | 51"
+      ]
+    },
+    {
+      "id": "org_007",
+      "name": "Edinburgh Royal",
+      "aliases": [
+        "Edinburgh Branch"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A Scotland-region branch operating within Edinburgh, providing localized banking services and client relationship management.",
+      "context": [
+        "Edinburgh Royal | Edinburgh | Scotland | Fiona MacLeod | 1 | 48"
+      ]
+    },
+    {
+      "id": "org_008",
+      "name": "Glasgow Merchant",
+      "aliases": [
+        "Glasgow Branch"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A Scotland-region branch positioned in Glasgow to support merchant, retail, and commercial banking operations.",
+      "context": [
+        "Glasgow Merchant | Glasgow | Scotland | Andrew Stewart | 1 | 42"
+      ]
+    },
+    {
+      "id": "org_009",
+      "name": "Liverpool Pier",
+      "aliases": [
+        "Liverpool Branch"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A North West regional branch operating in Liverpool, delivering localized banking services and customer support.",
+      "context": [
+        "Liverpool Pier | Liverpool | North West | Catherine Brown | 1 | 38"
+      ]
+    },
+    {
+      "id": "org_010",
+      "name": "Norwich Market",
+      "aliases": [
+        "Norwich Branch"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "An East Anglia-region branch serving retail and commercial clients across the Norwich market area.",
+      "context": [
+        "Norwich Market | Norwich | East Anglia | Peter Newton | 1 | 35"
+      ]
+    },
+    {
+      "id": "org_011",
+      "name": "Southampton Water",
+      "aliases": [
+        "Southampton Branch"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A Southern-region branch positioned in Southampton to support local banking operations and customer engagement.",
+      "context": [
+        "Southampton Water | Southampton | South | Jennifer Adams | 1 | 32"
+      ]
+    },
+    {
+      "id": "org_012",
+      "name": "Belfast Central",
+      "aliases": [
+        "Belfast Branch"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A Northern Ireland-region branch operating in Belfast, serving as the primary physical banking touchpoint for the region.",
+      "context": [
+        "Belfast Central | Belfast | Northern Ireland | Thomas O'Donnell | 1 | 28"
+      ]
+    },
+    {
+      "id": "rol_001",
+      "name": "Sarah Williams",
+      "aliases": [],
+      "entity_class": "ROLE_PERSON",
+      "type": "manager",
+      "description": "Branch Manager responsible for the operational oversight, staff coordination, and customer service delivery at London Head Office.",
+      "context": [
+        "London Head Office | London | Greater London | Sarah Williams | 3 | N/A"
+      ]
+    },
+    {
+      "id": "rol_002",
+      "name": "James Chen",
+      "aliases": [],
+      "entity_class": "ROLE_PERSON",
+      "type": "manager",
+      "description": "Branch Manager overseeing daily operations, client relationships, and service delivery at the London Canary Wharf location.",
+      "context": [
+        "London Canary Wharf | London | Greater London | James Chen | 2 | 85"
+      ]
+    },
+    {
+      "id": "rol_003",
+      "name": "Emma Thompson",
+      "aliases": [],
+      "entity_class": "ROLE_PERSON",
+      "type": "manager",
+      "description": "Branch Manager accountable for operational execution and customer engagement at the Manchester Central branch.",
+      "context": [
+        "Manchester Central | Manchester | North West | Emma Thompson | 1 | 68"
+      ]
+    },
+    {
+      "id": "rol_004",
+      "name": "Michael O'Brien",
+      "aliases": [],
+      "entity_class": "ROLE_PERSON",
+      "type": "manager",
+      "description": "Branch Manager responsible for branch performance, staff supervision, and client service delivery at Birmingham Business.",
+      "context": [
+        "Birmingham Business | Birmingham | Midlands | Michael O'Brien | 1 | 62"
+      ]
+    },
+    {
+      "id": "rol_005",
+      "name": "Rachel Murphy",
+      "aliases": [],
+      "entity_class": "ROLE_PERSON",
+      "type": "manager",
+      "description": "Branch Manager overseeing operational activities and customer relationship management at Leeds Financial.",
+      "context": [
+        "Leeds Financial | Leeds | Yorkshire | Rachel Murphy | 1 | 55"
+      ]
+    },
+    {
+      "id": "rol_006",
+      "name": "David Kumar",
+      "aliases": [],
+      "entity_class": "ROLE_PERSON",
+      "type": "manager",
+      "description": "Branch Manager accountable for branch operations, staff coordination, and service delivery at Bristol South.",
+      "context": [
+        "Bristol South | Bristol | South West | David Kumar | 1 | 51"
+      ]
+    },
+    {
+      "id": "rol_007",
+      "name": "Fiona MacLeod",
+      "aliases": [],
+      "entity_class": "ROLE_PERSON",
+      "type": "manager",
+      "description": "Branch Manager responsible for operational oversight and customer engagement at Edinburgh Royal.",
+      "context": [
+        "Edinburgh Royal | Edinburgh | Scotland | Fiona MacLeod | 1 | 48"
+      ]
+    },
+    {
+      "id": "rol_008",
+      "name": "Andrew Stewart",
+      "aliases": [],
+      "entity_class": "ROLE_PERSON",
+      "type": "manager",
+      "description": "Branch Manager overseeing daily branch operations, staff supervision, and client service delivery at Glasgow Merchant.",
+      "context": [
+        "Glasgow Merchant | Glasgow | Scotland | Andrew Stewart | 1 | 42"
+      ]
+    },
+    {
+      "id": "rol_009",
+      "name": "Catherine Brown",
+      "aliases": [],
+      "entity_class": "ROLE_PERSON",
+      "type": "manager",
+      "description": "Branch Manager accountable for operational execution and customer relationship management at Liverpool Pier.",
+      "context": [
+        "Liverpool Pier | Liverpool | North West | Catherine Brown | 1 | 38"
+      ]
+    },
+    {
+      "id": "rol_010",
+      "name": "Peter Newton",
+      "aliases": [],
+      "entity_class": "ROLE_PERSON",
+      "type": "manager",
+      "description": "Branch Manager responsible for branch performance, staff coordination, and service delivery at Norwich Market.",
+      "context": [
+        "Norwich Market | Norwich | East Anglia | Peter Newton | 1 | 35"
+      ]
+    },
+    {
+      "id": "rol_011",
+      "name": "Jennifer Adams",
+      "aliases": [],
+      "entity_class": "ROLE_PERSON",
+      "type": "manager",
+      "description": "Branch Manager overseeing operational activities and customer engagement at Southampton Water.",
+      "context": [
+        "Southampton Water | Southampton | South | Jennifer Adams | 1 | 32"
+      ]
+    },
+    {
+      "id": "rol_012",
+      "name": "Thomas O'Donnell",
+      "aliases": [],
+      "entity_class": "ROLE_PERSON",
+      "type": "manager",
+      "description": "Branch Manager accountable for branch operations, staff supervision, and client service delivery at Belfast Central.",
+      "context": [
+        "Belfast Central | Belfast | Northern Ireland | Thomas O'Donnell | 1 | 28"
+      ]
+    }
+  ],
+  "id_map": {
+    "org_001": "c89f41859fb44925be5b4ed628d31814_003_org_001",
+    "org_002": "c89f41859fb44925be5b4ed628d31814_003_org_002",
+    "org_003": "c89f41859fb44925be5b4ed628d31814_003_org_003",
+    "org_004": "c89f41859fb44925be5b4ed628d31814_003_org_004",
+    "org_005": "c89f41859fb44925be5b4ed628d31814_003_org_005",
+    "org_006": "c89f41859fb44925be5b4ed628d31814_003_org_006",
+    "org_007": "c89f41859fb44925be5b4ed628d31814_003_org_007",
+    "org_008": "c89f41859fb44925be5b4ed628d31814_003_org_008",
+    "org_009": "c89f41859fb44925be5b4ed628d31814_003_org_009",
+    "org_010": "c89f41859fb44925be5b4ed628d31814_003_org_010",
+    "org_011": "c89f41859fb44925be5b4ed628d31814_003_org_011",
+    "org_012": "c89f41859fb44925be5b4ed628d31814_003_org_012",
+    "rol_001": "c89f41859fb44925be5b4ed628d31814_003_rol_001",
+    "rol_002": "c89f41859fb44925be5b4ed628d31814_003_rol_002",
+    "rol_003": "c89f41859fb44925be5b4ed628d31814_003_rol_003",
+    "rol_004": "c89f41859fb44925be5b4ed628d31814_003_rol_004",
+    "rol_005": "c89f41859fb44925be5b4ed628d31814_003_rol_005",
+    "rol_006": "c89f41859fb44925be5b4ed628d31814_003_rol_006",
+    "rol_007": "c89f41859fb44925be5b4ed628d31814_003_rol_007",
+    "rol_008": "c89f41859fb44925be5b4ed628d31814_003_rol_008",
+    "rol_009": "c89f41859fb44925be5b4ed628d31814_003_rol_009",
+    "rol_010": "c89f41859fb44925be5b4ed628d31814_003_rol_010",
+    "rol_011": "c89f41859fb44925be5b4ed628d31814_003_rol_011",
+    "rol_012": "c89f41859fb44925be5b4ed628d31814_003_rol_012"
+  },
+  "entities": [
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_org_001",
+      "name": "London Head Office",
+      "aliases": [
+        "Head Office",
+        "London HO"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "The central administrative and operational hub for FirstUK Bank's physical branch network, located in Greater London. Serves as the primary reference point for regional oversight, staff deployment, and customer base estimation.",
+      "context": [
+        "London Head Office | London | Greater London | Sarah Williams | 3 | N/A"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_org_002",
+      "name": "London Canary Wharf",
+      "aliases": [
+        "Canary Wharf Branch"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A key commercial branch operating within the Greater London region, focused on serving business and retail clients in the Canary Wharf financial district.",
+      "context": [
+        "London Canary Wharf | London | Greater London | James Chen | 2 | 85"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_org_003",
+      "name": "Manchester Central",
+      "aliases": [
+        "Manchester Branch"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A regional branch operating in the North West, positioned to serve retail and commercial clients across Manchester's central business district.",
+      "context": [
+        "Manchester Central | Manchester | North West | Emma Thompson | 1 | 68"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_org_004",
+      "name": "Birmingham Business",
+      "aliases": [
+        "Birmingham Branch"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A Midlands-focused branch designed to support local commercial and retail banking operations within the Birmingham region.",
+      "context": [
+        "Birmingham Business | Birmingham | Midlands | Michael O'Brien | 1 | 62"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_org_005",
+      "name": "Leeds Financial",
+      "aliases": [
+        "Leeds Branch"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A Yorkshire-region branch positioned to deliver financial services and client support across the Leeds metropolitan area.",
+      "context": [
+        "Leeds Financial | Leeds | Yorkshire | Rachel Murphy | 1 | 55"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_org_006",
+      "name": "Bristol South",
+      "aliases": [
+        "Bristol Branch"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A South West regional branch serving retail and commercial banking needs across the Bristol metropolitan corridor.",
+      "context": [
+        "Bristol South | Bristol | South West | David Kumar | 1 | 51"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_org_007",
+      "name": "Edinburgh Royal",
+      "aliases": [
+        "Edinburgh Branch"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A Scotland-region branch operating within Edinburgh, providing localized banking services and client relationship management.",
+      "context": [
+        "Edinburgh Royal | Edinburgh | Scotland | Fiona MacLeod | 1 | 48"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_org_008",
+      "name": "Glasgow Merchant",
+      "aliases": [
+        "Glasgow Branch"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A Scotland-region branch positioned in Glasgow to support merchant, retail, and commercial banking operations.",
+      "context": [
+        "Glasgow Merchant | Glasgow | Scotland | Andrew Stewart | 1 | 42"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_org_009",
+      "name": "Liverpool Pier",
+      "aliases": [
+        "Liverpool Branch"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A North West regional branch operating in Liverpool, delivering localized banking services and customer support.",
+      "context": [
+        "Liverpool Pier | Liverpool | North West | Catherine Brown | 1 | 38"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_org_010",
+      "name": "Norwich Market",
+      "aliases": [
+        "Norwich Branch"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "An East Anglia-region branch serving retail and commercial clients across the Norwich market area.",
+      "context": [
+        "Norwich Market | Norwich | East Anglia | Peter Newton | 1 | 35"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_org_011",
+      "name": "Southampton Water",
+      "aliases": [
+        "Southampton Branch"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A Southern-region branch positioned in Southampton to support local banking operations and customer engagement.",
+      "context": [
+        "Southampton Water | Southampton | South | Jennifer Adams | 1 | 32"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_org_012",
+      "name": "Belfast Central",
+      "aliases": [
+        "Belfast Branch"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A Northern Ireland-region branch operating in Belfast, serving as the primary physical banking touchpoint for the region.",
+      "context": [
+        "Belfast Central | Belfast | Northern Ireland | Thomas O'Donnell | 1 | 28"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_rol_001",
+      "name": "Sarah Williams",
+      "aliases": [],
+      "entity_class": "ROLE_PERSON",
+      "type": "manager",
+      "description": "Branch Manager responsible for the operational oversight, staff coordination, and customer service delivery at London Head Office.",
+      "context": [
+        "London Head Office | London | Greater London | Sarah Williams | 3 | N/A"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_rol_002",
+      "name": "James Chen",
+      "aliases": [],
+      "entity_class": "ROLE_PERSON",
+      "type": "manager",
+      "description": "Branch Manager overseeing daily operations, client relationships, and service delivery at the London Canary Wharf location.",
+      "context": [
+        "London Canary Wharf | London | Greater London | James Chen | 2 | 85"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_rol_003",
+      "name": "Emma Thompson",
+      "aliases": [],
+      "entity_class": "ROLE_PERSON",
+      "type": "manager",
+      "description": "Branch Manager accountable for operational execution and customer engagement at the Manchester Central branch.",
+      "context": [
+        "Manchester Central | Manchester | North West | Emma Thompson | 1 | 68"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_rol_004",
+      "name": "Michael O'Brien",
+      "aliases": [],
+      "entity_class": "ROLE_PERSON",
+      "type": "manager",
+      "description": "Branch Manager responsible for branch performance, staff supervision, and client service delivery at Birmingham Business.",
+      "context": [
+        "Birmingham Business | Birmingham | Midlands | Michael O'Brien | 1 | 62"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_rol_005",
+      "name": "Rachel Murphy",
+      "aliases": [],
+      "entity_class": "ROLE_PERSON",
+      "type": "manager",
+      "description": "Branch Manager overseeing operational activities and customer relationship management at Leeds Financial.",
+      "context": [
+        "Leeds Financial | Leeds | Yorkshire | Rachel Murphy | 1 | 55"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_rol_006",
+      "name": "David Kumar",
+      "aliases": [],
+      "entity_class": "ROLE_PERSON",
+      "type": "manager",
+      "description": "Branch Manager accountable for branch operations, staff coordination, and service delivery at Bristol South.",
+      "context": [
+        "Bristol South | Bristol | South West | David Kumar | 1 | 51"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_rol_007",
+      "name": "Fiona MacLeod",
+      "aliases": [],
+      "entity_class": "ROLE_PERSON",
+      "type": "manager",
+      "description": "Branch Manager responsible for operational oversight and customer engagement at Edinburgh Royal.",
+      "context": [
+        "Edinburgh Royal | Edinburgh | Scotland | Fiona MacLeod | 1 | 48"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_rol_008",
+      "name": "Andrew Stewart",
+      "aliases": [],
+      "entity_class": "ROLE_PERSON",
+      "type": "manager",
+      "description": "Branch Manager overseeing daily branch operations, staff supervision, and client service delivery at Glasgow Merchant.",
+      "context": [
+        "Glasgow Merchant | Glasgow | Scotland | Andrew Stewart | 1 | 42"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_rol_009",
+      "name": "Catherine Brown",
+      "aliases": [],
+      "entity_class": "ROLE_PERSON",
+      "type": "manager",
+      "description": "Branch Manager accountable for operational execution and customer relationship management at Liverpool Pier.",
+      "context": [
+        "Liverpool Pier | Liverpool | North West | Catherine Brown | 1 | 38"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_rol_010",
+      "name": "Peter Newton",
+      "aliases": [],
+      "entity_class": "ROLE_PERSON",
+      "type": "manager",
+      "description": "Branch Manager responsible for branch performance, staff coordination, and service delivery at Norwich Market.",
+      "context": [
+        "Norwich Market | Norwich | East Anglia | Peter Newton | 1 | 35"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_rol_011",
+      "name": "Jennifer Adams",
+      "aliases": [],
+      "entity_class": "ROLE_PERSON",
+      "type": "manager",
+      "description": "Branch Manager overseeing operational activities and customer engagement at Southampton Water.",
+      "context": [
+        "Southampton Water | Southampton | South | Jennifer Adams | 1 | 32"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_rol_012",
+      "name": "Thomas O'Donnell",
+      "aliases": [],
+      "entity_class": "ROLE_PERSON",
+      "type": "manager",
+      "description": "Branch Manager accountable for branch operations, staff supervision, and client service delivery at Belfast Central.",
+      "context": [
+        "Belfast Central | Belfast | Northern Ireland | Thomas O'Donnell | 1 | 28"
+      ],
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    }
+  ],
+  "properties": [
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_org_001",
+      "name": "London Head Office",
+      "properties": {
+        "location": "London",
+        "region": "Greater London",
+        "headcount": 3,
+        "chair_or_head": "Sarah Williams",
+        "key_functions": [
+          "branch operations",
+          "customer service"
+        ],
+        "estimated_customers": "N/A"
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_rol_001",
+      "name": "Sarah Williams",
+      "properties": {
+        "department_or_unit": "London Head Office",
+        "appointment_type": "manager",
+        "key_responsibilities": [
+          "oversee branch operations",
+          "manage staff",
+          "deliver customer service"
+        ]
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_org_002",
+      "name": "London Canary Wharf",
+      "properties": {
+        "location": "London",
+        "region": "Greater London",
+        "headcount": 2,
+        "chair_or_head": "James Chen",
+        "key_functions": [
+          "branch operations",
+          "customer service"
+        ],
+        "estimated_customers": 85
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_rol_002",
+      "name": "James Chen",
+      "properties": {
+        "department_or_unit": "London Canary Wharf",
+        "appointment_type": "manager",
+        "key_responsibilities": [
+          "oversee branch operations",
+          "manage staff",
+          "deliver customer service"
+        ]
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_org_003",
+      "name": "Manchester Central",
+      "properties": {
+        "location": "Manchester",
+        "region": "North West",
+        "headcount": 1,
+        "chair_or_head": "Emma Thompson",
+        "key_functions": [
+          "branch operations",
+          "customer service"
+        ],
+        "estimated_customers": 68
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_rol_003",
+      "name": "Emma Thompson",
+      "properties": {
+        "department_or_unit": "Manchester Central",
+        "appointment_type": "manager",
+        "key_responsibilities": [
+          "oversee branch operations",
+          "manage staff",
+          "deliver customer service"
+        ]
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_org_004",
+      "name": "Birmingham Business",
+      "properties": {
+        "location": "Birmingham",
+        "region": "Midlands",
+        "headcount": 1,
+        "chair_or_head": "Michael O'Brien",
+        "key_functions": [
+          "branch operations",
+          "customer service"
+        ],
+        "estimated_customers": 62
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_rol_004",
+      "name": "Michael O'Brien",
+      "properties": {
+        "department_or_unit": "Birmingham Business",
+        "appointment_type": "manager",
+        "key_responsibilities": [
+          "oversee branch operations",
+          "manage staff",
+          "deliver customer service"
+        ]
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_org_005",
+      "name": "Leeds Financial",
+      "properties": {
+        "location": "Leeds",
+        "region": "Yorkshire",
+        "headcount": 1,
+        "chair_or_head": "Rachel Murphy",
+        "key_functions": [
+          "branch operations",
+          "customer service"
+        ],
+        "estimated_customers": 55
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_rol_005",
+      "name": "Rachel Murphy",
+      "properties": {
+        "department_or_unit": "Leeds Financial",
+        "appointment_type": "manager",
+        "key_responsibilities": [
+          "oversee branch operations",
+          "manage staff",
+          "deliver customer service"
+        ]
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_org_006",
+      "name": "Bristol South",
+      "properties": {
+        "location": "Bristol",
+        "region": "South West",
+        "headcount": 1,
+        "chair_or_head": "David Kumar",
+        "key_functions": [
+          "branch operations",
+          "customer service"
+        ],
+        "estimated_customers": 51
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_rol_006",
+      "name": "David Kumar",
+      "properties": {
+        "department_or_unit": "Bristol South",
+        "appointment_type": "manager",
+        "key_responsibilities": [
+          "oversee branch operations",
+          "manage staff",
+          "deliver customer service"
+        ]
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_org_007",
+      "name": "Edinburgh Royal",
+      "properties": {
+        "location": "Edinburgh",
+        "region": "Scotland",
+        "headcount": 1,
+        "chair_or_head": "Fiona MacLeod",
+        "key_functions": [
+          "branch operations",
+          "customer service"
+        ],
+        "estimated_customers": 48
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_rol_007",
+      "name": "Fiona MacLeod",
+      "properties": {
+        "department_or_unit": "Edinburgh Royal",
+        "appointment_type": "manager",
+        "key_responsibilities": [
+          "oversee branch operations",
+          "manage staff",
+          "deliver customer service"
+        ]
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_org_008",
+      "name": "Glasgow Merchant",
+      "properties": {
+        "location": "Glasgow",
+        "region": "Scotland",
+        "headcount": 1,
+        "chair_or_head": "Andrew Stewart",
+        "key_functions": [
+          "branch operations",
+          "customer service"
+        ],
+        "estimated_customers": 42
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_rol_008",
+      "name": "Andrew Stewart",
+      "properties": {
+        "department_or_unit": "Glasgow Merchant",
+        "appointment_type": "manager",
+        "key_responsibilities": [
+          "oversee branch operations",
+          "manage staff",
+          "deliver customer service"
+        ]
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_org_009",
+      "name": "Liverpool Pier",
+      "properties": {
+        "location": "Liverpool",
+        "region": "North West",
+        "headcount": 1,
+        "chair_or_head": "Catherine Brown",
+        "key_functions": [
+          "branch operations",
+          "customer service"
+        ],
+        "estimated_customers": 38
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_rol_009",
+      "name": "Catherine Brown",
+      "properties": {
+        "department_or_unit": "Liverpool Pier",
+        "appointment_type": "manager",
+        "key_responsibilities": [
+          "oversee branch operations",
+          "manage staff",
+          "deliver customer service"
+        ]
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_org_010",
+      "name": "Norwich Market",
+      "properties": {
+        "location": "Norwich",
+        "region": "East Anglia",
+        "headcount": 1,
+        "chair_or_head": "Peter Newton",
+        "key_functions": [
+          "branch operations",
+          "customer service"
+        ],
+        "estimated_customers": 35
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_rol_010",
+      "name": "Peter Newton",
+      "properties": {
+        "department_or_unit": "Norwich Market",
+        "appointment_type": "manager",
+        "key_responsibilities": [
+          "oversee branch operations",
+          "manage staff",
+          "deliver customer service"
+        ]
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_org_011",
+      "name": "Southampton Water",
+      "properties": {
+        "location": "Southampton",
+        "region": "South",
+        "headcount": 1,
+        "chair_or_head": "Jennifer Adams",
+        "key_functions": [
+          "branch operations",
+          "customer service"
+        ],
+        "estimated_customers": 32
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_rol_011",
+      "name": "Jennifer Adams",
+      "properties": {
+        "department_or_unit": "Southampton Water",
+        "appointment_type": "manager",
+        "key_responsibilities": [
+          "oversee branch operations",
+          "manage staff",
+          "deliver customer service"
+        ]
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_org_012",
+      "name": "Belfast Central",
+      "properties": {
+        "location": "Belfast",
+        "region": "Northern Ireland",
+        "headcount": 1,
+        "chair_or_head": "Thomas O'Donnell",
+        "key_functions": [
+          "branch operations",
+          "customer service"
+        ],
+        "estimated_customers": 28
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "id": "c89f41859fb44925be5b4ed628d31814_003_rol_012",
+      "name": "Thomas O'Donnell",
+      "properties": {
+        "department_or_unit": "Belfast Central",
+        "appointment_type": "manager",
+        "key_responsibilities": [
+          "oversee branch operations",
+          "manage staff",
+          "deliver customer service"
+        ]
+      },
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_org_001",
+      "source_name": "London Head Office",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003_rol_001",
+      "target_name": "Sarah Williams",
+      "rel_type": "managed_by",
+      "description": "The London Head Office branch is managed by Sarah Williams.",
+      "properties": {
+        "region": "Greater London",
+        "staff_count": 3,
+        "estimated_customers": "N/A"
+      },
+      "context": "| London Head Office | London | Greater London | Sarah Williams | 3 | N/A |",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_org_002",
+      "source_name": "London Canary Wharf",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003_rol_002",
+      "target_name": "James Chen",
+      "rel_type": "managed_by",
+      "description": "The London Canary Wharf branch is managed by James Chen.",
+      "properties": {
+        "region": "Greater London",
+        "staff_count": 2,
+        "estimated_customers": 85
+      },
+      "context": "| London Canary Wharf | London | Greater London | James Chen | 2 | 85 |",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_org_003",
+      "source_name": "Manchester Central",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003_rol_003",
+      "target_name": "Emma Thompson",
+      "rel_type": "managed_by",
+      "description": "The Manchester Central branch is managed by Emma Thompson.",
+      "properties": {
+        "region": "North West",
+        "staff_count": 1,
+        "estimated_customers": 68
+      },
+      "context": "| Manchester Central | Manchester | North West | Emma Thompson | 1 | 68 |",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_org_004",
+      "source_name": "Birmingham Business",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003_rol_004",
+      "target_name": "Michael O'Brien",
+      "rel_type": "managed_by",
+      "description": "The Birmingham Business branch is managed by Michael O'Brien.",
+      "properties": {
+        "region": "Midlands",
+        "staff_count": 1,
+        "estimated_customers": 62
+      },
+      "context": "| Birmingham Business | Birmingham | Midlands | Michael O'Brien | 1 | 62 |",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_org_005",
+      "source_name": "Leeds Financial",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003_rol_005",
+      "target_name": "Rachel Murphy",
+      "rel_type": "managed_by",
+      "description": "The Leeds Financial branch is managed by Rachel Murphy.",
+      "properties": {
+        "region": "Yorkshire",
+        "staff_count": 1,
+        "estimated_customers": 55
+      },
+      "context": "| Leeds Financial | Leeds | Yorkshire | Rachel Murphy | 1 | 55 |",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_org_006",
+      "source_name": "Bristol South",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003_rol_006",
+      "target_name": "David Kumar",
+      "rel_type": "managed_by",
+      "description": "The Bristol South branch is managed by David Kumar.",
+      "properties": {
+        "region": "South West",
+        "staff_count": 1,
+        "estimated_customers": 51
+      },
+      "context": "| Bristol South | Bristol | South West | David Kumar | 1 | 51 |",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_org_007",
+      "source_name": "Edinburgh Royal",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003_rol_007",
+      "target_name": "Fiona MacLeod",
+      "rel_type": "managed_by",
+      "description": "The Edinburgh Royal branch is managed by Fiona MacLeod.",
+      "properties": {
+        "region": "Scotland",
+        "staff_count": 1,
+        "estimated_customers": 48
+      },
+      "context": "| Edinburgh Royal | Edinburgh | Scotland | Fiona MacLeod | 1 | 48 |",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_org_008",
+      "source_name": "Glasgow Merchant",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003_rol_008",
+      "target_name": "Andrew Stewart",
+      "rel_type": "managed_by",
+      "description": "The Glasgow Merchant branch is managed by Andrew Stewart.",
+      "properties": {
+        "region": "Scotland",
+        "staff_count": 1,
+        "estimated_customers": 42
+      },
+      "context": "| Glasgow Merchant | Glasgow | Scotland | Andrew Stewart | 1 | 42 |",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_org_009",
+      "source_name": "Liverpool Pier",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003_rol_009",
+      "target_name": "Catherine Brown",
+      "rel_type": "managed_by",
+      "description": "The Liverpool Pier branch is managed by Catherine Brown.",
+      "properties": {
+        "region": "North West",
+        "staff_count": 1,
+        "estimated_customers": 38
+      },
+      "context": "| Liverpool Pier | Liverpool | North West | Catherine Brown | 1 | 38 |",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_org_010",
+      "source_name": "Norwich Market",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003_rol_010",
+      "target_name": "Peter Newton",
+      "rel_type": "managed_by",
+      "description": "The Norwich Market branch is managed by Peter Newton.",
+      "properties": {
+        "region": "East Anglia",
+        "staff_count": 1,
+        "estimated_customers": 35
+      },
+      "context": "| Norwich Market | Norwich | East Anglia | Peter Newton | 1 | 35 |",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_org_011",
+      "source_name": "Southampton Water",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003_rol_011",
+      "target_name": "Jennifer Adams",
+      "rel_type": "managed_by",
+      "description": "The Southampton Water branch is managed by Jennifer Adams.",
+      "properties": {
+        "region": "South",
+        "staff_count": 1,
+        "estimated_customers": 32
+      },
+      "context": "| Southampton Water | Southampton | South | Jennifer Adams | 1 | 32 |",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_org_012",
+      "source_name": "Belfast Central",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003_rol_012",
+      "target_name": "Thomas O'Donnell",
+      "rel_type": "managed_by",
+      "description": "The Belfast Central branch is managed by Thomas O'Donnell.",
+      "properties": {
+        "region": "Northern Ireland",
+        "staff_count": 1,
+        "estimated_customers": 28
+      },
+      "context": "| Belfast Central | Belfast | Northern Ireland | Thomas O'Donnell | 1 | 28 |",
+      "bidirectional": false,
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_org_001",
+      "source_name": "London Head Office",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_org_002",
+      "source_name": "London Canary Wharf",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_org_003",
+      "source_name": "Manchester Central",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_org_004",
+      "source_name": "Birmingham Business",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_org_005",
+      "source_name": "Leeds Financial",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_org_006",
+      "source_name": "Bristol South",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_org_007",
+      "source_name": "Edinburgh Royal",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_org_008",
+      "source_name": "Glasgow Merchant",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_org_009",
+      "source_name": "Liverpool Pier",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_org_010",
+      "source_name": "Norwich Market",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_org_011",
+      "source_name": "Southampton Water",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_org_012",
+      "source_name": "Belfast Central",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_rol_001",
+      "source_name": "Sarah Williams",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_rol_002",
+      "source_name": "James Chen",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_rol_003",
+      "source_name": "Emma Thompson",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_rol_004",
+      "source_name": "Michael O'Brien",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_rol_005",
+      "source_name": "Rachel Murphy",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_rol_006",
+      "source_name": "David Kumar",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_rol_007",
+      "source_name": "Fiona MacLeod",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_rol_008",
+      "source_name": "Andrew Stewart",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_rol_009",
+      "source_name": "Catherine Brown",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_rol_010",
+      "source_name": "Peter Newton",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_rol_011",
+      "source_name": "Jennifer Adams",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c89f41859fb44925be5b4ed628d31814_003_rol_012",
+      "source_name": "Thomas O'Donnell",
+      "target_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "target_name": "c89f41859fb44925be5b4ed628d31814_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+      "doc_id": "c89f41859fb44925be5b4ed628d31814",
+      "domain": "banking_organization"
+    }
+  ]
+}

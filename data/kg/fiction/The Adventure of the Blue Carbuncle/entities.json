@@ -1,0 +1,2607 @@
+[
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_001_char_001",
+    "name": "Sherlock Holmes",
+    "aliases": [
+      "my friend",
+      "Holmes"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "protagonist",
+    "description": "A consulting detective renowned for his exceptional observational skills and logical deduction methods. In this passage, he is engaged in analyzing a seemingly trivial object to solve a minor mystery, demonstrating his characteristic introspective focus and intellectual rigor.",
+    "context": [
+      "He was lounging upon the sofa in a purple dressing-gown",
+      "I am glad to have a friend with whom I can discuss my results.",
+      "You know my methods. What can you gather yourself as to the individuality of the man who has worn this article?"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_001",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_001_char_002",
+    "name": "Watson",
+    "aliases": [
+      "I",
+      "my dear fellow",
+      "my dear Watson"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "The narrator and Holmes's friend, who serves as a foil to Holmes's deductive genius by initially failing to see the clues in the hat. His perspective grounds the narrative and highlights the contrast between ordinary observation and analytical reasoning.",
+    "context": [
+      "I seated myself in his armchair and warmed my hands before his crackling fire",
+      "I can see nothing,' said I, handing it back to my friend.",
+      "My dear Holmes!"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_001",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_001_char_003",
+    "name": "Peterson",
+    "aliases": [
+      "the commissionaire",
+      "his finder"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "An honest commissionaire who found the lost hat and goose on Christmas morning and brought them to Holmes for examination. He acts as the catalyst for the investigation by recovering the physical evidence from the scene of the incident.",
+    "context": [
+      "You know Peterson, the commissionaire?",
+      "It is to him that this trophy belongs.",
+      "He brought round both hat and goose to me on Christmas morning"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_001",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_001_char_004",
+    "name": "Henry Baker",
+    "aliases": [
+      "Mrs. Henry Baker",
+      "H. B.",
+      "the tallish man",
+      "stranger",
+      "unknown gentleman"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "The owner of the lost hat and goose, identified by the initials on the hat lining and a card tied to the bird's leg. He is described as a tallish man who lost his items during a street altercation, representing the ordinary individual at the center of a whimsical mystery.",
+    "context": [
+      "'For Mrs. Henry Baker' was printed upon a small card",
+      "initials 'H. B.' are legible upon the lining of this hat",
+      "a tallish man, walking with a slight stagger, and carrying a white goose slung over his shoulder."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_001",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_001_char_005",
+    "name": "Irene Adler",
+    "aliases": [
+      "Irene Adler papers"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "A past case figure mentioned by Holmes to illustrate that not all his cases involve legal crimes, highlighting the whimsical and non-criminal nature of some mysteries he has documented.",
+    "context": [
+      "You allude to my attempt to recover the Irene Adler papers"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_001",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_001_char_006",
+    "name": "Miss Mary Sutherland",
+    "aliases": [],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "Another past case figure referenced by Holmes to categorize the current hat mystery as an innocent, non-criminal incident, reinforcing the theme of trivial but intriguing urban occurrences.",
+    "context": [
+      "to the singular case of Miss Mary Sutherland"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_001",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_001_char_007",
+    "name": "The Man with the Twisted Lip",
+    "aliases": [],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "A past case figure mentioned alongside others to demonstrate the variety of non-criminal adventures Holmes has documented, serving as a literary reference point for the current investigation.",
+    "context": [
+      "and to the adventure of the man with the twisted lip."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_001",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_001_loc_001",
+    "name": "Tottenham Court Road",
+    "aliases": [],
+    "entity_class": "LOCATION",
+    "type": "city",
+    "description": "A major street in London where the incident involving the lost hat and goose took place. Peterson was walking home along this road when he witnessed the altercation and recovered the abandoned items.",
+    "context": [
+      "making his way homeward down Tottenham Court Road.",
+      "lie at the back of Tottenham Court Road."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_001",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_001_loc_002",
+    "name": "Goodge Street",
+    "aliases": [],
+    "entity_class": "LOCATION",
+    "type": "landmark",
+    "description": "A street corner where the stranger dropped his goose and smashed a shop window during a fight with roughs. It marks the precise location where the physical evidence was left behind.",
+    "context": [
+      "As he reached the corner of Goodge Street, a row broke out between this stranger and a little knot of roughs."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_001",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_001_obj_001",
+    "name": "The Hat",
+    "aliases": [
+      "battered billycock",
+      "old battered felt",
+      "tattered object",
+      "article"
+    ],
+    "entity_class": "OBJECT",
+    "type": "symbolic",
+    "description": "A highly worn, black felt hat that serves as the central intellectual puzzle for Holmes. Its condition, markings, and missing components provide clues about the owner's past prosperity, current decline, and moral state, functioning as a physical manifestation of deduction.",
+    "context": [
+      "look upon it not as a battered billycock but as an intellectual problem.",
+      "It was a very ordinary black hat of the usual round shape, hard and much the worse for wear.",
+      "spotted in several places, although there seemed to have been some attempt to hide the discoloured patches by smearing them with ink."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_001",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_001_obj_002",
+    "name": "The Goose",
+    "aliases": [
+      "good fat goose",
+      "Christmas goose",
+      "white goose"
+    ],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "A Christmas goose found alongside the hat, which was intended as a gift for Mrs. Henry Baker. It serves as a secondary clue and a practical item that was eventually consumed, grounding the whimsical mystery in everyday reality.",
+    "context": [
+      "in company with a good fat goose, which is, I have no doubt, roasting at this moment",
+      "Its finder has carried it off, therefore, to fulfil the ultimate destiny of a goose",
+      "carrying a white goose slung over his shoulder."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_001",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_001_evt_001",
+    "name": "The Christmas Morning Incident",
+    "aliases": [
+      "row",
+      "affray",
+      "street altercation"
+    ],
+    "entity_class": "EVENT",
+    "type": "conflict",
+    "description": "A street altercation on Christmas morning where a stranger fought with roughs, lost his hat and goose, and fled the scene. This event serves as the inciting incident that leaves the physical evidence for Peterson to discover and Holmes to analyze.",
+    "context": [
+      "a row broke out between this stranger and a little knot of roughs.",
+      "One of the latter knocked off the man's hat, on which he raised his stick to defend himself",
+      "The roughs had also fled at the appearance of Peterson"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_001",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_001_con_001",
+    "name": "Deduction",
+    "aliases": [
+      "my methods",
+      "reason from what you see",
+      "intellectual problem"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "deduction",
+    "description": "The analytical process Holmes employs to extract clues from physical objects, emphasizing observation and logical inference over mere sight. It represents the core methodology of the narrative, contrasting passive viewing with active reasoning.",
+    "context": [
+      "You know my methods. What can you gather yourself as to the individuality of the man who has worn this article?",
+      "You fail, however, to reason from what you see. You are too timid in drawing your inferences.",
+      "Only as much as we can deduce."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_001",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_001_con_002",
+    "name": "Moral Retrogression",
+    "aliases": [
+      "decline of his fortunes",
+      "evil influence",
+      "drink"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "theme",
+    "description": "A concept Holmes deduces from the hat's condition, suggesting the owner's past prosperity has faded due to negative influences like alcohol, leading to a decline in his personal relationships. It reflects the Victorian theme of physical decay mirroring moral and social decline.",
+    "context": [
+      "pointing to a moral retrogression, which, when taken with the decline of his fortunes, seems to indicate some evil influence, probably drink, at work upon him.",
+      "This may account also for the obvious fact that his wife has ceased to love him."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_001",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_char_001",
+    "name": "Sherlock Holmes",
+    "aliases": [
+      "Holmes",
+      "Mr. Holmes"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "protagonist",
+    "description": "A consulting detective renowned for his extraordinary powers of observation and logical deduction. In this passage, he demonstrates his method by analyzing a discarded hat to reconstruct the life and habits of its owner, while also reacting to the sudden discovery of a valuable gem.",
+    "context": [
+      "'You are certainly joking, Holmes.'",
+      "'Sherlock Holmes laughed.'",
+      "'Sherlock Holmes sat up with a whistle.'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_char_002",
+    "name": "Dr. Watson",
+    "aliases": [
+      "Watson",
+      "my dear Watson",
+      "I"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "The narrator and chronicler of Holmes's cases, serving as an inquisitive foil who questions the detective's deductions and provides a grounded perspective. He expresses skepticism about the hat analysis and later remarks on the location where the gem was lost.",
+    "context": [
+      "'I have no doubt that I am very stupid, but I must confess that I am unable to follow you.'",
+      "'It was lost, if I remember aright, at the Hotel Cosmopolitan,' I remarked.",
+      "'Well, it is very ingenious,' said I, laughing, 'but since, as you said just now, there has been no crime committed, and no harm done save the loss of a goose, all this seems to be rather a waste of energy.'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_char_003",
+    "name": "Peterson",
+    "aliases": [
+      "the commissionaire",
+      "Peterson"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "A commissionaire who delivers the goose to Holmes and discovers a valuable diamond hidden in the bird's crop. His excited entrance and detailed account of the find drive the narrative forward from deduction to discovery.",
+    "context": [
+      "Peterson, the commissionaire, rushed into the apartment with flushed cheeks and the face of a man who is dazed with astonishment.",
+      "'The goose, Mr. Holmes! The goose, sir!' he gasped.",
+      "'See here, sir! See what my wife found in its crop!'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_char_004",
+    "name": "The Hat Owner",
+    "aliases": [
+      "he",
+      "this man",
+      "the man"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "The owner of the discarded hat, whose physical appearance, financial decline, marital strife, and domestic habits are meticulously reconstructed by Holmes through forensic observation of the hat's condition and markings.",
+    "context": [
+      "'He is a man who leads a sedentary life, goes out little, is out of training entirely, is middleaged, has grizzled hair which he has had cut within the last few days, and which he anoints with limecream.'",
+      "'If this man ordered one, it is a sign of a certain amount of foresight, since he went out of his way to take this precaution against the wind.'",
+      "'Nay, he was bringing home the goose as a peaceoffering to his wife.'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_char_005",
+    "name": "Countess of Morcar",
+    "aliases": [
+      "the Countess"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "A noblewoman whose prized blue carbuncle was stolen and lost. Holmes notes that sentimental considerations would compel her to pay a massive sum to recover the gem, highlighting the stone's personal significance beyond its monetary value.",
+    "context": [
+      "'Not the Countess of Morcar's blue carbuncle!' I ejaculated.",
+      "'It's more than a precious stone. It is the precious stone.'",
+      "'I have reason to know that there are sentimental considerations in the background which would induce the Countess to part with half her fortune if she could but recover the gem.'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_char_006",
+    "name": "John Horner",
+    "aliases": [
+      "a plumber",
+      "Horner"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "A plumber accused of stealing the Countess's jewel-case and the blue carbuncle. The strong evidence against him has escalated the matter to the Assizes, establishing the criminal backdrop for the goose's recovery.",
+    "context": [
+      "'John Horner, a plumber, was accused of having abstracted it from the lady's jewel-case.'",
+      "'The evidence against him was so strong that the case has been referred to the Assizes.'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_obj_001",
+    "name": "The Hat",
+    "aliases": [
+      "this hat",
+      "the hat"
+    ],
+    "entity_class": "OBJECT",
+    "type": "symbolic",
+    "description": "A three-year-old, high-quality hat that serves as the primary forensic tool in the passage. Holmes uses its physical condition, including dust, hair clippings, stains, and a broken elastic, to deduce the owner's age, habits, financial status, and marital troubles.",
+    "context": [
+      "'These are the more patent facts which are to be deduced from his hat.'",
+      "'This hat is three years old. These flat brims curled at the edge came in then.'",
+      "'This hat has not been brushed for weeks.'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_obj_002",
+    "name": "The Blue Carbuncle",
+    "aliases": [
+      "blue stone",
+      "diamond",
+      "precious stone",
+      "treasure trove"
+    ],
+    "entity_class": "OBJECT",
+    "type": "symbolic",
+    "description": "An absolutely unique, brilliantly scintillating blue diamond hidden inside the goose's crop. Its discovery shifts the narrative focus from a theoretical deduction to a concrete criminal investigation involving a priceless gem.",
+    "context": [
+      "He held out his hand and displayed upon the centre of his palm a brilliantly scintillating blue stone, rather smaller than a bean in size, but of such purity and radiance that it twinkled like an electric point in the dark hollow of his hand.",
+      "'It is absolutely unique, and its value can only be conjectured, but the reward offered of £ 1000 is certainly not within a twentieth part of the market price.'",
+      "'A diamond, sir? A precious stone. It cuts into glass as though it were putty.'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_obj_003",
+    "name": "The Goose",
+    "aliases": [
+      "the bird",
+      "the goose"
+    ],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "A goose brought home by the hat owner as a peace offering to his wife. It serves as the accidental vessel for the stolen blue carbuncle, bridging the gap between the domestic deduction and the criminal mystery.",
+    "context": [
+      "'Nay, he was bringing home the goose as a peaceoffering to his wife.'",
+      "'The goose, Mr. Holmes! The goose, sir!' he gasped.",
+      "'See what my wife found in its crop!'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_obj_004",
+    "name": "The Lens",
+    "aliases": [
+      "the lens"
+    ],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "A magnifying instrument used by Holmes to examine the interior lining of the hat. It reveals microscopic details like clean-cut hair ends, adhesive lime-cream residue, and house dust, enabling the precise deductions about the owner's grooming and lifestyle.",
+    "context": [
+      "'The lens discloses a large number of hair-ends, clean cut by the scissors of the barber.'",
+      "'This dust, you will observe, is not the gritty, grey dust of the street but the fluffy brown dust of the house, showing that it has been hung up indoors most of the time'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_evt_001",
+    "name": "Hat Deduction",
+    "aliases": [
+      "deduction",
+      "reasoning"
+    ],
+    "entity_class": "EVENT",
+    "type": "investigation",
+    "description": "Holmes's systematic analysis of the discarded hat, where he verbally walks Watson through the logical steps used to deduce the owner's physical traits, financial decline, and marital strife from minute physical evidence.",
+    "context": [
+      "'These are the more patent facts which are to be deduced from his hat.'",
+      "'Your reasoning is certainly plausible.'",
+      "'Well, it is very ingenious,' said I, laughing, 'but since, as you said just now, there has been no crime committed, and no harm done save the loss of a goose, all this seems to be rather a waste of energy.'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_evt_002",
+    "name": "Discovery of the Diamond",
+    "aliases": [
+      "finding the stone",
+      "crop discovery"
+    ],
+    "entity_class": "EVENT",
+    "type": "discovery",
+    "description": "The moment Peterson reveals that his wife found a valuable blue diamond hidden in the goose's crop. This event abruptly shifts the narrative focus from a theoretical deduction to a concrete criminal investigation involving a priceless gem.",
+    "context": [
+      "'See here, sir! See what my wife found in its crop!'",
+      "'Sherlock Holmes sat up with a whistle. By Jove, Peterson! said he, this is treasure trove indeed.'",
+      "'It's more than a precious stone. It is the precious stone.'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_evt_003",
+    "name": "Theft of the Blue Carbuncle",
+    "aliases": [
+      "loss of the gem",
+      "abstracting the jewel"
+    ],
+    "entity_class": "EVENT",
+    "type": "crime",
+    "description": "The theft and subsequent loss of the Countess's blue carbuncle at the Hotel Cosmopolitan. This past event establishes the criminal context and motivates the high reward offered for the gem's recovery.",
+    "context": [
+      "'It was lost, if I remember aright, at the Hotel Cosmopolitan,' I remarked.",
+      "'Precisely so, on December 22 nd, just five days ago.'",
+      "'John Horner, a plumber, was accused of having abstracted it from the lady's jewel-case.'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_org_001",
+    "name": "The Assizes",
+    "aliases": [
+      "the court",
+      "Assizes"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "government",
+    "description": "The higher criminal court to which the theft case has been referred due to the strong evidence against John Horner. It represents the looming legal consequences and formal judicial process surrounding the stolen gem.",
+    "context": [
+      "'The evidence against him was so strong that the case has been referred to the Assizes.'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_org_002",
+    "name": "The Times",
+    "aliases": [
+      "The Times",
+      "newspaper"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "corporation",
+    "description": "A prominent newspaper that published daily advertisements regarding the stolen blue carbuncle. Holmes relies on its reports to know the gem's exact size, shape, and the reward amount.",
+    "context": [
+      "'I ought to know its size and shape, seeing that I have read the advertisement about it in The Times every day lately.'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_con_001",
+    "name": "Self-Respect",
+    "aliases": [
+      "selfrespect",
+      "self-respect"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "theme",
+    "description": "A psychological trait Holmes identifies in the hat owner, evidenced by his attempt to conceal ink stains on the felt. It represents a lingering sense of dignity and personal pride despite his declining fortunes and marital neglect.",
+    "context": [
+      "'He has, however, retained some degree of selfrespect,' he continued, disregarding my remonstrance.",
+      "'On the other hand, he has endeavoured to conceal some of these stains upon the felt by daubing them with ink, which is a sign that he has not entirely lost his self-respect.'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_con_002",
+    "name": "Foresight",
+    "aliases": [
+      "foresight",
+      "foresight and moral retrogression"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "deduction",
+    "description": "A mental faculty Holmes attributes to the hat owner based on the custom hat-securer he ordered. Holmes contrasts this past foresight with the owner's current negligence, marking a moral and intellectual decline.",
+    "context": [
+      "'But how about the foresight and the moral retrogression?'",
+      "'Here is the foresight,' said he putting his finger upon the little disc and loop of the hat-securer.",
+      "'But since we see that he has broken the elastic and has not troubled to replace it, it is obvious that he has less foresight now than formerly'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_002_con_003",
+    "name": "Treasure Trove",
+    "aliases": [
+      "treasure trove",
+      "treasure"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "mystery",
+    "description": "The legal and narrative classification of the discovered diamond. Holmes's exclamation frames the stone not merely as a physical object but as a legally significant find that transforms the goose from a mundane peace offering into a pivotal piece of evidence.",
+    "context": [
+      "'this is treasure trove indeed. I suppose you know what you have got?'",
+      "'A diamond, sir? A precious stone. It cuts into glass as though it were putty.'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_char_001",
+    "name": "John Horner",
+    "aliases": [
+      "plumber",
+      "the prisoner",
+      "Horner"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "character",
+    "description": "A 26-year-old plumber falsely accused of stealing the blue carbuncle from the Countess of Morcar. He was arrested after the jewel-case was found empty and protested his innocence, eventually fainting during his trial after evidence of a prior conviction was presented.",
+    "context": [
+      "John Horner, 26 , plumber, was brought up upon the charge of having upon the 22 nd inst. abstracted from the jewel-case of the Countess of Morcar the valuable gem known as the blue carbuncle.",
+      "Horner, who had shown signs of intense emotion during the proceedings, fainted away at the conclusion and was carried out of court."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_char_002",
+    "name": "Countess of Morcar",
+    "aliases": [
+      "the Countess"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "character",
+    "description": "A noblewoman whose valuable blue carbuncle gem was stolen from her dressing-room at the Hotel Cosmopolitan. She is the victim of the central robbery and is later contacted by Holmes regarding the recovered gem.",
+    "context": [
+      "abstracted from the jewel-case of the Countess of Morcar the valuable gem known as the blue carbuncle.",
+      "I'll lock it up in my strong box now and drop a line to the Countess to say that we have it."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_char_003",
+    "name": "James Ryder",
+    "aliases": [
+      "upper-attendant",
+      "the upper-attendant"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "character",
+    "description": "The hotel attendant who supervised John Horner during the repair of the grate. He discovered the robbery, raised the alarm, and provided key testimony against Horner at the police court.",
+    "context": [
+      "James Ryder, upper-attendant at the hotel, gave his evidence to the effect that he had shown Horner up to the dressing-room of the Countess of Morcar upon the day of the robbery in order that he might solder the second bar of the grate, which was loose.",
+      "Ryder instantly gave the alarm, and Horner was arrested the same evening"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_char_004",
+    "name": "Catherine Cusack",
+    "aliases": [
+      "maid to the Countess"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "character",
+    "description": "The Countess's maid who heard the alarm cry and rushed to the dressing-room, confirming the scene of the robbery as described by Ryder.",
+    "context": [
+      "Catherine Cusack, maid to the Countess, deposed to having heard Ryder's cry of dismay on discovering the robbery, and to having rushed into the room, where she found matters as described by the last witness."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_char_005",
+    "name": "Inspector Bradstreet",
+    "aliases": [
+      "Inspector",
+      "B division"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "character",
+    "description": "A police inspector from the B division who arrested John Horner. He testified to Horner's frantic struggle and strong protests of innocence during the arrest.",
+    "context": [
+      "Inspector Bradstreet, B division, gave evidence as to the arrest of Horner, who struggled frantically, and protested his innocence in the strongest terms."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_char_006",
+    "name": "Sherlock Holmes",
+    "aliases": [
+      "Holmes",
+      "Mr. Holmes"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "character",
+    "description": "The consulting detective who takes on the case of the stolen blue carbuncle. He deduces the connection between the stolen gem, a goose, and a lost hat, orchestrating an advertisement to find the owner.",
+    "context": [
+      "'Hum! So much for the police-court,' said Holmes thoughtfully, tossing aside the paper.",
+      "Holmes took up the stone and held it against the light."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_char_007",
+    "name": "Dr. Watson",
+    "aliases": [
+      "Watson",
+      "Dr. Watson"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "character",
+    "description": "Holmes's companion and chronicler, who assists in the investigation and returns to Baker Street in the evening to witness the resolution of the case.",
+    "context": [
+      "You see, Watson, our little deductions have suddenly assumed a much more important and less innocent aspect.",
+      "Ah, Watson, you have just come at the right time."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_char_008",
+    "name": "Mr. Henry Baker",
+    "aliases": [
+      "Henry Baker",
+      "the gentleman with the bad hat",
+      "the gentleman"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "character",
+    "description": "A poor, scholarly man who lost a goose and a black felt hat. Holmes suspects him of being an innocent pawn in the jewel theft, as the blue carbuncle was found in the goose's crop.",
+    "context": [
+      "the goose came from Mr. Henry Baker, the gentleman with the bad hat and all the other characteristics with which I have bored you.",
+      "'Mr. Henry Baker, I believe,' said he, rising from his armchair and greeting his visitor with the easy air of geniality which he could so readily assume."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_char_009",
+    "name": "Peterson",
+    "aliases": [
+      "the commissionaire",
+      "Peterson"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "character",
+    "description": "A hotel commissionaire who assists Holmes by placing the advertisement in the evening papers and purchasing a replacement goose.",
+    "context": [
+      "Here you are, Peterson, run down to the advertising agency and have this put in the evening papers.",
+      "And, I say, Peterson, just buy a goose on your way back and leave it here with me"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_char_010",
+    "name": "Mrs. Hudson",
+    "aliases": [
+      "Mrs. Hudson"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "character",
+    "description": "Holmes's landlady, mentioned by Watson as the person he might ask to examine a woodcock's crop in light of the recent jewel mystery.",
+    "context": [
+      "By the way, in view of recent occurrences, perhaps I ought to ask Mrs. Hudson to examine its crop."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_loc_001",
+    "name": "Hotel Cosmopolitan",
+    "aliases": [
+      "the hotel"
+    ],
+    "entity_class": "LOCATION",
+    "type": "residence",
+    "description": "A London hotel where the Countess of Morcar was staying and where the jewel robbery took place. It serves as the initial crime scene and the setting for the initial police-court report.",
+    "context": [
+      "'Hotel Cosmopolitan Jewel Robbery. John Horner, 26 , plumber, was brought up upon the charge..."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_loc_002",
+    "name": "Countess of Morcar's dressing-room",
+    "aliases": [
+      "the dressing-room",
+      "the room"
+    ],
+    "entity_class": "LOCATION",
+    "type": "room",
+    "description": "The private room within the hotel where the Countess kept her jewel-case. It was the site of the forced entry and the theft of the blue carbuncle.",
+    "context": [
+      "he had shown Horner up to the dressing-room of the Countess of Morcar upon the day of the robbery in order that he might solder the second bar of the grate, which was loose.",
+      "Ryder instantly gave the alarm, and Horner was arrested the same evening; but the stone could not be found either upon his person or in his rooms."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_loc_003",
+    "name": "221b Baker Street",
+    "aliases": [
+      "Baker Street",
+      "221b"
+    ],
+    "entity_class": "LOCATION",
+    "type": "residence",
+    "description": "Holmes and Watson's residence, which serves as the base of operations for the investigation and the meeting place for Mr. Henry Baker.",
+    "context": [
+      "Mr. Henry Baker can have the same by applying at 6 . 30 this evening at 221b , Baker Street.",
+      "I had been delayed at a case, and it was a little after half-past six when I found myself in Baker Street once more."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_loc_004",
+    "name": "Goodge Street",
+    "aliases": [
+      "Goodge Street"
+    ],
+    "entity_class": "LOCATION",
+    "type": "region",
+    "description": "A London street where the goose and black felt hat were found, linking the lost property to the broader mystery.",
+    "context": [
+      "Found at the corner of Goodge Street, a goose and a black felt hat."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_loc_005",
+    "name": "Tottenham Court Road",
+    "aliases": [
+      "Tottenham Court Road"
+    ],
+    "entity_class": "LOCATION",
+    "type": "region",
+    "description": "A London area referenced by Holmes to indicate the geographical endpoint of the stolen goose's journey, contrasting with the jewel-case's origin.",
+    "context": [
+      "the sequence of events leading from a rifled jewel-case at one end to the crop of a goose in Tottenham Court Road at the other."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_loc_006",
+    "name": "Amoy River",
+    "aliases": [
+      "banks of the Amoy River"
+    ],
+    "entity_class": "LOCATION",
+    "type": "region",
+    "description": "A river in southern China where the blue carbuncle gem was originally discovered, establishing its geographical origin and history.",
+    "context": [
+      "It was found in the banks of the Amoy River in southern China and is remarkable in having every characteristic of the carbuncle, save that it is blue in shade instead of ruby red."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_obj_001",
+    "name": "Blue Carbuncle",
+    "aliases": [
+      "the blue carbuncle",
+      "the stone",
+      "the gem",
+      "the jewel"
+    ],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "A valuable blue gemstone originally found in the Amoy River. It has a sinister history involving murders and robberies, and is the central MacGuffin of the story, hidden inside a goose's crop.",
+    "context": [
+      "abstracted from the jewel-case of the Countess of Morcar the valuable gem known as the blue carbuncle.",
+      "It's a bonny thing,' said he. 'Just see how it glints and sparkles. Of course it is a nucleus and focus of crime."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_obj_002",
+    "name": "Morocco Casket",
+    "aliases": [
+      "jewel-case",
+      "small morocco casket",
+      "bureau"
+    ],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "The container used by the Countess to store the blue carbuncle. It was forced open during the robbery, leaving the casket empty on the dressing-table.",
+    "context": [
+      "the small morocco casket in which, as it afterwards transpired, the Countess was accustomed to keep her jewel, was lying empty upon the dressing-table.",
+      "the bureau had been forced open, and that the small morocco casket... was lying empty"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_obj_003",
+    "name": "Goose",
+    "aliases": [
+      "the goose",
+      "the bird",
+      "crop of a goose"
+    ],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "A bird belonging to Henry Baker, whose crop contained the stolen blue carbuncle. It serves as the crucial link between the theft and the lost property.",
+    "context": [
+      "the sequence of events leading from a rifled jewel-case at one end to the crop of a goose in Tottenham Court Road at the other.",
+      "the goose came from Mr. Henry Baker"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_obj_004",
+    "name": "Black Felt Hat",
+    "aliases": [
+      "black felt hat",
+      "bad hat",
+      "your hat"
+    ],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "A distinctive hat lost by Henry Baker, which Holmes uses alongside the goose to identify and attract the owner through a newspaper advertisement.",
+    "context": [
+      "Found at the corner of Goodge Street, a goose and a black felt hat.",
+      "Is that your hat, Mr. Baker?' 'Yes, sir, that is undoubtedly my hat.'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_obj_005",
+    "name": "Advertisement",
+    "aliases": [
+      "advertisement",
+      "the notice"
+    ],
+    "entity_class": "OBJECT",
+    "type": "document",
+    "description": "A newspaper notice placed by Holmes to lure Henry Baker to Baker Street, revealing the detective's method of using simple means to solve complex mysteries.",
+    "context": [
+      "To do this, we must try the simplest means first, and these lie undoubtedly in an advertisement in all the evening papers.",
+      "We have retained these things for some days,' said Holmes, 'because we expected to see an advertisement from you giving your address."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_obj_006",
+    "name": "Strong Box",
+    "aliases": [
+      "strong box",
+      "my strong box"
+    ],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "Holmes's secure storage container where he locks the recovered blue carbuncle to protect it until the case is resolved.",
+    "context": [
+      "I'll lock it up in my strong box now and drop a line to the Countess to say that we have it."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_evt_001",
+    "name": "Hotel Cosmopolitan Jewel Robbery",
+    "aliases": [
+      "the robbery",
+      "the theft",
+      "rifled jewel-case"
+    ],
+    "entity_class": "EVENT",
+    "type": "crime",
+    "description": "The central crime of the narrative, involving the theft of the blue carbuncle from the Countess's dressing-room. It sets the plot in motion and leads to the wrongful accusation of John Horner.",
+    "context": [
+      "'Hotel Cosmopolitan Jewel Robbery. John Horner, 26 , plumber, was brought up upon the charge..."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_evt_002",
+    "name": "Police Court Trial",
+    "aliases": [
+      "the proceedings",
+      "police-court",
+      "the Assizes"
+    ],
+    "entity_class": "EVENT",
+    "type": "meeting",
+    "description": "The legal proceeding where evidence against John Horner is presented. The magistrate's refusal to deal summarily and the introduction of Horner's prior conviction lead to his fainting and the case's referral to the Assizes.",
+    "context": [
+      "Evidence of a previous conviction for robbery having been given against the prisoner, the magistrate refused to deal summarily with the offence, but referred it to the Assizes.",
+      "'Hum! So much for the police-court,' said Holmes thoughtfully, tossing aside the paper."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_evt_003",
+    "name": "Advertisement Placement",
+    "aliases": [
+      "put in the evening papers",
+      "advertisement from you"
+    ],
+    "entity_class": "EVENT",
+    "type": "investigation",
+    "description": "Holmes's strategic decision to place a lost property notice in multiple evening newspapers to locate Henry Baker, demonstrating his reliance on simple, effective investigative methods.",
+    "context": [
+      "'Oh, in the Globe, Star, Pall Mall, St. James's, Evening News, Standard, Echo, and any others that occur to you.'",
+      "Here you are, Peterson, run down to the advertising agency and have this put in the evening papers."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_evt_004",
+    "name": "Meeting with Henry Baker",
+    "aliases": [
+      "greeting his visitor",
+      "shown up together to Holmes' room"
+    ],
+    "entity_class": "EVENT",
+    "type": "meeting",
+    "description": "The pivotal encounter where Holmes confirms Henry Baker's identity and ownership of the lost hat and goose, advancing the investigation toward uncovering the truth behind the jewel theft.",
+    "context": [
+      "Just as I arrived the door was opened, and we were shown up together to Holmes' room.",
+      "'Mr. Henry Baker, I believe,' said he, rising from his armchair and greeting his visitor with the easy air of geniality which he could so readily assume."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_org_001",
+    "name": "B Division",
+    "aliases": [
+      "B division",
+      "police"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "military",
+    "description": "A police division responsible for law enforcement and arrests. Inspector Bradstreet of this division arrested John Horner and provided testimony regarding the crime.",
+    "context": [
+      "Inspector Bradstreet, B division, gave evidence as to the arrest of Horner, who struggled frantically, and protested his innocence in the strongest terms."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_org_002",
+    "name": "Evening Papers",
+    "aliases": [
+      "evening papers",
+      "Globe, Star, Pall Mall, St. James's, Evening News, Standard, Echo",
+      "advertising agency"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "corporation",
+    "description": "A collective of London newspapers and the agency used to place Holmes's lost property advertisement. They serve as the medium through which Holmes successfully locates Henry Baker.",
+    "context": [
+      "'Oh, in the Globe, Star, Pall Mall, St. James's, Evening News, Standard, Echo, and any others that occur to you.'",
+      "Here you are, Peterson, run down to the advertising agency and have this put in the evening papers."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_org_003",
+    "name": "The Assizes",
+    "aliases": [
+      "Assizes",
+      "magistrate"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "government",
+    "description": "The higher judicial body to which the case was referred after the police court magistrate refused to handle it summarily. It represents the formal legal system's involvement in the mystery.",
+    "context": [
+      "Evidence of a previous conviction for robbery having been given against the prisoner, the magistrate refused to deal summarily with the offence, but referred it to the Assizes."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_con_001",
+    "name": "Innocence vs. Guilt",
+    "aliases": [
+      "innocence",
+      "guilt",
+      "innocent man",
+      "protested his innocence"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "theme",
+    "description": "A central thematic tension in the narrative, explored through the wrongful accusation of John Horner and Holmes's suspicion that Henry Baker is an innocent pawn unaware of the jewel hidden in his goose.",
+    "context": [
+      "who struggled frantically, and protested his innocence in the strongest terms.",
+      "It is, I think, much more likely that Henry Baker is an absolutely innocent man, who had no idea that the bird which he was carrying was of considerably more value than if it were made of solid gold."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_con_002",
+    "name": "Sinister History of the Gem",
+    "aliases": [
+      "sinister history",
+      "nucleus and focus of crime",
+      "devil's pet baits"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "mystery",
+    "description": "The dark legacy of the blue carbuncle, which Holmes notes has already caused two murders, a vitriol-throwing, a suicide, and several robberies, framing the gem as a corrupting force.",
+    "context": [
+      "This stone is not yet twenty years old. It was found in the banks of the Amoy River in southern China and is remarkable in having every characteristic of the carbuncle, save that it is blue in shade instead of ruby red. In spite of its youth, it has already a sinister history.",
+      "There have been two murders, a vitriol-throwing, a suicide, and several robberies brought about for the sake of this forty-grain weight of crystallised charcoal."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_003_con_003",
+    "name": "Deduction and Investigation",
+    "aliases": [
+      "deductions",
+      "simplest means",
+      "solution",
+      "mystery"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "deduction",
+    "description": "The methodological approach Holmes employs, relying on logical inference from physical evidence (the goose, the hat) and strategic public notices to unravel the sequence of events surrounding the theft.",
+    "context": [
+      "You see, Watson, our little deductions have suddenly assumed a much more important and less innocent aspect.",
+      "To do this, we must try the simplest means first, and these lie undoubtedly in an advertisement in all the evening papers."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_char_001",
+    "name": "Henry Baker",
+    "aliases": [
+      "Mr. Baker",
+      "Our visitor",
+      "the man"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "A fowl fancier and member of the Alpha Inn's goose club who was robbed of his hat and goose. He is initially a suspect in a theft but is ultimately cleared by Holmes, serving as the catalyst for the investigation.",
+    "context": [
+      "'Shillings have not been so plentiful with me as they once were,' he remarked.",
+      "'I had no doubt that the gang of roughs who assaulted me had carried off both my hat and the bird.'",
+      "'I am much indebted to you, sir, for a Scotch bonnet is fitted neither to my years nor my gravity.'",
+      "'So much for Mr. Henry Baker,' said Holmes when he had closed the door behind him."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_char_002",
+    "name": "Sherlock Holmes",
+    "aliases": [
+      "Holmes",
+      "our companion",
+      "the detective"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "protagonist",
+    "description": "The consulting detective who deduces the significance of the stolen goose and hat, leading him and Watson on a trail through London to uncover the truth behind the theft.",
+    "context": [
+      "Sherlock Holmes glanced sharply across at me with a slight shrug of his shoulders.",
+      "'By the way, would it bore you to tell me where you got the other one from? I am somewhat of a fowl fancier...'",
+      "'Remember, Watson that though we have so homely a thing as a goose at one end of this chain, we have at the other a man who will certainly get seven years' penal servitude...'",
+      "'Now for Mr. Breckinridge,' he continued, buttoning up his coat as we came out into the frosty air."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_char_003",
+    "name": "Dr. Watson",
+    "aliases": [
+      "Watson",
+      "me",
+      "my companion"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "Holmes's loyal companion and chronicler, who accompanies him on the investigation to the Alpha Inn and Covent Garden Market, providing a grounded perspective to Holmes's deductions.",
+    "context": [
+      "'Are you hungry, Watson?'",
+      "'Not particularly.'",
+      "'To my surprise the question provoked a burst of anger from the salesman.'",
+      "'Faces to the south, then, and quick march!'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_char_004",
+    "name": "Windigate",
+    "aliases": [
+      "the landlord",
+      "our good host",
+      "the man"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "The landlord of the Alpha Inn who supplies geese to a local club and provides Holmes with the next lead in the investigation after revealing the source of the birds.",
+    "context": [
+      "'This year our good host, Windigate by name, instituted a goose club...'",
+      "'Yes. I was speaking only half an hour ago to Mr. Henry Baker, who was a member of your goose club.'",
+      "'Well, I got the two dozen from a salesman in Covent Garden.'",
+      "'Breckinridge is his name.'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_char_005",
+    "name": "Breckinridge",
+    "aliases": [
+      "the salesman",
+      "the proprietor",
+      "mister"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "A market salesman in Covent Garden who supplied the geese to the Alpha Inn. He is initially hostile to Holmes's inquiries but eventually reveals his supply ledger after a wager.",
+    "context": [
+      "One of the largest stalls bore the name of Breckinridge upon it, and the proprietor a horseylooking man... was helping a boy to put up the shutters.",
+      "'Now, then, mister,' said he, with his head cocked and his arms akimbo, 'what are you driving at?'",
+      "'Well then, I shan't tell you. So now!'",
+      "'Bring me the books, Bill,' said he."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_char_006",
+    "name": "Bill",
+    "aliases": [
+      "the small boy",
+      "a boy"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "Breckinridge's young assistant who fetches the sales ledgers that become crucial to Holmes's investigation.",
+    "context": [
+      "'The small boy brought round a small thin volume and a great greasy-backed one, laying them out together beneath the hanging lamp.'",
+      "'Bring me the books, Bill,' said he."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_loc_001",
+    "name": "Alpha Inn",
+    "aliases": [
+      "the public-house",
+      "the Alpha",
+      "the bar"
+    ],
+    "entity_class": "LOCATION",
+    "type": "residence",
+    "description": "A small public house near the Museum where the goose club meets. It serves as the first stop in Holmes's investigation, where he questions the landlord about the source of the geese.",
+    "context": [
+      "'There are a few of us who frequent the Alpha Inn, near the Museum...'",
+      "'In a quarter of an hour we were in Bloomsbury at the Alpha Inn, which is a small public-house at the corner of one of the streets which runs down into Holborn.'",
+      "'Holmes pushed open the door of the private bar and ordered two glasses of beer...'",
+      "'Your beer should be excellent if it is as good as your geese,' said he."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_loc_002",
+    "name": "Museum",
+    "aliases": [
+      "the Museum",
+      "British Museum"
+    ],
+    "entity_class": "LOCATION",
+    "type": "institution",
+    "description": "A major London institution near the Alpha Inn, referenced as the daytime workplace of the goose club members and a geographical landmark for locating the pub.",
+    "context": [
+      "'There are a few of us who frequent the Alpha Inn, near the Museum-we are to be found in the Museum itself during the day, you understand.'",
+      "'In a quarter of an hour we were in Bloomsbury at the Alpha Inn, which is a small public-house at the corner of one of the streets which runs down into Holborn.'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_loc_003",
+    "name": "Covent Garden Market",
+    "aliases": [
+      "Covent Garden",
+      "the market",
+      "the stalls"
+    ],
+    "entity_class": "LOCATION",
+    "type": "landmark",
+    "description": "A bustling London market where Breckinridge operates his stall. It is the second major location in Holmes's investigative trail, leading to the discovery of the supply ledger.",
+    "context": [
+      "'Well, I got the two dozen from a salesman in Covent Garden.'",
+      "'We passed across Holborn, down Endell Street, and so through a zigzag of slums to Covent Garden Market.'",
+      "'One of the largest stalls bore the name of Breckinridge upon it...'",
+      "'Now, then, Mr. Cocksure,' said the salesman, 'I thought that I was out of geese, but before you finish you'll find that there is still one left in my shop.'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_loc_004",
+    "name": "Holborn",
+    "aliases": [
+      "Holborn",
+      "the streets of Holborn"
+    ],
+    "entity_class": "LOCATION",
+    "type": "region",
+    "description": "A district in London that forms part of the route Holmes and Watson take from their residence to the Alpha Inn and later to Covent Garden Market.",
+    "context": [
+      "'...so through Wigmore Street into Oxford Street. In a quarter of an hour we were in Bloomsbury at the Alpha Inn, which is a small public-house at the corner of one of the streets which runs down into Holborn.'",
+      "'We passed across Holborn, down Endell Street, and so through a zigzag of slums to Covent Garden Market.'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_loc_005",
+    "name": "Wimpole Street",
+    "aliases": [
+      "Wimpole Street",
+      "the doctors' quarter"
+    ],
+    "entity_class": "LOCATION",
+    "type": "region",
+    "description": "A street in London known for its medical professionals, through which Holmes and Watson walk during their evening investigation.",
+    "context": [
+      "Our footfalls rang out crisply and loudly as we swung through the doctors' quarter, Wimpole Street, Harley Street, and so through Wigmore Street into Oxford Street."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_loc_006",
+    "name": "Harley Street",
+    "aliases": [
+      "Harley Street"
+    ],
+    "entity_class": "LOCATION",
+    "type": "region",
+    "description": "A famous London street associated with medical practice, traversed by Holmes and Watson as they follow the investigative trail.",
+    "context": [
+      "Our footfalls rang out crisply and loudly as we swung through the doctors' quarter, Wimpole Street, Harley Street, and so through Wigmore Street into Oxford Street."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_loc_007",
+    "name": "Wigmore Street",
+    "aliases": [
+      "Wigmore Street"
+    ],
+    "entity_class": "LOCATION",
+    "type": "region",
+    "description": "A London street connecting the medical district to Oxford Street, part of the route taken by the detectives.",
+    "context": [
+      "Our footfalls rang out crisply and loudly as we swung through the doctors' quarter, Wimpole Street, Harley Street, and so through Wigmore Street into Oxford Street."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_loc_008",
+    "name": "Oxford Street",
+    "aliases": [
+      "Oxford Street"
+    ],
+    "entity_class": "LOCATION",
+    "type": "region",
+    "description": "A major London thoroughfare that Holmes and Watson pass through on their way to Bloomsbury and the Alpha Inn.",
+    "context": [
+      "Our footfalls rang out crisply and loudly as we swung through the doctors' quarter, Wimpole Street, Harley Street, and so through Wigmore Street into Oxford Street."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_loc_009",
+    "name": "Bloomsbury",
+    "aliases": [
+      "Bloomsbury"
+    ],
+    "entity_class": "LOCATION",
+    "type": "region",
+    "description": "A district in London where the Alpha Inn is located, marking the detectives' destination for the first leg of their investigation.",
+    "context": [
+      "In a quarter of an hour we were in Bloomsbury at the Alpha Inn, which is a small public-house at the corner of one of the streets which runs down into Holborn."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_loc_010",
+    "name": "Endell Street",
+    "aliases": [
+      "Endell Street"
+    ],
+    "entity_class": "LOCATION",
+    "type": "region",
+    "description": "A street in London that Holmes and Watson traverse on their way from Holborn to Covent Garden Market.",
+    "context": [
+      "We passed across Holborn, down Endell Street, and so through a zigzag of slums to Covent Garden Market."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_obj_001",
+    "name": "The Goose",
+    "aliases": [
+      "the bird",
+      "the fowl",
+      "your own bird",
+      "the other goose",
+      "disjecta membra"
+    ],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "A stolen goose that becomes the central clue in the investigation. Its consumption by Holmes and Watson, along with its preserved parts, provides crucial evidence for solving the case.",
+    "context": [
+      "'By the way, about the bird, we were compelled to eat it.'",
+      "'But I presume that this other goose upon the sideboard, which is about the same weight and perfectly fresh, will answer your purpose equally well?'",
+      "'Of course, we still have the feathers, legs, crop, and so on of your own bird, so if you wish-'",
+      "'Remember, Watson that though we have so homely a thing as a goose at one end of this chain, we have at the other a man who will certainly get seven years' penal servitude...'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_obj_002",
+    "name": "The Scotch Bonnet",
+    "aliases": [
+      "the hat",
+      "a Scotch bonnet"
+    ],
+    "entity_class": "OBJECT",
+    "type": "clothing",
+    "description": "A stolen hat belonging to Henry Baker, taken during his assault. It serves as a companion clue to the goose, helping Holmes track the thief's movements.",
+    "context": [
+      "'I had no doubt that the gang of roughs who assaulted me had carried off both my hat and the bird.'",
+      "'I am much indebted to you, sir, for a Scotch bonnet is fitted neither to my years nor my gravity.'",
+      "'There is your hat, then, and there your bird,' said he."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_obj_003",
+    "name": "The Ledgers",
+    "aliases": [
+      "the books",
+      "the list",
+      "the big ledger",
+      "the small thin volume",
+      "greasy-backed one"
+    ],
+    "entity_class": "OBJECT",
+    "type": "document",
+    "description": "Breckinridge's sales records containing lists of country and town suppliers. These documents become the pivotal evidence that allows Holmes to trace the origin of the stolen geese.",
+    "context": [
+      "The small boy brought round a small thin volume and a great greasy-backed one, laying them out together beneath the hanging lamp.",
+      "'That's the list of the folk from whom I buy. D'you see? Well, then, here on this page are the country folk...'",
+      "'Now, then! You see this other page in red ink? Well, that is a list of my town suppliers. Now, look at that third name. Just read it out to me.'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_evt_001",
+    "name": "The Assault",
+    "aliases": [
+      "the robbery",
+      "the attack",
+      "gang of roughs who assaulted me"
+    ],
+    "entity_class": "EVENT",
+    "type": "crime",
+    "description": "A violent robbery in which Henry Baker's hat and goose were stolen by a gang of roughs. This event sets the investigation in motion and establishes Baker as a victim rather than a perpetrator.",
+    "context": [
+      "'I had no doubt that the gang of roughs who assaulted me had carried off both my hat and the bird.'",
+      "'I am much indebted to you, sir, for a Scotch bonnet is fitted neither to my years nor my gravity.'",
+      "'So much for Mr. Henry Baker,' said Holmes when he had closed the door behind him. 'It is quite certain that he knows nothing whatever about the matter.'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_evt_002",
+    "name": "The Wager",
+    "aliases": [
+      "the bet",
+      "the fiver",
+      "the sovereign"
+    ],
+    "entity_class": "EVENT",
+    "type": "confrontation",
+    "description": "A heated bet between Holmes and Breckinridge regarding whether the geese were country or town bred. This wager forces the salesman to reveal his supply ledger, advancing the investigation.",
+    "context": [
+      "'I'm always ready to back my opinion on a matter of fowls, and I have a fiver on it that the bird I ate is country bred.'",
+      "'Well, then, you've lost your fiver, for it's town bred,' snapped the salesman.",
+      "'I'll have a sovereign on with you, just to teach you not to be obstinate.'",
+      "'Bring me the books, Bill,' said he."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_evt_003",
+    "name": "The Investigation",
+    "aliases": [
+      "the inquiry",
+      "the line of investigation",
+      "the pursuit"
+    ],
+    "entity_class": "EVENT",
+    "type": "investigation",
+    "description": "Holmes and Watson's methodical pursuit of clues from the Alpha Inn to Covent Garden Market, driven by the desire to clear a man's name and solve a theft that evaded the police.",
+    "context": [
+      "'Then I suggest that we turn our dinner into a supper and follow up this clue while it is still hot.'",
+      "'It is possible that our inquiry may but confirm his guilt; but, in any case, we have a line of investigation which has been missed by the police...'",
+      "'Let us follow it out to the bitter end. Faces to the south, then, and quick march!'",
+      "'Now for Mr. Breckinridge,' he continued, buttoning up his coat as we came out into the frosty air."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_org_001",
+    "name": "The Goose Club",
+    "aliases": [
+      "the goose club",
+      "our goose club"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "club",
+    "description": "A social group formed by patrons of the Alpha Inn who pool small weekly payments to receive a goose at Christmas. It serves as the social framework connecting Baker, Windigate, and the stolen birds.",
+    "context": [
+      "'This year our good host, Windigate by name, instituted a goose club, by which, on consideration of some few pence every week, we were each to receive a bird at Christmas.'",
+      "'Yes. I was speaking only half an hour ago to Mr. Henry Baker, who was a member of your goose club.'",
+      "'Ah! yes, I see. But you see, sir, them's not our geese.'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_org_002",
+    "name": "The Police",
+    "aliases": [
+      "the police",
+      "officials",
+      "the law"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "government",
+    "description": "The official law enforcement body responsible for the initial investigation, whose methods Holmes considers incomplete and in need of correction through his own deductive approach.",
+    "context": [
+      "'we have a line of investigation which has been missed by the police, and which a singular chance has placed in our hands.'",
+      "'So much for Mr. Henry Baker,' said Holmes when he had closed the door behind him. 'It is quite certain that he knows nothing whatever about the matter.'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_con_001",
+    "name": "Penal Servitude",
+    "aliases": [
+      "seven years' penal servitude",
+      "punishment",
+      "penal servitude"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "theme",
+    "description": "The severe legal punishment facing the thief, highlighting the high stakes of the investigation and the moral imperative for Holmes to establish the culprit's innocence or guilt.",
+    "context": [
+      "'Remember, Watson that though we have so homely a thing as a goose at one end of this chain, we have at the other a man who will certainly get seven years' penal servitude unless we can establish his innocence.'",
+      "'It is possible that our inquiry may but confirm his guilt; but, in any case, we have a line of investigation which has been missed by the police...'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_con_002",
+    "name": "Fowl Origin Classification",
+    "aliases": [
+      "town bred",
+      "country bred",
+      "fowl fancier",
+      "fowls"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "mystery",
+    "description": "The debate over whether the stolen geese originated from the countryside or the city, serving as a crucial deductive clue that forces the revelation of the supply ledger.",
+    "context": [
+      "'I'm always ready to back my opinion on a matter of fowls, and I have a fiver on it that the bird I ate is country bred.'",
+      "'Well, then, you've lost your fiver, for it's town bred,' snapped the salesman.",
+      "'I tell you, all those birds that went to the Alpha were town bred.'",
+      "'You'll never persuade me to believe that.'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_004_con_003",
+    "name": "Legal Morality",
+    "aliases": [
+      "innocence",
+      "guilt",
+      "establish his innocence",
+      "confirm his guilt"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "theme",
+    "description": "The central moral and legal dilemma driving the investigation, as Holmes seeks to determine whether the thief deserves severe punishment or can be proven innocent.",
+    "context": [
+      "'unless we can establish his innocence.'",
+      "'It is possible that our inquiry may but confirm his guilt; but, in any case, we have a line of investigation which has been missed by the police...'",
+      "'So much for Mr. Henry Baker,' said Holmes when he had closed the door behind him. 'It is quite certain that he knows nothing whatever about the matter.'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_char_001",
+    "name": "Sherlock Holmes",
+    "aliases": [],
+    "entity_class": "CHARACTER",
+    "type": "protagonist",
+    "description": "A brilliant detective whose deductive methods drive the narrative. He employs psychological manipulation and careful observation to solve the mystery of the stolen blue carbuncle, ultimately confronting the thief with irrefutable evidence.",
+    "context": [
+      "My name is Sherlock Holmes. It is my business to know what other people don't know.",
+      "The game's up, Ryder,' said Holmes quietly.",
+      "I have almost every link in my hands, and all the proofs which I could possibly need, so there is little which you need tell me."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_char_002",
+    "name": "Watson",
+    "aliases": [
+      "my companion",
+      "I"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "The narrator and loyal companion to Holmes. He assists in the investigation, accompanies Holmes to the market, and helps restrain Ryder during the confrontation at Baker Street.",
+    "context": [
+      "Give him an arm back into his chair, Watson.",
+      "my companion speedily overtook the little man",
+      "Turning round we saw a little rat-faced fellow standing in the centre of the circle of yellow light which was thrown by the swinging lamp"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_char_003",
+    "name": "James Ryder",
+    "aliases": [
+      "John Robinson",
+      "the little man",
+      "the inquirer",
+      "Head attendant"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "antagonist",
+    "description": "A nervous head attendant at the Hotel Cosmopolitan who stole a goose containing a valuable blue carbuncle. He attempts to trace the bird through the market but is outmaneuvered by Holmes, who reveals the gem's location.",
+    "context": [
+      "Well then,' said he, 'my real name is James Ryder.'",
+      "Precisely so. Head attendant at the Hotel Cosmopolitan.",
+      "Ryder quivered with emotion. 'Oh, sir,' cried, 'can you tell me where it went to?'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_char_004",
+    "name": "Mrs. Oakshott",
+    "aliases": [],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "An egg and poultry supplier living at 117 Brixton Road. Her ledger provides the initial trail of the geese, linking them to the Alpha club and ultimately to the stolen blue carbuncle.",
+    "context": [
+      "'Mrs. Oakshott, 117 , Brixton Road249 ,' read Holmes.",
+      "'Here you are, 'Mrs. Oakshott, 117 , Brixton Road, egg and poultry supplier.'",
+      "You bring Mrs. Oakshott here and I'll answer her"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_char_005",
+    "name": "Breckinridge",
+    "aliases": [
+      "the salesman"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "A surly market salesman who sold the geese to Mr. Windigate. He is confronted by Ryder and later becomes the subject of Holmes's investigation, though Holmes bypasses him through deduction.",
+    "context": [
+      "Breckinridge, the salesman, framed in the door of his stall, was shaking his fists fiercely at the cringing figure.",
+      "Did I buy the geese off you?'",
+      "I think that I could be of assistance to you."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_char_006",
+    "name": "Mr. Windigate",
+    "aliases": [],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "A buyer of the geese from Mrs. Oakshott, who resold them to the Alpha club. His purchase forms a key link in the chain of custody traced by Holmes.",
+    "context": [
+      "'Sold to Mr. Windigate of the Alpha, at 12 s.'",
+      "by him in turn to Mr. Windigate, of the Alpha"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_char_007",
+    "name": "Catherine Cusack",
+    "aliases": [],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "An informant who revealed the existence of the Countess of Morcar's blue stone to Ryder, setting the theft in motion.",
+    "context": [
+      "'It was Catherine Cusack who told me of it,' said he in a crackling voice."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_char_008",
+    "name": "Countess of Morcar",
+    "aliases": [],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "The owner of the valuable blue stone that was stolen by Ryder. Her possession of the gem is the central motive of the crime.",
+    "context": [
+      "You had heard, Ryder, of this blue stone of the Countess of Morcar's?"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_char_009",
+    "name": "Mr. Henry Baker",
+    "aliases": [],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "A member of the Alpha club to whom the geese were sold. He is the original owner of the goose containing the blue carbuncle.",
+    "context": [
+      "by him in turn to Mr. Windigate, of the Alpha, and by him to his club, of which Mr. Henry Baker is a member."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_obj_001",
+    "name": "Blue Carbuncle",
+    "aliases": [
+      "the blue stone",
+      "the blue egg",
+      "the bonniest, brightest little blue egg"
+    ],
+    "entity_class": "OBJECT",
+    "type": "symbolic",
+    "description": "A valuable blue gemstone hidden inside a dead goose. It serves as the central MacGuffin of the story, representing both a criminal motive and a puzzle for Holmes to solve.",
+    "context": [
+      "Holmes unlocked his strong-box and held up the blue carbuncle, which shone out like a star, with a cold, brilliant, manypointed radiance.",
+      "It laid an egg after it was dead-the bonniest, brightest little blue egg that ever was seen.",
+      "You had heard, Ryder, of this blue stone of the Countess of Morcar's?"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_obj_002",
+    "name": "Geese",
+    "aliases": [
+      "twenty-four geese",
+      "white goose with a black bar across the tail"
+    ],
+    "entity_class": "OBJECT",
+    "type": "animal",
+    "description": "A batch of poultry purchased by Mrs. Oakshott and sold to the Alpha club. One specific goose contained the stolen blue carbuncle, making the flock the primary object of the investigation.",
+    "context": [
+      "December 22 nd. Twenty-four geese at 7 s. 6 d.",
+      "I've had enough of you and your geese,' he shouted.",
+      "You are endeavouring to trace some geese which were sold by Mrs. Oakshott"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_obj_003",
+    "name": "Ledger",
+    "aliases": [],
+    "entity_class": "OBJECT",
+    "type": "document",
+    "description": "A business record kept by Mrs. Oakshott that tracks the sale of geese. It provides the initial factual trail that allows Holmes to reconstruct the chain of custody.",
+    "context": [
+      "Now turn that up in the ledger.",
+      "'December 22 nd. Twenty-four geese at 7 s. 6 d.'",
+      "And underneath?'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_loc_001",
+    "name": "117 Brixton Road",
+    "aliases": [],
+    "entity_class": "LOCATION",
+    "type": "residence",
+    "description": "The address of Mrs. Oakshott's residence and business. It is the starting point of the investigation and the location Holmes considers visiting to question the supplier.",
+    "context": [
+      "'Mrs. Oakshott, 117 , Brixton Road249 ,' read Holmes.",
+      "whether we should go on to this Mrs. Oakshott to-night, or whether we should reserve it for to-morrow.",
+      "It may save us a visit to Brixton Road"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_loc_002",
+    "name": "Baker Street",
+    "aliases": [],
+    "entity_class": "LOCATION",
+    "type": "residence",
+    "description": "The location of Holmes and Watson's sitting room. It serves as the setting for the final confrontation and revelation of the mystery.",
+    "context": [
+      "we were back in the sittingroom at Baker Street.",
+      "in this wind-swept market-place,' said he.",
+      "back in the sittingroom at Baker Street."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_org_001",
+    "name": "Alpha",
+    "aliases": [
+      "the Alpha"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "club",
+    "description": "A gentlemen's club that purchased the geese from Mr. Windigate. It serves as the final link in the chain of custody before the theft is discovered.",
+    "context": [
+      "'Sold to Mr. Windigate of the Alpha, at 12 s.'",
+      "by him in turn to Mr. Windigate, of the Alpha, and by him to his club"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_org_002",
+    "name": "Hotel Cosmopolitan",
+    "aliases": [],
+    "entity_class": "ORGANIZATION",
+    "type": "corporation",
+    "description": "A hotel where James Ryder works as head attendant. It is the setting of the theft and the professional context for the antagonist.",
+    "context": [
+      "Precisely so. Head attendant at the Hotel Cosmopolitan.",
+      "my real name is James Ryder."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_evt_001",
+    "name": "The Investigation",
+    "aliases": [
+      "our quest",
+      "the matter"
+    ],
+    "entity_class": "EVENT",
+    "type": "investigation",
+    "description": "The process by which Holmes and Watson trace the stolen blue carbuncle through market ledgers, witness testimonies, and deductive reasoning, culminating in the confrontation with Ryder.",
+    "context": [
+      "we are, I fancy, nearing the end of our quest",
+      "I think that I could be of assistance to you.",
+      "settle this little matter of yours."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_evt_002",
+    "name": "The Wager",
+    "aliases": [
+      "a bet"
+    ],
+    "entity_class": "EVENT",
+    "type": "deception",
+    "description": "A psychological ploy employed by Holmes, who pretends to be a gambler to extract information from a market man. It demonstrates his mastery of human nature and investigative technique.",
+    "context": [
+      "you can always draw him by a bet",
+      "idea that he was doing me on a wager",
+      "I had put £ 100 down in front of him"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_005_con_001",
+    "name": "The Blue Stone Mystery",
+    "aliases": [
+      "the matter",
+      "what became of those geese"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "mystery",
+    "description": "The central enigma of the narrative: the theft and recovery of a valuable gem hidden inside a goose. It drives the plot and serves as a test of Holmes's deductive abilities.",
+    "context": [
+      "what became of those geese?",
+      "You are endeavouring to trace some geese which were sold by Mrs. Oakshott",
+      "I have almost every link in my hands, and all the proofs which I could possibly need"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_char_001",
+    "name": "Sherlock Holmes",
+    "aliases": [
+      "Mr. Holmes",
+      "Holmes",
+      "my companion"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "protagonist",
+    "description": "A consulting detective who interrogates the confessed thief Ryder, ultimately deciding to release him to save his soul rather than send him to prison, prioritizing moral redemption over legal punishment.",
+    "context": [
+      "'Get back into your chair!' said Holmes sternly.",
+      "There was a long silence, broken only by his heavy breathing and by the measured tapping of Sherlock Holmes' finger-tips upon the edge of the table.",
+      "'After all, Watson,' said Holmes, reaching up his hand for his clay pipe, 'I am not retained by the police to supply their deficiencies.'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_char_002",
+    "name": "Ryder",
+    "aliases": [
+      "Jem",
+      "Jem Ryder",
+      "the thief"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "antagonist",
+    "description": "A hotel employee who confesses to orchestrating a jewel theft by framing a plumber, Horner, and attempting to smuggle the stolen gem inside a goose to fence it for profit.",
+    "context": [
+      "'It seems to me, Ryder, that there is the making of a very pretty villain in you.'",
+      "'For God's sake, have mercy!' he shrieked. 'Think of my father! Of my mother!'",
+      "'I will tell you it just as it happened, sir,' said he."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_char_003",
+    "name": "Horner",
+    "aliases": [
+      "the plumber",
+      "Horner, the plumber",
+      "poor Horner"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "A plumber who was falsely accused and arrested for the jewel theft, serving as the scapegoat for Ryder's scheme due to his prior involvement in similar matters.",
+    "context": [
+      "You knew that this man Horner, the plumber, had been concerned in some such matter before...",
+      "you thought little enough of this poor Horner in the dock for a crime of which he knew nothing.",
+      "If Horner were in danger it would be another thing; but this fellow will not appear against him, and the case must collapse."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_char_004",
+    "name": "Cusack",
+    "aliases": [],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "Ryder's unnamed confederate who assisted in sabotaging the lady's room to frame Horner for the jewel theft.",
+    "context": [
+      "You made some small job in my lady's room-you and your confederate Cusack-and you managed that he should be the man sent for."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_char_005",
+    "name": "Maggie Oakshott",
+    "aliases": [
+      "Maggie",
+      "my sister",
+      "Mrs. Oakshott"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "Ryder's sister who lives on Brixton Road and fattens geese for the market, inadvertently becoming the unwitting accomplice in the smuggling attempt by providing the bird.",
+    "context": [
+      "She had married a man named Oakshott, and lived in Brixton Road, where she fattened fowls for the market.",
+      "'Whatever were you doing with that bird, Jem?' says she.",
+      "'Gone to the dealer's, Jem.'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_char_006",
+    "name": "Oakshott",
+    "aliases": [],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "Maggie's husband, mentioned only as the man she married and the owner of the Brixton Road residence.",
+    "context": [
+      "She had married a man named Oakshott, and lived in Brixton Road..."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_char_007",
+    "name": "Maudsley",
+    "aliases": [],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "A former thief and acquaintance of Ryder who had recently served time in Pentonville, consulted for advice on fencing the stolen stone.",
+    "context": [
+      "I had a friend once called Maudsley, who went to the bad, and has just been serving his time in Pentonville.",
+      "He would show me how to turn the stone into money."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_char_008",
+    "name": "Breckinridge",
+    "aliases": [],
+    "entity_class": "CHARACTER",
+    "type": "minor",
+    "description": "A Covent Garden dealer who purchased the geese from Maggie's yard, unknowingly acquiring the goose containing the stolen stone and refusing to reveal its whereabouts.",
+    "context": [
+      "Breckinridge, of Covent Garden.",
+      "Well, he has always answered me like that. My sister thinks that I am going mad."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_char_009",
+    "name": "Watson",
+    "aliases": [
+      "Dr. Watson",
+      "my companion",
+      "Watson"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "The narrator and Holmes's companion, addressed directly as Holmes explains his decision to release Ryder and commute the felony.",
+    "context": [
+      "'After all, Watson,' said Holmes, reaching up his hand for his clay pipe...",
+      "Send him to jail now, and you make him a jail-bird for life."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_loc_001",
+    "name": "My Lady's Room",
+    "aliases": [
+      "my lady's room",
+      "the hotel room"
+    ],
+    "entity_class": "LOCATION",
+    "type": "room",
+    "description": "The private chamber where the jewel theft was staged, where Ryder and Cusack performed a small job to frame Horner for the crime.",
+    "context": [
+      "You made some small job in my lady's room-you and your confederate Cusack...",
+      "There was no place about the hotel where it would be safe."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_loc_002",
+    "name": "Brixton Road",
+    "aliases": [],
+    "entity_class": "LOCATION",
+    "type": "region",
+    "description": "The street where Maggie Oakshott resides, where Ryder fled to hide the stolen stone and where the geese were kept in the back yard.",
+    "context": [
+      "She had married a man named Oakshott, and lived in Brixton Road...",
+      "before I came to the Brixton Road."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_loc_003",
+    "name": "Kilburn",
+    "aliases": [],
+    "entity_class": "LOCATION",
+    "type": "region",
+    "description": "A district where Maudsley lived, serving as the destination for Ryder's attempted smuggling route to fence the stolen stone.",
+    "context": [
+      "so I made up my mind to go right on to Kilburn, where he lived, and take him into my confidence.",
+      "I carried the bird all the way to Kilburn."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_loc_004",
+    "name": "Covent Garden",
+    "aliases": [],
+    "entity_class": "LOCATION",
+    "type": "landmark",
+    "description": "A famous market district where the geese were sold to Breckinridge, representing the final link in the smuggling chain and the source of the stone's disappearance.",
+    "context": [
+      "Breckinridge, of Covent Garden.",
+      "how came the goose into the open market?"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_loc_005",
+    "name": "Pentonville",
+    "aliases": [],
+    "entity_class": "LOCATION",
+    "type": "institution",
+    "description": "A prison where Maudsley had recently served his time, referenced to establish his criminal background and the network of thieves Ryder consulted.",
+    "context": [
+      "has just been serving his time in Pentonville."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_obj_001",
+    "name": "The Stone",
+    "aliases": [
+      "the jewel",
+      "the Blue Carbuncle",
+      "the gem"
+    ],
+    "entity_class": "OBJECT",
+    "type": "symbolic",
+    "description": "A valuable gemstone stolen from my lady's room, which Ryder attempts to smuggle inside a goose to fence it for profit, serving as the central MacGuffin of the narrative.",
+    "context": [
+      "Then, when he had left, you rifled the jewel-case...",
+      "How came the stone into the goose, and how came the goose into the open market?",
+      "I felt the stone pass along its gullet and down into its crop."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_obj_002",
+    "name": "The Goose",
+    "aliases": [
+      "the bird",
+      "the white one with a barred tail",
+      "Jem's bird"
+    ],
+    "entity_class": "OBJECT",
+    "type": "animal",
+    "description": "A fattened white goose with a barred tail, used by Ryder as a living container to smuggle the stolen stone past the police, ultimately leading to its loss at the market.",
+    "context": [
+      "I drove one of the birds-a fine big one, white, with a barred tail.",
+      "I caught it, and prying its bill open, I thrust the stone down its throat...",
+      "There was not a bird to be seen there."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_obj_003",
+    "name": "The Bible",
+    "aliases": [],
+    "entity_class": "OBJECT",
+    "type": "document",
+    "description": "A religious text upon which Ryder swears his oath of innocence and future reform during his desperate plea for mercy and fear of imprisonment.",
+    "context": [
+      "I'll swear it on a Bible. Oh, don't bring it into court!"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_obj_004",
+    "name": "Clay Pipe",
+    "aliases": [],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "Holmes's habitual smoking pipe, referenced as he settles into a contemplative state after the interrogation and prepares to explain his moral reasoning.",
+    "context": [
+      "'After all, Watson,' said Holmes, reaching up his hand for his clay pipe..."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_evt_001",
+    "name": "The Jewel Robbery",
+    "aliases": [
+      "the jewel theft",
+      "the robbery at the hotel"
+    ],
+    "entity_class": "EVENT",
+    "type": "crime",
+    "description": "The staged theft of a valuable gem from my lady's room, orchestrated by Ryder to frame the plumber Horner and secure sudden wealth.",
+    "context": [
+      "upset by the jewel robbery at the hotel.",
+      "You knew that this man Horner, the plumber, had been concerned in some such matter before..."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_evt_002",
+    "name": "The Arrest of Horner",
+    "aliases": [
+      "the framing of Horner",
+      "Horner's arrest"
+    ],
+    "entity_class": "EVENT",
+    "type": "crime",
+    "description": "The wrongful detention of Horner, which Ryder orchestrated by manipulating suspicion and staging the crime scene to divert police attention.",
+    "context": [
+      "you managed that he should be the man sent for. Then, when he had left, you rifled the jewel-case, raised the alarm, and had this unfortunate man arrested.",
+      "you thought little enough of this poor Horner in the dock for a crime of which he knew nothing."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_evt_003",
+    "name": "The Confession",
+    "aliases": [
+      "Ryder's confession",
+      "the narrative of the theft"
+    ],
+    "entity_class": "EVENT",
+    "type": "revelation",
+    "description": "Ryder's detailed account of the theft, the smuggling attempt via the goose, and the subsequent loss of the stone to the market, revealing the full scope of the deception.",
+    "context": [
+      "'I will tell you it just as it happened, sir,' said he.",
+      "Tell us the truth, for there lies your only hope of safety."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_evt_004",
+    "name": "The Release",
+    "aliases": [
+      "Holmes's pardon",
+      "letting Ryder go"
+    ],
+    "entity_class": "EVENT",
+    "type": "resolution",
+    "description": "Holmes's decision to dismiss the case and allow Ryder to flee, motivated by a desire to save his soul rather than create a career criminal through imprisonment.",
+    "context": [
+      "'Get out!' said he.",
+      "'No more words. Get out!'",
+      "'I am commuting a felony, but it is just possible that I am saving a soul.'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_org_001",
+    "name": "The Police",
+    "aliases": [
+      "the police",
+      "detectives",
+      "the best detective"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "government",
+    "description": "The law enforcement agency investigating the jewel theft, whose potential search of Ryder's room prompted his desperate smuggling scheme and whose deficiencies Holmes claims to supply.",
+    "context": [
+      "I did not know at what moment the police might not take it into their heads to search me and my room.",
+      "I am not retained by the police to supply their deficiencies."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_org_002",
+    "name": "The Market",
+    "aliases": [
+      "the open market",
+      "the dealer's",
+      "Covent Garden market"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "corporation",
+    "description": "The commercial network where the geese were sold, representing the final destination for the smuggled stone and the source of its disappearance from Ryder's possession.",
+    "context": [
+      "how came the goose into the open market?",
+      "Gone to the dealer's, Jem.",
+      "Breckinridge, of Covent Garden."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_con_001",
+    "name": "Sudden Wealth",
+    "aliases": [
+      "temptation of sudden wealth",
+      "the wealth for which he sold his character"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "motive",
+    "description": "The corrupting allure of easy money that drives Ryder to commit the theft and frame an innocent man, serving as the primary psychological catalyst for the crime.",
+    "context": [
+      "the temptation of sudden wealth so easily acquired was too much for you...",
+      "without ever having touched the wealth for which he sold my character."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_con_002",
+    "name": "Mercy and Salvation",
+    "aliases": [
+      "have mercy",
+      "saving a soul",
+      "commuting a felony"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "theme",
+    "description": "The moral and spiritual consideration that leads Holmes to release Ryder, prioritizing the thief's redemption and fear of consequences over strict legal punishment.",
+    "context": [
+      "'For God's sake, have mercy!' he shrieked.",
+      "'I am commuting a felony, but it is just possible that I am saving a soul.'"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_con_003",
+    "name": "Suspicion and Reputation",
+    "aliases": [
+      "suspicion would rest the more readily",
+      "branded thief",
+      "jail-bird"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "theme",
+    "description": "The social and psychological weight of criminal accusation, which Holmes believes will permanently deter Ryder from reoffending due to the lasting stain on his character.",
+    "context": [
+      "suspicion would rest the more readily upon him.",
+      "This fellow will not go wrong again; he is too terribly frightened. Send him to jail now, and you make him a jail-bird for life."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_006_con_004",
+    "name": "Crime and Felony",
+    "aliases": [
+      "crime",
+      "felony",
+      "the bad",
+      "thieves"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "theme",
+    "description": "The legal and moral transgression at the center of the narrative, examined through the lens of its consequences on the perpetrator's soul and the potential for rehabilitation.",
+    "context": [
+      "for a crime of which he knew nothing.",
+      "I am commuting a felony, but it is just possible that I am saving a soul."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_007_char_001",
+    "name": "Doctor",
+    "aliases": [],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "A medical professional addressed directly by the speaker, likely a partner or colleague in investigative work. The speaker requests the Doctor's cooperation to proceed with a new case, indicating a collaborative dynamic and establishing the Doctor as an active participant in the upcoming inquiry.",
+    "context": [
+      "If you will have the goodness to touch the bell, Doctor, we will begin another investigation",
+      "we will begin another investigation, in which, also a bird will be the chief feature."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_007",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_007_concept_001",
+    "name": "season of forgiveness",
+    "aliases": [],
+    "entity_class": "CONCEPT",
+    "type": "theme",
+    "description": "A thematic framing device used to justify leniency or moral absolution regarding a peculiar case. It sets a reflective, merciful tone for the narrative's approach to the upcoming problem, suggesting that conventional judgment will be suspended in favor of understanding.",
+    "context": [
+      "Besides, it is the season of forgiveness.",
+      "Chance has put in our way a most singular and whimsical problem, and its solution is its own reward."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_007",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_007_concept_002",
+    "name": "Chance",
+    "aliases": [],
+    "entity_class": "CONCEPT",
+    "type": "motive",
+    "description": "Personified as a narrative agent that deliberately places a peculiar case before the investigators. It represents the role of serendipity or fate in driving the plot forward, framing the upcoming case as an unexpected but destined occurrence.",
+    "context": [
+      "Chance has put in our way a most singular and whimsical problem",
+      "and its solution is its own reward."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_007",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_007_obj_001",
+    "name": "bell",
+    "aliases": [],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "A signaling device that the Doctor is instructed to activate. It serves as a practical trigger to summon assistance or initiate the next phase of the investigation, acting as a physical bridge between preparation and action.",
+    "context": [
+      "If you will have the goodness to touch the bell, Doctor, we will begin another investigation",
+      "we will begin another investigation, in which, also a bird will be the chief feature."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_007",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_007_event_001",
+    "name": "investigation",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "investigation",
+    "description": "A forthcoming case or inquiry that the speaker and the Doctor are about to commence. It is characterized as a new undertaking that will involve a specific animal as its central element, signaling a shift from theoretical discussion to active case work.",
+    "context": [
+      "we will begin another investigation, in which, also a bird will be the chief feature.",
+      "If you will have the goodness to touch the bell, Doctor, we will begin another investigation"
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_007",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_007_obj_002",
+    "name": "bird",
+    "aliases": [],
+    "entity_class": "OBJECT",
+    "type": "animal",
+    "description": "An animal identified as the central focus or primary clue of the upcoming investigation. Its designation as the 'chief feature' signals its narrative importance to the case, suggesting it will hold the key to solving the whimsical problem.",
+    "context": [
+      "in which, also a bird will be the chief feature.",
+      "we will begin another investigation, in which, also a bird will be the chief feature."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_007",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  },
+  {
+    "id": "54fe739d5f764020ad4396c72af29729_007_concept_003",
+    "name": "problem",
+    "aliases": [
+      "singular and whimsical problem"
+    ],
+    "entity_class": "CONCEPT",
+    "type": "mystery",
+    "description": "A peculiar case or puzzle presented by fate. The speaker frames it as a self-rewarding intellectual challenge, emphasizing its unusual nature over conventional criminality and positioning the resolution as its own intrinsic payoff.",
+    "context": [
+      "Chance has put in our way a most singular and whimsical problem",
+      "and its solution is its own reward."
+    ],
+    "chunk_id": "54fe739d5f764020ad4396c72af29729_007",
+    "doc_id": "54fe739d5f764020ad4396c72af29729",
+    "domain": "fiction"
+  }
+]

@@ -1,0 +1,2634 @@
+[
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_002_cli_001",
+    "name": "Nationwide",
+    "aliases": [
+      "Nationwide Insurance"
+    ],
+    "entity_class": "CLIENT",
+    "type": "named_account",
+    "description": "A named client organization referenced in the document header, indicating a specific account engagement or partnership focused on generative AI initiatives.",
+    "context": [
+      "Nationwide IBM – Gen AI Demonstrations"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_002",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_002_org_001",
+    "name": "IBM",
+    "aliases": [],
+    "entity_class": "ORGANIZATION",
+    "type": "vendor",
+    "description": "The technology and consulting organization referenced as the solution provider or strategic partner delivering the generative AI demonstrations to the client.",
+    "context": [
+      "Nationwide IBM – Gen AI Demonstrations"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_002",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_002_eve_001",
+    "name": "Gen AI Demonstrations",
+    "aliases": [
+      "Generative AI Demonstrations"
+    ],
+    "entity_class": "EVENT",
+    "type": "demo",
+    "description": "A series of demonstrations centered on generative artificial intelligence, serving as the primary engagement or proof-of-value event referenced in the document title.",
+    "context": [
+      "Nationwide IBM – Gen AI Demonstrations"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_002",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_003_cli_001",
+    "name": "Nationwide",
+    "aliases": [
+      "Nationwide"
+    ],
+    "entity_class": "CLIENT",
+    "type": "named_account",
+    "description": "A major US-based financial services and insurance organization serving as the primary client for the Gen AI demonstration and solution deployment.",
+    "context": [
+      "Nationwide - IBM Gen AI Demo 2025",
+      "Overview of Gen AI in Nationwide"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_003",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_003_org_001",
+    "name": "IBM",
+    "aliases": [
+      "IBM"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "vendor",
+    "description": "The technology and consulting vendor delivering the generative AI solutions, AI COE framework, and demonstration agenda to the client.",
+    "context": [
+      "Nationwide - IBM Gen AI Demo 2025"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_003",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_003_evt_001",
+    "name": "Gen AI Demo 2025",
+    "aliases": [
+      "Gen AI Demo 2025"
+    ],
+    "entity_class": "EVENT",
+    "type": "demo",
+    "description": "A scheduled demonstration event outlining the deployment and application of generative AI solutions across the client's digital, migration, and operational workflows.",
+    "context": [
+      "Nationwide - IBM Gen AI Demo 2025",
+      "Demo Agenda"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_003",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_003_off_001",
+    "name": "Quality Assurance Assistant",
+    "aliases": [
+      "QA Assistant"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "A specialized AI-powered application designed to support and automate quality assurance processes within the client's development or operational workflows.",
+    "context": [
+      "Quality Assurance Assistant"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_003",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_003_off_002",
+    "name": "Complaints Letter Generation",
+    "aliases": [
+      "Complaints Letter Gen"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "An AI-driven tool or workflow designed to automate the drafting and formatting of customer complaint correspondence, improving communication speed and accuracy.",
+    "context": [
+      "Complaints Letter Generation"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_003",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_003_use_001",
+    "name": "Development Productivity",
+    "aliases": [
+      "Dev Productivity"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "operational_efficiency",
+    "description": "The application of Gen AI to enhance software development workflows, reduce manual effort, and accelerate delivery cycles within the client's digital operations.",
+    "context": [
+      "Gen AI in Development Productivity – Digital"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_003",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_003_use_002",
+    "name": "Migration Productivity",
+    "aliases": [
+      "Data Migration Productivity"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "migration",
+    "description": "The use of AI-driven tools to streamline and accelerate the migration process from legacy Teradata systems to modern Databricks infrastructure.",
+    "context": [
+      "GenAIinMigrationProductivity– Teradata to Databricks"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_003",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_003_tech_001",
+    "name": "Teradata",
+    "aliases": [
+      "Teradata"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "database",
+    "description": "A legacy or existing data warehousing platform that serves as the source system for the client's data migration initiative.",
+    "context": [
+      "GenAIinMigrationProductivity– Teradata to Databricks"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_003",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_003_tech_002",
+    "name": "Databricks",
+    "aliases": [
+      "Databricks"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "cloud_platform",
+    "description": "A modern data and AI platform serving as the target destination for the client's data migration and Gen AI solution deployment.",
+    "context": [
+      "GenAIinMigrationProductivity– Teradata to Databricks"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_003",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_003_tech_003",
+    "name": "Confluence",
+    "aliases": [
+      "Confluence"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "integration_tool",
+    "description": "A collaborative workspace and knowledge management platform utilized by the client, integrated with RAG capabilities for the demonstration.",
+    "context": [
+      "Confluence RAG"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_003",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_003_cap_001",
+    "name": "Retrieval-Augmented Generation (RAG)",
+    "aliases": [
+      "RAG",
+      "Confluence RAG"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "ai_capability",
+    "description": "A technical capability that enhances AI model outputs by retrieving relevant context from external knowledge bases before generating responses, applied here to Confluence data.",
+    "context": [
+      "Confluence RAG"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_003",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_003_org_002",
+    "name": "AI COE",
+    "aliases": [
+      "AI Center of Excellence",
+      "AI COE"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "partner",
+    "description": "The client's internal Center of Excellence responsible for governing, developing, and deploying AI solutions and frameworks, serving as the focal point for the demo.",
+    "context": [
+      "Gen AI solutions in AI COE – Sample"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_003",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_003_ben_001",
+    "name": "Productivity Gain",
+    "aliases": [
+      "Productivity",
+      "Efficiency"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "efficiency_gain",
+    "description": "The quantified or qualified outcome of reduced manual effort and accelerated workflows achieved through Gen AI integration in development and migration processes.",
+    "context": [
+      "Gen AI in Development Productivity – Digital",
+      "GenAIinMigrationProductivity– Teradata to Databricks"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_003",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_004_cli_001",
+    "name": "Nationwide",
+    "aliases": [
+      "NBS",
+      "Nationwide Building Society"
+    ],
+    "entity_class": "CLIENT",
+    "type": "named_account",
+    "description": "The primary client organization undergoing a generative AI transformation, leveraging IBM's solutions and tooling to support its internal business units and development processes.",
+    "context": [
+      "Overview of Gen AI & Tooling in Nationwide",
+      "Nationwide - IBM Gen AI Demo 2025",
+      "supporting NBS business units"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_004",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_004_org_001",
+    "name": "IBM",
+    "aliases": [
+      "IBM"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "partner",
+    "description": "The technology and consulting partner delivering the Gen AI demonstration, AI governance tooling, and enterprise-grade solutions to Nationwide.",
+    "context": [
+      "Nationwide - IBM Gen AI Demo 2025",
+      "IBM & Nationwide – Gen AI Demo"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_004",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_004_tech_001",
+    "name": "Copilot",
+    "aliases": [
+      "copilot capability",
+      "Copilot"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "automation_tool",
+    "description": "An AI-powered assistant tool integrated with ICA infrastructure to accelerate developer tasks and improve productivity within the SDLC lifecycle.",
+    "context": [
+      "Use of copilot capability to accelerate tasks within the SDLC lifecycle",
+      "Copilot + ICA on Prem",
+      "Copilot + ICA Off Network (PoC)"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_004",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_004_tech_002",
+    "name": "Watsonx.Gov",
+    "aliases": [
+      "Watsonx.Gov"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "ai_platform",
+    "description": "A government-compliant AI platform utilized in proof-of-concept and MVP deployments alongside Microsoft monitoring tools for enterprise governance.",
+    "context": [
+      "Watsonx.Gov",
+      "Microsoft Monitoring MVP + Watsonx.Gov POC"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_004",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_004_tech_003",
+    "name": "Azure OpenAI Services",
+    "aliases": [
+      "AzOAI",
+      "Azure OpenAI"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "cloud_platform",
+    "description": "Microsoft's cloud-based generative AI service referenced as part of the broader AI tooling and foundry stack.",
+    "context": [
+      "AzOAI, AI Foundry, Federated Build",
+      "Azure OpenAI Services"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_004",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_004_tech_004",
+    "name": "ICA",
+    "aliases": [
+      "ICA"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "infrastructure",
+    "description": "An internal or partner infrastructure component integrated with Copilot, deployed both on-premises and off-network for PoC environments.",
+    "context": [
+      "Copilot + ICA on Prem",
+      "Copilot + ICA Off Network (PoC)"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_004",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_004_cap_001",
+    "name": "Developer Productivity",
+    "aliases": [
+      "DEVELOPER PRODUCTIVITY"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "delivery_capability",
+    "description": "A core operational capability focused on accelerating software development tasks and improving efficiency within the SDLC lifecycle through AI tooling.",
+    "context": [
+      "DEVELOPER PRODUCTIVITY",
+      "Use of copilot capability to accelerate tasks within the SDLC lifecycle"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_004",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_004_cap_002",
+    "name": "Monitoring & Governance",
+    "aliases": [
+      "MONITORING & GOVERNANCE"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "security_capability",
+    "description": "The ability to manage AI governance workflows and monitor model performance using dedicated tooling to ensure enterprise-grade compliance and oversight.",
+    "context": [
+      "MONITORING & GOVERNANCE",
+      "AI governance workflow management and model monitoring tooling"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_004",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_004_use_001",
+    "name": "AI CoE Use Case Development",
+    "aliases": [
+      "Use case development within the AI CoE"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "modernisation",
+    "description": "The process of developing and deploying AI use cases within an AI Center of Excellence to deliver enterprise-grade solutions that support business unit operations.",
+    "context": [
+      "Use case development within the AI CoE for enterprise-grade solutions supporting NBS business units"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_004",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_004_off_001",
+    "name": "IBM Gen AI Demo 2025",
+    "aliases": [
+      "IBM & Nationwide – Gen AI Demo"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "demo",
+    "description": "A 2025 demonstration event showcasing IBM's generative AI capabilities, tooling stack, and deployment strategies to Nationwide stakeholders.",
+    "context": [
+      "Nationwide - IBM Gen AI Demo 2025",
+      "IBM & Nationwide – Gen AI Demo"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_004",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_004_off_002",
+    "name": "Federated Build",
+    "aliases": [
+      "Federated Build"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "delivery_model",
+    "description": "A solution architecture or build approach enabling distributed AI model development and deployment across the enterprise landscape.",
+    "context": [
+      "AzOAI, AI Foundry, Federated Build"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_004",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_004_evt_001",
+    "name": "Hackathons",
+    "aliases": [
+      "Hackathons"
+    ],
+    "entity_class": "EVENT",
+    "type": "proof_of_concept",
+    "description": "Internal innovation events likely leveraged to explore Gen AI applications, accelerate development, and test new capabilities within the organization.",
+    "context": [
+      "Hackathons"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_004",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_004_ben_001",
+    "name": "Task Acceleration",
+    "aliases": [
+      "accelerate tasks"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "efficiency_gain",
+    "description": "The operational outcome of speeding up development workflows and reducing time-to-value within the SDLC through AI copilot integration.",
+    "context": [
+      "Use of copilot capability to accelerate tasks within the SDLC lifecycle"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_004",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_004_cli_002",
+    "name": "NBS Business Units",
+    "aliases": [
+      "NBS",
+      "business units"
+    ],
+    "entity_class": "CLIENT",
+    "type": "target_segment",
+    "description": "The internal business divisions of Nationwide that are the target recipients of enterprise-grade AI solutions and CoE development efforts.",
+    "context": [
+      "supporting NBS business units",
+      "Use case development within the AI CoE for enterprise-grade solutions supporting NBS business units"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_004",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_004_diff_001",
+    "name": "Enterprise-Grade Solutions",
+    "aliases": [
+      "enterprise-grade solutions"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "quality_improvement",
+    "description": "The commitment to delivering robust, compliant, and scalable AI solutions tailored for large-scale business unit operations and governance requirements.",
+    "context": [
+      "Use case development within the AI CoE for enterprise-grade solutions supporting NBS business units"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_004",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_005_cli_001",
+    "name": "Nationwide",
+    "aliases": [],
+    "entity_class": "CLIENT",
+    "type": "named_account",
+    "description": "A named financial services client referenced as a collaborator in a joint demonstration with IBM, focusing on the application of generative AI to enhance software development workflows.",
+    "context": [
+      "IBM &amp; Nationwide – Gen AI Demo"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_005",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_005_org_001",
+    "name": "IBM",
+    "aliases": [],
+    "entity_class": "ORGANIZATION",
+    "type": "partner",
+    "description": "The primary technology vendor and solution provider co-presenting a generative AI demonstration with Nationwide to showcase AI-driven improvements in developer productivity.",
+    "context": [
+      "IBM &amp; Nationwide – Gen AI Demo"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_005",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_005_tech_001",
+    "name": "Generative AI",
+    "aliases": [
+      "Gen AI"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "ai_platform",
+    "description": "The core artificial intelligence technology being demonstrated, applied specifically to accelerate software development processes and improve engineering output within the client's environment.",
+    "context": [
+      "# Gen AI in Developer Productivity – Digital",
+      "IBM &amp; Nationwide – Gen AI Demo"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_005",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_005_use_001",
+    "name": "Developer Productivity",
+    "aliases": [],
+    "entity_class": "USE_CASE",
+    "type": "operational_efficiency",
+    "description": "The primary business application and target outcome area for the generative AI solution, focusing on accelerating software development cycles, reducing manual engineering overhead, and improving code delivery speed.",
+    "context": [
+      "# Gen AI in Developer Productivity – Digital"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_005",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_005_evt_001",
+    "name": "Gen AI Demo",
+    "aliases": [
+      "Generative AI Demonstration"
+    ],
+    "entity_class": "EVENT",
+    "type": "demo",
+    "description": "A joint demonstration event or presentation showcasing the practical application of generative AI to developer workflows, co-branded by IBM and Nationwide to illustrate solution capabilities and value.",
+    "context": [
+      "IBM &amp; Nationwide – Gen AI Demo"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_005",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_006_org_001",
+    "name": "GenAIin",
+    "aliases": [],
+    "entity_class": "ORGANIZATION",
+    "type": "vendor",
+    "description": "The selling organization or vendor referenced in the document title, associated with the migration productivity offering.",
+    "context": [
+      "# GenAIin Migration Productivity– Teradata to Databricks"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_006",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_006_off_001",
+    "name": "Migration Productivity",
+    "aliases": [
+      "Migration Productivity Programme"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "transformation_programme",
+    "description": "A named migration programme or engagement focused on improving productivity, specifically designed to facilitate the transition from Teradata to Databricks.",
+    "context": [
+      "# GenAIin Migration Productivity– Teradata to Databricks"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_006",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_006_tech_001",
+    "name": "Teradata",
+    "aliases": [
+      "Teradata database",
+      "legacy Teradata"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "database",
+    "description": "The legacy data warehousing platform or system that serves as the source environment for the migration initiative.",
+    "context": [
+      "# GenAIin Migration Productivity– Teradata to Databricks"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_006",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_006_tech_002",
+    "name": "Databricks",
+    "aliases": [
+      "Databricks platform",
+      "Delta Lake"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "cloud_platform",
+    "description": "The target cloud data and AI platform where the client's data and workloads will be migrated to, serving as the destination environment for the solution.",
+    "context": [
+      "# GenAIin Migration Productivity– Teradata to Databricks"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_006",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_007_cli_001",
+    "name": "Nationwide",
+    "aliases": [
+      "Nationwide Insurance"
+    ],
+    "entity_class": "CLIENT",
+    "type": "named_account",
+    "description": "A major financial services organization that engaged IBM to execute a large-scale Teradata migration. The client faced significant contractual timeline pressures and required modernization of a massive legacy data environment to meet business objectives.",
+    "context": [
+      "Nationwide - IBM Gen AI Demo 2025",
+      "IBM & Nationwide – Gen AI Demo"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_007_off_001",
+    "name": "GENAI Copilot",
+    "aliases": [
+      "Gen AI",
+      "IBM Gen AI",
+      "AI Copilot"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "platform",
+    "description": "An AI-powered acceleration platform utilized to streamline code and data migration processes. It enables rapid transformation of legacy systems into modern data architectures, significantly reducing project timelines and improving delivery quality through automated assistance.",
+    "context": [
+      "Achieving unprecedented efficiency in complex Teradata migration by accelerating processes with GENAI Copilot.",
+      "IBM Gen AI Demo 2025"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_007_cap_001",
+    "name": "AI-Driven Code and Data Migration",
+    "aliases": [
+      "code conversion",
+      "data hydration",
+      "system repointing",
+      "migration automation"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "migration_capability",
+    "description": "The core technical capability of converting legacy code, hydrating data into modern architectures, and repointing downstream systems. This capability leverages AI to automate complex transformations and ensure seamless integration into a Data Lakehouse environment while maintaining operational continuity.",
+    "context": [
+      "streamline code and data migration",
+      "code conversion, data hydration into a modern Data Lakehouse, and system repointing"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_007_use_001",
+    "name": "Teradata Modernization",
+    "aliases": [
+      "Teradata migration",
+      "legacy system modernization",
+      "data environment modernization"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "modernisation",
+    "description": "The application of AI-driven migration capabilities to modernize a massive Teradata environment. This use case focuses on replacing legacy data infrastructure with a modern Data Lakehouse while maintaining operational continuity and meeting strict contractual deadlines.",
+    "context": [
+      "Migrating a massive Teradata environment posed significant cost and technical limitations to modernization efforts.",
+      "complex Teradata migration"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_007_ben_001",
+    "name": "Accelerated Project Timelines",
+    "aliases": [
+      "60-70% shorter timeline",
+      "phase time reductions",
+      "condensed delivery schedule"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "speed_improvement",
+    "description": "Significant reduction in project duration across all migration phases, achieving a 60-70% shorter timeline than industry standards. Specific phase reductions include 25% in analysis, 30% in design, 60% in conversion, and 20% in user testing, delivering faster time-to-value and meeting aggressive contractual demands.",
+    "context": [
+      "60–70% shorter timeline than industry standards due to contractual demands.",
+      "Time Reduction: Analysis 25%, Design 30%, Conversion 60%, User Testing 20%"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_007_ben_002",
+    "name": "Unprecedented Operational Efficiency",
+    "aliases": [
+      "superior business outcomes",
+      "streamlined processes",
+      "process acceleration"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "efficiency_gain",
+    "description": "Delivers exceptional process efficiency and superior business outcomes by leveraging AI to automate and optimize complex migration workflows. This efficiency gain reduces manual effort, accelerates delivery, and ensures high-quality results within a compressed schedule.",
+    "context": [
+      "Achieving unprecedented efficiency in complex Teradata migration",
+      "superior business outcomes"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_007_cha_001",
+    "name": "Massive Teradata Environment Scale",
+    "aliases": [
+      "Monumental Migration Challenge",
+      "legacy data constraints",
+      "large-scale data warehouse"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "legacy_constraint",
+    "description": "The client faced a highly complex and large-scale legacy data environment that posed significant cost and technical limitations. Migrating this massive Teradata setup required overcoming substantial architectural and operational hurdles to successfully modernize the infrastructure.",
+    "context": [
+      "Migrating a massive Teradata environment posed significant cost and technical limitations to modernization efforts.",
+      "Monumental Migration Challenge"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_007_cha_002",
+    "name": "Aggressive Contractual Timeline",
+    "aliases": [
+      "timeline constraints",
+      "condensed delivery schedule",
+      "strict deadline pressure"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "operational_inefficiency",
+    "description": "Strict contractual demands required a migration timeline 60-70% shorter than industry standards. This aggressive schedule created significant pressure to deliver complex code and data transformations without compromising quality or accuracy.",
+    "context": [
+      "The migration had a 60–70% shorter timeline than industry standards due to contractual demands.",
+      "complex, condensed timeline"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_007_tech_001",
+    "name": "Teradata",
+    "aliases": [
+      "legacy Teradata environment",
+      "Teradata system",
+      "legacy data warehouse"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "legacy_system",
+    "description": "A large-scale legacy data warehouse platform hosting over 50 TB of data, 700 stored procedures, 6,500 complex views, and hundreds of reports. The system served as the primary target for modernization and migration to a modern data architecture.",
+    "context": [
+      "Migrating a massive Teradata environment",
+      "complex Teradata migration",
+      "50+ TB",
+      "700 Procedures",
+      "6500Views"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_007_tech_002",
+    "name": "Data Lakehouse",
+    "aliases": [
+      "modern Data Lakehouse",
+      "target data architecture",
+      "modern data platform"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "database",
+    "description": "A modern data architecture designed to replace the legacy Teradata environment. It serves as the destination for hydrated data, enabling scalable storage and advanced analytics capabilities for downstream applications and reporting.",
+    "context": [
+      "data hydration into a modern Data Lakehouse",
+      "modern Data Lakehouse"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_007_dif_001",
+    "name": "AI-Powered Migration Acceleration",
+    "aliases": [
+      "GENAI Copilot acceleration",
+      "innovative technical solutions",
+      "advanced AI methods"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "innovation",
+    "description": "The use of advanced AI capabilities to drastically compress migration timelines while maintaining high-quality delivery. This differentiator combines proprietary AI tools with deep domain expertise to solve complex technical challenges faster than traditional manual methods.",
+    "context": [
+      "Advanced expertise and innovative methods ensured quality delivery within a complex, condensed timeline.",
+      "accelerating processes with GENAI Copilot"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_007_org_001",
+    "name": "IBM",
+    "aliases": [
+      "IBM Gen AI",
+      "IBM"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "partner",
+    "description": "The primary technology vendor and solution provider delivering the Gen AI Copilot platform and migration services. IBM leveraged its advanced AI expertise and innovative methodologies to execute the complex migration for Nationwide.",
+    "context": [
+      "IBM Gen AI Demo 2025",
+      "IBM & Nationwide – Gen AI Demo"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_007_evt_001",
+    "name": "IBM Gen AI Demo 2025",
+    "aliases": [
+      "Gen AI Demo",
+      "2025 AI Demonstration",
+      "Nationwide Gen AI Demo"
+    ],
+    "entity_class": "EVENT",
+    "type": "demo",
+    "description": "A 2025 demonstration event showcasing IBM's Gen AI Copilot capabilities applied to a real-world Teradata migration project. The event highlighted the successful delivery of accelerated timelines and superior business outcomes for the client.",
+    "context": [
+      "Nationwide - IBM Gen AI Demo 2025",
+      "IBM & Nationwide – Gen AI Demo"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_008_off_001",
+    "name": "Quality Assurance Assistant",
+    "aliases": [
+      "QA Assistant"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "A generative AI demonstration solution designed to assist with quality assurance processes, likely leveraging LLMs to review, validate, or automate QA workflows.",
+    "context": [
+      "1. Quality Assurance Assistant"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_008",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_008_off_002",
+    "name": "Chat with Data",
+    "aliases": [
+      "Data Chat",
+      "Conversational Data Interface"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "A generative AI demonstration enabling conversational querying of structured or unstructured datasets, allowing users to interact with data through natural language prompts.",
+    "context": [
+      "3. Chat with Data"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_008",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_008_off_003",
+    "name": "Gen AI solutions",
+    "aliases": [
+      "Generative AI solutions",
+      "GenAI offerings"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "The overarching portfolio of generative artificial intelligence products and demonstrations being presented, hosted within the AI COE framework.",
+    "context": [
+      "# Gen AI solutions in AI COE"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_008",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_008_use_001",
+    "name": "Dynamic Pricing",
+    "aliases": [
+      "Adaptive Pricing",
+      "Real-time Pricing"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "revenue_generation",
+    "description": "A business application scenario where AI adjusts pricing in real-time based on market conditions, demand, or customer data to optimize revenue and competitiveness.",
+    "context": [
+      "5. Dynamic Pricing"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_008",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_008_use_002",
+    "name": "Complaint Letter Generation",
+    "aliases": [
+      "Automated Complaint Drafting",
+      "Customer Complaint Automation"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "customer_experience",
+    "description": "A generative AI application used to draft, format, or respond to customer complaint communications, streamlining customer service workflows and improving response quality.",
+    "context": [
+      "7. Complaint Letter Generation"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_008",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_008_org_001",
+    "name": "AI COE",
+    "aliases": [
+      "AI Center of Excellence"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "institution",
+    "description": "Referenced as the governing body or program hosting the generative AI solutions and demonstrations. Likely represents a centralized AI governance, innovation, or delivery hub within the organization.",
+    "context": [
+      "# Gen AI solutions in AI COE"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_008",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_cli_001",
+    "name": "Nationwide",
+    "aliases": [
+      "Nationwide’s"
+    ],
+    "entity_class": "CLIENT",
+    "type": "named_account",
+    "description": "A major insurance and financial services organization that engaged IBM to deploy an AI-driven quality assurance solution for its customer contact center operations.",
+    "context": [
+      "Nationwide - IBM Gen AI Demo 2025 – IBM internal",
+      "Nationwide’s Quality Assurance team struggle to manually check <5% sample of customer interactions."
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_off_001",
+    "name": "Quality Assurance Assistant",
+    "aliases": [
+      "Gen AI assistant",
+      "Gen AI tool"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "An AI-powered application developed to automatically review transcribed customer calls, detect complaint signals and vulnerabilities, and trigger corrective actions to improve service levels.",
+    "context": [
+      "# Quality Assurance Assistant",
+      "Developed Solution: Gen AI assistant to review transcribed calls to identify vulnerability and signals of complaints",
+      "Ensure customer contact rectified if required and to inform service level improvements."
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_cap_001",
+    "name": "Transcribed Call Review",
+    "aliases": [
+      "call transcription analysis"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "technical_capability",
+    "description": "The core technical function of the solution that ingests and processes recorded customer interactions to extract actionable insights without manual intervention.",
+    "context": [
+      "Gen AI assistant to review transcribed calls to identify vulnerability and signals of complaints"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_cap_002",
+    "name": "Issue Identification",
+    "aliases": [
+      "complaint signal detection"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "analytics_capability",
+    "description": "The analytical function that accurately flags service failures, vulnerabilities, and complaint indicators within customer interactions.",
+    "context": [
+      "91% Accuracy of issue identification"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_use_001",
+    "name": "Customer Interaction Quality Assurance",
+    "aliases": [
+      "QA monitoring",
+      "contact center review"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "customer_experience",
+    "description": "The primary operational scenario where the AI solution is applied to monitor customer service quality, identify pain points, and drive service level improvements across contact channels.",
+    "context": [
+      "review transcribed calls to identify vulnerability and signals of complaints",
+      "inform service level improvements"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_use_002",
+    "name": "Regulatory Compliance Monitoring",
+    "aliases": [
+      "compliance QA",
+      "regulatory exposure tracking"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "compliance",
+    "description": "The application of the solution to mitigate regulatory risks by ensuring customer interactions meet compliance standards and identifying service level blind spots.",
+    "context": [
+      "Manual sampling leaves a major blind spot for service levels and regulatory exposure."
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_ben_001",
+    "name": "Rapid Issue Resolution",
+    "aliases": [
+      "fast processing time"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "speed_improvement",
+    "description": "Significant reduction in the time required to process and resolve customer issues compared to traditional manual call listening.",
+    "context": [
+      "17 seconds Avg solution processing time versus avg 10-12 min. call listening"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_ben_002",
+    "name": "Time Savings at Scale",
+    "aliases": [
+      "1750 days saved",
+      "sample size efficiency"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "efficiency_gain",
+    "description": "Projected operational time savings that would be realized if the AI solution scales to cover 100% of customer interactions instead of the current <5% sample.",
+    "context": [
+      "Potential for time saved on current sample size. ~1750 days if decision for “100% sample”"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_ben_003",
+    "name": "High Accuracy Detection",
+    "aliases": [
+      "91% accuracy"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "quality_improvement",
+    "description": "The solution delivers a 91% accuracy rate in identifying customer issues, ensuring reliable detection of vulnerabilities and complaint signals.",
+    "context": [
+      "91% Accuracy of issue identification"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_cha_001",
+    "name": "Manual Sampling Limitation",
+    "aliases": [
+      "<5% sample constraint",
+      "manual QA bottleneck"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "operational_inefficiency",
+    "description": "The operational constraint of relying on manual review processes that restrict quality assurance coverage to less than 5% of customer interactions.",
+    "context": [
+      "Nationwide’s Quality Assurance team struggle to manually check <5% sample of customer interactions."
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_cha_002",
+    "name": "Regulatory & Service Level Blind Spots",
+    "aliases": [
+      "compliance risk",
+      "service exposure gap"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "regulatory_burden",
+    "description": "The business risk arising from incomplete manual sampling, which creates visibility gaps for both service quality metrics and regulatory compliance requirements.",
+    "context": [
+      "Manual sampling leaves a major blind spot for service levels and regulatory exposure."
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_tech_001",
+    "name": "IBM Gen AI",
+    "aliases": [
+      "Gen AI",
+      "IBM AI platform"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "ai_platform",
+    "description": "The underlying artificial intelligence platform powering the Quality Assurance Assistant, enabling automated transcription review and issue detection.",
+    "context": [
+      "Nationwide - IBM Gen AI Demo 2025 – IBM internal",
+      "Gen AI assistant to review transcribed calls"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_diff_001",
+    "name": "Scalable AI Deployment",
+    "aliases": [
+      "user scaling",
+      "rollout capacity"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "scale_advantage",
+    "description": "The solution's proven ability to scale from an initial pilot of 60-70 users to a planned rollout exceeding 100 users, demonstrating enterprise readiness.",
+    "context": [
+      "60-70 users today – 100+ planned in scaled rollout"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_diff_002",
+    "name": "Automated vs Manual Efficiency",
+    "aliases": [
+      "speed advantage",
+      "processing time reduction"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "speed",
+    "description": "The competitive edge of reducing issue processing time from 10-12 minutes (manual) to 17 seconds (AI-driven), highlighting superior operational speed.",
+    "context": [
+      "17 seconds Avg solution processing time versus avg 10-12 min. call listening"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_evt_001",
+    "name": "IBM Gen AI Demo 2025",
+    "aliases": [
+      "Gen AI Demo 2025",
+      "2025 AI Demo"
+    ],
+    "entity_class": "EVENT",
+    "type": "demo",
+    "description": "An internal IBM demonstration event showcasing the Nationwide quality assurance use case and the performance metrics of the Gen AI solution.",
+    "context": [
+      "Nationwide - IBM Gen AI Demo 2025 – IBM internal"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_009_org_001",
+    "name": "IBM",
+    "aliases": [
+      "IBM internal"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "vendor",
+    "description": "The technology vendor and solution provider responsible for developing and deploying the Gen AI quality assurance assistant for Nationwide.",
+    "context": [
+      "Nationwide - IBM Gen AI Demo 2025 – IBM internal"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_009",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_cli_001",
+    "name": "NBS",
+    "aliases": [
+      "National Bank of Scotland",
+      "Client"
+    ],
+    "entity_class": "CLIENT",
+    "type": "named_account",
+    "description": "The client organization managing large volumes of unstructured knowledge across multiple collaboration and service platforms. The organization faced significant operational inefficiencies due to fragmented data repositories and a lack of standardized ingestion patterns.",
+    "context": [
+      "NBS holds large volumes of scattered knowledge across SharePoint, Teams, Service Now, and Confluence.",
+      "Each new Chat-with-Data use case required a bespoke build"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_off_001",
+    "name": "Chat with Data POC",
+    "aliases": [
+      "Chat-with-Data Solution",
+      "Agentic RAG Pattern"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "A proof-of-concept solution designed to automate data ingestion, retrieval, and query handling for conversational data interactions. The offering establishes a single, repeatable template that functions as a modular plug-and-play component for future use cases.",
+    "context": [
+      "Chat with Data (POC)",
+      "Built a reusable agentic RAG pattern in Microsoft AI Foundry with Terraform provisioning that automates end-to-end workflows.",
+      "The POC established a single, repeatable template that can index data from multiple sources"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_cap_001",
+    "name": "Automated Data Ingestion & Retrieval",
+    "aliases": [
+      "End-to-End Workflow Automation",
+      "Modular Data Indexing"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "automation_capability",
+    "description": "The technical ability to automatically process, index, and retrieve data from multiple disparate sources without manual engineering. This capability eliminates repetitive setup tasks and enables rapid deployment of new data interaction workflows.",
+    "context": [
+      "automates end-to-end workflows",
+      "index data from multiple sources and be deployed as a modular plug-and-play component"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_use_001",
+    "name": "Chat-with-Data Application",
+    "aliases": [
+      "Conversational Data Query",
+      "Agent Delivery Use Case"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "customer_experience",
+    "description": "The specific scenario where end-users interact with scattered organizational knowledge through a conversational chat interface. This use case leverages the POC to replace manual indexing with automated, AI-driven query handling.",
+    "context": [
+      "Each new Chat-with-Data use case required a bespoke build",
+      "future Chat-with-Data use cases",
+      "Pathfinder for Agent delivery"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_ben_001",
+    "name": "85% Retrieval Precision on Teams Data",
+    "aliases": [
+      "High Accuracy Data Retrieval",
+      "Teams Data Precision Metric"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "quality_improvement",
+    "description": "A quantified performance outcome demonstrating high accuracy in retrieving information specifically from Microsoft Teams repositories. This metric validates the effectiveness of the RAG pattern in delivering precise, context-aware answers to user queries.",
+    "context": [
+      "85% Retrieval Precision on Teams Data"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_ben_002",
+    "name": "60% Reduction in Engineering Effort",
+    "aliases": [
+      "Development Cost Savings",
+      "Engineering Efficiency Gain"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "efficiency_gain",
+    "description": "A significant decrease in the development time and manual engineering resources required to build new retrieval systems. This benefit directly addresses the client's previous pain point of repeated, bespoke engineering efforts for each new project.",
+    "context": [
+      "Reduction in engineering effort for new retrieval systems",
+      "60%"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_cha_001",
+    "name": "Scattered Knowledge Management",
+    "aliases": [
+      "Fragmented Data Repositories",
+      "Unstructured Knowledge Silos"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "operational_inefficiency",
+    "description": "The client's struggle with managing large volumes of unstructured knowledge spread across multiple disconnected platforms. This fragmentation created visibility gaps and hindered efficient information access for end-users.",
+    "context": [
+      "NBS holds large volumes of scattered knowledge across SharePoint, Teams, Service Now, and Confluence."
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_cha_002",
+    "name": "Bespoke Build Dependency",
+    "aliases": [
+      "Manual Engineering Overhead",
+      "Lack of Reusable Patterns"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "scalability_limitation",
+    "description": "The reliance on custom, manual engineering for each new data interaction project, leading to repeated effort and zero standardization. This constraint prevented the organization from scaling data solutions efficiently or reusing existing components.",
+    "context": [
+      "Each new Chat-with-Data use case required a bespoke build such as manual indexing, RAG setup, and repeated engineering effort.",
+      "No unified, reusable pattern existed for ingestion, retrieval and query handling."
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_tech_001",
+    "name": "Microsoft AI Foundry",
+    "aliases": [
+      "AI Foundry",
+      "Microsoft AI Platform"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "ai_platform",
+    "description": "The primary AI development environment used to architect and provision the agentic RAG pattern. This platform enables the rapid deployment of AI-driven workflows and integrates with the client's existing data sources.",
+    "context": [
+      "Built a reusable agentic RAG pattern in Microsoft AI Foundry"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_tech_002",
+    "name": "Terraform",
+    "aliases": [
+      "Terraform IaC",
+      "Infrastructure as Code"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "automation_tool",
+    "description": "An infrastructure-as-code tool utilized to automate the provisioning and deployment of the solution's underlying architecture. It ensures consistent, repeatable environment setup across different deployment stages.",
+    "context": [
+      "with Terraform provisioning"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_tech_003",
+    "name": "SharePoint",
+    "aliases": [
+      "SharePoint Online",
+      "Microsoft SharePoint"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "legacy_system",
+    "description": "A primary document management and collaboration platform holding a significant portion of the client's scattered knowledge base. The solution was designed to ingest and index data from this repository.",
+    "context": [
+      "scattered knowledge across SharePoint"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_tech_004",
+    "name": "Microsoft Teams",
+    "aliases": [
+      "Teams",
+      "Microsoft 365 Teams"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "channel",
+    "description": "The client's main collaboration and communication channel, serving as a key data source for the chat-with-data use case. The POC specifically validated high retrieval precision for data stored within Teams.",
+    "context": [
+      "Teams Data",
+      "scattered knowledge across SharePoint, Teams"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_tech_005",
+    "name": "ServiceNow",
+    "aliases": [
+      "Service Now",
+      "SNOW"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "legacy_system",
+    "description": "An IT service management platform containing operational knowledge and ticketing data. The solution extended data ingestion capabilities to cover this previously siloed repository.",
+    "context": [
+      "Service Now"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_tech_006",
+    "name": "Confluence",
+    "aliases": [
+      "Atlassian Confluence",
+      "Confluence Wiki"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "legacy_system",
+    "description": "A corporate wiki and documentation platform holding project-specific and institutional knowledge. The POC addressed the challenge of indexing this unstructured documentation alongside other data sources.",
+    "context": [
+      "and Confluence."
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_tech_007",
+    "name": "RAG (Retrieval-Augmented Generation)",
+    "aliases": [
+      "RAG Pattern",
+      "Agentic RAG"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "framework",
+    "description": "The underlying AI architecture pattern used to enhance data retrieval accuracy by combining generative AI with external knowledge bases. The solution leverages a reusable RAG framework to standardize query handling and reduce manual setup.",
+    "context": [
+      "RAG setup",
+      "agentic RAG pattern",
+      "repeatable patterns on RAG."
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_diff_001",
+    "name": "Reusable Agentic RAG Pattern",
+    "aliases": [
+      "Standardized RAG Template",
+      "Modular AI Pattern"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "proprietary_asset",
+    "description": "A standardized, repeatable template that eliminates the need for bespoke builds and enables modular, plug-and-play deployment. This asset directly addresses the client's lack of unified patterns and accelerates future project delivery.",
+    "context": [
+      "Built a reusable agentic RAG pattern",
+      "POC established a single, repeatable template"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_diff_002",
+    "name": "Pathfinder for Agent Delivery",
+    "aliases": [
+      "Agent Delivery Framework",
+      "Delivery Methodology"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "delivery_model",
+    "description": "A proven methodology or framework guiding the delivery of AI agents, ensuring consistent application of RAG patterns. This approach standardizes the delivery process and reduces engineering overhead across multiple use cases.",
+    "context": [
+      "Pathfinder for Agent delivery, repeatable patterns on RAG."
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_evt_001",
+    "name": "IBM Gen AI Demo 2025",
+    "aliases": [
+      "Gen AI Demo",
+      "2025 AI Demonstration"
+    ],
+    "entity_class": "EVENT",
+    "type": "demo",
+    "description": "The specific demonstration event where the Chat with Data POC and its performance metrics were presented. This event served as the platform to showcase the solution's capabilities and quantified benefits to stakeholders.",
+    "context": [
+      "Nationwide - IBM Gen AI Demo 2025"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_evt_002",
+    "name": "Proof of Concept (POC)",
+    "aliases": [
+      "POC Phase",
+      "Initial Testing Phase"
+    ],
+    "entity_class": "EVENT",
+    "type": "proof_of_concept",
+    "description": "The initial testing and validation phase that established the repeatable template and quantified performance outcomes. The POC served as the foundational step to prove the viability of the agentic RAG pattern before broader deployment.",
+    "context": [
+      "Chat with Data (POC)",
+      "The POC established a single, repeatable template"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_org_001",
+    "name": "IBM",
+    "aliases": [
+      "International Business Machines",
+      "IBM Corp"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "partner",
+    "description": "The technology partner associated with the Gen AI Demo event and the provider of the underlying AI and consulting expertise. IBM's involvement lends credibility and domain expertise to the demonstrated solution.",
+    "context": [
+      "IBM Gen AI Demo 2025"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_org_002",
+    "name": "Microsoft",
+    "aliases": [
+      "Microsoft Corporation",
+      "MSFT"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "vendor",
+    "description": "The technology vendor behind the AI Foundry platform and Teams collaboration suite used in the solution. Microsoft's ecosystem provides the foundational infrastructure for the agentic RAG pattern and data sources.",
+    "context": [
+      "Microsoft AI Foundry"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_010_loc_001",
+    "name": "Nationwide",
+    "aliases": [
+      "National Scope",
+      "Enterprise-Wide"
+    ],
+    "entity_class": "LOCATION",
+    "type": "market",
+    "description": "Refers to the client's operational scope, indicating that the knowledge management challenge and subsequent solution apply across the entire organization. This scope highlights the need for a scalable, enterprise-grade pattern rather than a localized fix.",
+    "context": [
+      "Nationwide - IBM Gen AI Demo 2025"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_010",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_011_cli_001",
+    "name": "Nationwide",
+    "aliases": [
+      "Nationwide"
+    ],
+    "entity_class": "CLIENT",
+    "type": "named_account",
+    "description": "A financial services organization referenced as the primary client for the Dynamic Pricing Optimization POC. The organization operates in the mortgage sector and utilizes dedicated pricing teams to manage product-rate data and competitor analysis.",
+    "context": [
+      "Nationwide - IBM Gen AI Demo 2025",
+      "Buy-to-Let mortgage products targeted"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_011",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_011_off_001",
+    "name": "Dynamic Pricing Optimization POC",
+    "aliases": [
+      "Dynamic Pricing Optimization",
+      "POC"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "proof_of_concept",
+    "description": "A proof-of-concept engagement designed to replace manual pricing workflows with an automated, data-driven approach. The solution leverages machine learning to predict customer product selection likelihood and optimize pricing strategies across a broader product portfolio.",
+    "context": [
+      "# Dynamic Pricing Optimization(POC)",
+      "Developed Solution: Delivered a deterministic ML-driven pricing engine that uses historical searchbehavior data to predict the likelihood of customers selecting a given product."
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_011",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_011_cha_001",
+    "name": "Manual pricing data processing",
+    "aliases": [
+      "manual product mapping",
+      "rate-adjustment simulations"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "operational_inefficiency",
+    "description": "The client's pricing team faced significant operational inefficiencies due to reliance on manual Excel-based workflows. Daily data handling required extensive analyst time for product mapping, competitor selection, and margin impact evaluation, leading to inconsistent decision-making.",
+    "context": [
+      "Pricing team received daily competitor and product-rate data in Excel, requiring manual product mapping, competitor selection, and rate-adjustment simulations.",
+      "Each iteration to evaluate ranking, volume, and margin impact took significant analyst time and created inconsistency across decisions."
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_011",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_011_tec_001",
+    "name": "Excel",
+    "aliases": [
+      "spreadsheet application"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "spreadsheet_tool",
+    "description": "A legacy data management tool used by the client for manual pricing calculations. The solution was specifically designed to eliminate dependency on this tool for complex rate-adjustment scenarios and manual data handling.",
+    "context": [
+      "Pricing team received daily competitor and product-rate data in Excel",
+      "instead of manual Excel scenarios."
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_011",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_011_cap_001",
+    "name": "Automated ranking and volume forecasting",
+    "aliases": [
+      "automated ranking",
+      "volume forecasting",
+      "margin estimation"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "automation_capability",
+    "description": "The core functional capability of the delivered solution, enabling the automatic calculation of product rankings, sales volume forecasts, and margin estimates without manual analyst intervention. This capability replaces iterative manual simulations with deterministic data-backed adjustments.",
+    "context": [
+      "The solution automates ranking, volume forecasting, and margin estimation",
+      "enablingdata-backed rate adjustments instead of manual Excel scenarios."
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_011",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_011_use_001",
+    "name": "Buy-to-Let mortgage pricing optimization",
+    "aliases": [
+      "Buy-to-Let mortgage products"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "customer_experience",
+    "description": "The specific business application where the pricing engine is deployed to optimize rates and product selection for buy-to-let mortgage offerings. This use case demonstrates the solution's ability to identify repeatable patterns and apply real-time pricing optimization across a wider product portfolio.",
+    "context": [
+      "Buy-to-Let mortgage products targeted",
+      "Use case learnings –repeatable patterns, real-time pricingoptimisationacross thewider product portfolio."
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_011",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_011_ben_001",
+    "name": "High product selection accuracy",
+    "aliases": [
+      "75% product-selection capture"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "quality_improvement",
+    "description": "The solution achieved a 75% accuracy rate in capturing product selection, significantly reducing decision inconsistency and improving the reliability of pricing recommendations. This quantifiable outcome demonstrates the effectiveness of the automated ML-driven approach over manual methods.",
+    "context": [
+      "75% Of product-selection captured accurately"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_011",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_011_ben_002",
+    "name": "Market win identification",
+    "aliases": [
+      "TMW wins identification"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "revenue_impact",
+    "description": "The engine successfully identified 68% of actual Total Market Weight (TMW) wins, demonstrating strong competitive positioning and data-driven market insight generation. This capability directly supports revenue protection and strategic product placement.",
+    "context": [
+      "Of the actual TMW's wins were identified correctly",
+      "68%"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_011",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_011_eve_001",
+    "name": "IBM Gen AI Demo 2025",
+    "aliases": [
+      "Gen AI Demo 2025"
+    ],
+    "entity_class": "EVENT",
+    "type": "demo",
+    "description": "A 2025 demonstration event hosted by IBM to showcase the Dynamic Pricing Optimization POC and its capabilities to the Nationwide client. The event served as the platform for presenting the solution's architecture, use case learnings, and quantified performance metrics.",
+    "context": [
+      "Nationwide - IBM Gen AI Demo 2025"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_011",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_012_cli_001",
+    "name": "Nationwide",
+    "aliases": [
+      "Nationwide Insurance",
+      "Client"
+    ],
+    "entity_class": "CLIENT",
+    "type": "named_account",
+    "description": "A major financial services and insurance provider referenced as the client undergoing a generative AI transformation to automate and standardize the handling of high volumes of customer complaints.",
+    "context": [
+      "Nationwide receive over 1000 complaints per week.",
+      "Nationwide - IBM Gen AI Demo 2025"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_012_off_002",
+    "name": "Deterministic Gen AI Letter Generator",
+    "aliases": [
+      "Complaints Letter Generation",
+      "AI Letter Generator"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "A custom-built generative AI application designed to automate the drafting of final response letters for customer complaints, leveraging retrieval-augmented generation against standardized templates and case notes to ensure professional and compliant output.",
+    "context": [
+      "Deterministic Gen AI letter generator, that uses Retrieval Augmented Generation to refer to gold standard letters and complaint case notes to generate professional letters.",
+      "Complaints Letter Generation"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_012_cha_003",
+    "name": "Manual Complaint Response Processing",
+    "aliases": [
+      "Manual Letter Drafting",
+      "Complaint Review Workflow"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "operational_inefficiency",
+    "description": "The client's existing manual workflow for reviewing complaints and drafting final response letters, which is highly time-consuming and suffers from inconsistent quality and compliance risks.",
+    "context": [
+      "Each Complaint must be reviewed and the outcome crafted into a final response letter.",
+      "This letter takes 45 minutes to manually write and there were quality and consistency concerns."
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_012_cha_004",
+    "name": "High Complaint Volume",
+    "aliases": [
+      "1000+ Weekly Complaints"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "scalability_limitation",
+    "description": "The high volume of customer complaints received weekly, creating a bottleneck in the manual response process and straining existing operational capacity.",
+    "context": [
+      "Nationwide receive over 1000 complaints per week."
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_012_cap_005",
+    "name": "Retrieval Augmented Generation (RAG)",
+    "aliases": [
+      "RAG",
+      "Context-Aware AI Generation"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "ai_capability",
+    "description": "The core AI technique used to ground the generative model on authoritative 'gold standard' letters and specific complaint case notes, ensuring accurate, compliant, and contextually relevant output.",
+    "context": [
+      "uses Retrieval Augmented Generation to refer to gold standard letters and complaint case notes"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_012_use_006",
+    "name": "Automated Complaint Response Generation",
+    "aliases": [
+      "Complaint Handler Workflow Automation",
+      "Response Letter Automation"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "customer_experience",
+    "description": "The application of the AI solution to automate the drafting of professional response letters for customer complaints, streamlining the complaint handler workflow and improving turnaround times.",
+    "context": [
+      "Complaint hander population planned post system upgrade",
+      "generate professional letters"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_012_ben_007",
+    "name": "Significant Time Reduction",
+    "aliases": [
+      "45mins to 4mins Saving",
+      "Efficiency Gain"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "efficiency_gain",
+    "description": "A dramatic reduction in the time required to draft complaint response letters, cutting the manual process from 45 minutes down to just 4 minutes per letter.",
+    "context": [
+      "Time saving on AI Generated Letters (45mins to 4)"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_012_ben_008",
+    "name": "Improved Quality & Consistency",
+    "aliases": [
+      "High Quality Output",
+      "Handler Satisfaction"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "quality_improvement",
+    "description": "Enhanced output quality and consistency in complaint response letters, validated by high ratings from existing complaint handlers and the elimination of previous manual inconsistencies.",
+    "context": [
+      "there were quality and consistency concerns.",
+      "Very good or good ratings from existing complaint handlers for the vast majority of AI-generated examples",
+      "High Quality"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_012_tec_009",
+    "name": "Gen AI Platform",
+    "aliases": [
+      "Generative AI",
+      "IBM Gen AI"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "ai_platform",
+    "description": "The underlying generative artificial intelligence technology powering the letter generation solution, enabling automated content creation based on structured and unstructured data inputs.",
+    "context": [
+      "Nationwide - IBM Gen AI Demo 2025",
+      "Deterministic Gen AI letter generator"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_012_dif_010",
+    "name": "Deterministic AI Approach",
+    "aliases": [
+      "Deterministic Gen AI",
+      "Predictable AI Output"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "proprietary_asset",
+    "description": "The use of a deterministic Gen AI model rather than a purely probabilistic one, ensuring predictable, reliable, and compliant output for sensitive customer communications and regulatory environments.",
+    "context": [
+      "Deterministic Gen AI letter generator"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_012_dif_011",
+    "name": "Pathfinder Governance Framework",
+    "aliases": [
+      "Pathfinder Delivery Model",
+      "Repeatable AI Patterns"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "delivery_model",
+    "description": "A defined delivery and governance methodology ('Pathfinder') that establishes repeatable patterns and structured governance for AI implementation, ensuring scalable and compliant rollout.",
+    "context": [
+      "Use case learnings – Pathfinder for delivery and governance defined, repeatable patterns"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_012_eve_012",
+    "name": "IBM Gen AI Demo 2025",
+    "aliases": [
+      "2025 Gen AI Demo",
+      "Nationwide Demo"
+    ],
+    "entity_class": "EVENT",
+    "type": "demo",
+    "description": "A 2025 demonstration event showcasing the Gen AI capabilities and the Nationwide case study, highlighting the solution's impact on complaint handling workflows.",
+    "context": [
+      "Nationwide - IBM Gen AI Demo 2025"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_012_org_013",
+    "name": "IBM",
+    "aliases": [
+      "IBM Corporation",
+      "Selling Organization"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "vendor",
+    "description": "The technology and consulting firm delivering the Gen AI solution, conducting the demo, and providing the underlying AI platform and governance frameworks.",
+    "context": [
+      "Nationwide - IBM Gen AI Demo 2025"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_cli_001",
+    "name": "Nationwide Building Society",
+    "aliases": [
+      "Nationwide",
+      "the client"
+    ],
+    "entity_class": "CLIENT",
+    "type": "reference_client",
+    "description": "A major UK financial services institution undergoing comprehensive digital and data platform modernization. The client is actively leveraging GenAI tools alongside internal expertise to accelerate software delivery, reduce project timelines, and improve code quality across mobile and internet banking platforms.",
+    "context": [
+      "Accelerating software delivery in modernization projects at Nationwide Building Society",
+      "The Nationwide delivery team is on a continuous journey of innovation.",
+      "Client challenge - Reduce time taken for modernizing projects by 30-40%"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_off_001",
+    "name": "IBM Science of Consulting",
+    "aliases": [
+      "Science of Consulting",
+      "SoC"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "transformation_programme",
+    "description": "A structured consulting and delivery methodology that integrates deep client context with generative AI tools to drive innovation and deliver quantifiable efficiency gains. It serves as the foundational framework guiding the modernization engagements and stakeholder collaboration.",
+    "context": [
+      "Using IBM Science of Consulting",
+      "Taking on the challenge of productivity by bringing together the knowledge of the client context, and client provided GenAI tools",
+      "our teams were able to demonstrate quantitative benefits from live modernization enagements"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_off_002",
+    "name": "Mobile Banking App Modernization",
+    "aliases": [
+      "Mobile Banking Modernization",
+      "Legacy Sencha App Codebase Project"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "A targeted software modernization engagement focused on migrating and rebuilding the client's legacy mobile banking application. The project leverages reverse engineering and AI-assisted code generation to transition from Sencha to modern native and cross-platform frameworks.",
+    "context": [
+      "Mobile Banking App Modernization Legacy Sencha App Codebase",
+      "Reverse engineered to extract business requirements",
+      "Rebuilt in Java, Native, Swift & Kotlin via Copilot"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_off_003",
+    "name": "Internet Banking Modernization",
+    "aliases": [
+      "Internet Banking Modernization Project",
+      "Figma to React Migration"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "A digital transformation initiative aimed at modernizing the client's internet banking platform. The solution focuses on converting Figma design files into production-ready React, Kotlin, and Swift code using automated generation and adaptive AI suggestions.",
+    "context": [
+      "Internet Banking Modernization Figma Designs to React Code",
+      "Figma  Native, React code / components auto generated",
+      "Generated production ready code in React, Kotlin & Swift"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_off_004",
+    "name": "Teradata to Databricks Migration",
+    "aliases": [
+      "Data Platform Modernization",
+      "Teradata Stored Procedure Migration"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "A data platform modernization project focused on migrating legacy Teradata stored procedures and logic to a modern Databricks ecosystem. The engagement utilizes automated reverse engineering and dbt code generation to reduce manual coding effort and align with client guardrails.",
+    "context": [
+      "Modernize Data Platform Teradata to Databricks Migration",
+      "Reverse engineer Teradata Stored Procedures to understand the logic",
+      "Generate dbt code based on client frameworks, standards and guardrails"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_cap_001",
+    "name": "Legacy Code Reverse Engineering",
+    "aliases": [
+      "Business Requirements Extraction",
+      "Legacy Analysis"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "technical_capability",
+    "description": "The ability to systematically analyze and deconstruct legacy application codebases to extract underlying business logic and requirements. This capability replaces manual code analysis with automated extraction, significantly improving accuracy and speed.",
+    "context": [
+      "Reverse engineered to extract business requirements ~25% reduction from manual code analysis",
+      "80%+ accurate requirement extraction from legacy Sencha code",
+      "Reverse engineer Teradata Stored Procedures to understand the logic"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_cap_002",
+    "name": "Automated Code Refactoring",
+    "aliases": [
+      "AI-Driven Code Generation",
+      "Adaptive Code Suggestions"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "technical_capability",
+    "description": "The use of generative AI to automatically refactor legacy code into modern, production-ready formats. This capability eliminates low-skill manual processes, accelerates UI development, and improves overall code quality through automated suggestions and logic generation.",
+    "context": [
+      "Automated code refactoring for has removed a low skills, manual process from development process",
+      "Generated Kotlin, Swift code & React, APIs and logic rapidly with adaptive suggestions",
+      "30% faster UI development"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_cap_003",
+    "name": "AI-Driven Test Case Generation",
+    "aliases": [
+      "Autogenerated Unit Testing",
+      "Simulated Edge Case Creation"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "technical_capability",
+    "description": "The capability to automatically generate comprehensive unit and component test cases, including simulated edge cases. This accelerates testing cycles and significantly reduces defect rates by increasing automation coverage across the development lifecycle.",
+    "context": [
+      "Autogenerated Unit/Component Test cases & simulated edge cases",
+      "15% faster test cycles",
+      "Increased unit test automation resulted in ~30% reduction in testing defects"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_cap_004",
+    "name": "Prompt & Context Engineering",
+    "aliases": [
+      "Context Engineering",
+      "Prompt Optimization"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "technical_capability",
+    "description": "The specialized skill of crafting, iterating, and refining prompts to maximize generative AI tool performance. This capability involves identifying tool limitations and building custom utilities or workarounds to ensure consistent, high-quality code output.",
+    "context": [
+      "Careful Prompt -> Context Engineering, iterated over 2 months",
+      "Discovered Copilot limitations, and built utilities for workarounds",
+      "Co-Pilot provided with Client Design guideline files and precise specification"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_use_001",
+    "name": "Software Delivery Acceleration",
+    "aliases": [
+      "SDLC Acceleration",
+      "Modernization Delivery"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "operational_efficiency",
+    "description": "The application of generative AI and modern development practices to speed up the end-to-end software development lifecycle. This use case focuses on reducing manual bottlenecks, accelerating UI and backend development, and improving overall project velocity.",
+    "context": [
+      "Accelerating software delivery in modernization projects",
+      "Use of gen AI revealed hidden areas of inefficiency in SDLC",
+      "Prompted rethinking of processes"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_use_002",
+    "name": "Agile Planning Optimization",
+    "aliases": [
+      "Sprint Planning Enhancement",
+      "Estimation Model Updates"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "operational_efficiency",
+    "description": "The integration of AI-driven efficiency gains into recurring agile planning cycles. This use case focuses on updating estimation models and leveraging faster, smarter sprint planning to deliver predictable outcomes and meet client efficiency targets.",
+    "context": [
+      "Estimation models updated to deliver promised efficiency",
+      "Sprint Planning is getting faster and smarter",
+      "Clients want predictable outcomes & results"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_ben_001",
+    "name": "25% Reduction in Manual Code Analysis",
+    "aliases": [
+      "Requirements Extraction Efficiency",
+      "Manual Analysis Reduction"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "efficiency_gain",
+    "description": "A quantifiable time and resource saving achieved by automating the extraction of business requirements from legacy codebases. This benefit directly reduces the manual effort previously required for reverse engineering and requirement gathering.",
+    "context": [
+      "~25% reduction from manual code analysis and 80%+ accurate requirement extraction from legacy Sencha code",
+      "Reverse engineered to extract business requirements"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_ben_002",
+    "name": "30% Faster UI Development",
+    "aliases": [
+      "Accelerated Frontend Delivery",
+      "UI Speed Improvement"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "speed_improvement",
+    "description": "A significant acceleration in frontend development cycles enabled by automated code generation from design files. This benefit allows teams to rapidly produce production-ready React, Kotlin, and Swift components.",
+    "context": [
+      "30% faster UI development",
+      "Generated production ready code in React, Kotlin & Swift",
+      "Figma  Native, React code / components auto generated"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_ben_003",
+    "name": "40% Reduction in Coding Effort",
+    "aliases": [
+      "Coding Effort Reduction",
+      "Developer Productivity Gain"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "cost_saving",
+    "description": "A substantial decrease in developer hours and manual coding required for generating data transformation code and platform logic. This benefit directly addresses client productivity challenges by automating complex code generation tasks.",
+    "context": [
+      "40% reduction in coding effort",
+      "Generate dbt code based on client frameworks, standards and guardrails",
+      "Taking on the challenge of productivity"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_ben_004",
+    "name": "30-40% Project Time Reduction",
+    "aliases": [
+      "Modernization Timeline Reduction",
+      "Delivery Speed Target"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "speed_improvement",
+    "description": "The overarching client goal and achieved outcome of significantly shortening the duration of modernization projects. This benefit represents the primary efficiency target driving the adoption of GenAI tooling and process rethinking.",
+    "context": [
+      "Reduce time taken for modernizing projects by 30-40%",
+      "Client challenge - Reduce time taken for modernizing projects by 30-40%",
+      "Accelerated development with Figma designs"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_cha_001",
+    "name": "Legacy System Constraints",
+    "aliases": [
+      "Legacy Sencha Codebase",
+      "Outdated Platform Debt"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "legacy_constraint",
+    "description": "The technical debt and operational friction caused by outdated codebases and manual development processes. These constraints slow down delivery, increase defect rates, and require significant effort to reverse engineer and modernize.",
+    "context": [
+      "Legacy Sencha App Codebase",
+      "Automated code refactoring for has removed a low skills, manual process from development process",
+      "Reverse engineered to extract business requirements"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_cha_002",
+    "name": "Productivity & Efficiency Pressure",
+    "aliases": [
+      "Delivery Speed Challenge",
+      "Modernization Timeline Pressure"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "operational_inefficiency",
+    "description": "The client's need to accelerate delivery timelines and improve output quality amid growing software demands. This pressure drives the adoption of GenAI tools and the rethinking of traditional SDLC processes to meet aggressive modernization targets.",
+    "context": [
+      "Taking on the challenge of productivity",
+      "Clients want predictable outcomes & results",
+      "Reduce time taken for modernizing projects by 30-40%"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_cha_003",
+    "name": "Skill Gap & Manual Process Dependency",
+    "aliases": [
+      "Low-Skill Manual Processes",
+      "Expertise Dependency"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "skill_gap",
+    "description": "Reliance on low-skill manual processes and heavy dependency on individual expert knowledge that slows down development. This challenge is addressed by automating tasks and upskilling teams through collaborative learning and AI integration.",
+    "context": [
+      "removed a low skills, manual process from development process",
+      "Architects, Developers, Testers utilized their expertise of existing apps, applied it with newly acquired GenAI tooling knowledge",
+      "Brought them along the learning curve"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_tec_001",
+    "name": "IBM Copilot",
+    "aliases": [
+      "Copilot",
+      "GenAI Coding Assistant"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "ai_platform",
+    "description": "A generative AI coding assistant used to generate production-ready code, provide adaptive suggestions, and accelerate development workflows. The platform is integrated with client design guidelines and specification files to ensure high-quality output.",
+    "context": [
+      "Rebuilt in Java, Native, Swift & Kotlin via Copilot",
+      "Co-Pilot provided with Client Design guideline files and precise specification",
+      "Discovered Copilot limitations, and built utilities for workarounds"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_tec_002",
+    "name": "Figma",
+    "aliases": [
+      "Figma Designs",
+      "Design Platform"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "design_platform",
+    "description": "A design and prototyping tool used as the primary source of truth for generating native and React code components. The platform's designs are directly fed into AI tools to automate frontend development and reduce manual translation effort.",
+    "context": [
+      "Figma  Native, React code / components auto generated",
+      "Accelerated development with Figma designs",
+      "Internet Banking Modernization Figma Designs to React Code"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_tec_003",
+    "name": "Teradata",
+    "aliases": [
+      "Legacy Teradata",
+      "Teradata Data Platform"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "legacy_system",
+    "description": "The client's legacy data warehousing platform containing stored procedures that require modernization. The system represents the technical debt targeted for migration to a modern cloud-native data ecosystem.",
+    "context": [
+      "Modernize Data Platform Teradata to Databricks Migration",
+      "Reverse engineer Teradata Stored Procedures to understand the logic",
+      "Legacy Sencha App Codebase"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_tec_004",
+    "name": "Databricks",
+    "aliases": [
+      "Databricks Platform",
+      "Modern Data Platform"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "cloud_platform",
+    "description": "The modern data and AI platform targeted for migration, serving as the new foundation for the client's data platform. The engagement focuses on generating dbt code and aligning data transformations with client frameworks and guardrails.",
+    "context": [
+      "Modernize Data Platform Teradata to Databricks Migration",
+      "Generate dbt code based on client frameworks, standards and guardrails",
+      "Teradata to Databricks Migration"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_dif_001",
+    "name": "Evidence-Driven Quick Iterations",
+    "aliases": [
+      "Rapid Prototyping",
+      "POC-Driven Delivery"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "delivery_model",
+    "description": "A collaborative, agile approach that leverages rapid prototyping and continuous feedback to validate AI capabilities and drive adoption. This model emphasizes running multiple POCs to push tool limits, identify limitations, and build custom workarounds.",
+    "context": [
+      "Evidence driven, quick iterations",
+      "Ran multiple POCs to seek, absorb and push Gen AI Limits",
+      "Careful Prompt -> Context Engineering, iterated over 2 months"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_dif_002",
+    "name": "Deep Client Collaboration",
+    "aliases": [
+      "Stakeholder Co-Creation",
+      "Open Collaboration"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "partnership",
+    "description": "A co-creation methodology involving close, ongoing work with client stakeholders to navigate learning curves and align on outcomes. This approach brings technical and product leaders along the learning curve to ensure successful AI integration.",
+    "context": [
+      "Open Collaboration",
+      "Collaborated deeply with client stakeholders",
+      "Brought them along the learning curve",
+      "Architects, Developers, Testers utilized their expertise"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_dif_003",
+    "name": "Quantitative Benefit Demonstration",
+    "aliases": [
+      "Proven Efficiency Gains",
+      "Live Engagement Metrics"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "track_record",
+    "description": "The ability to deliver and prove measurable efficiency gains and performance improvements through live modernization engagements. This differentiator highlights the shift from theoretical AI promises to documented, quantifiable outcomes in production environments.",
+    "context": [
+      "our teams were able to demonstrate quantitative benefits from live modernization enagements",
+      "Estimation models updated to deliver promised efficiency",
+      "Clients want predictable outcomes & results"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_per_001",
+    "name": "Tech Architects",
+    "aliases": [
+      "Client Architects",
+      "Technical Stakeholders"
+    ],
+    "entity_class": "PERSON",
+    "type": "stakeholder",
+    "description": "Client-side technical leaders involved in the modernization process, providing deep expertise on existing applications and guiding architectural decisions. They collaborate closely with the delivery team to validate AI-generated code and ensure system integrity.",
+    "context": [
+      "Tech Architects",
+      "Architects, Developers, Testers utilized their expertise of existing apps",
+      "Collaborated deeply with client stakeholders"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_per_002",
+    "name": "Product Owners",
+    "aliases": [
+      "Client Product Leads",
+      "Business Stakeholders"
+    ],
+    "entity_class": "PERSON",
+    "type": "stakeholder",
+    "description": "Client-side business and product leaders responsible for defining requirements, validating delivery outcomes, and ensuring alignment with strategic goals. They work alongside technical teams to prioritize modernization efforts and measure efficiency gains.",
+    "context": [
+      "Product Owners",
+      "Collaborated deeply with client stakeholders",
+      "Clients want predictable outcomes & results"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_per_003",
+    "name": "Code Owners",
+    "aliases": [
+      "Client Developers",
+      "Application Maintainers"
+    ],
+    "entity_class": "PERSON",
+    "type": "stakeholder",
+    "description": "Client-side development personnel responsible for maintaining and understanding the application codebase. They play a key role in validating AI-generated code, applying newly acquired GenAI tooling knowledge, and ensuring smooth handover of modernized components.",
+    "context": [
+      "Code Owners",
+      "Collaborated deeply with client stakeholders",
+      "Architects, Developers, Testers utilized their expertise"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_org_001",
+    "name": "IBM",
+    "aliases": [
+      "IBM Consulting",
+      "The Delivery Team"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "vendor",
+    "description": "The primary technology and consulting firm delivering the modernization solutions and AI capabilities to the client. IBM leverages its Science of Consulting framework and expert squads to drive innovation, integrate GenAI tools, and deliver quantifiable efficiency improvements.",
+    "context": [
+      "Using IBM Science of Consulting",
+      "The Nationwide delivery team is on a continuous journey of innovation.",
+      "Experts across squads"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_eve_001",
+    "name": "Proof of Concept (POC) Cycles",
+    "aliases": [
+      "POC Iterations",
+      "GenAI Limit Testing"
+    ],
+    "entity_class": "EVENT",
+    "type": "proof_of_concept",
+    "description": "Iterative testing and validation phases conducted to explore generative AI capabilities, identify tool limitations, and develop custom workarounds. These POCs served as the foundation for refining prompt engineering and establishing reliable delivery patterns.",
+    "context": [
+      "Ran multiple POCs to seek, absorb and push Gen AI Limits",
+      "Careful Prompt -> Context Engineering, iterated over 2 months",
+      "Discovered Copilot limitations, and built utilities for workarounds"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "83c2abe250494b798eae0af6fabd3b12_014_eve_002",
+    "name": "Sprint Planning",
+    "aliases": [
+      "Agile Planning Cycles",
+      "Estimation Updates"
+    ],
+    "entity_class": "EVENT",
+    "type": "deadline",
+    "description": "The recurring agile planning event where GenAI efficiencies are now integrated to improve speed, accuracy, and predictability. This event has been optimized through updated estimation models and the adoption of faster, smarter planning practices.",
+    "context": [
+      "Sprint Planning is getting faster and smarter",
+      "Estimation models updated to deliver promised efficiency",
+      "Clients want predictable outcomes & results"
+    ],
+    "chunk_id": "83c2abe250494b798eae0af6fabd3b12_014",
+    "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+    "domain": "sales_collateral"
+  }
+]

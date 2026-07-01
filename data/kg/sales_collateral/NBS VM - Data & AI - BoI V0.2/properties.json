@@ -1,0 +1,1652 @@
+[
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cli_001",
+    "name": "Nationwide",
+    "properties": {
+      "relationship_status": "active_client",
+      "named_or_anonymous": true
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cli_002",
+    "name": "Virgin Money",
+    "properties": {
+      "relationship_status": "active_client",
+      "named_or_anonymous": true
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_001",
+    "name": "D&F Portfolio",
+    "properties": {
+      "offering_type": "portfolio",
+      "scope": [
+        "Data & Functions covering cloud, digital, integration, data modernisation, IT ops, central functions, finance, customer experience, automation, FinCrime & Data Gov"
+      ],
+      "target_client_profile": [
+        "Nationwide",
+        "Virgin Money"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_002",
+    "name": "Teradata Migration",
+    "properties": {
+      "offering_type": "migration",
+      "scope": [
+        "Teradata exit"
+      ],
+      "key_phases_or_components": [
+        "Teradata exit"
+      ],
+      "named_assets_or_accelerators": [
+        "Accelerators"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_003",
+    "name": "SQL Databricks Migration",
+    "properties": {
+      "offering_type": "migration",
+      "scope": [
+        "SQL simplification",
+        "DBT Databricks ownership"
+      ],
+      "target_client_profile": [
+        "Nationwide",
+        "Virgin Money"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_004",
+    "name": "VMI Migration Utility",
+    "properties": {
+      "offering_type": "utility",
+      "scope": [
+        "Central migration utility for VM integration"
+      ],
+      "target_client_profile": [
+        "Virgin Money"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_005",
+    "name": "HR Systems Integration",
+    "properties": {
+      "offering_type": "integration",
+      "scope": [
+        "VM NBS HR integration",
+        "Nationwide HR integration on Oracle HCM"
+      ],
+      "target_client_profile": [
+        "Nationwide",
+        "Virgin Money"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_006",
+    "name": "GenAI CoE & Strategy",
+    "properties": {
+      "offering_type": "strategy",
+      "scope": [
+        "AI strategy",
+        "operating model",
+        "horizon plans",
+        "asset creation"
+      ],
+      "target_client_profile": [
+        "Nationwide",
+        "Virgin Money"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_007",
+    "name": "Customer Experience Platform Automation",
+    "properties": {
+      "offering_type": "automation",
+      "scope": [
+        "Customer experience platform",
+        "Complaints & QA Assist"
+      ],
+      "target_client_profile": [
+        "Nationwide",
+        "Virgin Money"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_008",
+    "name": "FinCrime & Data Gov",
+    "properties": {
+      "offering_type": "solution",
+      "scope": [
+        "Financial crime",
+        "Data governance"
+      ],
+      "target_client_profile": [
+        "Nationwide",
+        "Virgin Money"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_009",
+    "name": "ICA Deployment",
+    "properties": {
+      "offering_type": "deployment",
+      "scope": [
+        "ICA deployment"
+      ],
+      "target_client_profile": [
+        "Nationwide",
+        "Virgin Money"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_001",
+    "name": "Strategic Partner for AI & Modern Data Platforms",
+    "properties": {
+      "what_it_does": [
+        "Acts as strategic partner for AI and modern data platforms",
+        "Owns DBT Databricks for SQL simplification",
+        "Delivers Teradata exit",
+        "Manages central migration utility"
+      ],
+      "delivery_maturity": [
+        "proven",
+        "strategic"
+      ],
+      "differentiating_aspect": [
+        "Strategic partner status",
+        "End-to-end data platform ownership"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_002",
+    "name": "Primary SI for Gen AI and Agentic",
+    "properties": {
+      "what_it_does": [
+        "Serves as primary SI for Gen AI and Agentic",
+        "Drives AI strategy and operating model",
+        "Scales enterprise use cases",
+        "Integrates ExCo use cases and Agentic pathfinders"
+      ],
+      "delivery_maturity": [
+        "proven",
+        "scaling"
+      ],
+      "differentiating_aspect": [
+        "Primary SI role",
+        "Strategic AI/Agentic integration expertise"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_003",
+    "name": "Delivering Teradata Exit with Accelerators",
+    "properties": {
+      "what_it_does": [
+        "Executes Teradata exit/migration",
+        "Leverages accelerators for delivery"
+      ],
+      "delivery_maturity": [
+        "proven"
+      ],
+      "differentiating_aspect": [
+        "Use of accelerators for faster/efficient migration"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_004",
+    "name": "Driving AI Strategy and Operating Model",
+    "properties": {
+      "what_it_does": [
+        "Defines and drives AI strategy",
+        "Designs operating model",
+        "Develops horizon plans",
+        "Creates and manages AI assets"
+      ],
+      "delivery_maturity": [
+        "proven"
+      ],
+      "differentiating_aspect": [
+        "Strategic planning and asset creation focus"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_005",
+    "name": "Production & Scaling of Enterprise Use Cases",
+    "properties": {
+      "what_it_does": [
+        "Moves enterprise use cases from pilot to production",
+        "Scales solutions like Complaints & QA Assist"
+      ],
+      "delivery_maturity": [
+        "proven"
+      ],
+      "differentiating_aspect": [
+        "Focus on production readiness and scaling"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_use_001",
+    "name": "Complaints & QA Assist",
+    "properties": {
+      "problem_context": [
+        "Customer service complaints and quality assurance"
+      ],
+      "approach": [
+        "AI/Gen AI assisted processing"
+      ],
+      "industry_or_vertical": [
+        "financial_services"
+      ],
+      "outcome_achieved": [
+        "In production and scaling phase"
+      ],
+      "complexity_level": [
+        "enterprise_scale"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_use_002",
+    "name": "Oracle Cloud HR Recruitment Platform",
+    "properties": {
+      "problem_context": [
+        "HR recruitment and onboarding"
+      ],
+      "approach": [
+        "Oracle Cloud platform implementation"
+      ],
+      "industry_or_vertical": [
+        "financial_services"
+      ],
+      "outcome_achieved": [
+        "Delivered on time and on budget"
+      ],
+      "complexity_level": [
+        "straightforward"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_use_003",
+    "name": "Teradata Migration case study",
+    "properties": {
+      "problem_context": [
+        "Legacy Teradata data platform modernization"
+      ],
+      "approach": [
+        "Migration using accelerators"
+      ],
+      "industry_or_vertical": [
+        "financial_services"
+      ],
+      "outcome_achieved": [
+        "Successful exit/migration case study"
+      ],
+      "complexity_level": [
+        "complex"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_use_004",
+    "name": "Gen AI case study",
+    "properties": {
+      "problem_context": [
+        "Enterprise AI adoption and agentic workflows"
+      ],
+      "approach": [
+        "Gen AI and Agentic platform development"
+      ],
+      "industry_or_vertical": [
+        "financial_services"
+      ],
+      "outcome_achieved": [
+        "Case study demonstrating enterprise AI value"
+      ],
+      "complexity_level": [
+        "highly_complex"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_ben_001",
+    "name": "On Time and On Budget Delivery",
+    "properties": {
+      "quantified_value": [
+        "On time and on budget"
+      ],
+      "beneficiary": [
+        "client (Nationwide)"
+      ],
+      "category": [
+        "cost",
+        "speed"
+      ],
+      "evidence_type": [
+        "measured"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_ben_002",
+    "name": "Progressing to Plan for Mar 2026 Go-Live",
+    "properties": {
+      "quantified_value": [
+        "On plan for Mar 2026 go-live"
+      ],
+      "beneficiary": [
+        "client (Nationwide/VM)"
+      ],
+      "category": [
+        "speed",
+        "risk"
+      ],
+      "evidence_type": [
+        "projected"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_001",
+    "name": "Teradata",
+    "properties": {
+      "vendor_or_provider": [
+        "Teradata"
+      ],
+      "technology_category": [
+        "data_platform",
+        "legacy_database"
+      ],
+      "role_in_solution": [
+        "target",
+        "replaced"
+      ],
+      "maturity": [
+        "legacy"
+      ],
+      "key_characteristics": [
+        "Legacy data platform being migrated out"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_002",
+    "name": "Databricks",
+    "properties": {
+      "vendor_or_provider": [
+        "Databricks"
+      ],
+      "technology_category": [
+        "data_platform",
+        "cloud"
+      ],
+      "role_in_solution": [
+        "core",
+        "target"
+      ],
+      "maturity": [
+        "modern"
+      ],
+      "key_characteristics": [
+        "Modern data platform for SQL simplification and DBT ownership"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_003",
+    "name": "Oracle Cloud",
+    "properties": {
+      "vendor_or_provider": [
+        "Oracle"
+      ],
+      "technology_category": [
+        "cloud",
+        "hr_systems"
+      ],
+      "role_in_solution": [
+        "core",
+        "integrated"
+      ],
+      "maturity": [
+        "modern"
+      ],
+      "key_characteristics": [
+        "Cloud platform for HR recruitment and HCM integration"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_004",
+    "name": "DBT",
+    "properties": {
+      "vendor_or_provider": [
+        "dbt Labs"
+      ],
+      "technology_category": [
+        "data_transformation",
+        "sql"
+      ],
+      "role_in_solution": [
+        "supporting",
+        "core"
+      ],
+      "maturity": [
+        "modern"
+      ],
+      "key_characteristics": [
+        "Data transformation tool for SQL simplification on Databricks"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_005",
+    "name": "SQL",
+    "properties": {
+      "vendor_or_provider": [
+        "Standard"
+      ],
+      "technology_category": [
+        "query_language",
+        "data_modernisation"
+      ],
+      "role_in_solution": [
+        "target",
+        "simplified"
+      ],
+      "maturity": [
+        "legacy/modern"
+      ],
+      "key_characteristics": [
+        "Target for simplification and modernization"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_006",
+    "name": "Gen AI",
+    "properties": {
+      "vendor_or_provider": [
+        "General"
+      ],
+      "technology_category": [
+        "ai",
+        "generative_ai"
+      ],
+      "role_in_solution": [
+        "core",
+        "strategic"
+      ],
+      "maturity": [
+        "emerging"
+      ],
+      "key_characteristics": [
+        "Generative AI capability for enterprise use cases and agentic workflows"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_007",
+    "name": "Agentic",
+    "properties": {
+      "vendor_or_provider": [
+        "General"
+      ],
+      "technology_category": [
+        "ai",
+        "autonomous_agents"
+      ],
+      "role_in_solution": [
+        "core",
+        "strategic"
+      ],
+      "maturity": [
+        "emerging"
+      ],
+      "key_characteristics": [
+        "Agentic AI for autonomous workflows and ExCo use cases"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_diff_001",
+    "name": "Accelerators",
+    "properties": {
+      "competitive_advantage": [
+        "Accelerates Teradata exit and migration delivery"
+      ],
+      "evidence_or_proof_point": [
+        "Used in Teradata Migration case study"
+      ],
+      "uniqueness": [
+        "proprietary",
+        "best-in-class"
+      ],
+      "target_audience": [
+        "clients seeking rapid data platform modernization"
+      ],
+      "relates_to_offering": [
+        "Teradata Migration"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_diff_002",
+    "name": "Strategic Partner Status",
+    "properties": {
+      "competitive_advantage": [
+        "Recognized as strategic partner for AI and modern data"
+      ],
+      "evidence_or_proof_point": [
+        "Ongoing portfolio delivery and co-development"
+      ],
+      "uniqueness": [
+        "strategic",
+        "long-term"
+      ],
+      "target_audience": [
+        "enterprise financial services clients"
+      ],
+      "relates_to_offering": [
+        "D&F Portfolio",
+        "GenAI CoE & Strategy"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_diff_003",
+    "name": "Primary Systems Integrator (SI) Role",
+    "properties": {
+      "competitive_advantage": [
+        "Designated primary systems integrator for AI/Agentic solutions"
+      ],
+      "evidence_or_proof_point": [
+        "Leading ExCo use cases and Agentic pathfinders"
+      ],
+      "uniqueness": [
+        "primary",
+        "trusted"
+      ],
+      "target_audience": [
+        "enterprise clients adopting AI"
+      ],
+      "relates_to_offering": [
+        "GenAI CoE & Strategy",
+        "Customer Experience Platform Automation"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_001",
+    "name": "KP",
+    "properties": {
+      "role_title": [
+        "Presenter/Lead"
+      ],
+      "influence_level": [
+        "decision_maker",
+        "champion"
+      ],
+      "relationship_to_deal": [
+        "sponsor"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_002",
+    "name": "Vera",
+    "properties": {
+      "role_title": [
+        "Presenter/Lead"
+      ],
+      "influence_level": [
+        "influencer",
+        "champion"
+      ],
+      "relationship_to_deal": [
+        "sponsor"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_003",
+    "name": "Sam H",
+    "properties": {
+      "role_title": [
+        "Cloud, Digital & Integration Lead"
+      ],
+      "influence_level": [
+        "influencer"
+      ],
+      "relationship_to_deal": [
+        "evaluator"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_004",
+    "name": "Holly",
+    "properties": {
+      "role_title": [
+        "Data & Functions Lead"
+      ],
+      "influence_level": [
+        "influencer"
+      ],
+      "relationship_to_deal": [
+        "evaluator"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_005",
+    "name": "Tim",
+    "properties": {
+      "role_title": [
+        "Customer Servicing & Integration Lead"
+      ],
+      "influence_level": [
+        "influencer"
+      ],
+      "relationship_to_deal": [
+        "evaluator"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_006",
+    "name": "Peter",
+    "properties": {
+      "role_title": [
+        "Customer Servicing Lead"
+      ],
+      "influence_level": [
+        "influencer"
+      ],
+      "relationship_to_deal": [
+        "evaluator"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_007",
+    "name": "Duncan",
+    "properties": {
+      "role_title": [
+        "Mortgages Lead"
+      ],
+      "influence_level": [
+        "influencer"
+      ],
+      "relationship_to_deal": [
+        "evaluator"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_org_001",
+    "name": "IBM Corporation",
+    "properties": {
+      "org_type": [
+        "vendor",
+        "partner"
+      ],
+      "relationship_to_offering": [
+        "primary_vendor",
+        "strategic_partner"
+      ],
+      "geographic_presence": [
+        "global"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_evt_001",
+    "name": "Nationwide & VM Showcase",
+    "properties": {
+      "event_type": [
+        "showcase",
+        "client_presentation"
+      ],
+      "date_or_period": [
+        "Nov 20 2025"
+      ],
+      "relevance_to_deal": [
+        "opportunity",
+        "milestone"
+      ],
+      "key_participants": [
+        "Nationwide",
+        "Virgin Money",
+        "IBM"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_002_tech_001",
+    "name": "Teradata",
+    "properties": {},
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_002",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_002_off_001",
+    "name": "Teradata Migration",
+    "properties": {},
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_002",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cli_001",
+    "name": "Nationwide Building Society",
+    "properties": {
+      "industry": [
+        "financial_services",
+        "building_society"
+      ],
+      "size": [
+        "large",
+        "enterprise"
+      ],
+      "pain_points": [
+        "aggressive_project_timelines",
+        "complex_data_mart_codebase",
+        "Q1_FY_2026-27_migration_deadline"
+      ],
+      "engagement_type": [
+        "data_platform_migration",
+        "poc",
+        "collaborative_workshop"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_org_001",
+    "name": "IBM Consulting",
+    "properties": {
+      "org_type": [
+        "consulting_partner",
+        "technology_provider"
+      ],
+      "relationship_to_offering": [
+        "primary_vendor",
+        "implementation_partner"
+      ],
+      "geographic_presence": [
+        "UK",
+        "India_(Pune)"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_tech_001",
+    "name": "Teradata vantage",
+    "properties": {
+      "vendor": [
+        "Teradata"
+      ],
+      "technology_category": [
+        "data_warehouse",
+        "legacy_platform"
+      ],
+      "role_in_solution": [
+        "source_system",
+        "legacy_target"
+      ],
+      "maturity": [
+        "legacy"
+      ],
+      "key_characteristics": [
+        "source_data_assets_for_migration",
+        "procedures_converted_to_DBT"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_tech_002",
+    "name": "Databricks Lakehouse",
+    "properties": {
+      "vendor": [
+        "Databricks"
+      ],
+      "technology_category": [
+        "lakehouse",
+        "data_platform"
+      ],
+      "role_in_solution": [
+        "target_platform",
+        "strategic_technology_platform"
+      ],
+      "maturity": [
+        "modern"
+      ],
+      "key_characteristics": [
+        "target_for_data_asset_consolidation",
+        "supports_GenAI_assets"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_tech_003",
+    "name": "Microsoft Azure",
+    "properties": {
+      "vendor": [
+        "Microsoft"
+      ],
+      "technology_category": [
+        "cloud_platform",
+        "infrastructure"
+      ],
+      "role_in_solution": [
+        "strategic_technology_platform",
+        "hosting_environment"
+      ],
+      "maturity": [
+        "modern"
+      ],
+      "key_characteristics": [
+        "consolidation_target_for_all_data_assets",
+        "client_network_deployment"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_off_001",
+    "name": "IBM Data Platform Migration Service",
+    "properties": {
+      "offering_type": [
+        "consulting_engagement",
+        "migration_service"
+      ],
+      "delivery_model": [
+        "hybrid",
+        "global_delivery"
+      ],
+      "scope": [
+        "data_platform_migration_strategy",
+        "architecture_evaluation",
+        "asset_deployment",
+        "code_conversion"
+      ],
+      "target_client_profile": [
+        "financial_services",
+        "large_enterprise"
+      ],
+      "key_phases_or_components": [
+        "Workstream_Medallion_Architecture_Bronze_milestone",
+        "L1-L2_deliverables",
+        "Acquire_and_Publish_framework"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_off_002",
+    "name": "ICA-DMA Assets",
+    "properties": {
+      "offering_type": [
+        "accelerator",
+        "asset_library"
+      ],
+      "scope": [
+        "code_development_acceleration",
+        "DBT_conversion",
+        "GenAI_asset_development"
+      ],
+      "target_client_profile": [
+        "financial_services",
+        "data_platform_migrators"
+      ],
+      "named_assets_or_accelerators": [
+        "ICA-DMA",
+        "GenAI_assets",
+        "Acquire_and_Publish_framework"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cap_001",
+    "name": "Code Development Acceleration",
+    "properties": {
+      "what_it_does": [
+        "accelerates_code_build_and_testing",
+        "fast_tracks_project_delivery"
+      ],
+      "technical_components": [
+        "GenAI_assets",
+        "DBT_conversion",
+        "Acquire_and_Publish_framework"
+      ],
+      "delivery_maturity": [
+        "proven"
+      ],
+      "differentiating_aspect": [
+        "asset-driven_approach",
+        "GenAI_integration"
+      ],
+      "industry_applicability": [
+        "financial_services",
+        "data_migration"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_use_001",
+    "name": "Legacy Data Warehouse Migration",
+    "properties": {
+      "problem_context": [
+        "migrating_data_assets_from_Teradata_to_Lakehouse",
+        "consolidating_data_assets_onto_Azure"
+      ],
+      "approach": [
+        "collaborative_architecture_workshop",
+        "asset-driven_development",
+        "POC_execution"
+      ],
+      "industry_or_vertical": [
+        "financial_services",
+        "building_society"
+      ],
+      "outcome_achieved": [
+        ">30%_reduction_in_code_build_test",
+        "faster_project_delivery",
+        "improved_time-to-value"
+      ],
+      "complexity_level": [
+        "complex"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_ben_001",
+    "name": ">30% Reduction in Code Build & Test",
+    "properties": {
+      "quantified_value": [
+        ">30%"
+      ],
+      "beneficiary": [
+        "client",
+        "project_team"
+      ],
+      "time_to_value": [
+        "improved",
+        "fast_tracked"
+      ],
+      "category": [
+        "speed",
+        "efficiency"
+      ],
+      "evidence_type": [
+        "measured"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_ben_002",
+    "name": "Improved Time-to-Value",
+    "properties": {
+      "quantified_value": [
+        "improved"
+      ],
+      "beneficiary": [
+        "client",
+        "end_users"
+      ],
+      "time_to_value": [
+        "faster",
+        "accelerated"
+      ],
+      "category": [
+        "speed",
+        "productivity"
+      ],
+      "evidence_type": [
+        "claimed",
+        "projected"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cha_001",
+    "name": "Aggressive Project Timelines",
+    "properties": {
+      "root_cause": [
+        "FY_2026-27_Q1_deadline",
+        "stringent_timelines"
+      ],
+      "business_impact": [
+        "risk_of_delayed_delivery",
+        "pressure_on_code_build_test"
+      ],
+      "urgency": [
+        "critical",
+        "high"
+      ],
+      "who_faces_it": [
+        "client",
+        "IBM_team"
+      ],
+      "current_workaround": [
+        "proactive_delivery_approach",
+        "asset-driven_development"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_cha_002",
+    "name": "Complex Data Mart Codebase",
+    "properties": {
+      "root_cause": [
+        "legacy_Teradata_procedures",
+        "complex_data_mart_structure"
+      ],
+      "business_impact": [
+        "slows_code_development",
+        "increases_testing_complexity"
+      ],
+      "urgency": [
+        "high"
+      ],
+      "who_faces_it": [
+        "client",
+        "IBM_team"
+      ],
+      "current_workaround": [
+        "POC_execution",
+        "GenAI_asset_conversion"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_dif_001",
+    "name": "Proactive Delivery Approach",
+    "properties": {
+      "competitive_advantage": [
+        "delivers_milestones_ahead_of_schedule",
+        "optimizes_and_unifies_data_landscape"
+      ],
+      "evidence_or_proof_point": [
+        "Workstream_Medallion_Architecture_Bronze_milestone_delivered_ahead_of_schedule",
+        "L1-L2_deliverables_delivered_ahead_of_schedule"
+      ],
+      "uniqueness": [
+        "proactive",
+        "SME-driven"
+      ],
+      "target_audience": [
+        "clients_with_stringent_timelines"
+      ],
+      "relates_to_offering": [
+        "IBM_Data_Platform_Migration_Service"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_dif_002",
+    "name": "Asset-Driven Development Framework",
+    "properties": {
+      "competitive_advantage": [
+        "significantly_accelerates_code_development_and_testing",
+        "enables_faster_project_delivery"
+      ],
+      "evidence_or_proof_point": [
+        ">30%_reduction_in_code_build_and_test_activities",
+        "validated_through_POC"
+      ],
+      "uniqueness": [
+        "asset-driven",
+        "GenAI-enabled"
+      ],
+      "target_audience": [
+        "data_platform_migrators",
+        "financial_services"
+      ],
+      "relates_to_offering": [
+        "ICA-DMA_Assets",
+        "IBM_Data_Platform_Migration_Service"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_loc_001",
+    "name": "Pune",
+    "properties": {
+      "market_type": [
+        "geographic",
+        "delivery_hub"
+      ],
+      "strategic_importance": [
+        "core",
+        "delivery_center"
+      ],
+      "regulatory_environment": [
+        "India"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_evt_001",
+    "name": "Data Platform Migration POC",
+    "properties": {
+      "event_type": [
+        "proof_of_concept",
+        "validation_engagement"
+      ],
+      "date_or_period": [
+        "FY_2026-27_Q1_timeline_context"
+      ],
+      "relevance_to_deal": [
+        "milestone",
+        "validation"
+      ],
+      "key_participants": [
+        "IBM_team",
+        "client_stakeholders"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003_evt_002",
+    "name": "Collaborative Architecture Workshop",
+    "properties": {
+      "event_type": [
+        "workshop",
+        "collaborative_session"
+      ],
+      "date_or_period": [
+        "pre-POC",
+        "strategy_evaluation_phase"
+      ],
+      "relevance_to_deal": [
+        "opportunity",
+        "alignment"
+      ],
+      "key_participants": [
+        "client_stakeholders",
+        "IBM_SMEs"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_003",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_004_tech_001",
+    "name": "Teradata",
+    "properties": {
+      "technology_category": [
+        "database",
+        "data_platform"
+      ],
+      "role_in_solution": [
+        "target_system",
+        "migration_subject"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_004",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_004_cap_001",
+    "name": "Migration",
+    "properties": {
+      "what_it_does": [
+        "transferring data and systems to a new environment"
+      ],
+      "delivery_maturity": [
+        "proven"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_004",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_004_evt_001",
+    "name": "Demo",
+    "properties": {
+      "event_type": [
+        "demo"
+      ],
+      "relevance_to_deal": [
+        "sales_enablement",
+        "prospect_engagement"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_004",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_005_off_001",
+    "name": "AI Center of Excellence",
+    "properties": {},
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_005",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_cli_001",
+    "name": "Nationwide",
+    "properties": {
+      "industry": "banking",
+      "size": "enterprise",
+      "relationship_status": "active",
+      "engagement_type": "joint AI implementation partnership"
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_org_001",
+    "name": "IBM",
+    "properties": {
+      "org_type": "technology_vendor",
+      "relationship_to_offering": "primary_provider_and_partner"
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_off_001",
+    "name": "Generative AI",
+    "properties": {
+      "offering_type": "programme",
+      "scope": "safe and responsible AI deployment across multiple use cases",
+      "target_client_profile": "financial services",
+      "key_phases_or_components": [
+        "POC experiments",
+        "Pilot Rollout",
+        "Complaints Pilot Go-Live",
+        "Scale out",
+        "API Management",
+        "Governance"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_off_002",
+    "name": "GenAI Platform Federation",
+    "properties": {
+      "offering_type": "platform",
+      "scope": "API Management, Consumer integration, and Governance",
+      "key_components": [
+        "API Management",
+        "Consumers",
+        "Governance"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_001",
+    "name": "WatsonX.gov",
+    "properties": {
+      "vendor": "IBM",
+      "technology_category": "government_cloud_platform",
+      "role_in_solution": "core_infrastructure",
+      "maturity": "modern",
+      "key_characteristics": "enables governance and API management for GenAI platform federation"
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_002",
+    "name": "Watsonx Assistant v2",
+    "properties": {
+      "vendor": "IBM",
+      "technology_category": "conversational_ai",
+      "role_in_solution": "supporting",
+      "maturity": "modern",
+      "key_characteristics": "AI assistant for customer and colleague interactions"
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_003",
+    "name": "FIGMA Code Converter",
+    "properties": {
+      "vendor": "Figma",
+      "technology_category": "design_to_code_automation",
+      "role_in_solution": "supporting_accelerator",
+      "maturity": "modern",
+      "key_characteristics": "converts Figma designs to React code"
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_004",
+    "name": "Cobol IQP+",
+    "properties": {
+      "technology_category": "legacy_code_testing",
+      "role_in_solution": "supporting_tool",
+      "maturity": "proven",
+      "key_characteristics": "testing and modernization for COBOL systems"
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_005",
+    "name": "Lakehouse",
+    "properties": {
+      "technology_category": "data_platform",
+      "role_in_solution": "core_data_foundation",
+      "maturity": "modern",
+      "key_characteristics": "unified data architecture for AI and analytics workloads"
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_cap_001",
+    "name": "Agentic Workflows",
+    "properties": {
+      "what_it_does": "enables autonomous AI task execution and process automation",
+      "technical_components": [
+        "Small Language Models",
+        "Lakehouse integration"
+      ],
+      "delivery_maturity": "emerging",
+      "differentiating_aspect": "leverages small language models for efficient, targeted automation"
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_cap_002",
+    "name": "Documents Intelligence",
+    "properties": {
+      "what_it_does": "extracts and analyzes information from unstructured documents",
+      "delivery_maturity": "proven",
+      "industry_applicability": [
+        "banking",
+        "insurance",
+        "legal"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_cap_003",
+    "name": "Governance",
+    "properties": {
+      "what_it_does": "ensures safe, responsible, and compliant AI deployment and usage",
+      "technical_components": [
+        "API management",
+        "consumer tracking",
+        "policy enforcement"
+      ],
+      "delivery_maturity": "proven",
+      "differentiating_aspect": "built-in safety and responsibility framework for enterprise AI"
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_001",
+    "name": "Complaints Management",
+    "properties": {
+      "problem_context": "handling customer complaints efficiently and accurately",
+      "approach": "AI-driven pilot rollout and journey onboarding",
+      "industry": "banking",
+      "outcome_achieved": "pilot go-live and new journey onboarding",
+      "complexity_level": "complex"
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_002",
+    "name": "Fraud Analysis",
+    "properties": {
+      "problem_context": "detecting and analyzing fraudulent activities",
+      "approach": "AI-powered pilot rollout",
+      "industry": "banking",
+      "outcome_achieved": "pilot rollout",
+      "complexity_level": "complex"
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_003",
+    "name": "Call Transcript Analysis",
+    "properties": {
+      "problem_context": "analyzing customer service call recordings for insights",
+      "approach": "AI assistant processing call transcripts",
+      "industry": "banking",
+      "outcome_achieved": "AI assistant deployment for transcript analysis",
+      "complexity_level": "moderate"
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_004",
+    "name": "Code Modernisation",
+    "properties": {
+      "problem_context": "modernizing legacy codebases and design-to-code workflows",
+      "approach": "POCs for Figma-to-React conversion and COBOL testing",
+      "industry": "it_and_financial_services",
+      "outcome_achieved": "POC completion and deployment of testing tools",
+      "complexity_level": "highly_complex"
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_005",
+    "name": "Legacy System Testing",
+    "properties": {
+      "problem_context": "testing and validating legacy COBOL systems",
+      "approach": "AI-powered testing POC and deployment",
+      "industry": "it_and_financial_services",
+      "outcome_achieved": "POC completion and deployment",
+      "complexity_level": "complex"
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_ben_001",
+    "name": "Safe and Responsible AI Deployment",
+    "properties": {
+      "beneficiary": [
+        "client",
+        "end_users"
+      ],
+      "category": "risk_and_quality",
+      "evidence_type": "projected",
+      "description": "ensures AI is deployed and operated within safe, responsible, and governed boundaries"
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_ben_002",
+    "name": "Accelerated Delivery",
+    "properties": {
+      "beneficiary": "client",
+      "category": "speed",
+      "evidence_type": "projected",
+      "description": "enables faster scaling and deployment of AI solutions post-pilot"
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_evt_001",
+    "name": "POC Experiments",
+    "properties": {
+      "event_type": "proof_of_concept",
+      "date_or_period": "Aug 24",
+      "relevance_to_deal": "milestone",
+      "key_participants": [
+        "joint Nationwide & IBM teams"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_evt_002",
+    "name": "Pilot Rollout",
+    "properties": {
+      "event_type": "pilot_deployment",
+      "date_or_period": "Sep 24",
+      "relevance_to_deal": "milestone",
+      "key_participants": [
+        "joint Nationwide & IBM teams"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  },
+  {
+    "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_evt_003",
+    "name": "Complaints Pilot Go-Live",
+    "properties": {
+      "event_type": "pilot_go_live",
+      "date_or_period": "Oct 24",
+      "relevance_to_deal": "milestone",
+      "key_participants": [
+        "joint Nationwide & IBM teams"
+      ]
+    },
+    "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+    "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+  }
+]

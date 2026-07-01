@@ -1,0 +1,4034 @@
+{
+  "embedding": [
+    0.0004416419,
+    0.04134835,
+    -0.1648016,
+    -0.055030152,
+    0.043837063,
+    -0.053668793,
+    0.055354852,
+    -0.0139188515,
+    -0.0123475455,
+    0.006841391,
+    -0.05893312,
+    0.014774496,
+    0.068755016,
+    -0.015754424,
+    0.0359251,
+    -0.023378778,
+    -0.04974989,
+    -0.006712822,
+    -0.03176842,
+    0.010608287,
+    0.01347457,
+    -0.030791726,
+    -0.0073949974,
+    -0.020257488,
+    -0.0093487585,
+    0.034834772,
+    -0.019932164,
+    0.0007240348,
+    -0.031795308,
+    -0.05879823,
+    0.02587743,
+    -0.03171398,
+    -0.009091458,
+    -0.064805664,
+    -0.009703738,
+    -0.056493,
+    0.0469214,
+    -0.004902497,
+    -0.029317137,
+    -0.04441252,
+    0.04697157,
+    0.013120006,
+    0.0150689725,
+    -0.03282198,
+    0.033323947,
+    -0.022199139,
+    0.05078779,
+    -0.032616783,
+    0.10165294,
+    -0.019014718,
+    -0.0055910763,
+    -0.011794002,
+    0.05142314,
+    0.004633235,
+    0.010379673,
+    0.02175156,
+    -0.044596612,
+    0.039693866,
+    0.002519775,
+    -0.04415339,
+    0.11379691,
+    0.03055816,
+    0.031540822,
+    0.06567971,
+    0.056477346,
+    -0.008932165,
+    -0.026653236,
+    0.06466755,
+    -0.0052443584,
+    -0.0447526,
+    0.022648046,
+    -0.040581718,
+    -0.021431008,
+    -0.020552795,
+    -0.04261282,
+    -0.0022112655,
+    0.016570508,
+    -0.034395806,
+    -0.00024032244,
+    0.02401133,
+    0.040632103,
+    -0.016299725,
+    0.051648624,
+    0.013331261,
+    0.043729216,
+    -0.06459197,
+    -0.022942496,
+    -0.024452103,
+    -0.022793295,
+    0.030080892,
+    0.03371485,
+    0.046740074,
+    0.020842016,
+    0.051658925,
+    -0.035382092,
+    0.029903958,
+    -0.016044438,
+    0.027485263,
+    -0.021181192,
+    -0.05339123,
+    -0.011872031,
+    -0.010236606,
+    -0.001962523,
+    -0.012689224,
+    0.00042462218,
+    0.096226946,
+    -0.010374746,
+    0.010838535,
+    -0.039247755,
+    -0.014172174,
+    -0.04450867,
+    0.06840275,
+    -0.04931477,
+    0.024898274,
+    0.027210718,
+    -0.011367871,
+    0.08288423,
+    -0.0152668925,
+    0.010963448,
+    0.026413124,
+    0.009745556,
+    -0.03926681,
+    0.023195896,
+    0.019584812,
+    0.044273708,
+    0.0277988,
+    -0.05271334,
+    -0.02126942,
+    -0.011491939,
+    -0.063667305,
+    0.0006324441,
+    0.017648999,
+    -0.05670148,
+    0.022914518,
+    0.043055344,
+    0.017774172,
+    -0.070758335,
+    -0.05812486,
+    0.021940852,
+    0.020065382,
+    0.013516554,
+    0.017940879,
+    0.0205752,
+    0.0152081335,
+    -0.0034859988,
+    -0.06882133,
+    0.029800858,
+    -0.0028883931,
+    -0.062237557,
+    0.032039534,
+    -0.005196914,
+    0.021726139,
+    -0.020694258,
+    0.05126732,
+    0.0058767158,
+    -0.079586826,
+    -0.04172472,
+    0.0151791,
+    0.021452276,
+    0.009828081,
+    0.013832308,
+    0.038358536,
+    -0.06964361,
+    0.044120327,
+    -0.008710657,
+    -0.050539594,
+    0.009346269,
+    0.0036568586,
+    -0.0013641799,
+    0.036024872,
+    -0.044750933,
+    -0.042480238,
+    0.02919492,
+    0.022862963,
+    0.03835537,
+    0.029024357,
+    0.08633322,
+    0.009118696,
+    0.005223775,
+    -0.03972536,
+    0.03928957,
+    -0.058955614,
+    0.018615015,
+    0.00998348,
+    -0.062130477,
+    0.011673315,
+    0.027674707,
+    -0.0323196,
+    0.0040649483,
+    -0.025474388,
+    0.02879787,
+    0.024089841,
+    -0.033433538,
+    -0.069075145,
+    -0.029727045,
+    -0.05239299,
+    0.053914495,
+    0.0142608285,
+    -0.0016053319,
+    -0.050172474,
+    -0.016702088,
+    0.019801663,
+    -0.038947787,
+    0.02375863,
+    0.006596273,
+    0.0418953,
+    -0.012083861,
+    0.05628082,
+    -0.014131672,
+    0.050314814,
+    0.0382519,
+    -0.032223653,
+    0.019234253,
+    0.03327395,
+    0.06912053,
+    0.0014661653,
+    -0.0021381385,
+    -0.033195566,
+    -0.049521692,
+    0.032672044,
+    0.048354425,
+    -0.0068072956,
+    0.016591372,
+    -0.013438588,
+    0.06302768,
+    -0.015633585,
+    -0.0011234805,
+    -0.026684279,
+    0.026461395,
+    -0.019475788,
+    -0.007858152,
+    -0.12193463,
+    0.06517176,
+    0.020381942,
+    0.0009296303,
+    0.008841754,
+    -0.000955607,
+    0.04457568,
+    0.0074437107,
+    0.035033476,
+    0.013274365,
+    0.048559636,
+    0.004749729,
+    -0.021281462,
+    -0.01103059,
+    0.015128407,
+    -0.015034129,
+    -0.045603003,
+    0.0106439525,
+    0.06732185,
+    0.041127194,
+    0.035135645,
+    0.039027844,
+    0.056177974,
+    0.00045900838,
+    -0.015286355,
+    -0.023028973,
+    0.02924419,
+    -0.008931047,
+    -0.00786087,
+    0.0078793485,
+    0.030257707,
+    0.026187709,
+    -0.028548446,
+    -0.0037526262,
+    -0.021199232,
+    -0.06393458,
+    -0.029250603,
+    0.042576443,
+    -0.03192247,
+    0.002842268,
+    0.06562242,
+    0.0038215227,
+    0.044497784,
+    -0.03240287,
+    -0.009525006,
+    0.014772537,
+    -0.014923351,
+    -0.060253058,
+    0.05893579,
+    -0.013077907,
+    -0.067941025,
+    -0.01735804,
+    0.00985847,
+    -0.0024330844,
+    0.05268564,
+    -0.010154375,
+    0.0039265566,
+    0.020878535,
+    -0.01557181,
+    0.0113862045,
+    0.013322398,
+    -0.025204549,
+    0.0034485946,
+    -0.0067775236,
+    0.017446967,
+    0.048509028,
+    -0.036386486,
+    0.013993548,
+    -0.0471518,
+    0.030318648,
+    0.029861597,
+    0.060068656,
+    -0.0040023006,
+    0.0080523,
+    -0.049607355,
+    -0.023816492,
+    -0.011197683,
+    0.016126521,
+    -0.05665028,
+    -0.062223017,
+    -0.027748922,
+    -0.0043714317,
+    -0.002888665,
+    -0.008541575,
+    0.018835036,
+    0.010420871,
+    0.0043898732,
+    0.07106013,
+    -0.014901197,
+    -0.03629842,
+    -0.008347844,
+    0.0008881379,
+    -0.090599805,
+    -0.040953416,
+    0.05728869,
+    -0.0136594875,
+    0.023527777,
+    0.023081165,
+    0.018529661,
+    -0.015197371,
+    -0.0023619127,
+    0.040964108,
+    -0.0062004966,
+    0.035440862,
+    0.08965722,
+    0.05655438,
+    -0.0030218258,
+    -0.0134755345,
+    0.03625876,
+    0.08698065,
+    -0.027947176,
+    0.009583609,
+    -0.036588665,
+    0.003443406,
+    -0.04274975,
+    -0.009226092,
+    -0.009187144,
+    0.038998697,
+    0.008115037,
+    -0.03364148,
+    -0.0068246545,
+    -0.053537663,
+    -0.02237511,
+    -0.0039145774,
+    0.007977745,
+    0.002984773,
+    0.0683838,
+    -0.023767855,
+    -0.032420106,
+    0.05797952,
+    0.011663223,
+    0.03313103,
+    0.042117197,
+    0.025264328,
+    0.03581442,
+    0.03095322,
+    0.00547918,
+    0.03770742,
+    -0.0030901607,
+    0.022203827,
+    0.01460999,
+    0.02597948,
+    0.009524639,
+    -0.012213394,
+    0.018580766,
+    -0.044130817,
+    -0.0049954266,
+    -0.0136108,
+    0.025122855,
+    0.040359978,
+    0.009619819,
+    -0.078085385,
+    0.034238853,
+    0.007300712,
+    -0.006910863,
+    0.023927866,
+    -0.060225923,
+    -0.01376834,
+    0.037428606,
+    -0.023633307,
+    0.01302524,
+    0.018854318,
+    -0.004549403,
+    0.0038840198,
+    -0.016004419,
+    -0.00052561925,
+    -0.0197659,
+    -0.0021381264,
+    0.08882449,
+    -0.042714313,
+    -0.0843089,
+    0.033530567,
+    0.023538426,
+    -2.878511e-05,
+    0.017354617,
+    -0.033511676,
+    -0.028117098,
+    0.027834903,
+    0.0067631383,
+    0.053042438,
+    0.050729442,
+    -0.005669995,
+    0.010149907,
+    0.05801664,
+    0.019960944,
+    0.05135987,
+    -0.029319812,
+    -0.02321173,
+    -0.0074724467,
+    0.013251137,
+    0.020978006,
+    -0.026261888,
+    -0.02614511,
+    0.018295642,
+    0.013709875,
+    0.03937414,
+    -0.06225061,
+    -0.021715695,
+    -0.027356353,
+    0.012177013,
+    0.034534696,
+    0.014585568,
+    -0.01267649,
+    -0.005810402,
+    0.02245328,
+    0.0232231,
+    0.00891024,
+    0.008497762,
+    -0.022368118,
+    0.01420249,
+    0.0016692932,
+    -0.018127982,
+    -0.0365342,
+    0.0025306724,
+    0.0548995,
+    0.0174525,
+    -0.045983445,
+    0.01673814,
+    0.005295851,
+    0.04806753,
+    0.04734158,
+    0.014857171,
+    0.04800976,
+    0.049837165,
+    -0.037800267,
+    -0.01836334,
+    0.009484704,
+    -0.02637331,
+    -0.0068415464,
+    0.011496864,
+    -0.0014086713,
+    -0.024827676,
+    -0.003998042,
+    -0.012769527,
+    -0.028422462,
+    -0.02889929,
+    0.008868962,
+    0.045351826,
+    0.11670349,
+    -0.0027608701,
+    -0.018515099,
+    -0.012365947,
+    -0.042111456,
+    -0.01423519,
+    -0.0018882721,
+    0.00048131563,
+    -0.004033325,
+    0.032152798,
+    0.06607363,
+    0.019908624,
+    -0.0276546,
+    -0.04482617,
+    -0.012811933,
+    -0.0049577747,
+    0.021468196,
+    0.015727608,
+    -0.054714076,
+    0.0061233817,
+    -0.041353054,
+    0.021265708,
+    0.010314075,
+    0.013115561,
+    -0.0024822198,
+    -0.011558174,
+    0.034184843,
+    -0.01950252,
+    0.018123804,
+    0.012677441,
+    0.0024571163,
+    0.054652456,
+    0.015305045,
+    -0.030173384,
+    0.012891022,
+    0.064494476,
+    -0.053558826,
+    0.081583865,
+    -0.06796813,
+    -0.028847227,
+    -0.010528098,
+    0.0056253592,
+    -0.010294165,
+    0.028313767,
+    -0.043039754,
+    0.044852108,
+    -0.06726562,
+    0.049045373,
+    -0.010426452,
+    -0.038903918,
+    0.03218545,
+    -0.018108984,
+    -0.030302245,
+    0.0013116321,
+    -0.04477515,
+    -0.031986903,
+    0.0040231645,
+    0.02112125,
+    -0.049108244,
+    0.05335338,
+    -0.015161553,
+    -0.012001458,
+    0.055078886,
+    -0.0043814955,
+    0.065019436,
+    -0.009179173,
+    0.005060973,
+    -0.053428534,
+    0.0018061193,
+    0.072623774,
+    -0.0035022367,
+    -0.010797323,
+    -0.005295249,
+    -0.05962893,
+    0.027112333,
+    0.0111867655,
+    -0.017714676,
+    -0.005486384,
+    0.073437594,
+    0.0005798267,
+    -0.036896165,
+    0.06777616,
+    -0.023825517,
+    -0.012132484,
+    -0.047036972,
+    -0.002933455,
+    -0.06011919,
+    0.031927306,
+    -0.01620785,
+    -0.07133383,
+    -0.004495529,
+    0.0003912726,
+    -0.013060565,
+    0.013838734,
+    0.030522687,
+    -0.011261006,
+    -0.024556039,
+    0.019312851,
+    0.011483739,
+    -0.014101855,
+    -0.01426478,
+    0.004450453,
+    -0.08356172,
+    -0.01120157,
+    -0.046025626,
+    0.0048306827,
+    -0.02314691,
+    0.03248079,
+    0.024167411,
+    -0.028845089,
+    -0.032562174,
+    0.03478117,
+    -0.035264637,
+    0.030763833,
+    0.045486413,
+    -0.017948246,
+    0.028249616,
+    -0.034090538,
+    -0.09344475,
+    0.0050655403,
+    -0.041211706,
+    0.021487469,
+    0.006780922,
+    0.021776868,
+    -0.034973625,
+    0.0026890603,
+    0.04161996,
+    0.010806597,
+    -0.011464007,
+    -0.05053138,
+    0.000107359476,
+    -0.02225681,
+    0.016462954,
+    0.044206165,
+    -0.03854257,
+    0.043929305,
+    0.034205552,
+    -0.032546133,
+    -0.011570821,
+    -0.00079485413,
+    -0.0582703,
+    0.029201407,
+    -0.038132437,
+    0.042232726,
+    -0.012028297,
+    0.005724084,
+    -0.015479107,
+    0.027512312,
+    -0.013835729,
+    0.0063019493,
+    -0.00691637,
+    0.028111214,
+    -0.069808275,
+    -0.0035567428,
+    -0.039989155,
+    -0.018575085,
+    0.0002532836,
+    -0.035111904,
+    -0.050987914,
+    -0.040193103,
+    -0.01590091,
+    -0.057982255,
+    0.01701582,
+    -0.01957168,
+    -0.0544787,
+    -0.09646875,
+    0.017756617,
+    -0.017624645,
+    -0.044617742,
+    -0.013128738,
+    0.031397704,
+    0.058101185,
+    0.010477871,
+    -0.03145558,
+    0.019665802,
+    0.04187811,
+    -0.019144168,
+    -0.004875837,
+    -0.00061306095,
+    0.052881327,
+    -0.006347242,
+    0.08739913,
+    0.045946945,
+    -0.01050774,
+    -0.025551768,
+    0.013384203,
+    -0.016987491,
+    0.024698257,
+    -0.02030742,
+    -0.03413525,
+    -0.0052313,
+    -0.0034189792,
+    0.04036868,
+    0.0071178703,
+    0.010948538,
+    -0.00088307774,
+    0.00822862,
+    0.025369173,
+    0.016922709,
+    -0.085402325,
+    -0.044531334,
+    -0.0067508915,
+    0.028130868,
+    -0.0348193,
+    0.0023286196,
+    -0.037468873,
+    0.054208342,
+    0.00060130825,
+    0.060257535,
+    -0.022310317,
+    0.008599602,
+    -0.02976562,
+    -0.0032512685,
+    0.041041438,
+    -0.025581023,
+    0.0061930316,
+    -0.025801046,
+    0.028049633,
+    0.005976685,
+    0.030402992,
+    -0.029047137,
+    -0.004270126,
+    -0.02960875,
+    -0.031492025,
+    -0.048355192,
+    -0.027291482,
+    0.08275775,
+    -0.0202664,
+    0.0009428587,
+    -0.10387086,
+    0.01582598,
+    -0.01603051,
+    0.008525649,
+    -0.011570356,
+    0.032278113,
+    -0.036329895,
+    0.04661685,
+    0.0070425654,
+    -0.0013639736,
+    -0.019586302,
+    -0.021155693,
+    0.031035202,
+    0.04089109,
+    0.002721296,
+    0.018935904,
+    0.009953483,
+    0.07890162,
+    -0.034018233,
+    -0.05268934,
+    -0.009921565,
+    0.00012927994,
+    -0.01278308,
+    -0.05959047,
+    -0.06748173,
+    -0.04184305,
+    -0.016068785,
+    0.047593173,
+    0.013386327,
+    -0.017067395,
+    -0.0147751095,
+    -0.045703728,
+    -0.015174962,
+    -0.03594366,
+    -0.094183706,
+    0.06838245,
+    0.00538382,
+    -0.024820201,
+    -0.015915802,
+    -0.0028346993,
+    0.003294372,
+    -0.046295933,
+    -0.061170667,
+    0.004358262,
+    -0.01199089,
+    0.021934975,
+    -0.010999011,
+    0.00076963275,
+    0.003425756,
+    0.016943898,
+    0.04800114,
+    -0.012781707,
+    0.032511666,
+    0.04964139,
+    -0.03606081,
+    -0.00911377,
+    0.013553718,
+    0.020845797,
+    0.039065138,
+    0.038790915,
+    0.11570287,
+    0.06586031,
+    0.0029786266,
+    -0.05614863,
+    0.03758252,
+    -0.014411324,
+    0.011150181,
+    -0.055964712,
+    -0.041186884,
+    -0.045510016
+  ],
+  "chunk_seq": 1,
+  "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+  "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+  "text": "# Nationwide &amp; VM Showcase  \nNov 20 2025  \nAgenda  \n1. Introduction and Nationwide Overview - KP\n2. Virgin Money - Vera\n3. Cloud, Digital &amp; Integration – Sam H\n4. Data &amp; Functions - Holly\n5. Customer Servicing – Tim &amp; Peter\n6. Mortgages - Duncan\n7. Integration - Tim  \n1. Data &amp; Functions Portfolio Overview\n2. Teradata Migration case study\n3. Demo\n4. Gen AI case study  \n4  \nNationwide and IBM confidential   |    © 2024 IBM Corporation  \nD&amp;F Portfolio  \n2025 Key Successes  \n2026 Priorities  \nHR Systems Integration  \nGenAI CoE &amp; Strategy  \nTeradata Migration  \nSQL  Databricks Migration  \nVMI Migration Utility  \nVMI – Data &amp; Automation  \nVM Integration  \nStrategic Partner for AI &amp; Modern Data Platforms  \n- Owning DBT Databricks in SQL Simplification\n-\n- Delivering Teradata Exit with Accelerators\n-\n- Tasked with central Migration Utility for the VM Integration  \nPrimary SI for Gen AI and Agentic  \n- Driving AI strategy, operating model and horizon plans – use and creation of assets\n-\n- Production &amp; scaling of enterprise use cases – Complaints &amp; QA Assist\n-\n- SI for next major ExCo use cases and Agentic pathfinders\n-  \nAI Integration  \nData Modernisation  \nIT Ops Automation  \nCentral Functions Systems  \nFinance Systems &amp; Data  \nCustomer Experience Platform Automation  \nAutomation  \nFinCrime &amp; Data Gov  \nAt the centre of integrating VM NBS HR  \n- Delivered Nationwide’s new Oracle Cloud HR Recruitment Platform on time and on budget\n-\n- Won and leading Nationwide HR integration on Oracle HCM, progressing to plan for Mar 2026 go-live\n-\n-\n-  \nGen AI &amp; Agentic CoE  \nData Federation &amp; App Support  \nVMI Data &amp; Automation  \nIT Operations  \nICA Deployment  \nData &amp; Functions - Overview",
+  "name": "Chunk 1/7",
+  "domain": "sales_collateral",
+  "next_chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_002",
+  "raw_entities": [
+    {
+      "id": "cli_001",
+      "name": "Nationwide",
+      "aliases": [
+        "Nationwide"
+      ],
+      "entity_class": "CLIENT",
+      "type": "named_account",
+      "description": "A major UK building society and financial services provider acting as the primary client for the showcased IBM solutions. The document positions Nationwide as a key strategic account undergoing significant data, HR, and AI modernisation initiatives, with IBM serving as a central systems integrator and delivery partner.",
+      "context": [
+        "Introduction and Nationwide Overview - KP",
+        "Delivered Nationwide’s new Oracle Cloud HR Recruitment Platform on time and on budget",
+        "Won and leading Nationwide HR integration on Oracle HCM, progressing to plan for Mar 2026 go-live"
+      ]
+    },
+    {
+      "id": "cli_002",
+      "name": "Virgin Money",
+      "aliases": [
+        "VM",
+        "VMI",
+        "Virgin Money UK"
+      ],
+      "entity_class": "CLIENT",
+      "type": "named_account",
+      "description": "A UK-based financial services provider and strategic partner client undergoing parallel data, migration, and integration modernisation. The collateral highlights IBM's role in centralising migration utilities and integrating Virgin Money's NBS HR systems alongside Nationwide's broader digital transformation.",
+      "context": [
+        "Virgin Money - Vera",
+        "VMI Migration Utility",
+        "VMI – Data & Automation",
+        "At the centre of integrating VM NBS HR"
+      ]
+    },
+    {
+      "id": "off_001",
+      "name": "D&F Portfolio",
+      "aliases": [
+        "Data & Functions Portfolio",
+        "D&F"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "solution",
+      "description": "A consolidated portfolio of data, functions, and integration services managed by IBM for the client. It encompasses migration utilities, HR system integration, AI strategy, and automation platforms, serving as the overarching delivery framework for 2025 successes and 2026 priorities.",
+      "context": [
+        "D&F Portfolio",
+        "2025 Key Successes",
+        "2026 Priorities"
+      ]
+    },
+    {
+      "id": "off_002",
+      "name": "Teradata Migration",
+      "aliases": [
+        "Teradata Exit",
+        "Teradata Migration case study"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "transformation_programme",
+      "description": "A structured data platform migration initiative designed to decommission legacy Teradata infrastructure. The solution leverages IBM accelerators to accelerate the exit process and is highlighted as a key 2026 priority and a documented case study for the client.",
+      "context": [
+        "Teradata Migration",
+        "Delivering Teradata Exit with Accelerators",
+        "Teradata Migration case study"
+      ]
+    },
+    {
+      "id": "off_003",
+      "name": "SQL Databricks Migration",
+      "aliases": [
+        "SQL Databricks Migration",
+        "DBT Databricks SQL Simplification"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "transformation_programme",
+      "description": "A modern data platform migration programme focused on transitioning SQL workloads to Databricks. IBM is positioned as owning the DBT Databricks framework to simplify SQL processes and drive data modernisation across the client's landscape.",
+      "context": [
+        "SQL  Databricks Migration",
+        "Owning DBT Databricks in SQL Simplification"
+      ]
+    },
+    {
+      "id": "off_004",
+      "name": "VMI Migration Utility",
+      "aliases": [
+        "VMI Migration Utility",
+        "Central Migration Utility"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "solution",
+      "description": "A centralised migration utility solution tasked with standardising and streamlining data and system migrations for Virgin Money. It serves as a foundational component supporting broader VM integration efforts and data automation initiatives.",
+      "context": [
+        "VMI Migration Utility",
+        "Tasked with central Migration Utility for the VM Integration"
+      ]
+    },
+    {
+      "id": "off_005",
+      "name": "HR Systems Integration",
+      "aliases": [
+        "HR Systems Integration",
+        "VM NBS HR Integration"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "solution",
+      "description": "A targeted integration programme focused on aligning and modernising Human Resources systems. IBM is leading the integration of Virgin Money's NBS HR and delivering Nationwide's Oracle Cloud HR Recruitment Platform, positioning itself at the centre of this functional transformation.",
+      "context": [
+        "HR Systems Integration",
+        "At the centre of integrating VM NBS HR"
+      ]
+    },
+    {
+      "id": "off_006",
+      "name": "GenAI CoE & Strategy",
+      "aliases": [
+        "GenAI CoE & Strategy",
+        "Gen AI & Agentic CoE"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "transformation_programme",
+      "description": "A governance and strategy framework establishing a Centre of Excellence for Generative AI and Agentic workflows. It encompasses driving AI strategy, operating models, horizon planning, and the production scaling of enterprise use cases across the client's organisation.",
+      "context": [
+        "GenAI CoE & Strategy",
+        "Primary SI for Gen AI and Agentic",
+        "Driving AI strategy, operating model and horizon plans – use and creation of assets"
+      ]
+    },
+    {
+      "id": "off_007",
+      "name": "Customer Experience Platform Automation",
+      "aliases": [
+        "Customer Experience Platform Automation",
+        "Customer Servicing"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "solution",
+      "description": "An automation-focused offering designed to enhance customer-facing interactions and servicing workflows. It is listed as a key capability area alongside IT Ops Automation and FinCrime & Data Gov, indicating a focus on digital customer journey modernisation.",
+      "context": [
+        "Customer Experience Platform Automation",
+        "Customer Servicing – Tim &amp; Peter"
+      ]
+    },
+    {
+      "id": "off_008",
+      "name": "FinCrime & Data Gov",
+      "aliases": [
+        "FinCrime & Data Gov",
+        "Data Gov"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "solution",
+      "description": "A compliance and governance solution addressing financial crime prevention and data governance requirements. It is positioned as a core functional area within the broader D&F portfolio, supporting regulatory adherence and secure data handling.",
+      "context": [
+        "FinCrime & Data Gov"
+      ]
+    },
+    {
+      "id": "off_009",
+      "name": "ICA Deployment",
+      "aliases": [
+        "ICA Deployment",
+        "ICA"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "solution",
+      "description": "A deployment initiative focused on implementing ICA (likely Internal Capital Adequacy or a specific integration component) across the client's infrastructure. It is listed as a 2026 priority alongside data federation and IT operations.",
+      "context": [
+        "ICA Deployment"
+      ]
+    },
+    {
+      "id": "cap_001",
+      "name": "Strategic Partner for AI & Modern Data Platforms",
+      "aliases": [
+        "Strategic Partner for AI & Modern Data Platforms"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "delivery_capability",
+      "description": "A high-level delivery capability positioning IBM as the trusted strategic partner for architecting and implementing AI and modern data platforms. This capability underpins the entire portfolio, enabling seamless integration, migration, and scaling of enterprise-grade solutions.",
+      "context": [
+        "Strategic Partner for AI & Modern Data Platforms"
+      ]
+    },
+    {
+      "id": "cap_002",
+      "name": "Primary SI for Gen AI and Agentic",
+      "aliases": [
+        "Primary SI for Gen AI and Agentic"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "delivery_capability",
+      "description": "A systems integration capability establishing IBM as the primary integrator for Generative AI and Agentic workflows. This capability enables the delivery of next-generation AI use cases, pathfinders, and enterprise-scale automation across the client's landscape.",
+      "context": [
+        "Primary SI for Gen AI and Agentic"
+      ]
+    },
+    {
+      "id": "cap_003",
+      "name": "Delivering Teradata Exit with Accelerators",
+      "aliases": [
+        "Delivering Teradata Exit with Accelerators"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "delivery_capability",
+      "description": "A specialised migration capability leveraging proprietary accelerators to expedite the decommissioning of legacy Teradata systems. This capability reduces migration risk, accelerates timeline delivery, and supports the broader data modernisation agenda.",
+      "context": [
+        "Delivering Teradata Exit with Accelerators"
+      ]
+    },
+    {
+      "id": "cap_004",
+      "name": "Driving AI Strategy and Operating Model",
+      "aliases": [
+        "Driving AI strategy, operating model and horizon plans"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "ai_capability",
+      "description": "A strategic advisory and operational capability focused on defining AI roadmaps, operating models, and horizon planning. It encompasses the creation and scaling of enterprise AI assets, ensuring alignment with long-term business objectives.",
+      "context": [
+        "Driving AI strategy, operating model and horizon plans – use and creation of assets"
+      ]
+    },
+    {
+      "id": "cap_005",
+      "name": "Production & Scaling of Enterprise Use Cases",
+      "aliases": [
+        "Production & scaling of enterprise use cases"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "delivery_capability",
+      "description": "An operational capability focused on transitioning AI and automation use cases from pilot to production environments. It enables the scaling of enterprise-grade solutions such as Complaints & QA Assist and supports the Agentic pathfinder roadmap.",
+      "context": [
+        "Production & scaling of enterprise use cases – Complaints & QA Assist"
+      ]
+    },
+    {
+      "id": "use_001",
+      "name": "Complaints & QA Assist",
+      "aliases": [
+        "Complaints & QA Assist"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "customer_experience",
+      "description": "A specific customer experience use case leveraging AI to automate complaint handling and quality assurance processes. It represents a production-scale enterprise application being developed and scaled as part of the Gen AI CoE strategy.",
+      "context": [
+        "Complaints & QA Assist"
+      ]
+    },
+    {
+      "id": "use_002",
+      "name": "Oracle Cloud HR Recruitment Platform",
+      "aliases": [
+        "Oracle Cloud HR Recruitment Platform"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "modernisation",
+      "description": "A modernisation use case involving the deployment of an Oracle Cloud-based HR recruitment platform. The solution has been delivered on time and on budget, serving as a foundational component for broader HR systems integration.",
+      "context": [
+        "Delivered Nationwide’s new Oracle Cloud HR Recruitment Platform on time and on budget"
+      ]
+    },
+    {
+      "id": "use_003",
+      "name": "Teradata Migration case study",
+      "aliases": [
+        "Teradata Migration case study"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "migration",
+      "description": "A documented migration use case demonstrating the successful execution of a Teradata platform exit. It serves as a proof point for IBM's migration accelerators and data modernisation capabilities.",
+      "context": [
+        "Teradata Migration case study"
+      ]
+    },
+    {
+      "id": "use_004",
+      "name": "Gen AI case study",
+      "aliases": [
+        "Gen AI case study"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "analytics",
+      "description": "A documented Generative AI use case highlighting the practical application of AI technologies within the client's environment. It is presented as a key demonstration asset to showcase AI strategy and production scaling capabilities.",
+      "context": [
+        "Gen AI case study"
+      ]
+    },
+    {
+      "id": "ben_001",
+      "name": "On Time and On Budget Delivery",
+      "aliases": [
+        "on time and on budget"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "cost_saving",
+      "description": "A quantified delivery benefit demonstrating strict adherence to project timelines and financial constraints. This outcome validates IBM's project management discipline and cost-control capabilities in executing complex HR platform deployments.",
+      "context": [
+        "Delivered Nationwide’s new Oracle Cloud HR Recruitment Platform on time and on budget"
+      ]
+    },
+    {
+      "id": "ben_002",
+      "name": "Progressing to Plan for Mar 2026 Go-Live",
+      "aliases": [
+        "progressing to plan for Mar 2026 go-live"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "speed_improvement",
+      "description": "A schedule adherence benefit indicating that the HR integration programme is tracking successfully toward a March 2026 production launch. This demonstrates reliable delivery velocity and effective milestone management.",
+      "context": [
+        "progressing to plan for Mar 2026 go-live"
+      ]
+    },
+    {
+      "id": "tech_001",
+      "name": "Teradata",
+      "aliases": [
+        "Teradata"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "database",
+      "description": "A legacy enterprise data warehouse platform targeted for decommissioning. The client is executing a Teradata exit strategy, leveraging IBM's migration accelerators to transition workloads to modern data platforms.",
+      "context": [
+        "Teradata Migration",
+        "Delivering Teradata Exit with Accelerators",
+        "Teradata Migration case study"
+      ]
+    },
+    {
+      "id": "tech_002",
+      "name": "Databricks",
+      "aliases": [
+        "Databricks",
+        "DBT Databricks"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "cloud_platform",
+      "description": "A modern cloud-based data and AI platform serving as the target environment for SQL and data migration workloads. IBM is owning the DBT Databricks framework to simplify SQL processes and drive data modernisation.",
+      "context": [
+        "SQL  Databricks Migration",
+        "Owning DBT Databricks in SQL Simplification"
+      ]
+    },
+    {
+      "id": "tech_003",
+      "name": "Oracle Cloud",
+      "aliases": [
+        "Oracle Cloud",
+        "Oracle HCM"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "cloud_platform",
+      "description": "A cloud-based enterprise software platform hosting HR and recruitment systems. It is the underlying infrastructure for the delivered Oracle Cloud HR Recruitment Platform and the broader Oracle HCM integration programme.",
+      "context": [
+        "Oracle Cloud HR Recruitment Platform",
+        "Oracle HCM"
+      ]
+    },
+    {
+      "id": "tech_004",
+      "name": "DBT",
+      "aliases": [
+        "dbt",
+        "DBT Databricks"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "framework",
+      "description": "A data transformation framework used within the Databricks ecosystem to manage SQL transformations. IBM is positioned as owning and managing this framework to simplify SQL workflows and support data modernisation efforts.",
+      "context": [
+        "Owning DBT Databricks in SQL Simplification"
+      ]
+    },
+    {
+      "id": "tech_005",
+      "name": "SQL",
+      "aliases": [
+        "SQL",
+        "SQL Simplification"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "integration_tool",
+      "description": "A standard query language used across the client's data landscape. The collateral highlights a focus on SQL simplification and migration, indicating a need to reduce complexity and improve data accessibility.",
+      "context": [
+        "SQL  Databricks Migration",
+        "SQL Simplification"
+      ]
+    },
+    {
+      "id": "tech_006",
+      "name": "Gen AI",
+      "aliases": [
+        "Gen AI",
+        "Generative AI"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "ai_platform",
+      "description": "A category of artificial intelligence technologies focused on generative capabilities. It is central to the client's AI strategy, with IBM serving as the primary systems integrator for deploying and scaling Gen AI use cases.",
+      "context": [
+        "Gen AI case study",
+        "Primary SI for Gen AI and Agentic"
+      ]
+    },
+    {
+      "id": "tech_007",
+      "name": "Agentic",
+      "aliases": [
+        "Agentic",
+        "Agentic pathfinders"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "ai_platform",
+      "description": "An advanced AI technology category focusing on autonomous, goal-oriented agents. It represents the next evolution in the client's AI roadmap, with IBM leading pathfinder initiatives and enterprise-scale production deployments.",
+      "context": [
+        "Primary SI for Gen AI and Agentic",
+        "Agentic pathfinders"
+      ]
+    },
+    {
+      "id": "diff_001",
+      "name": "Accelerators",
+      "aliases": [
+        "Accelerators",
+        "Teradata Exit Accelerators"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "proprietary_asset",
+      "description": "Proprietary tools and frameworks designed to accelerate migration and modernisation projects. These accelerators reduce delivery timelines and mitigate risk, serving as a key competitive advantage in executing the Teradata exit.",
+      "context": [
+        "Delivering Teradata Exit with Accelerators"
+      ]
+    },
+    {
+      "id": "diff_002",
+      "name": "Strategic Partner Status",
+      "aliases": [
+        "Strategic Partner for AI & Modern Data Platforms"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "partnership",
+      "description": "A formalised partnership positioning that distinguishes IBM as a trusted strategic advisor rather than a transactional vendor. This status enables deeper access to client roadmaps, co-creation of AI assets, and leadership in complex integration programmes.",
+      "context": [
+        "Strategic Partner for AI & Modern Data Platforms"
+      ]
+    },
+    {
+      "id": "diff_003",
+      "name": "Primary Systems Integrator (SI) Role",
+      "aliases": [
+        "Primary SI for Gen AI and Agentic"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "delivery_model",
+      "description": "A delivery model differentiator establishing IBM as the lead systems integrator for AI and Agentic workloads. This role consolidates responsibility for end-to-end integration, scaling, and productionisation of enterprise AI use cases.",
+      "context": [
+        "Primary SI for Gen AI and Agentic"
+      ]
+    },
+    {
+      "id": "per_001",
+      "name": "KP",
+      "aliases": [
+        "KP"
+      ],
+      "entity_class": "PERSON",
+      "type": "contact",
+      "description": "A key presenter or stakeholder responsible for the Nationwide overview segment of the showcase. Likely represents IBM leadership or account management, providing strategic context for the client relationship.",
+      "context": [
+        "Introduction and Nationwide Overview - KP"
+      ]
+    },
+    {
+      "id": "per_002",
+      "name": "Vera",
+      "aliases": [
+        "Vera"
+      ],
+      "entity_class": "PERSON",
+      "type": "contact",
+      "description": "A presenter or stakeholder focused on the Virgin Money segment. Likely represents IBM delivery, account management, or client-side leadership overseeing VM-specific initiatives.",
+      "context": [
+        "Virgin Money - Vera"
+      ]
+    },
+    {
+      "id": "per_003",
+      "name": "Sam H",
+      "aliases": [
+        "Sam H"
+      ],
+      "entity_class": "PERSON",
+      "type": "contact",
+      "description": "A presenter or stakeholder leading the Cloud, Digital & Integration segment. Likely represents IBM technical leadership or solution architecture driving cloud and integration strategies.",
+      "context": [
+        "Cloud, Digital & Integration – Sam H"
+      ]
+    },
+    {
+      "id": "per_004",
+      "name": "Holly",
+      "aliases": [
+        "Holly"
+      ],
+      "entity_class": "PERSON",
+      "type": "contact",
+      "description": "A presenter or stakeholder responsible for the Data & Functions overview. Likely represents IBM data engineering or analytics leadership overseeing portfolio priorities and modernisation efforts.",
+      "context": [
+        "Data & Functions - Holly"
+      ]
+    },
+    {
+      "id": "per_005",
+      "name": "Tim",
+      "aliases": [
+        "Tim"
+      ],
+      "entity_class": "PERSON",
+      "type": "contact",
+      "description": "A presenter or stakeholder involved in both the Integration and Customer Servicing segments. Likely represents IBM integration delivery or customer experience leadership driving automation and platform modernisation.",
+      "context": [
+        "Integration - Tim",
+        "Customer Servicing – Tim &amp; Peter"
+      ]
+    },
+    {
+      "id": "per_006",
+      "name": "Peter",
+      "aliases": [
+        "Peter"
+      ],
+      "entity_class": "PERSON",
+      "type": "contact",
+      "description": "A presenter or stakeholder co-leading the Customer Servicing segment. Likely represents IBM customer experience or automation delivery supporting the client's servicing transformation.",
+      "context": [
+        "Customer Servicing – Tim &amp; Peter"
+      ]
+    },
+    {
+      "id": "per_007",
+      "name": "Duncan",
+      "aliases": [
+        "Duncan"
+      ],
+      "entity_class": "PERSON",
+      "type": "contact",
+      "description": "A presenter or stakeholder focused on the Mortgages segment. Likely represents IBM domain expertise or solution delivery supporting mortgage-specific data and automation initiatives.",
+      "context": [
+        "Mortgages - Duncan"
+      ]
+    },
+    {
+      "id": "org_001",
+      "name": "IBM Corporation",
+      "aliases": [
+        "IBM"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "vendor",
+      "description": "The primary selling organisation and solution provider referenced in the collateral. IBM is positioned as the strategic partner, systems integrator, and technology vendor delivering data, AI, and migration solutions to the client.",
+      "context": [
+        "Nationwide and IBM confidential",
+        "© 2024 IBM Corporation"
+      ]
+    },
+    {
+      "id": "evt_001",
+      "name": "Nationwide & VM Showcase",
+      "aliases": [
+        "Nationwide & VM Showcase"
+      ],
+      "entity_class": "EVENT",
+      "type": "announcement",
+      "description": "A scheduled client-facing presentation or internal showcase event dated November 20, 2025. The event serves as a platform to present IBM's D&F portfolio, 2025 successes, 2026 priorities, and live demonstrations of migration and AI use cases.",
+      "context": [
+        "# Nationwide &amp; VM Showcase",
+        "Nov 20 2025"
+      ]
+    }
+  ],
+  "id_map": {
+    "cli_001": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cli_001",
+    "cli_002": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cli_002",
+    "off_001": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_001",
+    "off_002": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_002",
+    "off_003": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_003",
+    "off_004": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_004",
+    "off_005": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_005",
+    "off_006": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_006",
+    "off_007": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_007",
+    "off_008": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_008",
+    "off_009": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_009",
+    "cap_001": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_001",
+    "cap_002": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_002",
+    "cap_003": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_003",
+    "cap_004": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_004",
+    "cap_005": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_005",
+    "use_001": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_use_001",
+    "use_002": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_use_002",
+    "use_003": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_use_003",
+    "use_004": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_use_004",
+    "ben_001": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_ben_001",
+    "ben_002": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_ben_002",
+    "tech_001": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_001",
+    "tech_002": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_002",
+    "tech_003": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_003",
+    "tech_004": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_004",
+    "tech_005": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_005",
+    "tech_006": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_006",
+    "tech_007": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_007",
+    "diff_001": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_diff_001",
+    "diff_002": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_diff_002",
+    "diff_003": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_diff_003",
+    "per_001": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_001",
+    "per_002": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_002",
+    "per_003": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_003",
+    "per_004": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_004",
+    "per_005": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_005",
+    "per_006": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_006",
+    "per_007": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_007",
+    "org_001": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_org_001",
+    "evt_001": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_evt_001"
+  },
+  "entities": [
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cli_001",
+      "name": "Nationwide",
+      "aliases": [
+        "Nationwide"
+      ],
+      "entity_class": "CLIENT",
+      "type": "named_account",
+      "description": "A major UK building society and financial services provider acting as the primary client for the showcased IBM solutions. The document positions Nationwide as a key strategic account undergoing significant data, HR, and AI modernisation initiatives, with IBM serving as a central systems integrator and delivery partner.",
+      "context": [
+        "Introduction and Nationwide Overview - KP",
+        "Delivered Nationwide’s new Oracle Cloud HR Recruitment Platform on time and on budget",
+        "Won and leading Nationwide HR integration on Oracle HCM, progressing to plan for Mar 2026 go-live"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cli_002",
+      "name": "Virgin Money",
+      "aliases": [
+        "VM",
+        "VMI",
+        "Virgin Money UK"
+      ],
+      "entity_class": "CLIENT",
+      "type": "named_account",
+      "description": "A UK-based financial services provider and strategic partner client undergoing parallel data, migration, and integration modernisation. The collateral highlights IBM's role in centralising migration utilities and integrating Virgin Money's NBS HR systems alongside Nationwide's broader digital transformation.",
+      "context": [
+        "Virgin Money - Vera",
+        "VMI Migration Utility",
+        "VMI – Data & Automation",
+        "At the centre of integrating VM NBS HR"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_001",
+      "name": "D&F Portfolio",
+      "aliases": [
+        "Data & Functions Portfolio",
+        "D&F"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "solution",
+      "description": "A consolidated portfolio of data, functions, and integration services managed by IBM for the client. It encompasses migration utilities, HR system integration, AI strategy, and automation platforms, serving as the overarching delivery framework for 2025 successes and 2026 priorities.",
+      "context": [
+        "D&F Portfolio",
+        "2025 Key Successes",
+        "2026 Priorities"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_002",
+      "name": "Teradata Migration",
+      "aliases": [
+        "Teradata Exit",
+        "Teradata Migration case study"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "transformation_programme",
+      "description": "A structured data platform migration initiative designed to decommission legacy Teradata infrastructure. The solution leverages IBM accelerators to accelerate the exit process and is highlighted as a key 2026 priority and a documented case study for the client.",
+      "context": [
+        "Teradata Migration",
+        "Delivering Teradata Exit with Accelerators",
+        "Teradata Migration case study"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_003",
+      "name": "SQL Databricks Migration",
+      "aliases": [
+        "SQL Databricks Migration",
+        "DBT Databricks SQL Simplification"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "transformation_programme",
+      "description": "A modern data platform migration programme focused on transitioning SQL workloads to Databricks. IBM is positioned as owning the DBT Databricks framework to simplify SQL processes and drive data modernisation across the client's landscape.",
+      "context": [
+        "SQL  Databricks Migration",
+        "Owning DBT Databricks in SQL Simplification"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_004",
+      "name": "VMI Migration Utility",
+      "aliases": [
+        "VMI Migration Utility",
+        "Central Migration Utility"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "solution",
+      "description": "A centralised migration utility solution tasked with standardising and streamlining data and system migrations for Virgin Money. It serves as a foundational component supporting broader VM integration efforts and data automation initiatives.",
+      "context": [
+        "VMI Migration Utility",
+        "Tasked with central Migration Utility for the VM Integration"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_005",
+      "name": "HR Systems Integration",
+      "aliases": [
+        "HR Systems Integration",
+        "VM NBS HR Integration"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "solution",
+      "description": "A targeted integration programme focused on aligning and modernising Human Resources systems. IBM is leading the integration of Virgin Money's NBS HR and delivering Nationwide's Oracle Cloud HR Recruitment Platform, positioning itself at the centre of this functional transformation.",
+      "context": [
+        "HR Systems Integration",
+        "At the centre of integrating VM NBS HR"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_006",
+      "name": "GenAI CoE & Strategy",
+      "aliases": [
+        "GenAI CoE & Strategy",
+        "Gen AI & Agentic CoE"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "transformation_programme",
+      "description": "A governance and strategy framework establishing a Centre of Excellence for Generative AI and Agentic workflows. It encompasses driving AI strategy, operating models, horizon planning, and the production scaling of enterprise use cases across the client's organisation.",
+      "context": [
+        "GenAI CoE & Strategy",
+        "Primary SI for Gen AI and Agentic",
+        "Driving AI strategy, operating model and horizon plans – use and creation of assets"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_007",
+      "name": "Customer Experience Platform Automation",
+      "aliases": [
+        "Customer Experience Platform Automation",
+        "Customer Servicing"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "solution",
+      "description": "An automation-focused offering designed to enhance customer-facing interactions and servicing workflows. It is listed as a key capability area alongside IT Ops Automation and FinCrime & Data Gov, indicating a focus on digital customer journey modernisation.",
+      "context": [
+        "Customer Experience Platform Automation",
+        "Customer Servicing – Tim &amp; Peter"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_008",
+      "name": "FinCrime & Data Gov",
+      "aliases": [
+        "FinCrime & Data Gov",
+        "Data Gov"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "solution",
+      "description": "A compliance and governance solution addressing financial crime prevention and data governance requirements. It is positioned as a core functional area within the broader D&F portfolio, supporting regulatory adherence and secure data handling.",
+      "context": [
+        "FinCrime & Data Gov"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_009",
+      "name": "ICA Deployment",
+      "aliases": [
+        "ICA Deployment",
+        "ICA"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "solution",
+      "description": "A deployment initiative focused on implementing ICA (likely Internal Capital Adequacy or a specific integration component) across the client's infrastructure. It is listed as a 2026 priority alongside data federation and IT operations.",
+      "context": [
+        "ICA Deployment"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_001",
+      "name": "Strategic Partner for AI & Modern Data Platforms",
+      "aliases": [
+        "Strategic Partner for AI & Modern Data Platforms"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "delivery_capability",
+      "description": "A high-level delivery capability positioning IBM as the trusted strategic partner for architecting and implementing AI and modern data platforms. This capability underpins the entire portfolio, enabling seamless integration, migration, and scaling of enterprise-grade solutions.",
+      "context": [
+        "Strategic Partner for AI & Modern Data Platforms"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_002",
+      "name": "Primary SI for Gen AI and Agentic",
+      "aliases": [
+        "Primary SI for Gen AI and Agentic"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "delivery_capability",
+      "description": "A systems integration capability establishing IBM as the primary integrator for Generative AI and Agentic workflows. This capability enables the delivery of next-generation AI use cases, pathfinders, and enterprise-scale automation across the client's landscape.",
+      "context": [
+        "Primary SI for Gen AI and Agentic"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_003",
+      "name": "Delivering Teradata Exit with Accelerators",
+      "aliases": [
+        "Delivering Teradata Exit with Accelerators"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "delivery_capability",
+      "description": "A specialised migration capability leveraging proprietary accelerators to expedite the decommissioning of legacy Teradata systems. This capability reduces migration risk, accelerates timeline delivery, and supports the broader data modernisation agenda.",
+      "context": [
+        "Delivering Teradata Exit with Accelerators"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_004",
+      "name": "Driving AI Strategy and Operating Model",
+      "aliases": [
+        "Driving AI strategy, operating model and horizon plans"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "ai_capability",
+      "description": "A strategic advisory and operational capability focused on defining AI roadmaps, operating models, and horizon planning. It encompasses the creation and scaling of enterprise AI assets, ensuring alignment with long-term business objectives.",
+      "context": [
+        "Driving AI strategy, operating model and horizon plans – use and creation of assets"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_005",
+      "name": "Production & Scaling of Enterprise Use Cases",
+      "aliases": [
+        "Production & scaling of enterprise use cases"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "delivery_capability",
+      "description": "An operational capability focused on transitioning AI and automation use cases from pilot to production environments. It enables the scaling of enterprise-grade solutions such as Complaints & QA Assist and supports the Agentic pathfinder roadmap.",
+      "context": [
+        "Production & scaling of enterprise use cases – Complaints & QA Assist"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_use_001",
+      "name": "Complaints & QA Assist",
+      "aliases": [
+        "Complaints & QA Assist"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "customer_experience",
+      "description": "A specific customer experience use case leveraging AI to automate complaint handling and quality assurance processes. It represents a production-scale enterprise application being developed and scaled as part of the Gen AI CoE strategy.",
+      "context": [
+        "Complaints & QA Assist"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_use_002",
+      "name": "Oracle Cloud HR Recruitment Platform",
+      "aliases": [
+        "Oracle Cloud HR Recruitment Platform"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "modernisation",
+      "description": "A modernisation use case involving the deployment of an Oracle Cloud-based HR recruitment platform. The solution has been delivered on time and on budget, serving as a foundational component for broader HR systems integration.",
+      "context": [
+        "Delivered Nationwide’s new Oracle Cloud HR Recruitment Platform on time and on budget"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_use_003",
+      "name": "Teradata Migration case study",
+      "aliases": [
+        "Teradata Migration case study"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "migration",
+      "description": "A documented migration use case demonstrating the successful execution of a Teradata platform exit. It serves as a proof point for IBM's migration accelerators and data modernisation capabilities.",
+      "context": [
+        "Teradata Migration case study"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_use_004",
+      "name": "Gen AI case study",
+      "aliases": [
+        "Gen AI case study"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "analytics",
+      "description": "A documented Generative AI use case highlighting the practical application of AI technologies within the client's environment. It is presented as a key demonstration asset to showcase AI strategy and production scaling capabilities.",
+      "context": [
+        "Gen AI case study"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_ben_001",
+      "name": "On Time and On Budget Delivery",
+      "aliases": [
+        "on time and on budget"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "cost_saving",
+      "description": "A quantified delivery benefit demonstrating strict adherence to project timelines and financial constraints. This outcome validates IBM's project management discipline and cost-control capabilities in executing complex HR platform deployments.",
+      "context": [
+        "Delivered Nationwide’s new Oracle Cloud HR Recruitment Platform on time and on budget"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_ben_002",
+      "name": "Progressing to Plan for Mar 2026 Go-Live",
+      "aliases": [
+        "progressing to plan for Mar 2026 go-live"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "speed_improvement",
+      "description": "A schedule adherence benefit indicating that the HR integration programme is tracking successfully toward a March 2026 production launch. This demonstrates reliable delivery velocity and effective milestone management.",
+      "context": [
+        "progressing to plan for Mar 2026 go-live"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_001",
+      "name": "Teradata",
+      "aliases": [
+        "Teradata"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "database",
+      "description": "A legacy enterprise data warehouse platform targeted for decommissioning. The client is executing a Teradata exit strategy, leveraging IBM's migration accelerators to transition workloads to modern data platforms.",
+      "context": [
+        "Teradata Migration",
+        "Delivering Teradata Exit with Accelerators",
+        "Teradata Migration case study"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_002",
+      "name": "Databricks",
+      "aliases": [
+        "Databricks",
+        "DBT Databricks"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "cloud_platform",
+      "description": "A modern cloud-based data and AI platform serving as the target environment for SQL and data migration workloads. IBM is owning the DBT Databricks framework to simplify SQL processes and drive data modernisation.",
+      "context": [
+        "SQL  Databricks Migration",
+        "Owning DBT Databricks in SQL Simplification"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_003",
+      "name": "Oracle Cloud",
+      "aliases": [
+        "Oracle Cloud",
+        "Oracle HCM"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "cloud_platform",
+      "description": "A cloud-based enterprise software platform hosting HR and recruitment systems. It is the underlying infrastructure for the delivered Oracle Cloud HR Recruitment Platform and the broader Oracle HCM integration programme.",
+      "context": [
+        "Oracle Cloud HR Recruitment Platform",
+        "Oracle HCM"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_004",
+      "name": "DBT",
+      "aliases": [
+        "dbt",
+        "DBT Databricks"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "framework",
+      "description": "A data transformation framework used within the Databricks ecosystem to manage SQL transformations. IBM is positioned as owning and managing this framework to simplify SQL workflows and support data modernisation efforts.",
+      "context": [
+        "Owning DBT Databricks in SQL Simplification"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_005",
+      "name": "SQL",
+      "aliases": [
+        "SQL",
+        "SQL Simplification"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "integration_tool",
+      "description": "A standard query language used across the client's data landscape. The collateral highlights a focus on SQL simplification and migration, indicating a need to reduce complexity and improve data accessibility.",
+      "context": [
+        "SQL  Databricks Migration",
+        "SQL Simplification"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_006",
+      "name": "Gen AI",
+      "aliases": [
+        "Gen AI",
+        "Generative AI"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "ai_platform",
+      "description": "A category of artificial intelligence technologies focused on generative capabilities. It is central to the client's AI strategy, with IBM serving as the primary systems integrator for deploying and scaling Gen AI use cases.",
+      "context": [
+        "Gen AI case study",
+        "Primary SI for Gen AI and Agentic"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_007",
+      "name": "Agentic",
+      "aliases": [
+        "Agentic",
+        "Agentic pathfinders"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "ai_platform",
+      "description": "An advanced AI technology category focusing on autonomous, goal-oriented agents. It represents the next evolution in the client's AI roadmap, with IBM leading pathfinder initiatives and enterprise-scale production deployments.",
+      "context": [
+        "Primary SI for Gen AI and Agentic",
+        "Agentic pathfinders"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_diff_001",
+      "name": "Accelerators",
+      "aliases": [
+        "Accelerators",
+        "Teradata Exit Accelerators"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "proprietary_asset",
+      "description": "Proprietary tools and frameworks designed to accelerate migration and modernisation projects. These accelerators reduce delivery timelines and mitigate risk, serving as a key competitive advantage in executing the Teradata exit.",
+      "context": [
+        "Delivering Teradata Exit with Accelerators"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_diff_002",
+      "name": "Strategic Partner Status",
+      "aliases": [
+        "Strategic Partner for AI & Modern Data Platforms"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "partnership",
+      "description": "A formalised partnership positioning that distinguishes IBM as a trusted strategic advisor rather than a transactional vendor. This status enables deeper access to client roadmaps, co-creation of AI assets, and leadership in complex integration programmes.",
+      "context": [
+        "Strategic Partner for AI & Modern Data Platforms"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_diff_003",
+      "name": "Primary Systems Integrator (SI) Role",
+      "aliases": [
+        "Primary SI for Gen AI and Agentic"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "delivery_model",
+      "description": "A delivery model differentiator establishing IBM as the lead systems integrator for AI and Agentic workloads. This role consolidates responsibility for end-to-end integration, scaling, and productionisation of enterprise AI use cases.",
+      "context": [
+        "Primary SI for Gen AI and Agentic"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_001",
+      "name": "KP",
+      "aliases": [
+        "KP"
+      ],
+      "entity_class": "PERSON",
+      "type": "contact",
+      "description": "A key presenter or stakeholder responsible for the Nationwide overview segment of the showcase. Likely represents IBM leadership or account management, providing strategic context for the client relationship.",
+      "context": [
+        "Introduction and Nationwide Overview - KP"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_002",
+      "name": "Vera",
+      "aliases": [
+        "Vera"
+      ],
+      "entity_class": "PERSON",
+      "type": "contact",
+      "description": "A presenter or stakeholder focused on the Virgin Money segment. Likely represents IBM delivery, account management, or client-side leadership overseeing VM-specific initiatives.",
+      "context": [
+        "Virgin Money - Vera"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_003",
+      "name": "Sam H",
+      "aliases": [
+        "Sam H"
+      ],
+      "entity_class": "PERSON",
+      "type": "contact",
+      "description": "A presenter or stakeholder leading the Cloud, Digital & Integration segment. Likely represents IBM technical leadership or solution architecture driving cloud and integration strategies.",
+      "context": [
+        "Cloud, Digital & Integration – Sam H"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_004",
+      "name": "Holly",
+      "aliases": [
+        "Holly"
+      ],
+      "entity_class": "PERSON",
+      "type": "contact",
+      "description": "A presenter or stakeholder responsible for the Data & Functions overview. Likely represents IBM data engineering or analytics leadership overseeing portfolio priorities and modernisation efforts.",
+      "context": [
+        "Data & Functions - Holly"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_005",
+      "name": "Tim",
+      "aliases": [
+        "Tim"
+      ],
+      "entity_class": "PERSON",
+      "type": "contact",
+      "description": "A presenter or stakeholder involved in both the Integration and Customer Servicing segments. Likely represents IBM integration delivery or customer experience leadership driving automation and platform modernisation.",
+      "context": [
+        "Integration - Tim",
+        "Customer Servicing – Tim &amp; Peter"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_006",
+      "name": "Peter",
+      "aliases": [
+        "Peter"
+      ],
+      "entity_class": "PERSON",
+      "type": "contact",
+      "description": "A presenter or stakeholder co-leading the Customer Servicing segment. Likely represents IBM customer experience or automation delivery supporting the client's servicing transformation.",
+      "context": [
+        "Customer Servicing – Tim &amp; Peter"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_007",
+      "name": "Duncan",
+      "aliases": [
+        "Duncan"
+      ],
+      "entity_class": "PERSON",
+      "type": "contact",
+      "description": "A presenter or stakeholder focused on the Mortgages segment. Likely represents IBM domain expertise or solution delivery supporting mortgage-specific data and automation initiatives.",
+      "context": [
+        "Mortgages - Duncan"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_org_001",
+      "name": "IBM Corporation",
+      "aliases": [
+        "IBM"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "vendor",
+      "description": "The primary selling organisation and solution provider referenced in the collateral. IBM is positioned as the strategic partner, systems integrator, and technology vendor delivering data, AI, and migration solutions to the client.",
+      "context": [
+        "Nationwide and IBM confidential",
+        "© 2024 IBM Corporation"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_evt_001",
+      "name": "Nationwide & VM Showcase",
+      "aliases": [
+        "Nationwide & VM Showcase"
+      ],
+      "entity_class": "EVENT",
+      "type": "announcement",
+      "description": "A scheduled client-facing presentation or internal showcase event dated November 20, 2025. The event serves as a platform to present IBM's D&F portfolio, 2025 successes, 2026 priorities, and live demonstrations of migration and AI use cases.",
+      "context": [
+        "# Nationwide &amp; VM Showcase",
+        "Nov 20 2025"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    }
+  ],
+  "properties": [
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cli_001",
+      "name": "Nationwide",
+      "properties": {
+        "relationship_status": "active_client",
+        "named_or_anonymous": true
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cli_002",
+      "name": "Virgin Money",
+      "properties": {
+        "relationship_status": "active_client",
+        "named_or_anonymous": true
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_001",
+      "name": "D&F Portfolio",
+      "properties": {
+        "offering_type": "portfolio",
+        "scope": [
+          "Data & Functions covering cloud, digital, integration, data modernisation, IT ops, central functions, finance, customer experience, automation, FinCrime & Data Gov"
+        ],
+        "target_client_profile": [
+          "Nationwide",
+          "Virgin Money"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_002",
+      "name": "Teradata Migration",
+      "properties": {
+        "offering_type": "migration",
+        "scope": [
+          "Teradata exit"
+        ],
+        "key_phases_or_components": [
+          "Teradata exit"
+        ],
+        "named_assets_or_accelerators": [
+          "Accelerators"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_003",
+      "name": "SQL Databricks Migration",
+      "properties": {
+        "offering_type": "migration",
+        "scope": [
+          "SQL simplification",
+          "DBT Databricks ownership"
+        ],
+        "target_client_profile": [
+          "Nationwide",
+          "Virgin Money"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_004",
+      "name": "VMI Migration Utility",
+      "properties": {
+        "offering_type": "utility",
+        "scope": [
+          "Central migration utility for VM integration"
+        ],
+        "target_client_profile": [
+          "Virgin Money"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_005",
+      "name": "HR Systems Integration",
+      "properties": {
+        "offering_type": "integration",
+        "scope": [
+          "VM NBS HR integration",
+          "Nationwide HR integration on Oracle HCM"
+        ],
+        "target_client_profile": [
+          "Nationwide",
+          "Virgin Money"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_006",
+      "name": "GenAI CoE & Strategy",
+      "properties": {
+        "offering_type": "strategy",
+        "scope": [
+          "AI strategy",
+          "operating model",
+          "horizon plans",
+          "asset creation"
+        ],
+        "target_client_profile": [
+          "Nationwide",
+          "Virgin Money"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_007",
+      "name": "Customer Experience Platform Automation",
+      "properties": {
+        "offering_type": "automation",
+        "scope": [
+          "Customer experience platform",
+          "Complaints & QA Assist"
+        ],
+        "target_client_profile": [
+          "Nationwide",
+          "Virgin Money"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_008",
+      "name": "FinCrime & Data Gov",
+      "properties": {
+        "offering_type": "solution",
+        "scope": [
+          "Financial crime",
+          "Data governance"
+        ],
+        "target_client_profile": [
+          "Nationwide",
+          "Virgin Money"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_009",
+      "name": "ICA Deployment",
+      "properties": {
+        "offering_type": "deployment",
+        "scope": [
+          "ICA deployment"
+        ],
+        "target_client_profile": [
+          "Nationwide",
+          "Virgin Money"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_001",
+      "name": "Strategic Partner for AI & Modern Data Platforms",
+      "properties": {
+        "what_it_does": [
+          "Acts as strategic partner for AI and modern data platforms",
+          "Owns DBT Databricks for SQL simplification",
+          "Delivers Teradata exit",
+          "Manages central migration utility"
+        ],
+        "delivery_maturity": [
+          "proven",
+          "strategic"
+        ],
+        "differentiating_aspect": [
+          "Strategic partner status",
+          "End-to-end data platform ownership"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_002",
+      "name": "Primary SI for Gen AI and Agentic",
+      "properties": {
+        "what_it_does": [
+          "Serves as primary SI for Gen AI and Agentic",
+          "Drives AI strategy and operating model",
+          "Scales enterprise use cases",
+          "Integrates ExCo use cases and Agentic pathfinders"
+        ],
+        "delivery_maturity": [
+          "proven",
+          "scaling"
+        ],
+        "differentiating_aspect": [
+          "Primary SI role",
+          "Strategic AI/Agentic integration expertise"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_003",
+      "name": "Delivering Teradata Exit with Accelerators",
+      "properties": {
+        "what_it_does": [
+          "Executes Teradata exit/migration",
+          "Leverages accelerators for delivery"
+        ],
+        "delivery_maturity": [
+          "proven"
+        ],
+        "differentiating_aspect": [
+          "Use of accelerators for faster/efficient migration"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_004",
+      "name": "Driving AI Strategy and Operating Model",
+      "properties": {
+        "what_it_does": [
+          "Defines and drives AI strategy",
+          "Designs operating model",
+          "Develops horizon plans",
+          "Creates and manages AI assets"
+        ],
+        "delivery_maturity": [
+          "proven"
+        ],
+        "differentiating_aspect": [
+          "Strategic planning and asset creation focus"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_005",
+      "name": "Production & Scaling of Enterprise Use Cases",
+      "properties": {
+        "what_it_does": [
+          "Moves enterprise use cases from pilot to production",
+          "Scales solutions like Complaints & QA Assist"
+        ],
+        "delivery_maturity": [
+          "proven"
+        ],
+        "differentiating_aspect": [
+          "Focus on production readiness and scaling"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_use_001",
+      "name": "Complaints & QA Assist",
+      "properties": {
+        "problem_context": [
+          "Customer service complaints and quality assurance"
+        ],
+        "approach": [
+          "AI/Gen AI assisted processing"
+        ],
+        "industry_or_vertical": [
+          "financial_services"
+        ],
+        "outcome_achieved": [
+          "In production and scaling phase"
+        ],
+        "complexity_level": [
+          "enterprise_scale"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_use_002",
+      "name": "Oracle Cloud HR Recruitment Platform",
+      "properties": {
+        "problem_context": [
+          "HR recruitment and onboarding"
+        ],
+        "approach": [
+          "Oracle Cloud platform implementation"
+        ],
+        "industry_or_vertical": [
+          "financial_services"
+        ],
+        "outcome_achieved": [
+          "Delivered on time and on budget"
+        ],
+        "complexity_level": [
+          "straightforward"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_use_003",
+      "name": "Teradata Migration case study",
+      "properties": {
+        "problem_context": [
+          "Legacy Teradata data platform modernization"
+        ],
+        "approach": [
+          "Migration using accelerators"
+        ],
+        "industry_or_vertical": [
+          "financial_services"
+        ],
+        "outcome_achieved": [
+          "Successful exit/migration case study"
+        ],
+        "complexity_level": [
+          "complex"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_use_004",
+      "name": "Gen AI case study",
+      "properties": {
+        "problem_context": [
+          "Enterprise AI adoption and agentic workflows"
+        ],
+        "approach": [
+          "Gen AI and Agentic platform development"
+        ],
+        "industry_or_vertical": [
+          "financial_services"
+        ],
+        "outcome_achieved": [
+          "Case study demonstrating enterprise AI value"
+        ],
+        "complexity_level": [
+          "highly_complex"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_ben_001",
+      "name": "On Time and On Budget Delivery",
+      "properties": {
+        "quantified_value": [
+          "On time and on budget"
+        ],
+        "beneficiary": [
+          "client (Nationwide)"
+        ],
+        "category": [
+          "cost",
+          "speed"
+        ],
+        "evidence_type": [
+          "measured"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_ben_002",
+      "name": "Progressing to Plan for Mar 2026 Go-Live",
+      "properties": {
+        "quantified_value": [
+          "On plan for Mar 2026 go-live"
+        ],
+        "beneficiary": [
+          "client (Nationwide/VM)"
+        ],
+        "category": [
+          "speed",
+          "risk"
+        ],
+        "evidence_type": [
+          "projected"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_001",
+      "name": "Teradata",
+      "properties": {
+        "vendor_or_provider": [
+          "Teradata"
+        ],
+        "technology_category": [
+          "data_platform",
+          "legacy_database"
+        ],
+        "role_in_solution": [
+          "target",
+          "replaced"
+        ],
+        "maturity": [
+          "legacy"
+        ],
+        "key_characteristics": [
+          "Legacy data platform being migrated out"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_002",
+      "name": "Databricks",
+      "properties": {
+        "vendor_or_provider": [
+          "Databricks"
+        ],
+        "technology_category": [
+          "data_platform",
+          "cloud"
+        ],
+        "role_in_solution": [
+          "core",
+          "target"
+        ],
+        "maturity": [
+          "modern"
+        ],
+        "key_characteristics": [
+          "Modern data platform for SQL simplification and DBT ownership"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_003",
+      "name": "Oracle Cloud",
+      "properties": {
+        "vendor_or_provider": [
+          "Oracle"
+        ],
+        "technology_category": [
+          "cloud",
+          "hr_systems"
+        ],
+        "role_in_solution": [
+          "core",
+          "integrated"
+        ],
+        "maturity": [
+          "modern"
+        ],
+        "key_characteristics": [
+          "Cloud platform for HR recruitment and HCM integration"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_004",
+      "name": "DBT",
+      "properties": {
+        "vendor_or_provider": [
+          "dbt Labs"
+        ],
+        "technology_category": [
+          "data_transformation",
+          "sql"
+        ],
+        "role_in_solution": [
+          "supporting",
+          "core"
+        ],
+        "maturity": [
+          "modern"
+        ],
+        "key_characteristics": [
+          "Data transformation tool for SQL simplification on Databricks"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_005",
+      "name": "SQL",
+      "properties": {
+        "vendor_or_provider": [
+          "Standard"
+        ],
+        "technology_category": [
+          "query_language",
+          "data_modernisation"
+        ],
+        "role_in_solution": [
+          "target",
+          "simplified"
+        ],
+        "maturity": [
+          "legacy/modern"
+        ],
+        "key_characteristics": [
+          "Target for simplification and modernization"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_006",
+      "name": "Gen AI",
+      "properties": {
+        "vendor_or_provider": [
+          "General"
+        ],
+        "technology_category": [
+          "ai",
+          "generative_ai"
+        ],
+        "role_in_solution": [
+          "core",
+          "strategic"
+        ],
+        "maturity": [
+          "emerging"
+        ],
+        "key_characteristics": [
+          "Generative AI capability for enterprise use cases and agentic workflows"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_007",
+      "name": "Agentic",
+      "properties": {
+        "vendor_or_provider": [
+          "General"
+        ],
+        "technology_category": [
+          "ai",
+          "autonomous_agents"
+        ],
+        "role_in_solution": [
+          "core",
+          "strategic"
+        ],
+        "maturity": [
+          "emerging"
+        ],
+        "key_characteristics": [
+          "Agentic AI for autonomous workflows and ExCo use cases"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_diff_001",
+      "name": "Accelerators",
+      "properties": {
+        "competitive_advantage": [
+          "Accelerates Teradata exit and migration delivery"
+        ],
+        "evidence_or_proof_point": [
+          "Used in Teradata Migration case study"
+        ],
+        "uniqueness": [
+          "proprietary",
+          "best-in-class"
+        ],
+        "target_audience": [
+          "clients seeking rapid data platform modernization"
+        ],
+        "relates_to_offering": [
+          "Teradata Migration"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_diff_002",
+      "name": "Strategic Partner Status",
+      "properties": {
+        "competitive_advantage": [
+          "Recognized as strategic partner for AI and modern data"
+        ],
+        "evidence_or_proof_point": [
+          "Ongoing portfolio delivery and co-development"
+        ],
+        "uniqueness": [
+          "strategic",
+          "long-term"
+        ],
+        "target_audience": [
+          "enterprise financial services clients"
+        ],
+        "relates_to_offering": [
+          "D&F Portfolio",
+          "GenAI CoE & Strategy"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_diff_003",
+      "name": "Primary Systems Integrator (SI) Role",
+      "properties": {
+        "competitive_advantage": [
+          "Designated primary systems integrator for AI/Agentic solutions"
+        ],
+        "evidence_or_proof_point": [
+          "Leading ExCo use cases and Agentic pathfinders"
+        ],
+        "uniqueness": [
+          "primary",
+          "trusted"
+        ],
+        "target_audience": [
+          "enterprise clients adopting AI"
+        ],
+        "relates_to_offering": [
+          "GenAI CoE & Strategy",
+          "Customer Experience Platform Automation"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_001",
+      "name": "KP",
+      "properties": {
+        "role_title": [
+          "Presenter/Lead"
+        ],
+        "influence_level": [
+          "decision_maker",
+          "champion"
+        ],
+        "relationship_to_deal": [
+          "sponsor"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_002",
+      "name": "Vera",
+      "properties": {
+        "role_title": [
+          "Presenter/Lead"
+        ],
+        "influence_level": [
+          "influencer",
+          "champion"
+        ],
+        "relationship_to_deal": [
+          "sponsor"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_003",
+      "name": "Sam H",
+      "properties": {
+        "role_title": [
+          "Cloud, Digital & Integration Lead"
+        ],
+        "influence_level": [
+          "influencer"
+        ],
+        "relationship_to_deal": [
+          "evaluator"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_004",
+      "name": "Holly",
+      "properties": {
+        "role_title": [
+          "Data & Functions Lead"
+        ],
+        "influence_level": [
+          "influencer"
+        ],
+        "relationship_to_deal": [
+          "evaluator"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_005",
+      "name": "Tim",
+      "properties": {
+        "role_title": [
+          "Customer Servicing & Integration Lead"
+        ],
+        "influence_level": [
+          "influencer"
+        ],
+        "relationship_to_deal": [
+          "evaluator"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_006",
+      "name": "Peter",
+      "properties": {
+        "role_title": [
+          "Customer Servicing Lead"
+        ],
+        "influence_level": [
+          "influencer"
+        ],
+        "relationship_to_deal": [
+          "evaluator"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_007",
+      "name": "Duncan",
+      "properties": {
+        "role_title": [
+          "Mortgages Lead"
+        ],
+        "influence_level": [
+          "influencer"
+        ],
+        "relationship_to_deal": [
+          "evaluator"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_org_001",
+      "name": "IBM Corporation",
+      "properties": {
+        "org_type": [
+          "vendor",
+          "partner"
+        ],
+        "relationship_to_offering": [
+          "primary_vendor",
+          "strategic_partner"
+        ],
+        "geographic_presence": [
+          "global"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_evt_001",
+      "name": "Nationwide & VM Showcase",
+      "properties": {
+        "event_type": [
+          "showcase",
+          "client_presentation"
+        ],
+        "date_or_period": [
+          "Nov 20 2025"
+        ],
+        "relevance_to_deal": [
+          "opportunity",
+          "milestone"
+        ],
+        "key_participants": [
+          "Nationwide",
+          "Virgin Money",
+          "IBM"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_evt_001",
+      "source_name": "Nationwide & VM Showcase",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_001",
+      "target_name": "D&F Portfolio",
+      "rel_type": "demonstrated_at",
+      "description": "The showcase event featured a presentation and demonstration of the D&F Portfolio offering.",
+      "properties": {
+        "event_type": "client_showcase",
+        "date": "Nov 20 2025"
+      },
+      "context": "Nationwide & VM Showcase ... D&F Portfolio",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_evt_001",
+      "source_name": "Nationwide & VM Showcase",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_002",
+      "target_name": "Teradata Migration",
+      "rel_type": "demonstrated_at",
+      "description": "The showcase event included a demonstration of the Teradata Migration offering.",
+      "properties": {
+        "event_type": "client_showcase",
+        "date": "Nov 20 2025"
+      },
+      "context": "Nationwide & VM Showcase ... Teradata Migration",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_evt_001",
+      "source_name": "Nationwide & VM Showcase",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_003",
+      "target_name": "SQL Databricks Migration",
+      "rel_type": "demonstrated_at",
+      "description": "The showcase event included a demonstration of the SQL Databricks Migration offering.",
+      "properties": {
+        "event_type": "client_showcase",
+        "date": "Nov 20 2025"
+      },
+      "context": "Nationwide & VM Showcase ... SQL Databricks Migration",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_evt_001",
+      "source_name": "Nationwide & VM Showcase",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_004",
+      "target_name": "VMI Migration Utility",
+      "rel_type": "demonstrated_at",
+      "description": "The showcase event included a demonstration of the VMI Migration Utility offering.",
+      "properties": {
+        "event_type": "client_showcase",
+        "date": "Nov 20 2025"
+      },
+      "context": "Nationwide & VM Showcase ... VMI Migration Utility",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_evt_001",
+      "source_name": "Nationwide & VM Showcase",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_005",
+      "target_name": "HR Systems Integration",
+      "rel_type": "demonstrated_at",
+      "description": "The showcase event included a demonstration of the HR Systems Integration offering.",
+      "properties": {
+        "event_type": "client_showcase",
+        "date": "Nov 20 2025"
+      },
+      "context": "Nationwide & VM Showcase ... HR Systems Integration",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_evt_001",
+      "source_name": "Nationwide & VM Showcase",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_006",
+      "target_name": "GenAI CoE & Strategy",
+      "rel_type": "demonstrated_at",
+      "description": "The showcase event included a demonstration of the GenAI CoE & Strategy offering.",
+      "properties": {
+        "event_type": "client_showcase",
+        "date": "Nov 20 2025"
+      },
+      "context": "Nationwide & VM Showcase ... GenAI CoE & Strategy",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_evt_001",
+      "source_name": "Nationwide & VM Showcase",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_007",
+      "target_name": "Customer Experience Platform Automation",
+      "rel_type": "demonstrated_at",
+      "description": "The showcase event included a demonstration of the Customer Experience Platform Automation offering.",
+      "properties": {
+        "event_type": "client_showcase",
+        "date": "Nov 20 2025"
+      },
+      "context": "Nationwide & VM Showcase ... Customer Experience Platform Automation",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_evt_001",
+      "source_name": "Nationwide & VM Showcase",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_008",
+      "target_name": "FinCrime & Data Gov",
+      "rel_type": "demonstrated_at",
+      "description": "The showcase event included a demonstration of the FinCrime & Data Gov offering.",
+      "properties": {
+        "event_type": "client_showcase",
+        "date": "Nov 20 2025"
+      },
+      "context": "Nationwide & VM Showcase ... FinCrime & Data Gov",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_evt_001",
+      "source_name": "Nationwide & VM Showcase",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_009",
+      "target_name": "ICA Deployment",
+      "rel_type": "demonstrated_at",
+      "description": "The showcase event included a demonstration of the ICA Deployment offering.",
+      "properties": {
+        "event_type": "client_showcase",
+        "date": "Nov 20 2025"
+      },
+      "context": "Nationwide & VM Showcase ... ICA Deployment",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_001",
+      "target_name": "D&F Portfolio",
+      "rel_type": "engaged_with",
+      "description": "Nationwide is actively engaged with the D&F Portfolio offering to modernize data and AI capabilities.",
+      "properties": {
+        "engagement_stage": "active_delivery",
+        "focus_area": "data_modernization"
+      },
+      "context": "D&F Portfolio ... 2025 Key Successes ... 2026 Priorities",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cli_002",
+      "source_name": "Virgin Money",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_004",
+      "target_name": "VMI Migration Utility",
+      "rel_type": "is_target_for",
+      "description": "The VMI Migration Utility is specifically targeted at Virgin Money to centralize migration efforts.",
+      "properties": {
+        "target_scope": "central_migration_utility",
+        "client_focus": "VM Integration"
+      },
+      "context": "Tasked with central Migration Utility for the VM Integration",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_001",
+      "source_name": "D&F Portfolio",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_001",
+      "target_name": "Strategic Partner for AI & Modern Data Platforms",
+      "rel_type": "comprises",
+      "description": "The D&F Portfolio comprises the capability to act as a strategic partner for AI and modern data platforms.",
+      "properties": {
+        "component_type": "strategic_capability",
+        "priority": "high"
+      },
+      "context": "Strategic Partner for AI & Modern Data Platforms",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_001",
+      "source_name": "D&F Portfolio",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_002",
+      "target_name": "Primary SI for Gen AI and Agentic",
+      "rel_type": "comprises",
+      "description": "The D&F Portfolio comprises the capability to serve as the primary systems integrator for Gen AI and Agentic solutions.",
+      "properties": {
+        "component_type": "si_capability",
+        "priority": "high"
+      },
+      "context": "Primary SI for Gen AI and Agentic",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_001",
+      "source_name": "D&F Portfolio",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_003",
+      "target_name": "Delivering Teradata Exit with Accelerators",
+      "rel_type": "comprises",
+      "description": "The D&F Portfolio comprises the capability to deliver Teradata exit strategies using accelerators.",
+      "properties": {
+        "component_type": "migration_capability",
+        "priority": "high"
+      },
+      "context": "Delivering Teradata Exit with Accelerators",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_001",
+      "source_name": "D&F Portfolio",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_004",
+      "target_name": "Driving AI Strategy and Operating Model",
+      "rel_type": "comprises",
+      "description": "The D&F Portfolio comprises the capability to drive AI strategy, operating models, and horizon plans.",
+      "properties": {
+        "component_type": "strategy_capability",
+        "priority": "high"
+      },
+      "context": "Driving AI strategy, operating model and horizon plans",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_001",
+      "source_name": "D&F Portfolio",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_005",
+      "target_name": "Production & Scaling of Enterprise Use Cases",
+      "rel_type": "comprises",
+      "description": "The D&F Portfolio comprises the capability to produce and scale enterprise use cases.",
+      "properties": {
+        "component_type": "scaling_capability",
+        "priority": "high"
+      },
+      "context": "Production & scaling of enterprise use cases",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_001",
+      "source_name": "Strategic Partner for AI & Modern Data Platforms",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_004",
+      "target_name": "DBT",
+      "rel_type": "uses",
+      "description": "The capability leverages DBT for SQL simplification and data transformation.",
+      "properties": {
+        "usage_context": "sql_simplification",
+        "deployment_model": "cloud_native"
+      },
+      "context": "Owning DBT Databricks in SQL Simplification",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_001",
+      "source_name": "Strategic Partner for AI & Modern Data Platforms",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_002",
+      "target_name": "Databricks",
+      "rel_type": "uses",
+      "description": "The capability leverages Databricks as the core data platform.",
+      "properties": {
+        "usage_context": "data_lakehouse",
+        "deployment_model": "cloud"
+      },
+      "context": "Owning DBT Databricks in SQL Simplification",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_001",
+      "source_name": "Strategic Partner for AI & Modern Data Platforms",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_005",
+      "target_name": "SQL",
+      "rel_type": "uses",
+      "description": "The capability utilizes SQL for data querying and transformation.",
+      "properties": {
+        "usage_context": "data_manipulation",
+        "deployment_model": "standard"
+      },
+      "context": "Owning DBT Databricks in SQL Simplification",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_002",
+      "source_name": "Primary SI for Gen AI and Agentic",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_006",
+      "target_name": "Gen AI",
+      "rel_type": "uses",
+      "description": "The capability utilizes Gen AI technologies to build and deploy enterprise solutions.",
+      "properties": {
+        "usage_context": "ai_model_development",
+        "deployment_model": "cloud"
+      },
+      "context": "Primary SI for Gen AI and Agentic",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_002",
+      "source_name": "Primary SI for Gen AI and Agentic",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_007",
+      "target_name": "Agentic",
+      "rel_type": "uses",
+      "description": "The capability utilizes Agentic AI frameworks for autonomous task execution.",
+      "properties": {
+        "usage_context": "autonomous_agents",
+        "deployment_model": "cloud"
+      },
+      "context": "Primary SI for Gen AI and Agentic",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_003",
+      "source_name": "Delivering Teradata Exit with Accelerators",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_001",
+      "target_name": "Teradata",
+      "rel_type": "uses",
+      "description": "The capability is designed to migrate away from or replace legacy Teradata systems.",
+      "properties": {
+        "usage_context": "legacy_migration",
+        "deployment_model": "on_prem_cloud"
+      },
+      "context": "Delivering Teradata Exit with Accelerators",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_002",
+      "source_name": "Teradata Migration",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_001",
+      "target_name": "Teradata",
+      "rel_type": "replaces",
+      "description": "The Teradata Migration offering replaces legacy Teradata infrastructure with modern alternatives.",
+      "properties": {
+        "replacement_target": "legacy_data_warehouse",
+        "migration_scope": "full"
+      },
+      "context": "Teradata Migration case study",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_003",
+      "source_name": "SQL Databricks Migration",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_001",
+      "target_name": "Teradata",
+      "rel_type": "replaces",
+      "description": "The SQL Databricks Migration offering replaces Teradata workloads with Databricks-based SQL pipelines.",
+      "properties": {
+        "replacement_target": "teradata_workloads",
+        "migration_scope": "partial"
+      },
+      "context": "SQL Databricks Migration",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_003",
+      "source_name": "SQL Databricks Migration",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_002",
+      "target_name": "Databricks",
+      "rel_type": "uses",
+      "description": "The offering uses Databricks as the primary data platform for migration.",
+      "properties": {
+        "usage_context": "data_platform",
+        "deployment_model": "cloud"
+      },
+      "context": "SQL Databricks Migration",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_003",
+      "source_name": "SQL Databricks Migration",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_005",
+      "target_name": "SQL",
+      "rel_type": "uses",
+      "description": "The offering leverages SQL for data transformation and querying on the new platform.",
+      "properties": {
+        "usage_context": "data_transformation",
+        "deployment_model": "standard"
+      },
+      "context": "SQL Databricks Migration",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_005",
+      "source_name": "HR Systems Integration",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_003",
+      "target_name": "Oracle Cloud",
+      "rel_type": "uses",
+      "description": "The HR Systems Integration offering uses Oracle Cloud for HR recruitment and HCM platforms.",
+      "properties": {
+        "usage_context": "hr_platform",
+        "deployment_model": "cloud_saas"
+      },
+      "context": "At the centre of integrating VM NBS HR ... Oracle Cloud HR Recruitment Platform",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_005",
+      "source_name": "HR Systems Integration",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_use_002",
+      "target_name": "Oracle Cloud HR Recruitment Platform",
+      "rel_type": "addresses",
+      "description": "The offering addresses the use case of deploying an Oracle Cloud HR Recruitment Platform.",
+      "properties": {
+        "use_case_type": "hr_modernization",
+        "status": "delivered"
+      },
+      "context": "Delivered Nationwide’s new Oracle Cloud HR Recruitment Platform on time and on budget",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_006",
+      "source_name": "GenAI CoE & Strategy",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_use_004",
+      "target_name": "Gen AI case study",
+      "rel_type": "addresses",
+      "description": "The offering addresses the Gen AI use case through strategy and CoE development.",
+      "properties": {
+        "use_case_type": "ai_strategy",
+        "status": "active"
+      },
+      "context": "Gen AI case study",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_002",
+      "source_name": "Teradata Migration",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_use_003",
+      "target_name": "Teradata Migration case study",
+      "rel_type": "addresses",
+      "description": "The offering addresses the Teradata migration use case demonstrated in the case study.",
+      "properties": {
+        "use_case_type": "data_migration",
+        "status": "demonstrated"
+      },
+      "context": "Teradata Migration case study",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_005",
+      "source_name": "Production & Scaling of Enterprise Use Cases",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_use_001",
+      "target_name": "Complaints & QA Assist",
+      "rel_type": "enables",
+      "description": "The capability enables the Complaints & QA Assist use case through production and scaling.",
+      "properties": {
+        "enablement_type": "operational_scaling",
+        "domain": "customer_service"
+      },
+      "context": "Production & scaling of enterprise use cases – Complaints & QA Assist",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_005",
+      "source_name": "HR Systems Integration",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_ben_001",
+      "target_name": "On Time and On Budget Delivery",
+      "rel_type": "achieved",
+      "description": "The offering achieved on-time and on-budget delivery for the Oracle Cloud HR Recruitment Platform.",
+      "properties": {
+        "metric": "delivery_performance",
+        "value": "on_time_on_budget",
+        "timeframe": "completed"
+      },
+      "context": "Delivered Nationwide’s new Oracle Cloud HR Recruitment Platform on time and on budget",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_005",
+      "source_name": "HR Systems Integration",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_ben_002",
+      "target_name": "Progressing to Plan for Mar 2026 Go-Live",
+      "rel_type": "achieved",
+      "description": "The offering achieved progress aligned with the plan for the March 2026 go-live milestone.",
+      "properties": {
+        "metric": "project_timeline",
+        "value": "on_plan",
+        "timeframe": "mar_2026"
+      },
+      "context": "Won and leading Nationwide HR integration on Oracle HCM, progressing to plan for Mar 2026 go-live",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_001",
+      "source_name": "D&F Portfolio",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_ben_001",
+      "target_name": "On Time and On Budget Delivery",
+      "rel_type": "achieved",
+      "description": "The portfolio achieved on-time and on-budget delivery across its key implementations.",
+      "properties": {
+        "metric": "delivery_performance",
+        "value": "on_time_on_budget",
+        "timeframe": "2025"
+      },
+      "context": "2025 Key Successes ... Delivered Nationwide’s new Oracle Cloud HR Recruitment Platform on time and on budget",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_diff_001",
+      "source_name": "Accelerators",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_002",
+      "target_name": "Teradata Migration",
+      "rel_type": "distinguished_by",
+      "description": "The Teradata Migration offering is distinguished by the use of proprietary accelerators.",
+      "properties": {
+        "differentiation_type": "accelerated_delivery",
+        "impact": "speed_and_efficiency"
+      },
+      "context": "Delivering Teradata Exit with Accelerators",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_diff_002",
+      "source_name": "Strategic Partner Status",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_001",
+      "target_name": "D&F Portfolio",
+      "rel_type": "distinguished_by",
+      "description": "The D&F Portfolio is distinguished by the strategic partner status with the client.",
+      "properties": {
+        "differentiation_type": "partnership_level",
+        "impact": "trust_and_alignment"
+      },
+      "context": "Strategic Partner for AI & Modern Data Platforms",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_diff_003",
+      "source_name": "Primary Systems Integrator (SI) Role",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_006",
+      "target_name": "GenAI CoE & Strategy",
+      "rel_type": "distinguished_by",
+      "description": "The GenAI CoE & Strategy offering is distinguished by the primary SI role in Gen AI and Agentic solutions.",
+      "properties": {
+        "differentiation_type": "si_leadership",
+        "impact": "technical_authority"
+      },
+      "context": "Primary SI for Gen AI and Agentic",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_001",
+      "source_name": "KP",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cli_001",
+      "target_name": "Nationwide",
+      "rel_type": "represents",
+      "description": "KP represents Nationwide in the context of the showcase agenda and data functions overview.",
+      "properties": {
+        "role": "client_stakeholder",
+        "domain": "data_functions"
+      },
+      "context": "1. Introduction and Nationwide Overview - KP",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_002",
+      "source_name": "Vera",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cli_002",
+      "target_name": "Virgin Money",
+      "rel_type": "represents",
+      "description": "Vera represents Virgin Money in the context of the showcase agenda.",
+      "properties": {
+        "role": "client_stakeholder",
+        "domain": "general"
+      },
+      "context": "2. Virgin Money - Vera",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_org_001",
+      "source_name": "IBM Corporation",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cli_001",
+      "target_name": "Nationwide",
+      "rel_type": "partners_with",
+      "description": "IBM Corporation partners with Nationwide to deliver data, AI, and migration solutions.",
+      "properties": {
+        "partnership_type": "strategic_delivery",
+        "focus": "modernization"
+      },
+      "context": "Nationwide and IBM confidential",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_org_001",
+      "source_name": "IBM Corporation",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cli_002",
+      "target_name": "Virgin Money",
+      "rel_type": "partners_with",
+      "description": "IBM Corporation partners with Virgin Money to deliver migration and HR integration solutions.",
+      "properties": {
+        "partnership_type": "strategic_delivery",
+        "focus": "integration"
+      },
+      "context": "Nationwide and IBM confidential",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cli_002",
+      "source_name": "Virgin Money",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_001",
+      "source_name": "D&F Portfolio",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_002",
+      "source_name": "Teradata Migration",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_003",
+      "source_name": "SQL Databricks Migration",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_004",
+      "source_name": "VMI Migration Utility",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_005",
+      "source_name": "HR Systems Integration",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_006",
+      "source_name": "GenAI CoE & Strategy",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_007",
+      "source_name": "Customer Experience Platform Automation",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_008",
+      "source_name": "FinCrime & Data Gov",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_off_009",
+      "source_name": "ICA Deployment",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_001",
+      "source_name": "Strategic Partner for AI & Modern Data Platforms",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_002",
+      "source_name": "Primary SI for Gen AI and Agentic",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_003",
+      "source_name": "Delivering Teradata Exit with Accelerators",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_004",
+      "source_name": "Driving AI Strategy and Operating Model",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_cap_005",
+      "source_name": "Production & Scaling of Enterprise Use Cases",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_use_001",
+      "source_name": "Complaints & QA Assist",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_use_002",
+      "source_name": "Oracle Cloud HR Recruitment Platform",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_use_003",
+      "source_name": "Teradata Migration case study",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_use_004",
+      "source_name": "Gen AI case study",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_ben_001",
+      "source_name": "On Time and On Budget Delivery",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_ben_002",
+      "source_name": "Progressing to Plan for Mar 2026 Go-Live",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_001",
+      "source_name": "Teradata",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_002",
+      "source_name": "Databricks",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_003",
+      "source_name": "Oracle Cloud",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_004",
+      "source_name": "DBT",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_005",
+      "source_name": "SQL",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_006",
+      "source_name": "Gen AI",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_tech_007",
+      "source_name": "Agentic",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_diff_001",
+      "source_name": "Accelerators",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_diff_002",
+      "source_name": "Strategic Partner Status",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_diff_003",
+      "source_name": "Primary Systems Integrator (SI) Role",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_001",
+      "source_name": "KP",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_002",
+      "source_name": "Vera",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_003",
+      "source_name": "Sam H",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_004",
+      "source_name": "Holly",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_005",
+      "source_name": "Tim",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_006",
+      "source_name": "Peter",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_per_007",
+      "source_name": "Duncan",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_org_001",
+      "source_name": "IBM Corporation",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001_evt_001",
+      "source_name": "Nationwide & VM Showcase",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_001",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    }
+  ]
+}

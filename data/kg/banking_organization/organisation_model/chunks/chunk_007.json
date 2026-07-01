@@ -1,0 +1,1957 @@
+{
+  "embedding": [
+    -0.022915743,
+    0.07237754,
+    -0.19128521,
+    0.021503873,
+    0.05650667,
+    -0.045559637,
+    0.068701655,
+    0.00056227477,
+    0.015153452,
+    -0.04121535,
+    -0.008984341,
+    0.059684858,
+    0.05148599,
+    -0.025264863,
+    -0.006644929,
+    0.0010364879,
+    -0.014489094,
+    -0.019926889,
+    -0.008748881,
+    -0.004867439,
+    0.0034689838,
+    -0.027209178,
+    -0.021073222,
+    -0.021887526,
+    0.0732577,
+    0.044529665,
+    0.028647082,
+    -0.009225268,
+    -0.040064763,
+    0.0100521725,
+    0.039003327,
+    0.0059181075,
+    0.02605576,
+    -0.036839943,
+    -0.03234107,
+    -0.032318544,
+    0.01872002,
+    0.032101043,
+    0.010344616,
+    -0.023331493,
+    0.011184013,
+    0.0200736,
+    -0.00012341385,
+    -0.06437488,
+    0.06092502,
+    0.02658796,
+    0.027803915,
+    -0.0012375758,
+    0.0998139,
+    -0.024304815,
+    -0.005098361,
+    -0.052208666,
+    0.0450762,
+    0.085363925,
+    0.021652604,
+    -0.0066342424,
+    -0.019999065,
+    0.05024121,
+    -0.021519016,
+    -0.013655181,
+    0.07859349,
+    0.051901113,
+    0.018278377,
+    0.077757776,
+    0.028538838,
+    -0.012834971,
+    7.3661918e-06,
+    0.024061617,
+    -0.016592091,
+    -0.033059023,
+    0.05409352,
+    -0.037991975,
+    0.030193783,
+    -0.003244714,
+    0.0016909457,
+    -0.028863257,
+    -0.050757956,
+    -0.02936824,
+    -0.0018535461,
+    0.014661036,
+    0.06335569,
+    0.018353706,
+    0.014156666,
+    0.025234768,
+    0.0049872184,
+    -0.016707549,
+    -0.0012049442,
+    -0.029115843,
+    0.009686369,
+    0.06266811,
+    -0.0047619105,
+    0.07192525,
+    0.032550894,
+    0.050611712,
+    -0.06609855,
+    0.0072360197,
+    0.018885275,
+    -0.04559106,
+    0.007041941,
+    -0.012231058,
+    -0.007959415,
+    -0.015556846,
+    0.05546723,
+    0.00953625,
+    0.070110925,
+    0.021384075,
+    0.052813247,
+    0.019565796,
+    -0.009880237,
+    -0.013217722,
+    -0.017270876,
+    0.026458684,
+    -0.02795333,
+    0.012902307,
+    -0.012639246,
+    0.074474156,
+    0.048187844,
+    0.01233735,
+    0.0038089876,
+    0.035758775,
+    -0.006849273,
+    -0.051585227,
+    0.004845893,
+    0.0026295658,
+    -0.028910536,
+    0.0028614448,
+    -0.08364962,
+    0.041474286,
+    0.032166347,
+    -0.011387528,
+    0.00066721224,
+    -0.019366082,
+    -0.04260099,
+    -0.049882058,
+    0.033178326,
+    0.049384907,
+    0.017744968,
+    -0.047350418,
+    0.02534096,
+    0.03999462,
+    0.00719687,
+    0.032433346,
+    0.001982249,
+    0.04892564,
+    -0.03721875,
+    -0.08645227,
+    0.03991692,
+    -0.024834098,
+    -0.021407487,
+    0.032198615,
+    -0.051455077,
+    0.01813256,
+    -0.015647108,
+    0.049660373,
+    0.040302634,
+    -0.0636031,
+    0.008386352,
+    -0.00011499481,
+    0.03787436,
+    0.0026793007,
+    0.066100694,
+    -0.02732583,
+    -0.04709275,
+    0.011341559,
+    0.010842083,
+    -0.11184682,
+    0.02558138,
+    0.027143903,
+    0.07980273,
+    0.026020724,
+    -0.037227232,
+    -0.034487363,
+    -0.04082759,
+    0.015172569,
+    0.06520932,
+    -0.0026144232,
+    0.029858759,
+    0.058192097,
+    -0.0050238394,
+    -0.042334992,
+    -0.01385059,
+    -0.041299008,
+    0.06026424,
+    0.08323204,
+    -0.04031719,
+    -0.0050282246,
+    0.043382917,
+    -0.002627282,
+    -0.01768033,
+    -0.02478091,
+    -0.012774588,
+    0.07082071,
+    -0.027262129,
+    -0.051307708,
+    -0.032181803,
+    0.003937281,
+    0.0450411,
+    0.0037192106,
+    0.027257025,
+    -0.063355274,
+    0.005629596,
+    0.017422939,
+    -0.00963971,
+    0.0022120145,
+    0.009992633,
+    0.010512498,
+    0.0026900491,
+    0.015707871,
+    0.00037410005,
+    0.032471523,
+    0.016066916,
+    -0.04378245,
+    -0.05970595,
+    -0.048233747,
+    0.030359067,
+    -0.0148809515,
+    0.014540705,
+    0.006696271,
+    0.00067294866,
+    0.023705957,
+    -0.006959532,
+    -0.045004666,
+    0.029035874,
+    -0.022334812,
+    0.04676418,
+    -0.033277646,
+    -0.0013126392,
+    -0.031995468,
+    -0.007335387,
+    0.022572422,
+    -0.052928545,
+    0.0013328415,
+    0.041947436,
+    -0.029856829,
+    -0.021168051,
+    -0.006561024,
+    0.007136937,
+    0.04304291,
+    0.023578683,
+    -0.006251522,
+    -0.00013599797,
+    0.03460675,
+    -0.012303105,
+    0.006573583,
+    -0.040600415,
+    -0.005556992,
+    -0.016464485,
+    -0.012384993,
+    0.014979069,
+    -0.009729506,
+    0.011627216,
+    -0.021417782,
+    0.050858356,
+    -0.024798572,
+    0.05440807,
+    -0.04918744,
+    -0.0029433917,
+    0.003957882,
+    0.0007560013,
+    -0.027544176,
+    0.0026021185,
+    -0.031500738,
+    0.1273441,
+    0.025122898,
+    0.011633268,
+    -0.024430515,
+    -0.07175436,
+    0.01832431,
+    0.028936697,
+    -0.03963696,
+    0.019199172,
+    0.045266386,
+    -0.027588889,
+    0.047244083,
+    0.01600288,
+    -0.03697343,
+    0.041720584,
+    -0.009034175,
+    -0.042213168,
+    0.038625367,
+    -0.030525347,
+    -0.047735743,
+    -0.009641278,
+    -0.022071252,
+    -0.010240293,
+    0.0725854,
+    0.031372525,
+    0.047639262,
+    0.020102218,
+    0.037035175,
+    0.042021982,
+    0.001965597,
+    0.0054185223,
+    0.014029763,
+    -0.018387806,
+    0.014186532,
+    0.052307114,
+    0.009722051,
+    0.0338754,
+    -0.0580739,
+    0.011862863,
+    -0.011821616,
+    0.004588416,
+    0.032220867,
+    -0.09985744,
+    0.0066901734,
+    0.054175448,
+    0.012933308,
+    0.019310977,
+    -0.010215673,
+    -0.016753864,
+    0.009855758,
+    -0.037015174,
+    -0.03528506,
+    -0.004095286,
+    -0.0026905907,
+    0.021630289,
+    0.030027866,
+    0.021266269,
+    0.036778327,
+    -0.033866085,
+    -0.011361677,
+    0.008654339,
+    -0.0573464,
+    0.02340459,
+    0.05247218,
+    -0.06345242,
+    0.056947958,
+    -0.0015491192,
+    -0.01858667,
+    -0.019930113,
+    0.025309378,
+    0.04807417,
+    -0.04442575,
+    -0.005310937,
+    0.06567147,
+    0.03458364,
+    -0.0031917228,
+    -0.009925451,
+    -0.010412666,
+    0.09794033,
+    0.012793836,
+    0.0016971652,
+    -0.08103304,
+    -0.022634607,
+    -0.022038246,
+    -0.041664615,
+    -0.029233934,
+    0.045192607,
+    0.062416527,
+    -0.028168993,
+    -0.012450995,
+    -0.0054706708,
+    0.0056173014,
+    0.0012204609,
+    -0.035954364,
+    0.03909413,
+    0.021815602,
+    0.0319653,
+    -0.015065298,
+    0.047991253,
+    -0.016425606,
+    0.011246378,
+    0.010054437,
+    -0.01717736,
+    0.0050839195,
+    0.08080273,
+    -0.03991812,
+    0.0126022305,
+    0.009407308,
+    0.0057698945,
+    -0.015080055,
+    0.0041392264,
+    -0.01661869,
+    -0.016128283,
+    0.011894992,
+    -0.06920288,
+    -0.0107596805,
+    -0.011306779,
+    0.030979581,
+    0.003257094,
+    -0.008722817,
+    0.0119813625,
+    0.02061026,
+    -0.012222046,
+    -0.033128392,
+    0.026265513,
+    -0.023713535,
+    0.015912956,
+    0.0009120998,
+    -0.044187438,
+    0.008977515,
+    0.0040546367,
+    -0.0040747453,
+    0.0061623966,
+    -0.076508425,
+    0.024483662,
+    -0.0104913935,
+    -0.012151383,
+    0.047023263,
+    -0.04088846,
+    -0.048153337,
+    -0.0064056967,
+    -0.046243545,
+    -0.013645375,
+    -0.009674534,
+    -0.009290832,
+    -0.040609676,
+    -0.0067418185,
+    0.049492728,
+    0.021709941,
+    0.02475593,
+    -0.025301663,
+    -0.045278516,
+    0.047695685,
+    0.050037947,
+    0.005745424,
+    -0.018706616,
+    0.029378938,
+    -0.012202118,
+    0.052506216,
+    -0.012647746,
+    0.026058126,
+    -0.014162927,
+    0.017184258,
+    0.0014908265,
+    0.03532549,
+    0.016453722,
+    -0.026913533,
+    -0.03179322,
+    -0.009254525,
+    0.025324786,
+    0.049362365,
+    0.014578323,
+    -0.03984586,
+    -0.012663892,
+    0.019503122,
+    -0.049103633,
+    0.029618666,
+    0.07227329,
+    0.033418033,
+    -0.0659754,
+    -0.03720346,
+    -0.02152439,
+    0.06327617,
+    0.039856102,
+    0.0379174,
+    -0.04256135,
+    -0.002204586,
+    0.026424067,
+    0.06165652,
+    0.05217451,
+    0.01974455,
+    0.01996452,
+    0.03236958,
+    -0.011942143,
+    0.06272982,
+    -0.005924098,
+    0.022583963,
+    0.05253421,
+    0.0072285654,
+    0.034824092,
+    -0.06044817,
+    0.012972539,
+    -0.029904418,
+    -0.057712518,
+    0.06504547,
+    -0.030123033,
+    0.028983377,
+    0.07563354,
+    -0.01607867,
+    0.030598354,
+    0.04237403,
+    -0.05373113,
+    0.004889187,
+    -0.021224795,
+    -0.042040087,
+    -0.0036878178,
+    -0.029227974,
+    0.044499204,
+    0.00963249,
+    -0.025496721,
+    -0.04576411,
+    -0.040705364,
+    -0.045327064,
+    0.007328072,
+    0.054070543,
+    -0.033519465,
+    0.003896178,
+    0.0065949443,
+    -0.015915686,
+    -0.012089141,
+    0.018903218,
+    -0.013726271,
+    -0.012448452,
+    -0.01695617,
+    0.006544956,
+    0.044181366,
+    0.003521856,
+    0.011837197,
+    0.060020894,
+    0.028836606,
+    -0.008256455,
+    0.009365793,
+    0.01555339,
+    -0.019300789,
+    0.017530847,
+    -0.06538196,
+    -0.048099585,
+    0.005172621,
+    0.008292078,
+    0.0128679965,
+    0.00955471,
+    0.0052997502,
+    0.03366561,
+    -0.04535498,
+    -0.0009104057,
+    0.035515,
+    -0.016893657,
+    0.018160969,
+    -0.032742336,
+    -0.016410263,
+    -0.014047102,
+    -0.07613628,
+    -0.066277005,
+    0.000692995,
+    0.028996404,
+    -0.020491093,
+    0.0661334,
+    0.0025239235,
+    0.036230125,
+    0.02113261,
+    0.0068450547,
+    -0.017425131,
+    0.004012076,
+    -0.02955721,
+    -0.055624697,
+    0.015749607,
+    0.033661067,
+    0.03325006,
+    -0.020471264,
+    0.006246488,
+    -0.0056904037,
+    0.00020714062,
+    -0.008605155,
+    -0.01848976,
+    0.009975307,
+    0.0029788238,
+    -0.045363173,
+    -0.011555697,
+    0.017812233,
+    -0.04203038,
+    0.016535712,
+    -0.047897954,
+    0.029692212,
+    -0.0006496975,
+    -0.015026345,
+    -0.018702049,
+    -0.05745048,
+    -0.029257843,
+    0.013759781,
+    0.025729267,
+    0.028001668,
+    0.015490363,
+    0.044155695,
+    -0.06479328,
+    0.04262542,
+    0.038121454,
+    0.027061217,
+    0.011539043,
+    -0.013401865,
+    -0.04527281,
+    -0.038024113,
+    -0.05837363,
+    -0.007901354,
+    -0.0010709174,
+    0.01647626,
+    -0.0019755645,
+    -0.022414813,
+    0.009717108,
+    0.005064052,
+    -0.036754288,
+    0.027248822,
+    0.08085487,
+    -0.0368026,
+    0.012097499,
+    -0.02251314,
+    -0.053058736,
+    -0.014310041,
+    -0.038374156,
+    0.007935115,
+    0.022267083,
+    -0.0028607687,
+    -0.07333905,
+    0.009615575,
+    -0.024669394,
+    0.048450347,
+    -0.029384768,
+    -0.042524233,
+    -0.09744214,
+    -0.01892061,
+    -0.0009964466,
+    0.040471546,
+    -0.06488932,
+    0.0090867095,
+    0.0382856,
+    0.016163206,
+    0.016555628,
+    -0.018170662,
+    -0.013477568,
+    0.037489615,
+    0.006931657,
+    -0.049051855,
+    0.022569878,
+    0.02258923,
+    -0.044047263,
+    0.09908356,
+    -0.0030398844,
+    0.0041198777,
+    0.007102459,
+    -0.040134504,
+    -0.05264419,
+    0.047502264,
+    -0.029591026,
+    0.021277295,
+    -0.04014582,
+    -0.009178424,
+    -0.03364597,
+    -0.022750331,
+    0.045108937,
+    -0.023063954,
+    0.012060077,
+    -0.06686265,
+    -0.075644396,
+    -0.075419895,
+    0.00535618,
+    -0.013245487,
+    -0.0004420695,
+    -0.028462216,
+    0.0036497193,
+    0.055657886,
+    -0.015608678,
+    0.009906605,
+    0.04792378,
+    0.011038007,
+    -0.03330211,
+    0.039897278,
+    0.046244517,
+    0.08730842,
+    0.02041967,
+    0.06827351,
+    0.047401913,
+    0.04987775,
+    -0.03329458,
+    -0.025281856,
+    -0.0476993,
+    0.018436193,
+    -0.04597363,
+    -0.018001223,
+    -0.059880238,
+    -0.028611265,
+    0.01365261,
+    -0.022683194,
+    -0.013682018,
+    0.046886485,
+    0.015490822,
+    -0.0263726,
+    0.018397247,
+    -0.04639894,
+    -0.060361076,
+    -0.018353784,
+    0.046329875,
+    0.000630791,
+    -0.04287741,
+    -0.045519613,
+    0.045416504,
+    0.030529069,
+    0.008563323,
+    0.015380433,
+    -0.021156974,
+    0.008477107,
+    -0.0076119364,
+    0.0144187985,
+    -0.024671858,
+    -0.0058660214,
+    0.014597619,
+    0.03518277,
+    0.006403878,
+    0.060804307,
+    -0.025517642,
+    -0.0248874,
+    -0.06873231,
+    0.02074035,
+    -0.02856042,
+    0.0115920035,
+    0.019434214,
+    0.0124541065,
+    -0.014391091,
+    -0.060778458,
+    0.014361933,
+    -0.08793698,
+    0.007278348,
+    -0.0074302945,
+    0.03611688,
+    -0.0050343922,
+    -0.025406295,
+    0.00413087,
+    -0.03748575,
+    -0.028192684,
+    0.0018380859,
+    -0.020226372,
+    -0.017047497,
+    0.014105371,
+    0.013283182,
+    -0.007003193,
+    0.025094407,
+    -0.049181372,
+    -0.02533458,
+    -0.026907265,
+    0.031947557,
+    0.054628246,
+    -0.0056576035,
+    -0.046150286,
+    -0.041986182,
+    -0.0568507,
+    -0.0289345,
+    0.023586623,
+    -0.03738547,
+    -0.012699869,
+    -0.03299072,
+    -0.057559766,
+    -0.02217492,
+    -0.102074206,
+    0.09465075,
+    -0.0056972615,
+    -0.019223427,
+    0.008795088,
+    -0.017580653,
+    -0.039275486,
+    0.012325641,
+    -0.0553958,
+    -0.027610179,
+    -0.017747603,
+    0.047669817,
+    -0.0069735567,
+    -0.03181588,
+    0.011212383,
+    0.036183324,
+    0.0093663465,
+    -0.017556686,
+    0.016716002,
+    0.005114334,
+    -0.044937305,
+    -0.02057315,
+    -0.009556874,
+    -0.0001546657,
+    0.02214168,
+    0.0062275394,
+    0.027222823,
+    -0.04148517,
+    0.027679963,
+    -0.0008992723,
+    0.040386885,
+    -0.034495573,
+    -0.0069101276,
+    -0.060173154,
+    -0.06925946,
+    0.015181718
+  ],
+  "chunk_seq": 7,
+  "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+  "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+  "text": "## Business Units  \n### 1. Retail Banking (Head: Director of Retail Banking)  \n**Mission:** Deliver consumer banking products and services  \n**Key Functions:**\n- Product Management (see [[products]])\n- Account Services\n- Customer Service (see [[departments]])\n- Sales & Onboarding\n- Branch Operations (see [[branches]])  \n**Key Metrics:**\n- Customer acquisition: 50 per quarter\n- Account activation rate: 92%\n- Net Promoter Score (NPS): 68\n- Customer retention: 94%  \n**Primary Products:**\n- SmartSaver Account (see [[business_ontology]])\n- Current Accounts\n- Mortgages\n- Debit Cards  \n---",
+  "name": "Chunk 7/24",
+  "domain": "banking_organization",
+  "prev_chunk_id": "83b83916d073408d9452b18c1e8f9a50_006",
+  "next_chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+  "raw_entities": [
+    {
+      "id": "org_001",
+      "name": "Retail Banking",
+      "aliases": [
+        "RB"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A core business unit responsible for delivering consumer banking products and services, overseeing product management, account services, customer service, sales & onboarding, and branch operations to meet retail market demands.",
+      "context": [
+        "## Business Units",
+        "### 1. Retail Banking (Head: Director of Retail Banking)",
+        "**Mission:** Deliver consumer banking products and services"
+      ]
+    },
+    {
+      "id": "rol_001",
+      "name": "Director of Retail Banking",
+      "aliases": [
+        "Head of Retail Banking"
+      ],
+      "entity_class": "ROLE_PERSON",
+      "type": "department_head",
+      "description": "The named leadership role responsible for heading the Retail Banking business unit, providing strategic oversight and accountability for its mission delivery and key operational functions.",
+      "context": [
+        "### 1. Retail Banking (Head: Director of Retail Banking)"
+      ]
+    },
+    {
+      "id": "org_002",
+      "name": "Product Management",
+      "aliases": [
+        "PM"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "department",
+      "description": "A functional department within the Retail Banking unit tasked with managing the lifecycle, strategy, governance, and development of banking products.",
+      "context": [
+        "- Product Management (see [[products]])"
+      ]
+    },
+    {
+      "id": "org_003",
+      "name": "Account Services",
+      "aliases": [
+        "AS"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "department",
+      "description": "A dedicated department handling account-related operations, maintenance, support, and lifecycle management for retail customers.",
+      "context": [
+        "- Account Services"
+      ]
+    },
+    {
+      "id": "org_004",
+      "name": "Customer Service",
+      "aliases": [
+        "CS"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "department",
+      "description": "A specialized department focused on addressing customer inquiries, resolving service issues, and maintaining service quality within the Retail Banking unit.",
+      "context": [
+        "- Customer Service (see [[departments]])"
+      ]
+    },
+    {
+      "id": "org_005",
+      "name": "Sales & Onboarding",
+      "aliases": [
+        "S&O"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "team",
+      "description": "A cross-functional team responsible for acquiring new customers and managing their initial account setup, documentation, and integration processes.",
+      "context": [
+        "- Sales & Onboarding"
+      ]
+    },
+    {
+      "id": "org_006",
+      "name": "Branch Operations",
+      "aliases": [
+        "BO"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "office",
+      "description": "An operational office managing physical branch locations, ensuring day-to-day retail banking activities, staffing, and facility standards align with business unit objectives.",
+      "context": [
+        "- Branch Operations (see [[branches]])"
+      ]
+    },
+    {
+      "id": "met_001",
+      "name": "Customer acquisition",
+      "aliases": [
+        "New Customer Intake"
+      ],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "A quantitative performance target measuring the rate of new customer intake, established at a threshold of 50 per quarter.",
+      "context": [
+        "- Customer acquisition: 50 per quarter"
+      ]
+    },
+    {
+      "id": "met_002",
+      "name": "Account activation rate",
+      "aliases": [
+        "Activation Rate"
+      ],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "A key performance indicator tracking the percentage of newly opened accounts successfully activated, set at a target of 92%.",
+      "context": [
+        "- Account activation rate: 92%"
+      ]
+    },
+    {
+      "id": "met_003",
+      "name": "Net Promoter Score (NPS)",
+      "aliases": [
+        "NPS"
+      ],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "A customer loyalty metric measuring satisfaction and advocacy potential, with a defined target value of 68.",
+      "context": [
+        "- Net Promoter Score (NPS): 68"
+      ]
+    },
+    {
+      "id": "met_004",
+      "name": "Customer retention",
+      "aliases": [
+        "Retention Rate"
+      ],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "A quantitative performance indicator measuring the percentage of customers maintained over a given period, set at a target of 94%.",
+      "context": [
+        "- Customer retention: 94%"
+      ]
+    },
+    {
+      "id": "bnk_001",
+      "name": "SmartSaver Account",
+      "aliases": [
+        "SSA"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "product",
+      "description": "A specific consumer banking product offered by the Retail Banking unit, categorized under the bank's business ontology framework for savings and deposit management.",
+      "context": [
+        "- SmartSaver Account (see [[business_ontology]])"
+      ]
+    },
+    {
+      "id": "bnk_002",
+      "name": "Current Accounts",
+      "aliases": [
+        "Checking Accounts"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "account",
+      "description": "A standard transactional account product designed for everyday retail customer spending, cash management, and payment processing.",
+      "context": [
+        "- Current Accounts"
+      ]
+    },
+    {
+      "id": "bnk_003",
+      "name": "Mortgages",
+      "aliases": [
+        "Home Loans"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "product",
+      "description": "A secured lending product offering long-term financing to consumers, typically backed by property collateral and governed by specific underwriting rules.",
+      "context": [
+        "- Mortgages"
+      ]
+    },
+    {
+      "id": "bnk_004",
+      "name": "Debit Cards",
+      "aliases": [
+        "DC"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "card",
+      "description": "A payment card product linked directly to a customer's deposit account, enabling direct point-of-sale and ATM transactions without credit extension.",
+      "context": [
+        "- Debit Cards"
+      ]
+    }
+  ],
+  "id_map": {
+    "org_001": "83b83916d073408d9452b18c1e8f9a50_007_org_001",
+    "rol_001": "83b83916d073408d9452b18c1e8f9a50_007_rol_001",
+    "org_002": "83b83916d073408d9452b18c1e8f9a50_007_org_002",
+    "org_003": "83b83916d073408d9452b18c1e8f9a50_007_org_003",
+    "org_004": "83b83916d073408d9452b18c1e8f9a50_007_org_004",
+    "org_005": "83b83916d073408d9452b18c1e8f9a50_007_org_005",
+    "org_006": "83b83916d073408d9452b18c1e8f9a50_007_org_006",
+    "met_001": "83b83916d073408d9452b18c1e8f9a50_007_met_001",
+    "met_002": "83b83916d073408d9452b18c1e8f9a50_007_met_002",
+    "met_003": "83b83916d073408d9452b18c1e8f9a50_007_met_003",
+    "met_004": "83b83916d073408d9452b18c1e8f9a50_007_met_004",
+    "bnk_001": "83b83916d073408d9452b18c1e8f9a50_007_bnk_001",
+    "bnk_002": "83b83916d073408d9452b18c1e8f9a50_007_bnk_002",
+    "bnk_003": "83b83916d073408d9452b18c1e8f9a50_007_bnk_003",
+    "bnk_004": "83b83916d073408d9452b18c1e8f9a50_007_bnk_004"
+  },
+  "entities": [
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_007_org_001",
+      "name": "Retail Banking",
+      "aliases": [
+        "RB"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "business_unit",
+      "description": "A core business unit responsible for delivering consumer banking products and services, overseeing product management, account services, customer service, sales & onboarding, and branch operations to meet retail market demands.",
+      "context": [
+        "## Business Units",
+        "### 1. Retail Banking (Head: Director of Retail Banking)",
+        "**Mission:** Deliver consumer banking products and services"
+      ],
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_007_rol_001",
+      "name": "Director of Retail Banking",
+      "aliases": [
+        "Head of Retail Banking"
+      ],
+      "entity_class": "ROLE_PERSON",
+      "type": "department_head",
+      "description": "The named leadership role responsible for heading the Retail Banking business unit, providing strategic oversight and accountability for its mission delivery and key operational functions.",
+      "context": [
+        "### 1. Retail Banking (Head: Director of Retail Banking)"
+      ],
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_007_org_002",
+      "name": "Product Management",
+      "aliases": [
+        "PM"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "department",
+      "description": "A functional department within the Retail Banking unit tasked with managing the lifecycle, strategy, governance, and development of banking products.",
+      "context": [
+        "- Product Management (see [[products]])"
+      ],
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_007_org_003",
+      "name": "Account Services",
+      "aliases": [
+        "AS"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "department",
+      "description": "A dedicated department handling account-related operations, maintenance, support, and lifecycle management for retail customers.",
+      "context": [
+        "- Account Services"
+      ],
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_007_org_004",
+      "name": "Customer Service",
+      "aliases": [
+        "CS"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "department",
+      "description": "A specialized department focused on addressing customer inquiries, resolving service issues, and maintaining service quality within the Retail Banking unit.",
+      "context": [
+        "- Customer Service (see [[departments]])"
+      ],
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_007_org_005",
+      "name": "Sales & Onboarding",
+      "aliases": [
+        "S&O"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "team",
+      "description": "A cross-functional team responsible for acquiring new customers and managing their initial account setup, documentation, and integration processes.",
+      "context": [
+        "- Sales & Onboarding"
+      ],
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_007_org_006",
+      "name": "Branch Operations",
+      "aliases": [
+        "BO"
+      ],
+      "entity_class": "ORGANIZATIONAL_UNIT",
+      "type": "office",
+      "description": "An operational office managing physical branch locations, ensuring day-to-day retail banking activities, staffing, and facility standards align with business unit objectives.",
+      "context": [
+        "- Branch Operations (see [[branches]])"
+      ],
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_007_met_001",
+      "name": "Customer acquisition",
+      "aliases": [
+        "New Customer Intake"
+      ],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "A quantitative performance target measuring the rate of new customer intake, established at a threshold of 50 per quarter.",
+      "context": [
+        "- Customer acquisition: 50 per quarter"
+      ],
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_007_met_002",
+      "name": "Account activation rate",
+      "aliases": [
+        "Activation Rate"
+      ],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "A key performance indicator tracking the percentage of newly opened accounts successfully activated, set at a target of 92%.",
+      "context": [
+        "- Account activation rate: 92%"
+      ],
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_007_met_003",
+      "name": "Net Promoter Score (NPS)",
+      "aliases": [
+        "NPS"
+      ],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "A customer loyalty metric measuring satisfaction and advocacy potential, with a defined target value of 68.",
+      "context": [
+        "- Net Promoter Score (NPS): 68"
+      ],
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_007_met_004",
+      "name": "Customer retention",
+      "aliases": [
+        "Retention Rate"
+      ],
+      "entity_class": "METRIC_TARGET",
+      "type": "kpi",
+      "description": "A quantitative performance indicator measuring the percentage of customers maintained over a given period, set at a target of 94%.",
+      "context": [
+        "- Customer retention: 94%"
+      ],
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_007_bnk_001",
+      "name": "SmartSaver Account",
+      "aliases": [
+        "SSA"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "product",
+      "description": "A specific consumer banking product offered by the Retail Banking unit, categorized under the bank's business ontology framework for savings and deposit management.",
+      "context": [
+        "- SmartSaver Account (see [[business_ontology]])"
+      ],
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_007_bnk_002",
+      "name": "Current Accounts",
+      "aliases": [
+        "Checking Accounts"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "account",
+      "description": "A standard transactional account product designed for everyday retail customer spending, cash management, and payment processing.",
+      "context": [
+        "- Current Accounts"
+      ],
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_007_bnk_003",
+      "name": "Mortgages",
+      "aliases": [
+        "Home Loans"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "product",
+      "description": "A secured lending product offering long-term financing to consumers, typically backed by property collateral and governed by specific underwriting rules.",
+      "context": [
+        "- Mortgages"
+      ],
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_007_bnk_004",
+      "name": "Debit Cards",
+      "aliases": [
+        "DC"
+      ],
+      "entity_class": "BANKING_CONCEPT",
+      "type": "card",
+      "description": "A payment card product linked directly to a customer's deposit account, enabling direct point-of-sale and ATM transactions without credit extension.",
+      "context": [
+        "- Debit Cards"
+      ],
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    }
+  ],
+  "properties": [
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_007_org_001",
+      "name": "Retail Banking",
+      "properties": {
+        "mission": [
+          "Deliver consumer banking products and services"
+        ],
+        "key_functions": [
+          "Product Management",
+          "Account Services",
+          "Customer Service",
+          "Sales & Onboarding",
+          "Branch Operations"
+        ],
+        "chair_or_head": [
+          "Director of Retail Banking"
+        ]
+      },
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_007_rol_001",
+      "name": "Director of Retail Banking",
+      "properties": {
+        "department_or_unit": [
+          "Retail Banking"
+        ]
+      },
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_007_org_002",
+      "name": "Product Management",
+      "properties": {
+        "reporting_to": [
+          "Retail Banking"
+        ]
+      },
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_007_org_003",
+      "name": "Account Services",
+      "properties": {
+        "reporting_to": [
+          "Retail Banking"
+        ]
+      },
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_007_org_004",
+      "name": "Customer Service",
+      "properties": {
+        "reporting_to": [
+          "Retail Banking"
+        ]
+      },
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_007_org_005",
+      "name": "Sales & Onboarding",
+      "properties": {
+        "reporting_to": [
+          "Retail Banking"
+        ]
+      },
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_007_org_006",
+      "name": "Branch Operations",
+      "properties": {
+        "reporting_to": [
+          "Retail Banking"
+        ]
+      },
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_007_met_001",
+      "name": "Customer acquisition",
+      "properties": {
+        "value": 50,
+        "unit": "per quarter",
+        "frequency": "quarterly",
+        "owner": [
+          "Retail Banking"
+        ]
+      },
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_007_met_002",
+      "name": "Account activation rate",
+      "properties": {
+        "value": 92,
+        "unit": "%",
+        "owner": [
+          "Retail Banking"
+        ]
+      },
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_007_met_003",
+      "name": "Net Promoter Score (NPS)",
+      "properties": {
+        "value": 68,
+        "unit": "score",
+        "owner": [
+          "Retail Banking"
+        ]
+      },
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_007_met_004",
+      "name": "Customer retention",
+      "properties": {
+        "value": 94,
+        "unit": "%",
+        "owner": [
+          "Retail Banking"
+        ]
+      },
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_007_bnk_001",
+      "name": "SmartSaver Account",
+      "properties": {
+        "relationships_to": [
+          "Retail Banking"
+        ],
+        "definition": [
+          "Primary consumer banking product offered by Retail Banking"
+        ]
+      },
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_007_bnk_002",
+      "name": "Current Accounts",
+      "properties": {
+        "relationships_to": [
+          "Retail Banking"
+        ],
+        "definition": [
+          "Primary transactional banking product offered by Retail Banking"
+        ]
+      },
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_007_bnk_003",
+      "name": "Mortgages",
+      "properties": {
+        "relationships_to": [
+          "Retail Banking"
+        ],
+        "definition": [
+          "Primary lending product offered by Retail Banking"
+        ]
+      },
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "id": "83b83916d073408d9452b18c1e8f9a50_007_bnk_004",
+      "name": "Debit Cards",
+      "properties": {
+        "relationships_to": [
+          "Retail Banking"
+        ],
+        "definition": [
+          "Primary payment instrument product offered by Retail Banking"
+        ]
+      },
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_rol_001",
+      "source_name": "Director of Retail Banking",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007_org_002",
+      "target_name": "Product Management",
+      "rel_type": "leads",
+      "description": "Directs and oversees the Product Management function within the Retail Banking unit",
+      "properties": {
+        "reporting_type": "direct",
+        "scope": "product strategy and lifecycle"
+      },
+      "context": "Retail Banking (Head: Director of Retail Banking) ... Key Functions: Product Management",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_rol_001",
+      "source_name": "Director of Retail Banking",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007_org_003",
+      "target_name": "Account Services",
+      "rel_type": "leads",
+      "description": "Directs and oversees the Account Services function within the Retail Banking unit",
+      "properties": {
+        "reporting_type": "direct",
+        "scope": "account lifecycle management"
+      },
+      "context": "Key Functions: Account Services",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_rol_001",
+      "source_name": "Director of Retail Banking",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007_org_004",
+      "target_name": "Customer Service",
+      "rel_type": "leads",
+      "description": "Directs and oversees the Customer Service function within the Retail Banking unit",
+      "properties": {
+        "reporting_type": "direct",
+        "scope": "client support and experience"
+      },
+      "context": "Key Functions: Customer Service",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_rol_001",
+      "source_name": "Director of Retail Banking",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007_org_005",
+      "target_name": "Sales & Onboarding",
+      "rel_type": "leads",
+      "description": "Directs and oversees the Sales & Onboarding function within the Retail Banking unit",
+      "properties": {
+        "reporting_type": "direct",
+        "scope": "customer acquisition and onboarding"
+      },
+      "context": "Key Functions: Sales & Onboarding",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_rol_001",
+      "source_name": "Director of Retail Banking",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007_org_006",
+      "target_name": "Branch Operations",
+      "rel_type": "leads",
+      "description": "Directs and oversees the Branch Operations function within the Retail Banking unit",
+      "properties": {
+        "reporting_type": "direct",
+        "scope": "physical branch delivery"
+      },
+      "context": "Key Functions: Branch Operations",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_org_002",
+      "source_name": "Product Management",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007_bnk_001",
+      "target_name": "SmartSaver Account",
+      "rel_type": "manages",
+      "description": "Manages the end-to-end lifecycle and strategy for the SmartSaver Account product",
+      "properties": {
+        "product_category": "savings",
+        "lifecycle_stage": "design_to_launch"
+      },
+      "context": "Primary Products: SmartSaver Account (see [[business_ontology]])",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_org_002",
+      "source_name": "Product Management",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007_bnk_002",
+      "target_name": "Current Accounts",
+      "rel_type": "manages",
+      "description": "Manages the end-to-end lifecycle and strategy for Current Accounts",
+      "properties": {
+        "product_category": "transactional",
+        "lifecycle_stage": "design_to_launch"
+      },
+      "context": "Primary Products: Current Accounts",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_org_002",
+      "source_name": "Product Management",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007_bnk_003",
+      "target_name": "Mortgages",
+      "rel_type": "manages",
+      "description": "Manages the end-to-end lifecycle and strategy for Mortgage products",
+      "properties": {
+        "product_category": "lending",
+        "lifecycle_stage": "design_to_launch"
+      },
+      "context": "Primary Products: Mortgages",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_org_002",
+      "source_name": "Product Management",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007_bnk_004",
+      "target_name": "Debit Cards",
+      "rel_type": "manages",
+      "description": "Manages the end-to-end lifecycle and strategy for Debit Card products",
+      "properties": {
+        "product_category": "payments",
+        "lifecycle_stage": "design_to_launch"
+      },
+      "context": "Primary Products: Debit Cards",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_org_003",
+      "source_name": "Account Services",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007_bnk_002",
+      "target_name": "Current Accounts",
+      "rel_type": "responsible_for",
+      "description": "Operates and maintains Current Accounts, handling day-to-day account servicing",
+      "properties": {
+        "function_type": "maintenance",
+        "scope": "account_opening_closing"
+      },
+      "context": "Key Functions: Account Services ... Primary Products: Current Accounts",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_org_004",
+      "source_name": "Customer Service",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007_met_003",
+      "target_name": "Net Promoter Score (NPS)",
+      "rel_type": "monitors",
+      "description": "Monitors customer satisfaction levels via NPS to drive service improvements",
+      "properties": {
+        "measurement_frequency": "quarterly",
+        "target_value": "68"
+      },
+      "context": "Key Metrics: Net Promoter Score (NPS): 68 ... Key Functions: Customer Service",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_org_005",
+      "source_name": "Sales & Onboarding",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007_met_001",
+      "target_name": "Customer acquisition",
+      "rel_type": "tracks",
+      "description": "Tracks quarterly customer acquisition targets to measure sales pipeline effectiveness",
+      "properties": {
+        "measurement_frequency": "quarterly",
+        "target_value": "50"
+      },
+      "context": "Key Metrics: Customer acquisition: 50 per quarter ... Key Functions: Sales & Onboarding",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_org_005",
+      "source_name": "Sales & Onboarding",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007_met_002",
+      "target_name": "Account activation rate",
+      "rel_type": "tracks",
+      "description": "Tracks the percentage of newly opened accounts that become active within the target window",
+      "properties": {
+        "measurement_frequency": "quarterly",
+        "target_value": "92%"
+      },
+      "context": "Key Metrics: Account activation rate: 92% ... Key Functions: Sales & Onboarding",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_org_006",
+      "source_name": "Branch Operations",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007_met_004",
+      "target_name": "Customer retention",
+      "rel_type": "responsible_for",
+      "description": "Holds operational responsibility for maintaining customer retention through branch-level engagement",
+      "properties": {
+        "measurement_frequency": "quarterly",
+        "target_value": "94%"
+      },
+      "context": "Key Metrics: Customer retention: 94% ... Key Functions: Branch Operations",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_rol_001",
+      "source_name": "Director of Retail Banking",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007_met_001",
+      "target_name": "Customer acquisition",
+      "rel_type": "accountable_for",
+      "description": "Holds ultimate accountability for meeting the quarterly customer acquisition target",
+      "properties": {
+        "measurement_frequency": "quarterly",
+        "target_value": "50"
+      },
+      "context": "Key Metrics: Customer acquisition: 50 per quarter",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_rol_001",
+      "source_name": "Director of Retail Banking",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007_met_002",
+      "target_name": "Account activation rate",
+      "rel_type": "accountable_for",
+      "description": "Holds ultimate accountability for achieving the 92% account activation rate target",
+      "properties": {
+        "measurement_frequency": "quarterly",
+        "target_value": "92%"
+      },
+      "context": "Key Metrics: Account activation rate: 92%",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_rol_001",
+      "source_name": "Director of Retail Banking",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007_met_003",
+      "target_name": "Net Promoter Score (NPS)",
+      "rel_type": "accountable_for",
+      "description": "Holds ultimate accountability for maintaining the NPS at 68",
+      "properties": {
+        "measurement_frequency": "quarterly",
+        "target_value": "68"
+      },
+      "context": "Key Metrics: Net Promoter Score (NPS): 68",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_rol_001",
+      "source_name": "Director of Retail Banking",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007_met_004",
+      "target_name": "Customer retention",
+      "rel_type": "accountable_for",
+      "description": "Holds ultimate accountability for maintaining the 94% customer retention rate",
+      "properties": {
+        "measurement_frequency": "quarterly",
+        "target_value": "94%"
+      },
+      "context": "Key Metrics: Customer retention: 94%",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_rol_001",
+      "source_name": "Director of Retail Banking",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007_bnk_001",
+      "target_name": "SmartSaver Account",
+      "rel_type": "oversees",
+      "description": "Oversees the strategic direction and governance of the SmartSaver Account product",
+      "properties": {
+        "approval_level": "strategic",
+        "scope": "product_governance"
+      },
+      "context": "Primary Products: SmartSaver Account (see [[business_ontology]])",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_rol_001",
+      "source_name": "Director of Retail Banking",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007_bnk_002",
+      "target_name": "Current Accounts",
+      "rel_type": "oversees",
+      "description": "Oversees the strategic direction and governance of Current Accounts",
+      "properties": {
+        "approval_level": "strategic",
+        "scope": "product_governance"
+      },
+      "context": "Primary Products: Current Accounts",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_rol_001",
+      "source_name": "Director of Retail Banking",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007_bnk_003",
+      "target_name": "Mortgages",
+      "rel_type": "oversees",
+      "description": "Oversees the strategic direction and governance of Mortgage products",
+      "properties": {
+        "approval_level": "strategic",
+        "scope": "product_governance"
+      },
+      "context": "Primary Products: Mortgages",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_rol_001",
+      "source_name": "Director of Retail Banking",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007_bnk_004",
+      "target_name": "Debit Cards",
+      "rel_type": "oversees",
+      "description": "Oversees the strategic direction and governance of Debit Card products",
+      "properties": {
+        "approval_level": "strategic",
+        "scope": "product_governance"
+      },
+      "context": "Primary Products: Debit Cards",
+      "bidirectional": false,
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_org_001",
+      "source_name": "Retail Banking",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "target_name": "83b83916d073408d9452b18c1e8f9a50_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_rol_001",
+      "source_name": "Director of Retail Banking",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "target_name": "83b83916d073408d9452b18c1e8f9a50_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_org_002",
+      "source_name": "Product Management",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "target_name": "83b83916d073408d9452b18c1e8f9a50_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_org_003",
+      "source_name": "Account Services",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "target_name": "83b83916d073408d9452b18c1e8f9a50_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_org_004",
+      "source_name": "Customer Service",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "target_name": "83b83916d073408d9452b18c1e8f9a50_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_org_005",
+      "source_name": "Sales & Onboarding",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "target_name": "83b83916d073408d9452b18c1e8f9a50_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_org_006",
+      "source_name": "Branch Operations",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "target_name": "83b83916d073408d9452b18c1e8f9a50_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_met_001",
+      "source_name": "Customer acquisition",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "target_name": "83b83916d073408d9452b18c1e8f9a50_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_met_002",
+      "source_name": "Account activation rate",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "target_name": "83b83916d073408d9452b18c1e8f9a50_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_met_003",
+      "source_name": "Net Promoter Score (NPS)",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "target_name": "83b83916d073408d9452b18c1e8f9a50_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_met_004",
+      "source_name": "Customer retention",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "target_name": "83b83916d073408d9452b18c1e8f9a50_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_bnk_001",
+      "source_name": "SmartSaver Account",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "target_name": "83b83916d073408d9452b18c1e8f9a50_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_bnk_002",
+      "source_name": "Current Accounts",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "target_name": "83b83916d073408d9452b18c1e8f9a50_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_bnk_003",
+      "source_name": "Mortgages",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "target_name": "83b83916d073408d9452b18c1e8f9a50_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "83b83916d073408d9452b18c1e8f9a50_007_bnk_004",
+      "source_name": "Debit Cards",
+      "target_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "target_name": "83b83916d073408d9452b18c1e8f9a50_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+      "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+      "domain": "banking_organization"
+    }
+  ]
+}

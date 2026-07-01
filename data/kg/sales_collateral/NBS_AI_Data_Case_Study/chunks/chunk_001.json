@@ -1,0 +1,3264 @@
+{
+  "embedding": [
+    0.027175484,
+    0.08056418,
+    -0.17224209,
+    -0.0419238,
+    0.09943247,
+    -0.031434666,
+    0.0180696,
+    0.04505707,
+    0.027216442,
+    -0.023003675,
+    0.0012790507,
+    0.012113985,
+    0.09708627,
+    -0.021977888,
+    0.017609257,
+    -0.007094493,
+    -0.016601305,
+    -0.011719783,
+    -0.07581971,
+    0.04006408,
+    0.023680517,
+    -0.048661027,
+    -0.0062553477,
+    -0.05303741,
+    0.031542126,
+    0.0046000485,
+    0.0012600952,
+    0.0032978083,
+    -0.017513297,
+    0.011698843,
+    0.04938688,
+    0.015789581,
+    -0.017124362,
+    -0.051846236,
+    -0.03909836,
+    -0.054269608,
+    0.027688023,
+    0.0013377408,
+    0.020956742,
+    -0.029930593,
+    0.027559962,
+    -0.00621965,
+    -0.004283729,
+    -0.03938981,
+    0.042296257,
+    -0.010446726,
+    0.041442692,
+    -0.007715642,
+    0.06003463,
+    -0.045647483,
+    0.02263159,
+    -0.0033140744,
+    0.028763313,
+    0.01094426,
+    0.04070396,
+    0.026994212,
+    -0.06336462,
+    0.033919893,
+    -0.021256812,
+    -0.056711305,
+    0.07462146,
+    0.067426614,
+    -0.018486151,
+    0.069539055,
+    0.037138585,
+    -0.04163624,
+    -0.004620807,
+    0.027862083,
+    0.02092848,
+    -0.06887298,
+    0.012968433,
+    0.0128104715,
+    0.008744134,
+    0.020952934,
+    -0.033438493,
+    -0.010697345,
+    -0.023243925,
+    -0.022596974,
+    -0.014531402,
+    0.05319726,
+    0.033837337,
+    -0.03594148,
+    0.045222927,
+    0.04358167,
+    0.028733281,
+    -0.042190112,
+    0.0056613623,
+    -0.014311031,
+    -0.05409986,
+    0.059604835,
+    -0.0006590274,
+    0.010371917,
+    -0.0060215006,
+    0.0017266779,
+    -0.06268096,
+    0.023945644,
+    0.007668668,
+    0.004892159,
+    0.006119895,
+    0.00591694,
+    -0.045167897,
+    -0.025216931,
+    -0.003939894,
+    0.026490226,
+    0.008445966,
+    0.06146182,
+    0.04604411,
+    -0.0018365822,
+    -0.014561229,
+    0.021855911,
+    -0.04357353,
+    0.02905378,
+    -0.062152795,
+    0.022699965,
+    0.029337922,
+    -0.004616011,
+    0.07747278,
+    -0.025807427,
+    -0.031794075,
+    -0.013626955,
+    -0.010048512,
+    -0.09033637,
+    -0.011635776,
+    0.009210239,
+    0.044385254,
+    0.007790149,
+    -0.094341144,
+    -0.0052974606,
+    -0.010146389,
+    -0.00884815,
+    -0.009937157,
+    -0.001189079,
+    -0.038918603,
+    -0.017269265,
+    0.053020094,
+    0.04902473,
+    -0.038606767,
+    -0.03934263,
+    -0.016656473,
+    0.028518442,
+    0.033141296,
+    0.013014749,
+    0.007192725,
+    0.055246446,
+    0.025188068,
+    -0.043933965,
+    0.018624218,
+    -0.007569183,
+    -0.06164023,
+    0.047577914,
+    -0.026312532,
+    0.02329712,
+    0.0072446745,
+    0.06847762,
+    0.031967394,
+    -0.030535234,
+    -0.03796278,
+    0.027144767,
+    0.021286387,
+    0.048739593,
+    0.0014732959,
+    0.011699501,
+    -0.048796345,
+    0.030664472,
+    -0.025689933,
+    -0.024701588,
+    0.0090588005,
+    0.039262123,
+    0.01772705,
+    0.02440295,
+    -0.08375612,
+    -0.035776526,
+    0.035645884,
+    -0.0013517912,
+    0.06030577,
+    0.013729016,
+    0.045027643,
+    -0.0119022075,
+    0.026609309,
+    -0.07024127,
+    0.03404823,
+    -0.05976663,
+    0.011623979,
+    0.032938868,
+    -0.04413347,
+    0.00020860997,
+    0.020193378,
+    -0.021549415,
+    -0.023071326,
+    -0.03257692,
+    0.048370436,
+    -9.833129e-05,
+    -0.030508112,
+    -0.012411765,
+    -0.05760409,
+    -0.0484325,
+    0.04385468,
+    0.001363763,
+    0.0332649,
+    -0.07629645,
+    0.00313997,
+    0.017017722,
+    -0.009026398,
+    0.03716051,
+    -0.023297485,
+    0.038690504,
+    0.009088033,
+    0.043680847,
+    -0.03141214,
+    0.03736837,
+    0.043558087,
+    -0.04557322,
+    -0.03168497,
+    0.022318767,
+    0.001979923,
+    -0.0012351734,
+    -0.013451866,
+    -0.033039715,
+    -0.06016262,
+    0.03358506,
+    0.005860969,
+    -0.0059404834,
+    0.028054288,
+    -0.018195394,
+    0.04249442,
+    -0.009934168,
+    -0.017488306,
+    -0.011021913,
+    0.01549437,
+    -0.033768717,
+    0.007083776,
+    -0.062926,
+    0.04691804,
+    -0.035157338,
+    0.014438272,
+    0.03323272,
+    -0.021020629,
+    0.018860621,
+    0.018570935,
+    0.050647493,
+    -0.0068292343,
+    0.037528187,
+    -0.047504187,
+    -0.013778911,
+    0.009150058,
+    -0.009360689,
+    0.014876877,
+    -0.011508037,
+    0.024268063,
+    0.065358505,
+    0.033461835,
+    0.029408302,
+    0.06398501,
+    -0.014163136,
+    0.038190156,
+    -0.02001206,
+    -0.021225648,
+    0.039893687,
+    0.00617846,
+    0.017601391,
+    0.013557841,
+    -0.024840927,
+    0.023406401,
+    -0.0488355,
+    0.01408978,
+    -0.024744233,
+    -0.05772388,
+    -0.042508993,
+    -0.002800504,
+    -0.004555319,
+    -0.0134355,
+    0.018905092,
+    -0.009921625,
+    0.03984206,
+    -0.003310093,
+    -0.0038405673,
+    -0.007610422,
+    -0.0029250772,
+    -0.031541172,
+    0.0124991555,
+    -0.047291305,
+    -0.07251588,
+    -0.011727681,
+    0.00177962,
+    -0.0072215884,
+    0.061442353,
+    -0.021589192,
+    -0.005841418,
+    0.020452214,
+    0.029943973,
+    0.046752043,
+    -0.007908939,
+    -0.033506915,
+    -0.010988864,
+    -0.03703836,
+    0.035540506,
+    0.046643175,
+    -0.022724336,
+    0.0021005387,
+    -0.04693018,
+    0.019715654,
+    0.07704192,
+    0.05274103,
+    0.038186748,
+    0.0055340705,
+    -0.008515827,
+    -0.020080224,
+    0.023603972,
+    -0.034702897,
+    -0.0514836,
+    -0.034960665,
+    -0.049928084,
+    -0.051355794,
+    -0.0022843324,
+    -0.016340643,
+    0.008354517,
+    0.04382658,
+    0.009422678,
+    0.07694034,
+    0.046449997,
+    -0.025034748,
+    -0.046008926,
+    -0.051322367,
+    -0.07430197,
+    -0.0032121085,
+    0.052476212,
+    -0.027794128,
+    0.01149592,
+    0.02525524,
+    0.007050111,
+    0.018262416,
+    0.008838889,
+    0.022048773,
+    -0.050768152,
+    -0.0014275147,
+    0.07196857,
+    0.019430667,
+    0.038522754,
+    0.048212275,
+    0.043035254,
+    0.03075697,
+    0.0011710728,
+    -0.0052575134,
+    -0.04486099,
+    -0.010459128,
+    -0.021844078,
+    0.011623519,
+    -0.008316954,
+    0.048516035,
+    0.00090147636,
+    -0.005440076,
+    -0.06257108,
+    -0.019017918,
+    -0.049705632,
+    0.014704932,
+    0.005941948,
+    -0.0030493077,
+    0.04492027,
+    -0.006358113,
+    -0.03505271,
+    0.04322384,
+    0.00015208645,
+    0.006930167,
+    0.015842808,
+    -0.011474115,
+    0.060230847,
+    0.077128775,
+    -0.027214989,
+    0.018884266,
+    0.012137359,
+    -0.0032137346,
+    -0.03752329,
+    -0.026599629,
+    0.0232949,
+    0.0021052295,
+    0.018019767,
+    -0.06662029,
+    0.014585964,
+    -0.025449006,
+    0.04805942,
+    0.053561416,
+    0.00075204857,
+    -0.046812396,
+    -0.011244733,
+    0.023846682,
+    -0.043515477,
+    0.019308038,
+    -0.05400558,
+    -0.022831725,
+    0.050178237,
+    -0.03971346,
+    -0.02792655,
+    0.0029184443,
+    -0.008681291,
+    0.016975984,
+    -0.038249843,
+    -0.023525244,
+    0.01113118,
+    0.017108906,
+    0.07893289,
+    -0.04899732,
+    -0.07616018,
+    0.01497044,
+    0.016675154,
+    -0.03734724,
+    -0.03474581,
+    -0.030927856,
+    -0.037970632,
+    0.03632706,
+    0.014269514,
+    0.023565851,
+    0.015911965,
+    -0.0068172636,
+    -0.03268256,
+    0.03396069,
+    0.0070522167,
+    0.06698288,
+    -0.018648287,
+    -0.025989514,
+    -0.01985566,
+    0.040799227,
+    0.017628934,
+    0.020867895,
+    0.011769451,
+    0.056994047,
+    0.036004107,
+    0.05684528,
+    0.0042640334,
+    -0.022184784,
+    -0.033665534,
+    0.022689048,
+    0.024234345,
+    0.00070102845,
+    0.0040379832,
+    -0.019561898,
+    0.005174279,
+    0.046119504,
+    0.030771917,
+    0.015198393,
+    0.056411687,
+    0.04155978,
+    -0.04595478,
+    -0.044953134,
+    -0.055280033,
+    -0.013912599,
+    0.053633697,
+    0.03807459,
+    -0.042521123,
+    -0.053160317,
+    0.04649375,
+    -0.023592848,
+    0.030240305,
+    0.01200632,
+    0.018117689,
+    0.06960786,
+    -0.0416035,
+    -0.000269913,
+    -0.028096376,
+    -0.011337293,
+    0.02018601,
+    0.005119733,
+    -0.016734233,
+    -0.058061536,
+    -0.010211056,
+    0.0070164273,
+    -0.04246312,
+    -0.017697625,
+    -0.014686219,
+    0.010377308,
+    0.07958764,
+    -0.07252517,
+    -0.03208821,
+    -0.022565525,
+    -0.042130515,
+    0.00815173,
+    0.0076755383,
+    -0.018495904,
+    0.0041496553,
+    0.057605457,
+    0.055786107,
+    0.02731496,
+    -0.042799875,
+    -0.023013767,
+    -0.031103067,
+    -0.011367718,
+    0.053004622,
+    0.041856054,
+    -0.07490529,
+    0.035396867,
+    -0.032927383,
+    0.024761602,
+    0.017893096,
+    0.017441576,
+    -0.011695439,
+    -0.007998513,
+    0.03336599,
+    -0.03919665,
+    0.06327563,
+    0.017538423,
+    0.024573406,
+    0.02493215,
+    0.06679313,
+    -0.028246958,
+    0.011679504,
+    0.027326938,
+    0.009527661,
+    0.098675385,
+    -0.0358931,
+    -0.05280275,
+    -0.013891412,
+    0.006542387,
+    -0.00570724,
+    0.0063220975,
+    0.026401786,
+    0.046513524,
+    -0.03699634,
+    0.017743925,
+    0.020129444,
+    -0.032671206,
+    -0.011151309,
+    -0.022322726,
+    -0.03252381,
+    -0.02706589,
+    -0.047245342,
+    -0.03842934,
+    0.02524386,
+    -0.006438387,
+    -0.049434993,
+    0.043399956,
+    -0.011732477,
+    -0.024299698,
+    0.04119524,
+    -0.013916018,
+    0.016238814,
+    -0.027622243,
+    0.033973113,
+    -0.035041284,
+    0.011758348,
+    0.06731922,
+    -0.0010775978,
+    -0.0024600525,
+    0.005866511,
+    0.02360228,
+    0.0024830203,
+    0.0027891118,
+    -0.04524721,
+    0.011832552,
+    0.026796907,
+    -0.0053743282,
+    -0.051312774,
+    0.0526798,
+    -0.059030257,
+    -0.0048642866,
+    -0.052845467,
+    0.060127016,
+    -0.019267833,
+    0.035207395,
+    -0.0070210546,
+    -0.03624572,
+    -0.05108334,
+    0.0027219946,
+    0.028047286,
+    0.04937943,
+    0.033627506,
+    -0.019152986,
+    -0.010363459,
+    0.0055001816,
+    0.022576783,
+    0.0027792116,
+    0.034086984,
+    0.022127083,
+    -0.060908753,
+    -0.051123384,
+    -0.024208767,
+    -0.018399954,
+    -0.014834094,
+    0.030306779,
+    0.0314016,
+    -0.035815585,
+    -0.052507997,
+    0.04530343,
+    -0.057830412,
+    0.044958908,
+    0.017050467,
+    -0.036981344,
+    -0.0065090647,
+    -0.04532735,
+    -0.04798501,
+    -0.009063908,
+    -0.042542424,
+    -0.03714985,
+    0.01805207,
+    0.01806879,
+    -0.014428006,
+    -0.016849477,
+    0.007591064,
+    0.041146845,
+    -0.009207542,
+    -0.023386348,
+    -0.044105526,
+    -0.04784195,
+    0.05046463,
+    0.012069666,
+    -0.07000036,
+    0.038953494,
+    0.029184656,
+    -0.010803892,
+    -0.016301349,
+    0.016786106,
+    -0.040355153,
+    0.06940038,
+    -0.026927767,
+    -0.0047562434,
+    -0.014857678,
+    0.00040911432,
+    -0.0041105426,
+    0.02832512,
+    -0.029412784,
+    0.027696483,
+    -0.017234715,
+    -0.0062858122,
+    -0.033441894,
+    0.030750321,
+    -0.037019003,
+    0.0047021834,
+    0.017437182,
+    -0.04412703,
+    -0.028281929,
+    -0.0001533998,
+    0.05705144,
+    -0.032115843,
+    0.012794648,
+    -0.068236955,
+    -0.03242741,
+    -0.10029673,
+    0.037234224,
+    0.0064179213,
+    -0.009807208,
+    -0.017342558,
+    0.012151596,
+    0.040462464,
+    -0.039660864,
+    -0.04834279,
+    0.051145975,
+    0.045543585,
+    -0.041796226,
+    0.031807583,
+    0.050880194,
+    0.044659063,
+    -3.492994e-05,
+    0.047487453,
+    0.09071962,
+    -0.012762924,
+    -0.01408405,
+    -0.011732022,
+    -0.031939957,
+    0.009353114,
+    -0.0054193125,
+    -0.026887387,
+    -0.054490548,
+    0.0036455572,
+    0.01402244,
+    0.012995019,
+    0.021072546,
+    0.019382628,
+    0.002459204,
+    -0.01714899,
+    0.0057755513,
+    -0.04572584,
+    -0.06300211,
+    0.058333505,
+    0.0622916,
+    -0.013613587,
+    0.002256073,
+    -0.018867645,
+    0.036061414,
+    0.059708644,
+    0.033776306,
+    -0.0135043925,
+    0.018423643,
+    0.0047725365,
+    0.024932818,
+    0.035901345,
+    -0.041559454,
+    -0.01625527,
+    -0.04193446,
+    0.031525686,
+    0.027711412,
+    -0.027176121,
+    -0.0077745738,
+    -0.055320434,
+    0.0013314971,
+    -0.0028985306,
+    0.01731037,
+    -0.008109576,
+    0.088426985,
+    0.03269806,
+    -0.022932125,
+    -0.026313676,
+    0.03294793,
+    -0.00095385686,
+    0.02638184,
+    -0.0033448925,
+    0.045928463,
+    -0.0034039228,
+    0.033240926,
+    0.016537145,
+    -0.04098466,
+    0.0114408685,
+    -0.0025374494,
+    -0.002006106,
+    0.017149264,
+    -0.012315343,
+    0.028971495,
+    0.03726876,
+    0.043889355,
+    -0.035937004,
+    -0.0442967,
+    0.0029675376,
+    -0.005870475,
+    0.01226608,
+    -0.030411849,
+    -0.08240126,
+    -0.05450255,
+    -0.010157845,
+    -0.00061818276,
+    0.017205494,
+    -0.086490124,
+    -0.012316206,
+    -0.03859813,
+    -0.017650371,
+    -0.03517348,
+    -0.060135365,
+    0.077002324,
+    -0.0025942652,
+    0.00029832276,
+    -0.06737157,
+    -0.029874694,
+    -0.0741966,
+    -0.017173765,
+    -0.046987396,
+    0.05560227,
+    -0.022420097,
+    0.026285022,
+    -0.0007012553,
+    -0.02652569,
+    0.000506031,
+    0.05476018,
+    0.03187947,
+    -0.0030007563,
+    0.031788047,
+    0.026746884,
+    -0.051077086,
+    0.027441068,
+    -0.010347535,
+    0.031527653,
+    0.021284886,
+    0.06952569,
+    0.059836127,
+    0.015658457,
+    0.013604604,
+    -0.06812939,
+    0.044097997,
+    -0.019394243,
+    -0.042765263,
+    -0.06611015,
+    -0.032494087,
+    0.0027093207
+  ],
+  "chunk_seq": 1,
+  "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+  "doc_id": "18b692b3ac9142289cd2869ed24114da",
+  "text": "AI &amp; Data Transformation  \nCase Study: Large British Building Society  \nStrategic Partnership for AI Enablement,  \nModern Data Platform Migration &amp; Data Governance  \nConfidential  \nExecutive Summary  \nConfidential  \nAI &amp; Data Transformation – Case Study  \nThis case study documents a comprehensive AI and Data transformation programme spanning three strategic pillars:  \nAI Centre of Excellence  \n- Established GenAI CoE\n- Experimented with 4+ use cases\n- ~90% time savings on complaints letters\n- Graduated use cases to production  \nModern Data Platform  \n- Azure + Databricks + dbt\n- MS SQL &amp; Teradata migration\n- Customer data mastering\n- &gt;30% faster code development via GenAI  \nData Governance  \n- 205 CDEs traced end-to-end\n- 400+ DQ rules operationalised\n- 78 systems mapped\n- Reconciliation controls defined  \nThe programme has delivered measurable business impact across all three pillars, reducing costs, improving compliance, and building a scalable foundation for AI-driven innovation.  \n1. AI Centre of Excellence  \nSetup, Experimentation &amp; Production Use Cases  \nConfidential  \nAI &amp; Data Transformation – Case Study  \nAI CoE – Problem Context  \nConfidential  \nAI &amp; Data Transformation – Case Study  \nThe organisation recognised the transformative potential of Generative AI but lacked a centralised structure to experiment responsibly, govern AI deployments, and scale proven use cases into production.  \nWithout a coordinated approach, there was a risk of fragmented AI initiatives, inconsistent quality standards, and inability to demonstrate measurable business value from AI investments.  \nCoE Foundations (Q4 2023)  \nLeadership  \n- Clear accountability\n- Delivery governance  \nTeam  \n- Cross-functional\n- Shaped &amp; mobilised  \nProcesses  \n- Standardised delivery\n- Central collaboration  \nGovernance  \n- Operational model\n- Responsible AI  \nAI CoE – Use Cases Delivered  \nConfidential  \nAI &amp; Data Transformation – Case Study  \nUse Case 1: Complaints Letter Writing (CRAiG)  \n- 1,300 bespoke letters/week, 40 mins each manually\n- GenAI drafts letter, human reviews in &lt;5 mins\n- REACT-based prompts outperformed few-shot\n- PII redaction, model monitoring, threat modelling\n- Piloted Feb–Sep 2024, graduated to production  \nUse Case 2: Call Transcript Analytics  \n- Sensitive data redaction via Azure Language AI\n- Automated call summarisation\n- Root cause &amp; areas-of-interest extraction\n- Nuanced sentiment beyond NLP/ML\n- Emotion detection with detailed reasoning  \nUse Case 3: QA/QC AI Assist  \n- Scaled call screening from 5% manual to 100% GenAI-enabled\n- Step-change in quality assurance coverage\n- Automated compliance checking  \nScaling the Pipeline  \n- Fraud Analysis PoC &amp; pilot\n- Contracts analysis PoC &amp; pilot\n- Figma-to-React code conversion\n- GenAI Platform Federation with API Management  \nAI CoE – Key Metrics &amp; Benefits  \nConfidential  \nAI &amp; Data Transformation – Case Study  \n~90%  \nReduction in letter  \ndrafting time  \n4 / 5  \nAvg. accuracy &amp;  \nrelevancy score  \n100%  \nCall screening  \ncoverage  \nKey Benefits  \n- Scalable AI platform with federated governance, API management and model monitoring\n- Pipeline of 10+ use cases across Customer, Colleague and IT Operations domains\n- Responsible AI practices embedded from inception: threat modelling, PII redaction, model risk evaluation\n- Integration roadmap with Lakehouse, solution accelerators, agentic workflows and small language models  \n2. Modern Data Platform Migration  \nAzure, Databricks &amp; dbt  \nConfidential  \nAI &amp; Data Transformation – Case Study  \nModern Data Platform – Problem Context  \nConfidential  \nAI &amp; Data Transformation – Case Study  \nThe organisation operated a fragmented legacy data landscape comprising MS SQL-based data warehouses, Teradata-based data marts, and mainframe-hosted Customer Information Systems (CIS). This created significant technical debt, high infrastructure costs, limited data accessibility, and constrained advanced analytics.  \nLegacy Systems in Scope  \nMS SQL / Mainframe CIS  \n- Customer Information Systems on Unisys mainframe\n- Multiple data warehouses &amp; marts\n- Manual, siloed data processes  \nTeradata Vantage  \n- Enterprise data warehouses\n- Complex stored procedures\n- High licensing costs  \nCustomer Data  \n- Fragmented across CIS, SAP and operational systems\n- Limited mastering capability\n- Inconsistent data delivery  \n2.1 MS SQL &amp; Mainframe CIS Migration  \nConfidential  \nAI &amp; Data Transformation – Case Study  \nSolution  \n- Migrated mainframe CIS to modern data lakehouse on Azure\n- Modular, reusable, version-controlled dbt models\n- Medallion architecture: Bronze/L0 and Gold/L2 layers\n- Performance-optimised ETL aligned with lakehouse principles\n- Orchestration via Azure Data Factory &amp; Control-M\n- Rigorous DQ through testing and validation in dbt\n- Standardised extracts (CSV, TXT) for business consumers  \nBenefits  \n- Decommissioning of legacy mainframe systems, significantly lowering infrastructure costs\n- Cloud-native architecture improving data accessibility &amp; agility\n- Centralised, well-governed pipelines ensuring regulatory compliance\n- Scalable foundation for real-time processing, ML &amp; AI initiatives\n- Freed budget for innovation and modernisation  \nEnding Unisys reliance – migrating customer data and FC/RC feeds to SAP  \n2.2 Teradata Data Warehouse Migration  \nConfidential  \nAI &amp; Data Transformation – Case Study  \nSolution  \n- Consolidating all data assets from Teradata Vantage to Databricks on Azure\n- Target completion: Q1 FY 2026–27 (June 2026)\n- SME-led evaluation of migration strategy &amp; architecture\n- Collaborative workshops in Pune with client stakeholders\n- GenAI-based techniques and assets using GitHub CoPilot to accelerate Teradata-to-dbt conversion\n- PoC on complex data mart codebase validating accelerated approach\n- Medallion Architecture Bronze milestone delivered ahead of schedule  \n&gt;30%  \nReduction in code  \nbuild &amp; test  \n- Fast-tracked delivery against stringent timelines\n- Validated GenAI-accelerated approach for time-to-value\n- Upfront architectural design for future readiness  \n2.3 Customer Data, Mastering &amp; Analytics  \nConfidential  \nAI &amp; Data Transformation – Case Study  \nSolution  \n- Customer data feeds migrated from legacy CIS to SAP and Azure lakehouse\n- Centralised data pipelines with built-in validation and auditing\n- End-to-end data delivery for business consumers &amp; external systems\n- Foundation for self-service BI and advanced customer analytics  \nBenefits  \n- Single, authoritative view of customer data across the organisation\n- Faster, more flexible access improving decision-making\n- Higher data accuracy and consistency for regulatory compliance\n- Enablement of advanced customer analytics, segmentation &amp; personalisation  \n3. Data Governance  \nData Lineage &amp; Reconciliation Controls  \nConfidential  \nAI &amp; Data Transformation – Case Study  \nData Governance – Problem Context  \nConfidential  \nAI &amp; Data Transformation – Case Study  \nThe legacy data estate lacked visibility into how Critical Data Elements (CDEs) flowed across 78+ systems and 6 functional areas, creating significant compliance risk and data quality gaps.  \nSpecific challenges existed in Eco Crime and Payments Screening, where the inability to trace data lineage end-to-end posed regulatory and operational risks.  \nThe organisation needed to:",
+  "name": "Chunk 1/2",
+  "domain": "sales_collateral",
+  "next_chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+  "raw_entities": [
+    {
+      "id": "cli_001",
+      "name": "Large British Building Society",
+      "aliases": [
+        "the organisation",
+        "client",
+        "building society"
+      ],
+      "entity_class": "CLIENT",
+      "type": "anonymous_client",
+      "description": "A UK-based financial services organisation undergoing a comprehensive AI and data transformation programme to modernise its data estate, establish an AI Centre of Excellence, and implement robust data governance to drive measurable business impact and regulatory compliance.",
+      "context": [
+        "Case Study: Large British Building Society",
+        "The organisation recognised the transformative potential of Generative AI but lacked a centralised structure to experiment responsibly",
+        "The organisation operated a fragmented legacy data landscape comprising MS SQL-based data warehouses"
+      ]
+    },
+    {
+      "id": "off_001",
+      "name": "AI & Data Transformation Programme",
+      "aliases": [
+        "AI & Data Transformation",
+        "transformation programme"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "transformation_programme",
+      "description": "A comprehensive three-pillar engagement focused on establishing an AI Centre of Excellence, migrating to a modern data platform, and implementing robust data governance to drive measurable business impact, reduce costs, and build a scalable foundation for AI-driven innovation.",
+      "context": [
+        "This case study documents a comprehensive AI and Data transformation programme spanning three strategic pillars",
+        "The programme has delivered measurable business impact across all three pillars, reducing costs, improving compliance, and building a scalable foundation for AI-driven innovation"
+      ]
+    },
+    {
+      "id": "off_002",
+      "name": "AI Centre of Excellence",
+      "aliases": [
+        "AI CoE",
+        "GenAI CoE"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "delivery_model",
+      "description": "A dedicated organisational structure and operating model established to govern AI experimentation, standardise delivery processes, and scale proven use cases into production while embedding responsible AI practices from inception.",
+      "context": [
+        "AI Centre of Excellence - Established GenAI CoE",
+        "The organisation recognised the transformative potential of Generative AI but lacked a centralised structure to experiment responsibly, govern AI deployments, and scale proven use cases into production"
+      ]
+    },
+    {
+      "id": "off_003",
+      "name": "Modern Data Platform",
+      "aliases": [
+        "Modern Data Platform Migration",
+        "cloud data platform"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "platform",
+      "description": "A cloud-native data architecture built on Azure and Databricks, replacing legacy systems to enable scalable data processing, advanced analytics, and AI initiatives through a medallion lakehouse architecture.",
+      "context": [
+        "Modern Data Platform - Azure + Databricks + dbt",
+        "Cloud-native architecture improving data accessibility & agility"
+      ]
+    },
+    {
+      "id": "cap_001",
+      "name": "Responsible AI Governance",
+      "aliases": [
+        "Responsible AI",
+        "AI risk management"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "security_capability",
+      "description": "Framework and practices ensuring ethical, secure, and compliant AI deployment, including threat modelling, PII redaction, model risk evaluation, and operational governance to mitigate deployment risks.",
+      "context": [
+        "Responsible AI practices embedded from inception: threat modelling, PII redaction, model risk evaluation",
+        "Governance - Operational model - Responsible AI"
+      ]
+    },
+    {
+      "id": "cap_002",
+      "name": "Data Mastering & Analytics",
+      "aliases": [
+        "Customer Data Mastering",
+        "advanced customer analytics"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "analytics_capability",
+      "description": "Capability to consolidate fragmented customer data into a single authoritative view, enabling advanced segmentation, personalisation, and self-service BI for business consumers and external systems.",
+      "context": [
+        "Customer data mastering",
+        "Foundation for self-service BI and advanced customer analytics"
+      ]
+    },
+    {
+      "id": "cap_003",
+      "name": "Data Lineage & Reconciliation Controls",
+      "aliases": [
+        "CDE tracing",
+        "data governance controls"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "integration_capability",
+      "description": "End-to-end tracing of Critical Data Elements across systems and functional areas to ensure compliance, accuracy, and operational risk mitigation through defined reconciliation controls.",
+      "context": [
+        "205 CDEs traced end-to-end",
+        "Reconciliation controls defined",
+        "inability to trace data lineage end-to-end posed regulatory and operational risks"
+      ]
+    },
+    {
+      "id": "use_001",
+      "name": "Complaints Letter Writing (CRAiG)",
+      "aliases": [
+        "CRAiG",
+        "Complaints Letter Automation"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "automation",
+      "description": "GenAI-driven solution that drafts bespoke customer complaint letters, reducing manual drafting time from 40 minutes to under 5 minutes with human review, while ensuring PII redaction and model monitoring.",
+      "context": [
+        "Use Case 1: Complaints Letter Writing (CRAiG)",
+        "GenAI drafts letter, human reviews in <5 mins",
+        "Piloted Feb–Sep 2024, graduated to production"
+      ]
+    },
+    {
+      "id": "use_002",
+      "name": "Call Transcript Analytics",
+      "aliases": [
+        "Call Analytics",
+        "AI Call Summarisation"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "analytics",
+      "description": "AI-powered analysis of customer call recordings for automated summarisation, root cause extraction, and nuanced sentiment/emotion detection beyond traditional NLP/ML capabilities.",
+      "context": [
+        "Use Case 2: Call Transcript Analytics",
+        "Automated call summarisation. Root cause & areas-of-interest extraction",
+        "Emotion detection with detailed reasoning"
+      ]
+    },
+    {
+      "id": "use_003",
+      "name": "QA/QC AI Assist",
+      "aliases": [
+        "Quality Assurance AI",
+        "Automated Compliance Checking"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "automation",
+      "description": "GenAI-enabled call screening and compliance checking that scaled coverage from 5% manual to 100% automated, delivering a step-change in quality assurance and regulatory compliance.",
+      "context": [
+        "Use Case 3: QA/QC AI Assist",
+        "Scaled call screening from 5% manual to 100% GenAI-enabled",
+        "Automated compliance checking"
+      ]
+    },
+    {
+      "id": "use_004",
+      "name": "Fraud Analysis PoC",
+      "aliases": [
+        "Fraud Detection Pilot",
+        "Fraud Analysis"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "fraud_detection",
+      "description": "Proof of concept exploring GenAI applications for identifying and analysing fraudulent activities within customer data, part of a broader pipeline of 10+ use cases across customer and IT operations domains.",
+      "context": [
+        "Fraud Analysis PoC & pilot",
+        "Pipeline of 10+ use cases across Customer, Colleague and IT Operations domains"
+      ]
+    },
+    {
+      "id": "ben_001",
+      "name": "~90% Reduction in Letter Drafting Time",
+      "aliases": [
+        "Letter drafting efficiency",
+        "Time savings on complaints"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "efficiency_gain",
+      "description": "Significant time savings achieved through GenAI automation of complaint letter generation, drastically reducing manual effort and accelerating response times for customer complaints.",
+      "context": [
+        "~90% time savings on complaints letters",
+        "Reduction in letter drafting time"
+      ]
+    },
+    {
+      "id": "ben_002",
+      "name": ">30% Faster Code Development",
+      "aliases": [
+        "Accelerated code build",
+        "Faster development cycles"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "speed_improvement",
+      "description": "Accelerated development and testing cycles for data pipelines and transformations, validated through GenAI-accelerated techniques and fast-tracked delivery against stringent timelines.",
+      "context": [
+        ">30% faster code development via GenAI",
+        "Reduction in code build & test",
+        "Fast-tracked delivery against stringent timelines"
+      ]
+    },
+    {
+      "id": "ben_003",
+      "name": "Infrastructure Cost Reduction",
+      "aliases": [
+        "Lowered infrastructure costs",
+        "Decommissioning savings"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "cost_saving",
+      "description": "Lowered operational and licensing expenses through decommissioning of legacy mainframe systems and high-cost Teradata infrastructure, freeing budget for innovation and modernisation.",
+      "context": [
+        "Decommissioning of legacy mainframe systems, significantly lowering infrastructure costs",
+        "High licensing costs",
+        "Freed budget for innovation and modernisation"
+      ]
+    },
+    {
+      "id": "ben_004",
+      "name": "100% Call Screening Coverage",
+      "aliases": [
+        "Full call coverage",
+        "Automated QA coverage"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "quality_improvement",
+      "description": "Complete automation of call quality assurance and compliance checking, replacing limited manual sampling and delivering a step-change in quality assurance coverage.",
+      "context": [
+        "100% Call screening coverage",
+        "Step-change in quality assurance coverage"
+      ]
+    },
+    {
+      "id": "cha_001",
+      "name": "Fragmented Legacy Data Landscape",
+      "aliases": [
+        "Legacy data silos",
+        "Disconnected data warehouses"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "legacy_constraint",
+      "description": "Disconnected data warehouses, marts, and mainframe systems creating silos, technical debt, and limited accessibility for analytics, hindering advanced data processing and AI readiness.",
+      "context": [
+        "The organisation operated a fragmented legacy data landscape comprising MS SQL-based data warehouses, Teradata-based data marts, and mainframe-hosted Customer Information Systems",
+        "Manual, siloed data processes"
+      ]
+    },
+    {
+      "id": "cha_002",
+      "name": "Lack of Centralised AI Governance",
+      "aliases": [
+        "Uncoordinated AI initiatives",
+        "Fragmented AI strategy"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "operational_inefficiency",
+      "description": "Absence of a coordinated structure for responsible AI experimentation, leading to fragmented initiatives, inconsistent quality standards, and inability to demonstrate measurable business value from AI investments.",
+      "context": [
+        "lacked a centralised structure to experiment responsibly, govern AI deployments, and scale proven use cases into production",
+        "risk of fragmented AI initiatives, inconsistent quality standards, and inability to demonstrate measurable business value from AI investments"
+      ]
+    },
+    {
+      "id": "cha_003",
+      "name": "Data Lineage Visibility Gap",
+      "aliases": [
+        "Missing data lineage",
+        "Compliance visibility risk"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "regulatory_burden",
+      "description": "Inability to trace Critical Data Elements across 78+ systems, creating compliance risks and data quality gaps in sensitive areas like Eco Crime and Payments Screening.",
+      "context": [
+        "lacked visibility into how Critical Data Elements (CDEs) flowed across 78+ systems and 6 functional areas",
+        "inability to trace data lineage end-to-end posed regulatory and operational risks"
+      ]
+    },
+    {
+      "id": "tech_001",
+      "name": "Azure",
+      "aliases": [
+        "Microsoft Azure",
+        "Azure cloud"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "cloud_platform",
+      "description": "Microsoft cloud platform serving as the foundational infrastructure for the modern data lakehouse, data factory orchestration, and AI services enabling scalable data processing.",
+      "context": [
+        "Azure + Databricks + dbt",
+        "Migrated mainframe CIS to modern data lakehouse on Azure"
+      ]
+    },
+    {
+      "id": "tech_002",
+      "name": "Databricks",
+      "aliases": [
+        "Databricks platform",
+        "Lakehouse platform"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "analytics_platform",
+      "description": "Unified data analytics platform used to consolidate Teradata assets and host the medallion architecture for data processing, AI workloads, and accelerated code development.",
+      "context": [
+        "Consolidating all data assets from Teradata Vantage to Databricks on Azure",
+        "Azure + Databricks + dbt"
+      ]
+    },
+    {
+      "id": "tech_003",
+      "name": "dbt",
+      "aliases": [
+        "data build tool",
+        "dbt models"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "integration_tool",
+      "description": "Transformation workflow tool used to build modular, version-controlled, and tested data models within the lakehouse architecture, ensuring rigorous data quality through testing and validation.",
+      "context": [
+        "Modular, reusable, version-controlled dbt models",
+        "Rigorous DQ through testing and validation in dbt"
+      ]
+    },
+    {
+      "id": "tech_004",
+      "name": "GitHub Copilot",
+      "aliases": [
+        "Copilot",
+        "AI coding assistant"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "automation_tool",
+      "description": "AI-powered coding assistant leveraged to accelerate Teradata-to-dbt conversion and validate accelerated delivery approaches, enabling faster code build and test cycles.",
+      "context": [
+        "GenAI-based techniques and assets using GitHub CoPilot to accelerate Teradata-to-dbt conversion",
+        "Validated GenAI-accelerated approach for time-to-value"
+      ]
+    },
+    {
+      "id": "tech_005",
+      "name": "Teradata Vantage",
+      "aliases": [
+        "Teradata",
+        "Teradata data warehouse"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "legacy_system",
+      "description": "Legacy enterprise data warehouse system containing complex stored procedures and high licensing costs, targeted for migration to Databricks on Azure.",
+      "context": [
+        "Teradata Vantage - Enterprise data warehouses",
+        "Complex stored procedures"
+      ]
+    },
+    {
+      "id": "tech_006",
+      "name": "Unisys Mainframe",
+      "aliases": [
+        "Mainframe CIS",
+        "Unisys"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "legacy_system",
+      "description": "Legacy mainframe infrastructure hosting Customer Information Systems (CIS), targeted for decommissioning and migration to cloud to reduce technical debt and infrastructure costs.",
+      "context": [
+        "Customer Information Systems on Unisys mainframe",
+        "Ending Unisys reliance – migrating customer data and FC/RC feeds to SAP"
+      ]
+    },
+    {
+      "id": "diff_001",
+      "name": "GenAI-Accelerated Migration Approach",
+      "aliases": [
+        "AI-accelerated delivery",
+        "GenAI migration strategy"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "speed",
+      "description": "Use of AI-powered coding assistants and validated PoCs to fast-track complex data migrations, delivering milestones ahead of schedule and validating accelerated approaches for time-to-value.",
+      "context": [
+        "Validated GenAI-accelerated approach for time-to-value",
+        "Medallion Architecture Bronze milestone delivered ahead of schedule"
+      ]
+    },
+    {
+      "id": "diff_002",
+      "name": "Federated Governance Model",
+      "aliases": [
+        "Federated AI governance",
+        "Scalable AI operating model"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "delivery_model",
+      "description": "Scalable AI operating model combining centralised oversight with distributed execution, supported by API management and model monitoring to enable a pipeline of 10+ use cases across multiple domains.",
+      "context": [
+        "Scalable AI platform with federated governance, API management and model monitoring",
+        "Pipeline of 10+ use cases across Customer, Colleague and IT Operations domains"
+      ]
+    },
+    {
+      "id": "org_001",
+      "name": "SAP",
+      "aliases": [
+        "SAP systems",
+        "SAP ERP"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "partner",
+      "description": "Enterprise software vendor whose systems are integrated with the new data lakehouse for customer data feeds and operational systems, replacing legacy mainframe dependencies.",
+      "context": [
+        "Fragmented across CIS, SAP and operational systems",
+        "migrating customer data and FC/RC feeds to SAP"
+      ]
+    },
+    {
+      "id": "org_002",
+      "name": "Control-M",
+      "aliases": [
+        "Control M",
+        "Workload automation"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "vendor",
+      "description": "Enterprise workload automation and orchestration tool used alongside Azure Data Factory for pipeline management and data delivery to business consumers.",
+      "context": [
+        "Orchestration via Azure Data Factory & Control-M"
+      ]
+    },
+    {
+      "id": "loc_001",
+      "name": "Pune",
+      "aliases": [
+        "Pune delivery centre",
+        "India delivery"
+      ],
+      "entity_class": "LOCATION",
+      "type": "office",
+      "description": "Delivery location where collaborative workshops with client stakeholders were conducted for migration strategy and architecture evaluation, supporting SME-led evaluation efforts.",
+      "context": [
+        "Collaborative workshops in Pune with client stakeholders"
+      ]
+    },
+    {
+      "id": "evt_001",
+      "name": "Q4 2023 CoE Setup",
+      "aliases": [
+        "CoE Foundations Q4 2023",
+        "AI CoE establishment"
+      ],
+      "entity_class": "EVENT",
+      "type": "proof_of_concept",
+      "description": "Initial phase marking the establishment of the AI Centre of Excellence leadership, team, processes, and governance model to enable responsible AI experimentation and delivery.",
+      "context": [
+        "CoE Foundations (Q4 2023)",
+        "Leadership - Clear accountability",
+        "Team - Cross-functional - Shaped & mobilised"
+      ]
+    },
+    {
+      "id": "evt_002",
+      "name": "Feb–Sep 2024 Pilot",
+      "aliases": [
+        "CRAiG Pilot",
+        "Complaints Letter Pilot"
+      ],
+      "entity_class": "EVENT",
+      "type": "pilot",
+      "description": "Execution period for the Complaints Letter Writing use case, transitioning from pilot to production graduation while validating prompt engineering and model monitoring approaches.",
+      "context": [
+        "Piloted Feb–Sep 2024, graduated to production",
+        "REACT-based prompts outperformed few-shot"
+      ]
+    }
+  ],
+  "id_map": {
+    "cli_001": "18b692b3ac9142289cd2869ed24114da_001_cli_001",
+    "off_001": "18b692b3ac9142289cd2869ed24114da_001_off_001",
+    "off_002": "18b692b3ac9142289cd2869ed24114da_001_off_002",
+    "off_003": "18b692b3ac9142289cd2869ed24114da_001_off_003",
+    "cap_001": "18b692b3ac9142289cd2869ed24114da_001_cap_001",
+    "cap_002": "18b692b3ac9142289cd2869ed24114da_001_cap_002",
+    "cap_003": "18b692b3ac9142289cd2869ed24114da_001_cap_003",
+    "use_001": "18b692b3ac9142289cd2869ed24114da_001_use_001",
+    "use_002": "18b692b3ac9142289cd2869ed24114da_001_use_002",
+    "use_003": "18b692b3ac9142289cd2869ed24114da_001_use_003",
+    "use_004": "18b692b3ac9142289cd2869ed24114da_001_use_004",
+    "ben_001": "18b692b3ac9142289cd2869ed24114da_001_ben_001",
+    "ben_002": "18b692b3ac9142289cd2869ed24114da_001_ben_002",
+    "ben_003": "18b692b3ac9142289cd2869ed24114da_001_ben_003",
+    "ben_004": "18b692b3ac9142289cd2869ed24114da_001_ben_004",
+    "cha_001": "18b692b3ac9142289cd2869ed24114da_001_cha_001",
+    "cha_002": "18b692b3ac9142289cd2869ed24114da_001_cha_002",
+    "cha_003": "18b692b3ac9142289cd2869ed24114da_001_cha_003",
+    "tech_001": "18b692b3ac9142289cd2869ed24114da_001_tech_001",
+    "tech_002": "18b692b3ac9142289cd2869ed24114da_001_tech_002",
+    "tech_003": "18b692b3ac9142289cd2869ed24114da_001_tech_003",
+    "tech_004": "18b692b3ac9142289cd2869ed24114da_001_tech_004",
+    "tech_005": "18b692b3ac9142289cd2869ed24114da_001_tech_005",
+    "tech_006": "18b692b3ac9142289cd2869ed24114da_001_tech_006",
+    "diff_001": "18b692b3ac9142289cd2869ed24114da_001_diff_001",
+    "diff_002": "18b692b3ac9142289cd2869ed24114da_001_diff_002",
+    "org_001": "18b692b3ac9142289cd2869ed24114da_001_org_001",
+    "org_002": "18b692b3ac9142289cd2869ed24114da_001_org_002",
+    "loc_001": "18b692b3ac9142289cd2869ed24114da_001_loc_001",
+    "evt_001": "18b692b3ac9142289cd2869ed24114da_001_evt_001",
+    "evt_002": "18b692b3ac9142289cd2869ed24114da_001_evt_002"
+  },
+  "entities": [
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_cli_001",
+      "name": "Large British Building Society",
+      "aliases": [
+        "the organisation",
+        "client",
+        "building society"
+      ],
+      "entity_class": "CLIENT",
+      "type": "anonymous_client",
+      "description": "A UK-based financial services organisation undergoing a comprehensive AI and data transformation programme to modernise its data estate, establish an AI Centre of Excellence, and implement robust data governance to drive measurable business impact and regulatory compliance.",
+      "context": [
+        "Case Study: Large British Building Society",
+        "The organisation recognised the transformative potential of Generative AI but lacked a centralised structure to experiment responsibly",
+        "The organisation operated a fragmented legacy data landscape comprising MS SQL-based data warehouses"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_off_001",
+      "name": "AI & Data Transformation Programme",
+      "aliases": [
+        "AI & Data Transformation",
+        "transformation programme"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "transformation_programme",
+      "description": "A comprehensive three-pillar engagement focused on establishing an AI Centre of Excellence, migrating to a modern data platform, and implementing robust data governance to drive measurable business impact, reduce costs, and build a scalable foundation for AI-driven innovation.",
+      "context": [
+        "This case study documents a comprehensive AI and Data transformation programme spanning three strategic pillars",
+        "The programme has delivered measurable business impact across all three pillars, reducing costs, improving compliance, and building a scalable foundation for AI-driven innovation"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_off_002",
+      "name": "AI Centre of Excellence",
+      "aliases": [
+        "AI CoE",
+        "GenAI CoE"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "delivery_model",
+      "description": "A dedicated organisational structure and operating model established to govern AI experimentation, standardise delivery processes, and scale proven use cases into production while embedding responsible AI practices from inception.",
+      "context": [
+        "AI Centre of Excellence - Established GenAI CoE",
+        "The organisation recognised the transformative potential of Generative AI but lacked a centralised structure to experiment responsibly, govern AI deployments, and scale proven use cases into production"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_off_003",
+      "name": "Modern Data Platform",
+      "aliases": [
+        "Modern Data Platform Migration",
+        "cloud data platform"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "platform",
+      "description": "A cloud-native data architecture built on Azure and Databricks, replacing legacy systems to enable scalable data processing, advanced analytics, and AI initiatives through a medallion lakehouse architecture.",
+      "context": [
+        "Modern Data Platform - Azure + Databricks + dbt",
+        "Cloud-native architecture improving data accessibility & agility"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_cap_001",
+      "name": "Responsible AI Governance",
+      "aliases": [
+        "Responsible AI",
+        "AI risk management"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "security_capability",
+      "description": "Framework and practices ensuring ethical, secure, and compliant AI deployment, including threat modelling, PII redaction, model risk evaluation, and operational governance to mitigate deployment risks.",
+      "context": [
+        "Responsible AI practices embedded from inception: threat modelling, PII redaction, model risk evaluation",
+        "Governance - Operational model - Responsible AI"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_cap_002",
+      "name": "Data Mastering & Analytics",
+      "aliases": [
+        "Customer Data Mastering",
+        "advanced customer analytics"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "analytics_capability",
+      "description": "Capability to consolidate fragmented customer data into a single authoritative view, enabling advanced segmentation, personalisation, and self-service BI for business consumers and external systems.",
+      "context": [
+        "Customer data mastering",
+        "Foundation for self-service BI and advanced customer analytics"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_cap_003",
+      "name": "Data Lineage & Reconciliation Controls",
+      "aliases": [
+        "CDE tracing",
+        "data governance controls"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "integration_capability",
+      "description": "End-to-end tracing of Critical Data Elements across systems and functional areas to ensure compliance, accuracy, and operational risk mitigation through defined reconciliation controls.",
+      "context": [
+        "205 CDEs traced end-to-end",
+        "Reconciliation controls defined",
+        "inability to trace data lineage end-to-end posed regulatory and operational risks"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_use_001",
+      "name": "Complaints Letter Writing (CRAiG)",
+      "aliases": [
+        "CRAiG",
+        "Complaints Letter Automation"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "automation",
+      "description": "GenAI-driven solution that drafts bespoke customer complaint letters, reducing manual drafting time from 40 minutes to under 5 minutes with human review, while ensuring PII redaction and model monitoring.",
+      "context": [
+        "Use Case 1: Complaints Letter Writing (CRAiG)",
+        "GenAI drafts letter, human reviews in <5 mins",
+        "Piloted Feb–Sep 2024, graduated to production"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_use_002",
+      "name": "Call Transcript Analytics",
+      "aliases": [
+        "Call Analytics",
+        "AI Call Summarisation"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "analytics",
+      "description": "AI-powered analysis of customer call recordings for automated summarisation, root cause extraction, and nuanced sentiment/emotion detection beyond traditional NLP/ML capabilities.",
+      "context": [
+        "Use Case 2: Call Transcript Analytics",
+        "Automated call summarisation. Root cause & areas-of-interest extraction",
+        "Emotion detection with detailed reasoning"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_use_003",
+      "name": "QA/QC AI Assist",
+      "aliases": [
+        "Quality Assurance AI",
+        "Automated Compliance Checking"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "automation",
+      "description": "GenAI-enabled call screening and compliance checking that scaled coverage from 5% manual to 100% automated, delivering a step-change in quality assurance and regulatory compliance.",
+      "context": [
+        "Use Case 3: QA/QC AI Assist",
+        "Scaled call screening from 5% manual to 100% GenAI-enabled",
+        "Automated compliance checking"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_use_004",
+      "name": "Fraud Analysis PoC",
+      "aliases": [
+        "Fraud Detection Pilot",
+        "Fraud Analysis"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "fraud_detection",
+      "description": "Proof of concept exploring GenAI applications for identifying and analysing fraudulent activities within customer data, part of a broader pipeline of 10+ use cases across customer and IT operations domains.",
+      "context": [
+        "Fraud Analysis PoC & pilot",
+        "Pipeline of 10+ use cases across Customer, Colleague and IT Operations domains"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_ben_001",
+      "name": "~90% Reduction in Letter Drafting Time",
+      "aliases": [
+        "Letter drafting efficiency",
+        "Time savings on complaints"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "efficiency_gain",
+      "description": "Significant time savings achieved through GenAI automation of complaint letter generation, drastically reducing manual effort and accelerating response times for customer complaints.",
+      "context": [
+        "~90% time savings on complaints letters",
+        "Reduction in letter drafting time"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_ben_002",
+      "name": ">30% Faster Code Development",
+      "aliases": [
+        "Accelerated code build",
+        "Faster development cycles"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "speed_improvement",
+      "description": "Accelerated development and testing cycles for data pipelines and transformations, validated through GenAI-accelerated techniques and fast-tracked delivery against stringent timelines.",
+      "context": [
+        ">30% faster code development via GenAI",
+        "Reduction in code build & test",
+        "Fast-tracked delivery against stringent timelines"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_ben_003",
+      "name": "Infrastructure Cost Reduction",
+      "aliases": [
+        "Lowered infrastructure costs",
+        "Decommissioning savings"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "cost_saving",
+      "description": "Lowered operational and licensing expenses through decommissioning of legacy mainframe systems and high-cost Teradata infrastructure, freeing budget for innovation and modernisation.",
+      "context": [
+        "Decommissioning of legacy mainframe systems, significantly lowering infrastructure costs",
+        "High licensing costs",
+        "Freed budget for innovation and modernisation"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_ben_004",
+      "name": "100% Call Screening Coverage",
+      "aliases": [
+        "Full call coverage",
+        "Automated QA coverage"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "quality_improvement",
+      "description": "Complete automation of call quality assurance and compliance checking, replacing limited manual sampling and delivering a step-change in quality assurance coverage.",
+      "context": [
+        "100% Call screening coverage",
+        "Step-change in quality assurance coverage"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_cha_001",
+      "name": "Fragmented Legacy Data Landscape",
+      "aliases": [
+        "Legacy data silos",
+        "Disconnected data warehouses"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "legacy_constraint",
+      "description": "Disconnected data warehouses, marts, and mainframe systems creating silos, technical debt, and limited accessibility for analytics, hindering advanced data processing and AI readiness.",
+      "context": [
+        "The organisation operated a fragmented legacy data landscape comprising MS SQL-based data warehouses, Teradata-based data marts, and mainframe-hosted Customer Information Systems",
+        "Manual, siloed data processes"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_cha_002",
+      "name": "Lack of Centralised AI Governance",
+      "aliases": [
+        "Uncoordinated AI initiatives",
+        "Fragmented AI strategy"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "operational_inefficiency",
+      "description": "Absence of a coordinated structure for responsible AI experimentation, leading to fragmented initiatives, inconsistent quality standards, and inability to demonstrate measurable business value from AI investments.",
+      "context": [
+        "lacked a centralised structure to experiment responsibly, govern AI deployments, and scale proven use cases into production",
+        "risk of fragmented AI initiatives, inconsistent quality standards, and inability to demonstrate measurable business value from AI investments"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_cha_003",
+      "name": "Data Lineage Visibility Gap",
+      "aliases": [
+        "Missing data lineage",
+        "Compliance visibility risk"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "regulatory_burden",
+      "description": "Inability to trace Critical Data Elements across 78+ systems, creating compliance risks and data quality gaps in sensitive areas like Eco Crime and Payments Screening.",
+      "context": [
+        "lacked visibility into how Critical Data Elements (CDEs) flowed across 78+ systems and 6 functional areas",
+        "inability to trace data lineage end-to-end posed regulatory and operational risks"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_tech_001",
+      "name": "Azure",
+      "aliases": [
+        "Microsoft Azure",
+        "Azure cloud"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "cloud_platform",
+      "description": "Microsoft cloud platform serving as the foundational infrastructure for the modern data lakehouse, data factory orchestration, and AI services enabling scalable data processing.",
+      "context": [
+        "Azure + Databricks + dbt",
+        "Migrated mainframe CIS to modern data lakehouse on Azure"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_tech_002",
+      "name": "Databricks",
+      "aliases": [
+        "Databricks platform",
+        "Lakehouse platform"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "analytics_platform",
+      "description": "Unified data analytics platform used to consolidate Teradata assets and host the medallion architecture for data processing, AI workloads, and accelerated code development.",
+      "context": [
+        "Consolidating all data assets from Teradata Vantage to Databricks on Azure",
+        "Azure + Databricks + dbt"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_tech_003",
+      "name": "dbt",
+      "aliases": [
+        "data build tool",
+        "dbt models"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "integration_tool",
+      "description": "Transformation workflow tool used to build modular, version-controlled, and tested data models within the lakehouse architecture, ensuring rigorous data quality through testing and validation.",
+      "context": [
+        "Modular, reusable, version-controlled dbt models",
+        "Rigorous DQ through testing and validation in dbt"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_tech_004",
+      "name": "GitHub Copilot",
+      "aliases": [
+        "Copilot",
+        "AI coding assistant"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "automation_tool",
+      "description": "AI-powered coding assistant leveraged to accelerate Teradata-to-dbt conversion and validate accelerated delivery approaches, enabling faster code build and test cycles.",
+      "context": [
+        "GenAI-based techniques and assets using GitHub CoPilot to accelerate Teradata-to-dbt conversion",
+        "Validated GenAI-accelerated approach for time-to-value"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_tech_005",
+      "name": "Teradata Vantage",
+      "aliases": [
+        "Teradata",
+        "Teradata data warehouse"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "legacy_system",
+      "description": "Legacy enterprise data warehouse system containing complex stored procedures and high licensing costs, targeted for migration to Databricks on Azure.",
+      "context": [
+        "Teradata Vantage - Enterprise data warehouses",
+        "Complex stored procedures"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_tech_006",
+      "name": "Unisys Mainframe",
+      "aliases": [
+        "Mainframe CIS",
+        "Unisys"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "legacy_system",
+      "description": "Legacy mainframe infrastructure hosting Customer Information Systems (CIS), targeted for decommissioning and migration to cloud to reduce technical debt and infrastructure costs.",
+      "context": [
+        "Customer Information Systems on Unisys mainframe",
+        "Ending Unisys reliance – migrating customer data and FC/RC feeds to SAP"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_diff_001",
+      "name": "GenAI-Accelerated Migration Approach",
+      "aliases": [
+        "AI-accelerated delivery",
+        "GenAI migration strategy"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "speed",
+      "description": "Use of AI-powered coding assistants and validated PoCs to fast-track complex data migrations, delivering milestones ahead of schedule and validating accelerated approaches for time-to-value.",
+      "context": [
+        "Validated GenAI-accelerated approach for time-to-value",
+        "Medallion Architecture Bronze milestone delivered ahead of schedule"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_diff_002",
+      "name": "Federated Governance Model",
+      "aliases": [
+        "Federated AI governance",
+        "Scalable AI operating model"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "delivery_model",
+      "description": "Scalable AI operating model combining centralised oversight with distributed execution, supported by API management and model monitoring to enable a pipeline of 10+ use cases across multiple domains.",
+      "context": [
+        "Scalable AI platform with federated governance, API management and model monitoring",
+        "Pipeline of 10+ use cases across Customer, Colleague and IT Operations domains"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_org_001",
+      "name": "SAP",
+      "aliases": [
+        "SAP systems",
+        "SAP ERP"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "partner",
+      "description": "Enterprise software vendor whose systems are integrated with the new data lakehouse for customer data feeds and operational systems, replacing legacy mainframe dependencies.",
+      "context": [
+        "Fragmented across CIS, SAP and operational systems",
+        "migrating customer data and FC/RC feeds to SAP"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_org_002",
+      "name": "Control-M",
+      "aliases": [
+        "Control M",
+        "Workload automation"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "vendor",
+      "description": "Enterprise workload automation and orchestration tool used alongside Azure Data Factory for pipeline management and data delivery to business consumers.",
+      "context": [
+        "Orchestration via Azure Data Factory & Control-M"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_loc_001",
+      "name": "Pune",
+      "aliases": [
+        "Pune delivery centre",
+        "India delivery"
+      ],
+      "entity_class": "LOCATION",
+      "type": "office",
+      "description": "Delivery location where collaborative workshops with client stakeholders were conducted for migration strategy and architecture evaluation, supporting SME-led evaluation efforts.",
+      "context": [
+        "Collaborative workshops in Pune with client stakeholders"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_evt_001",
+      "name": "Q4 2023 CoE Setup",
+      "aliases": [
+        "CoE Foundations Q4 2023",
+        "AI CoE establishment"
+      ],
+      "entity_class": "EVENT",
+      "type": "proof_of_concept",
+      "description": "Initial phase marking the establishment of the AI Centre of Excellence leadership, team, processes, and governance model to enable responsible AI experimentation and delivery.",
+      "context": [
+        "CoE Foundations (Q4 2023)",
+        "Leadership - Clear accountability",
+        "Team - Cross-functional - Shaped & mobilised"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_evt_002",
+      "name": "Feb–Sep 2024 Pilot",
+      "aliases": [
+        "CRAiG Pilot",
+        "Complaints Letter Pilot"
+      ],
+      "entity_class": "EVENT",
+      "type": "pilot",
+      "description": "Execution period for the Complaints Letter Writing use case, transitioning from pilot to production graduation while validating prompt engineering and model monitoring approaches.",
+      "context": [
+        "Piloted Feb–Sep 2024, graduated to production",
+        "REACT-based prompts outperformed few-shot"
+      ],
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    }
+  ],
+  "properties": [
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_cli_001",
+      "name": "Large British Building Society",
+      "properties": {
+        "industry": "banking",
+        "geography": "UK",
+        "size": "large",
+        "relationship_status": "reference_client",
+        "named_or_anonymous": false,
+        "pain_points": [
+          "fragmented legacy data landscape",
+          "high infrastructure costs",
+          "limited data accessibility",
+          "lack of centralised AI governance",
+          "data lineage visibility gap"
+        ],
+        "engagement_type": "AI & Data Transformation Programme"
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_off_001",
+      "name": "AI & Data Transformation Programme",
+      "properties": {
+        "offering_type": "programme",
+        "scope": [
+          "AI Enablement",
+          "Modern Data Platform Migration",
+          "Data Governance"
+        ],
+        "target_client_profile": "Large British Building Society",
+        "key_phases or components": [
+          "AI Centre of Excellence",
+          "Modern Data Platform",
+          "Data Governance"
+        ],
+        "named_assets_or_accelerators": [
+          "GenAI-Accelerated Migration Approach",
+          "Lakehouse",
+          "solution accelerators",
+          "agentic workflows"
+        ]
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_off_002",
+      "name": "AI Centre of Excellence",
+      "properties": {
+        "offering_type": "centre_of_excellence",
+        "scope": [
+          "Setup",
+          "Experimentation",
+          "Production Use Cases",
+          "Governance"
+        ],
+        "key_phases or components": [
+          "Leadership",
+          "Team",
+          "Processes",
+          "Governance"
+        ],
+        "named_assets_or_accelerators": [
+          "Responsible AI practices",
+          "threat modelling",
+          "PII redaction",
+          "model risk evaluation"
+        ]
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_off_003",
+      "name": "Modern Data Platform",
+      "properties": {
+        "offering_type": "platform_migration",
+        "scope": [
+          "MS SQL & Teradata migration",
+          "Customer data mastering",
+          "Data lakehouse architecture"
+        ],
+        "target_client_profile": "Large British Building Society",
+        "key_phases or components": [
+          "MS SQL & Mainframe CIS Migration",
+          "Teradata Data Warehouse Migration",
+          "Customer Data Mastering & Analytics"
+        ]
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_cap_001",
+      "name": "Responsible AI Governance",
+      "properties": {
+        "what_it_does": "Ensures responsible deployment, monitoring, and risk evaluation of AI models",
+        "technical_components": [
+          "threat modelling",
+          "PII redaction",
+          "model risk evaluation"
+        ],
+        "delivery_maturity": "proven",
+        "differentiating_aspect": "Federated governance model embedded from inception",
+        "industry_applicability": [
+          "banking",
+          "regulated sectors"
+        ]
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_cap_002",
+      "name": "Data Mastering & Analytics",
+      "properties": {
+        "what_it_does": "Consolidates fragmented customer data into a single authoritative view for segmentation and personalisation",
+        "technical_components": [
+          "customer data feeds migration",
+          "centralised data pipelines",
+          "self-service BI foundation"
+        ],
+        "delivery_maturity": "proven",
+        "differentiating_aspect": "Single authoritative view across organisation",
+        "industry_applicability": [
+          "banking"
+        ]
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_cap_003",
+      "name": "Data Lineage & Reconciliation Controls",
+      "properties": {
+        "what_it_does": "Traces Critical Data Elements end-to-end across systems and defines reconciliation controls",
+        "technical_components": [
+          "205 CDEs traced",
+          "400+ DQ rules operationalised",
+          "78 systems mapped",
+          "reconciliation controls"
+        ],
+        "delivery_maturity": "proven",
+        "differentiating_aspect": "End-to-end visibility across 78+ systems and 6 functional areas",
+        "industry_applicability": [
+          "banking",
+          "payments",
+          "compliance"
+        ]
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_use_001",
+      "name": "Complaints Letter Writing (CRAiG)",
+      "properties": {
+        "problem_context": "Manual drafting of 1,300 bespoke letters/week taking 40 mins each",
+        "approach": "GenAI drafts letter with human review, REACT-based prompts, PII redaction",
+        "industry or vertical": "banking",
+        "outcome_achieved": "~90% reduction in letter drafting time",
+        "complexity_level": "complex"
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_use_002",
+      "name": "Call Transcript Analytics",
+      "properties": {
+        "problem_context": "Need for automated call summarisation and nuanced sentiment/emotion detection beyond basic NLP/ML",
+        "approach": "Sensitive data redaction via Azure Language AI, automated summarisation, root cause extraction, emotion detection",
+        "industry or vertical": "banking",
+        "outcome_achieved": "Improved quality assurance coverage and nuanced sentiment analysis",
+        "complexity_level": "complex"
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_use_003",
+      "name": "QA/QC AI Assist",
+      "properties": {
+        "problem_context": "Limited manual call screening coverage (initially 5%)",
+        "approach": "Scaled call screening to 100% GenAI-enabled with automated compliance checking",
+        "industry or vertical": "banking",
+        "outcome_achieved": "100% call screening coverage",
+        "complexity_level": "complex"
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_use_004",
+      "name": "Fraud Analysis PoC",
+      "properties": {
+        "problem_context": "Need to identify fraud patterns and assess risk",
+        "approach": "PoC & pilot phase within scaling pipeline",
+        "industry or vertical": "banking",
+        "outcome_achieved": "PoC & pilot stage",
+        "complexity_level": "complex"
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_ben_001",
+      "name": "~90% Reduction in Letter Drafting Time",
+      "properties": {
+        "quantified_value": "~90%",
+        "beneficiary": "client operations",
+        "time_to_value": "Feb–Sep 2024 pilot to production",
+        "category": "speed",
+        "evidence_type": "measured"
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_ben_002",
+      "name": ">30% Faster Code Development",
+      "properties": {
+        "quantified_value": ">30%",
+        "beneficiary": "development team",
+        "time_to_value": "Validated via PoC on complex data mart codebase",
+        "category": "speed",
+        "evidence_type": "measured"
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_ben_003",
+      "name": "Infrastructure Cost Reduction",
+      "properties": {
+        "quantified_value": "significantly lowering infrastructure costs",
+        "beneficiary": "client",
+        "time_to_value": "Post-decommissioning of legacy mainframe systems",
+        "category": "cost",
+        "evidence_type": "claimed"
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_ben_004",
+      "name": "100% Call Screening Coverage",
+      "properties": {
+        "quantified_value": "100%",
+        "beneficiary": "quality assurance team",
+        "time_to_value": "Scaled during pilot/production phase",
+        "category": "quality",
+        "evidence_type": "measured"
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_cha_001",
+      "name": "Fragmented Legacy Data Landscape",
+      "properties": {
+        "root_cause": "MS SQL warehouses, Teradata marts, mainframe-hosted CIS, manual siloed processes",
+        "business_impact": "High technical debt, high infrastructure costs, limited data accessibility, constrained advanced analytics",
+        "urgency": "high",
+        "who_faces_it": "Large British Building Society",
+        "current_workaround": "Manual, siloed data processes"
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_cha_002",
+      "name": "Lack of Centralised AI Governance",
+      "properties": {
+        "root_cause": "Absence of coordinated structure for responsible experimentation and scaling",
+        "business_impact": "Fragmented AI initiatives, inconsistent quality standards, inability to demonstrate measurable business value",
+        "urgency": "high",
+        "who_faces_it": "Large British Building Society"
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_cha_003",
+      "name": "Data Lineage Visibility Gap",
+      "properties": {
+        "root_cause": "Legacy data estate lacked visibility into CDE flow across 78+ systems and 6 functional areas",
+        "business_impact": "Compliance risk, data quality gaps, regulatory and operational risks in Eco Crime and Payments Screening",
+        "urgency": "high",
+        "who_faces_it": "Large British Building Society"
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_tech_001",
+      "name": "Azure",
+      "properties": {
+        "vendor or provider": "Microsoft",
+        "technology_category": "cloud",
+        "role_in_solution": "core",
+        "maturity": "modern",
+        "key_characteristics": [
+          "cloud-native architecture",
+          "lakehouse hosting",
+          "Data Factory orchestration"
+        ]
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_tech_002",
+      "name": "Databricks",
+      "properties": {
+        "vendor or provider": "Databricks",
+        "technology_category": "data",
+        "role_in_solution": "core",
+        "maturity": "modern",
+        "key_characteristics": [
+          "medallion architecture",
+          "data mart consolidation",
+          "accelerated code conversion"
+        ]
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_tech_003",
+      "name": "dbt",
+      "properties": {
+        "vendor or provider": "dbt Labs",
+        "technology_category": "data",
+        "role_in_solution": "supporting",
+        "maturity": "modern",
+        "key_characteristics": [
+          "modular reusable version-controlled models",
+          "rigorous DQ testing",
+          "Bronze/L0 to Gold/L2 layers"
+        ]
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_tech_004",
+      "name": "GitHub Copilot",
+      "properties": {
+        "vendor or provider": "GitHub",
+        "technology_category": "ai",
+        "role_in_solution": "supporting",
+        "maturity": "emerging",
+        "key_characteristics": [
+          "accelerates Teradata-to-dbt conversion",
+          "validated via PoC"
+        ]
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_tech_005",
+      "name": "Teradata Vantage",
+      "properties": {
+        "vendor or provider": "Teradata",
+        "technology_category": "data",
+        "role_in_solution": "replaced",
+        "maturity": "legacy",
+        "key_characteristics": [
+          "enterprise data warehouses",
+          "complex stored procedures",
+          "high licensing costs"
+        ]
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_tech_006",
+      "name": "Unisys Mainframe",
+      "properties": {
+        "vendor or provider": "Unisys",
+        "technology_category": "infrastructure",
+        "role_in_solution": "replaced",
+        "maturity": "legacy",
+        "key_characteristics": [
+          "hosted Customer Information Systems",
+          "high infrastructure costs",
+          "decommissioned"
+        ]
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_diff_001",
+      "name": "GenAI-Accelerated Migration Approach",
+      "properties": {
+        "competitive_advantage": "Accelerates Teradata-to-dbt conversion and fast-tracks delivery",
+        "evidence or proof_point": "PoC on complex data mart codebase validated approach, Bronze milestone delivered ahead of schedule",
+        "uniqueness": "GenAI-based technique",
+        "target_audience": "IT/Data teams",
+        "relates_to_offering": "Modern Data Platform"
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_diff_002",
+      "name": "Federated Governance Model",
+      "properties": {
+        "competitive_advantage": "Enables scalable AI platform with central oversight while allowing distributed experimentation",
+        "evidence or proof_point": "205 CDEs traced end-to-end, 400+ DQ rules operationalised, 78 systems mapped",
+        "uniqueness": "Structured operational model",
+        "target_audience": "Regulated industries",
+        "relates_to_offering": "AI Centre of Excellence"
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_org_001",
+      "name": "SAP",
+      "properties": {
+        "org_type": "technology_vendor",
+        "relationship_to_offering": "complements",
+        "geographic_presence": "global"
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_org_002",
+      "name": "Control-M",
+      "properties": {
+        "org_type": "technology_vendor",
+        "relationship_to_offering": "complements",
+        "geographic_presence": "global"
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_loc_001",
+      "name": "Pune",
+      "properties": {
+        "market_type": "geographic",
+        "strategic_importance": "core",
+        "regulatory_environment": "India"
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_evt_001",
+      "name": "Q4 2023 CoE Setup",
+      "properties": {
+        "event_type": "milestone",
+        "date_or_period": "Q4 2023",
+        "relevance_to_deal": "foundation_for_ai_enablement",
+        "key_participants": [
+          "leadership",
+          "cross-functional team"
+        ]
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "id": "18b692b3ac9142289cd2869ed24114da_001_evt_002",
+      "name": "Feb–Sep 2024 Pilot",
+      "properties": {
+        "event_type": "pilot",
+        "date_or_period": "Feb–Sep 2024",
+        "relevance_to_deal": "use_case_validation_and_graduation",
+        "key_participants": [
+          "client stakeholders",
+          "delivery team"
+        ]
+      },
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_cli_001",
+      "source_name": "Large British Building Society",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_cha_001",
+      "target_name": "Fragmented Legacy Data Landscape",
+      "rel_type": "faces",
+      "description": "The client operates a fragmented legacy data estate with siloed systems and high technical debt.",
+      "properties": {
+        "impact_level": "high",
+        "systems_affected": "MS SQL, Teradata, Unisys Mainframe"
+      },
+      "context": "The organisation operated a fragmented legacy data landscape comprising MS SQL-based data warehouses, Teradata-based data marts, and mainframe-hosted Customer Information Systems (CIS).",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_cli_001",
+      "source_name": "Large British Building Society",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_cha_002",
+      "target_name": "Lack of Centralised AI Governance",
+      "rel_type": "faces",
+      "description": "The client lacked a coordinated structure to govern AI deployments and scale use cases responsibly.",
+      "properties": {
+        "risk_type": "operational_and_compliance",
+        "governance_gap": "centralised_structure"
+      },
+      "context": "The organisation recognised the transformative potential of Generative AI but lacked a centralised structure to experiment responsibly, govern AI deployments, and scale proven use cases into production.",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_cli_001",
+      "source_name": "Large British Building Society",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_cha_003",
+      "target_name": "Data Lineage Visibility Gap",
+      "rel_type": "faces",
+      "description": "The client's legacy data estate lacked end-to-end visibility of Critical Data Elements across systems.",
+      "properties": {
+        "visibility_scope": "78+ systems",
+        "compliance_risk": "high"
+      },
+      "context": "The legacy data estate lacked visibility into how Critical Data Elements (CDEs) flowed across 78+ systems and 6 functional areas, creating significant compliance risk and data quality gaps.",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_off_001",
+      "source_name": "AI & Data Transformation Programme",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_off_002",
+      "target_name": "AI Centre of Excellence",
+      "rel_type": "comprises",
+      "description": "The overarching transformation programme includes the establishment and operation of the AI CoE.",
+      "properties": {
+        "component_type": "strategic_pillar",
+        "phase": "setup_and_experimentation"
+      },
+      "context": "This case study documents a comprehensive AI and Data transformation programme spanning three strategic pillars: AI Centre of Excellence",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_off_001",
+      "source_name": "AI & Data Transformation Programme",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_off_003",
+      "target_name": "Modern Data Platform",
+      "rel_type": "comprises",
+      "description": "The transformation programme encompasses the migration and modernisation of the data platform.",
+      "properties": {
+        "component_type": "strategic_pillar",
+        "phase": "migration_and_governance"
+      },
+      "context": "This case study documents a comprehensive AI and Data transformation programme spanning three strategic pillars: ... Modern Data Platform",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_off_002",
+      "source_name": "AI Centre of Excellence",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_cha_002",
+      "target_name": "Lack of Centralised AI Governance",
+      "rel_type": "solves",
+      "description": "The CoE provides the centralised structure and governance model needed to responsibly govern and scale AI.",
+      "properties": {
+        "approach": "centralised_governance_and_federated_model",
+        "completeness": "full"
+      },
+      "context": "The organisation recognised the transformative potential of Generative AI but lacked a centralised structure to experiment responsibly... CoE Foundations (Q4 2023) ... Established GenAI CoE",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_off_002",
+      "source_name": "AI Centre of Excellence",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_evt_001",
+      "target_name": "Q4 2023 CoE Setup",
+      "rel_type": "launched_at",
+      "description": "The AI CoE was formally established and operationalised during the Q4 2023 setup event.",
+      "properties": {
+        "milestone_type": "foundation",
+        "status": "graduated_to_production"
+      },
+      "context": "CoE Foundations (Q4 2023) ... Established GenAI CoE",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_off_002",
+      "source_name": "AI Centre of Excellence",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_use_001",
+      "target_name": "Complaints Letter Writing (CRAiG)",
+      "rel_type": "addresses",
+      "description": "The CoE delivers a GenAI-powered solution to automate and accelerate the drafting of complaints letters.",
+      "properties": {
+        "use_case_type": "customer_service",
+        "automation_level": "high"
+      },
+      "context": "Use Case 1: Complaints Letter Writing (CRAiG) ... GenAI drafts letter, human reviews in <5 mins",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_off_002",
+      "source_name": "AI Centre of Excellence",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_use_002",
+      "target_name": "Call Transcript Analytics",
+      "rel_type": "addresses",
+      "description": "The CoE enables automated summarisation, root cause extraction, and sentiment analysis from call transcripts.",
+      "properties": {
+        "use_case_type": "quality_assurance",
+        "analytics_depth": "nuanced_sentiment"
+      },
+      "context": "Use Case 2: Call Transcript Analytics ... Automated call summarisation ... Nuanced sentiment beyond NLP/ML",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_off_002",
+      "source_name": "AI Centre of Excellence",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_use_003",
+      "target_name": "QA/QC AI Assist",
+      "rel_type": "addresses",
+      "description": "The CoE scales call screening coverage from manual sampling to full GenAI-enabled automated screening.",
+      "properties": {
+        "use_case_type": "compliance_and_qa",
+        "coverage_target": "100_percent"
+      },
+      "context": "Use Case 3: QA/QC AI Assist ... Scaled call screening from 5% manual to 100% GenAI-enabled",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_off_002",
+      "source_name": "AI Centre of Excellence",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_use_004",
+      "target_name": "Fraud Analysis PoC",
+      "rel_type": "addresses",
+      "description": "The CoE pilots advanced fraud detection capabilities using GenAI techniques.",
+      "properties": {
+        "use_case_type": "risk_and_fraud",
+        "stage": "proof_of_concept"
+      },
+      "context": "Scaling the Pipeline - Fraud Analysis PoC & pilot",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_use_001",
+      "source_name": "Complaints Letter Writing (CRAiG)",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_ben_001",
+      "target_name": "~90% Reduction in Letter Drafting Time",
+      "rel_type": "produces",
+      "description": "The CRAiG use case directly generates a ~90% reduction in the time required to draft complaints letters.",
+      "properties": {
+        "metric": "time_savings",
+        "value": "~90%",
+        "baseline": "40 mins manual"
+      },
+      "context": "~90% time savings on complaints letters ... 1,300 bespoke letters/week, 40 mins each manually",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_use_003",
+      "source_name": "QA/QC AI Assist",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_ben_004",
+      "target_name": "100% Call Screening Coverage",
+      "rel_type": "produces",
+      "description": "The QA/QC AI Assist use case achieves full automated screening coverage, replacing manual sampling.",
+      "properties": {
+        "metric": "screening_coverage",
+        "value": "100%",
+        "previous_state": "5_percent_manual"
+      },
+      "context": "Scaled call screening from 5% manual to 100% GenAI-enabled ... Step-change in quality assurance coverage",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_off_002",
+      "source_name": "AI Centre of Excellence",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_cap_001",
+      "target_name": "Responsible AI Governance",
+      "rel_type": "comprises",
+      "description": "The CoE embeds responsible AI practices including threat modelling, PII redaction, and model risk evaluation.",
+      "properties": {
+        "governance_focus": "risk_and_compliance",
+        "implementation_stage": "inception"
+      },
+      "context": "Responsible AI practices embedded from inception: threat modelling, PII redaction, model risk evaluation",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_cap_001",
+      "source_name": "Responsible AI Governance",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_use_001",
+      "target_name": "Complaints Letter Writing (CRAiG)",
+      "rel_type": "enables",
+      "description": "Responsible AI governance capabilities enable safe and compliant deployment of the CRAiG use case.",
+      "properties": {
+        "enforcement_mechanism": "PII_redaction_and_model_monitoring",
+        "risk_mitigation": "threat_modelling"
+      },
+      "context": "PII redaction, model monitoring, threat modelling ... Piloted Feb–Sep 2024, graduated to production",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_off_003",
+      "source_name": "Modern Data Platform",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_tech_001",
+      "target_name": "Azure",
+      "rel_type": "built_on",
+      "description": "The modern data platform is architected and deployed on the Azure cloud infrastructure.",
+      "properties": {
+        "deployment_model": "cloud_native",
+        "architecture_type": "lakehouse"
+      },
+      "context": "Modern Data Platform - Azure, Databricks & dbt ... Migrated mainframe CIS to modern data lakehouse on Azure",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_off_003",
+      "source_name": "Modern Data Platform",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_tech_002",
+      "target_name": "Databricks",
+      "rel_type": "built_on",
+      "description": "The platform consolidates data assets and leverages Databricks for unified data analytics and engineering.",
+      "properties": {
+        "function": "data_lakehouse_and_analytics",
+        "integration_level": "core"
+      },
+      "context": "Azure + Databricks + dbt ... Consolidating all data assets from Teradata Vantage to Databricks on Azure",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_off_003",
+      "source_name": "Modern Data Platform",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_tech_003",
+      "target_name": "dbt",
+      "rel_type": "built_on",
+      "description": "The platform utilises dbt for modular, reusable, version-controlled data transformation models.",
+      "properties": {
+        "function": "data_transformation_and_orchestration",
+        "quality_feature": "rigorous_DQ_testing"
+      },
+      "context": "Azure + Databricks + dbt ... Modular, reusable, version-controlled dbt models ... Rigorous DQ through testing and validation in dbt",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_off_003",
+      "source_name": "Modern Data Platform",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_tech_005",
+      "target_name": "Teradata Vantage",
+      "rel_type": "replaces",
+      "description": "The modern platform consolidates and replaces legacy Teradata Vantage data warehouse assets.",
+      "properties": {
+        "migration_target": "Databricks_on_Azure",
+        "status": "consolidation_and_decommission"
+      },
+      "context": "MS SQL & Teradata migration ... Consolidating all data assets from Teradata Vantage to Databricks on Azure",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_off_003",
+      "source_name": "Modern Data Platform",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_tech_006",
+      "target_name": "Unisys Mainframe",
+      "rel_type": "replaces",
+      "description": "The platform decommissions legacy Unisys mainframe systems and migrates customer data to the cloud.",
+      "properties": {
+        "migration_target": "Azure_lakehouse",
+        "status": "decommissioning"
+      },
+      "context": "Decommissioning of legacy mainframe systems ... Ending Unisys reliance – migrating customer data and FC/RC feeds to SAP",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_off_003",
+      "source_name": "Modern Data Platform",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_cap_002",
+      "target_name": "Data Mastering & Analytics",
+      "rel_type": "comprises",
+      "description": "The platform delivers customer data mastering capabilities to create a single authoritative view.",
+      "properties": {
+        "focus_area": "customer_data",
+        "outcome": "authoritative_single_view"
+      },
+      "context": "Customer data mastering ... Single, authoritative view of customer data across the organisation",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_off_003",
+      "source_name": "Modern Data Platform",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_ben_002",
+      "target_name": ">30% Faster Code Development",
+      "rel_type": "has_delivered",
+      "description": "The modern data platform accelerates code build and test cycles by over 30% using GenAI techniques.",
+      "properties": {
+        "metric": "development_speed",
+        "value": ">30_percent",
+        "enabler": "GenAI_accelerated_approach"
+      },
+      "context": ">30% faster code development via GenAI ... >30% Reduction in code build & test ... Validated GenAI-accelerated approach for time-to-value",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_off_003",
+      "source_name": "Modern Data Platform",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_ben_003",
+      "target_name": "Infrastructure Cost Reduction",
+      "rel_type": "has_delivered",
+      "description": "The platform reduces infrastructure costs by decommissioning legacy systems and moving to cloud-native architecture.",
+      "properties": {
+        "metric": "cost_savings",
+        "value": "significant",
+        "driver": "legacy_decommission_and_cloud_migration"
+      },
+      "context": "Decommissioning of legacy mainframe systems, significantly lowering infrastructure costs ... Freed budget for innovation and modernisation",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_off_003",
+      "source_name": "Modern Data Platform",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_org_001",
+      "target_name": "SAP",
+      "rel_type": "integrates_with",
+      "description": "The platform migrates customer data feeds and integrates with SAP systems for downstream consumption.",
+      "properties": {
+        "integration_type": "data_migration_and_feed",
+        "target_system": "SAP"
+      },
+      "context": "Ending Unisys reliance – migrating customer data and FC/RC feeds to SAP ... Customer data feeds migrated from legacy CIS to SAP and Azure lakehouse",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_off_002",
+      "source_name": "AI Centre of Excellence",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_diff_002",
+      "target_name": "Federated Governance Model",
+      "rel_type": "distinguished_by",
+      "description": "The CoE is characterised by a federated governance model that balances central oversight with distributed delivery.",
+      "properties": {
+        "governance_structure": "federated",
+        "key_feature": "API_management_and_model_monitoring"
+      },
+      "context": "Scalable AI platform with federated governance, API management and model monitoring",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_off_003",
+      "source_name": "Modern Data Platform",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_tech_004",
+      "target_name": "GitHub Copilot",
+      "rel_type": "uses",
+      "description": "The platform leverages GitHub Copilot to accelerate Teradata-to-dbt code conversion and development.",
+      "properties": {
+        "usage_context": "code_acceleration_and_conversion",
+        "target_artifact": "Teradata_to_dbt"
+      },
+      "context": "GenAI-based techniques and assets using GitHub CoPilot to accelerate Teradata-to-dbt conversion",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_off_003",
+      "source_name": "Modern Data Platform",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_diff_001",
+      "target_name": "GenAI-Accelerated Migration Approach",
+      "rel_type": "demonstrated_through",
+      "description": "The accelerated migration approach is validated through a PoC on complex data mart codebases.",
+      "properties": {
+        "validation_method": "PoC_on_complex_codebase",
+        "outcome": "accelerated_time_to_value"
+      },
+      "context": "PoC on complex data mart codebase validating accelerated approach ... Validated GenAI-accelerated approach for time-to-value",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_off_001",
+      "source_name": "AI & Data Transformation Programme",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_cap_003",
+      "target_name": "Data Lineage & Reconciliation Controls",
+      "rel_type": "comprises",
+      "description": "The programme includes data lineage tracing and reconciliation controls to ensure compliance and quality.",
+      "properties": {
+        "control_type": "lineage_and_reconciliation",
+        "scope": "78_systems_mapped"
+      },
+      "context": "Data Governance - Data Lineage & Reconciliation Controls ... 205 CDEs traced end-to-end ... 78 systems mapped",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_cap_003",
+      "source_name": "Data Lineage & Reconciliation Controls",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_cha_003",
+      "target_name": "Data Lineage Visibility Gap",
+      "rel_type": "solves",
+      "description": "The capability resolves the visibility gap by tracing CDEs end-to-end across 78+ systems.",
+      "properties": {
+        "resolution_method": "end_to_end_tracing",
+        "compliance_impact": "regulatory_risk_mitigation"
+      },
+      "context": "The legacy data estate lacked visibility into how Critical Data Elements (CDEs) flowed across 78+ systems ... 205 CDEs traced end-to-end",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_cli_001",
+      "source_name": "Large British Building Society",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_loc_001",
+      "target_name": "Pune",
+      "rel_type": "operates_in",
+      "description": "The client conducts collaborative workshops and stakeholder engagements in Pune.",
+      "properties": {
+        "activity_type": "collaborative_workshops",
+        "stakeholder_involvement": "client_and_sme"
+      },
+      "context": "Collaborative workshops in Pune with client stakeholders",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_use_004",
+      "source_name": "Fraud Analysis PoC",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_evt_002",
+      "target_name": "Feb–Sep 2024 Pilot",
+      "rel_type": "piloted_for",
+      "description": "The fraud analysis use case was piloted and evaluated during the Feb–Sep 2024 pilot event.",
+      "properties": {
+        "pilot_duration": "Feb–Sep_2024",
+        "evaluation_focus": "fraud_detection_accuracy"
+      },
+      "context": "Fraud Analysis PoC & pilot ... Piloted Feb–Sep 2024",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_off_002",
+      "source_name": "AI Centre of Excellence",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_ben_001",
+      "target_name": "~90% Reduction in Letter Drafting Time",
+      "rel_type": "has_delivered",
+      "description": "The CoE delivers the ~90% reduction in letter drafting time through the CRAiG use case.",
+      "properties": {
+        "delivery_mechanism": "CRAiG_use_case",
+        "quantification": "~90_percent"
+      },
+      "context": "~90% time savings on complaints letters ... Graduated use cases to production",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_off_001",
+      "source_name": "AI & Data Transformation Programme",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_ben_003",
+      "target_name": "Infrastructure Cost Reduction",
+      "rel_type": "has_delivered",
+      "description": "The overall programme delivers measurable cost reductions across all three strategic pillars.",
+      "properties": {
+        "delivery_scope": "all_three_pillars",
+        "impact_type": "cost_reduction_and_compliance"
+      },
+      "context": "The programme has delivered measurable business impact across all three pillars, reducing costs, improving compliance, and building a scalable foundation for AI-driven innovation.",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_cap_002",
+      "source_name": "Data Mastering & Analytics",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_ben_002",
+      "target_name": ">30% Faster Code Development",
+      "rel_type": "delivers",
+      "description": "Data mastering capabilities accelerate code development and testing cycles through automated pipelines.",
+      "properties": {
+        "delivery_mechanism": "automated_pipelines_and_mastering",
+        "speed_improvement": ">30_percent"
+      },
+      "context": "Customer data mastering ... Centralised data pipelines with built-in validation and auditing ... >30% faster code development via GenAI",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_use_002",
+      "source_name": "Call Transcript Analytics",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_tech_001",
+      "target_name": "Azure",
+      "rel_type": "uses",
+      "description": "The call transcript analytics use case leverages Azure Language AI for sensitive data redaction.",
+      "properties": {
+        "azure_service": "Azure_Language_AI",
+        "function": "sensitive_data_redaction"
+      },
+      "context": "Sensitive data redaction via Azure Language AI ... Automated call summarisation",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_off_003",
+      "source_name": "Modern Data Platform",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001_evt_002",
+      "target_name": "Feb–Sep 2024 Pilot",
+      "rel_type": "piloted_for",
+      "description": "The modern data platform migration and GenAI acceleration approach were piloted during the Feb–Sep 2024 event.",
+      "properties": {
+        "pilot_focus": "Teradata_migration_and_GenAI_acceleration",
+        "milestone": "Bronze_milestone_delivered"
+      },
+      "context": "PoC on complex data mart codebase validating accelerated approach ... Medallion Architecture Bronze milestone delivered ahead of schedule ... Piloted Feb–Sep 2024",
+      "bidirectional": false,
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_cli_001",
+      "source_name": "Large British Building Society",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_off_001",
+      "source_name": "AI & Data Transformation Programme",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_off_002",
+      "source_name": "AI Centre of Excellence",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_off_003",
+      "source_name": "Modern Data Platform",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_cap_001",
+      "source_name": "Responsible AI Governance",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_cap_002",
+      "source_name": "Data Mastering & Analytics",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_cap_003",
+      "source_name": "Data Lineage & Reconciliation Controls",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_use_001",
+      "source_name": "Complaints Letter Writing (CRAiG)",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_use_002",
+      "source_name": "Call Transcript Analytics",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_use_003",
+      "source_name": "QA/QC AI Assist",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_use_004",
+      "source_name": "Fraud Analysis PoC",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_ben_001",
+      "source_name": "~90% Reduction in Letter Drafting Time",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_ben_002",
+      "source_name": ">30% Faster Code Development",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_ben_003",
+      "source_name": "Infrastructure Cost Reduction",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_ben_004",
+      "source_name": "100% Call Screening Coverage",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_cha_001",
+      "source_name": "Fragmented Legacy Data Landscape",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_cha_002",
+      "source_name": "Lack of Centralised AI Governance",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_cha_003",
+      "source_name": "Data Lineage Visibility Gap",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_tech_001",
+      "source_name": "Azure",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_tech_002",
+      "source_name": "Databricks",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_tech_003",
+      "source_name": "dbt",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_tech_004",
+      "source_name": "GitHub Copilot",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_tech_005",
+      "source_name": "Teradata Vantage",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_tech_006",
+      "source_name": "Unisys Mainframe",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_diff_001",
+      "source_name": "GenAI-Accelerated Migration Approach",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_diff_002",
+      "source_name": "Federated Governance Model",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_org_001",
+      "source_name": "SAP",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_org_002",
+      "source_name": "Control-M",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_loc_001",
+      "source_name": "Pune",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_evt_001",
+      "source_name": "Q4 2023 CoE Setup",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "18b692b3ac9142289cd2869ed24114da_001_evt_002",
+      "source_name": "Feb–Sep 2024 Pilot",
+      "target_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "target_name": "18b692b3ac9142289cd2869ed24114da_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+      "doc_id": "18b692b3ac9142289cd2869ed24114da",
+      "domain": "sales_collateral"
+    }
+  ]
+}

@@ -1,0 +1,4054 @@
+[
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cli_001",
+    "name": "Nationwide",
+    "properties": {
+      "industry": "banking",
+      "geography": "UK",
+      "size": "enterprise",
+      "relationship_status": "active",
+      "named_or_anonymous": true,
+      "pain_points": [
+        "regulatory compliance pressure",
+        "legacy system modernization"
+      ],
+      "engagement_type": "long-term strategic partnership"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_001",
+    "name": "Digital Development Centre",
+    "properties": {
+      "offering_type": "development_centre",
+      "scope": [
+        "web development",
+        "mobile development",
+        "middleware",
+        "testing"
+      ],
+      "delivery_model": "hybrid",
+      "key_phases": [
+        "establishment",
+        "expansion"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_002",
+    "name": "Resiliency Programme",
+    "properties": {
+      "offering_type": "programme",
+      "scope": [
+        "regulatory compliance",
+        "API gateway integration",
+        "system resiliency"
+      ],
+      "key_phases": [
+        "strategy",
+        "establishment"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_003",
+    "name": "FirstGen SaaS",
+    "properties": {
+      "offering_type": "saas_solution",
+      "scope": [
+        "SaaS modernization",
+        "rollout"
+      ],
+      "named_assets_or_accelerators": [
+        "MCP"
+      ],
+      "status": "2024_rollout"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cap_001",
+    "name": "Mobile & Web Development",
+    "properties": {
+      "what_it_does": "builds and maintains web and mobile banking applications",
+      "technical_components": [
+        "web development",
+        "mobile banking apps",
+        "middleware",
+        "multi-channel delivery"
+      ],
+      "delivery_maturity": "proven",
+      "industry_applicability": [
+        "banking",
+        "financial_services"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cap_002",
+    "name": "Data & AI Integration",
+    "properties": {
+      "what_it_does": "integrates data and AI capabilities into client systems",
+      "technical_components": [
+        "data integration",
+        "AI solutions",
+        "tech talent design"
+      ],
+      "delivery_maturity": "proven",
+      "industry_applicability": [
+        "banking",
+        "financial_services"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cap_003",
+    "name": "Replatforming & Modernization",
+    "properties": {
+      "what_it_does": "modernizes legacy systems and replatforms core banking infrastructure",
+      "technical_components": [
+        "ALAS replatforming",
+        "login modernization",
+        "card controls",
+        "system replacement"
+      ],
+      "delivery_maturity": "proven",
+      "industry_applicability": [
+        "banking",
+        "financial_services"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_use_001",
+    "name": "Mortgage Origination & Advice",
+    "properties": {
+      "problem_context": "streamlining mortgage applications and providing remote advice",
+      "approach": "digital platform development and remote advisory tools",
+      "industry": "banking",
+      "outcome_achieved": "enabled remote mortgage advice and digital origination",
+      "complexity_level": "complex"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_use_002",
+    "name": "Open Banking & Regulatory Compliance",
+    "properties": {
+      "problem_context": "meeting open banking regulatory requirements and ensuring system compliance",
+      "approach": "API gateway implementation and regulatory compliance frameworks",
+      "industry": "banking",
+      "outcome_achieved": "achieved regulatory compliance and secure API integration",
+      "complexity_level": "highly_complex"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_use_003",
+    "name": "Mobile Payments & App Store Integration",
+    "properties": {
+      "problem_context": "enabling secure mobile payments and app store distribution",
+      "approach": "mobile app development and payment gateway integration",
+      "industry": "banking",
+      "outcome_achieved": "launched secure mobile payment solutions and app store presence",
+      "complexity_level": "complex"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_ben_001",
+    "name": "Sustained Partnership Growth",
+    "properties": {
+      "quantified_value": [
+        "17+ years",
+        "team growth from 100 to 1200"
+      ],
+      "beneficiary": [
+        "IBM Consulting",
+        "Nationwide"
+      ],
+      "time_to_value": "long-term",
+      "category": [
+        "revenue",
+        "relationship"
+      ],
+      "evidence_type": "measured"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_ben_002",
+    "name": "Operational Efficiency via Offshoring",
+    "properties": {
+      "quantified_value": [
+        "90% offshoring"
+      ],
+      "beneficiary": [
+        "IBM Consulting",
+        "Nationwide"
+      ],
+      "time_to_value": "medium",
+      "category": [
+        "cost",
+        "efficiency"
+      ],
+      "evidence_type": "measured"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cha_001",
+    "name": "Regulatory Compliance Pressure",
+    "properties": {
+      "root_cause": "evolving financial regulations and open banking mandates",
+      "business_impact": "risk of non-compliance and system bottlenecks",
+      "urgency": "high",
+      "who_faces_it": [
+        "banking sector",
+        "Nationwide"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cha_002",
+    "name": "Legacy System Modernization",
+    "properties": {
+      "root_cause": "outdated core banking infrastructure and legacy applications",
+      "business_impact": "operational inefficiency and security risks",
+      "urgency": "critical",
+      "who_faces_it": [
+        "Nationwide"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_001",
+    "name": "Microsoft Power Platform",
+    "properties": {
+      "vendor": "Microsoft",
+      "technology_category": [
+        "low-code",
+        "automation",
+        "development"
+      ],
+      "role_in_solution": "core",
+      "maturity": "modern",
+      "key_characteristics": [
+        "enables rapid development",
+        "replaces legacy systems"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_002",
+    "name": "PEGA BAW",
+    "properties": {
+      "vendor": "PEGA",
+      "technology_category": [
+        "BPM",
+        "low-code",
+        "automation"
+      ],
+      "role_in_solution": "core",
+      "maturity": "modern",
+      "key_characteristics": [
+        "supports BI ACE migration",
+        "business process automation"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_003",
+    "name": "MyNationwide API Gateway",
+    "properties": {
+      "vendor": "Nationwide",
+      "technology_category": [
+        "API management",
+        "integration",
+        "security"
+      ],
+      "role_in_solution": "core",
+      "maturity": "modern",
+      "key_characteristics": [
+        "enables secure open banking API access",
+        "regulatory compliance enabler"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_004",
+    "name": "SAMM Framework",
+    "properties": {
+      "vendor": "IBM",
+      "technology_category": [
+        "framework",
+        "modernization",
+        "compliance"
+      ],
+      "role_in_solution": "supporting",
+      "maturity": "modern",
+      "key_characteristics": [
+        "replaces legacy systems",
+        "ensures compliance"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_diff_001",
+    "name": "17-Year Strategic Partnership Track Record",
+    "properties": {
+      "competitive_advantage": "proven long-term collaboration and trust",
+      "evidence_or_proof_point": [
+        "team growth from 100 to 1200",
+        "continuous delivery since 2007"
+      ],
+      "uniqueness": "scale-based",
+      "target_audience": [
+        "enterprise banking clients"
+      ],
+      "relates_to_offering": [
+        "Digital Development Centre",
+        "Resiliency Programme"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_diff_002",
+    "name": "Scalable Offshore Delivery Model",
+    "properties": {
+      "competitive_advantage": "ability to rapidly scale delivery capacity offshore",
+      "evidence_or_proof_point": [
+        "90% offshoring rate",
+        "team size doubling and surging"
+      ],
+      "uniqueness": "scale-based",
+      "target_audience": [
+        "large enterprises"
+      ],
+      "relates_to_offering": [
+        "Digital Development Centre"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_org_001",
+    "name": "IBM Consulting",
+    "properties": {
+      "org_type": "service_provider",
+      "relationship_to_offering": "delivers",
+      "geographic_presence": "global"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_org_002",
+    "name": "IBM Corporation",
+    "properties": {
+      "org_type": "parent_company",
+      "relationship_to_offering": "owns",
+      "geographic_presence": "global"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_evt_001",
+    "name": "MyNationwide Go Live",
+    "properties": {
+      "event_type": "product_launch",
+      "date_or_period": "2018",
+      "relevance_to_deal": "milestone",
+      "key_participants": [
+        "IBM Consulting",
+        "Nationwide"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_evt_002",
+    "name": "FirstGen SaaS Rollout",
+    "properties": {
+      "event_type": "rollout",
+      "date_or_period": "2024",
+      "relevance_to_deal": "modernization_milestone",
+      "key_participants": [
+        "IBM Consulting",
+        "Nationwide"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_cli_001",
+    "name": "Nationwide",
+    "properties": {
+      "industry": [
+        "banking",
+        "financial services"
+      ],
+      "size": [
+        "large",
+        "enterprise"
+      ],
+      "relationship_status": [
+        "active",
+        "sole_partner"
+      ],
+      "named_or_anonymous": false,
+      "pain_points": [
+        "legacy systems",
+        "monolithic architecture",
+        "high operational costs",
+        "slow delivery cycles"
+      ],
+      "engagement_type": [
+        "digital transformation",
+        "cloud migration",
+        "application support",
+        "genai pilots"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_off_001",
+    "name": "Digital",
+    "properties": {
+      "offering_type": [
+        "digital_transformation",
+        "application_support"
+      ],
+      "delivery_model": [
+        "offshore_heavy",
+        "hybrid"
+      ],
+      "scope": [
+        "banking app",
+        "internet banking",
+        "online shopping application",
+        "open banking"
+      ],
+      "target_client_profile": [
+        "retail banking customers",
+        "digital channel users"
+      ],
+      "key_phases_or_components": [
+        "digital acceleration",
+        "progressive modernisation",
+        "biweekly deployments",
+        "ai council + lab"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_off_002",
+    "name": "Cloud",
+    "properties": {
+      "offering_type": [
+        "cloud_platform_engineering",
+        "sre_services"
+      ],
+      "delivery_model": [
+        "hybrid"
+      ],
+      "scope": [
+        "azure",
+        "aws",
+        "hybrid cloud resilient platform",
+        "hub-and-spoke cloud platform services model"
+      ],
+      "target_client_profile": [
+        "enterprise",
+        "digital teams"
+      ],
+      "key_phases_or_components": [
+        "platform engineering",
+        "sre",
+        "de-linked from cloud",
+        "resilience engineering"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_off_003",
+    "name": "Integration",
+    "properties": {
+      "offering_type": [
+        "enterprise_integration",
+        "service_connectivity"
+      ],
+      "delivery_model": [
+        "strategic_partner"
+      ],
+      "scope": [
+        "connecting all channels into systems of record",
+        "integration layer"
+      ],
+      "target_client_profile": [
+        "retail banking",
+        "call centers"
+      ],
+      "key_phases_or_components": [
+        "channel connectivity",
+        "systems of record alignment",
+        "integration layer management"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_off_004",
+    "name": "Customer Servicing",
+    "properties": {
+      "offering_type": [
+        "development_and_testing",
+        "application_support"
+      ],
+      "delivery_model": [
+        "offshore_heavy"
+      ],
+      "scope": [
+        "branch and call center",
+        "colleague portal",
+        "conversational voice",
+        "power/pega automation workflows"
+      ],
+      "target_client_profile": [
+        "branch staff",
+        "call center agents",
+        "colleagues"
+      ],
+      "key_phases_or_components": [
+        "development",
+        "testing",
+        "automation workflows",
+        "voice channel support"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_off_005",
+    "name": "Mortgages",
+    "properties": {
+      "offering_type": [
+        "platform_migration",
+        "application_support"
+      ],
+      "delivery_model": [
+        "strategic_partner"
+      ],
+      "scope": [
+        "home mortgages",
+        "landlord core banking platform",
+        "testing for all applications"
+      ],
+      "target_client_profile": [
+        "homeowners",
+        "landlords"
+      ],
+      "key_phases_or_components": [
+        "core banking migration",
+        "application testing",
+        "platform modernisation"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_off_006",
+    "name": "Application Support",
+    "properties": {
+      "offering_type": [
+        "application_support",
+        "testing_services"
+      ],
+      "delivery_model": [
+        "offshore_onshore_90_10"
+      ],
+      "scope": [
+        "digital",
+        "integration",
+        "customer servicing",
+        "retail products",
+        "ibm developed apps",
+        "payments testing",
+        "origination testing"
+      ],
+      "target_client_profile": [
+        "retail banking",
+        "payments teams"
+      ],
+      "key_phases_or_components": [
+        "support",
+        "testing",
+        "payments",
+        "origination",
+        "digital"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_off_007",
+    "name": "GenAI & Data",
+    "properties": {
+      "offering_type": [
+        "genai",
+        "data_platform",
+        "ai_council_lab"
+      ],
+      "delivery_model": [
+        "strategic_partner",
+        "coe"
+      ],
+      "scope": [
+        "genai coe & experimentation",
+        "contact center genai pilots",
+        "databricks build",
+        "teradata migration",
+        "itops automation"
+      ],
+      "target_client_profile": [
+        "data teams",
+        "ai engineers",
+        "contact center"
+      ],
+      "key_phases_or_components": [
+        "genai coe",
+        "experimentation",
+        "data platform build",
+        "teradata migration",
+        "itops automation"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_cap_001",
+    "name": "Change and Application Support",
+    "properties": {
+      "what_it_does": [
+        "manages ongoing changes and supports digital/integration/customer servicing applications"
+      ],
+      "technical_components": [
+        "digital channels",
+        "integration layer",
+        "cloud platform",
+        "sre services"
+      ],
+      "delivery_maturity": [
+        "proven",
+        "award-winning"
+      ],
+      "differentiating_aspect": [
+        "offshore heavy feature teams",
+        "tailored structure for innovation"
+      ],
+      "industry_applicability": [
+        "banking",
+        "financial services"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_cap_002",
+    "name": "Cloud Platform Engineering",
+    "properties": {
+      "what_it_does": [
+        "builds and manages hybrid cloud platforms on Azure and AWS"
+      ],
+      "technical_components": [
+        "azure",
+        "aws",
+        "hub-and-spoke model",
+        "sre services"
+      ],
+      "delivery_maturity": [
+        "proven",
+        "resilient"
+      ],
+      "differentiating_aspect": [
+        "de-linked from cloud",
+        "engineered hub-and-spoke model"
+      ],
+      "industry_applicability": [
+        "banking",
+        "technology"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_cap_003",
+    "name": "Development & Testing",
+    "properties": {
+      "what_it_does": [
+        "develops and tests digital, integration, customer servicing, and retail products"
+      ],
+      "technical_components": [
+        "test automation",
+        "payments testing",
+        "origination testing",
+        "react",
+        "responsive web design"
+      ],
+      "delivery_maturity": [
+        "proven",
+        ">400% increase in test automation"
+      ],
+      "differentiating_aspect": [
+        "enables biweekly deployments",
+        "supports 250+ client-facing features"
+      ],
+      "industry_applicability": [
+        "banking",
+        "financial services"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_cap_004",
+    "name": "Pega Automation",
+    "properties": {
+      "what_it_does": [
+        "automates workflows and customer servicing processes"
+      ],
+      "technical_components": [
+        "power/pega automation",
+        "workflows",
+        "conversational voice"
+      ],
+      "delivery_maturity": [
+        "proven",
+        "strategic partner"
+      ],
+      "differentiating_aspect": [
+        "drives efficiency in customer servicing and colleague portals"
+      ],
+      "industry_applicability": [
+        "banking",
+        "customer service"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_cap_005",
+    "name": "Platform Migration",
+    "properties": {
+      "what_it_does": [
+        "migrates legacy monolithic systems to modern microservices and native platforms"
+      ],
+      "technical_components": [
+        "monolithic to microservices",
+        "react",
+        "progressive modernisation",
+        "selective migration"
+      ],
+      "delivery_maturity": [
+        "proven",
+        "award-winning"
+      ],
+      "differentiating_aspect": [
+        "creates single highway for top journeys",
+        "280+ pages migrated"
+      ],
+      "industry_applicability": [
+        "banking",
+        "financial services"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_cap_006",
+    "name": "Test Automation",
+    "properties": {
+      "what_it_does": [
+        "automates testing across digital, integration, and retail applications"
+      ],
+      "technical_components": [
+        "test automation",
+        "payments testing",
+        "origination testing",
+        "sdlc integration"
+      ],
+      "delivery_maturity": [
+        "proven",
+        ">400% increase"
+      ],
+      "differentiating_aspect": [
+        "enables biweekly deployments",
+        "supports 95% on-time delivery"
+      ],
+      "industry_applicability": [
+        "banking",
+        "financial services"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_cap_007",
+    "name": "SRE Services",
+    "properties": {
+      "what_it_does": [
+        "ensures platform stability and resilience for cloud and digital releases"
+      ],
+      "technical_components": [
+        "hybrid cloud",
+        "platform stability",
+        "hub-and-spoke model"
+      ],
+      "delivery_maturity": [
+        "proven",
+        "resilient"
+      ],
+      "differentiating_aspect": [
+        "supports >6M calls/day",
+        "drives platform stability"
+      ],
+      "industry_applicability": [
+        "banking",
+        "technology"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_use_001",
+    "name": "Banking App",
+    "properties": {
+      "problem_context": [
+        "customer-facing digital banking needs"
+      ],
+      "approach": [
+        "progressive modernisation",
+        "react-based development",
+        "biweekly deployments"
+      ],
+      "industry_or_vertical": [
+        "banking"
+      ],
+      "outcome_achieved": [
+        "4.8 iOS rating",
+        "4.7 Android rating",
+        "delights customers"
+      ],
+      "complexity_level": [
+        "complex"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_use_002",
+    "name": "Internet Banking",
+    "properties": {
+      "problem_context": [
+        "online banking access and functionality"
+      ],
+      "approach": [
+        "digital acceleration",
+        "progressive modernisation",
+        "responsive web design"
+      ],
+      "industry_or_vertical": [
+        "banking"
+      ],
+      "outcome_achieved": [
+        "enhanced digital experience",
+        "customer delight"
+      ],
+      "complexity_level": [
+        "complex"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_use_003",
+    "name": "Open Banking",
+    "properties": {
+      "problem_context": [
+        "third-party data sharing and API connectivity"
+      ],
+      "approach": [
+        "integration layer connectivity",
+        "systems of record alignment"
+      ],
+      "industry_or_vertical": [
+        "banking"
+      ],
+      "outcome_achieved": [
+        "seamless channel connectivity",
+        "enterprise-wide service integration"
+      ],
+      "complexity_level": [
+        "complex"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_use_004",
+    "name": "Branch and Call Center",
+    "properties": {
+      "problem_context": [
+        "physical and voice-based customer service delivery"
+      ],
+      "approach": [
+        "colleague portal support",
+        "conversational voice automation",
+        "pega automation"
+      ],
+      "industry_or_vertical": [
+        "banking"
+      ],
+      "outcome_achieved": [
+        "streamlined internal workflows",
+        "productivity gains"
+      ],
+      "complexity_level": [
+        "complex"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_use_005",
+    "name": "Colleague Portal",
+    "properties": {
+      "problem_context": [
+        "internal employee access and productivity"
+      ],
+      "approach": [
+        "digital channel development",
+        "workflow automation"
+      ],
+      "industry_or_vertical": [
+        "banking"
+      ],
+      "outcome_achieved": [
+        "enhanced colleague experience",
+        "productivity gains"
+      ],
+      "complexity_level": [
+        "moderate"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_use_006",
+    "name": "Conversational Voice",
+    "properties": {
+      "problem_context": [
+        "voice-based customer interactions and routing"
+      ],
+      "approach": [
+        "pega automation workflows",
+        "contact center genai pilots"
+      ],
+      "industry_or_vertical": [
+        "banking"
+      ],
+      "outcome_achieved": [
+        "automated voice routing",
+        "genai-driven interactions"
+      ],
+      "complexity_level": [
+        "complex"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_use_007",
+    "name": "SDLC",
+    "properties": {
+      "problem_context": [
+        "software development lifecycle management and delivery speed"
+      ],
+      "approach": [
+        "200+ ci initiatives",
+        "genai in sdlc",
+        "biweekly deployments"
+      ],
+      "industry_or_vertical": [
+        "technology",
+        "banking"
+      ],
+      "outcome_achieved": [
+        "30% efficiency gain",
+        "95% on-time delivery"
+      ],
+      "complexity_level": [
+        "high"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_ben_001",
+    "name": "Cost Savings Exceeding £6M",
+    "properties": {
+      "quantified_value": [
+        "£6M+"
+      ],
+      "beneficiary": [
+        "nationwide",
+        "society"
+      ],
+      "time_to_value": [
+        "ongoing"
+      ],
+      "category": [
+        "cost"
+      ],
+      "evidence_type": [
+        "measured"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_ben_002",
+    "name": "30% Efficiency Gain",
+    "properties": {
+      "quantified_value": [
+        "30%"
+      ],
+      "beneficiary": [
+        "development teams",
+        "nationwide"
+      ],
+      "time_to_value": [
+        "ongoing"
+      ],
+      "category": [
+        "speed",
+        "efficiency"
+      ],
+      "evidence_type": [
+        "measured"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_ben_003",
+    "name": "95% On-Time Delivery",
+    "properties": {
+      "quantified_value": [
+        "95%"
+      ],
+      "beneficiary": [
+        "nationwide",
+        "end customers"
+      ],
+      "time_to_value": [
+        "biweekly"
+      ],
+      "category": [
+        "speed",
+        "quality"
+      ],
+      "evidence_type": [
+        "measured"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_ben_004",
+    "name": "400% Increase in Test Automation",
+    "properties": {
+      "quantified_value": [
+        "400%"
+      ],
+      "beneficiary": [
+        "qa teams",
+        "nationwide"
+      ],
+      "time_to_value": [
+        "ongoing"
+      ],
+      "category": [
+        "speed",
+        "quality"
+      ],
+      "evidence_type": [
+        "measured"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_ben_005",
+    "name": "250 Client-Facing Features Delivered",
+    "properties": {
+      "quantified_value": [
+        "250 features"
+      ],
+      "beneficiary": [
+        "nationwide",
+        "end customers"
+      ],
+      "time_to_value": [
+        "1 year"
+      ],
+      "category": [
+        "revenue",
+        "satisfaction"
+      ],
+      "evidence_type": [
+        "measured"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_ben_006",
+    "name": "High App Ratings",
+    "properties": {
+      "quantified_value": [
+        "4.8 iOS",
+        "4.7 Android"
+      ],
+      "beneficiary": [
+        "end customers"
+      ],
+      "time_to_value": [
+        "ongoing"
+      ],
+      "category": [
+        "satisfaction",
+        "quality"
+      ],
+      "evidence_type": [
+        "measured"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_ben_007",
+    "name": "Offshore/Onshore 90:10 Ratio",
+    "properties": {
+      "quantified_value": [
+        "90:10"
+      ],
+      "beneficiary": [
+        "nationwide",
+        "delivery team"
+      ],
+      "time_to_value": [
+        "ongoing"
+      ],
+      "category": [
+        "cost",
+        "efficiency"
+      ],
+      "evidence_type": [
+        "claimed",
+        "operational"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_ben_008",
+    "name": "Customer Delight",
+    "properties": {
+      "quantified_value": [
+        "delights customers",
+        "drives productivity gains"
+      ],
+      "beneficiary": [
+        "end customers",
+        "colleagues"
+      ],
+      "time_to_value": [
+        "ongoing"
+      ],
+      "category": [
+        "satisfaction"
+      ],
+      "evidence_type": [
+        "claimed",
+        "measured via ratings"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_chal_001",
+    "name": "Legacy Systems",
+    "properties": {
+      "root_cause": [
+        "aging infrastructure",
+        "monolithic architecture"
+      ],
+      "business_impact": [
+        "high costs",
+        "slow delivery",
+        "regulatory/compliance risk"
+      ],
+      "urgency": [
+        "high"
+      ],
+      "who_faces_it": [
+        "nationwide"
+      ],
+      "current_workaround": [
+        "manual processes",
+        "monolithic maintenance"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_chal_002",
+    "name": "Monolithic Architecture",
+    "properties": {
+      "root_cause": [
+        "legacy codebase",
+        "tightly coupled systems"
+      ],
+      "business_impact": [
+        "deployment bottlenecks",
+        "high change costs",
+        "limited scalability"
+      ],
+      "urgency": [
+        "critical"
+      ],
+      "who_faces_it": [
+        "nationwide"
+      ],
+      "current_workaround": [
+        "selective migration",
+        "progressive modernisation"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_tech_001",
+    "name": "Azure",
+    "properties": {
+      "vendor_or_provider": [
+        "microsoft"
+      ],
+      "technology_category": [
+        "cloud",
+        "iaas/paas"
+      ],
+      "role_in_solution": [
+        "core",
+        "hybrid cloud platform"
+      ],
+      "maturity": [
+        "modern"
+      ],
+      "key_characteristics": [
+        "cloud platform engineering",
+        "hybrid cloud resilience"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_tech_002",
+    "name": "AWS",
+    "properties": {
+      "vendor_or_provider": [
+        "amazon"
+      ],
+      "technology_category": [
+        "cloud",
+        "iaas/paas"
+      ],
+      "role_in_solution": [
+        "core",
+        "hybrid cloud platform"
+      ],
+      "maturity": [
+        "modern"
+      ],
+      "key_characteristics": [
+        "cloud platform engineering",
+        "hybrid cloud resilience"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_tech_003",
+    "name": "DataBricks",
+    "properties": {
+      "vendor_or_provider": [
+        "databricks"
+      ],
+      "technology_category": [
+        "data",
+        "ai",
+        "lakehouse"
+      ],
+      "role_in_solution": [
+        "core",
+        "data platform build"
+      ],
+      "maturity": [
+        "modern"
+      ],
+      "key_characteristics": [
+        "genai coe",
+        "data platform",
+        "experimentation"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_tech_004",
+    "name": "Teradata",
+    "properties": {
+      "vendor_or_provider": [
+        "teradata"
+      ],
+      "technology_category": [
+        "data",
+        "database"
+      ],
+      "role_in_solution": [
+        "replaced",
+        "legacy data platform"
+      ],
+      "maturity": [
+        "legacy"
+      ],
+      "key_characteristics": [
+        "migration target",
+        "legacy data store"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_tech_005",
+    "name": "Pega",
+    "properties": {
+      "vendor_or_provider": [
+        "pega"
+      ],
+      "technology_category": [
+        "automation",
+        "crm",
+        "workflow"
+      ],
+      "role_in_solution": [
+        "core",
+        "customer servicing automation"
+      ],
+      "maturity": [
+        "modern"
+      ],
+      "key_characteristics": [
+        "power/pega automation",
+        "workflows",
+        "conversational voice"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_tech_006",
+    "name": "React",
+    "properties": {
+      "vendor_or_provider": [
+        "meta/facebook"
+      ],
+      "technology_category": [
+        "frontend",
+        "web framework"
+      ],
+      "role_in_solution": [
+        "core",
+        "digital modernisation"
+      ],
+      "maturity": [
+        "modern"
+      ],
+      "key_characteristics": [
+        "progressive modernisation",
+        "responsive web design",
+        "280+ pages migrated"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_tech_007",
+    "name": "iOS",
+    "properties": {
+      "vendor_or_provider": [
+        "apple"
+      ],
+      "technology_category": [
+        "mobile",
+        "os"
+      ],
+      "role_in_solution": [
+        "target",
+        "customer-facing app platform"
+      ],
+      "maturity": [
+        "modern"
+      ],
+      "key_characteristics": [
+        "app rating 4.8",
+        "digital channel"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_tech_008",
+    "name": "Android",
+    "properties": {
+      "vendor_or_provider": [
+        "google"
+      ],
+      "technology_category": [
+        "mobile",
+        "os"
+      ],
+      "role_in_solution": [
+        "target",
+        "customer-facing app platform"
+      ],
+      "maturity": [
+        "modern"
+      ],
+      "key_characteristics": [
+        "app rating 4.7",
+        "digital channel"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_tech_009",
+    "name": "CI",
+    "properties": {
+      "vendor_or_provider": [
+        "various",
+        "devops"
+      ],
+      "technology_category": [
+        "devops",
+        "automation",
+        "sdlc"
+      ],
+      "role_in_solution": [
+        "supporting",
+        "delivery pipeline"
+      ],
+      "maturity": [
+        "modern"
+      ],
+      "key_characteristics": [
+        "200+ ci initiatives",
+        "biweekly deployments",
+        "sdlc integration"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_diff_001",
+    "name": "Sole Partner Status",
+    "properties": {
+      "competitive_advantage": [
+        "exclusive strategic partnership for change and application support"
+      ],
+      "evidence_or_proof_point": [
+        "sole partner providing support across digital, integration, customer servicing, mortgages, retail products"
+      ],
+      "uniqueness": [
+        "exclusive",
+        "strategic"
+      ],
+      "target_audience": [
+        "nationwide",
+        "financial services"
+      ],
+      "relates_to_offering": [
+        "digital",
+        "cloud",
+        "integration",
+        "customer servicing",
+        "mortgages",
+        "application support"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_diff_002",
+    "name": "Award-Winning Team",
+    "properties": {
+      "competitive_advantage": [
+        "highly skilled, recognized delivery team"
+      ],
+      "evidence_or_proof_point": [
+        "award-winning",
+        "drives significant productivity gains",
+        "delivers 250+ features"
+      ],
+      "uniqueness": [
+        "recognized",
+        "talent-based"
+      ],
+      "target_audience": [
+        "nationwide",
+        "enterprise clients"
+      ],
+      "relates_to_offering": [
+        "all offerings"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_diff_003",
+    "name": "Offshore Heavy Delivery Model",
+    "properties": {
+      "competitive_advantage": [
+        "cost-efficient, scalable delivery with 90:10 offshore/onshore ratio"
+      ],
+      "evidence_or_proof_point": [
+        "90:10 ratio",
+        "offshore heavy feature teams",
+        "cost savings exceeding £6M"
+      ],
+      "uniqueness": [
+        "scale-based",
+        "cost-optimized"
+      ],
+      "target_audience": [
+        "nationwide",
+        "cost-sensitive enterprises"
+      ],
+      "relates_to_offering": [
+        "digital",
+        "cloud",
+        "application support"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_diff_004",
+    "name": "Progressive Modernisation",
+    "properties": {
+      "competitive_advantage": [
+        "incremental, low-risk migration from legacy to modern architecture"
+      ],
+      "evidence_or_proof_point": [
+        "280+ pages migrated",
+        "monolithic to microservices",
+        "selective migration",
+        "transformed to single highway"
+      ],
+      "uniqueness": [
+        "methodology-based",
+        "low-risk"
+      ],
+      "target_audience": [
+        "nationwide",
+        "legacy-heavy enterprises"
+      ],
+      "relates_to_offering": [
+        "digital",
+        "mortgages",
+        "cloud"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_diff_005",
+    "name": "Biweekly Deployment Cadence",
+    "properties": {
+      "competitive_advantage": [
+        "rapid, predictable release cycle enabling fast time-to-value"
+      ],
+      "evidence_or_proof_point": [
+        "biweekly deployments",
+        "120 pm",
+        "95% on-time delivery",
+        "200+ ci initiatives"
+      ],
+      "uniqueness": [
+        "process-based",
+        "high-frequency"
+      ],
+      "target_audience": [
+        "nationwide",
+        "agile enterprises"
+      ],
+      "relates_to_offering": [
+        "digital",
+        "application support",
+        "sdlc"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_diff_006",
+    "name": "Tailored Innovation Structure",
+    "properties": {
+      "competitive_advantage": [
+        "dedicated framework for capturing and developing new ideas"
+      ],
+      "evidence_or_proof_point": [
+        "ai council + lab",
+        "genai coe & experimentation",
+        "driving significant productivity gains"
+      ],
+      "uniqueness": [
+        "structured",
+        "client-specific"
+      ],
+      "target_audience": [
+        "nationwide",
+        "innovation-focused enterprises"
+      ],
+      "relates_to_offering": [
+        "genai & data",
+        "digital",
+        "cloud"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_org_001",
+    "name": "IBM Consulting",
+    "properties": {
+      "org_type": [
+        "service_provider",
+        "partner"
+      ],
+      "relationship_to_offering": [
+        "primary_deliverer",
+        "strategic_partner"
+      ],
+      "geographic_presence": [
+        "global",
+        "offshore",
+        "onshore"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_org_002",
+    "name": "IBM Corporation",
+    "properties": {
+      "org_type": [
+        "parent_company",
+        "technology_vendor"
+      ],
+      "relationship_to_offering": [
+        "owner",
+        "ip_holder"
+      ],
+      "geographic_presence": [
+        "global"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_loc_001",
+    "name": "Offshore",
+    "properties": {
+      "market_type": [
+        "delivery_location"
+      ],
+      "strategic_importance": [
+        "core",
+        "cost_optimization"
+      ],
+      "regulatory_environment": [
+        "standard"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_loc_002",
+    "name": "Onshore",
+    "properties": {
+      "market_type": [
+        "delivery_location"
+      ],
+      "strategic_importance": [
+        "support",
+        "client_facing"
+      ],
+      "regulatory_environment": [
+        "standard"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_002_evt_001",
+    "name": "Contact Center GenAI Pilots",
+    "properties": {
+      "event_type": [
+        "pilot",
+        "experimentation"
+      ],
+      "date_or_period": [
+        "current",
+        "ongoing"
+      ],
+      "relevance_to_deal": [
+        "opportunity",
+        "innovation_milestone"
+      ],
+      "key_participants": [
+        "nationwide",
+        "ibm consulting",
+        "pega",
+        "databricks"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_003_org_001",
+    "name": "IBM",
+    "properties": {
+      "org_type": "partner",
+      "relationship_to_offering": "core_provider",
+      "geographic_presence": [
+        "United Kingdom"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_003",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_003_off_001",
+    "name": "Strategic SI Partners",
+    "properties": {
+      "offering_type": "strategic_partnership",
+      "duration_or_contract_type": "17 years",
+      "target_client_profile": "large mutual organisation",
+      "scope": "systems integration and strategic partnership"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_003",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_003_cli_001",
+    "name": "UK's Largest Mutual Organisation",
+    "properties": {
+      "industry": [
+        "mutual"
+      ],
+      "geography": [
+        "UK"
+      ],
+      "size": [
+        "large"
+      ],
+      "relationship_status": "active",
+      "named_or_anonymous": true,
+      "engagement_type": "strategic partnership"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_003",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_003_loc_001",
+    "name": "United Kingdom",
+    "properties": {
+      "market_type": "geographic",
+      "strategic_importance": "core"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_003",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cli_001",
+    "name": "Nationwide Building Society",
+    "properties": {
+      "industry": [
+        "banking",
+        "financial services"
+      ],
+      "size": [
+        "large",
+        "enterprise"
+      ],
+      "relationship_status": [
+        "active"
+      ],
+      "named_or_anonymous": [
+        true
+      ],
+      "pain_points": [
+        "legacy system constraints",
+        "project timeline pressure",
+        "need to reduce modernization time by 30-40%"
+      ],
+      "engagement_type": [
+        "software modernization projects"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_off_001",
+    "name": "IBM Science of Consulting",
+    "properties": {
+      "offering_type": [
+        "consulting_programme"
+      ],
+      "delivery_model": [
+        "hybrid"
+      ],
+      "scope": [
+        "requirements extraction",
+        "code generation",
+        "test automation",
+        "stakeholder alignment",
+        "estimation model updates"
+      ],
+      "target_client_profile": [
+        "financial services"
+      ],
+      "key_phases": [
+        "requirements",
+        "design & coding",
+        "unit testing"
+      ],
+      "named_assets_or_accelerators": [
+        "IBM Science of Consulting"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_off_002",
+    "name": "Software Modernization Engagements",
+    "properties": {
+      "offering_type": [
+        "project",
+        "managed_service"
+      ],
+      "scope": [
+        "legacy codebase modernization",
+        "data platform migration",
+        "mobile/internet banking app modernization"
+      ],
+      "target_client_profile": [
+        "financial services"
+      ],
+      "key_phases": [
+        "reverse engineering",
+        "code generation/refactoring",
+        "test automation"
+      ],
+      "named_assets_or_accelerators": [
+        "GenAI tooling",
+        "Copilot",
+        "Figma"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_001",
+    "name": "Legacy Code Reverse Engineering",
+    "properties": {
+      "what_it_does": [
+        "extracts business requirements and logic from legacy codebases"
+      ],
+      "technical_components": [
+        "Sencha codebase analysis",
+        "Teradata stored procedure reverse engineering"
+      ],
+      "delivery_maturity": [
+        "proven"
+      ],
+      "differentiating_aspect": [
+        "automates extraction using GenAI, reducing manual effort"
+      ],
+      "industry_applicability": [
+        "banking",
+        "financial services"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_002",
+    "name": "AI-Driven Code Generation & Refactoring",
+    "properties": {
+      "what_it_does": [
+        "generates production-ready code and refactors legacy components"
+      ],
+      "technical_components": [
+        "Kotlin",
+        "Swift",
+        "React",
+        "APIs",
+        "adaptive suggestions"
+      ],
+      "delivery_maturity": [
+        "proven"
+      ],
+      "differentiating_aspect": [
+        "rapid generation with adaptive suggestions and automated refactoring"
+      ],
+      "industry_applicability": [
+        "banking",
+        "financial services"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_003",
+    "name": "AI-Driven Test Automation",
+    "properties": {
+      "what_it_does": [
+        "automates unit/component test case generation and edge case simulation"
+      ],
+      "technical_components": [
+        "unit testing",
+        "component testing",
+        "edge case simulation"
+      ],
+      "delivery_maturity": [
+        "proven"
+      ],
+      "differentiating_aspect": [
+        "drives significant defect reduction through automation"
+      ],
+      "industry_applicability": [
+        "banking",
+        "financial services"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_004",
+    "name": "Prompt & Context Engineering",
+    "properties": {
+      "what_it_does": [
+        "crafts precise prompts and context to optimize AI tool outputs"
+      ],
+      "technical_components": [
+        "prompt engineering",
+        "context engineering",
+        "design guideline integration"
+      ],
+      "delivery_maturity": [
+        "emerging"
+      ],
+      "differentiating_aspect": [
+        "iterative refinement to push AI limits and build workarounds"
+      ],
+      "industry_applicability": [
+        "banking",
+        "financial services"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_use_001",
+    "name": "Mobile Banking App Modernization",
+    "properties": {
+      "problem_context": [
+        "modernizing legacy Sencha-based mobile banking app"
+      ],
+      "approach": [
+        "reverse engineering requirements, AI code generation, automated testing"
+      ],
+      "industry": [
+        "banking"
+      ],
+      "outcome_achieved": [
+        "30% faster UI development, 10% better code quality, ~30% reduction in testing defects"
+      ],
+      "complexity_level": [
+        "complex"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_use_002",
+    "name": "Internet Banking Platform Modernization",
+    "properties": {
+      "problem_context": [
+        "modernizing internet banking platform from Figma designs to React"
+      ],
+      "approach": [
+        "AI-driven code generation from designs, automated refactoring and testing"
+      ],
+      "industry": [
+        "banking"
+      ],
+      "outcome_achieved": [
+        "30% faster UI development, 10% better code quality, ~30% reduction in testing defects"
+      ],
+      "complexity_level": [
+        "complex"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_use_003",
+    "name": "Data Platform Migration",
+    "properties": {
+      "problem_context": [
+        "migrating data platform from Teradata to Databricks"
+      ],
+      "approach": [
+        "reverse engineering stored procedures, generating dbt code aligned with client standards"
+      ],
+      "industry": [
+        "banking"
+      ],
+      "outcome_achieved": [
+        "40% reduction in coding effort"
+      ],
+      "complexity_level": [
+        "complex"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_001",
+    "name": "Accelerated UI Development Speed",
+    "properties": {
+      "quantified_value": [
+        "30% faster"
+      ],
+      "beneficiary": [
+        "client",
+        "development_team"
+      ],
+      "time_to_value": [
+        "immediate_during_project"
+      ],
+      "category": [
+        "speed"
+      ],
+      "evidence_type": [
+        "measured"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_002",
+    "name": "Enhanced Code Quality & Maintainability",
+    "properties": {
+      "quantified_value": [
+        "10% better code quality"
+      ],
+      "beneficiary": [
+        "client",
+        "development_team"
+      ],
+      "time_to_value": [
+        "during_project"
+      ],
+      "category": [
+        "quality"
+      ],
+      "evidence_type": [
+        "measured"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_003",
+    "name": "Reduced Testing Defects & Faster Cycles",
+    "properties": {
+      "quantified_value": [
+        "15% faster test cycles",
+        "~30% reduction in testing defects"
+      ],
+      "beneficiary": [
+        "client",
+        "qa_team"
+      ],
+      "time_to_value": [
+        "during_project"
+      ],
+      "category": [
+        "speed",
+        "quality"
+      ],
+      "evidence_type": [
+        "measured"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_004",
+    "name": "Significant Coding Effort Reduction",
+    "properties": {
+      "quantified_value": [
+        "40% reduction"
+      ],
+      "beneficiary": [
+        "client",
+        "development_team"
+      ],
+      "time_to_value": [
+        "during_project"
+      ],
+      "category": [
+        "cost",
+        "speed"
+      ],
+      "evidence_type": [
+        "measured"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cha_001",
+    "name": "Legacy System Constraints",
+    "properties": {
+      "root_cause": [
+        "aging Sencha codebase and Teradata stored procedures"
+      ],
+      "business_impact": [
+        "slows modernization, increases manual effort and skill dependency"
+      ],
+      "urgency": [
+        "high"
+      ],
+      "who_faces_it": [
+        "Nationwide Building Society",
+        "delivery_team"
+      ],
+      "current_workaround": [
+        "manual code analysis and low-skill manual processes"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cha_002",
+    "name": "Project Timeline Pressure",
+    "properties": {
+      "root_cause": [
+        "demand for faster modernization and predictable delivery"
+      ],
+      "business_impact": [
+        "risk of missed deadlines and increased costs"
+      ],
+      "urgency": [
+        "critical"
+      ],
+      "who_faces_it": [
+        "Nationwide Building Society",
+        "client_stakeholders"
+      ],
+      "current_workaround": [
+        "traditional SDLC processes"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cha_003",
+    "name": "AI Tool Limitations & Skill Gaps",
+    "properties": {
+      "root_cause": [
+        "GenAI tooling limitations and team's initial lack of GenAI expertise"
+      ],
+      "business_impact": [
+        "potential for suboptimal outputs and slower adoption"
+      ],
+      "urgency": [
+        "high"
+      ],
+      "who_faces_it": [
+        "delivery_team",
+        "client_stakeholders"
+      ],
+      "current_workaround": [
+        "careful prompt-context engineering, iterative POCs, building custom utilities"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_001",
+    "name": "IBM Copilot",
+    "properties": {
+      "vendor": [
+        "IBM"
+      ],
+      "technology_category": [
+        "ai",
+        "code_generation"
+      ],
+      "role_in_solution": [
+        "core"
+      ],
+      "maturity": [
+        "modern"
+      ],
+      "key_characteristics": [
+        "generates production-ready code, provides adaptive suggestions, requires precise context"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_002",
+    "name": "Figma",
+    "properties": {
+      "vendor": [
+        "Figma"
+      ],
+      "technology_category": [
+        "design",
+        "ui_ux"
+      ],
+      "role_in_solution": [
+        "supporting"
+      ],
+      "maturity": [
+        "modern"
+      ],
+      "key_characteristics": [
+        "provides design guidelines and specifications for AI code generation"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_003",
+    "name": "Teradata",
+    "properties": {
+      "vendor": [
+        "Teradata"
+      ],
+      "technology_category": [
+        "data",
+        "database"
+      ],
+      "role_in_solution": [
+        "replaced"
+      ],
+      "maturity": [
+        "legacy"
+      ],
+      "key_characteristics": [
+        "legacy data platform with stored procedures requiring reverse engineering"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_004",
+    "name": "Databricks",
+    "properties": {
+      "vendor": [
+        "Databricks"
+      ],
+      "technology_category": [
+        "data",
+        "cloud_platform"
+      ],
+      "role_in_solution": [
+        "target"
+      ],
+      "maturity": [
+        "modern"
+      ],
+      "key_characteristics": [
+        "target data platform for migration"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_005",
+    "name": "dbt (data build tool)",
+    "properties": {
+      "vendor": [
+        "dbt Labs"
+      ],
+      "technology_category": [
+        "data",
+        "etl"
+      ],
+      "role_in_solution": [
+        "supporting"
+      ],
+      "maturity": [
+        "modern"
+      ],
+      "key_characteristics": [
+        "generates data transformation code aligned with client frameworks and guardrails"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_dif_001",
+    "name": "Evidence-Driven Iterative Delivery",
+    "properties": {
+      "competitive_advantage": [
+        "uses rapid POCs and iterative cycles to validate AI capabilities and push limits"
+      ],
+      "evidence_or_proof_point": [
+        "demonstrated quantitative benefits from live modernization engagements",
+        "2-month iterative refinement cycle"
+      ],
+      "uniqueness": [
+        "proven_in_context",
+        "data_driven"
+      ],
+      "target_audience": [
+        "client_stakeholders",
+        "delivery_teams"
+      ],
+      "relates_to_offering": [
+        "IBM Science of Consulting",
+        "Software Modernization Engagements"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_dif_002",
+    "name": "Deep Client Collaboration & Stakeholder Alignment",
+    "properties": {
+      "competitive_advantage": [
+        "integrates client stakeholders directly into the delivery process to align on outcomes and upskill teams"
+      ],
+      "evidence_or_proof_point": [
+        "active involvement of Tech Architects, Product Owners, and Code Owners"
+      ],
+      "uniqueness": [
+        "collaborative",
+        "co_delivery"
+      ],
+      "target_audience": [
+        "client_stakeholders",
+        "technical_leads"
+      ],
+      "relates_to_offering": [
+        "IBM Science of Consulting"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_dif_003",
+    "name": "Expert Cross-Functional Squads",
+    "properties": {
+      "competitive_advantage": [
+        "combines deep domain expertise with emerging GenAI skills to drive efficiency"
+      ],
+      "evidence_or_proof_point": [
+        "cross-functional teams of Architects, Developers, and Testers leveraging existing app knowledge with GenAI"
+      ],
+      "uniqueness": [
+        "skill_mixed",
+        "agile"
+      ],
+      "target_audience": [
+        "delivery_teams",
+        "client_stakeholders"
+      ],
+      "relates_to_offering": [
+        "Software Modernization Engagements"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_per_001",
+    "name": "Client Stakeholders",
+    "properties": {
+      "role_title": [
+        "Tech Architects",
+        "Product Owners",
+        "Code Owners"
+      ],
+      "influence_level": [
+        "decision_maker",
+        "influencer"
+      ],
+      "known_pain_points": [
+        "legacy system constraints",
+        "project timeline pressure",
+        "need for predictable outcomes"
+      ],
+      "relationship_to_deal": [
+        "sponsor",
+        "collaborator"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_org_001",
+    "name": "IBM",
+    "properties": {
+      "org_type": [
+        "service_provider",
+        "technology_vendor"
+      ],
+      "relationship_to_offering": [
+        "primary_provider",
+        "solution_owner"
+      ],
+      "geographic_presence": [
+        "global"
+      ],
+      "key_characteristics": [
+        "provides consulting framework, AI tools (Copilot), and delivery expertise"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_eve_001",
+    "name": "Proof of Concept (POC) Cycles",
+    "properties": {
+      "event_type": [
+        "proof_of_concept",
+        "iteration_cycle"
+      ],
+      "date_or_period": [
+        "2_month_iteration_period"
+      ],
+      "relevance_to_deal": [
+        "milestone",
+        "validation_phase"
+      ],
+      "key_participants": [
+        "delivery_team",
+        "client_stakeholders"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cli_001",
+    "name": "Nationwide Building Society",
+    "properties": {
+      "industry": "banking",
+      "geography": "UK",
+      "size": "large",
+      "relationship_status": "active",
+      "named_or_anonymous": true,
+      "pain_points": [
+        "cultural and organisational divides",
+        "test automation debt",
+        "physical environment and data dependencies",
+        "inefficient design handoff process"
+      ],
+      "engagement_type": "agile delivery and hackathon collaboration"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_org_001",
+    "name": "IBM",
+    "properties": {
+      "org_type": "partner",
+      "relationship_to_offering": "co-delivery and embedded technical leadership",
+      "geographic_presence": "global"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_001",
+    "name": "Agile Sprint Teams",
+    "properties": {
+      "offering_type": "programme",
+      "delivery_model": "hybrid",
+      "scope": "design, code, test, and route to live",
+      "duration_or_contract_type": "2-week sprints",
+      "target_client_profile": "large banking",
+      "key_phases_or_components": [
+        "pre sprint",
+        "post sprint",
+        "route to live",
+        "epic refinement & prioritisation",
+        "app support"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_002",
+    "name": "Hackathon 2025",
+    "properties": {
+      "offering_type": "event",
+      "scope": "ideation, proof of concept, and execution pipeline development",
+      "duration_or_contract_type": "3 days to 4-5 weeks",
+      "target_client_profile": "development and design teams",
+      "key_phases_or_components": [
+        "discovery",
+        "ideation",
+        "poc",
+        "selection",
+        "sponsorship & execution"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_001",
+    "name": "Automated Build and Deployment Process",
+    "properties": {
+      "what_it_does": "automates build and deployment workflows",
+      "technical_components": [
+        "reusable code components",
+        "digital microservices builder"
+      ],
+      "delivery_maturity": "proven",
+      "differentiating_aspect": "enables predictable and high-quality delivery",
+      "industry_applicability": [
+        "banking",
+        "digital solutions"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_002",
+    "name": "Trunk Based Development and Feature Toggling",
+    "properties": {
+      "what_it_does": "manages code integration and feature releases via trunk-based workflows",
+      "technical_components": [
+        "launch darkly",
+        "feature toggling"
+      ],
+      "delivery_maturity": "proven",
+      "differentiating_aspect": "enables safe, rapid code integration and deployment",
+      "industry_applicability": [
+        "software development",
+        "banking"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_003",
+    "name": "GenAI Code Simplification and Refactoring",
+    "properties": {
+      "what_it_does": "leverages generative AI for code simplification, refactoring, and testing",
+      "technical_components": [
+        "genai code analyser",
+        "genai for unit testing",
+        "genai for debugging",
+        "genai for user stories & docs"
+      ],
+      "delivery_maturity": "emerging",
+      "differentiating_aspect": "accelerates development cycles and improves code quality",
+      "industry_applicability": [
+        "software engineering",
+        "digital banking"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_004",
+    "name": "Environment Virtualisation Stubs",
+    "properties": {
+      "what_it_does": "eliminates reliance on physical environments and data dependencies",
+      "technical_components": [
+        "environment virtualisation stubs"
+      ],
+      "delivery_maturity": "proven",
+      "differentiating_aspect": "reduces physical environment footprint by 50%",
+      "industry_applicability": [
+        "testing",
+        "devops"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_005",
+    "name": "Design Boards and Clear Solution Intent",
+    "properties": {
+      "what_it_does": "aligns design decisions with technical feasibility and stakeholder expectations",
+      "technical_components": [
+        "design boards",
+        "clear solution intent",
+        "standardised and reusable patterns"
+      ],
+      "delivery_maturity": "proven",
+      "differentiating_aspect": "enables accurate work estimation and planning",
+      "industry_applicability": [
+        "product design",
+        "software development"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_use_001",
+    "name": "Digital Solutions Delivery",
+    "properties": {
+      "problem_context": "delivering high-quality digital solutions efficiently and predictably",
+      "approach": "data-driven and engineering-driven practices with evidence-based quality checks",
+      "industry_or_vertical": "banking",
+      "outcome_achieved": "predictable delivery, faster build & test, reliable releases",
+      "complexity_level": "complex"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_use_002",
+    "name": "Close Account Journey Modernisation",
+    "properties": {
+      "problem_context": "modernizing the account closure process",
+      "approach": "react-based development with optimized design handoff and hackathon validation",
+      "industry_or_vertical": "banking",
+      "outcome_achieved": "streamlined journey ready for development and improved design-dev collaboration",
+      "complexity_level": "moderate"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_use_003",
+    "name": "Order Certificate Journey Design",
+    "properties": {
+      "problem_context": "designing and delivering the order certificate journey",
+      "approach": "native development with feasibility alignment and hackathon validation",
+      "industry_or_vertical": "banking",
+      "outcome_achieved": "validated design understanding and streamlined delivery pipeline",
+      "complexity_level": "moderate"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_001",
+    "name": "High-Quality Predictable Delivery",
+    "properties": {
+      "beneficiary": "client and end-users",
+      "category": "quality",
+      "evidence_type": "claimed"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_002",
+    "name": "Optimal Resource and Time Utilization",
+    "properties": {
+      "beneficiary": "delivery teams",
+      "category": "efficiency",
+      "evidence_type": "claimed"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_003",
+    "name": "Rapid and Reliable Deployment",
+    "properties": {
+      "beneficiary": "client",
+      "category": "speed",
+      "evidence_type": "claimed"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_004",
+    "name": "50% Reduction in Physical Environments",
+    "properties": {
+      "quantified_value": "50% reduction",
+      "beneficiary": "delivery teams",
+      "category": "cost",
+      "evidence_type": "measured"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_005",
+    "name": "70% Test Automation Achievement",
+    "properties": {
+      "quantified_value": "70% automation",
+      "beneficiary": "testing teams",
+      "category": "quality",
+      "evidence_type": "measured"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cha_001",
+    "name": "Cultural and Organisational Divides",
+    "properties": {
+      "root_cause": "geographic and cultural separation between teams",
+      "business_impact": "hinders collaboration and slows delivery",
+      "urgency": "high",
+      "who_faces_it": [
+        "nationwide",
+        "ibm"
+      ],
+      "current_workaround": "on-site visits, hackathons, and embedded technical leadership"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cha_002",
+    "name": "Test Automation Debt",
+    "properties": {
+      "root_cause": "legacy testing practices and manual processes",
+      "business_impact": "slows release cycles and increases deployment risk",
+      "urgency": "high",
+      "who_faces_it": [
+        "development",
+        "testing teams"
+      ],
+      "current_workaround": "developer-led automated ui testing and genai test scripts"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cha_003",
+    "name": "Physical Environment and Data Dependencies",
+    "properties": {
+      "root_cause": "reliance on physical infrastructure and specific data sets",
+      "business_impact": "delays testing and increases environment management overhead",
+      "urgency": "high",
+      "who_faces_it": [
+        "devops",
+        "testing teams"
+      ],
+      "current_workaround": "environment virtualisation stubs"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_tech_001",
+    "name": "Launch Darkly",
+    "properties": {
+      "vendor_or_provider": "launch darkly",
+      "technology_category": "devops",
+      "role_in_solution": "supporting",
+      "maturity": "modern",
+      "key_characteristics": "enables trunk-based development and feature toggling"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_tech_002",
+    "name": "React",
+    "properties": {
+      "vendor_or_provider": "meta",
+      "technology_category": "frontend framework",
+      "role_in_solution": "core",
+      "maturity": "modern",
+      "key_characteristics": "used for close account journey development"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_tech_003",
+    "name": "Native",
+    "properties": {
+      "technology_category": "mobile development",
+      "role_in_solution": "core",
+      "maturity": "modern",
+      "key_characteristics": "used for order certificate journey development"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_tech_004",
+    "name": "Figma",
+    "properties": {
+      "vendor_or_provider": "figma",
+      "technology_category": "design collaboration",
+      "role_in_solution": "supporting",
+      "maturity": "modern",
+      "key_characteristics": "dev licences for visibility, versioning, and tracking"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_dif_001",
+    "name": "Gamified Quality Incentives",
+    "properties": {
+      "competitive_advantage": "rewards individuals for producing high quality code",
+      "evidence_or_proof_point": "gamification initiative and hackathon challenges",
+      "uniqueness": "cultural",
+      "target_audience": "development teams",
+      "relates_to_offering": "agile sprint teams"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_dif_002",
+    "name": "Embedded Technical Leadership",
+    "properties": {
+      "competitive_advantage": "provides embedded code owners, tech leads, and smes within the delivery team",
+      "evidence_or_proof_point": "ibm code owners and tech leads embedded in sprint teams",
+      "uniqueness": "structural",
+      "target_audience": "client delivery teams",
+      "relates_to_offering": "agile sprint teams"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_dif_003",
+    "name": "Bi-Weekly Deployment Cadence",
+    "properties": {
+      "competitive_advantage": "enables rapid, predictable releases every 2 weeks",
+      "evidence_or_proof_point": "streamlined post-sprint go-live signoffs",
+      "uniqueness": "process-based",
+      "target_audience": "client stakeholders",
+      "relates_to_offering": "agile sprint teams"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_dif_004",
+    "name": "Strong Innovation Pipeline",
+    "properties": {
+      "competitive_advantage": "maintains a continuous flow of validated ideas for execution",
+      "evidence_or_proof_point": "hackathon 2025 phases and structured idea pipeline",
+      "uniqueness": "programmatic",
+      "target_audience": "client leadership",
+      "relates_to_offering": "hackathon 2025"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_loc_001",
+    "name": "India",
+    "properties": {
+      "market_type": "offshore delivery location",
+      "strategic_importance": "core"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_evt_001",
+    "name": "Hackathon 2025",
+    "properties": {
+      "event_type": "hackathon",
+      "date_or_period": "2025",
+      "relevance_to_deal": "milestone",
+      "key_participants": [
+        "nationwide",
+        "ibm",
+        "development teams",
+        "judges"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_006_org_001",
+    "name": "ICA Lab",
+    "properties": {
+      "org_type": "lab"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_006",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_006_org_002",
+    "name": "Industry Lab",
+    "properties": {
+      "org_type": "lab"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_006",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_006_off_003",
+    "name": "Design Studio Visit",
+    "properties": {
+      "offering_type": "visit",
+      "purpose": "inspiration",
+      "location": "Design Studio"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_006",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_006_evt_004",
+    "name": "Studio Showcase",
+    "properties": {
+      "event_type": "showcase",
+      "relevance_to_deal": "milestone"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_006",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_006_cap_005",
+    "name": "Understanding the Context",
+    "properties": {
+      "what_it_does": "contextual analysis",
+      "phase": "discovery"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_006",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_006_cap_006",
+    "name": "Ideation Presentation",
+    "properties": {
+      "what_it_does": "presenting ideation",
+      "phase": "development"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_006",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_006_cap_007",
+    "name": "Idea Prioritisation",
+    "properties": {
+      "what_it_does": "ranking ideas",
+      "phase": "development"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_006",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_006_cap_008",
+    "name": "Remote Connect for Competitive Analysis",
+    "properties": {
+      "what_it_does": "remote competitive benchmarking",
+      "technical_components": [
+        "remote_connect"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_006",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_006_use_009",
+    "name": "Design in Progress",
+    "properties": {
+      "problem_context": "ongoing design phase",
+      "complexity_level": "moderate"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_006",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_006_loc_010",
+    "name": "Design Studio",
+    "properties": {
+      "market_type": "physical_workspace",
+      "strategic_importance": "core"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_006",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cli_001",
+    "name": "Nationwide (NBS)",
+    "properties": {
+      "industry": [
+        "banking",
+        "financial services"
+      ],
+      "geography": [
+        "UK"
+      ],
+      "relationship_status": [
+        "active"
+      ],
+      "named_or_anonymous": true,
+      "pain_points": [
+        "environment-driven delays",
+        "manual testing bottlenecks",
+        "portfolio visibility gaps",
+        "resource allocation challenges"
+      ],
+      "engagement_type": [
+        "test transformation partnership"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+    "name": "SAMM Test Transformation",
+    "properties": {
+      "offering_type": [
+        "programme"
+      ],
+      "delivery_model": [
+        "hybrid"
+      ],
+      "scope": [
+        "SIT Automation",
+        "JIRA Restructuring",
+        "GitHub Integration",
+        "Shift-left testing with SV",
+        "Unattended Test Execution"
+      ],
+      "duration": [
+        "six-month initiative"
+      ],
+      "key_phases": [
+        "SIT Automation",
+        "JIRA Restructuring",
+        "GitHub Integration",
+        "Shift-left with SV",
+        "Smoke Test Execution",
+        "ST Unattended Execution"
+      ],
+      "named_assets": [
+        "SAMM Audit Database",
+        "GRAB segments analysis"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_002",
+    "name": "Test Capability Framework",
+    "properties": {
+      "offering_type": [
+        "programme"
+      ],
+      "scope": [
+        "shared skills expectations and growth models across NBS and IBM"
+      ],
+      "duration": [
+        "2024-25"
+      ],
+      "target_client_profile": [
+        "NBS/IBM joint delivery teams"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_003",
+    "name": "Automation & GenAI Testing Suite",
+    "properties": {
+      "offering_type": [
+        "product/suite"
+      ],
+      "scope": [
+        "GenAI based security innovations",
+        "app vulnerability management",
+        "performance testing",
+        "OAT productivity improvements",
+        "test case generation"
+      ],
+      "key_phases": [
+        "GenAI PoC for Test Case creation",
+        "AST Security Innovations",
+        "Performance & OAT Productivity"
+      ],
+      "named_assets": [
+        "Alias GenAI POC",
+        "AST"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_001",
+    "name": "Regression Automation & Optimization",
+    "properties": {
+      "what_it_does": [
+        "Optimizes regression test packs using production transaction volume data to automate manual tests and eliminate low-traffic scenarios"
+      ],
+      "technical_components": [
+        "production volume data analysis",
+        "GRAB segmentation",
+        "BDD framework",
+        "regression pack refactoring"
+      ],
+      "delivery_maturity": [
+        "proven"
+      ],
+      "differentiating_aspect": [
+        "Data-driven segmentation (GRAB) to prioritize automation and eliminate blacklisted/low-transaction journeys"
+      ],
+      "industry_applicability": [
+        "banking",
+        "mortgages"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_002",
+    "name": "Unattended Test Execution",
+    "properties": {
+      "what_it_does": [
+        "Enables fully automated, on-demand test execution without manual intervention"
+      ],
+      "technical_components": [
+        "ST environment automation",
+        "on-demand testing packs",
+        "critical business scenarios"
+      ],
+      "delivery_maturity": [
+        "proven"
+      ],
+      "differentiating_aspect": [
+        "Achieved 100% unattended automation in six months, reducing environment-related defects from 30% to 3%"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_003",
+    "name": "Test Metrics & Defect Management",
+    "properties": {
+      "what_it_does": [
+        "Provides transparent visibility into test value, defect trends, and resource allocation through dashboards and ROI calculators"
+      ],
+      "technical_components": [
+        "Defect management dashboard",
+        "Test metrics dashboard",
+        "BI dashboard on POMS portal",
+        "Automation ROI Calculator",
+        "New CIO metrics"
+      ],
+      "delivery_maturity": [
+        "proven"
+      ],
+      "differentiating_aspect": [
+        "Evolution from defect tracking to value-driven CIO metrics and transparent resource allocation"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_004",
+    "name": "Shift-Left Testing with Service Virtualization",
+    "properties": {
+      "what_it_does": [
+        "Enables early testing by simulating services and utilizing live data in the SIT environment"
+      ],
+      "technical_components": [
+        "Service Virtualization (SV)",
+        "Live data remediation",
+        "SIT environment integration"
+      ],
+      "delivery_maturity": [
+        "proven"
+      ],
+      "differentiating_aspect": [
+        "Combines SV with live data programs to accelerate testing without full environment dependencies"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_use_001",
+    "name": "Customer Journey Regression Testing",
+    "properties": {
+      "problem_context": [
+        "Need to prioritize and optimize regression testing across high-transaction customer journeys"
+      ],
+      "approach": [
+        "Analyze 3-month production transaction volumes, map to 114 journeys, segment via GRAB analysis, and automate/prioritize based on transaction significance"
+      ],
+      "industry": [
+        "banking",
+        "mortgages"
+      ],
+      "outcome_achieved": [
+        "100% unattended automation for significant journeys, optimized test packs, and eliminated low-traffic scenarios"
+      ],
+      "complexity_level": [
+        "complex"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_use_002",
+    "name": "Test Case Generation via GenAI",
+    "properties": {
+      "problem_context": [
+        "Accelerate test case creation and improve security/vulnerability management during application migrations"
+      ],
+      "approach": [
+        "Implement GenAI PoC for automated test case generation and security AST innovations"
+      ],
+      "industry": [
+        "banking",
+        "digital"
+      ],
+      "outcome_achieved": [
+        "Successful PoC implementation for Alias migration test case creation"
+      ],
+      "complexity_level": [
+        "highly_complex"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_use_003",
+    "name": "Performance & OAT Productivity Testing",
+    "properties": {
+      "problem_context": [
+        "Improve testing throughput and productivity across performance and OAT testing"
+      ],
+      "approach": [
+        "Leverage unattended automation, optimized regression packs, and GenAI innovations to increase delivery capacity"
+      ],
+      "industry": [
+        "banking"
+      ],
+      "outcome_achieved": [
+        "60% increase in testing throughput/delivery"
+      ],
+      "complexity_level": [
+        "complex"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_001",
+    "name": "Significant Effort & Cost Savings",
+    "properties": {
+      "quantified_value": [
+        "56 PDs per quarter",
+        "effort savings in every portfolio"
+      ],
+      "beneficiary": [
+        "client",
+        "test practice"
+      ],
+      "time_to_value": [
+        "quarterly"
+      ],
+      "category": [
+        "cost",
+        "efficiency"
+      ],
+      "evidence_type": [
+        "measured"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_002",
+    "name": "Accelerated Release Cycles & Predictability",
+    "properties": {
+      "quantified_value": [
+        "environment-related defects reduced from 30% to 3%",
+        "60% more testing delivered"
+      ],
+      "beneficiary": [
+        "client",
+        "end-users"
+      ],
+      "time_to_value": [
+        "six-month initiative"
+      ],
+      "category": [
+        "speed",
+        "quality"
+      ],
+      "evidence_type": [
+        "measured"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_003",
+    "name": "Drastic Reduction in Environment-Related Defects",
+    "properties": {
+      "quantified_value": [
+        "30% to 3%"
+      ],
+      "beneficiary": [
+        "test teams",
+        "client"
+      ],
+      "time_to_value": [
+        "six-month initiative"
+      ],
+      "category": [
+        "quality",
+        "risk"
+      ],
+      "evidence_type": [
+        "measured"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_004",
+    "name": "Increased Testing Throughput",
+    "properties": {
+      "quantified_value": [
+        "60%"
+      ],
+      "beneficiary": [
+        "test practice",
+        "client"
+      ],
+      "time_to_value": [
+        "ongoing/2025 target"
+      ],
+      "category": [
+        "speed",
+        "revenue"
+      ],
+      "evidence_type": [
+        "projected"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cha_001",
+    "name": "Environment-Driven Delays & Defects",
+    "properties": {
+      "root_cause": [
+        "Heavy reliance on physical environments and manual test execution"
+      ],
+      "business_impact": [
+        "30% defect rate",
+        "release delays"
+      ],
+      "urgency": [
+        "high"
+      ],
+      "who_faces_it": [
+        "NBS test teams",
+        "client"
+      ],
+      "current_workaround": [
+        "manual intervention",
+        "environment dependencies"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cha_002",
+    "name": "Manual Testing Bottlenecks & Skill Gaps",
+    "properties": {
+      "root_cause": [
+        "Reliance on manual testing and slow tester onboarding"
+      ],
+      "business_impact": [
+        "bottlenecks in test delivery",
+        "skill gaps"
+      ],
+      "urgency": [
+        "high"
+      ],
+      "who_faces_it": [
+        "IBM testers",
+        "NBS test practice"
+      ],
+      "current_workaround": [
+        "TCD process",
+        "KT acceleration",
+        "automation backlog"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cha_003",
+    "name": "Portfolio Visibility & Resource Allocation",
+    "properties": {
+      "root_cause": [
+        "Siloed test data and lack of centralized reporting"
+      ],
+      "business_impact": [
+        "inefficient resource allocation",
+        "opaque test value"
+      ],
+      "urgency": [
+        "medium"
+      ],
+      "who_faces_it": [
+        "test leads",
+        "CIO",
+        "client management"
+      ],
+      "current_workaround": [
+        "manual tracking",
+        "fragmented dashboards"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_001",
+    "name": "JIRA & Zephyr",
+    "properties": {
+      "vendor": [
+        "Atlassian (JIRA)",
+        "Zephyr"
+      ],
+      "technology_category": [
+        "test management",
+        "automation",
+        "monitoring"
+      ],
+      "role_in_solution": [
+        "core"
+      ],
+      "maturity": [
+        "modern"
+      ],
+      "key_characteristics": [
+        "BDD framework integration",
+        "feature-based test case restructuring",
+        "improved monitoring and reporting"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_002",
+    "name": "GitHub",
+    "properties": {
+      "vendor": [
+        "GitHub"
+      ],
+      "technology_category": [
+        "code repository",
+        "version control"
+      ],
+      "role_in_solution": [
+        "supporting"
+      ],
+      "maturity": [
+        "modern"
+      ],
+      "key_characteristics": [
+        "centralized code repository",
+        "automation script storage"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_003",
+    "name": "Service Virtualization (SV)",
+    "properties": {
+      "technology_category": [
+        "test automation",
+        "virtualization"
+      ],
+      "role_in_solution": [
+        "core"
+      ],
+      "maturity": [
+        "modern"
+      ],
+      "key_characteristics": [
+        "enables shift-left testing",
+        "supports ST environment",
+        "reduces environment dependencies"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_004",
+    "name": "SAMM Audit Database",
+    "properties": {
+      "technology_category": [
+        "data",
+        "audit",
+        "analytics"
+      ],
+      "role_in_solution": [
+        "core"
+      ],
+      "maturity": [
+        "modern"
+      ],
+      "key_characteristics": [
+        "provides 3-month production transaction volume data",
+        "feeds GRAB segmentation analysis"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_005",
+    "name": "POMS Portal",
+    "properties": {
+      "technology_category": [
+        "portal",
+        "resource management",
+        "BI"
+      ],
+      "role_in_solution": [
+        "supporting"
+      ],
+      "maturity": [
+        "modern"
+      ],
+      "key_characteristics": [
+        "centralized BI dashboard",
+        "resource allocation transparency",
+        "cost & HC control for test leads"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_dif_001",
+    "name": "98.5% IBM Offshore Delivery Model",
+    "properties": {
+      "competitive_advantage": [
+        "Highly leveraged offshore delivery model driving efficiency and value"
+      ],
+      "evidence_or_proof_point": [
+        "98.5% offshore team composition",
+        "accelerated tester onboarding",
+        "56 PDs per quarter savings"
+      ],
+      "uniqueness": [
+        "scale-based",
+        "proprietary delivery model"
+      ],
+      "target_audience": [
+        "enterprise test leaders",
+        "CIOs"
+      ],
+      "relates_to_offering": [
+        "SAMM Test Transformation",
+        "Test Capability Framework"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_dif_002",
+    "name": "Accelerated Tester Onboarding & Standardized Frameworks",
+    "properties": {
+      "competitive_advantage": [
+        "Rapid tester onboarding and standardized testing methodologies"
+      ],
+      "evidence_or_proof_point": [
+        "Significantly accelerated onboarding",
+        "Universal methodology rolled out",
+        "Standardized dashboard across practice"
+      ],
+      "uniqueness": [
+        "best-in-class",
+        "process-driven"
+      ],
+      "target_audience": [
+        "test practice managers",
+        "delivery leads"
+      ],
+      "relates_to_offering": [
+        "Test Capability Framework",
+        "SAMM Test Transformation"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_dif_003",
+    "name": "Thought Leadership & Innovation Culture",
+    "properties": {
+      "competitive_advantage": [
+        "Strong innovation culture and thought leadership driving continuous improvement"
+      ],
+      "evidence_or_proof_point": [
+        "Hackathons",
+        "TesTalks newsletter/webinars",
+        "Design thinking workshops",
+        "GenAI PoCs",
+        "AST innovations"
+      ],
+      "uniqueness": [
+        "culture-based",
+        "community-driven"
+      ],
+      "target_audience": [
+        "technical teams",
+        "innovation leads",
+        "enterprise clients"
+      ],
+      "relates_to_offering": [
+        "Automation & GenAI Testing Suite",
+        "SAMM Test Transformation"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_org_001",
+    "name": "IBM",
+    "properties": {
+      "org_type": [
+        "vendor"
+      ],
+      "relationship_to_offering": [
+        "provider"
+      ],
+      "geographic_presence": [
+        "global",
+        "offshore",
+        "onsite"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_org_002",
+    "name": "NBS (Nationwide Building Society)",
+    "properties": {
+      "org_type": [
+        "client"
+      ],
+      "relationship_to_offering": [
+        "customer"
+      ],
+      "geographic_presence": [
+        "UK"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_eve_001",
+    "name": "Hackathon",
+    "properties": {
+      "event_type": [
+        "innovation competition"
+      ],
+      "date_or_period": [
+        "ongoing/2024-25"
+      ],
+      "relevance_to_deal": [
+        "demonstrates innovation culture and accelerates solution adoption"
+      ],
+      "key_participants": [
+        "IBM",
+        "NBS",
+        "test teams"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_eve_002",
+    "name": "Onsite Design Thinking & CI Workshops",
+    "properties": {
+      "event_type": [
+        "workshop"
+      ],
+      "date_or_period": [
+        "2024",
+        "2025"
+      ],
+      "relevance_to_deal": [
+        "drives continuous improvement initiatives and aligns test practices"
+      ],
+      "key_participants": [
+        "IBM",
+        "NBS",
+        "test leads"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_eve_003",
+    "name": "Quarterly Release & Milestone Events",
+    "properties": {
+      "event_type": [
+        "milestone/quarterly review"
+      ],
+      "date_or_period": [
+        "quarterly",
+        "April 2025",
+        "August 2025",
+        "September 2025"
+      ],
+      "relevance_to_deal": [
+        "tracks delivery progress, shares metrics, and aligns on upcoming releases"
+      ],
+      "key_participants": [
+        "test practice",
+        "CIO",
+        "client stakeholders"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_008_cap_001",
+    "name": "Automated Execution in SIT",
+    "properties": {
+      "what_it_does": "Automated execution in System Integration Testing (SIT)",
+      "technical_components": [
+        "Automated execution"
+      ],
+      "delivery_maturity": "proven",
+      "progression": [
+        "0%",
+        "80%",
+        "100%"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_008",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_008_cap_002",
+    "name": "Automated Execution in ST",
+    "properties": {
+      "what_it_does": "Automated execution in System Testing (ST)",
+      "technical_components": [
+        "Unattended execution",
+        "Automated execution"
+      ],
+      "delivery_maturity": "proven",
+      "progression": [
+        "73%",
+        "100%"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_008",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_008_ben_001",
+    "name": "Reduction of Environment Defects",
+    "properties": {
+      "quantified_value": [
+        "40% SIT Defects Related to Environment",
+        "3% SIT Defects Related to Environment",
+        "10% SIT Defects Related to Environment"
+      ],
+      "category": [
+        "quality",
+        "risk"
+      ],
+      "evidence_type": "measured"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_008",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_008_ben_002",
+    "name": "User Story Point Efficiency",
+    "properties": {
+      "quantified_value": [
+        "3-5 Story Points Estimated Per User Story",
+        "1 Story Point Per User Story"
+      ],
+      "category": [
+        "speed",
+        "efficiency"
+      ],
+      "evidence_type": "projected",
+      "time_to_value": "To be implemented"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_008",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_008_tech_001",
+    "name": "Automation Framework",
+    "properties": {
+      "technology_category": [
+        "automation",
+        "testing"
+      ],
+      "role_in_solution": "core",
+      "maturity": "modern",
+      "key_characteristics": [
+        "Refactored and strengthened",
+        "Enabled smoke testing with API automation"
+      ]
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_008",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_008_cap_003",
+    "name": "Execution Dashboards & Metrics",
+    "properties": {
+      "what_it_does": "Execution dashboards and metrics for transparency",
+      "technical_components": [
+        "Execution dashboards",
+        "New metrics"
+      ],
+      "differentiating_aspect": "Transparency",
+      "delivery_maturity": "proven"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_008",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_008_cha_001",
+    "name": "Critical Test Environment Issues",
+    "properties": {
+      "root_cause": "Test environment instability",
+      "business_impact": "40% SIT defects related to environment",
+      "urgency": "critical",
+      "who_faces_it": [
+        "Testing teams",
+        "Development teams"
+      ],
+      "current_workaround": "Resolved"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_008",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_008_diff_001",
+    "name": "Synchronized Ways of Working",
+    "properties": {
+      "competitive_advantage": "Consistent and synchronized ways of working across teams",
+      "evidence or proof_point": "Embedded automation across teams for broader adoption",
+      "uniqueness": "process-driven",
+      "target_audience": "Cross-functional delivery teams",
+      "relates_to_offering": "Automation and testing delivery"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_008",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  },
+  {
+    "id": "70bc1b535aa4478b9e32cfd02b6643e3_008_use_001",
+    "name": "Smoke Testing",
+    "properties": {
+      "problem_context": "Need for early validation in testing lifecycle",
+      "approach": "API automation framework",
+      "industry or vertical": "Software testing/QA",
+      "outcome_achieved": "Enabled smoke testing",
+      "complexity_level": "straightforward"
+    },
+    "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_008",
+    "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+  }
+]

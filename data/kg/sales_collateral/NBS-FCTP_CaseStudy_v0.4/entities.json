@@ -1,0 +1,1084 @@
+[
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_cli_001",
+    "name": "Client / Customer / The Society",
+    "aliases": [
+      "anonymous_client",
+      "financial_services_organization",
+      "regulatory_entity"
+    ],
+    "entity_class": "CLIENT",
+    "type": "anonymous_client",
+    "description": "The client is an anonymous financial services organization facing strict regulatory obligations related to money laundering and financial crime prevention. The organization requires robust data collection, verification, and remediation processes to maintain compliance across multiple customer touchpoints and legacy systems.",
+    "context": [
+      "Client requested for a strategic automation process through which customer data is regularly updated...",
+      "The Society entered into an agreement with Mitek systems to use their Verified Identity Platform...",
+      "The Customer Due Diligence (CDD) Remediation programme is designed to ensure compliance with Money Laundering Regulations (MLReg) obligations."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_off_001",
+    "name": "SKYC (Smart KYC) project",
+    "aliases": [
+      "strategic_case_management_lifecycle",
+      "SKYC_project"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "transformation_programme",
+    "description": "A strategic case management lifecycle programme designed to support continuous Customer Due Diligence (CDD) and Identity Verification (ID&V) processes. The solution provides flexibility to integrate within broader monitoring frameworks and establishes a structured automation workflow for regulatory data updates.",
+    "context": [
+      "IBM worked with Client to set up a strategic case management lifecycle as part of the SKYC (Smart KYC) project...",
+      "support an enduring CDD and ID&V journey, with flexibility to embed within the Event Based Monitoring (EBM) framework."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_off_002",
+    "name": "Customer Due Diligence (CDD) Remediation programme",
+    "aliases": [
+      "CDD_remediation",
+      "data_collection_programme"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "transformation_programme",
+    "description": "A dedicated remediation initiative focused on collecting missing customer data and verifying the accuracy of existing records. The programme addresses compliance gaps by establishing systematic workflows for data collection, validation, and periodic refreshes across digital and mediated channels.",
+    "context": [
+      "The Customer Due Diligence (CDD) Remediation programme is designed to ensure compliance with Money Laundering Regulations (MLReg) obligations.",
+      "It involves collecting missing CDD information and verifying that existing data is accurate and up-to-date."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_off_003",
+    "name": "ID&V solution",
+    "aliases": [
+      "identity_verification_solution",
+      "ID_remediation_project"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "An automated identity verification and remediation system that processes customer ID cases through automated data validation workflows. The solution routes successful validations directly to core systems while managing exceptions through manual remediation tools for operational review.",
+    "context": [
+      "The ID&V project involved enhancement of client ID&V solution to use an automated process to directly upload Customer ID cases...",
+      "Any records which did not pass the data validation were sent to the exceptional workflow tool for subsequent manual updation..."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_off_004",
+    "name": "AML Remediation capability",
+    "aliases": [
+      "business_savings_aml_capability",
+      "compliance_remediation_framework"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "A comprehensive compliance framework targeting Business Savings customers to address legacy regulatory gaps. The capability ensures full adherence to Financial Crime Minimum Control Standards through systematic data collection and verification of missing CDD and ID&V documentation.",
+    "context": [
+      "The objective of this project was to establish a comprehensive and sustainable AML Remediation capability for Business Savings customers...",
+      "ensured full compliance with the Financial Crime Minimum Control Standards and the latest policy guidance."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_off_005",
+    "name": "Pega workflow management tool",
+    "aliases": [
+      "pega_workflow",
+      "case_management_engine"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "platform",
+    "description": "A dedicated workflow automation platform created to manage Customer Due Diligence and Identity Verification processes. The tool standardizes case management workflows and supports the strategic automation lifecycle required for regulatory compliance.",
+    "context": [
+      "As part of the project a Pega workflow management tool is being created to handle CDD and ID&V workflow."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_off_006",
+    "name": "DocuSign solution",
+    "aliases": [
+      "digital_signature_platform",
+      "frictionless_docu_sign"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "platform",
+    "description": "A frictionless digital signature and data collection platform deployed to enhance customer engagement and compliance. The solution provides an alternative channel for digitally inactive members to submit CDD information without relying on traditional branch or telephony services.",
+    "context": [
+      "IBM is helping client build a new, reliable, and frictionless DocuSign solution on .co.uk.",
+      "This alternative channel will allow client digitally inactive members to submit their CDD information without needing to visit a branch..."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_off_007",
+    "name": "ePaaS solution",
+    "aliases": [
+      "automated_integration_platform",
+      "data_validation_engine"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "platform",
+    "description": "A fully automated integration and processing platform operating continuously to validate and route customer data. The system handles both successful data passes and failure notifications, ensuring seamless connectivity between identity providers and core systems.",
+    "context": [
+      "From Data Validations, the process moves to the ePaaS solution, which is noted as Fully automated (runs 24*7).",
+      "The overall flow describes the journey from Mitek through Data Validations and the ePaaS solution..."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_off_008",
+    "name": "SAMM application",
+    "aliases": [
+      "remediation_operations_app",
+      "manual_update_repository"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "platform",
+    "description": "A specialized operational application used by the Remediation Operations team to manually update customer records. The system serves as a backend repository for exception handling and manual data correction workflows.",
+    "context": [
+      "Any records which did not pass the data validation were sent to the exceptional workflow tool for subsequent manual updation by the Remediation Operation team through the SAMM application.",
+      "EWT is shown to send a failure/notification path to SAMM."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_off_009",
+    "name": "Exception Workflow Tool (EWT)",
+    "aliases": [
+      "exception_routing_tool",
+      "failure_management_platform"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "platform",
+    "description": "A dedicated exception management platform that routes failed data validations to operational teams for manual review. The tool ensures that non-compliant or invalid records are captured and processed through a structured remediation workflow.",
+    "context": [
+      "BIP failures come via DSA to EWT.",
+      "If the process Fails at the ePaaS solution, it proceeds to EWT, which is contained within the RemOps section..."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_cap_001",
+    "name": "Strategic automation process",
+    "aliases": [
+      "data_automation",
+      "regulatory_automation"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "automation_capability",
+    "description": "A core operational capability focused on automating customer data collection and case management workflows. The capability ensures continuous regulatory compliance by replacing manual processes with structured, automated data refresh mechanisms.",
+    "context": [
+      "Client requested for a strategic automation process through which customer data is regularly updated...",
+      "Automated process of data collection and case management for CDD and ID&V flows ensuring continued Regulatory compliance"
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_cap_002",
+    "name": "CDD and ID&V workflow management",
+    "aliases": [
+      "compliance_workflow_orchestration",
+      "case_lifecycle_management"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "delivery_capability",
+    "description": "A specialized delivery capability that orchestrates Customer Due Diligence and Identity Verification processes across multiple channels. The capability enables seamless coordination between business requirements and technical execution to support ongoing compliance journeys.",
+    "context": [
+      "IBM worked with Client to set up a strategic case management lifecycle... to support an enduring CDD and ID&V journey...",
+      "The project also involved IBM Business Analysts, SIT, and Non-Functional teams who worked on the successful delivery..."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_cap_003",
+    "name": "Automated data upload and validation",
+    "aliases": [
+      "automated_routing",
+      "data_validation_upload"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "automation_capability",
+    "description": "A technical capability that automatically processes and validates customer identification data before routing it to core systems. The capability reduces manual intervention by directly uploading successfully validated cases while flagging exceptions for review.",
+    "context": [
+      "The ID&V project involved enhancement of client ID&V solution to use an automated process to directly upload Customer ID cases...",
+      "The Development team validated the data between Mitek and CIS..."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_cap_004",
+    "name": "Omni-channel customer engagement",
+    "aliases": [
+      "multi_channel_engagement",
+      "frictionless_engagement"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "delivery_capability",
+    "description": "A strategic delivery capability designed to enhance customer interaction across digital, mediated, and alternative channels. The capability improves engagement and completion rates by providing frictionless, accessible pathways for data submission.",
+    "context": [
+      "To enhance client omni-channel strategy and improve customer engagement and completion rates...",
+      "The solution enhances customer experience by providing an easy and alternative way for a customer to share information"
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_use_001",
+    "name": "Regulatory compliance and data refresh",
+    "aliases": [
+      "mlreg_compliance",
+      "periodic_data_refresh"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "compliance",
+    "description": "A primary use case focused on maintaining adherence to Money Laundering Regulations through systematic customer data updates. The application ensures that client records remain accurate, up-to-date, and compliant with evolving regulatory standards.",
+    "context": [
+      "customer data is regularly updated in adherence to Money Laundering Regulations.",
+      "The Customer Due Diligence (CDD) Remediation programme is designed to ensure compliance with Money Laundering Regulations (MLReg) obligations."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_use_002",
+    "name": "Customer Due Diligence (CDD) remediation",
+    "aliases": [
+      "cdd_remediation",
+      "data_collection_use_case"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "compliance",
+    "description": "A compliance-driven use case that addresses missing or outdated customer information through structured data collection and verification. The scenario leverages digital and mediated channels to systematically remediate legacy data gaps.",
+    "context": [
+      "It involves collecting missing CDD information and verifying that existing data is accurate and up-to-date.",
+      "The process begins at the CDD Cohort/FCCEP Remediation hub."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_use_003",
+    "name": "Identity Verification (ID&V) automation",
+    "aliases": [
+      "id_verification_automation",
+      "automated_id_processing"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "compliance",
+    "description": "A technical use case that automates the validation and routing of customer identification cases through integrated systems. The scenario reduces manual workload by automatically processing successful validations and managing exceptions for operational review.",
+    "context": [
+      "The ID&V project involved enhancement of client ID&V solution to use an automated process to directly upload Customer ID cases...",
+      "Digital method of customer identification reduced workload at client branches"
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_use_004",
+    "name": "Event-Based Monitoring (EBM) integration",
+    "aliases": [
+      "ebm_integration",
+      "behavioral_trigger_monitoring"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "compliance",
+    "description": "A compliance use case that embeds customer data updates within broader event-driven monitoring frameworks. The application supports continuous risk assessment by triggering data refreshes based on account behavior or periodic risk ratings.",
+    "context": [
+      "flexibility to embed within the Event Based Monitoring (EBM) framework.",
+      "Customer information was requested based on either the ‘Periodic refresh’ risk rating... or on the basis of ‘Invoke refresh ‘ i.e., account behaviour."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_ben_001",
+    "name": "Continued regulatory compliance",
+    "aliases": [
+      "mlreg_compliance_achievement",
+      "financial_crime_compliance"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "compliance_achievement",
+    "description": "A quantified compliance outcome achieved through automated data collection and case management workflows. The benefit ensures that client operations consistently meet Money Laundering Regulations and Financial Crime Minimum Control Standards.",
+    "context": [
+      "Automated process of data collection and case management for CDD and ID&V flows ensuring continued Regulatory compliance",
+      "Improves Regulatory compliance",
+      "ensured full compliance with the Financial Crime Minimum Control Standards"
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_ben_002",
+    "name": "Enhanced customer experience and engagement",
+    "aliases": [
+      "customer_satisfaction_improvement",
+      "frictionless_engagement_benefit"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "customer_satisfaction",
+    "description": "A qualified benefit resulting from the deployment of frictionless digital channels and alternative data submission pathways. The outcome improves customer satisfaction by providing easy, accessible methods for sharing required information without branch visits.",
+    "context": [
+      "The solution enhances customer experience by providing an easy and alternative way for a customer to share information",
+      "To enhance client omni-channel strategy and improve customer engagement and completion rates..."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_ben_003",
+    "name": "Reduced branch and telephony workload",
+    "aliases": [
+      "operational_workload_reduction",
+      "channel_shift_benefit"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "operational_efficiency",
+    "description": "An operational efficiency benefit achieved by shifting customer data collection processes to digital and mediated channels. The outcome decreases dependency on physical branches and telephony services, lowering operational strain.",
+    "context": [
+      "Digital method of customer identification reduced workload at client branches",
+      "Reduced workload of client branches and Telephony by providing a digital process to collect customer data"
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_ben_004",
+    "name": "Increased productivity and streamlined operations",
+    "aliases": [
+      "remediation_productivity_gain",
+      "operational_streamlining"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "operational_efficiency",
+    "description": "A performance benefit driven by automated workflows and comprehensive testing protocols that ensure smooth production rollouts. The outcome increases the efficiency of remediation operations teams while maintaining quality and security standards.",
+    "context": [
+      "Streamlined operations and increased productivity of the Remediation Operation team",
+      "comprehensive testing by IBM’s SIT and Non-Functional teams ensured that both in-house and third-party components met quality, security, and performance standards"
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_ben_005",
+    "name": "Increased convenience for overseas customers",
+    "aliases": [
+      "overseas_customer_convenience",
+      "geographic_accessibility_benefit"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "customer_satisfaction",
+    "description": "A customer-centric benefit resulting from automated identity verification and digital data submission capabilities. The outcome provides seamless access to compliance processes for geographically dispersed or international client segments.",
+    "context": [
+      "Increased convenience for overseas client customers",
+      "This alternative channel will allow client digitally inactive members to submit their CDD information without needing to visit a branch..."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_cha_001",
+    "name": "Money Laundering Regulations compliance obligations",
+    "aliases": [
+      "mlreg_obligations",
+      "financial_crime_compliance_requirement"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "regulatory_burden",
+    "description": "A regulatory challenge requiring the client to maintain strict adherence to financial crime prevention standards. The obligation necessitates continuous data verification, periodic refreshes, and systematic remediation of customer records.",
+    "context": [
+      "in adherence to Money Laundering Regulations.",
+      "ensure compliance with Money Laundering Regulations (MLReg) obligations."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_cha_002",
+    "name": "Legacy compliance gaps in customer data",
+    "aliases": [
+      "legacy_data_gaps",
+      "outdated_customer_records"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "legacy_constraint",
+    "description": "A data quality challenge stemming from outdated or incomplete customer records that require systematic remediation. The gap necessitates comprehensive data collection and verification processes to meet current policy guidance.",
+    "context": [
+      "Client wanted to systematically address legacy compliance gaps by remediating the existing customer base...",
+      "ensure that the customer data stored in client applications was correct."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_cha_003",
+    "name": "Limited digital engagement channels",
+    "aliases": [
+      "channel_limitations",
+      "digitally_inactive_members"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "legacy_constraint",
+    "description": "An operational constraint where existing customer data collection relies heavily on traditional digital and mediated channels. The limitation restricts engagement for digitally inactive members and reduces overall compliance participation rates.",
+    "context": [
+      "The existing approach captures customer details through Digital and Mediated channels.",
+      "This alternative channel will allow client digitally inactive members to submit their CDD information without needing to visit a branch..."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_cha_004",
+    "name": "Data accuracy and up-to-date verification needs",
+    "aliases": [
+      "data_quality_needs",
+      "periodic_refresh_requirements"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "data_quality_issue",
+    "description": "A functional challenge requiring continuous validation of customer information to maintain regulatory compliance. The need drives the implementation of automated refresh triggers and periodic data quality controls.",
+    "context": [
+      "verifying that existing data is accurate and up-to-date.",
+      "CDD controls - to control the number of customer invoke to maintain the rate of customer request"
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_tec_001",
+    "name": "Pega workflow management tool",
+    "aliases": [
+      "pega_platform",
+      "case_management_engine"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "automation_tool",
+    "description": "A specialized automation platform deployed to manage Customer Due Diligence and Identity Verification workflows. The tool serves as the core engine for case management and strategic automation within the SKYC project.",
+    "context": [
+      "As part of the project a Pega workflow management tool is being created to handle CDD and ID&V workflow."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_tec_002",
+    "name": "DocuSign",
+    "aliases": [
+      "digital_signature_tool",
+      "frictionless_docu_sign"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "automation_tool",
+    "description": "A digital signature and document management platform integrated into the client’s omni-channel strategy. The technology enables frictionless data collection and secure information sharing for digitally inactive members.",
+    "context": [
+      "IBM is helping client build a new, reliable, and frictionless DocuSign solution on .co.uk.",
+      "Open DocuSign webform and enter URN & answer CDD questions"
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_tec_003",
+    "name": "Mitek Verified Identity Platform",
+    "aliases": [
+      "mitek_platform",
+      "identity_verification_system"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "ai_platform",
+    "description": "A third-party identity verification system used to validate customer identification data. The platform feeds validated records into the client’s automated data validation and routing workflows.",
+    "context": [
+      "The Society entered into an agreement with Mitek systems to use their Verified Identity Platform for this purpose.",
+      "The process begins with Mitek, which feeds into a process diamond labeled Data Validations."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_tec_004",
+    "name": "ePaaS solution",
+    "aliases": [
+      "automated_integration_platform",
+      "data_validation_engine"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "integration_tool",
+    "description": "A fully automated integration platform operating continuously to process and validate customer data. The system routes successful validations to core systems while managing failure notifications for exception handling.",
+    "context": [
+      "From Data Validations, the process moves to the ePaaS solution, which is noted as Fully automated (runs 24*7).",
+      "The overall flow describes the journey from Mitek through Data Validations and the ePaaS solution..."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_tec_005",
+    "name": "CIS (Customer Information System)",
+    "aliases": [
+      "customer_database",
+      "core_record_repository"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "database",
+    "description": "A core database system used to store and update customer identification and due diligence records. The system serves as the final destination for successfully validated and uploaded customer data.",
+    "context": [
+      "The RemOps team update data in CIS.",
+      "The Development team validated the data between Mitek and CIS..."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_tec_006",
+    "name": "Digital and Mediated channels",
+    "aliases": [
+      "customer_touchpoints",
+      "interaction_channels"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "channel",
+    "description": "A set of customer interaction touchpoints including internet banking, mobile apps, branches, and telephony. The channels serve as primary data collection pathways for customer due diligence and identity verification processes.",
+    "context": [
+      "The existing approach captures customer details through Digital and Mediated channels.",
+      "Customer information was requested based on either the ‘Periodic refresh’ risk rating... or through Mediated channels such as Branch or Telephony."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_dif_001",
+    "name": "Streamlined project planning and execution",
+    "aliases": [
+      "structured_delivery_model",
+      "stakeholder_coordination"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "delivery_model",
+    "description": "A delivery model differentiator that ensures smooth coordination between business and technical stakeholders. The approach minimizes project friction and accelerates time-to-value through structured planning and execution methodologies.",
+    "context": [
+      "IBM’s Delivery team streamlined the project’s planning and execution to ensure smooth coordination between Business and technical stakeholders."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_dif_002",
+    "name": "Fully automated 24/7 processing capability",
+    "aliases": [
+      "continuous_automation",
+      "unattended_processing"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "speed",
+    "description": "A speed and reliability differentiator that enables continuous, unattended data validation and routing. The capability eliminates manual bottlenecks and ensures consistent processing throughput for customer identification workflows.",
+    "context": [
+      "From Data Validations, the process moves to the ePaaS solution, which is noted as Fully automated (runs 24*7)."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_dif_003",
+    "name": "Rigorous quality, security, and performance testing",
+    "aliases": [
+      "comprehensive_testing_protocol",
+      "production_readiness_assurance"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "certification",
+    "description": "A certification and assurance differentiator that validates both in-house and third-party components against strict operational standards. The testing protocol ensures reliable production rollouts and mitigates technical and compliance risks.",
+    "context": [
+      "comprehensive testing by IBM’s SIT and Non-Functional teams ensured that both in-house and third-party components met quality, security, and performance standards for a smooth production rollout."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_dif_004",
+    "name": "Frictionless omni-channel customer engagement",
+    "aliases": [
+      "alternative_channel_strategy",
+      "barrier_removal_innovation"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "innovation",
+    "description": "An innovation differentiator that provides alternative, user-friendly data submission pathways for digitally inactive members. The capability broadens participation and improves compliance rates by removing traditional access barriers.",
+    "context": [
+      "IBM is helping client build a new, reliable, and frictionless DocuSign solution on .co.uk.",
+      "By broadening our approach, we aim to on increase overall participation and compliance through this journey."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_org_001",
+    "name": "IBM",
+    "aliases": [
+      "primary_vendor",
+      "solution_provider",
+      "delivery_partner"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "vendor",
+    "description": "The primary vendor and solution provider delivering strategic automation, compliance remediation, and identity verification projects. IBM contributes delivery teams, business analysts, development resources, and testing capabilities to drive client outcomes.",
+    "context": [
+      "IBM worked with Client to set up a strategic case management lifecycle...",
+      "IBM led the planning and execution of the project.",
+      "IBM’s Business Analysts were involved in Business requirement gathering..."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_org_002",
+    "name": "Mitek Systems",
+    "aliases": [
+      "third_party_identity_provider",
+      "mitek"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "partner",
+    "description": "A third-party technology partner providing identity verification platforms for customer identification and data validation. The organization’s solution integrates with the client’s automated workflows to support compliance and remediation objectives.",
+    "context": [
+      "The Society entered into an agreement with Mitek systems to use their Verified Identity Platform for this purpose."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_eve_001",
+    "name": "SKYC Project",
+    "aliases": [
+      "smart_kyc_initiative",
+      "strategic_case_management_project"
+    ],
+    "entity_class": "EVENT",
+    "type": "deal_event",
+    "description": "A strategic automation initiative focused on establishing a case management lifecycle for Customer Due Diligence and Identity Verification. The project delivers workflow automation and regulatory compliance capabilities through integrated technology platforms.",
+    "context": [
+      "SKYC Project",
+      "IBM worked with Client to set up a strategic case management lifecycle as part of the SKYC (Smart KYC) project..."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_eve_002",
+    "name": ".co.uk Project",
+    "aliases": [
+      "cdd_remediation_programme",
+      "digital_data_collection_initiative"
+    ],
+    "entity_class": "EVENT",
+    "type": "deal_event",
+    "description": "A customer remediation programme designed to enhance compliance with Money Laundering Regulations through digital data collection. The project implements alternative channels and automated workflows to verify and update customer information.",
+    "context": [
+      ".co.uk Project",
+      "The Customer Due Diligence (CDD) Remediation programme is designed to ensure compliance with Money Laundering Regulations (MLReg) obligations."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_eve_003",
+    "name": "ID&V Project",
+    "aliases": [
+      "id_remediation_project",
+      "automated_identity_verification"
+    ],
+    "entity_class": "EVENT",
+    "type": "deal_event",
+    "description": "An identity verification and remediation initiative that automates the upload and validation of customer ID cases. The project enhances operational efficiency by reducing branch workload and increasing convenience for overseas customers.",
+    "context": [
+      "ID&V Project - ID Remediation",
+      "The ID&V project involved enhancement of client ID&V solution to use an automated process to directly upload Customer ID cases..."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_eve_004",
+    "name": "CDD Project",
+    "aliases": [
+      "customer_due_diligence_initiative",
+      "data_accuracy_project"
+    ],
+    "entity_class": "EVENT",
+    "type": "deal_event",
+    "description": "A Customer Due Diligence initiative focused on ensuring the accuracy of stored customer data through digital and mediated channels. The project implements automated triggers and controls to manage customer data refresh rates.",
+    "context": [
+      "CDD Project",
+      "The Customer Due Diligence (CDD) project was initiated to ensure that the customer data stored in client applications was correct."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_eve_005",
+    "name": "Business Savings Project",
+    "aliases": [
+      "business_savings_aml_programme",
+      "legacy_compliance_remediation"
+    ],
+    "entity_class": "EVENT",
+    "type": "deal_event",
+    "description": "A compliance remediation programme targeting Business Savings customers to address legacy regulatory gaps. The project establishes sustainable AML capabilities to ensure adherence to Financial Crime Minimum Control Standards.",
+    "context": [
+      "Business Savings Project (BuSa)",
+      "The objective of this project was to establish a comprehensive and sustainable AML Remediation capability for Business Savings customers..."
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_org_001",
+    "name": "IBM",
+    "aliases": [],
+    "entity_class": "ORGANIZATION",
+    "type": "vendor",
+    "description": "The selling organization responsible for designing and deploying the client's automated case management system. IBM led the end-to-end design and deployment effort to replace legacy manual workflows. This engagement positioned IBM as the primary technology and consulting partner for the financial institution's operational transformation.",
+    "context": [
+      "IBM worked on the design and deployment of a formalized, end-to-end workflow and case management solution"
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_cli_001",
+    "name": "The Business",
+    "aliases": [
+      "client",
+      "the Business"
+    ],
+    "entity_class": "CLIENT",
+    "type": "anonymous_client",
+    "description": "An anonymized financial services client that required modernization of its customer risk management and remediation workflows. The organization faced operational inefficiencies and sought a formalized system to govern financial crime risk. Post-implementation, the client gained enhanced control over customer lifecycle decisions.",
+    "context": [
+      "The Business is now empowered to make timely, risk-informed decisions",
+      "across the Business Savings portfolio"
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_cli_002",
+    "name": "Business Savings portfolio",
+    "aliases": [
+      "Business Savings"
+    ],
+    "entity_class": "CLIENT",
+    "type": "target_segment",
+    "description": "A specific business unit or client segment within the financial institution where strategic and operational improvements were realized. The portfolio served as the primary scope for the workflow modernization initiative. Decision-making and risk governance were specifically optimized for this segment.",
+    "context": [
+      "across the Business Savings portfolio",
+      "Strategic decision making across the Business Savings portfolio"
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_off_001",
+    "name": "End-to-End Workflow and Case Management Solution",
+    "aliases": [
+      "new system",
+      "formalized workflow"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "A comprehensive, automated system designed to replace manual, spreadsheet-driven processes with structured digital workflows. The solution provides real-time tracking, operational control, and governance for remediation activities. It serves as the central platform for managing customer risk and compliance operations.",
+    "context": [
+      "formalized, end-to-end workflow and case management solution",
+      "This new system enabled real-time tracking, operational control, and governance"
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_cha_001",
+    "name": "Manual Spreadsheet-Based Processes",
+    "aliases": [
+      "current manual processes",
+      "spreadsheet-based processes"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "legacy_constraint",
+    "description": "The client's pre-existing reliance on manual, unstructured workflows that caused operational bottlenecks and data quality issues. These legacy processes lacked real-time visibility and centralized governance. The solution was specifically deployed to eliminate these constraints and automate case management.",
+    "context": [
+      "replaced the current manual, spreadsheet-based processes",
+      "Replacement of manual process by end-to-end workflow"
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_001",
+    "name": "Real-Time Tracking",
+    "aliases": [
+      "tracking"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "technical_capability",
+    "description": "The system's capability to monitor and update remediation activities and customer statuses instantly. This feature provides immediate visibility into operational workflows and case progress. It enables business users to respond quickly to emerging risk indicators.",
+    "context": [
+      "enabled real-time tracking, operational control, and governance",
+      "real-time tracking, operational control, and governance of remediation activities"
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_002",
+    "name": "Operational Control",
+    "aliases": [
+      "control"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "delivery_capability",
+    "description": "The ability to manage, direct, and oversee business processes with structured governance and oversight. This capability ensures that remediation activities follow standardized protocols and compliance requirements. It reduces ad-hoc decision-making in favor of governed workflows.",
+    "context": [
+      "operational control, and governance of remediation activities",
+      "operational control, and governance"
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_003",
+    "name": "Governance of Remediation Activities",
+    "aliases": [
+      "remediation governance"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "technical_capability",
+    "description": "Structured oversight and management of customer remediation workflows to ensure compliance and standardized execution. This capability aligns operational actions with regulatory standards and internal risk policies. It provides an auditable trail for all customer-related decisions.",
+    "context": [
+      "governance of remediation activities",
+      "governance of remediation activities"
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_004",
+    "name": "Data Enrichment",
+    "aliases": [
+      "enrichment"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "integration_capability",
+    "description": "The capability to augment and enhance customer data through multiple outreach channels and external integrations. This function supports more accurate risk profiling and decision-making. It leverages third-party services to fill data gaps and improve client records.",
+    "context": [
+      "supporting multiple outreach and data enrichment channels",
+      "data enrichment channels"
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_use_001",
+    "name": "Financial Crime Risk Profiling",
+    "aliases": [
+      "risk profile",
+      "financial crime risk"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "compliance",
+    "description": "The application of the solution to assess customer risk levels for financial crime and regulatory compliance. This use case enables the business to evaluate accounts against defined risk thresholds. It directly informs subsequent customer lifecycle actions and remediation steps.",
+    "context": [
+      "based on their financial crime risk profile",
+      "financial crime risk profile"
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_use_002",
+    "name": "Customer Lifecycle Management",
+    "aliases": [
+      "retain, block, or exit customers"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "customer_experience",
+    "description": "The operational scenario of managing customer relationships by deciding whether to retain, block, or exit accounts based on risk assessments. This use case addresses the need for timely, risk-informed decisions across the portfolio. It standardizes how the business interacts with high-risk or non-compliant customers.",
+    "context": [
+      "decisions to retain, block, or exit customers",
+      "retain, block, or exit customers"
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_001",
+    "name": "Operational Efficiency",
+    "aliases": [
+      "efficiency"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "efficiency_gain",
+    "description": "Measurable improvement in workflow speed and resource utilization achieved by replacing manual processes with an automated system. The solution eliminates redundant manual steps and streamlines case handling. This gain directly reduces processing time and operational overhead.",
+    "context": [
+      "improved operational efficiency",
+      "increased operational efficiency"
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_002",
+    "name": "Data Integrity",
+    "aliases": [
+      "data quality"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "quality_improvement",
+    "description": "Enhanced accuracy, consistency, and reliability of customer and transactional data within the business portfolio. The automated workflow enforces standardized data entry and validation rules. This improvement ensures that risk assessments and decisions are based on trustworthy information.",
+    "context": [
+      "data integrity, and strategic decision-making",
+      "data integrity"
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_003",
+    "name": "Strategic Decision-Making",
+    "aliases": [
+      "decision making"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "speed_improvement",
+    "description": "The ability to make timely, informed business choices regarding customer risk and portfolio management. The solution provides centralized visibility and analytics to support executive and operational planning. This benefit enables proactive rather than reactive portfolio management.",
+    "context": [
+      "strategic decision-making across the Business Savings portfolio",
+      "Strategic decision making across the Business Savings portfolio"
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_004",
+    "name": "Enhanced Regulatory Compliance",
+    "aliases": [
+      "compliance"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "compliance_achievement",
+    "description": "Improved adherence to regulatory requirements and standards through structured workflows and automated case management. The system enforces compliance checkpoints and audit trails for all remediation activities. This achievement reduces the likelihood of regulatory penalties or findings.",
+    "context": [
+      "Enhanced Regulatory Compliance and reduced exposure to financial crime",
+      "Enhanced Regulatory Compliance"
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_005",
+    "name": "Reduced Financial Crime Exposure",
+    "aliases": [
+      "risk reduction",
+      "crime exposure"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "risk_reduction",
+    "description": "Lowered vulnerability to financial crimes and associated penalties through proactive risk profiling and automated remediation. The solution mitigates exposure by enabling faster identification and action on high-risk accounts. This risk reduction protects the business from reputational and financial damage.",
+    "context": [
+      "reduced exposure to financial crime",
+      "exposure to financial crime"
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_tech_001",
+    "name": "Third-Party Services",
+    "aliases": [
+      "external services"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "integration_tool",
+    "description": "External data and service providers integrated into the solution to support outreach and data enrichment channels. These services augment the core platform with specialized data feeds and customer engagement tools. They enable the business to access external risk indicators and communication channels.",
+    "context": [
+      "such as third-party services and relationship managers",
+      "third-party services"
+    ],
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+    "domain": "sales_collateral"
+  }
+]

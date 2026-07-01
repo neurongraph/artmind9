@@ -1,0 +1,2709 @@
+{
+  "embedding": [
+    -0.01916021,
+    0.07275701,
+    -0.17093028,
+    -0.097306155,
+    0.04943162,
+    -0.042466234,
+    0.0086278645,
+    0.021834126,
+    0.000878695,
+    -0.04000892,
+    -0.07304972,
+    -0.0025283417,
+    0.0343922,
+    -0.007899903,
+    0.06406726,
+    -0.0005389398,
+    0.06410729,
+    -0.07104134,
+    -0.0010204002,
+    0.03188398,
+    -0.0248376,
+    -0.026574561,
+    0.0010500926,
+    -0.013353694,
+    0.044974156,
+    -0.003559957,
+    -0.08828229,
+    0.0018019336,
+    -0.0054842182,
+    0.028622858,
+    -0.02079962,
+    0.0050436617,
+    -0.03684723,
+    -0.012627268,
+    -0.071604565,
+    0.025757454,
+    0.03311017,
+    0.024231136,
+    -0.03139614,
+    -0.017388891,
+    0.09260928,
+    0.028388476,
+    -0.022418125,
+    -0.025575362,
+    0.01638997,
+    0.08842458,
+    0.062377088,
+    0.045033503,
+    0.017637532,
+    -0.003919906,
+    0.038350955,
+    0.005046866,
+    0.0029586283,
+    -0.023621786,
+    0.05537038,
+    0.04573697,
+    -0.010098709,
+    -0.0288503,
+    0.03540785,
+    0.015483449,
+    0.05390303,
+    0.014578536,
+    -0.001839229,
+    0.038521197,
+    0.06366831,
+    -0.08902671,
+    -0.001286898,
+    0.05162068,
+    0.044314418,
+    -0.07258829,
+    0.041353542,
+    -0.008385106,
+    -0.029631156,
+    0.009643777,
+    0.011235361,
+    0.014869185,
+    0.023778692,
+    0.028594524,
+    0.049521975,
+    0.010669393,
+    0.02548357,
+    -0.06127353,
+    0.05087644,
+    0.016487109,
+    -0.017973239,
+    -0.007116852,
+    0.017957577,
+    -0.080912754,
+    -0.018398339,
+    0.041429807,
+    -0.0130626885,
+    0.019802528,
+    0.0022705137,
+    0.03727689,
+    -0.024364807,
+    0.071519755,
+    -0.036283646,
+    0.0048923055,
+    -0.06672033,
+    0.0048826328,
+    -0.05431861,
+    -0.020996936,
+    -0.033525374,
+    -0.010344951,
+    0.0035566862,
+    0.098130964,
+    0.030056711,
+    -0.04272027,
+    0.0025681409,
+    -0.0019997586,
+    -0.05033563,
+    -0.0038875411,
+    -0.06551535,
+    -0.05575732,
+    0.016779438,
+    0.04442959,
+    0.02667576,
+    0.015390691,
+    -0.00963051,
+    0.06572543,
+    -0.022009745,
+    -0.017210232,
+    -0.001988652,
+    0.051091254,
+    0.051488053,
+    -0.0082487315,
+    -0.022142388,
+    0.03184012,
+    -0.017375384,
+    -0.05098223,
+    0.010156653,
+    0.025345081,
+    0.01078972,
+    -0.0009984593,
+    0.076887876,
+    0.03349521,
+    -0.05264123,
+    -0.018953834,
+    0.036208216,
+    0.0012408586,
+    0.04065631,
+    0.023694944,
+    0.006264083,
+    -0.026133213,
+    -0.01768979,
+    -0.005518217,
+    0.014596239,
+    -0.04377231,
+    -0.017502885,
+    0.025326772,
+    0.011599961,
+    0.007634103,
+    -0.0066723265,
+    0.05497843,
+    0.022121629,
+    -0.026635762,
+    0.015254896,
+    -0.009746273,
+    -0.02246751,
+    0.07885188,
+    0.0012322265,
+    -0.009593115,
+    -0.033776805,
+    0.07034638,
+    0.019442502,
+    0.009558454,
+    -0.020697398,
+    0.054399483,
+    -0.005776976,
+    0.01759539,
+    -0.025311735,
+    -0.004334431,
+    -0.011367335,
+    -0.040653188,
+    0.0020157646,
+    -0.03692058,
+    0.027363157,
+    -0.011293527,
+    -0.024645783,
+    -0.069817044,
+    0.06499778,
+    -0.027592445,
+    0.05263646,
+    -0.006500141,
+    -0.0052405377,
+    -0.01778852,
+    0.016671402,
+    -0.055265915,
+    0.0036783696,
+    -0.054282434,
+    0.018005025,
+    0.005690981,
+    -0.049871907,
+    0.019124774,
+    0.0021153877,
+    -0.028361032,
+    0.018465865,
+    -0.01272764,
+    0.0042524263,
+    -0.00651998,
+    -0.012244239,
+    -0.012316894,
+    -0.017099675,
+    0.0038268429,
+    -0.061017618,
+    0.08297951,
+    0.0021476294,
+    -1.3085296e-05,
+    -0.039581876,
+    0.004857382,
+    0.05773005,
+    -0.06853946,
+    0.009922228,
+    0.030990588,
+    0.0057656947,
+    0.047827832,
+    0.035734408,
+    -0.0047723213,
+    -0.044686943,
+    0.007623951,
+    0.054814626,
+    0.019714357,
+    -0.03518585,
+    0.009635556,
+    0.039188173,
+    0.03225553,
+    -0.020907478,
+    -0.03399718,
+    -0.022097617,
+    -0.028695997,
+    0.015069264,
+    -0.05259158,
+    0.041652303,
+    -0.003927149,
+    -0.024720123,
+    0.005973583,
+    0.008817786,
+    0.027341492,
+    -0.0338301,
+    0.026008211,
+    -0.026593098,
+    0.029682584,
+    -0.024943555,
+    -0.008392586,
+    -0.06608768,
+    0.002137408,
+    0.040167943,
+    -0.019907184,
+    0.02192232,
+    0.074316375,
+    -0.02009565,
+    0.03772565,
+    0.079805404,
+    0.03704879,
+    -0.01733812,
+    -0.031431172,
+    -0.08199731,
+    0.04221363,
+    -0.02417632,
+    0.060107056,
+    0.009990827,
+    -0.040586367,
+    0.050182488,
+    -0.02931802,
+    -0.050842978,
+    -0.077284485,
+    -0.09368588,
+    -0.003684158,
+    0.029509937,
+    -0.042337324,
+    0.019539151,
+    0.018990966,
+    0.0017242057,
+    0.007019688,
+    -0.0039464226,
+    -0.020722695,
+    3.6840975e-05,
+    -0.002171608,
+    0.03204685,
+    0.02793973,
+    -0.0040758974,
+    0.01619508,
+    -0.018366717,
+    -0.02797978,
+    -0.02422765,
+    0.0142757315,
+    -0.03277856,
+    0.008794288,
+    0.017957507,
+    -0.011115718,
+    0.006631563,
+    0.028186213,
+    -0.018901503,
+    0.019344898,
+    0.010493025,
+    0.009977744,
+    0.07321311,
+    0.0041461377,
+    -0.004943884,
+    -0.04872125,
+    0.010873991,
+    0.03274233,
+    -0.006869371,
+    0.053526152,
+    -0.0022940014,
+    0.0316962,
+    0.0050557805,
+    0.010078579,
+    -0.0042474,
+    -0.021180926,
+    -0.036691453,
+    -0.025524693,
+    -0.04432727,
+    -0.012954951,
+    -0.048527345,
+    0.01800508,
+    0.055446558,
+    0.032448534,
+    0.0053411843,
+    -0.020311242,
+    -0.036204208,
+    0.02521464,
+    -0.032867543,
+    -0.07684753,
+    0.0051848865,
+    0.06078165,
+    -0.01465793,
+    0.020100936,
+    -0.057107367,
+    -0.042375896,
+    -0.0142158065,
+    -0.017098356,
+    0.016178537,
+    -0.026193067,
+    -0.06195995,
+    0.01139334,
+    0.021731235,
+    -0.014694105,
+    -0.039338905,
+    0.013136573,
+    0.0567239,
+    -0.0053406795,
+    0.029014355,
+    -0.017571349,
+    -0.026925782,
+    -0.04063092,
+    -0.053721413,
+    -0.00073587894,
+    0.03986068,
+    -0.07305039,
+    -0.0071318233,
+    -0.0054547302,
+    -0.0026135095,
+    0.008822253,
+    0.04482576,
+    0.0027626115,
+    -0.02460235,
+    0.013837254,
+    -0.008317376,
+    0.048150484,
+    0.022473654,
+    0.030976884,
+    0.023810696,
+    -0.03698497,
+    -0.003154885,
+    0.04384231,
+    0.02528171,
+    0.016423615,
+    0.03881823,
+    0.039614674,
+    -0.09527166,
+    -0.004168648,
+    0.011894545,
+    0.075937465,
+    0.0036936658,
+    -0.009112305,
+    -0.078286625,
+    -0.03443833,
+    -0.027109433,
+    0.038869835,
+    -0.0148717575,
+    -0.0064441306,
+    -0.020901132,
+    0.015018213,
+    0.037615992,
+    0.0038301768,
+    0.017618092,
+    -0.06818413,
+    -0.022284381,
+    -0.021422246,
+    0.0017305083,
+    -0.001965764,
+    -0.008999212,
+    -0.009823079,
+    0.04995756,
+    -0.041207846,
+    -0.001988284,
+    -0.034573026,
+    -0.011670771,
+    0.05766921,
+    -0.024183778,
+    -0.06176667,
+    0.0037123833,
+    0.013596377,
+    -0.011776412,
+    0.055109717,
+    -0.0024855046,
+    -0.032166567,
+    0.05380018,
+    -0.057177804,
+    0.017943978,
+    0.051869985,
+    -0.042928834,
+    -0.015061472,
+    -0.038690332,
+    0.059895527,
+    0.07120642,
+    -0.019167393,
+    -0.019583814,
+    -0.029120825,
+    0.04358807,
+    0.02148441,
+    -0.0024865025,
+    -0.015981568,
+    0.043759495,
+    -0.04133619,
+    -0.022134593,
+    -0.047644503,
+    0.015801005,
+    -0.058720328,
+    0.03771059,
+    -0.025995208,
+    0.03302257,
+    0.0058710757,
+    0.011549431,
+    0.025883183,
+    0.041369867,
+    0.026813606,
+    0.042454723,
+    0.054510515,
+    0.0502704,
+    -0.037344873,
+    -0.012112359,
+    -0.03338918,
+    0.041158058,
+    -0.024714695,
+    0.05758253,
+    -0.017590042,
+    -0.0111392,
+    0.051575154,
+    -0.03932001,
+    -0.05982431,
+    -0.01652769,
+    0.003285079,
+    0.11320645,
+    -0.059470966,
+    0.0077224956,
+    -0.003374597,
+    -0.024168264,
+    -0.0022086895,
+    0.027850466,
+    0.019902147,
+    -0.070280574,
+    0.029705295,
+    0.046853703,
+    -0.013886648,
+    -0.0071552033,
+    -0.03994555,
+    0.040072586,
+    0.030688895,
+    -0.07393287,
+    0.04449094,
+    -0.0018844093,
+    -0.016144384,
+    0.010754048,
+    0.009566606,
+    -0.014606366,
+    0.011521831,
+    -4.6521927e-05,
+    0.09421432,
+    0.021529218,
+    0.009333177,
+    -0.0008885287,
+    -0.022499492,
+    0.039653037,
+    -0.017787702,
+    0.029699259,
+    -0.060901508,
+    0.030654123,
+    -0.027038818,
+    0.006542973,
+    -0.024530755,
+    -0.014023503,
+    -0.031943966,
+    -0.04714764,
+    -0.012323811,
+    0.009032789,
+    -0.013842545,
+    0.019421134,
+    0.013586369,
+    0.011640283,
+    0.07598054,
+    -0.03232681,
+    0.033876497,
+    0.04210513,
+    -0.019466536,
+    0.015245482,
+    -0.034942105,
+    -0.05757159,
+    0.0071498016,
+    -0.036574878,
+    0.032235,
+    -0.028373059,
+    -0.03570854,
+    0.062428173,
+    -0.00079480605,
+    0.0078055584,
+    0.018309861,
+    -0.003511492,
+    0.0053350385,
+    0.020637391,
+    0.0002843671,
+    0.0003475746,
+    -0.05269252,
+    -0.0759817,
+    -0.00036762416,
+    -0.035970323,
+    -0.053058263,
+    0.018297533,
+    0.012719763,
+    -7.7861885e-05,
+    0.018072639,
+    -0.020615162,
+    -0.016257787,
+    -0.008812073,
+    0.028139105,
+    -0.018775715,
+    -0.018562527,
+    0.03673899,
+    0.044954963,
+    0.029730482,
+    0.0361349,
+    -0.0048759836,
+    -0.0013144441,
+    0.021651125,
+    -0.046447143,
+    -0.023262607,
+    0.0019625695,
+    0.027652372,
+    0.02946413,
+    0.049846556,
+    -0.053770777,
+    -0.007813331,
+    -0.011343252,
+    -0.013545693,
+    -0.020406405,
+    -0.017086899,
+    0.015388971,
+    -0.030271078,
+    -0.028040806,
+    0.0006734351,
+    0.06522795,
+    0.022270456,
+    0.05184176,
+    -0.01588314,
+    0.03356793,
+    -0.048463337,
+    -0.04638282,
+    -0.043289527,
+    0.0077958857,
+    0.01504951,
+    -0.0411849,
+    -0.020367462,
+    0.0013290155,
+    0.024960374,
+    0.03539078,
+    0.011668287,
+    -0.0027668234,
+    -0.05443583,
+    -0.03520618,
+    -0.0012608296,
+    -0.023248535,
+    0.030075984,
+    0.047008038,
+    -0.01139972,
+    0.014985411,
+    -0.029054988,
+    -0.055036254,
+    0.049554512,
+    -0.028070891,
+    -0.04190516,
+    0.014130936,
+    0.051224664,
+    0.0090991305,
+    -0.0038927607,
+    -0.025952589,
+    0.026313715,
+    -0.002297649,
+    -0.036996994,
+    -0.014912258,
+    -0.023464404,
+    0.035449103,
+    0.108034626,
+    -0.04962484,
+    0.009388438,
+    -0.016258035,
+    0.029784434,
+    -0.004226744,
+    0.018738125,
+    -0.010380802,
+    0.054090705,
+    -0.010396828,
+    0.03458861,
+    -0.028667232,
+    0.009040135,
+    -0.026159437,
+    0.09424412,
+    0.023400204,
+    0.032904882,
+    -0.037332267,
+    0.012491263,
+    -0.056807183,
+    0.008437262,
+    -0.05867402,
+    0.013303708,
+    0.0125749605,
+    -0.048986074,
+    -0.038565062,
+    -0.02569401,
+    0.017783053,
+    -0.031190155,
+    0.0238823,
+    -0.044958796,
+    -0.014060716,
+    -0.050241012,
+    0.016298229,
+    0.003101373,
+    0.030964209,
+    -0.02877918,
+    0.042489953,
+    0.0012816731,
+    0.019915646,
+    -0.038572896,
+    0.04314878,
+    0.04125291,
+    -0.034212086,
+    0.0071589164,
+    0.0046225055,
+    0.04178768,
+    -0.008118631,
+    0.06370169,
+    0.06894784,
+    -0.0107234195,
+    -0.020100249,
+    0.0043194448,
+    -0.010023437,
+    0.030616773,
+    -0.012064917,
+    -0.04757567,
+    -0.02262655,
+    0.06801628,
+    -0.0064412835,
+    -0.07384928,
+    -0.01177578,
+    -0.014774567,
+    -0.014269004,
+    -0.052664153,
+    -0.028085541,
+    -0.048593067,
+    -0.015138236,
+    0.047369957,
+    0.03296885,
+    -0.032116964,
+    0.005210189,
+    0.012462182,
+    0.020464199,
+    0.07210173,
+    0.052175794,
+    0.023701087,
+    -0.036737762,
+    -0.015617212,
+    0.030649072,
+    -0.017228546,
+    -0.0022016137,
+    -0.035926282,
+    -0.05225705,
+    0.016051918,
+    -0.017104583,
+    -0.0044213403,
+    -0.026957447,
+    0.012123087,
+    -0.029310528,
+    0.011669886,
+    -0.0092952205,
+    -0.008490579,
+    0.0012162126,
+    0.00577753,
+    -0.046439845,
+    -0.050225325,
+    0.005073498,
+    0.003417763,
+    0.030755376,
+    -0.002619946,
+    0.041082647,
+    0.009451524,
+    -0.007846289,
+    0.051044226,
+    0.020115256,
+    -0.014211624,
+    0.0247681,
+    0.05024729,
+    0.0262857,
+    -0.008190767,
+    0.040490814,
+    0.060310718,
+    -0.00037566604,
+    -0.007851549,
+    -0.04083419,
+    -0.010217769,
+    0.04812583,
+    0.04645919,
+    -0.035915084,
+    -0.0883635,
+    -0.02556301,
+    0.020996537,
+    -0.0002575987,
+    0.048684113,
+    -0.014907455,
+    0.002800457,
+    -0.0043332363,
+    0.029856177,
+    0.027924685,
+    -0.054556817,
+    0.0491212,
+    -0.010058982,
+    -0.007928287,
+    -0.04883881,
+    -0.039095227,
+    -0.024663417,
+    -0.035376225,
+    -0.05623025,
+    -0.014383393,
+    0.019321522,
+    0.0062326263,
+    -0.0017304795,
+    -0.08193328,
+    -0.03797332,
+    -0.011089416,
+    -0.0026927267,
+    0.024539094,
+    0.05561053,
+    -0.04665131,
+    -0.0055232733,
+    0.04378952,
+    0.005777123,
+    0.0016915773,
+    0.018026523,
+    0.062963516,
+    0.049100593,
+    0.05250675,
+    0.0159088,
+    -0.030325707,
+    0.06275708,
+    0.011175128,
+    -0.05323434,
+    -0.057298873,
+    0.0037577497,
+    -0.00534733
+  ],
+  "chunk_seq": 5,
+  "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+  "doc_id": "54fe739d5f764020ad4396c72af29729",
+  "text": "'Mrs. Oakshott, 117 , Brixton Road249 ,' read Holmes.  \n'Quite so. Now turn that up in the ledger.'  \nHolmes turned to the page indicated. 'Here you are, 'Mrs. Oakshott, 117 , Brixton Road, egg and poultry supplier.' '  \n'Now, then, what's the last entry?'  \n- ' 'December 22 nd. Twenty-four geese at 7 s. 6 d.' '\n- 'Quite so. There you are. And underneath?'\n- ' 'Sold to Mr. Windigate of the Alpha, at 12 s.' '  \n'What have you to say now?'  \nSherlock Holmes looked deeply chagrined. He drew a sovereign from his pocket and threw it down upon the slab, turning away with the air of a man whose disgust is too deep for words. A few yards off he stopped under a lamp-post and laughed in the hearty, noiseless fashion which was peculiar to him.  \n'When you see a man with whiskers of that cut and the 'Pink 'un' protruding out of his pocket, you can always draw him by a bet,' said he. 'I daresay that if I had put £ 100 down in front of him, that man would not have given me such complete information as was drawn from him by the idea that he was doing me on a wager. Well, Watson, we are, I fancy, nearing the end of our quest, and the only point which remains to be determined is whether we should go on to this Mrs. Oakshott to-night, or whether we should reserve it for to-morrow. It is clear from what that surly fellow said that there are others besides ourselves who are anxious about the matter, and I should-'  \nHis remarks were suddenly cut short by a loud hubbub which broke out from the stall which we had just left. Turning round we saw a little rat-faced fellow standing in the centre of the circle of yellow light which was thrown by the swinging lamp, while Breckinridge, the salesman, framed in the door of his stall, was shaking his fists fiercely at the cringing figure.  \n'I've had enough of you and your geese,' he shouted. 'I wish you were all at the devil together. If you come pestering me any more with your silly talk I'll set the dog at you. You bring Mrs. Oakshott here and I'll answer her, but what have you to do with it? Did I buy the geese off you?'  \n'No; but one of them was mine all the same,' whined the little man.  \n'Well, then, ask Mrs. Oakshott for it.'  \n'She told me to ask you.'  \n'Well, you can ask the King of Proosia, for all I care. I've had enough of it. Get out of this!' He rushed fiercely forward, and the inquirer flitted away into the darkness.  \n'Ha! this may save us a visit to Brixton Road,' whispered Holmes. 'Come with me, and we will see what is to be made of this fellow.' Striding through the scattered knots of people who lounged round the flaring stalls, my companion speedily overtook the little man and touched him upon the shoulder. He sprang round, and I could see in the gas-light that every vestige of colour had been driven from his face.  \n'Who are you, then? What do you want?' he asked in a quavering voice.  \n'You will excuse me,' said Holmes blandly, 'but I could not help overhearing the questions which you put to the salesman just now. I think that I could be of assistance to you.'  \n'You? Who are you? How could you know anything of the matter?'  \n'My name is Sherlock Holmes. It is my business to know what other people don't know.'  \n'But you can know nothing of this?'  \n'Excuse me, I know everything of it. You are endeavouring to trace some geese which were sold by Mrs. Oakshott, of Brixton Road, to a salesman named Breckinridge, by him in turn to Mr. Windigate, of the Alpha, and by him to his club, of which Mr. Henry Baker is a member.'  \n'Oh, sir, you are the very man whom I have longed to meet,' cried the little fellow with outstretched hands and quivering fingers. 'I can hardly explain to you how interested I am in this matter.'  \nSherlock Holmes hailed a four-wheeler which was passing. 'In that case we had better discuss it in a cosy room rather than in this wind-swept market-place,' said he. 'But pray tell me, before we go farther, who it is that I have the pleasure of assisting.'  \nThe man hesitated for an instant. 'My name is John Robinson,' he answered with a sidelong glance.  \n'No, no; the real name,' said Holmes sweetly. 'It is always awkward doing business with an alias.'  \nA flush sprang to the white cheeks of the stranger. 'Well then,' said he, 'my real name is James Ryder.'  \n'Precisely so. Head attendant at the Hotel Cosmopolitan. Pray step into the cab, and I shall soon be able to tell you everything which you would wish to know.'  \nThe little man stood glancing from one to the other of us with half-frightened, half-hopeful eyes, as one who is not sure whether he is on the verge of a windfall or of a catastrophe. Then he stepped into the cab, and in half an hour we were back in the sittingroom at Baker Street. Nothing had been said during our drive, but the high, thin breathing of our new companion, and the claspings and unclaspings of his hands, spoke of the nervous tension within him.  \n'Here we are!' said Holmes cheerily as we filed into the room. 'The fire looks very seasonable in this weather. You look cold, Mr. Ryder. Pray take the basket-chair. I will just put on my slippers before we settle this little matter of yours. Now, then! You want to know what became of those geese?'  \n'Yes, sir.'  \n'Or rather, I fancy, of that goose. It was one bird, I imagine in which you were interested-white, with a black bar across the tail.'  \nRyder quivered with emotion. 'Oh, sir,' he cried, 'can you tell me where it went to?'  \n'It came here.'  \n'Here?'  \n'Yes, and a most remarkable bird it proved. I don't wonder that you should take an interest in it. It laid an egg after it was dead-the bonniest, brightest little blue egg that ever was seen. I have it here in my museum.'  \nOur visitor staggered to his feet and clutched the mantelpiece with his right hand. Holmes unlocked his strong-box and held up the blue carbuncle, which shone out like a star, with a cold, brilliant, manypointed radiance. Ryder stood glaring with a drawn face, uncertain whether to claim or to disown it.  \n'The game's up, Ryder,' said Holmes quietly. 'Hold up, man, or you'll be into the fire! Give him an arm back into his chair, Watson. He's not got blood enough to go in for felony with impunity. Give him a dash of brandy. So! Now he looks a little more human. What a shrimp it is, to be sure!'  \nFor a moment he had staggered and nearly fallen, but the brandy brought a tinge of colour into his cheeks, and he sat staring with frightened eyes at his accuser.  \n'I have almost every link in my hands, and all the proofs which I could possibly need, so there is little which you need tell me. Still, that little may as well be cleared up to make the case complete. You had heard, Ryder, of this blue stone of the Countess of Morcar's?'  \n'It was Catherine Cusack who told me of it,' said he in a crackling voice.",
+  "name": "Chunk 5/7",
+  "domain": "fiction",
+  "prev_chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+  "next_chunk_id": "54fe739d5f764020ad4396c72af29729_006",
+  "raw_entities": [
+    {
+      "id": "char_001",
+      "name": "Sherlock Holmes",
+      "aliases": [],
+      "entity_class": "CHARACTER",
+      "type": "protagonist",
+      "description": "A brilliant detective whose deductive methods drive the narrative. He employs psychological manipulation and careful observation to solve the mystery of the stolen blue carbuncle, ultimately confronting the thief with irrefutable evidence.",
+      "context": [
+        "My name is Sherlock Holmes. It is my business to know what other people don't know.",
+        "The game's up, Ryder,' said Holmes quietly.",
+        "I have almost every link in my hands, and all the proofs which I could possibly need, so there is little which you need tell me."
+      ]
+    },
+    {
+      "id": "char_002",
+      "name": "Watson",
+      "aliases": [
+        "my companion",
+        "I"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "The narrator and loyal companion to Holmes. He assists in the investigation, accompanies Holmes to the market, and helps restrain Ryder during the confrontation at Baker Street.",
+      "context": [
+        "Give him an arm back into his chair, Watson.",
+        "my companion speedily overtook the little man",
+        "Turning round we saw a little rat-faced fellow standing in the centre of the circle of yellow light which was thrown by the swinging lamp"
+      ]
+    },
+    {
+      "id": "char_003",
+      "name": "James Ryder",
+      "aliases": [
+        "John Robinson",
+        "the little man",
+        "the inquirer",
+        "Head attendant"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "antagonist",
+      "description": "A nervous head attendant at the Hotel Cosmopolitan who stole a goose containing a valuable blue carbuncle. He attempts to trace the bird through the market but is outmaneuvered by Holmes, who reveals the gem's location.",
+      "context": [
+        "Well then,' said he, 'my real name is James Ryder.'",
+        "Precisely so. Head attendant at the Hotel Cosmopolitan.",
+        "Ryder quivered with emotion. 'Oh, sir,' cried, 'can you tell me where it went to?'"
+      ]
+    },
+    {
+      "id": "char_004",
+      "name": "Mrs. Oakshott",
+      "aliases": [],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "An egg and poultry supplier living at 117 Brixton Road. Her ledger provides the initial trail of the geese, linking them to the Alpha club and ultimately to the stolen blue carbuncle.",
+      "context": [
+        "'Mrs. Oakshott, 117 , Brixton Road249 ,' read Holmes.",
+        "'Here you are, 'Mrs. Oakshott, 117 , Brixton Road, egg and poultry supplier.'",
+        "You bring Mrs. Oakshott here and I'll answer her"
+      ]
+    },
+    {
+      "id": "char_005",
+      "name": "Breckinridge",
+      "aliases": [
+        "the salesman"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "A surly market salesman who sold the geese to Mr. Windigate. He is confronted by Ryder and later becomes the subject of Holmes's investigation, though Holmes bypasses him through deduction.",
+      "context": [
+        "Breckinridge, the salesman, framed in the door of his stall, was shaking his fists fiercely at the cringing figure.",
+        "Did I buy the geese off you?'",
+        "I think that I could be of assistance to you."
+      ]
+    },
+    {
+      "id": "char_006",
+      "name": "Mr. Windigate",
+      "aliases": [],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "A buyer of the geese from Mrs. Oakshott, who resold them to the Alpha club. His purchase forms a key link in the chain of custody traced by Holmes.",
+      "context": [
+        "'Sold to Mr. Windigate of the Alpha, at 12 s.'",
+        "by him in turn to Mr. Windigate, of the Alpha"
+      ]
+    },
+    {
+      "id": "char_007",
+      "name": "Catherine Cusack",
+      "aliases": [],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "An informant who revealed the existence of the Countess of Morcar's blue stone to Ryder, setting the theft in motion.",
+      "context": [
+        "'It was Catherine Cusack who told me of it,' said he in a crackling voice."
+      ]
+    },
+    {
+      "id": "char_008",
+      "name": "Countess of Morcar",
+      "aliases": [],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "The owner of the valuable blue stone that was stolen by Ryder. Her possession of the gem is the central motive of the crime.",
+      "context": [
+        "You had heard, Ryder, of this blue stone of the Countess of Morcar's?"
+      ]
+    },
+    {
+      "id": "char_009",
+      "name": "Mr. Henry Baker",
+      "aliases": [],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "A member of the Alpha club to whom the geese were sold. He is the original owner of the goose containing the blue carbuncle.",
+      "context": [
+        "by him in turn to Mr. Windigate, of the Alpha, and by him to his club, of which Mr. Henry Baker is a member."
+      ]
+    },
+    {
+      "id": "obj_001",
+      "name": "Blue Carbuncle",
+      "aliases": [
+        "the blue stone",
+        "the blue egg",
+        "the bonniest, brightest little blue egg"
+      ],
+      "entity_class": "OBJECT",
+      "type": "symbolic",
+      "description": "A valuable blue gemstone hidden inside a dead goose. It serves as the central MacGuffin of the story, representing both a criminal motive and a puzzle for Holmes to solve.",
+      "context": [
+        "Holmes unlocked his strong-box and held up the blue carbuncle, which shone out like a star, with a cold, brilliant, manypointed radiance.",
+        "It laid an egg after it was dead-the bonniest, brightest little blue egg that ever was seen.",
+        "You had heard, Ryder, of this blue stone of the Countess of Morcar's?"
+      ]
+    },
+    {
+      "id": "obj_002",
+      "name": "Geese",
+      "aliases": [
+        "twenty-four geese",
+        "white goose with a black bar across the tail"
+      ],
+      "entity_class": "OBJECT",
+      "type": "animal",
+      "description": "A batch of poultry purchased by Mrs. Oakshott and sold to the Alpha club. One specific goose contained the stolen blue carbuncle, making the flock the primary object of the investigation.",
+      "context": [
+        "December 22 nd. Twenty-four geese at 7 s. 6 d.",
+        "I've had enough of you and your geese,' he shouted.",
+        "You are endeavouring to trace some geese which were sold by Mrs. Oakshott"
+      ]
+    },
+    {
+      "id": "obj_003",
+      "name": "Ledger",
+      "aliases": [],
+      "entity_class": "OBJECT",
+      "type": "document",
+      "description": "A business record kept by Mrs. Oakshott that tracks the sale of geese. It provides the initial factual trail that allows Holmes to reconstruct the chain of custody.",
+      "context": [
+        "Now turn that up in the ledger.",
+        "'December 22 nd. Twenty-four geese at 7 s. 6 d.'",
+        "And underneath?'"
+      ]
+    },
+    {
+      "id": "loc_001",
+      "name": "117 Brixton Road",
+      "aliases": [],
+      "entity_class": "LOCATION",
+      "type": "residence",
+      "description": "The address of Mrs. Oakshott's residence and business. It is the starting point of the investigation and the location Holmes considers visiting to question the supplier.",
+      "context": [
+        "'Mrs. Oakshott, 117 , Brixton Road249 ,' read Holmes.",
+        "whether we should go on to this Mrs. Oakshott to-night, or whether we should reserve it for to-morrow.",
+        "It may save us a visit to Brixton Road"
+      ]
+    },
+    {
+      "id": "loc_002",
+      "name": "Baker Street",
+      "aliases": [],
+      "entity_class": "LOCATION",
+      "type": "residence",
+      "description": "The location of Holmes and Watson's sitting room. It serves as the setting for the final confrontation and revelation of the mystery.",
+      "context": [
+        "we were back in the sittingroom at Baker Street.",
+        "in this wind-swept market-place,' said he.",
+        "back in the sittingroom at Baker Street."
+      ]
+    },
+    {
+      "id": "org_001",
+      "name": "Alpha",
+      "aliases": [
+        "the Alpha"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "club",
+      "description": "A gentlemen's club that purchased the geese from Mr. Windigate. It serves as the final link in the chain of custody before the theft is discovered.",
+      "context": [
+        "'Sold to Mr. Windigate of the Alpha, at 12 s.'",
+        "by him in turn to Mr. Windigate, of the Alpha, and by him to his club"
+      ]
+    },
+    {
+      "id": "org_002",
+      "name": "Hotel Cosmopolitan",
+      "aliases": [],
+      "entity_class": "ORGANIZATION",
+      "type": "corporation",
+      "description": "A hotel where James Ryder works as head attendant. It is the setting of the theft and the professional context for the antagonist.",
+      "context": [
+        "Precisely so. Head attendant at the Hotel Cosmopolitan.",
+        "my real name is James Ryder."
+      ]
+    },
+    {
+      "id": "evt_001",
+      "name": "The Investigation",
+      "aliases": [
+        "our quest",
+        "the matter"
+      ],
+      "entity_class": "EVENT",
+      "type": "investigation",
+      "description": "The process by which Holmes and Watson trace the stolen blue carbuncle through market ledgers, witness testimonies, and deductive reasoning, culminating in the confrontation with Ryder.",
+      "context": [
+        "we are, I fancy, nearing the end of our quest",
+        "I think that I could be of assistance to you.",
+        "settle this little matter of yours."
+      ]
+    },
+    {
+      "id": "evt_002",
+      "name": "The Wager",
+      "aliases": [
+        "a bet"
+      ],
+      "entity_class": "EVENT",
+      "type": "deception",
+      "description": "A psychological ploy employed by Holmes, who pretends to be a gambler to extract information from a market man. It demonstrates his mastery of human nature and investigative technique.",
+      "context": [
+        "you can always draw him by a bet",
+        "idea that he was doing me on a wager",
+        "I had put £ 100 down in front of him"
+      ]
+    },
+    {
+      "id": "con_001",
+      "name": "The Blue Stone Mystery",
+      "aliases": [
+        "the matter",
+        "what became of those geese"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "mystery",
+      "description": "The central enigma of the narrative: the theft and recovery of a valuable gem hidden inside a goose. It drives the plot and serves as a test of Holmes's deductive abilities.",
+      "context": [
+        "what became of those geese?",
+        "You are endeavouring to trace some geese which were sold by Mrs. Oakshott",
+        "I have almost every link in my hands, and all the proofs which I could possibly need"
+      ]
+    }
+  ],
+  "id_map": {
+    "char_001": "54fe739d5f764020ad4396c72af29729_005_char_001",
+    "char_002": "54fe739d5f764020ad4396c72af29729_005_char_002",
+    "char_003": "54fe739d5f764020ad4396c72af29729_005_char_003",
+    "char_004": "54fe739d5f764020ad4396c72af29729_005_char_004",
+    "char_005": "54fe739d5f764020ad4396c72af29729_005_char_005",
+    "char_006": "54fe739d5f764020ad4396c72af29729_005_char_006",
+    "char_007": "54fe739d5f764020ad4396c72af29729_005_char_007",
+    "char_008": "54fe739d5f764020ad4396c72af29729_005_char_008",
+    "char_009": "54fe739d5f764020ad4396c72af29729_005_char_009",
+    "obj_001": "54fe739d5f764020ad4396c72af29729_005_obj_001",
+    "obj_002": "54fe739d5f764020ad4396c72af29729_005_obj_002",
+    "obj_003": "54fe739d5f764020ad4396c72af29729_005_obj_003",
+    "loc_001": "54fe739d5f764020ad4396c72af29729_005_loc_001",
+    "loc_002": "54fe739d5f764020ad4396c72af29729_005_loc_002",
+    "org_001": "54fe739d5f764020ad4396c72af29729_005_org_001",
+    "org_002": "54fe739d5f764020ad4396c72af29729_005_org_002",
+    "evt_001": "54fe739d5f764020ad4396c72af29729_005_evt_001",
+    "evt_002": "54fe739d5f764020ad4396c72af29729_005_evt_002",
+    "con_001": "54fe739d5f764020ad4396c72af29729_005_con_001"
+  },
+  "entities": [
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_char_001",
+      "name": "Sherlock Holmes",
+      "aliases": [],
+      "entity_class": "CHARACTER",
+      "type": "protagonist",
+      "description": "A brilliant detective whose deductive methods drive the narrative. He employs psychological manipulation and careful observation to solve the mystery of the stolen blue carbuncle, ultimately confronting the thief with irrefutable evidence.",
+      "context": [
+        "My name is Sherlock Holmes. It is my business to know what other people don't know.",
+        "The game's up, Ryder,' said Holmes quietly.",
+        "I have almost every link in my hands, and all the proofs which I could possibly need, so there is little which you need tell me."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_char_002",
+      "name": "Watson",
+      "aliases": [
+        "my companion",
+        "I"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "The narrator and loyal companion to Holmes. He assists in the investigation, accompanies Holmes to the market, and helps restrain Ryder during the confrontation at Baker Street.",
+      "context": [
+        "Give him an arm back into his chair, Watson.",
+        "my companion speedily overtook the little man",
+        "Turning round we saw a little rat-faced fellow standing in the centre of the circle of yellow light which was thrown by the swinging lamp"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_char_003",
+      "name": "James Ryder",
+      "aliases": [
+        "John Robinson",
+        "the little man",
+        "the inquirer",
+        "Head attendant"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "antagonist",
+      "description": "A nervous head attendant at the Hotel Cosmopolitan who stole a goose containing a valuable blue carbuncle. He attempts to trace the bird through the market but is outmaneuvered by Holmes, who reveals the gem's location.",
+      "context": [
+        "Well then,' said he, 'my real name is James Ryder.'",
+        "Precisely so. Head attendant at the Hotel Cosmopolitan.",
+        "Ryder quivered with emotion. 'Oh, sir,' cried, 'can you tell me where it went to?'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_char_004",
+      "name": "Mrs. Oakshott",
+      "aliases": [],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "An egg and poultry supplier living at 117 Brixton Road. Her ledger provides the initial trail of the geese, linking them to the Alpha club and ultimately to the stolen blue carbuncle.",
+      "context": [
+        "'Mrs. Oakshott, 117 , Brixton Road249 ,' read Holmes.",
+        "'Here you are, 'Mrs. Oakshott, 117 , Brixton Road, egg and poultry supplier.'",
+        "You bring Mrs. Oakshott here and I'll answer her"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_char_005",
+      "name": "Breckinridge",
+      "aliases": [
+        "the salesman"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "A surly market salesman who sold the geese to Mr. Windigate. He is confronted by Ryder and later becomes the subject of Holmes's investigation, though Holmes bypasses him through deduction.",
+      "context": [
+        "Breckinridge, the salesman, framed in the door of his stall, was shaking his fists fiercely at the cringing figure.",
+        "Did I buy the geese off you?'",
+        "I think that I could be of assistance to you."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_char_006",
+      "name": "Mr. Windigate",
+      "aliases": [],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "A buyer of the geese from Mrs. Oakshott, who resold them to the Alpha club. His purchase forms a key link in the chain of custody traced by Holmes.",
+      "context": [
+        "'Sold to Mr. Windigate of the Alpha, at 12 s.'",
+        "by him in turn to Mr. Windigate, of the Alpha"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_char_007",
+      "name": "Catherine Cusack",
+      "aliases": [],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "An informant who revealed the existence of the Countess of Morcar's blue stone to Ryder, setting the theft in motion.",
+      "context": [
+        "'It was Catherine Cusack who told me of it,' said he in a crackling voice."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_char_008",
+      "name": "Countess of Morcar",
+      "aliases": [],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "The owner of the valuable blue stone that was stolen by Ryder. Her possession of the gem is the central motive of the crime.",
+      "context": [
+        "You had heard, Ryder, of this blue stone of the Countess of Morcar's?"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_char_009",
+      "name": "Mr. Henry Baker",
+      "aliases": [],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "A member of the Alpha club to whom the geese were sold. He is the original owner of the goose containing the blue carbuncle.",
+      "context": [
+        "by him in turn to Mr. Windigate, of the Alpha, and by him to his club, of which Mr. Henry Baker is a member."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_obj_001",
+      "name": "Blue Carbuncle",
+      "aliases": [
+        "the blue stone",
+        "the blue egg",
+        "the bonniest, brightest little blue egg"
+      ],
+      "entity_class": "OBJECT",
+      "type": "symbolic",
+      "description": "A valuable blue gemstone hidden inside a dead goose. It serves as the central MacGuffin of the story, representing both a criminal motive and a puzzle for Holmes to solve.",
+      "context": [
+        "Holmes unlocked his strong-box and held up the blue carbuncle, which shone out like a star, with a cold, brilliant, manypointed radiance.",
+        "It laid an egg after it was dead-the bonniest, brightest little blue egg that ever was seen.",
+        "You had heard, Ryder, of this blue stone of the Countess of Morcar's?"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_obj_002",
+      "name": "Geese",
+      "aliases": [
+        "twenty-four geese",
+        "white goose with a black bar across the tail"
+      ],
+      "entity_class": "OBJECT",
+      "type": "animal",
+      "description": "A batch of poultry purchased by Mrs. Oakshott and sold to the Alpha club. One specific goose contained the stolen blue carbuncle, making the flock the primary object of the investigation.",
+      "context": [
+        "December 22 nd. Twenty-four geese at 7 s. 6 d.",
+        "I've had enough of you and your geese,' he shouted.",
+        "You are endeavouring to trace some geese which were sold by Mrs. Oakshott"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_obj_003",
+      "name": "Ledger",
+      "aliases": [],
+      "entity_class": "OBJECT",
+      "type": "document",
+      "description": "A business record kept by Mrs. Oakshott that tracks the sale of geese. It provides the initial factual trail that allows Holmes to reconstruct the chain of custody.",
+      "context": [
+        "Now turn that up in the ledger.",
+        "'December 22 nd. Twenty-four geese at 7 s. 6 d.'",
+        "And underneath?'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_loc_001",
+      "name": "117 Brixton Road",
+      "aliases": [],
+      "entity_class": "LOCATION",
+      "type": "residence",
+      "description": "The address of Mrs. Oakshott's residence and business. It is the starting point of the investigation and the location Holmes considers visiting to question the supplier.",
+      "context": [
+        "'Mrs. Oakshott, 117 , Brixton Road249 ,' read Holmes.",
+        "whether we should go on to this Mrs. Oakshott to-night, or whether we should reserve it for to-morrow.",
+        "It may save us a visit to Brixton Road"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_loc_002",
+      "name": "Baker Street",
+      "aliases": [],
+      "entity_class": "LOCATION",
+      "type": "residence",
+      "description": "The location of Holmes and Watson's sitting room. It serves as the setting for the final confrontation and revelation of the mystery.",
+      "context": [
+        "we were back in the sittingroom at Baker Street.",
+        "in this wind-swept market-place,' said he.",
+        "back in the sittingroom at Baker Street."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_org_001",
+      "name": "Alpha",
+      "aliases": [
+        "the Alpha"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "club",
+      "description": "A gentlemen's club that purchased the geese from Mr. Windigate. It serves as the final link in the chain of custody before the theft is discovered.",
+      "context": [
+        "'Sold to Mr. Windigate of the Alpha, at 12 s.'",
+        "by him in turn to Mr. Windigate, of the Alpha, and by him to his club"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_org_002",
+      "name": "Hotel Cosmopolitan",
+      "aliases": [],
+      "entity_class": "ORGANIZATION",
+      "type": "corporation",
+      "description": "A hotel where James Ryder works as head attendant. It is the setting of the theft and the professional context for the antagonist.",
+      "context": [
+        "Precisely so. Head attendant at the Hotel Cosmopolitan.",
+        "my real name is James Ryder."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_evt_001",
+      "name": "The Investigation",
+      "aliases": [
+        "our quest",
+        "the matter"
+      ],
+      "entity_class": "EVENT",
+      "type": "investigation",
+      "description": "The process by which Holmes and Watson trace the stolen blue carbuncle through market ledgers, witness testimonies, and deductive reasoning, culminating in the confrontation with Ryder.",
+      "context": [
+        "we are, I fancy, nearing the end of our quest",
+        "I think that I could be of assistance to you.",
+        "settle this little matter of yours."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_evt_002",
+      "name": "The Wager",
+      "aliases": [
+        "a bet"
+      ],
+      "entity_class": "EVENT",
+      "type": "deception",
+      "description": "A psychological ploy employed by Holmes, who pretends to be a gambler to extract information from a market man. It demonstrates his mastery of human nature and investigative technique.",
+      "context": [
+        "you can always draw him by a bet",
+        "idea that he was doing me on a wager",
+        "I had put £ 100 down in front of him"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_con_001",
+      "name": "The Blue Stone Mystery",
+      "aliases": [
+        "the matter",
+        "what became of those geese"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "mystery",
+      "description": "The central enigma of the narrative: the theft and recovery of a valuable gem hidden inside a goose. It drives the plot and serves as a test of Holmes's deductive abilities.",
+      "context": [
+        "what became of those geese?",
+        "You are endeavouring to trace some geese which were sold by Mrs. Oakshott",
+        "I have almost every link in my hands, and all the proofs which I could possibly need"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    }
+  ],
+  "properties": [
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_char_001",
+      "name": "Sherlock Holmes",
+      "properties": {
+        "role": "consulting detective",
+        "personality_traits": [
+          "logical",
+          "observant",
+          "methodical",
+          "confident",
+          "theatrical"
+        ],
+        "signature_behaviours": [
+          "laughing under a lamp-post when thinking",
+          "using a wager to extract information",
+          "deducing from ledger entries",
+          "keeping a strong-box museum"
+        ],
+        "motivations": [
+          "solve the mystery",
+          "recover the blue carbuncle",
+          "expose the thief"
+        ],
+        "occupation": "consulting detective",
+        "archetype": "brilliant detective"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_char_002",
+      "name": "Watson",
+      "properties": {
+        "role": "narrator and companion",
+        "personality_traits": [
+          "loyal",
+          "supportive",
+          "practical",
+          "observant"
+        ],
+        "signature_behaviours": [
+          "driving the cab",
+          "physically assisting Holmes",
+          "narrating events"
+        ],
+        "motivations": [
+          "assist Holmes",
+          "solve the case"
+        ]
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_char_003",
+      "name": "James Ryder",
+      "properties": {
+        "role": "head attendant and thief",
+        "personality_traits": [
+          "nervous",
+          "anxious",
+          "cowardly",
+          "desperate",
+          "easily intimidated"
+        ],
+        "signature_behaviours": [
+          "quivering",
+          "clutching the mantelpiece",
+          "using an alias",
+          "pale face",
+          "nervous breathing and hand claspings"
+        ],
+        "motivations": [
+          "recover the stolen blue carbuncle",
+          "avoid detection and punishment"
+        ],
+        "occupation": "head attendant",
+        "narrative_arc": "from desperate inquirer to cornered thief, ultimately exposed and subdued"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_char_004",
+      "name": "Mrs. Oakshott",
+      "properties": {
+        "role": "egg and poultry supplier",
+        "narrative_arc": "mentioned as a key link in the chain of custody for the geese",
+        "occupation": "supplier"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_char_005",
+      "name": "Breckinridge",
+      "properties": {
+        "role": "market salesman",
+        "personality_traits": [
+          "surly",
+          "impatient",
+          "aggressive",
+          "dismissive"
+        ],
+        "signature_behaviours": [
+          "shaking fists",
+          "threatening to set a dog on inquirers",
+          "refusing to discuss the geese"
+        ],
+        "motivations": [
+          "avoid trouble",
+          "maintain business",
+          "dismiss nuisance"
+        ]
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_char_006",
+      "name": "Mr. Windigate",
+      "properties": {
+        "role": "purchaser and club member",
+        "narrative_arc": "purchased the geese, serving as a link between the supplier and the Alpha club"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_char_007",
+      "name": "Catherine Cusack",
+      "properties": {
+        "role": "informant",
+        "narrative_arc": "provided Ryder with information about the Countess's blue stone"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_char_008",
+      "name": "Countess of Morcar",
+      "properties": {
+        "role": "original owner of the blue carbuncle",
+        "narrative_arc": "victim of the theft, her stone drives the investigation"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_char_009",
+      "name": "Mr. Henry Baker",
+      "properties": {
+        "role": "Alpha club member",
+        "narrative_arc": "apparent owner of the goose containing the stolen gem"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_obj_001",
+      "name": "Blue Carbuncle",
+      "properties": {
+        "physical_description": "blue egg, bonniest and brightest little blue egg, shone like a star with cold brilliant radiance",
+        "owner": "Countess of Morcar (original), James Ryder (stolen), Sherlock Holmes (recovered)",
+        "narrative_role": "central mystery object, catalyst for the plot",
+        "symbolic_meaning": "represents hidden value and the core of the mystery",
+        "significance": "resolved (recovered and identified)"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_obj_002",
+      "name": "Geese",
+      "properties": {
+        "physical_description": "24 geese sold, one specifically white with a black bar across the tail",
+        "owner": "Mrs. Oakshott (seller), Mr. Windigate (buyer), Mr. Henry Baker (apparent owner)",
+        "narrative_role": "vessel for the stolen gem, means of transporting the clue",
+        "significance": "resolved (one goose identified and examined)"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_obj_003",
+      "name": "Ledger",
+      "properties": {
+        "physical_description": "book/page containing sales records",
+        "owner": "Mrs. Oakshott",
+        "narrative_role": "clue and deduction tool, establishes chain of custody",
+        "significance": "resolved (provides key link to Windigate)"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_loc_001",
+      "name": "117 Brixton Road",
+      "properties": {
+        "physical_description": "address of Mrs. Oakshott",
+        "narrative_function": "location of the poultry supplier, potential next investigative step",
+        "who_controls": "Mrs. Oakshott"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_loc_002",
+      "name": "Baker Street",
+      "properties": {
+        "atmosphere": "cosy room, fire seasonable, gas-lit exterior",
+        "physical_description": "sitting-room with strong-box, mantelpiece, chair",
+        "narrative_function": "Holmes's base of operations, setting for final deduction and confrontation",
+        "who_controls": "Sherlock Holmes"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_org_001",
+      "name": "Alpha",
+      "properties": {
+        "structure": "social/professional club",
+        "purpose": "gathering place for members like Windigate and Baker",
+        "status": "active",
+        "plot_impact": "provides context for the geese's destination and ownership"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_org_002",
+      "name": "Hotel Cosmopolitan",
+      "properties": {
+        "structure": "hotel",
+        "purpose": "hospitality and employment for staff like Ryder",
+        "status": "active",
+        "plot_impact": "employment location for Ryder, source of his motive"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_evt_001",
+      "name": "The Investigation",
+      "properties": {
+        "date": "December 22nd (evening/night)",
+        "sequence_number": "main plot event",
+        "what_changed": "Holmes deduces chain of custody, identifies Ryder, recovers carbuncle",
+        "who_was_involved": [
+          "Sherlock Holmes",
+          "Watson",
+          "James Ryder",
+          "Breckinridge"
+        ],
+        "emotions": [
+          "tension",
+          "anxiety",
+          "relief",
+          "triumph"
+        ],
+        "is_turning_point": true,
+        "cause": "theft of the blue carbuncle and need to recover it",
+        "immediate_consequence": "Ryder exposed, carbuncle recovered",
+        "why_it_matters": "drives narrative to conclusion, resolves the central mystery"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_evt_002",
+      "name": "The Wager",
+      "properties": {
+        "date": "evening",
+        "sequence_number": "early investigative step",
+        "what_changed": "Holmes tricks Breckinridge into revealing ledger entry",
+        "who_was_involved": [
+          "Sherlock Holmes",
+          "Breckinridge"
+        ],
+        "emotions": [
+          "surly impatience",
+          "calculated amusement"
+        ],
+        "is_turning_point": true,
+        "cause": "Holmes's need for information about the geese",
+        "immediate_consequence": "Ledger entry revealed, chain of custody established",
+        "why_it_matters": "provides key link to Windigate and the Alpha club"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_005_con_001",
+      "name": "The Blue Stone Mystery",
+      "properties": {
+        "mystery_puzzle": "How was the blue stone stolen, where is it now, who stole it?",
+        "resolution": "Stolen by Ryder, hidden in a goose, recovered by Holmes",
+        "theme_manifestation": "Embodied by Ryder's desperation, the ledger trail, and the carbuncle itself",
+        "deduction_method": "Tracing commercial records, observing physical clues, psychological pressure"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_char_002",
+      "target_name": "Watson",
+      "rel_type": "works_with",
+      "description": "Holmes collaborates with Watson as his companion and assistant during the investigation.",
+      "properties": {
+        "nature": "professional",
+        "sentiment": "positive"
+      },
+      "context": "my companion speedily overtook the little man and touched him upon the shoulder.",
+      "bidirectional": true,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_char_003",
+      "target_name": "James Ryder",
+      "rel_type": "investigates",
+      "description": "Holmes deduces Ryder's identity and confronts him regarding the stolen gem.",
+      "properties": {
+        "nature": "professional",
+        "sentiment": "neutral"
+      },
+      "context": "I think that I could be of assistance to you. ... My name is Sherlock Holmes. It is my business to know what other people don't know.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_char_004",
+      "target_name": "Mrs. Oakshott",
+      "rel_type": "investigates",
+      "description": "Holmes plans to visit Mrs. Oakshott to trace the geese and the stolen carbuncle.",
+      "properties": {
+        "nature": "professional",
+        "sentiment": "neutral"
+      },
+      "context": "whether we should go on to this Mrs. Oakshott to-night, or whether we should reserve it for to-morrow.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_char_005",
+      "target_name": "Breckinridge",
+      "rel_type": "observes",
+      "description": "Holmes observes Breckinridge arguing with Ryder at the market stall.",
+      "properties": {
+        "nature": "professional",
+        "sentiment": "neutral"
+      },
+      "context": "Breckinridge, the salesman, framed in the door of his stall, was shaking his fists fiercely at the cringing figure.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_char_006",
+      "target_name": "Mr. Windigate",
+      "rel_type": "investigates",
+      "description": "Holmes deduces that Windigate purchased the geese containing the stolen gem.",
+      "properties": {
+        "nature": "professional",
+        "sentiment": "neutral"
+      },
+      "context": "sold by Mrs. Oakshott, of Brixton Road, to a salesman named Breckinridge, by him in turn to Mr. Windigate, of the Alpha",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_char_007",
+      "target_name": "Catherine Cusack",
+      "rel_type": "investigates",
+      "description": "Holmes identifies Cusack as the source of Ryder's knowledge about the blue stone.",
+      "properties": {
+        "nature": "professional",
+        "sentiment": "neutral"
+      },
+      "context": "It was Catherine Cusack who told me of it,",
+      "voice.": "bidirectional",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_char_008",
+      "target_name": "Countess of Morcar",
+      "rel_type": "investigates",
+      "description": "Holmes investigates the theft of the Countess's blue stone.",
+      "properties": {
+        "nature": "professional",
+        "sentiment": "neutral"
+      },
+      "context": "You had heard, Ryder, of this blue stone of the Countess of Morcar's?",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_char_009",
+      "target_name": "Mr. Henry Baker",
+      "rel_type": "investigates",
+      "description": "Holmes deduces that Henry Baker is the club member who received the goose containing the gem.",
+      "properties": {
+        "nature": "professional",
+        "sentiment": "neutral"
+      },
+      "context": "by him to his club, of which Mr. Henry Baker is a member.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_obj_001",
+      "target_name": "Blue Carbuncle",
+      "rel_type": "owns",
+      "description": "Holmes possesses the recovered blue carbuncle in his strong-box.",
+      "properties": {
+        "sentiment": "neutral",
+        "condition": "recovered"
+      },
+      "context": "Holmes unlocked his strong-box and held up the blue carbuncle, which shone out like a star",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_obj_002",
+      "target_name": "Geese",
+      "rel_type": "investigates",
+      "description": "Holmes traces the specific goose that contained the stolen gem.",
+      "properties": {
+        "sentiment": "neutral",
+        "focus": "white goose with black bar across tail"
+      },
+      "context": "It was one bird, I imagine in which you were interested-white, with a black bar across the tail.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_obj_003",
+      "target_name": "Ledger",
+      "rel_type": "uses",
+      "description": "Holmes consults the ledger to verify the transaction details of the geese.",
+      "properties": {
+        "sentiment": "neutral",
+        "purpose": "verification"
+      },
+      "context": "Holmes turned to the page indicated. 'Here you are, 'Mrs. Oakshott, 117 , Brixton Road, egg and poultry supplier.'",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_loc_001",
+      "target_name": "117 Brixton Road",
+      "rel_type": "resides_at",
+      "description": "Holmes plans to visit the address associated with Mrs. Oakshott.",
+      "properties": {
+        "sentiment": "neutral",
+        "intent": "investigation"
+      },
+      "context": "whether we should go on to this Mrs. Oakshott to-night",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_loc_002",
+      "target_name": "Baker Street",
+      "rel_type": "resides_at",
+      "description": "Holmes returns to his sitting room on Baker Street to confront Ryder.",
+      "properties": {
+        "sentiment": "positive",
+        "intent": "base_of_operations"
+      },
+      "context": "we were back in the sittingroom at Baker Street.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_evt_001",
+      "target_name": "The Investigation",
+      "rel_type": "participates_in",
+      "description": "Holmes leads the investigation into the stolen blue carbuncle.",
+      "properties": {
+        "role": "investigator",
+        "contribution": "deduction and confrontation"
+      },
+      "context": "It is my business to know what other people don't know.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_con_001",
+      "target_name": "The Blue Stone Mystery",
+      "rel_type": "solves",
+      "description": "Holmes successfully unravels the mystery of the stolen blue stone.",
+      "properties": {
+        "sentiment": "neutral",
+        "outcome": "resolved"
+      },
+      "context": "I have almost every link in my hands, and all the proofs which I could possibly need",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_002",
+      "source_name": "Watson",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_char_003",
+      "target_name": "James Ryder",
+      "rel_type": "assists",
+      "description": "Watson helps Ryder after he faints from shock upon seeing the carbuncle.",
+      "properties": {
+        "role": "helper",
+        "sentiment": "neutral"
+      },
+      "context": "Give him an arm back into his chair, Watson. He's not got blood enough to go in for felony with impunity.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_002",
+      "source_name": "Watson",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_loc_002",
+      "target_name": "Baker Street",
+      "rel_type": "resides_at",
+      "description": "Watson shares the Baker Street residence with Holmes.",
+      "properties": {
+        "sentiment": "positive",
+        "intent": "base_of_operations"
+      },
+      "context": "we were back in the sittingroom at Baker Street.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_002",
+      "source_name": "Watson",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_evt_001",
+      "target_name": "The Investigation",
+      "rel_type": "participates_in",
+      "description": "Watson participates as a witness and assistant during the investigation.",
+      "properties": {
+        "role": "witness",
+        "contribution": "observation and assistance"
+      },
+      "context": "my companion speedily overtook the little man",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_003",
+      "source_name": "James Ryder",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_char_004",
+      "target_name": "Mrs. Oakshott",
+      "rel_type": "confides_in",
+      "description": "Ryder seeks information from Mrs. Oakshott regarding the geese.",
+      "properties": {
+        "sentiment": "desperate",
+        "nature": "personal"
+      },
+      "context": "She told me to ask you.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_003",
+      "source_name": "James Ryder",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_char_005",
+      "target_name": "Breckinridge",
+      "rel_type": "deceives",
+      "description": "Ryder attempts to trick or argue with Breckinridge over the geese.",
+      "properties": {
+        "sentiment": "negative",
+        "nature": "confrontational"
+      },
+      "context": "I've had enough of you and your geese,' he shouted. 'I wish you were all at the devil together.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_003",
+      "source_name": "James Ryder",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_char_006",
+      "target_name": "Mr. Windigate",
+      "rel_type": "confides_in",
+      "description": "Ryder is instructed to seek answers from Mr. Windigate.",
+      "properties": {
+        "sentiment": "desperate",
+        "nature": "personal"
+      },
+      "context": "She told me to ask you.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_003",
+      "source_name": "James Ryder",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_char_009",
+      "target_name": "Mr. Henry Baker",
+      "rel_type": "impersonates",
+      "description": "Ryder uses the alias John Robinson, which is associated with Mr. Henry Baker.",
+      "properties": {
+        "sentiment": "neutral",
+        "nature": "deceptive"
+      },
+      "context": "My name is John Robinson,' he answered with a sidelong glance. ... 'my real name is James Ryder.'",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_003",
+      "source_name": "James Ryder",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_org_002",
+      "target_name": "Hotel Cosmopolitan",
+      "rel_type": "employs",
+      "description": "Ryder works as the head attendant at the Hotel Cosmopolitan.",
+      "properties": {
+        "role": "head attendant",
+        "sentiment": "neutral"
+      },
+      "context": "Head attendant at the Hotel Cosmopolitan.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_003",
+      "source_name": "James Ryder",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_obj_001",
+      "target_name": "Blue Carbuncle",
+      "rel_type": "owns",
+      "description": "Ryder stole and possessed the blue carbuncle, intending to claim it.",
+      "properties": {
+        "sentiment": "greedy",
+        "condition": "stolen"
+      },
+      "context": "Ryder stood glaring with a drawn face, uncertain whether to claim or to disown it.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_003",
+      "source_name": "James Ryder",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_obj_002",
+      "target_name": "Geese",
+      "rel_type": "owns",
+      "description": "Ryder claims ownership of one of the geese.",
+      "properties": {
+        "sentiment": "desperate",
+        "condition": "claimed"
+      },
+      "context": "No; but one of them was mine all the same,' whined the little man.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_003",
+      "source_name": "James Ryder",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_evt_001",
+      "target_name": "The Investigation",
+      "rel_type": "participates_in",
+      "description": "Ryder is the perpetrator whose actions are being investigated.",
+      "properties": {
+        "role": "perpetrator",
+        "contribution": "theft and concealment"
+      },
+      "context": "I have almost every link in my hands, and all the proofs which I could possibly need",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_003",
+      "source_name": "James Ryder",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_con_001",
+      "target_name": "The Blue Stone Mystery",
+      "rel_type": "triggers",
+      "description": "Ryder's theft and subsequent search for the stone trigger the central mystery.",
+      "properties": {
+        "sentiment": "negative",
+        "outcome": "investigation"
+      },
+      "context": "You had heard, Ryder, of this blue stone of the Countess of Morcar's?",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_004",
+      "source_name": "Mrs. Oakshott",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_char_005",
+      "target_name": "Breckinridge",
+      "rel_type": "employs",
+      "description": "Mrs. Oakshott sold the geese to Breckinridge, establishing a commercial link.",
+      "properties": {
+        "sentiment": "neutral",
+        "nature": "commercial"
+      },
+      "context": "December 22 nd. Twenty-four geese at 7 s. 6 d.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_004",
+      "source_name": "Mrs. Oakshott",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_char_006",
+      "target_name": "Mr. Windigate",
+      "rel_type": "employs",
+      "description": "Mrs. Oakshott's geese were sold to Mr. Windigate of the Alpha.",
+      "properties": {
+        "sentiment": "neutral",
+        "nature": "commercial"
+      },
+      "context": "Sold to Mr. Windigate of the Alpha, at 12 s.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_004",
+      "source_name": "Mrs. Oakshott",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_loc_001",
+      "target_name": "117 Brixton Road",
+      "rel_type": "resides_at",
+      "description": "Mrs. Oakshott's address is recorded as 117 Brixton Road.",
+      "properties": {
+        "sentiment": "neutral",
+        "type": "business_address"
+      },
+      "context": "Mrs. Oakshott, 117 , Brixton Road, egg and poultry supplier.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_004",
+      "source_name": "Mrs. Oakshott",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_obj_002",
+      "target_name": "Geese",
+      "rel_type": "owns",
+      "description": "Mrs. Oakshott is the supplier of the geese in question.",
+      "properties": {
+        "sentiment": "neutral",
+        "type": "supplier"
+      },
+      "context": "egg and poultry supplier.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_005",
+      "source_name": "Breckinridge",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_char_003",
+      "target_name": "James Ryder",
+      "rel_type": "deceives",
+      "description": "Breckinridge argues with and dismisses Ryder at the market stall.",
+      "properties": {
+        "sentiment": "negative",
+        "nature": "confrontational"
+      },
+      "context": "I've had enough of you and your geese,' he shouted. 'I wish you were all at the devil together.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_005",
+      "source_name": "Breckinridge",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_char_006",
+      "target_name": "Mr. Windigate",
+      "rel_type": "employs",
+      "description": "Breckinridge sold the geese to Mr. Windigate.",
+      "properties": {
+        "sentiment": "neutral",
+        "nature": "commercial"
+      },
+      "context": "Sold to Mr. Windigate of the Alpha, at 12 s.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_005",
+      "source_name": "Breckinridge",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_obj_002",
+      "target_name": "Geese",
+      "rel_type": "owns",
+      "description": "Breckinridge handles and sells the geese.",
+      "properties": {
+        "sentiment": "neutral",
+        "type": "salesman"
+      },
+      "context": "Breckinridge, the salesman, framed in the door of his stall",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_006",
+      "source_name": "Mr. Windigate",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_org_001",
+      "target_name": "Alpha",
+      "rel_type": "employs",
+      "description": "Mr. Windigate is associated with the Alpha club.",
+      "properties": {
+        "sentiment": "neutral",
+        "type": "agent"
+      },
+      "context": "Mr. Windigate of the Alpha",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_006",
+      "source_name": "Mr. Windigate",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_obj_002",
+      "target_name": "Geese",
+      "rel_type": "owns",
+      "description": "Mr. Windigate purchased the geese containing the gem.",
+      "properties": {
+        "sentiment": "neutral",
+        "type": "buyer"
+      },
+      "context": "Sold to Mr. Windigate of the Alpha, at 12 s.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_007",
+      "source_name": "Catherine Cusack",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_char_003",
+      "target_name": "James Ryder",
+      "rel_type": "informs",
+      "description": "Catherine Cusack revealed the existence of the blue stone to Ryder.",
+      "properties": {
+        "sentiment": "neutral",
+        "nature": "informational"
+      },
+      "context": "It was Catherine Cusack who told me of it,",
+      "voice.": "bidirectional",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_007",
+      "source_name": "Catherine Cusack",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_char_008",
+      "target_name": "Countess of Morcar",
+      "rel_type": "employs",
+      "description": "Catherine Cusack serves the Countess of Morcar.",
+      "properties": {
+        "sentiment": "neutral",
+        "type": "attendant"
+      },
+      "context": "blue stone of the Countess of Morcar's",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_008",
+      "source_name": "Countess of Morcar",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_con_001",
+      "target_name": "The Blue Stone Mystery",
+      "rel_type": "owns",
+      "description": "The Countess of Morcar is the original owner of the blue stone.",
+      "properties": {
+        "sentiment": "neutral",
+        "type": "victim"
+      },
+      "context": "blue stone of the Countess of Morcar's",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_009",
+      "source_name": "Mr. Henry Baker",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_org_001",
+      "target_name": "Alpha",
+      "rel_type": "employs",
+      "description": "Mr. Henry Baker is a member of the Alpha club.",
+      "properties": {
+        "sentiment": "neutral",
+        "type": "member"
+      },
+      "context": "of which Mr. Henry Baker is a member.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_009",
+      "source_name": "Mr. Henry Baker",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_obj_002",
+      "target_name": "Geese",
+      "rel_type": "owns",
+      "description": "Mr. Henry Baker received the goose containing the gem.",
+      "properties": {
+        "sentiment": "neutral",
+        "type": "recipient"
+      },
+      "context": "by him to his club, of which Mr. Henry Baker is a member.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_obj_001",
+      "source_name": "Blue Carbuncle",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_obj_002",
+      "target_name": "Geese",
+      "rel_type": "conceals",
+      "description": "The blue carbuncle was hidden inside the goose.",
+      "properties": {
+        "sentiment": "neutral",
+        "method": "internal"
+      },
+      "context": "It laid an egg after it was dead-the bonniest, brightest little blue egg that ever was seen.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_obj_003",
+      "source_name": "Ledger",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_char_004",
+      "target_name": "Mrs. Oakshott",
+      "rel_type": "owns",
+      "description": "The ledger contains the record of Mrs. Oakshott's transactions.",
+      "properties": {
+        "sentiment": "neutral",
+        "type": "record"
+      },
+      "context": "Now turn that up in the ledger. ... 'Mrs. Oakshott, 117 , Brixton Road, egg and poultry supplier.'",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_loc_001",
+      "source_name": "117 Brixton Road",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_char_004",
+      "target_name": "Mrs. Oakshott",
+      "rel_type": "resides_at",
+      "description": "117 Brixton Road is the recorded address of Mrs. Oakshott.",
+      "properties": {
+        "sentiment": "neutral",
+        "type": "business_address"
+      },
+      "context": "Mrs. Oakshott, 117 , Brixton Road",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_loc_002",
+      "source_name": "Baker Street",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_char_001",
+      "target_name": "Sherlock Holmes",
+      "rel_type": "resides_at",
+      "description": "Baker Street is the residence where Holmes and Watson conduct their investigation.",
+      "properties": {
+        "sentiment": "positive",
+        "type": "home"
+      },
+      "context": "we were back in the sittingroom at Baker Street.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_org_001",
+      "source_name": "Alpha",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_char_006",
+      "target_name": "Mr. Windigate",
+      "rel_type": "employs",
+      "description": "The Alpha club employs or is associated with Mr. Windigate.",
+      "properties": {
+        "sentiment": "neutral",
+        "type": "club"
+      },
+      "context": "Mr. Windigate of the Alpha",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_org_002",
+      "source_name": "Hotel Cosmopolitan",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_char_003",
+      "target_name": "James Ryder",
+      "rel_type": "employs",
+      "description": "The Hotel Cosmopolitan employs James Ryder as head attendant.",
+      "properties": {
+        "sentiment": "neutral",
+        "type": "employer"
+      },
+      "context": "Head attendant at the Hotel Cosmopolitan.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_evt_001",
+      "source_name": "The Investigation",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_char_001",
+      "target_name": "Sherlock Holmes",
+      "rel_type": "participates_in",
+      "description": "Holmes leads and drives the investigation forward.",
+      "properties": {
+        "role": "investigator",
+        "contribution": "deduction"
+      },
+      "context": "It is my business to know what other people don't know.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_evt_002",
+      "source_name": "The Wager",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_char_001",
+      "target_name": "Sherlock Holmes",
+      "rel_type": "triggers",
+      "description": "Holmes uses a wager to extract information from the salesman.",
+      "properties": {
+        "sentiment": "neutral",
+        "outcome": "information_gained"
+      },
+      "context": "you can always draw him by a bet,' said he. 'I daresay that if I had put £ 100 down in front of him, that man would not have given me such complete information as was drawn from him by the idea that he was doing me on a wager.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_con_001",
+      "source_name": "The Blue Stone Mystery",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005_char_001",
+      "target_name": "Sherlock Holmes",
+      "rel_type": "solves",
+      "description": "Holmes successfully resolves the mystery of the blue stone.",
+      "properties": {
+        "sentiment": "neutral",
+        "outcome": "resolved"
+      },
+      "context": "I have almost every link in my hands, and all the proofs which I could possibly need",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005",
+      "target_name": "54fe739d5f764020ad4396c72af29729_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_002",
+      "source_name": "Watson",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005",
+      "target_name": "54fe739d5f764020ad4396c72af29729_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_003",
+      "source_name": "James Ryder",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005",
+      "target_name": "54fe739d5f764020ad4396c72af29729_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_004",
+      "source_name": "Mrs. Oakshott",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005",
+      "target_name": "54fe739d5f764020ad4396c72af29729_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_005",
+      "source_name": "Breckinridge",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005",
+      "target_name": "54fe739d5f764020ad4396c72af29729_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_006",
+      "source_name": "Mr. Windigate",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005",
+      "target_name": "54fe739d5f764020ad4396c72af29729_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_007",
+      "source_name": "Catherine Cusack",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005",
+      "target_name": "54fe739d5f764020ad4396c72af29729_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_008",
+      "source_name": "Countess of Morcar",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005",
+      "target_name": "54fe739d5f764020ad4396c72af29729_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_char_009",
+      "source_name": "Mr. Henry Baker",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005",
+      "target_name": "54fe739d5f764020ad4396c72af29729_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_obj_001",
+      "source_name": "Blue Carbuncle",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005",
+      "target_name": "54fe739d5f764020ad4396c72af29729_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_obj_002",
+      "source_name": "Geese",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005",
+      "target_name": "54fe739d5f764020ad4396c72af29729_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_obj_003",
+      "source_name": "Ledger",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005",
+      "target_name": "54fe739d5f764020ad4396c72af29729_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_loc_001",
+      "source_name": "117 Brixton Road",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005",
+      "target_name": "54fe739d5f764020ad4396c72af29729_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_loc_002",
+      "source_name": "Baker Street",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005",
+      "target_name": "54fe739d5f764020ad4396c72af29729_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_org_001",
+      "source_name": "Alpha",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005",
+      "target_name": "54fe739d5f764020ad4396c72af29729_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_org_002",
+      "source_name": "Hotel Cosmopolitan",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005",
+      "target_name": "54fe739d5f764020ad4396c72af29729_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_evt_001",
+      "source_name": "The Investigation",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005",
+      "target_name": "54fe739d5f764020ad4396c72af29729_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_evt_002",
+      "source_name": "The Wager",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005",
+      "target_name": "54fe739d5f764020ad4396c72af29729_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_005_con_001",
+      "source_name": "The Blue Stone Mystery",
+      "target_id": "54fe739d5f764020ad4396c72af29729_005",
+      "target_name": "54fe739d5f764020ad4396c72af29729_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    }
+  ]
+}

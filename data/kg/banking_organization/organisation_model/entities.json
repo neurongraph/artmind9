@@ -1,0 +1,2377 @@
+[
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_001_org_001",
+    "name": "FirstUK Bank",
+    "aliases": [
+      "FirstUK"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "The primary banking institution whose internal governance, structural models, and operational documentation are being formally recorded in this metadata table.",
+    "context": [
+      "# FirstUK Bank — Organisation Model"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_001",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_001_org_002",
+    "name": "Enterprise Architecture",
+    "aliases": [
+      "EA"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "The department explicitly designated as the owner of the Organisation Model document, responsible for maintaining structural alignment and architectural standards across the bank.",
+    "context": [
+      "| Department | Enterprise Architecture |"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_001",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_001_rol_001",
+    "name": "Chief Operating Officer",
+    "aliases": [
+      "COO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "The executive leadership role assigned as the document owner, bearing accountability for the Organisation Model's governance, version control, and effective date management.",
+    "context": [
+      "| Owner | Chief Operating Officer |"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_001",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_002_org_001",
+    "name": "FirstUK Bank",
+    "aliases": [
+      "FirstUK"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A UK retail banking institution founded in 2018 and headquartered in London. The bank utilises a functional organisational structure to ensure clear accountability lines across product delivery, risk management, and regulatory compliance functions.",
+    "context": [
+      "FirstUK Bank operates as a UK retail banking institution serving 500+ customers across 12 branches.",
+      "The organisation is structured functionally with clear accountability lines, enabling efficient product delivery, risk management, and regulatory compliance."
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_002",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_002_org_002",
+    "name": "Financial Conduct Authority",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "regulatory_body",
+    "description": "The primary conduct regulator overseeing FirstUK Bank's operations within the UK financial sector. Its oversight framework is governed by the FCA Handbook, which dictates operational and compliance standards for retail banking institutions.",
+    "context": [
+      "Regulatory Authority: Financial Conduct Authority (FCA), Prudential Regulation Authority (PRA)",
+      "Primary Regulator Reference: FCA Handbook, PRA Rulebook"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_002",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_002_org_003",
+    "name": "Prudential Regulation Authority",
+    "aliases": [
+      "PRA"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "regulatory_body",
+    "description": "A key prudential regulator overseeing FirstUK Bank's financial stability and capital adequacy. Regulatory requirements are codified within the PRA Rulebook, establishing mandatory risk and governance thresholds for the institution.",
+    "context": [
+      "Regulatory Authority: Financial Conduct Authority (FCA), Prudential Regulation Authority (PRA)",
+      "Primary Regulator Reference: FCA Handbook, PRA Rulebook"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_002",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_002_met_004",
+    "name": "Customer Base Size",
+    "aliases": [
+      "500+ customers"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "This metric quantifies the total retail customer base currently served by FirstUK Bank across its operational network. It reflects the institution's current market penetration and service delivery scale.",
+    "context": [
+      "FirstUK Bank operates as a UK retail banking institution serving 500+ customers across 12 branches."
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_002",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_002_met_005",
+    "name": "Branch Network Size",
+    "aliases": [
+      "12 branches"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "This metric defines the total number of physical retail locations operating under FirstUK Bank's management. It establishes the geographic footprint for in-branch customer engagement and localised service delivery.",
+    "context": [
+      "FirstUK Bank operates as a UK retail banking institution serving 500+ customers across 12 branches."
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_002",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_003_org_001",
+    "name": "Board of Directors",
+    "aliases": [
+      "Board"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "board",
+    "description": "The highest governance body within FirstUK Bank, positioned at the apex of the organisational hierarchy with direct oversight over executive leadership and strategic direction.",
+    "context": [
+      "Board of Directors"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_003",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_003_rol_001",
+    "name": "Chief Executive Officer",
+    "aliases": [
+      "CEO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "The top executive role responsible for overall bank strategy and operational leadership, reporting directly to the Board of Directors.",
+    "context": [
+      "CEO"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_003",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_003_rol_002",
+    "name": "Chief Financial Officer",
+    "aliases": [
+      "CFO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "A C-suite leadership role focused on financial strategy, capital management, and fiscal oversight, positioned at the same executive level as the CEO.",
+    "context": [
+      "CFO"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_003",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_003_rol_003",
+    "name": "Chief Operating Officer",
+    "aliases": [
+      "COO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "A C-suite executive role overseeing day-to-day administrative and operational functions, reporting directly to the Board of Directors alongside other C-level leaders.",
+    "context": [
+      "COO"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_003",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_003_org_002",
+    "name": "Retail Banking",
+    "aliases": [
+      "Retail"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A core business unit operating under executive leadership, responsible for consumer-facing banking services and retail customer operations.",
+    "context": [
+      "Retail |"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_003",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_003_org_003",
+    "name": "Risk & Compliance",
+    "aliases": [
+      "Risk and Compliance",
+      "R&C"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A key internal department focused on managing institutional risk, ensuring regulatory adherence, and overseeing compliance frameworks across the bank.",
+    "context": [
+      "Risk &    |"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_003",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_003_org_004",
+    "name": "Technology",
+    "aliases": [
+      "Tech",
+      "Technology Department"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "An internal department responsible for the bank's technological infrastructure, digital platforms, and IT service delivery, operating under executive oversight.",
+    "context": [
+      "Technology│"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_003",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_004_rol_001",
+    "name": "Chief Executive Officer",
+    "aliases": [
+      "CEO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "The Chief Executive Officer serves as the top executive responsible for defining the overall strategic direction and overseeing business performance. This role acts as the primary liaison between the executive team and the governing board. The position is housed within a dedicated department that supports high-level leadership functions.",
+    "context": [
+      "Chief Executive Officer (CEO)",
+      "Reports to: Board of Directors",
+      "Overall strategic direction",
+      "Business performance",
+      "Board liaison"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_004",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_004_org_001",
+    "name": "Board of Directors",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "board",
+    "description": "The Board of Directors functions as the supreme governing body to which the Chief Executive Officer reports. It provides oversight for executive decisions and strategic alignment across the organization. The CEO maintains a direct liaison relationship with this body to ensure governance compliance.",
+    "context": [
+      "Board of Directors",
+      "Reports to: Board of Directors",
+      "Board liaison"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_004",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_004_org_002",
+    "name": "Office of the Chief Executive Officer",
+    "aliases": [
+      "Office of the CEO"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "The Office of the Chief Executive Officer is the designated department housing the top executive role. It provides administrative, strategic, and operational support specifically tailored to executive leadership requirements. This unit serves as the central hub for board-level communications and high-priority directives.",
+    "context": [
+      "Department: Office of the CEO"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_004",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_005_rol_001",
+    "name": "Chief Financial Officer",
+    "aliases": [
+      "CFO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "The C-suite executive responsible for overseeing FirstUK Bank's financial management, treasury operations, financial reporting, and capital management. This role holds direct accountability to the Board of Directors and operates within the Finance department.",
+    "context": [
+      "### Chief Financial Officer (CFO)",
+      "- **Reports to:** Board of Directors",
+      "- **Department:** Finance"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_005",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_005_org_001",
+    "name": "Board of Directors",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "board",
+    "description": "The primary governance body overseeing executive leadership at FirstUK Bank. The Chief Financial Officer reports directly to this board, ensuring strategic alignment and executive accountability.",
+    "context": [
+      "- **Reports to:** Board of Directors"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_005",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_005_org_002",
+    "name": "Finance Department",
+    "aliases": [
+      "Finance"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "The internal organizational unit housing the Chief Financial Officer. This department is responsible for executing financial management, treasury, reporting, and capital management functions under executive oversight.",
+    "context": [
+      "- **Department:** Finance"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_005",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_006_rol_001",
+    "name": "Chief Operating Officer",
+    "aliases": [
+      "COO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "The C-suite executive role responsible for overseeing operational efficiency, business process management, technology governance, and internal audit. Reports directly to the Board of Directors and oversees the Operations department.",
+    "context": [
+      "### Chief Operating Officer (COO)",
+      "- **Reports to:** Board of Directors",
+      "- **Department:** Operations"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_006",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_006_org_001",
+    "name": "Board of Directors",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "board",
+    "description": "The governing body that receives reports from the Chief Operating Officer and holds ultimate oversight authority over executive leadership and strategic direction.",
+    "context": [
+      "- **Reports to:** Board of Directors"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_006",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_006_org_002",
+    "name": "Operations Department",
+    "aliases": [
+      "Operations"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "The primary department aligned with the Chief Operating Officer, focused on managing day-to-day operational efficiency and business process management across the bank.",
+    "context": [
+      "- **Department:** Operations"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_006",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_007_org_001",
+    "name": "Retail Banking",
+    "aliases": [
+      "RB"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A core business unit responsible for delivering consumer banking products and services, overseeing product management, account services, customer service, sales & onboarding, and branch operations to meet retail market demands.",
+    "context": [
+      "## Business Units",
+      "### 1. Retail Banking (Head: Director of Retail Banking)",
+      "**Mission:** Deliver consumer banking products and services"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_007_rol_001",
+    "name": "Director of Retail Banking",
+    "aliases": [
+      "Head of Retail Banking"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "department_head",
+    "description": "The named leadership role responsible for heading the Retail Banking business unit, providing strategic oversight and accountability for its mission delivery and key operational functions.",
+    "context": [
+      "### 1. Retail Banking (Head: Director of Retail Banking)"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_007_org_002",
+    "name": "Product Management",
+    "aliases": [
+      "PM"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A functional department within the Retail Banking unit tasked with managing the lifecycle, strategy, governance, and development of banking products.",
+    "context": [
+      "- Product Management (see [[products]])"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_007_org_003",
+    "name": "Account Services",
+    "aliases": [
+      "AS"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A dedicated department handling account-related operations, maintenance, support, and lifecycle management for retail customers.",
+    "context": [
+      "- Account Services"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_007_org_004",
+    "name": "Customer Service",
+    "aliases": [
+      "CS"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A specialized department focused on addressing customer inquiries, resolving service issues, and maintaining service quality within the Retail Banking unit.",
+    "context": [
+      "- Customer Service (see [[departments]])"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_007_org_005",
+    "name": "Sales & Onboarding",
+    "aliases": [
+      "S&O"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "team",
+    "description": "A cross-functional team responsible for acquiring new customers and managing their initial account setup, documentation, and integration processes.",
+    "context": [
+      "- Sales & Onboarding"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_007_org_006",
+    "name": "Branch Operations",
+    "aliases": [
+      "BO"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "An operational office managing physical branch locations, ensuring day-to-day retail banking activities, staffing, and facility standards align with business unit objectives.",
+    "context": [
+      "- Branch Operations (see [[branches]])"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_007_met_001",
+    "name": "Customer acquisition",
+    "aliases": [
+      "New Customer Intake"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "A quantitative performance target measuring the rate of new customer intake, established at a threshold of 50 per quarter.",
+    "context": [
+      "- Customer acquisition: 50 per quarter"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_007_met_002",
+    "name": "Account activation rate",
+    "aliases": [
+      "Activation Rate"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "A key performance indicator tracking the percentage of newly opened accounts successfully activated, set at a target of 92%.",
+    "context": [
+      "- Account activation rate: 92%"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_007_met_003",
+    "name": "Net Promoter Score (NPS)",
+    "aliases": [
+      "NPS"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "A customer loyalty metric measuring satisfaction and advocacy potential, with a defined target value of 68.",
+    "context": [
+      "- Net Promoter Score (NPS): 68"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_007_met_004",
+    "name": "Customer retention",
+    "aliases": [
+      "Retention Rate"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "A quantitative performance indicator measuring the percentage of customers maintained over a given period, set at a target of 94%.",
+    "context": [
+      "- Customer retention: 94%"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_007_bnk_001",
+    "name": "SmartSaver Account",
+    "aliases": [
+      "SSA"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A specific consumer banking product offered by the Retail Banking unit, categorized under the bank's business ontology framework for savings and deposit management.",
+    "context": [
+      "- SmartSaver Account (see [[business_ontology]])"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_007_bnk_002",
+    "name": "Current Accounts",
+    "aliases": [
+      "Checking Accounts"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "A standard transactional account product designed for everyday retail customer spending, cash management, and payment processing.",
+    "context": [
+      "- Current Accounts"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_007_bnk_003",
+    "name": "Mortgages",
+    "aliases": [
+      "Home Loans"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A secured lending product offering long-term financing to consumers, typically backed by property collateral and governed by specific underwriting rules.",
+    "context": [
+      "- Mortgages"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_007_bnk_004",
+    "name": "Debit Cards",
+    "aliases": [
+      "DC"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "card",
+    "description": "A payment card product linked directly to a customer's deposit account, enabling direct point-of-sale and ATM transactions without credit extension.",
+    "context": [
+      "- Debit Cards"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_007",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_008_org_001",
+    "name": "Risk & Compliance",
+    "aliases": [
+      "Risk and Compliance",
+      "R&C Department"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A core internal department responsible for proactive risk identification and regulatory compliance. It oversees key functional areas including compliance, financial crime, fraud prevention, risk assessment, and internal audit to protect the bank's operational integrity.",
+    "context": [
+      "### 2. Risk & Compliance (Head: Chief Risk Officer)",
+      "Mission: Protect FirstUK Bank through proactive risk identification and regulatory compliance"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_008_rol_001",
+    "name": "Chief Risk Officer",
+    "aliases": [
+      "CRO",
+      "Head of Risk & Compliance"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "The executive leadership role serving as the head of the Risk & Compliance department. This position holds defined accountability for overseeing proactive risk identification and ensuring regulatory compliance across FirstUK Bank.",
+    "context": [
+      "### 2. Risk & Compliance (Head: Chief Risk Officer)"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_008_org_002",
+    "name": "Compliance",
+    "aliases": [
+      "Compliance Function",
+      "Regulatory Compliance Unit"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A specialized functional area within the Risk & Compliance department focused on ensuring the bank adheres to external regulations and internal governance standards. It operates as a key oversight function alongside financial crime and audit.",
+    "context": [
+      "Compliance (see [[departments]])"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_008_org_003",
+    "name": "Financial Crime",
+    "aliases": [
+      "Financial Crime Unit",
+      "FC Department"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A dedicated functional area responsible for preventing, detecting, and reporting financial crimes. It operates as a key component of the Risk & Compliance department's operational structure.",
+    "context": [
+      "Financial Crime (see [[departments]])"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_008_org_004",
+    "name": "Internal Audit",
+    "aliases": [
+      "IA",
+      "Internal Auditing Function"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A key functional area listed under Risk & Compliance responsible for independent evaluation of the bank's internal controls, risk management frameworks, and governance processes.",
+    "context": [
+      "Internal Audit"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_001",
+    "name": "AML/KYC Compliance",
+    "aliases": [
+      "Anti-Money Laundering / Know Your Customer Compliance",
+      "AML-KYC"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "aml_screening",
+    "description": "A core regulatory compliance concept encompassing anti-money laundering and know your customer procedures. It is explicitly mandated as a primary regulatory responsibility for the Risk & Compliance department, governed by the bank's business ontology.",
+    "context": [
+      "AML/KYC compliance (per [[business_ontology]])"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_002",
+    "name": "Customer Due Diligence",
+    "aliases": [
+      "CDD",
+      "Customer Due Diligence Process"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "kyc_verification",
+    "description": "A mandatory KYC verification process applied to customers as part of the bank's regulatory responsibilities. It serves as the baseline procedure for assessing customer risk profiles before onboarding.",
+    "context": [
+      "Customer Due Diligence (CDD)"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_003",
+    "name": "Enhanced Due Diligence",
+    "aliases": [
+      "EDD",
+      "Enhanced Due Diligence Process"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "kyc_verification",
+    "description": "A heightened KYC verification procedure applied specifically to high-risk customers. It requires deeper scrutiny, ongoing monitoring, and additional documentation beyond standard due diligence requirements.",
+    "context": [
+      "Enhanced Due Diligence (EDD) for high-risk customers"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_004",
+    "name": "Suspicious Activity Reporting",
+    "aliases": [
+      "SAR",
+      "Suspicious Activity Reports"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "sar",
+    "description": "A regulatory reporting obligation requiring the bank to formally document and submit reports regarding identified suspicious financial activities or transactions. It is a key compliance output managed by the Risk & Compliance function.",
+    "context": [
+      "Suspicious Activity Reporting (SAR)"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_005",
+    "name": "Fraud Prevention",
+    "aliases": [
+      "Fraud Prevention Measures",
+      "Anti-Fraud"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "fraud_alert",
+    "description": "A core operational concept focused on identifying, mitigating, and preventing fraudulent activities across the bank's products and services. It is listed as a key function under the Risk & Compliance department.",
+    "context": [
+      "Fraud Prevention"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_008_bnk_006",
+    "name": "Risk Assessment",
+    "aliases": [
+      "Risk Evaluation",
+      "Assessment Process"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "risk_management",
+    "description": "A systematic process for identifying, analyzing, and evaluating potential risks to the bank's operations, capital, and reputation. It is designated as a key function within the Risk & Compliance department's operational scope.",
+    "context": [
+      "Risk Assessment"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_008_rul_001",
+    "name": "Customer Identification Policy",
+    "aliases": [
+      "CID-POL-001",
+      "Customer ID Policy"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "A formal governance policy establishing the mandatory procedures and standards for verifying customer identities. It is designated with internal policy identifier CID-POL-001 and serves as a foundational compliance requirement.",
+    "context": [
+      "Customer Identification Policy (CID-POL-001)"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_008_rul_002",
+    "name": "AML Policy",
+    "aliases": [
+      "AML-POL-002",
+      "Anti-Money Laundering Policy"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "A core compliance policy outlining the bank's framework and controls for preventing money laundering. It is designated with internal policy identifier AML-POL-002 and enforces regulatory obligations across financial operations.",
+    "context": [
+      "AML Policy (AML-POL-002)"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_008_rul_003",
+    "name": "Operational Risk Policy",
+    "aliases": [
+      "ORP-POL-003",
+      "Operational Risk Framework"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "control",
+    "description": "A governance policy defining the bank's approach to identifying, assessing, and mitigating operational risks. It is designated with internal policy identifier ORP-POL-003 and establishes mandatory control standards.",
+    "context": [
+      "Operational Risk Policy (ORP-POL-003)"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_008_rul_004",
+    "name": "Privacy Policy",
+    "aliases": [
+      "PRI-POL-004",
+      "Data Privacy Policy"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "A compliance policy governing the handling, protection, and processing of customer data in accordance with privacy regulations. It is designated with internal policy identifier PRI-POL-004 and enforces data protection obligations.",
+    "context": [
+      "Privacy Policy (PRI-POL-004)"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_008",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_009_org_001",
+    "name": "Technology",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "The central division responsible for delivering secure and scalable technology infrastructure, overseeing enterprise architecture, application development, infrastructure operations, information security, and data management across the bank.",
+    "context": [
+      "### 3. Technology (Head: Chief Technology Officer)",
+      "**Mission:** Provide secure, scalable technology infrastructure"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_009",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_009_rol_001",
+    "name": "Chief Technology Officer",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "The executive leadership role heading the Technology division, responsible for overseeing the bank's technology mission, key functional areas, and strategic infrastructure vision.",
+    "context": [
+      "### 3. Technology (Head: Chief Technology Officer)"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_009",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_009_org_002",
+    "name": "Enterprise Architecture",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A core functional area within the Technology division focused on designing, governing, and aligning the bank's overall technical structure and system integration standards.",
+    "context": [
+      "- Enterprise Architecture (see [[systems]])"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_009",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_009_org_003",
+    "name": "Application Development",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A key technology function responsible for building, maintaining, and enhancing software applications and digital solutions to support the bank's operational and customer needs.",
+    "context": [
+      "- Application Development"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_009",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_009_org_004",
+    "name": "Infrastructure & Operations",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "The operational unit managing the underlying hardware, cloud environments, and day-to-day technical infrastructure to ensure system reliability, scalability, and performance.",
+    "context": [
+      "- Infrastructure & Operations"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_009",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_009_org_005",
+    "name": "Information Security",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A critical technology function dedicated to protecting the bank's data, systems, and digital assets from threats while ensuring compliance with internal and external security standards.",
+    "context": [
+      "- Information Security"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_009",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_009_org_006",
+    "name": "Data Management",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "The functional area overseeing the governance, storage, processing, and utilization of the bank's data assets in alignment with real-time processing and cloud-ready infrastructure goals.",
+    "context": [
+      "- Data Management"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_009",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_011_org_001",
+    "name": "Retail Banking",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A core department at FirstUK Bank responsible for product delivery and customer acquisition. It serves as the primary interface for retail customers and drives revenue through targeted product offerings.",
+    "context": [
+      "**Retail Banking** — Product delivery, customer acquisition"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_011",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_011_org_002",
+    "name": "Product Management",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A core department overseeing the end-to-end product lifecycle, pricing strategies, and feature development. It ensures that bank products align with market demands and internal strategic goals.",
+    "context": [
+      "**Product Management** — Product lifecycle, pricing, features"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_011",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_011_org_003",
+    "name": "Operations",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A core department managing back-office processes and financial settlements. It ensures the smooth execution of daily banking transactions and operational workflows.",
+    "context": [
+      "**Operations** — Back-office processes, settlements"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_011",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_011_org_004",
+    "name": "Customer Service",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A core department focused on customer support, complaint resolution, and client retention. It acts as the frontline for addressing customer needs and maintaining service quality.",
+    "context": [
+      "**Customer Service** — Support, complaints, retention"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_011",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_011_org_005",
+    "name": "Financial Crime",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A core department dedicated to anti-money laundering (AML), sanctions compliance, and fraud prevention. It monitors transactions and implements controls to mitigate financial crime risks.",
+    "context": [
+      "**Financial Crime** — AML, sanctions, fraud"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_011",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_011_org_006",
+    "name": "Compliance",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A core department responsible for regulatory reporting and maintaining internal controls. It ensures the bank adheres to all applicable laws, regulations, and internal policies.",
+    "context": [
+      "**Compliance** — Regulatory reporting, internal controls"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_011",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_011_org_007",
+    "name": "Risk",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A core department managing enterprise risk, credit risk, and operational risk across the organization. It identifies, assesses, and mitigates risks to protect the bank's financial stability.",
+    "context": [
+      "**Risk** — Enterprise risk, credit risk, operational risk"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_011",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_011_org_008",
+    "name": "Technology",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A core department overseeing systems, infrastructure, and security operations. It maintains the technological backbone required for banking services and data protection.",
+    "context": [
+      "**Technology** — Systems, infrastructure, security"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_011",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_011_org_009",
+    "name": "Enterprise Architecture",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A core department responsible for technology strategy and integration design. It aligns IT capabilities with business objectives and ensures cohesive system architecture.",
+    "context": [
+      "**Enterprise Architecture** — Technology strategy, integration design"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_011",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_011_org_010",
+    "name": "Marketing",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A core department managing brand identity, marketing campaigns, and market positioning. It drives customer engagement and promotes the bank's products in competitive markets.",
+    "context": [
+      "**Marketing** — Brand, campaigns, market positioning"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_011",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_011_org_011",
+    "name": "Legal",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A core department handling contracts, regulatory affairs, and litigation matters. It provides legal oversight and ensures compliance with contractual and statutory obligations.",
+    "context": [
+      "**Legal** — Contracts, regulatory affairs, litigation"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_011",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_011_org_012",
+    "name": "Internal Audit",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A core department conducting control testing and managing audit findings. It independently evaluates internal processes to ensure effectiveness and identify areas for improvement.",
+    "context": [
+      "**Internal Audit** — Control testing, audit findings"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_011",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_org_001",
+    "name": "Board Risk Committee",
+    "aliases": [
+      "Board Risk Comm"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "committee",
+    "description": "Serves as the primary decision-making authority for product launches within FirstUK Bank's governance framework, overseeing commercial and risk-aligned product introductions.",
+    "context": [
+      "Product Launch | Board Risk Committee"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_org_002",
+    "name": "Compliance Committee",
+    "aliases": [
+      "Compliance Comm"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "committee",
+    "description": "Governs and approves internal policy changes, ensuring alignment with regulatory standards and bank-wide operational guidelines.",
+    "context": [
+      "Policy Changes | Compliance Committee"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_org_003",
+    "name": "Board Technology Committee",
+    "aliases": [
+      "Board Tech Comm",
+      "BTC"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "committee",
+    "description": "Acts as the governing body for technology investments exceeding specified financial thresholds, ensuring strategic alignment and capital efficiency.",
+    "context": [
+      "Technology Investment >£500k | Board Technology Committee"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_org_004",
+    "name": "Executive Committee",
+    "aliases": [
+      "Exec Comm"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "committee",
+    "description": "Holds decision-making authority over pricing changes and strategic commercial adjustments across business units.",
+    "context": [
+      "Pricing Changes | Executive Committee"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_org_005",
+    "name": "Risk Committee",
+    "aliases": [
+      "Risk Comm"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "committee",
+    "description": "Responsible for evaluating and approving risk exceptions that fall outside standard risk appetite parameters or predefined thresholds.",
+    "context": [
+      "Risk Exceptions | Risk Committee"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_org_006",
+    "name": "Management",
+    "aliases": [
+      "Senior Management",
+      "Mgmt"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "management_body",
+    "description": "Oversees customer escalations through established departmental leadership and structured escalation protocols to resolve complex client issues.",
+    "context": [
+      "Customer Escalations | Management"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_rol_001",
+    "name": "Chief Risk Officer",
+    "aliases": [
+      "CRO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "C-suite executive required to co-approve product launches, policy changes, risk exceptions, and technology investments exceeding the defined budget threshold.",
+    "context": [
+      "Board, CRO, Business Unit Head",
+      "CRO, COO, CEO",
+      "Risk Committee | CRO, CEO"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_rol_002",
+    "name": "Chief Executive Officer",
+    "aliases": [
+      "CEO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "Top executive required for approving policy changes, pricing changes, risk exceptions, and customer escalations per the governance framework.",
+    "context": [
+      "CRO, COO, CEO",
+      "Executive Committee | CEO, CFO, Business Unit Head",
+      "Risk Committee | CRO, CEO"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_rol_003",
+    "name": "Chief Operating Officer",
+    "aliases": [
+      "COO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "Executive responsible for co-approving policy changes alongside the CEO and CRO, ensuring operational feasibility and compliance.",
+    "context": [
+      "CRO, COO, CEO"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_rol_004",
+    "name": "Chief Technology Officer",
+    "aliases": [
+      "CTO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "Required approver for technology investments exceeding £500k, working with the Board and CFO to validate technical strategy and capital allocation.",
+    "context": [
+      "Board, CTO, CFO"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_rol_005",
+    "name": "Chief Financial Officer",
+    "aliases": [
+      "CFO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "Co-approves pricing changes and technology investments over the specified budget threshold, ensuring financial viability and margin alignment.",
+    "context": [
+      "Board, CTO, CFO",
+      "Executive Committee | CEO, CFO, Business Unit Head"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_rol_006",
+    "name": "Business Unit Head",
+    "aliases": [
+      "BU Head"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "department_head",
+    "description": "Departmental leader required to approve product launches, pricing changes, and customer escalations, bridging commercial strategy with operational execution.",
+    "context": [
+      "Board, CRO, Business Unit Head",
+      "Executive Committee | CEO, CFO, Business Unit Head"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_rol_007",
+    "name": "Board",
+    "aliases": [
+      "The Board",
+      "Board of Directors"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "board_member",
+    "description": "Senior governance body required to approve product launches and technology investments exceeding £500k, providing ultimate oversight on strategic decisions.",
+    "context": [
+      "Board, CRO, Business Unit Head",
+      "Board, CTO, CFO"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_rol_008",
+    "name": "Department Head",
+    "aliases": [
+      "Dept Head"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "department_head",
+    "description": "Operational leader responsible for managing customer escalations in conjunction with the defined Escalation Matrix (ESC-001) and senior management.",
+    "context": [
+      "Customer Escalations | Management | Department Head + Escalation Matrix"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_met_001",
+    "name": "Technology Investment Budget Threshold",
+    "aliases": [
+      "£500k",
+      "Investment Limit"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "budget",
+    "description": "Quantitative financial threshold defining when technology investments require Board Technology Committee authority and multi-executive approval.",
+    "context": [
+      "Technology Investment >£500k"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_rul_001",
+    "name": "Product Launch Approval Rule",
+    "aliases": [
+      "Product Launch Authority"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "decision_authority",
+    "description": "Mandates that product launches are governed by the Board Risk Committee and require joint approval from the Board, CRO, and Business Unit Head.",
+    "context": [
+      "Product Launch | Board Risk Committee",
+      "Board, CRO, Business Unit Head"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_rul_002",
+    "name": "Policy Changes Approval Rule",
+    "aliases": [
+      "Policy Change Authority"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "decision_authority",
+    "description": "Requires policy changes to be authorized by the Compliance Committee with mandatory approval from the CRO, COO, and CEO.",
+    "context": [
+      "Policy Changes | Compliance Committee",
+      "CRO, COO, CEO"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_rul_003",
+    "name": "Technology Investment Approval Rule",
+    "aliases": [
+      "Tech Investment Threshold Rule"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "approval_threshold",
+    "description": "Constrains technology investments exceeding £500k to Board Technology Committee authority, requiring approval from the Board, CTO, and CFO.",
+    "context": [
+      "Technology Investment >£500k | Board Technology Committee",
+      "Board, CTO, CFO"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_rul_004",
+    "name": "Pricing Changes Approval Rule",
+    "aliases": [
+      "Pricing Authority"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "decision_authority",
+    "description": "Dictates that pricing changes fall under Executive Committee authority and require joint sign-off from the CEO, CFO, and Business Unit Head.",
+    "context": [
+      "Pricing Changes | Executive Committee",
+      "CEO, CFO, Business Unit Head"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_rul_005",
+    "name": "Risk Exceptions Approval Rule",
+    "aliases": [
+      "Risk Exception Authority"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "decision_authority",
+    "description": "Assigns risk exception decisions to the Risk Committee, mandating approval from the CRO and CEO.",
+    "context": [
+      "Risk Exceptions | Risk Committee",
+      "CRO, CEO"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_012_rul_006",
+    "name": "Customer Escalations Handling Rule",
+    "aliases": [
+      "Escalation Protocol"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "operational_limit",
+    "description": "Governs customer escalations under Management authority, requiring Department Head involvement per the defined Escalation Matrix (ESC-001).",
+    "context": [
+      "Customer Escalations | Management",
+      "Department Head + Escalation Matrix"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_012",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_013_org_001",
+    "name": "Branch Network",
+    "aliases": [
+      "Physical Branch Footprint"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "The physical retail infrastructure and operational footprint of FirstUK Bank, encompassing all branch locations and their associated staffing structure.",
+    "context": [
+      "## Branch Network"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_013",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_013_met_001",
+    "name": "Branch Network Capacity",
+    "aliases": [
+      "Total Branches"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "The total number of physical branch locations operated by FirstUK Bank, serving as a key capacity metric for the retail network.",
+    "context": [
+      "**Total Branches:** 12"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_013",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_013_met_002",
+    "name": "Branch Staffing Headcount",
+    "aliases": [
+      "Total Employees"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "headcount",
+    "description": "The approximate total number of employees allocated across the branch network, indicating an average staffing density of 2-3 personnel per location.",
+    "context": [
+      "**Total Employees:** 30 (approx. 2-3 per branch)"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_013",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_014_rol_001",
+    "name": "Chief Executive Officer",
+    "aliases": [
+      "CEO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "The top executive responsible for overall bank performance, leading strategic initiatives, and reporting directly to the Board of Directors.",
+    "context": [
+      "Chief Executive Officer (CEO)",
+      "Accountable for overall bank performance",
+      "Board reporting",
+      "Strategic initiatives"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_014",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_014_rol_002",
+    "name": "Chief Operating Officer",
+    "aliases": [
+      "COO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "The executive accountable for driving operational efficiency, optimizing internal processes, and overseeing technology delivery across the bank.",
+    "context": [
+      "Chief Operating Officer (COO)",
+      "Accountable for operational efficiency",
+      "Process optimization",
+      "Technology delivery"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_014",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_014_rol_003",
+    "name": "Chief Risk Officer",
+    "aliases": [
+      "CRO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "The executive responsible for managing enterprise risk, ensuring regulatory compliance, and maintaining the effectiveness of internal controls.",
+    "context": [
+      "Chief Risk Officer (CRO)",
+      "Accountable for risk management",
+      "Regulatory compliance",
+      "Internal control effectiveness"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_014",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_014_rol_004",
+    "name": "Chief Technology Officer",
+    "aliases": [
+      "CTO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "The executive accountable for defining technology strategy, ensuring system reliability, and maintaining the bank's security posture.",
+    "context": [
+      "Chief Technology Officer (CTO)",
+      "Accountable for technology strategy",
+      "System reliability",
+      "Security posture"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_014",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_014_org_001",
+    "name": "Board of Directors",
+    "aliases": [
+      "Board"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "board",
+    "description": "The governing body to which the Chief Executive Officer reports, providing oversight and strategic direction for the bank.",
+    "context": [
+      "Board reporting"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_014",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_015_org_001",
+    "name": "Executive Committee",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "committee",
+    "description": "A cross-functional governance body within FirstUK Bank responsible for high-level strategic oversight and handling complex escalations. The committee convenes on a weekly basis to ensure aligned decision-making across key leadership functions.",
+    "context": [
+      "### Executive Committee",
+      "- **Purpose:** Strategic decision-making, escalation"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_015",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_015_rol_001",
+    "name": "Chief Executive Officer",
+    "aliases": [
+      "CEO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "The top executive leadership role responsible for overall corporate strategy and performance. Serves as a voting member of the Executive Committee to drive strategic decision-making and oversee organizational escalations.",
+    "context": [
+      "- **Members:** CEO, CFO, COO, CRO, CTO"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_015",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_015_rol_002",
+    "name": "Chief Financial Officer",
+    "aliases": [
+      "CFO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "The senior executive overseeing the bank's financial planning, risk management, and reporting activities. Acts as a key member of the Executive Committee to validate financial implications of strategic decisions.",
+    "context": [
+      "- **Members:** CEO, CFO, COO, CRO, CTO"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_015",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_015_rol_003",
+    "name": "Chief Operating Officer",
+    "aliases": [
+      "COO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "The executive responsible for managing day-to-day operational functions and ensuring process efficiency across the bank. Participates in the Executive Committee to align operational execution with strategic directives.",
+    "context": [
+      "- **Members:** CEO, CFO, COO, CRO, CTO"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_015",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_015_rol_004",
+    "name": "Chief Risk Officer",
+    "aliases": [
+      "CRO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "The leadership role tasked with identifying, assessing, and mitigating institutional risks. Serves on the Executive Committee to ensure risk considerations are integrated into strategic decisions and escalation protocols.",
+    "context": [
+      "- **Members:** CEO, CFO, COO, CRO, CTO"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_015",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_015_rol_005",
+    "name": "Chief Technology Officer",
+    "aliases": [
+      "CTO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "The executive directing the bank's technology strategy, infrastructure development, and digital transformation initiatives. Contributes to the Executive Committee to align technological capabilities with business objectives and escalation requirements.",
+    "context": [
+      "- **Members:** CEO, CFO, COO, CRO, CTO"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_015",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_015_rul_001",
+    "name": "Strategic Decision-Making and Escalation Authority",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "decision_authority",
+    "description": "Defines the Executive Committee as the designated governance body responsible for approving strategic initiatives and resolving escalated issues that exceed standard operational thresholds. Establishes a clear decision authority framework to prevent bottlenecks in high-level bank operations.",
+    "context": [
+      "- **Purpose:** Strategic decision-making, escalation"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_015",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_016_org_001",
+    "name": "Board Risk Committee",
+    "aliases": [
+      "BRC"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "committee",
+    "description": "A governance committee composed of an independent majority of board directors. It is responsible for overseeing risk management, approving policies, and reviewing audit outcomes to ensure regulatory and operational compliance.",
+    "context": [
+      "### Board Risk Committee",
+      "- **Purpose:** Risk oversight, policy approval, audit review"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_016",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_016_rol_001",
+    "name": "Board Directors",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "board_member",
+    "description": "Senior leadership individuals who serve as the primary members of the Board Risk Committee. They hold an independent majority to ensure unbiased oversight and decision-making authority over risk and audit matters.",
+    "context": [
+      "- **Members:** Board directors (independent majority)"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_016",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_016_rul_001",
+    "name": "Quarterly Meeting Frequency",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A governance rule mandating that the Board Risk Committee convenes on a quarterly basis to conduct its oversight, policy approval, and audit review functions.",
+    "context": [
+      "- **Frequency:** Quarterly"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_016",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_017_org_001",
+    "name": "Compliance Committee",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "committee",
+    "description": "A governance committee that convenes on a monthly basis to address regulatory updates, implement policy changes, and review compliance metrics across the bank.",
+    "context": [
+      "### Compliance Committee",
+      "- **Frequency:** Monthly",
+      "- **Purpose:** Regulatory updates, policy changes, compliance metrics"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_017",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_017_rol_001",
+    "name": "Chief Risk Officer",
+    "aliases": [
+      "CRO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "Senior executive role responsible for enterprise risk management, serving as a designated member of the Compliance Committee.",
+    "context": [
+      "- **Members:** CRO, Compliance Head, Legal Head, relevant business heads"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_017",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_017_rol_002",
+    "name": "Compliance Head",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "department_head",
+    "description": "Departmental leadership role responsible for compliance oversight and regulatory adherence, serving as a designated member of the Compliance Committee.",
+    "context": [
+      "- **Members:** CRO, Compliance Head, Legal Head, relevant business heads"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_017",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_017_rol_003",
+    "name": "Legal Head",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "department_head",
+    "description": "Departmental leadership role responsible for legal oversight and advisory, serving as a designated member of the Compliance Committee.",
+    "context": [
+      "- **Members:** CRO, Compliance Head, Legal Head, relevant business heads"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_017",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_017_rol_004",
+    "name": "Business Heads",
+    "aliases": [
+      "relevant business heads"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "Cross-functional leadership roles representing specific business units, serving as designated members of the Compliance Committee to ensure alignment with operational objectives.",
+    "context": [
+      "- **Members:** CRO, Compliance Head, Legal Head, relevant business heads"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_017",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_018_org_001",
+    "name": "Product Committee",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "committee",
+    "description": "A cross-functional governance committee responsible for overseeing product development, feature prioritization, and launch planning. The body operates on a bi-weekly cadence and includes representation from key functional departments to ensure aligned decision-making across the bank.",
+    "context": [
+      "### Product Committee",
+      "Purpose: Product development, feature prioritization, launch planning"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_018",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_018_org_002",
+    "name": "Product Management",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A core functional department serving as a member of the Product Committee. It contributes expertise to product development initiatives and feature prioritization efforts across the bank.",
+    "context": [
+      "Members: Product Management, Retail Banking, Risk, Compliance, Technology"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_018",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_018_org_003",
+    "name": "Retail Banking",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A key business unit participating in the Product Committee to align retail banking strategies with product development and launch planning. It ensures customer-facing products meet market and operational requirements.",
+    "context": [
+      "Members: Product Management, Retail Banking, Risk, Compliance, Technology"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_018",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_018_org_004",
+    "name": "Risk",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A governance and oversight department involved in the Product Committee. It provides risk assessment and control frameworks for product development, feature prioritization, and launch planning.",
+    "context": [
+      "Members: Product Management, Retail Banking, Risk, Compliance, Technology"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_018",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_018_org_005",
+    "name": "Compliance",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A regulatory and internal compliance department participating in the Product Committee. It ensures that product development and feature prioritization adhere to all applicable banking regulations and internal standards.",
+    "context": [
+      "Members: Product Management, Retail Banking, Risk, Compliance, Technology"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_018",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_018_org_006",
+    "name": "Technology",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "The engineering and systems department serving on the Product Committee. It supports technical feasibility assessments, system integration planning, and operational readiness for product launches.",
+    "context": [
+      "Members: Product Management, Retail Banking, Risk, Compliance, Technology"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_018",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_018_met_007",
+    "name": "Bi-weekly Meeting Frequency",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "The established operational cadence for the Product Committee, dictating that governance meetings occur every two weeks. This target ensures consistent oversight and timely decision-making for product development cycles.",
+    "context": [
+      "Frequency: Bi-weekly"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_018",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_019_org_001",
+    "name": "Departments",
+    "aliases": [
+      "[[departments]]"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "Referenced as the central repository or governing document that defines and maintains all reporting relationships and structural hierarchy within FirstUK Bank.",
+    "context": [
+      "All reporting relationships documented in [[departments]]."
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_019",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_019_rul_001",
+    "name": "Single Reporting Line Governance Principle",
+    "aliases": [
+      "Key Principle"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "Mandates that all staff maintain exactly one clear, primary reporting line to ensure unambiguous accountability. Dotted-line relationships are explicitly permitted solely to enable cross-functional collaboration without compromising the single-reporting structure.",
+    "context": [
+      "**Key Principle:** Clear single reporting line with dotted-line relationships for cross-functional collaboration."
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_019",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_020_org_001",
+    "name": "Customer-facing (Branch)",
+    "aliases": [
+      "Branch Staff",
+      "Frontline Branch Team"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A frontline business unit operating across the branch network, responsible for direct customer interactions, physical branch services, and retail banking delivery.",
+    "context": [
+      "Customer-facing (Branch)",
+      "Branch network"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_020",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_020_org_002",
+    "name": "Product & Strategy",
+    "aliases": [
+      "P&S",
+      "Strategic Planning"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A strategic business unit headquartered at Head Office, tasked with product lifecycle management, market positioning, and long-term business planning.",
+    "context": [
+      "Product & Strategy",
+      "Head Office"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_020",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_020_org_003",
+    "name": "Operations",
+    "aliases": [
+      "Ops",
+      "Operational Services"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A cross-functional business unit distributed between Head Office and Branches, overseeing transaction processing, administrative workflows, and day-to-day service delivery.",
+    "context": [
+      "Operations",
+      "Head Office + Branches"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_020",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_020_org_004",
+    "name": "Risk & Compliance",
+    "aliases": [
+      "R&C",
+      "Compliance Team"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A governance-focused business unit located at Head Office, responsible for regulatory adherence, risk monitoring, internal controls, and compliance framework management.",
+    "context": [
+      "Risk & Compliance",
+      "Head Office"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_020",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_020_org_005",
+    "name": "Technology",
+    "aliases": [
+      "IT",
+      "Tech Department"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "An engineering and infrastructure business unit based at Head Office, managing core banking systems, digital platforms, and technical support operations.",
+    "context": [
+      "Technology",
+      "Head Office"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_020",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_020_org_006",
+    "name": "Finance",
+    "aliases": [
+      "Fin",
+      "Financial Services"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A financial management business unit headquartered at Head Office, handling accounting, budgeting, financial reporting, and fiscal oversight.",
+    "context": [
+      "Finance",
+      "Head Office"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_020",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_020_org_007",
+    "name": "Marketing",
+    "aliases": [
+      "Mktg",
+      "Communications"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "A commercial business unit based at Head Office focused on brand strategy, customer acquisition campaigns, and market communications.",
+    "context": [
+      "Marketing",
+      "Head Office"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_020",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_020_met_001",
+    "name": "Total Headcount",
+    "aliases": [
+      "Workforce Size",
+      "Staffing Total"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "headcount",
+    "description": "An operational capacity metric representing the aggregate workforce size of FirstUK Bank, explicitly inclusive of contractors to reflect full staffing levels and resource allocation.",
+    "context": [
+      "**Total Headcount:** 30+ (including contractors)"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_020",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_021_org_001",
+    "name": "Head Office",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "Serves as the primary administrative and operational centre for FirstUK Bank, located in London. It functions as the central governance hub overseeing the bank's corporate activities and broader branch network.",
+    "context": [
+      "**Head Office:** London"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_021",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_022_rul_001",
+    "name": "Customer Identification Policy",
+    "aliases": [
+      "CID-POL-001"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "A formal governance document outlining mandatory procedures and controls for verifying customer identity, ensuring compliance with regulatory standards and internal risk management frameworks at FirstUK Bank.",
+    "context": [
+      "- Customer Identification Policy (CID-POL-001)"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_022",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_022_rul_002",
+    "name": "AML Policy",
+    "aliases": [
+      "AML-POL-002"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "An internal compliance framework establishing mandatory anti-money laundering controls, screening procedures, and reporting obligations to mitigate financial crime risks across FirstUK Bank operations.",
+    "context": [
+      "- AML Policy (AML-POL-002)"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_022",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_022_rul_003",
+    "name": "Privacy Policy",
+    "aliases": [
+      "PRI-POL-004"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "A governance document defining data protection standards, customer privacy obligations, and information handling protocols to ensure adherence to regulatory requirements and internal data security mandates.",
+    "context": [
+      "- Privacy Policy (PRI-POL-004)"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_022",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_022_rul_004",
+    "name": "Operational Risk Policy",
+    "aliases": [
+      "ORP-POL-003"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "control",
+    "description": "An internal risk management framework establishing controls, assessment methodologies, and mitigation strategies for operational failures, process gaps, and external events impacting FirstUK Bank's operations.",
+    "context": [
+      "- Operational Risk Policy (ORP-POL-003)"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_022",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_022_rul_005",
+    "name": "Document Retention Policy",
+    "aliases": [
+      "RET-POL-005"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "A governance standard dictating mandatory recordkeeping timelines, archival procedures, and secure disposal protocols for all operational and customer documentation within FirstUK Bank.",
+    "context": [
+      "- Document Retention Policy (RET-POL-005)"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_022",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_022_rul_006",
+    "name": "Complaint Handling Policy",
+    "aliases": [
+      "COM-POL-006"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "control",
+    "description": "An internal operational framework establishing mandatory procedures for logging, investigating, resolving, and escalating customer complaints in compliance with regulatory expectations and service standards.",
+    "context": [
+      "- Complaint Handling Policy (COM-POL-006)"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_022",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_023_rol_001",
+    "name": "Chief Technology Officer",
+    "aliases": [
+      "CTO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "A C-level executive position formally added to the organizational structure in version 2.1 of the document. The introduction of this role indicates a strategic expansion of technology leadership and reporting lines within FirstUK Bank.",
+    "context": [
+      "Added CTO role"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_023",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_023_rol_002",
+    "name": "Chief Operating Officer",
+    "aliases": [
+      "COO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "A senior leadership role responsible for authoring the initial document in version 1.0 and subsequent updates in version 2.1. The COO oversees operational governance, including headcount tracking and structural reporting adjustments.",
+    "context": [
+      "Author | COO",
+      "Updated headcount"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_023",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_023_rol_003",
+    "name": "Chief Executive Officer",
+    "aliases": [
+      "CEO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "A top-tier executive role credited with authoring version 2.0 of the document. The CEO's involvement marks a significant governance update involving the restructuring of reporting lines and the formal addition of committees.",
+    "context": [
+      "Restructured reporting, added committees",
+      "Author | CEO"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_023",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_023_org_001",
+    "name": "Committees",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "committee",
+    "description": "Governance or operational bodies formally incorporated into the bank's structure during the version 2.0 update. Their addition coincides with a broader restructuring of reporting lines overseen by executive leadership.",
+    "context": [
+      "added committees"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_023",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_023_met_001",
+    "name": "Headcount",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "headcount",
+    "description": "A quantitative operational metric tracking the total number of personnel within the organization. The document records a specific update to this figure during version 2.1, reflecting workforce changes alongside leadership additions.",
+    "context": [
+      "updated headcount"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_023",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_024_rol_001",
+    "name": "Chief Operating Officer",
+    "aliases": [
+      "COO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "A C-suite leadership role designated as an approver for the document, indicating executive-level accountability and sign-off authority within FirstUK Bank's governance process.",
+    "context": [
+      "Chief Operating Officer — **Date: 2026-01-15**"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_024",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "83b83916d073408d9452b18c1e8f9a50_024_rol_002",
+    "name": "Chief Executive Officer",
+    "aliases": [
+      "CEO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "A C-suite leadership role designated as an approver for the document, representing the highest executive authority and final sign-off accountability within FirstUK Bank's governance process.",
+    "context": [
+      "Chief Executive Officer — **Date: 2026-01-15**"
+    ],
+    "chunk_id": "83b83916d073408d9452b18c1e8f9a50_024",
+    "doc_id": "83b83916d073408d9452b18c1e8f9a50",
+    "domain": "banking_organization"
+  }
+]
