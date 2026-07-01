@@ -513,7 +513,19 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
         if d.is_dir() and (d / "document.json").exists()
     )
     if not doc_dirs:
-        raise click.ClickException(f"No document sub-folders with document.json found in {folder_path}")
+        # Fall back to recursive search
+        doc_dirs = sorted(
+            p.parent for p in folder_path.rglob("document.json")
+        )
+        if not doc_dirs:
+            raise click.ClickException(f"No document sub-folders with document.json found in {folder_path}")
+
+        click.echo(f"\nNo document.json found in immediate sub-folders. Found {len(doc_dirs)} document(s) recursively:\n")
+        for d in doc_dirs:
+            click.echo(f"  {d.relative_to(folder_path)}")
+        click.echo()
+        if not click.confirm(f"Write all {len(doc_dirs)} document(s) to graph (domain={resolved_domain})?"):
+            raise click.Abort()
 
     logger.info(
         "write_to_graph (batch): {} document(s) in {} (domain={})",
