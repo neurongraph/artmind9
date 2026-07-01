@@ -1,0 +1,491 @@
+[
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001_emo_001",
+    "target_name": "Exhaustion",
+    "rel_type": "experiences",
+    "description": "Diarist feels exhausted at the end of the week",
+    "properties": {
+      "intensity": "moderate"
+    },
+    "context": "Feeling exhausted but the week went well.",
+    "bidirectional": false,
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001_evt_001",
+    "target_name": "Client Presentation",
+    "rel_type": "participates_in",
+    "description": "Diarist delivered a big presentation at the office",
+    "properties": {
+      "role": "participant",
+      "outcome": "successful"
+    },
+    "context": "Morning: big presentation at office. The client loved our revised proposal.",
+    "bidirectional": false,
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_evt_001",
+    "source_name": "Client Presentation",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001_plc_001",
+    "target_name": "Office",
+    "rel_type": "occurs_at",
+    "description": "The presentation took place at the office",
+    "properties": {},
+    "context": "big presentation at office",
+    "bidirectional": false,
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001_evt_002",
+    "target_name": "Team Celebration",
+    "rel_type": "participates_in",
+    "description": "Diarist went out for a celebration with the team",
+    "properties": {
+      "role": "participant"
+    },
+    "context": "We went out for a small celebration at a café near Regal Square.",
+    "bidirectional": false,
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_evt_002",
+    "source_name": "Team Celebration",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001_plc_002",
+    "target_name": "Café near Regal Square",
+    "rel_type": "occurs_at",
+    "description": "The team celebration happened at the café",
+    "properties": {},
+    "context": "celebration at a café near Regal Square",
+    "bidirectional": false,
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001_per_002",
+    "target_name": "Preeti",
+    "rel_type": "cares_for",
+    "description": "Diarist looks after Preeti while she is sick",
+    "properties": {
+      "action": "providing food and care"
+    },
+    "context": "Made her hot chai and some toast. She's better already",
+    "bidirectional": true,
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001_per_002",
+    "target_name": "Preeti",
+    "rel_type": "worries_about",
+    "description": "Diarist is concerned about Preeti's health",
+    "properties": {
+      "reason": "fever and tiredness",
+      "duration": "new"
+    },
+    "context": "Preeti called. She's feeling under the weather. A bit of fever.",
+    "bidirectional": false,
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001_plc_003",
+    "target_name": "Home",
+    "rel_type": "went_to",
+    "description": "Diarist returned home early to help",
+    "properties": {},
+    "context": "Came home early to help with the kids.",
+    "bidirectional": false,
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_per_003",
+    "source_name": "Mohan",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001_per_004",
+    "target_name": "Aryan",
+    "rel_type": "spends_time_with",
+    "description": "Mohan and Aryan had a playdate and played cricket",
+    "properties": {
+      "activity": "cricket"
+    },
+    "context": "Mohan and Aryan had their playdate today. They played cricket in the compound",
+    "bidirectional": true,
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_per_003",
+    "source_name": "Mohan",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001_evt_003",
+    "target_name": "Children's Playdate",
+    "rel_type": "participates_in",
+    "description": "Mohan participated in the playdate",
+    "properties": {
+      "role": "participant"
+    },
+    "context": "Mohan and Aryan had their playdate today.",
+    "bidirectional": false,
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_per_004",
+    "source_name": "Aryan",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001_evt_003",
+    "target_name": "Children's Playdate",
+    "rel_type": "participates_in",
+    "description": "Aryan participated in the playdate",
+    "properties": {
+      "role": "participant"
+    },
+    "context": "Mohan and Aryan had their playdate today.",
+    "bidirectional": false,
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001_evt_003",
+    "target_name": "Children's Playdate",
+    "rel_type": "witnesses",
+    "description": "Diarist watched the children play from the balcony",
+    "properties": {
+      "observation_point": "balcony"
+    },
+    "context": "Watched them from the balcony.",
+    "bidirectional": false,
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_per_005",
+    "source_name": "Neetish",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001_per_002",
+    "target_name": "Preeti",
+    "rel_type": "supports",
+    "description": "Neetish helped Preeti with dinner",
+    "properties": {
+      "action": "cooking/dinner help"
+    },
+    "context": "Neetish helped Preeti with dinner despite not feeling well herself.",
+    "bidirectional": false,
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001_per_005",
+    "target_name": "Neetish",
+    "rel_type": "is_proud_of",
+    "description": "Diarist notes Neetish has become responsible",
+    "properties": {
+      "reason": "helping with dinner while sick"
+    },
+    "context": "She's become so responsible.",
+    "bidirectional": false,
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001_per_006",
+    "target_name": "Browny",
+    "rel_type": "spends_time_with",
+    "description": "Diarist took Browny for an evening walk",
+    "properties": {
+      "duration": "quick"
+    },
+    "context": "Evening walk with Browny was quick.",
+    "bidirectional": true,
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001_act_002",
+    "target_name": "Evening Walk",
+    "rel_type": "performs",
+    "description": "Diarist went for an evening walk",
+    "properties": {},
+    "context": "Evening walk with Browny was quick.",
+    "bidirectional": false,
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_act_002",
+    "source_name": "Evening Walk",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001_plc_004",
+    "target_name": "Indore",
+    "rel_type": "takes_place_at",
+    "description": "The walk took place in Indore",
+    "properties": {},
+    "context": "Evening walk with Browny was quick. It's getting warmer in Indore.",
+    "bidirectional": false,
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001_pln_001",
+    "target_name": "Weekend Planning",
+    "rel_type": "has_plan",
+    "description": "Diarist needs to plan for the upcoming weekend",
+    "properties": {
+      "timeframe": "tomorrow",
+      "urgency": "medium"
+    },
+    "context": "Need to plan for the weekend tomorrow.",
+    "bidirectional": false,
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001_act_001",
+    "target_name": "Caregiving",
+    "rel_type": "performs",
+    "description": "Diarist is providing care for Preeti and the children",
+    "properties": {},
+    "context": "Came home early to help with the kids... Made her hot chai and some toast.",
+    "bidirectional": false,
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001_emo_002",
+    "target_name": "Contentment",
+    "rel_type": "experiences",
+    "description": "Diarist feels a sense of peace and contentment in the quiet moment",
+    "properties": {
+      "trigger": "quiet moment"
+    },
+    "context": "The kids are sleeping. Quiet moment.",
+    "bidirectional": false,
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "target_name": "93fa69545a9344a8977e641c4c1421c9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_per_002",
+    "source_name": "Preeti",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "target_name": "93fa69545a9344a8977e641c4c1421c9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_per_003",
+    "source_name": "Mohan",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "target_name": "93fa69545a9344a8977e641c4c1421c9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_per_004",
+    "source_name": "Aryan",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "target_name": "93fa69545a9344a8977e641c4c1421c9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_per_005",
+    "source_name": "Neetish",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "target_name": "93fa69545a9344a8977e641c4c1421c9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_per_006",
+    "source_name": "Browny",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "target_name": "93fa69545a9344a8977e641c4c1421c9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_plc_001",
+    "source_name": "Office",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "target_name": "93fa69545a9344a8977e641c4c1421c9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_plc_002",
+    "source_name": "Café near Regal Square",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "target_name": "93fa69545a9344a8977e641c4c1421c9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_plc_003",
+    "source_name": "Home",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "target_name": "93fa69545a9344a8977e641c4c1421c9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_plc_004",
+    "source_name": "Indore",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "target_name": "93fa69545a9344a8977e641c4c1421c9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_evt_001",
+    "source_name": "Client Presentation",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "target_name": "93fa69545a9344a8977e641c4c1421c9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_evt_002",
+    "source_name": "Team Celebration",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "target_name": "93fa69545a9344a8977e641c4c1421c9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_evt_003",
+    "source_name": "Children's Playdate",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "target_name": "93fa69545a9344a8977e641c4c1421c9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_act_001",
+    "source_name": "Caregiving",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "target_name": "93fa69545a9344a8977e641c4c1421c9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_act_002",
+    "source_name": "Evening Walk",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "target_name": "93fa69545a9344a8977e641c4c1421c9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_emo_001",
+    "source_name": "Exhaustion",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "target_name": "93fa69545a9344a8977e641c4c1421c9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_emo_002",
+    "source_name": "Contentment",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "target_name": "93fa69545a9344a8977e641c4c1421c9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "93fa69545a9344a8977e641c4c1421c9_001_pln_001",
+    "source_name": "Weekend Planning",
+    "target_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "target_name": "93fa69545a9344a8977e641c4c1421c9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  }
+]

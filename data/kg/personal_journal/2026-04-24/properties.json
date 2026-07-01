@@ -1,0 +1,214 @@
+[
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_per_001",
+    "name": "Diarist",
+    "properties": {
+      "current_state": "feeling excited",
+      "notable_characteristics": "recently promoted"
+    },
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_per_002",
+    "name": "Preeti",
+    "properties": {
+      "relationship_to_diarist": "partner/spouse",
+      "current_state": "recovering from illness",
+      "recurring_behaviours": [
+        "cooking special meals"
+      ]
+    },
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_per_003",
+    "name": "Neetish",
+    "properties": {
+      "relationship_to_diarist": "child",
+      "current_state": "completed school project"
+    },
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_per_004",
+    "name": "Mohan",
+    "properties": {
+      "relationship_to_diarist": "child",
+      "recurring_behaviours": [
+        "playing soccer"
+      ]
+    },
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_per_005",
+    "name": "Browny",
+    "properties": {
+      "relationship_to_diarist": "pet",
+      "personality_traits": [
+        "affectionate"
+      ],
+      "current_state": "sleepy"
+    },
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_per_006",
+    "name": "Work Team",
+    "properties": {
+      "relationship_to_diarist": "colleagues",
+      "narrative_function": "celebrated diarist's promotion"
+    },
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_plc_001",
+    "name": "Office",
+    "properties": {
+      "place_type": "workplace",
+      "narrative_function": "site of promotion approval"
+    },
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_plc_002",
+    "name": "56 Dukes",
+    "properties": {
+      "place_type": "bakery/shop",
+      "frequency_of_visit": "occasional",
+      "narrative_function": "stop for buying pastries"
+    },
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_plc_003",
+    "name": "Home",
+    "properties": {
+      "place_type": "residence",
+      "atmosphere": "warm and familial",
+      "who_associated_with": [
+        "Preeti",
+        "Neetish",
+        "Mohan",
+        "Browny"
+      ]
+    },
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_plc_004",
+    "name": "School",
+    "properties": {
+      "place_type": "educational institution",
+      "who_associated_with": [
+        "Mohan"
+      ],
+      "narrative_function": "location of soccer match"
+    },
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_evt_001",
+    "name": "Promotion Celebration",
+    "properties": {
+      "date_or_time": "Friday evening",
+      "participants": [
+        "Diarist",
+        "Work Team"
+      ],
+      "outcome": "positive",
+      "cause": "promotion approval"
+    },
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_evt_002",
+    "name": "Family Movie Night",
+    "properties": {
+      "participants": [
+        "Diarist",
+        "Preeti",
+        "Neetish",
+        "Mohan",
+        "Browny"
+      ],
+      "outcome": "positive",
+      "emotional_significance": "bonding",
+      "is_recurring": "likely"
+    },
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_act_001",
+    "name": "History Project",
+    "properties": {
+      "who_involved": [
+        "Neetish"
+      ],
+      "purpose": "school requirement",
+      "outcome_or_result": "submitted online"
+    },
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_act_002",
+    "name": "Cooking Dinner",
+    "properties": {
+      "who_involved": [
+        "Preeti"
+      ],
+      "purpose": "family meal",
+      "outcome_or_result": "special kadhi chawal"
+    },
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_emo_001",
+    "name": "Excitement",
+    "properties": {
+      "experienced_by": "Diarist",
+      "trigger": "promotion approval",
+      "intensity": "strong"
+    },
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_plan_001",
+    "name": "Mohan's Soccer Match",
+    "properties": {
+      "timeframe": "tomorrow (Saturday)",
+      "who_involved": [
+        "Mohan"
+      ],
+      "status": "firm intention"
+    },
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_plan_002",
+    "name": "Weekend Plans",
+    "properties": {
+      "timeframe": "upcoming weekend",
+      "motivation": "relaxation after a long week",
+      "status": "wishful/anticipatory"
+    },
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  }
+]

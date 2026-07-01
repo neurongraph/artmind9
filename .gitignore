@@ -22,6 +22,8 @@ data/document_registry.db
 data/refine
 data/documents
 data/graph_snapshot
+data/kg/sales_collateral
+data/kg/project_governance
 # Keep data.kg in github
 logs/
 package.json

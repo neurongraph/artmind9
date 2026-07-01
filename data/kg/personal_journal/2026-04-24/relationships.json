@@ -1,0 +1,456 @@
+[
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "8416690c7f2e404b908adf531815150e_001_per_002",
+    "target_name": "Preeti",
+    "rel_type": "cares_for",
+    "description": "Diarist is monitoring Preeti's health and recovery",
+    "properties": {
+      "status": "improving"
+    },
+    "context": "Preeti is much better today. The rest helped.",
+    "bidirectional": true,
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_per_003",
+    "source_name": "Neetish",
+    "target_id": "8416690c7f2e404b908adf531815150e_001_act_001",
+    "target_name": "History Project",
+    "rel_type": "performs",
+    "description": "Neetish completed and submitted her history project",
+    "properties": {
+      "status": "completed",
+      "submission_method": "online"
+    },
+    "context": "Neetish finished her history project. Submitted it online.",
+    "bidirectional": false,
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_per_004",
+    "source_name": "Mohan",
+    "target_id": "8416690c7f2e404b908adf531815150e_001_plan_001",
+    "target_name": "Mohan's Soccer Match",
+    "rel_type": "scheduled_for",
+    "description": "Mohan has a soccer match scheduled for tomorrow",
+    "properties": {
+      "timeframe": "tomorrow"
+    },
+    "context": "Mohan has a soccer match at school tomorrow.",
+    "bidirectional": true,
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_plan_001",
+    "source_name": "Mohan's Soccer Match",
+    "target_id": "8416690c7f2e404b908adf531815150e_001_plc_004",
+    "target_name": "School",
+    "rel_type": "occurs_at",
+    "description": "The soccer match takes place at the school",
+    "properties": {},
+    "context": "Mohan has a soccer match at school tomorrow.",
+    "bidirectional": false,
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "8416690c7f2e404b908adf531815150e_001_plc_001",
+    "target_name": "Office",
+    "rel_type": "works_at",
+    "description": "Diarist works at the office where they received promotion approval",
+    "properties": {},
+    "context": "Office: received promotion approval.",
+    "bidirectional": true,
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "8416690c7f2e404b908adf531815150e_001_emo_001",
+    "target_name": "Excitement",
+    "rel_type": "experiences",
+    "description": "Diarist feels excited about their promotion",
+    "properties": {
+      "trigger": "promotion approval"
+    },
+    "context": "received promotion approval. Feeling excited.",
+    "bidirectional": false,
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "8416690c7f2e404b908adf531815150e_001_evt_001",
+    "target_name": "Promotion Celebration",
+    "rel_type": "participates_in",
+    "description": "Diarist celebrated their promotion with the team",
+    "properties": {
+      "role": "subject",
+      "outcome": "celebration"
+    },
+    "context": "Celebrated with the team in the evening.",
+    "bidirectional": true,
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_per_006",
+    "source_name": "Work Team",
+    "target_id": "8416690c7f2e404b908adf531815150e_001_evt_001",
+    "target_name": "Promotion Celebration",
+    "rel_type": "participates_in",
+    "description": "The work team participated in the promotion celebration",
+    "properties": {
+      "role": "participant"
+    },
+    "context": "Celebrated with the team in the evening.",
+    "bidirectional": true,
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "8416690c7f2e404b908adf531815150e_001_plc_002",
+    "target_name": "56 Dukes",
+    "rel_type": "visits",
+    "description": "Diarist stopped at 56 Dukes to buy pastries",
+    "properties": {
+      "purpose": "shopping"
+    },
+    "context": "Stopped at 56 Dukes on the way home.",
+    "bidirectional": false,
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "8416690c7f2e404b908adf531815150e_001_plc_003",
+    "target_name": "Home",
+    "rel_type": "lives_at",
+    "description": "Diarist returned home after work and shopping",
+    "properties": {},
+    "context": "Stopped at 56 Dukes on the way home.",
+    "bidirectional": true,
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_per_005",
+    "source_name": "Browny",
+    "target_id": "8416690c7f2e404b908adf531815150e_001_per_001",
+    "target_name": "Diarist",
+    "rel_type": "cares_for",
+    "description": "Browny missed the Diarist and waited for them",
+    "properties": {
+      "emotion": "longing"
+    },
+    "context": "Browny waited at the door. Missed me, apparently.",
+    "bidirectional": true,
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_per_002",
+    "source_name": "Preeti",
+    "target_id": "8416690c7f2e404b908adf531815150e_001_act_002",
+    "target_name": "Cooking Dinner",
+    "rel_type": "performs",
+    "description": "Preeti cooked a special dinner of kadhi chawal",
+    "properties": {
+      "dish": "kadhi chawal"
+    },
+    "context": "Preeti cooked her special kadhi chawal for dinner.",
+    "bidirectional": false,
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "8416690c7f2e404b908adf531815150e_001_evt_002",
+    "target_name": "Family Movie Night",
+    "rel_type": "participates_in",
+    "description": "Diarist participated in the family movie night",
+    "properties": {
+      "role": "participant"
+    },
+    "context": "Family movie night.",
+    "bidirectional": true,
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_per_002",
+    "source_name": "Preeti",
+    "target_id": "8416690c7f2e404b908adf531815150e_001_evt_002",
+    "target_name": "Family Movie Night",
+    "rel_type": "participates_in",
+    "description": "Preeti participated in the family movie night",
+    "properties": {
+      "role": "participant"
+    },
+    "context": "Family movie night.",
+    "bidirectional": true,
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_per_003",
+    "source_name": "Neetish",
+    "target_id": "8416690c7f2e404b908adf531815150e_001_evt_002",
+    "target_name": "Family Movie Night",
+    "rel_type": "participates_in",
+    "description": "Neetish participated in the family movie night and chose a cartoon",
+    "properties": {
+      "role": "participant"
+    },
+    "context": "Family movie night. Kids chose a cartoon.",
+    "bidirectional": true,
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_per_004",
+    "source_name": "Mohan",
+    "target_id": "8416690c7f2e404b908adf531815150e_001_evt_002",
+    "target_name": "Family Movie Night",
+    "rel_type": "participates_in",
+    "description": "Mohan participated in the family movie night and chose a cartoon",
+    "properties": {
+      "role": "participant"
+    },
+    "context": "Family movie night. Kids chose a cartoon.",
+    "bidirectional": true,
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_per_005",
+    "source_name": "Browny",
+    "target_id": "8416690c7f2e404b908adf531815150e_001_evt_002",
+    "target_name": "Family Movie Night",
+    "rel_type": "participates_in",
+    "description": "Browny was present during movie night and fell asleep",
+    "properties": {
+      "role": "observer"
+    },
+    "context": "Family movie night... Browny fell asleep on the sofa.",
+    "bidirectional": true,
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "8416690c7f2e404b908adf531815150e_001_plan_002",
+    "target_name": "Weekend Plans",
+    "rel_type": "has_plan",
+    "description": "Diarist is looking forward to the upcoming weekend",
+    "properties": {
+      "timeframe": "weekend",
+      "urgency": "low"
+    },
+    "context": "Looking forward to the weekend.",
+    "bidirectional": false,
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "8416690c7f2e404b908adf531815150e_001",
+    "target_name": "8416690c7f2e404b908adf531815150e_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_per_002",
+    "source_name": "Preeti",
+    "target_id": "8416690c7f2e404b908adf531815150e_001",
+    "target_name": "8416690c7f2e404b908adf531815150e_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_per_003",
+    "source_name": "Neetish",
+    "target_id": "8416690c7f2e404b908adf531815150e_001",
+    "target_name": "8416690c7f2e404b908adf531815150e_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_per_004",
+    "source_name": "Mohan",
+    "target_id": "8416690c7f2e404b908adf531815150e_001",
+    "target_name": "8416690c7f2e404b908adf531815150e_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_per_005",
+    "source_name": "Browny",
+    "target_id": "8416690c7f2e404b908adf531815150e_001",
+    "target_name": "8416690c7f2e404b908adf531815150e_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_per_006",
+    "source_name": "Work Team",
+    "target_id": "8416690c7f2e404b908adf531815150e_001",
+    "target_name": "8416690c7f2e404b908adf531815150e_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_plc_001",
+    "source_name": "Office",
+    "target_id": "8416690c7f2e404b908adf531815150e_001",
+    "target_name": "8416690c7f2e404b908adf531815150e_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_plc_002",
+    "source_name": "56 Dukes",
+    "target_id": "8416690c7f2e404b908adf531815150e_001",
+    "target_name": "8416690c7f2e404b908adf531815150e_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_plc_003",
+    "source_name": "Home",
+    "target_id": "8416690c7f2e404b908adf531815150e_001",
+    "target_name": "8416690c7f2e404b908adf531815150e_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_plc_004",
+    "source_name": "School",
+    "target_id": "8416690c7f2e404b908adf531815150e_001",
+    "target_name": "8416690c7f2e404b908adf531815150e_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_evt_001",
+    "source_name": "Promotion Celebration",
+    "target_id": "8416690c7f2e404b908adf531815150e_001",
+    "target_name": "8416690c7f2e404b908adf531815150e_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_evt_002",
+    "source_name": "Family Movie Night",
+    "target_id": "8416690c7f2e404b908adf531815150e_001",
+    "target_name": "8416690c7f2e404b908adf531815150e_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_act_001",
+    "source_name": "History Project",
+    "target_id": "8416690c7f2e404b908adf531815150e_001",
+    "target_name": "8416690c7f2e404b908adf531815150e_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_act_002",
+    "source_name": "Cooking Dinner",
+    "target_id": "8416690c7f2e404b908adf531815150e_001",
+    "target_name": "8416690c7f2e404b908adf531815150e_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_emo_001",
+    "source_name": "Excitement",
+    "target_id": "8416690c7f2e404b908adf531815150e_001",
+    "target_name": "8416690c7f2e404b908adf531815150e_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_plan_001",
+    "source_name": "Mohan's Soccer Match",
+    "target_id": "8416690c7f2e404b908adf531815150e_001",
+    "target_name": "8416690c7f2e404b908adf531815150e_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "8416690c7f2e404b908adf531815150e_001_plan_002",
+    "source_name": "Weekend Plans",
+    "target_id": "8416690c7f2e404b908adf531815150e_001",
+    "target_name": "8416690c7f2e404b908adf531815150e_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  }
+]

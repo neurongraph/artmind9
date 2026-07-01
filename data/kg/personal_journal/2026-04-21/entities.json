@@ -1,0 +1,396 @@
+[
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_001",
+    "name": "Preeti",
+    "aliases": [
+      "she"
+    ],
+    "entity_class": "PERSON",
+    "type": "family",
+    "description": "A family member who attended her first yoga class today and returned feeling refreshed.",
+    "context": [
+      "Preeti's first yoga class today",
+      "She came back feeling refreshed"
+    ],
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_002",
+    "name": "Neetish",
+    "aliases": [
+      "she"
+    ],
+    "entity_class": "PERSON",
+    "type": "child",
+    "description": "A child who is experiencing stress regarding her exams and shared these feelings with the diarist.",
+    "context": [
+      "Neetish opened up about her exam stress",
+      "Feeling better that she talked"
+    ],
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_003",
+    "name": "Mohan",
+    "aliases": [
+      "he"
+    ],
+    "entity_class": "PERSON",
+    "type": "child",
+    "description": "A child who was involved in a fight with Aryan at school and requested extra bedtime stories.",
+    "context": [
+      "call from Mohan's school about the fight with Aryan",
+      "Mohan requested two tonight"
+    ],
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_004",
+    "name": "Aryan",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "acquaintance",
+    "description": "A peer of Mohan's who was involved in a fight with him at school.",
+    "context": [
+      "the fight with Aryan"
+    ],
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_005",
+    "name": "The Principal",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "professional",
+    "description": "The head of Mohan's school whom the diarist needs to meet following a student conflict.",
+    "context": [
+      "Need to meet the principal"
+    ],
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_006",
+    "name": "Browny",
+    "aliases": [
+      "him",
+      "Naughty boy"
+    ],
+    "entity_class": "PERSON",
+    "type": "pet",
+    "description": "The family pet who escaped the house and was found eating food at a neighbor's home.",
+    "context": [
+      "Browny pulled a trick today",
+      "He escaped from the house when the gate was open",
+      "Found him at the neighbor's house eating их food",
+      "Naughty boy"
+    ],
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_007",
+    "name": "Self",
+    "aliases": [
+      "I"
+    ],
+    "entity_class": "PERSON",
+    "type": "self",
+    "description": "The diarist who managed work submissions, handled a school incident, and spent the evening with family.",
+    "context": [
+      "submitted the project proposal",
+      "Feeling better that she talked"
+    ],
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_001",
+    "name": "Mohan's School",
+    "aliases": [
+      "school"
+    ],
+    "entity_class": "PLACE",
+    "type": "school",
+    "description": "The educational institution where Mohan is a student and where a fight occurred.",
+    "context": [
+      "call from Mohan's school"
+    ],
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_002",
+    "name": "Office",
+    "aliases": [],
+    "entity_class": "PLACE",
+    "type": "workplace",
+    "description": "The diarist's place of employment where a project proposal was submitted.",
+    "context": [
+      "Office: submitted the project proposal"
+    ],
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_003",
+    "name": "Rajkumar",
+    "aliases": [
+      "popular dhaba"
+    ],
+    "entity_class": "PLACE",
+    "type": "restaurant",
+    "description": "A popular dhaba located near Vijay Nagar where the diarist had poha for lunch.",
+    "context": [
+      "went to Rajkumar (a popular dhaba near Vijay Nagar)",
+      "Had the famous poha"
+    ],
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_004",
+    "name": "Vijay Nagar",
+    "aliases": [],
+    "entity_class": "PLACE",
+    "type": "neighbourhood",
+    "description": "The area where the Rajkumar dhaba is located.",
+    "context": [
+      "near Vijay Nagar"
+    ],
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_005",
+    "name": "Home",
+    "aliases": [
+      "the house"
+    ],
+    "entity_class": "PLACE",
+    "type": "home",
+    "description": "The diarist's residence where the family dinner took place and where Browny escaped from.",
+    "context": [
+      "escaped from the house",
+      "family dinner at home"
+    ],
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_006",
+    "name": "Neighbor's House",
+    "aliases": [],
+    "entity_class": "PLACE",
+    "type": "home",
+    "description": "The residence of a neighbor where Browny was found eating food.",
+    "context": [
+      "Found him at the neighbor's house"
+    ],
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_007",
+    "name": "Compound",
+    "aliases": [],
+    "entity_class": "PLACE",
+    "type": "home",
+    "description": "The outdoor area of the home where the children played with the pet.",
+    "context": [
+      "play with Browny in the compound"
+    ],
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_001",
+    "name": "Preeti's First Yoga Class",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "milestone",
+    "description": "The first time Preeti attended a yoga class, leaving her feeling refreshed.",
+    "context": [
+      "Preeti's first yoga class today"
+    ],
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_002",
+    "name": "Neetish's Disclosure",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "conversation",
+    "description": "A significant moment where Neetish opened up about her stress regarding exams.",
+    "context": [
+      "Neetish opened up about her exam stress"
+    ],
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_003",
+    "name": "Mohan's School Fight",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "conflict",
+    "description": "An altercation between Mohan and Aryan at school that required a call to the parents.",
+    "context": [
+      "the fight with Aryan"
+    ],
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_004",
+    "name": "Browny's Escape",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "routine_disruption",
+    "description": "An incident where the pet dog escaped through an open gate and went to a neighbor's house.",
+    "context": [
+      "Browny pulled a trick today",
+      "He escaped from the house when the gate was open"
+    ],
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_005",
+    "name": "Family Dinner",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "social_gathering",
+    "description": "A simple and peaceful evening meal shared by the family at home.",
+    "context": [
+      "Evening: family dinner at home",
+      "Simple but peaceful"
+    ],
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_act_001",
+    "name": "Yoga",
+    "aliases": [],
+    "entity_class": "ACTIVITY",
+    "type": "exercise",
+    "description": "A physical activity started by Preeti today.",
+    "context": [
+      "first yoga class today"
+    ],
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_act_002",
+    "name": "Work",
+    "aliases": [],
+    "entity_class": "ACTIVITY",
+    "type": "work",
+    "description": "Professional tasks including the submission of a project proposal.",
+    "context": [
+      "submitted the project proposal",
+      "Waiting for client approval"
+    ],
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_act_003",
+    "name": "Bedtime Stories",
+    "aliases": [],
+    "entity_class": "ACTIVITY",
+    "type": "care",
+    "description": "A nightly routine of reading stories to the children, with Mohan requesting two stories.",
+    "context": [
+      "Bedtime stories",
+      "Mohan requested two tonight"
+    ],
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_emo_001",
+    "name": "Refreshed",
+    "aliases": [],
+    "entity_class": "EMOTION",
+    "type": "contentment",
+    "description": "The feeling Preeti experienced after her first yoga class.",
+    "context": [
+      "came back feeling refreshed"
+    ],
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_emo_002",
+    "name": "Exam Stress",
+    "aliases": [],
+    "entity_class": "EMOTION",
+    "type": "anxiety",
+    "description": "The pressure and worry Neetish felt regarding her upcoming exams.",
+    "context": [
+      "opened up about her exam stress"
+    ],
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_emo_003",
+    "name": "Peaceful",
+    "aliases": [],
+    "entity_class": "EMOTION",
+    "type": "contentment",
+    "description": "The mood of the family dinner in the evening.",
+    "context": [
+      "Simple but peaceful"
+    ],
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_pla_001",
+    "name": "Principal Meeting",
+    "aliases": [],
+    "entity_class": "PLAN",
+    "type": "errand",
+    "description": "A necessary future meeting with the school principal to discuss Mohan's fight.",
+    "context": [
+      "Need to meet the principal"
+    ],
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+    "domain": "personal_journal"
+  }
+]

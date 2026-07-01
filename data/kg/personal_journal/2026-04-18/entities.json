@@ -1,0 +1,291 @@
+[
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_per_001",
+    "name": "Neetish",
+    "aliases": [
+      "she"
+    ],
+    "entity_class": "PERSON",
+    "type": "child",
+    "description": "A child who scored 85 on a math test and is currently working on a history project about Maratha history.",
+    "context": [
+      "Neetish scored 85 in her math test",
+      "Helped Neetish with her history project",
+      "She's doing it on Maratha history"
+    ],
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_per_002",
+    "name": "Preeti",
+    "aliases": [
+      "she"
+    ],
+    "entity_class": "PERSON",
+    "type": "spouse",
+    "description": "A family member who enrolled in a yoga class and prepared rajma chawal for dinner.",
+    "context": [
+      "Preeti enrolled for a yoga class near home",
+      "Preeti made rajma chawal"
+    ],
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_per_003",
+    "name": "Mohan",
+    "aliases": [
+      "he"
+    ],
+    "entity_class": "PERSON",
+    "type": "child",
+    "description": "A child who created a drawing of the family and the pet dog at school.",
+    "context": [
+      "Mohan brought home a drawing he made in school",
+      "It was of our family including Browny"
+    ],
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_per_004",
+    "name": "Browny",
+    "aliases": [
+      "he"
+    ],
+    "entity_class": "PERSON",
+    "type": "pet",
+    "description": "The family pet dog who visited the vet for vaccinations and has been put on a diet to lose weight.",
+    "context": [
+      "took Browny to the vet for his annual vaccination",
+      "Browny is healthy but needs to lose some weight",
+      "Started a diet for Browny"
+    ],
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_per_005",
+    "name": "The Vet",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "professional",
+    "description": "The medical professional who administered Browny's vaccinations and advised on his weight.",
+    "context": [
+      "The vet said Browny is healthy but needs to lose some weight"
+    ],
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_per_006",
+    "name": "Self",
+    "aliases": [
+      "we"
+    ],
+    "entity_class": "PERSON",
+    "type": "self",
+    "description": "The diarist who is proud of Neetish, manages work emails, and helps the children with schoolwork.",
+    "context": [
+      "we're proud",
+      "received an email about the promotion review",
+      "Helped Neetish with her history project"
+    ],
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_plc_001",
+    "name": "Office",
+    "aliases": [],
+    "entity_class": "PLACE",
+    "type": "workplace",
+    "description": "The diarist's place of employment where news regarding a promotion review was received.",
+    "context": [
+      "Office: received an email about the promotion review"
+    ],
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_plc_002",
+    "name": "Home",
+    "aliases": [],
+    "entity_class": "PLACE",
+    "type": "home",
+    "description": "The primary residence where the family eats dinner and where Preeti's new yoga class is located nearby.",
+    "context": [
+      "yoga class near home",
+      "brought home a drawing"
+    ],
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_plc_003",
+    "name": "School",
+    "aliases": [],
+    "entity_class": "PLACE",
+    "type": "school",
+    "description": "The educational institution where Mohan created his drawing.",
+    "context": [
+      "drawing he made in school"
+    ],
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_plc_004",
+    "name": "Vet Clinic",
+    "aliases": [
+      "the vet"
+    ],
+    "entity_class": "PLACE",
+    "type": "hospital",
+    "description": "The location visited for Browny's annual vaccination.",
+    "context": [
+      "took Browny to the vet for his annual vaccination"
+    ],
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_evt_001",
+    "name": "Math Test",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "achievement",
+    "description": "An academic assessment where Neetish scored 85, leading to mixed feelings of hope and pride.",
+    "context": [
+      "Neetish scored 85 in her math test",
+      "She was hoping for more but we're proud"
+    ],
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_evt_002",
+    "name": "Promotion Review",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "work_event",
+    "description": "A professional evaluation scheduled for next month.",
+    "context": [
+      "email about the promotion review next month"
+    ],
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_evt_003",
+    "name": "Annual Vaccination",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "health_incident",
+    "description": "A routine medical visit for Browny to receive yearly shots.",
+    "context": [
+      "took Browny to the vet for his annual vaccination"
+    ],
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_act_001",
+    "name": "Yoga",
+    "aliases": [],
+    "entity_class": "ACTIVITY",
+    "type": "exercise",
+    "description": "A physical activity Preeti has enrolled in and will begin next week.",
+    "context": [
+      "Preeti enrolled for a yoga class near home"
+    ],
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_act_002",
+    "name": "History Project",
+    "aliases": [],
+    "entity_class": "ACTIVITY",
+    "type": "study",
+    "description": "An academic task regarding Maratha history that the diarist helped Neetish with.",
+    "context": [
+      "Helped Neetish with her history project",
+      "She's doing it on Maratha history"
+    ],
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_act_003",
+    "name": "Browny's Diet",
+    "aliases": [],
+    "entity_class": "ACTIVITY",
+    "type": "care",
+    "description": "A weight-loss regimen started for the dog following the vet's advice.",
+    "context": [
+      "Started a diet for Browny"
+    ],
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_emo_001",
+    "name": "Pride",
+    "aliases": [],
+    "entity_class": "EMOTION",
+    "type": "pride",
+    "description": "The feeling expressed by the diarist regarding Neetish's test performance.",
+    "context": [
+      "we're proud"
+    ],
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_emo_002",
+    "name": "Dissatisfaction",
+    "aliases": [],
+    "entity_class": "EMOTION",
+    "type": "frustration",
+    "description": "The feeling experienced by Browny regarding his new diet.",
+    "context": [
+      "He's not happy about it"
+    ],
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_pln_001",
+    "name": "Yoga Start Date",
+    "aliases": [],
+    "entity_class": "PLAN",
+    "type": "health",
+    "description": "Preeti's intention to begin her yoga classes next week.",
+    "context": [
+      "She starts next week"
+    ],
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  }
+]

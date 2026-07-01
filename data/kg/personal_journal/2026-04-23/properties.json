@@ -1,0 +1,216 @@
+[
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_per_001",
+    "name": "Diarist",
+    "properties": {
+      "current_state": "exhausted but satisfied",
+      "recurring_behaviours": [
+        "caregiving for family",
+        "evening walks with dog"
+      ]
+    },
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_per_002",
+    "name": "Preeti",
+    "properties": {
+      "relationship_to_diarist": "partner/wife",
+      "current_state": "under the weather with a fever",
+      "personality_traits": [
+        "stoic",
+        "insistent on being fine"
+      ]
+    },
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_per_003",
+    "name": "Mohan",
+    "properties": {
+      "relationship_to_diarist": "child",
+      "current_state": "getting along better with sibling"
+    },
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_per_004",
+    "name": "Aryan",
+    "properties": {
+      "relationship_to_diarist": "child",
+      "current_state": "getting along better with sibling"
+    },
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_per_005",
+    "name": "Neetish",
+    "properties": {
+      "relationship_to_diarist": "child",
+      "personality_traits": [
+        "responsible"
+      ],
+      "notable_characteristics": "helpful despite not feeling well"
+    },
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_per_006",
+    "name": "Browny",
+    "properties": {
+      "relationship_to_diarist": "pet dog"
+    },
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_plc_001",
+    "name": "Office",
+    "properties": {
+      "place_type": "workplace",
+      "narrative_function": "site of the client presentation"
+    },
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_plc_002",
+    "name": "Café near Regal Square",
+    "properties": {
+      "place_type": "restaurant/café",
+      "narrative_function": "location for team celebration"
+    },
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_plc_003",
+    "name": "Home",
+    "properties": {
+      "place_type": "residence",
+      "atmosphere": "quiet",
+      "who_associated_with": [
+        "Preeti",
+        "Mohan",
+        "Aryan",
+        "Neetish"
+      ]
+    },
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_plc_004",
+    "name": "Indore",
+    "properties": {
+      "place_type": "city",
+      "current_state": "getting warmer/start of summer"
+    },
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_evt_001",
+    "name": "Client Presentation",
+    "properties": {
+      "outcome": "positive; client loved the revised proposal",
+      "emotional_significance": "successful team effort"
+    },
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_evt_002",
+    "name": "Team Celebration",
+    "properties": {
+      "participants": [
+        "Diarist",
+        "Work colleagues"
+      ],
+      "outcome": "positive"
+    },
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_evt_003",
+    "name": "Children's Playdate",
+    "properties": {
+      "participants": [
+        "Mohan",
+        "Aryan",
+        "other kids"
+      ],
+      "outcome": "positive; children getting along",
+      "activity": "playing cricket in the compound"
+    },
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_act_001",
+    "name": "Caregiving",
+    "properties": {
+      "who_involved": [
+        "Diarist",
+        "Preeti"
+      ],
+      "purpose": "supporting sick partner",
+      "outcome_or_result": "Preeti resting and feeling better"
+    },
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_act_002",
+    "name": "Evening Walk",
+    "properties": {
+      "who_involved": [
+        "Diarist",
+        "Browny"
+      ],
+      "frequency": "routine",
+      "emotional_valence": "quick/routine"
+    },
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_emo_001",
+    "name": "Exhaustion",
+    "properties": {
+      "experienced_by": "Diarist",
+      "trigger": "busy work week and family care",
+      "intensity": "moderate"
+    },
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_emo_002",
+    "name": "Contentment",
+    "properties": {
+      "experienced_by": "Diarist",
+      "trigger": "children getting along and quiet moment at home",
+      "intensity": "mild"
+    },
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_pln_001",
+    "name": "Weekend Planning",
+    "properties": {
+      "timeframe": "tomorrow",
+      "status": "firm intention",
+      "motivation": "organizing the upcoming weekend"
+    },
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9"
+  }
+]

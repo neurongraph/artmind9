@@ -1,0 +1,261 @@
+[
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+    "name": "Self",
+    "properties": {
+      "current_state": "feeling productive and satisfied",
+      "recurring_behaviours": [
+        "evening walks with dog"
+      ]
+    },
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_per_002",
+    "name": "Manager",
+    "properties": {
+      "relationship_to_diarist": "supervisor",
+      "notable_characteristics": [
+        "approves of diarist's marketing strategies"
+      ]
+    },
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_per_003",
+    "name": "Preeti",
+    "properties": {
+      "relationship_to_diarist": "partner/wife",
+      "recurring_behaviours": [
+        "cooking biryani for the family"
+      ],
+      "current_state": "managing children's education and health"
+    },
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_per_004",
+    "name": "Neetish",
+    "properties": {
+      "relationship_to_diarist": "son",
+      "current_state": "performing well in tuition",
+      "life_stage": "student"
+    },
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_per_005",
+    "name": "Mohan",
+    "properties": {
+      "relationship_to_diarist": "son",
+      "current_state": "recovering from fever",
+      "personality_traits": [
+        "eager to play"
+      ]
+    },
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_per_006",
+    "name": "Browny",
+    "properties": {
+      "relationship_to_diarist": "pet dog",
+      "notable_characteristics": [
+        "accompanies diarist on evening walks"
+      ]
+    },
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_per_007",
+    "name": "Neighbors",
+    "properties": {
+      "relationship_to_diarist": "acquaintances",
+      "recurring_behaviours": [
+        "discussing community events"
+      ]
+    },
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_plc_001",
+    "name": "Workplace",
+    "properties": {
+      "place_type": "office",
+      "atmosphere": "relatively calm",
+      "narrative_function": "site of professional achievement"
+    },
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_plc_002",
+    "name": "Tuition Center",
+    "properties": {
+      "place_type": "educational center",
+      "narrative_function": "source of financial concern due to fee increase"
+    },
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_plc_003",
+    "name": "Park",
+    "properties": {
+      "place_type": "public park",
+      "atmosphere": "refreshing",
+      "who_associated_with": [
+        "Self",
+        "Browny",
+        "Neighbors"
+      ],
+      "frequency_of_visit": "daily"
+    },
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_plc_004",
+    "name": "Indore",
+    "properties": {
+      "place_type": "city",
+      "atmosphere": "pleasant weather"
+    },
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_evt_001",
+    "name": "Spencer Report Completion",
+    "properties": {
+      "outcome": "finished ahead of schedule",
+      "emotional_significance": "positive",
+      "is_recurring": false
+    },
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_evt_002",
+    "name": "Marketing Strategy Approval",
+    "properties": {
+      "participants": [
+        {
+          "name": "Self",
+          "role": "proposer"
+        },
+        {
+          "name": "Manager",
+          "role": "approver"
+        }
+      ],
+      "outcome": "approved",
+      "emotional_significance": "rewarding"
+    },
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_evt_003",
+    "name": "Family Movie Night",
+    "properties": {
+      "participants": [
+        "Self",
+        "Preeti",
+        "Neetish",
+        "Mohan"
+      ],
+      "outcome": "positive family bonding",
+      "timeframe": "before bed"
+    },
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_evt_004",
+    "name": "Community Fair",
+    "properties": {
+      "date_or_time": "next month",
+      "participants": [
+        "Residents' welfare association",
+        "Neighbors"
+      ],
+      "is_recurring": false
+    },
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_act_001",
+    "name": "Work",
+    "properties": {
+      "purpose": "professional duty",
+      "emotional_valence": "satisfying",
+      "outcome_or_result": "completed report and strategy approval"
+    },
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_act_002",
+    "name": "Evening Walk",
+    "properties": {
+      "who_involved": [
+        "Self",
+        "Browny"
+      ],
+      "frequency": "daily",
+      "purpose": "relaxation",
+      "emotional_valence": "refreshing"
+    },
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_emo_001",
+    "name": "Satisfaction",
+    "properties": {
+      "experienced_by": "Self",
+      "trigger": "hard work paying off at work",
+      "intensity": "moderate"
+    },
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_emo_002",
+    "name": "Excitement",
+    "properties": {
+      "experienced_by": [
+        "Neetish",
+        "Mohan"
+      ],
+      "trigger": "biryani for dinner",
+      "intensity": "strong"
+    },
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_pla_001",
+    "name": "Tuition Decision",
+    "properties": {
+      "timeframe": "next month",
+      "who_involved": [
+        "Self",
+        "Preeti"
+      ],
+      "motivation": "increasing fees at current center",
+      "status": "tentative/considering alternatives"
+    },
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  }
+]

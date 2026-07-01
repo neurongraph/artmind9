@@ -1,0 +1,247 @@
+[
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_001",
+    "name": "Diarist",
+    "properties": {
+      "current_state": "exhausted",
+      "recurring_behaviours": [
+        "waking up late"
+      ]
+    },
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_002",
+    "name": "Preeti",
+    "properties": {
+      "relationship_to_diarist": "wife",
+      "recurring_behaviours": [
+        "packing kids' lunches",
+        "picking up kids from school",
+        "cooking dinner"
+      ]
+    },
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_003",
+    "name": "Neetish",
+    "properties": {
+      "relationship_to_diarist": "daughter",
+      "current_state": "nervous about math test",
+      "notable_characteristics": [
+        "successful in science project"
+      ]
+    },
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_004",
+    "name": "Mohan",
+    "properties": {
+      "relationship_to_diarist": "son",
+      "current_state": "conflicted with a friend",
+      "recurring_behaviours": [
+        "playing with the dog"
+      ]
+    },
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_005",
+    "name": "Browny",
+    "properties": {
+      "relationship_to_diarist": "pet dog",
+      "personality_traits": [
+        "stubborn"
+      ],
+      "current_state": "aging"
+    },
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_006",
+    "name": "Mohan's friend",
+    "properties": {
+      "relationship_to_diarist": "son's peer",
+      "current_state": "fighting with Mohan"
+    },
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_plc_001",
+    "name": "Home",
+    "properties": {
+      "place_type": "residence",
+      "who_associated_with": [
+        "Diarist",
+        "Preeti",
+        "Neetish",
+        "Mohan",
+        "Browny"
+      ]
+    },
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_plc_002",
+    "name": "Office",
+    "properties": {
+      "place_type": "workplace",
+      "atmosphere": "busy",
+      "narrative_function": "site of quarterly reviews and project pressure"
+    },
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_plc_003",
+    "name": "School",
+    "properties": {
+      "place_type": "educational institution",
+      "who_associated_with": [
+        "Neetish",
+        "Mohan"
+      ]
+    },
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_plc_004",
+    "name": "Nearby Park",
+    "properties": {
+      "place_type": "park",
+      "who_associated_with": [
+        "Diarist",
+        "Browny"
+      ],
+      "narrative_function": "location for dog walking"
+    },
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_evt_001",
+    "name": "Quarterly Reviews",
+    "properties": {
+      "date_or_time": "April 15, 2026, 9 AM to 4 PM",
+      "outcome": "back-to-back meetings",
+      "emotional_significance": "led to exhaustion"
+    },
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_evt_002",
+    "name": "Neetish's Math Test",
+    "properties": {
+      "date_or_time": "April 15, 2026",
+      "participants": [
+        "Neetish"
+      ],
+      "emotional_significance": "caused nervousness"
+    },
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_evt_003",
+    "name": "Science Project Presentation",
+    "properties": {
+      "participants": [
+        "Neetish"
+      ],
+      "outcome": "did well",
+      "emotional_significance": "positive"
+    },
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_evt_004",
+    "name": "Mohan's Conflict",
+    "properties": {
+      "participants": [
+        "Mohan",
+        "Mohan's friend"
+      ],
+      "outcome": "fighting",
+      "emotional_significance": "requires parental intervention"
+    },
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_act_001",
+    "name": "Work",
+    "properties": {
+      "frequency": "daily",
+      "purpose": "professional duty",
+      "emotional_valence": "exhausting",
+      "outcome_or_result": "approaching project deadline"
+    },
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_act_002",
+    "name": "Dog Walking",
+    "properties": {
+      "who_involved": [
+        "Diarist",
+        "Browny"
+      ],
+      "frequency": "evening routine",
+      "purpose": "pet care",
+      "outcome_or_result": "Browny barked at a stray dog"
+    },
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_emo_001",
+    "name": "Nervousness",
+    "properties": {
+      "experienced_by": "Neetish",
+      "trigger": "math test",
+      "intensity": "moderate"
+    },
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_emo_002",
+    "name": "Exhaustion",
+    "properties": {
+      "experienced_by": "Diarist",
+      "trigger": "back-to-back meetings and quarterly reviews",
+      "intensity": "strong",
+      "duration": "evening"
+    },
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_pla_001",
+    "name": "Talk to Mohan",
+    "properties": {
+      "timeframe": "future",
+      "who_involved": [
+        "Diarist",
+        "Mohan"
+      ],
+      "motivation": "address conflict with school friend",
+      "status": "firm intention"
+    },
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  }
+]

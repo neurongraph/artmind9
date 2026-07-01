@@ -1,0 +1,2220 @@
+{
+  "embedding": [
+    -0.007260318,
+    -0.0025111744,
+    -0.19216554,
+    -0.014484868,
+    0.033416856,
+    -0.007685255,
+    0.025542246,
+    -0.038913332,
+    0.023062326,
+    -0.072382964,
+    0.019853633,
+    0.0305011,
+    0.05472916,
+    0.015917912,
+    0.007015833,
+    -0.0024860653,
+    0.022365896,
+    -0.061709516,
+    -0.094977684,
+    0.038075853,
+    0.005527022,
+    0.01684361,
+    -0.013244323,
+    -0.015882282,
+    0.06446112,
+    0.0549484,
+    -0.033410013,
+    0.030703029,
+    0.0062240106,
+    0.01939015,
+    -0.029154545,
+    -0.017069928,
+    -0.04513685,
+    -0.026957553,
+    -0.033281885,
+    -0.013363499,
+    0.052617643,
+    0.015616575,
+    -0.0040005418,
+    -0.07881238,
+    0.074514136,
+    -0.0071297484,
+    -0.011208323,
+    -0.041050557,
+    0.027920768,
+    -0.033632237,
+    0.05601459,
+    -0.022655845,
+    -0.0065524727,
+    -0.033861537,
+    -0.045886986,
+    -0.011254706,
+    -0.0336439,
+    0.02042045,
+    0.015470022,
+    0.022459283,
+    0.032291386,
+    -0.015799036,
+    -0.013905131,
+    0.07199729,
+    0.118636034,
+    0.013099236,
+    -0.0017145509,
+    0.023645313,
+    0.048282925,
+    -0.049959414,
+    -0.023631787,
+    0.07212587,
+    -0.06445982,
+    -0.027688203,
+    0.056356262,
+    -0.063161075,
+    -0.01888551,
+    0.034465943,
+    0.0036267918,
+    -0.011281786,
+    0.04778703,
+    -0.06026672,
+    -0.034607697,
+    -0.023631461,
+    0.007623638,
+    0.0050439676,
+    0.04895715,
+    -0.03250263,
+    0.07618472,
+    0.0031779052,
+    -0.0449838,
+    -0.03955188,
+    -0.05553851,
+    0.07749411,
+    -0.0027676162,
+    0.032937687,
+    0.0035078526,
+    0.006291175,
+    -0.07410828,
+    0.007008337,
+    0.0033089689,
+    0.01087123,
+    -0.022599919,
+    -0.044730224,
+    -0.0023754076,
+    -0.05923486,
+    0.004304031,
+    -0.0057611396,
+    0.02775622,
+    0.0055231433,
+    -0.021031475,
+    0.0055855224,
+    -0.006273264,
+    0.024364632,
+    -0.030676983,
+    0.023832591,
+    -0.016243681,
+    -0.005668749,
+    0.05242741,
+    0.04625846,
+    0.015927963,
+    -0.05073542,
+    0.043961544,
+    0.065861315,
+    0.0034470824,
+    0.009934702,
+    0.0031672514,
+    0.040207617,
+    0.039113868,
+    0.038241975,
+    -0.019023733,
+    0.020739157,
+    0.029869443,
+    -0.0018469822,
+    -0.005046026,
+    -0.014910539,
+    -0.02942339,
+    0.056074988,
+    -0.0017541249,
+    0.020029582,
+    -0.012243851,
+    -0.0064798635,
+    0.043596435,
+    -0.008411721,
+    0.0938977,
+    0.010060184,
+    0.008309518,
+    -0.021477424,
+    -0.043038163,
+    -0.0012792512,
+    0.001687553,
+    -0.08178926,
+    -0.03403852,
+    0.052641284,
+    -0.0018663096,
+    0.0037791447,
+    0.012810859,
+    0.034271203,
+    0.001958962,
+    -0.09038977,
+    -0.016550446,
+    0.05199137,
+    0.056048848,
+    0.032720085,
+    0.0045579933,
+    0.01254454,
+    -0.05807275,
+    0.0389781,
+    0.015328867,
+    -0.04497445,
+    -0.0106235705,
+    0.060010463,
+    0.004760633,
+    0.030653499,
+    -0.072081774,
+    -0.035871428,
+    -0.040208876,
+    -0.047639266,
+    -0.006915813,
+    -0.045097154,
+    0.017546214,
+    0.008258773,
+    -0.011642072,
+    -0.045318663,
+    0.04752753,
+    -0.01633668,
+    0.04962433,
+    -0.016042942,
+    -0.037644632,
+    -0.003018684,
+    0.004206669,
+    -0.021438537,
+    -0.048594713,
+    -0.03165415,
+    -0.002626414,
+    0.0002088482,
+    -0.026994087,
+    -0.019188397,
+    -0.053523976,
+    -0.053404566,
+    0.05149233,
+    -0.039101034,
+    0.011784705,
+    -0.020656578,
+    -0.013434374,
+    -0.012758072,
+    -0.031792622,
+    -0.0042668562,
+    -0.029904986,
+    0.048293784,
+    -0.007597576,
+    -0.04412689,
+    -0.0055167726,
+    -0.01184288,
+    0.0463802,
+    -0.024998784,
+    0.020734536,
+    0.038912628,
+    0.025676243,
+    0.025526036,
+    0.034238636,
+    -0.031692017,
+    -0.047072835,
+    0.01562083,
+    0.004121597,
+    -0.025976982,
+    -0.02709003,
+    -0.027236056,
+    0.03511496,
+    0.011937634,
+    -0.0127739245,
+    -0.0058791838,
+    -0.032270968,
+    0.000666133,
+    0.009864746,
+    -0.05278954,
+    0.022151213,
+    0.017875446,
+    0.004438762,
+    -0.012693923,
+    -0.016232552,
+    0.07474102,
+    0.039475847,
+    -0.014955464,
+    0.0183584,
+    0.059051298,
+    0.029238068,
+    -0.04096719,
+    -0.048367184,
+    0.052720185,
+    0.010238993,
+    -0.040190164,
+    -0.0017995577,
+    0.062360942,
+    0.055967968,
+    -0.018150654,
+    0.02655788,
+    0.02876203,
+    0.018988827,
+    0.01864273,
+    -0.049306575,
+    -0.0014533687,
+    0.020449078,
+    -0.0075640557,
+    0.048287753,
+    -0.060655046,
+    0.014429287,
+    -0.03733252,
+    -0.0027964415,
+    -0.013712621,
+    -0.019490736,
+    -0.0035114095,
+    -0.006763526,
+    -0.06311361,
+    0.056413632,
+    0.06550153,
+    0.057724714,
+    0.041061163,
+    -0.06601737,
+    -0.016921004,
+    0.01826666,
+    -0.018679978,
+    -0.03884846,
+    0.052386295,
+    -0.01471816,
+    -0.028602988,
+    -0.012033666,
+    0.005987556,
+    -0.03426676,
+    0.03112407,
+    0.012897746,
+    -0.008105616,
+    0.0016615461,
+    -0.025123678,
+    0.017923392,
+    0.03732324,
+    0.00060413574,
+    0.09608839,
+    0.006916496,
+    -0.004886462,
+    0.05102955,
+    -0.021298433,
+    -0.021915909,
+    -0.04963341,
+    0.03259007,
+    0.04689693,
+    -0.013297639,
+    0.06647245,
+    -0.016062321,
+    0.018069934,
+    0.0280704,
+    0.0033056806,
+    0.010418333,
+    -0.033110686,
+    -0.037247606,
+    -0.032834493,
+    -0.024961138,
+    -0.019975465,
+    -0.035093132,
+    -0.002162375,
+    0.0030422094,
+    0.069713905,
+    0.061560392,
+    0.0033592405,
+    -0.00044775038,
+    -0.024450384,
+    0.020679716,
+    -0.02326632,
+    -0.047062777,
+    0.05678008,
+    0.0036100543,
+    0.02472244,
+    0.001325818,
+    0.0043329415,
+    -0.03822291,
+    0.03838356,
+    0.028026683,
+    -0.08691003,
+    -0.02191315,
+    0.08679145,
+    0.040774103,
+    0.03990864,
+    0.004234804,
+    -0.01814091,
+    0.0059791896,
+    0.0004840423,
+    -0.0049390593,
+    -0.081175804,
+    -0.018346947,
+    -0.035001423,
+    -0.045818757,
+    -0.0286049,
+    0.030416675,
+    0.033045184,
+    0.020171693,
+    0.00054822984,
+    -0.0343048,
+    0.011831448,
+    -0.0037312233,
+    0.002772142,
+    -0.0074877758,
+    0.033752717,
+    -0.0237651,
+    -0.0043142233,
+    0.037121434,
+    -0.03528046,
+    -0.0012847955,
+    -9.7516844e-05,
+    -0.018713497,
+    0.03990135,
+    0.069271415,
+    -0.03324172,
+    0.07510358,
+    0.029784149,
+    0.019592501,
+    -0.0051664906,
+    -0.023640852,
+    0.036248725,
+    0.00088968704,
+    0.03033237,
+    -0.064615525,
+    -0.037795357,
+    -0.032827746,
+    0.00960413,
+    0.00789789,
+    -0.0067271455,
+    -0.027789742,
+    0.050661594,
+    0.026541522,
+    -0.00089683867,
+    0.010117668,
+    -0.0113464035,
+    -0.017317573,
+    -0.0020171967,
+    0.0075571775,
+    -0.0119420355,
+    0.0033371968,
+    0.011282737,
+    0.043018237,
+    -0.0095177395,
+    0.045119014,
+    -0.0029572772,
+    -0.03004841,
+    0.027108897,
+    -0.0037895483,
+    -0.06667789,
+    0.021547686,
+    0.0067645675,
+    -0.021360418,
+    0.024586223,
+    -0.042289756,
+    -0.022270702,
+    0.040590752,
+    -0.044216663,
+    0.049622744,
+    0.03062366,
+    -0.015460245,
+    -0.05477936,
+    0.0058005913,
+    0.038393546,
+    0.052128233,
+    -0.01769989,
+    -0.03677725,
+    -0.0043637343,
+    0.03699919,
+    0.011933582,
+    -0.008211032,
+    0.02780515,
+    0.048455834,
+    0.03725957,
+    0.05651006,
+    -0.013692761,
+    -0.051967125,
+    -0.069044456,
+    0.0024922956,
+    0.045302432,
+    -0.011411162,
+    -0.017406745,
+    0.048599306,
+    -0.0022260519,
+    -0.046360437,
+    0.022553343,
+    0.039875675,
+    0.0027402854,
+    0.039056335,
+    -0.039556246,
+    -0.01912476,
+    -0.039869986,
+    0.032778755,
+    0.06116304,
+    0.01910473,
+    -0.04345379,
+    0.015032378,
+    0.034811743,
+    0.013703255,
+    0.048270803,
+    0.01521568,
+    0.03728759,
+    0.049554653,
+    -0.06770409,
+    -0.020605784,
+    0.015787197,
+    -0.01953917,
+    0.057236556,
+    0.017473796,
+    -0.036184646,
+    -0.049807273,
+    -0.036628153,
+    -0.010768667,
+    0.04071538,
+    -0.0026881206,
+    0.008506738,
+    0.014156397,
+    0.045167383,
+    -0.06032788,
+    0.0011821315,
+    -0.030948488,
+    -0.02775594,
+    -0.03411881,
+    -0.009113093,
+    -0.030786935,
+    0.025804197,
+    0.03480679,
+    0.070724756,
+    0.06981103,
+    -0.048968222,
+    -0.038645837,
+    -0.0067194253,
+    -0.018788198,
+    0.023548994,
+    0.009920095,
+    -0.037484206,
+    -0.023161419,
+    -0.02623065,
+    0.055220343,
+    -0.023780176,
+    0.025564767,
+    0.01602103,
+    -0.0015171098,
+    -0.023638593,
+    -0.028793313,
+    0.03480828,
+    0.026848296,
+    -0.032445583,
+    0.028241158,
+    0.01183051,
+    -0.046546515,
+    -0.016032739,
+    0.062238142,
+    -0.016489422,
+    -0.0048415405,
+    -0.06597907,
+    -0.048915822,
+    0.006389432,
+    0.0041125626,
+    0.02192962,
+    0.030023761,
+    0.010382281,
+    0.04518631,
+    -0.007860505,
+    0.03401526,
+    -0.011155244,
+    -0.04303008,
+    0.04875837,
+    0.037700053,
+    -0.024950368,
+    0.027578017,
+    -0.07096148,
+    -0.05590348,
+    0.046243593,
+    -0.017714681,
+    -0.056173924,
+    0.056648508,
+    -0.021284379,
+    -0.021735903,
+    0.026259243,
+    -0.037447274,
+    0.007317185,
+    0.06926475,
+    -0.036671337,
+    -0.003025963,
+    -0.009853966,
+    0.024010995,
+    0.03175611,
+    -0.012012292,
+    -0.014662652,
+    -0.03620078,
+    -0.04598715,
+    0.0030545231,
+    0.014907527,
+    -0.06880885,
+    0.016574835,
+    0.024859456,
+    0.037571758,
+    0.036810685,
+    -0.062215604,
+    0.011892528,
+    -0.015107217,
+    -0.04996003,
+    -0.018430432,
+    -0.019779524,
+    -0.0046910457,
+    -0.04187663,
+    -0.035956863,
+    0.00055769866,
+    0.0028017245,
+    0.025152022,
+    0.015664835,
+    0.04411602,
+    0.023791678,
+    0.025837084,
+    -0.035200313,
+    -0.03929597,
+    -0.01678049,
+    0.0045728544,
+    -0.041837934,
+    -0.012775293,
+    -0.008488194,
+    -0.012754013,
+    -0.004396578,
+    0.022351453,
+    0.07004236,
+    -0.060382914,
+    -0.031467814,
+    0.029656539,
+    0.006831765,
+    0.007057998,
+    0.013908765,
+    -0.02404118,
+    -0.01604562,
+    -0.056076348,
+    -0.087778196,
+    0.033425383,
+    -0.036520544,
+    -0.01996808,
+    0.017512022,
+    -0.0019106633,
+    0.040285252,
+    0.00038428564,
+    0.0049241763,
+    -0.047485046,
+    -0.0075472724,
+    -0.0647763,
+    -0.05339998,
+    0.026531095,
+    -0.006783734,
+    0.06087748,
+    -0.018108852,
+    -0.008720341,
+    0.009526173,
+    -0.017388713,
+    -0.0026275984,
+    -0.0040272493,
+    0.0036021285,
+    0.023749942,
+    -0.004818671,
+    0.04761587,
+    0.039026167,
+    0.028865784,
+    0.005139191,
+    0.0960386,
+    -0.0016638761,
+    -0.013453123,
+    -0.0911526,
+    -0.03801137,
+    -0.020939294,
+    0.068922535,
+    -0.01951254,
+    0.009708544,
+    -0.006625951,
+    -0.0405895,
+    -0.039478116,
+    -0.039355066,
+    0.07560055,
+    -0.021663023,
+    -0.014611252,
+    -0.02527059,
+    0.0043922164,
+    -0.046739977,
+    0.002849493,
+    0.011622807,
+    0.039495613,
+    -0.020975916,
+    0.03255008,
+    0.022932164,
+    -0.026267808,
+    0.0023976942,
+    0.056304745,
+    0.054779924,
+    -0.051208906,
+    0.078396805,
+    0.0035619189,
+    0.08302922,
+    0.026530234,
+    0.056501452,
+    0.06931441,
+    0.040333383,
+    0.02657103,
+    0.0084511265,
+    -0.029363815,
+    0.011906493,
+    -0.050152034,
+    -0.064379975,
+    -0.017407808,
+    0.0023217148,
+    0.01168303,
+    -0.008494864,
+    0.069210134,
+    0.001091519,
+    0.016866697,
+    0.008454277,
+    0.049552694,
+    -0.059790675,
+    -0.046793602,
+    0.04582615,
+    0.0068838517,
+    0.0048802933,
+    -0.035270486,
+    -0.042161502,
+    0.042326618,
+    0.024788003,
+    0.05551545,
+    0.06739372,
+    -0.0010667171,
+    0.029637314,
+    0.009830525,
+    0.009343705,
+    -0.0116672525,
+    -0.0033231094,
+    -0.028630009,
+    0.035265375,
+    0.001148876,
+    0.014525076,
+    -0.01826819,
+    -0.008235895,
+    -0.026032593,
+    -0.07385017,
+    -0.029818606,
+    -0.02439354,
+    0.01737288,
+    0.0011136814,
+    -0.01574433,
+    -0.051461644,
+    0.025094874,
+    -0.017252842,
+    0.034886833,
+    0.009992181,
+    0.030927027,
+    -0.037781082,
+    0.007997015,
+    0.028897459,
+    0.00019102723,
+    -0.022868486,
+    0.010732367,
+    0.0076567577,
+    -0.01221585,
+    -0.011797168,
+    0.0024459464,
+    0.02143297,
+    0.027810486,
+    0.016665021,
+    -0.07376317,
+    0.0004188247,
+    0.02987393,
+    0.026494583,
+    -0.0051026535,
+    -0.08420691,
+    -0.005261211,
+    0.027396549,
+    -0.0061985212,
+    0.011161443,
+    -0.039505523,
+    0.043995216,
+    -0.02593322,
+    0.02449324,
+    -0.015759367,
+    -0.043663196,
+    0.020635992,
+    0.02517586,
+    0.031103522,
+    -0.01570054,
+    -0.0063081416,
+    -0.021947628,
+    -0.028376171,
+    -0.031426705,
+    0.015338694,
+    0.02476675,
+    0.06152974,
+    -0.07226253,
+    -0.0146141555,
+    0.017413603,
+    0.03448085,
+    0.030805951,
+    -0.020141467,
+    0.02234748,
+    -0.03184144,
+    -0.06879597,
+    0.010558963,
+    -0.020168552,
+    0.031955242,
+    -0.013662032,
+    0.023490652,
+    0.0739862,
+    0.010070277,
+    -0.0062017473,
+    0.0005875601,
+    0.026954345,
+    -0.015392775,
+    -0.014040606,
+    -0.035073202,
+    -0.061895095,
+    -0.07415886
+  ],
+  "chunk_seq": 1,
+  "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+  "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+  "text": "# April 17, 2026  \nThe week is flying by. Today was relatively calm at work. Finished the Spencer report ahead of schedule. My manager approved the new marketing strategy I proposed last week. Feels good when the hard work pays off.  \nPreeti called in the afternoon. She wanted to discuss Neetish's tuition classes. The tuition center is increasing fees next month. We're considering whether to continue with the same center or look for alternatives. Neetish has been performing well there, so it's a tough decision.  \nMohan seemed better today. No more fever. He wanted to go to the park but Preeti made him rest. He's already asking for permission to go play with his friends tomorrow.  \nEvening walk with Browny was refreshing. The weather in Indore is pleasant these days. Met some neighbors at the park. We discussed the upcoming community fair next month. The residents' welfare association is planning a mela.  \nPreeti made biryani for dinner. The kids were excited. It's their favorite. Watched a movie together as a family before bed.",
+  "name": "Chunk 1/1",
+  "domain": "personal_journal",
+  "raw_entities": [
+    {
+      "id": "per_001",
+      "name": "Self",
+      "aliases": [
+        "I"
+      ],
+      "entity_class": "PERSON",
+      "type": "self",
+      "description": "The diarist who is working on marketing strategies and reports. They are experiencing a sense of accomplishment at work and spending time with family and their pet.",
+      "context": [
+        "Finished the Spencer report ahead of schedule",
+        "My manager approved the new marketing strategy I proposed last week",
+        "Evening walk with Browny was refreshing"
+      ]
+    },
+    {
+      "id": "per_002",
+      "name": "Manager",
+      "aliases": [],
+      "entity_class": "PERSON",
+      "type": "colleague",
+      "description": "The diarist's supervisor who approved the new marketing strategy proposed last week.",
+      "context": [
+        "My manager approved the new marketing strategy I proposed last week"
+      ]
+    },
+    {
+      "id": "per_003",
+      "name": "Preeti",
+      "aliases": [
+        "she"
+      ],
+      "entity_class": "PERSON",
+      "type": "spouse",
+      "description": "The diarist's partner who manages the children's education and health, and prepared biryani for the family dinner.",
+      "context": [
+        "Preeti called in the afternoon",
+        "Preeti made him rest",
+        "Preeti made biryani for dinner"
+      ]
+    },
+    {
+      "id": "per_004",
+      "name": "Neetish",
+      "aliases": [],
+      "entity_class": "PERSON",
+      "type": "child",
+      "description": "One of the children who is currently attending tuition classes and performing well academically.",
+      "context": [
+        "discuss Neetish's tuition classes",
+        "Neetish has been performing well there"
+      ]
+    },
+    {
+      "id": "per_005",
+      "name": "Mohan",
+      "aliases": [
+        "he"
+      ],
+      "entity_class": "PERSON",
+      "type": "child",
+      "description": "One of the children who is recovering from a fever and is eager to go back to the park to play with friends.",
+      "context": [
+        "Mohan seemed better today",
+        "No more fever",
+        "He wanted to go to the park"
+      ]
+    },
+    {
+      "id": "per_006",
+      "name": "Browny",
+      "aliases": [],
+      "entity_class": "PERSON",
+      "type": "pet",
+      "description": "The diarist's pet who accompanied them on an evening walk.",
+      "context": [
+        "Evening walk with Browny was refreshing"
+      ]
+    },
+    {
+      "id": "per_007",
+      "name": "Neighbors",
+      "aliases": [],
+      "entity_class": "PERSON",
+      "type": "acquaintance",
+      "description": "People living nearby whom the diarist met at the park to discuss the community fair.",
+      "context": [
+        "Met some neighbors at the park",
+        "We discussed the upcoming community fair next month"
+      ]
+    },
+    {
+      "id": "plc_001",
+      "name": "Workplace",
+      "aliases": [
+        "work"
+      ],
+      "entity_class": "PLACE",
+      "type": "workplace",
+      "description": "The location where the diarist completed the Spencer report and proposed a marketing strategy.",
+      "context": [
+        "Today was relatively calm at work"
+      ]
+    },
+    {
+      "id": "plc_002",
+      "name": "Tuition Center",
+      "aliases": [
+        "center"
+      ],
+      "entity_class": "PLACE",
+      "type": "school",
+      "description": "The educational facility where Neetish studies and which is increasing its fees next month.",
+      "context": [
+        "The tuition center is increasing fees next month",
+        "continue with the same center or look for alternatives"
+      ]
+    },
+    {
+      "id": "plc_003",
+      "name": "Park",
+      "aliases": [],
+      "entity_class": "PLACE",
+      "type": "park",
+      "description": "A local outdoor area where the diarist walked Browny and met with neighbors.",
+      "context": [
+        "He wanted to go to the park",
+        "Met some neighbors at the park"
+      ]
+    },
+    {
+      "id": "plc_004",
+      "name": "Indore",
+      "aliases": [],
+      "entity_class": "PLACE",
+      "type": "city",
+      "description": "The city where the diarist resides, noted for having pleasant weather currently.",
+      "context": [
+        "The weather in Indore is pleasant these days"
+      ]
+    },
+    {
+      "id": "evt_001",
+      "name": "Spencer Report Completion",
+      "aliases": [],
+      "entity_class": "EVENT",
+      "type": "achievement",
+      "description": "The successful and early completion of a professional report.",
+      "context": [
+        "Finished the Spencer report ahead of schedule"
+      ]
+    },
+    {
+      "id": "evt_002",
+      "name": "Marketing Strategy Approval",
+      "aliases": [],
+      "entity_class": "EVENT",
+      "type": "achievement",
+      "description": "The manager's acceptance of a new marketing strategy proposed by the diarist.",
+      "context": [
+        "My manager approved the new marketing strategy I proposed last week"
+      ]
+    },
+    {
+      "id": "evt_003",
+      "name": "Family Movie Night",
+      "aliases": [],
+      "entity_class": "EVENT",
+      "type": "social_gathering",
+      "description": "A shared activity where the family watched a movie together before going to bed.",
+      "context": [
+        "Watched a movie together as a family before bed"
+      ]
+    },
+    {
+      "id": "evt_004",
+      "name": "Community Fair",
+      "aliases": [
+        "mela"
+      ],
+      "entity_class": "EVENT",
+      "type": "social_gathering",
+      "description": "An upcoming event planned by the residents' welfare association for next month.",
+      "context": [
+        "discussed the upcoming community fair next month",
+        "The residents' welfare association is planning a mela"
+      ]
+    },
+    {
+      "id": "act_001",
+      "name": "Work",
+      "aliases": [],
+      "entity_class": "ACTIVITY",
+      "type": "work",
+      "description": "The diarist's professional duties, including reporting and strategy planning.",
+      "context": [
+        "Today was relatively calm at work"
+      ]
+    },
+    {
+      "id": "act_002",
+      "name": "Evening Walk",
+      "aliases": [],
+      "entity_class": "ACTIVITY",
+      "type": "leisure",
+      "description": "A refreshing walk taken in the evening with the pet dog, Browny.",
+      "context": [
+        "Evening walk with Browny was refreshing"
+      ]
+    },
+    {
+      "id": "emo_001",
+      "name": "Satisfaction",
+      "aliases": [],
+      "entity_class": "EMOTION",
+      "type": "contentment",
+      "description": "A feeling of reward and positivity resulting from professional success.",
+      "context": [
+        "Feels good when the hard work pays off"
+      ]
+    },
+    {
+      "id": "emo_002",
+      "name": "Excitement",
+      "aliases": [],
+      "entity_class": "EMOTION",
+      "type": "excitement",
+      "description": "The children's emotional reaction to having biryani for dinner.",
+      "context": [
+        "The kids were excited"
+      ]
+    },
+    {
+      "id": "pla_001",
+      "name": "Tuition Decision",
+      "aliases": [],
+      "entity_class": "PLAN",
+      "type": "family",
+      "description": "The process of deciding whether to keep Neetish at the current tuition center despite the fee increase or find a new one.",
+      "context": [
+        "considering whether to continue with the same center or look for alternatives"
+      ]
+    }
+  ],
+  "id_map": {
+    "per_001": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+    "per_002": "b58db6a4bf3244609469bd018c6476d9_001_per_002",
+    "per_003": "b58db6a4bf3244609469bd018c6476d9_001_per_003",
+    "per_004": "b58db6a4bf3244609469bd018c6476d9_001_per_004",
+    "per_005": "b58db6a4bf3244609469bd018c6476d9_001_per_005",
+    "per_006": "b58db6a4bf3244609469bd018c6476d9_001_per_006",
+    "per_007": "b58db6a4bf3244609469bd018c6476d9_001_per_007",
+    "plc_001": "b58db6a4bf3244609469bd018c6476d9_001_plc_001",
+    "plc_002": "b58db6a4bf3244609469bd018c6476d9_001_plc_002",
+    "plc_003": "b58db6a4bf3244609469bd018c6476d9_001_plc_003",
+    "plc_004": "b58db6a4bf3244609469bd018c6476d9_001_plc_004",
+    "evt_001": "b58db6a4bf3244609469bd018c6476d9_001_evt_001",
+    "evt_002": "b58db6a4bf3244609469bd018c6476d9_001_evt_002",
+    "evt_003": "b58db6a4bf3244609469bd018c6476d9_001_evt_003",
+    "evt_004": "b58db6a4bf3244609469bd018c6476d9_001_evt_004",
+    "act_001": "b58db6a4bf3244609469bd018c6476d9_001_act_001",
+    "act_002": "b58db6a4bf3244609469bd018c6476d9_001_act_002",
+    "emo_001": "b58db6a4bf3244609469bd018c6476d9_001_emo_001",
+    "emo_002": "b58db6a4bf3244609469bd018c6476d9_001_emo_002",
+    "pla_001": "b58db6a4bf3244609469bd018c6476d9_001_pla_001"
+  },
+  "entities": [
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+      "name": "Self",
+      "aliases": [
+        "I"
+      ],
+      "entity_class": "PERSON",
+      "type": "self",
+      "description": "The diarist who is working on marketing strategies and reports. They are experiencing a sense of accomplishment at work and spending time with family and their pet.",
+      "context": [
+        "Finished the Spencer report ahead of schedule",
+        "My manager approved the new marketing strategy I proposed last week",
+        "Evening walk with Browny was refreshing"
+      ],
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_per_002",
+      "name": "Manager",
+      "aliases": [],
+      "entity_class": "PERSON",
+      "type": "colleague",
+      "description": "The diarist's supervisor who approved the new marketing strategy proposed last week.",
+      "context": [
+        "My manager approved the new marketing strategy I proposed last week"
+      ],
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_per_003",
+      "name": "Preeti",
+      "aliases": [
+        "she"
+      ],
+      "entity_class": "PERSON",
+      "type": "spouse",
+      "description": "The diarist's partner who manages the children's education and health, and prepared biryani for the family dinner.",
+      "context": [
+        "Preeti called in the afternoon",
+        "Preeti made him rest",
+        "Preeti made biryani for dinner"
+      ],
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_per_004",
+      "name": "Neetish",
+      "aliases": [],
+      "entity_class": "PERSON",
+      "type": "child",
+      "description": "One of the children who is currently attending tuition classes and performing well academically.",
+      "context": [
+        "discuss Neetish's tuition classes",
+        "Neetish has been performing well there"
+      ],
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_per_005",
+      "name": "Mohan",
+      "aliases": [
+        "he"
+      ],
+      "entity_class": "PERSON",
+      "type": "child",
+      "description": "One of the children who is recovering from a fever and is eager to go back to the park to play with friends.",
+      "context": [
+        "Mohan seemed better today",
+        "No more fever",
+        "He wanted to go to the park"
+      ],
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_per_006",
+      "name": "Browny",
+      "aliases": [],
+      "entity_class": "PERSON",
+      "type": "pet",
+      "description": "The diarist's pet who accompanied them on an evening walk.",
+      "context": [
+        "Evening walk with Browny was refreshing"
+      ],
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_per_007",
+      "name": "Neighbors",
+      "aliases": [],
+      "entity_class": "PERSON",
+      "type": "acquaintance",
+      "description": "People living nearby whom the diarist met at the park to discuss the community fair.",
+      "context": [
+        "Met some neighbors at the park",
+        "We discussed the upcoming community fair next month"
+      ],
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_plc_001",
+      "name": "Workplace",
+      "aliases": [
+        "work"
+      ],
+      "entity_class": "PLACE",
+      "type": "workplace",
+      "description": "The location where the diarist completed the Spencer report and proposed a marketing strategy.",
+      "context": [
+        "Today was relatively calm at work"
+      ],
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_plc_002",
+      "name": "Tuition Center",
+      "aliases": [
+        "center"
+      ],
+      "entity_class": "PLACE",
+      "type": "school",
+      "description": "The educational facility where Neetish studies and which is increasing its fees next month.",
+      "context": [
+        "The tuition center is increasing fees next month",
+        "continue with the same center or look for alternatives"
+      ],
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_plc_003",
+      "name": "Park",
+      "aliases": [],
+      "entity_class": "PLACE",
+      "type": "park",
+      "description": "A local outdoor area where the diarist walked Browny and met with neighbors.",
+      "context": [
+        "He wanted to go to the park",
+        "Met some neighbors at the park"
+      ],
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_plc_004",
+      "name": "Indore",
+      "aliases": [],
+      "entity_class": "PLACE",
+      "type": "city",
+      "description": "The city where the diarist resides, noted for having pleasant weather currently.",
+      "context": [
+        "The weather in Indore is pleasant these days"
+      ],
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_evt_001",
+      "name": "Spencer Report Completion",
+      "aliases": [],
+      "entity_class": "EVENT",
+      "type": "achievement",
+      "description": "The successful and early completion of a professional report.",
+      "context": [
+        "Finished the Spencer report ahead of schedule"
+      ],
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_evt_002",
+      "name": "Marketing Strategy Approval",
+      "aliases": [],
+      "entity_class": "EVENT",
+      "type": "achievement",
+      "description": "The manager's acceptance of a new marketing strategy proposed by the diarist.",
+      "context": [
+        "My manager approved the new marketing strategy I proposed last week"
+      ],
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_evt_003",
+      "name": "Family Movie Night",
+      "aliases": [],
+      "entity_class": "EVENT",
+      "type": "social_gathering",
+      "description": "A shared activity where the family watched a movie together before going to bed.",
+      "context": [
+        "Watched a movie together as a family before bed"
+      ],
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_evt_004",
+      "name": "Community Fair",
+      "aliases": [
+        "mela"
+      ],
+      "entity_class": "EVENT",
+      "type": "social_gathering",
+      "description": "An upcoming event planned by the residents' welfare association for next month.",
+      "context": [
+        "discussed the upcoming community fair next month",
+        "The residents' welfare association is planning a mela"
+      ],
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_act_001",
+      "name": "Work",
+      "aliases": [],
+      "entity_class": "ACTIVITY",
+      "type": "work",
+      "description": "The diarist's professional duties, including reporting and strategy planning.",
+      "context": [
+        "Today was relatively calm at work"
+      ],
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_act_002",
+      "name": "Evening Walk",
+      "aliases": [],
+      "entity_class": "ACTIVITY",
+      "type": "leisure",
+      "description": "A refreshing walk taken in the evening with the pet dog, Browny.",
+      "context": [
+        "Evening walk with Browny was refreshing"
+      ],
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_emo_001",
+      "name": "Satisfaction",
+      "aliases": [],
+      "entity_class": "EMOTION",
+      "type": "contentment",
+      "description": "A feeling of reward and positivity resulting from professional success.",
+      "context": [
+        "Feels good when the hard work pays off"
+      ],
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_emo_002",
+      "name": "Excitement",
+      "aliases": [],
+      "entity_class": "EMOTION",
+      "type": "excitement",
+      "description": "The children's emotional reaction to having biryani for dinner.",
+      "context": [
+        "The kids were excited"
+      ],
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_pla_001",
+      "name": "Tuition Decision",
+      "aliases": [],
+      "entity_class": "PLAN",
+      "type": "family",
+      "description": "The process of deciding whether to keep Neetish at the current tuition center despite the fee increase or find a new one.",
+      "context": [
+        "considering whether to continue with the same center or look for alternatives"
+      ],
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    }
+  ],
+  "properties": [
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+      "name": "Self",
+      "properties": {
+        "current_state": "feeling productive and satisfied",
+        "recurring_behaviours": [
+          "evening walks with dog"
+        ]
+      },
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_per_002",
+      "name": "Manager",
+      "properties": {
+        "relationship_to_diarist": "supervisor",
+        "notable_characteristics": [
+          "approves of diarist's marketing strategies"
+        ]
+      },
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_per_003",
+      "name": "Preeti",
+      "properties": {
+        "relationship_to_diarist": "partner/wife",
+        "recurring_behaviours": [
+          "cooking biryani for the family"
+        ],
+        "current_state": "managing children's education and health"
+      },
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_per_004",
+      "name": "Neetish",
+      "properties": {
+        "relationship_to_diarist": "son",
+        "current_state": "performing well in tuition",
+        "life_stage": "student"
+      },
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_per_005",
+      "name": "Mohan",
+      "properties": {
+        "relationship_to_diarist": "son",
+        "current_state": "recovering from fever",
+        "personality_traits": [
+          "eager to play"
+        ]
+      },
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_per_006",
+      "name": "Browny",
+      "properties": {
+        "relationship_to_diarist": "pet dog",
+        "notable_characteristics": [
+          "accompanies diarist on evening walks"
+        ]
+      },
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_per_007",
+      "name": "Neighbors",
+      "properties": {
+        "relationship_to_diarist": "acquaintances",
+        "recurring_behaviours": [
+          "discussing community events"
+        ]
+      },
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_plc_001",
+      "name": "Workplace",
+      "properties": {
+        "place_type": "office",
+        "atmosphere": "relatively calm",
+        "narrative_function": "site of professional achievement"
+      },
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_plc_002",
+      "name": "Tuition Center",
+      "properties": {
+        "place_type": "educational center",
+        "narrative_function": "source of financial concern due to fee increase"
+      },
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_plc_003",
+      "name": "Park",
+      "properties": {
+        "place_type": "public park",
+        "atmosphere": "refreshing",
+        "who_associated_with": [
+          "Self",
+          "Browny",
+          "Neighbors"
+        ],
+        "frequency_of_visit": "daily"
+      },
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_plc_004",
+      "name": "Indore",
+      "properties": {
+        "place_type": "city",
+        "atmosphere": "pleasant weather"
+      },
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_evt_001",
+      "name": "Spencer Report Completion",
+      "properties": {
+        "outcome": "finished ahead of schedule",
+        "emotional_significance": "positive",
+        "is_recurring": false
+      },
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_evt_002",
+      "name": "Marketing Strategy Approval",
+      "properties": {
+        "participants": [
+          {
+            "name": "Self",
+            "role": "proposer"
+          },
+          {
+            "name": "Manager",
+            "role": "approver"
+          }
+        ],
+        "outcome": "approved",
+        "emotional_significance": "rewarding"
+      },
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_evt_003",
+      "name": "Family Movie Night",
+      "properties": {
+        "participants": [
+          "Self",
+          "Preeti",
+          "Neetish",
+          "Mohan"
+        ],
+        "outcome": "positive family bonding",
+        "timeframe": "before bed"
+      },
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_evt_004",
+      "name": "Community Fair",
+      "properties": {
+        "date_or_time": "next month",
+        "participants": [
+          "Residents' welfare association",
+          "Neighbors"
+        ],
+        "is_recurring": false
+      },
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_act_001",
+      "name": "Work",
+      "properties": {
+        "purpose": "professional duty",
+        "emotional_valence": "satisfying",
+        "outcome_or_result": "completed report and strategy approval"
+      },
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_act_002",
+      "name": "Evening Walk",
+      "properties": {
+        "who_involved": [
+          "Self",
+          "Browny"
+        ],
+        "frequency": "daily",
+        "purpose": "relaxation",
+        "emotional_valence": "refreshing"
+      },
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_emo_001",
+      "name": "Satisfaction",
+      "properties": {
+        "experienced_by": "Self",
+        "trigger": "hard work paying off at work",
+        "intensity": "moderate"
+      },
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_emo_002",
+      "name": "Excitement",
+      "properties": {
+        "experienced_by": [
+          "Neetish",
+          "Mohan"
+        ],
+        "trigger": "biryani for dinner",
+        "intensity": "strong"
+      },
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "id": "b58db6a4bf3244609469bd018c6476d9_001_pla_001",
+      "name": "Tuition Decision",
+      "properties": {
+        "timeframe": "next month",
+        "who_involved": [
+          "Self",
+          "Preeti"
+        ],
+        "motivation": "increasing fees at current center",
+        "status": "tentative/considering alternatives"
+      },
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+      "source_name": "Self",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001_plc_001",
+      "target_name": "Workplace",
+      "rel_type": "works_at",
+      "description": "Self works at the workplace",
+      "properties": {},
+      "context": "Today was relatively calm at work.",
+      "bidirectional": false,
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+      "source_name": "Self",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001_evt_001",
+      "target_name": "Spencer Report Completion",
+      "rel_type": "participates_in",
+      "description": "Self completed the Spencer report ahead of schedule",
+      "properties": {
+        "role": "subject",
+        "outcome": "completed ahead of schedule"
+      },
+      "context": "Finished the Spencer report ahead of schedule.",
+      "bidirectional": false,
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+      "source_name": "Self",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001_per_002",
+      "target_name": "Manager",
+      "rel_type": "colleague_of",
+      "description": "Self reports to the manager",
+      "properties": {
+        "nature": "professional"
+      },
+      "context": "My manager approved the new marketing strategy I proposed last week.",
+      "bidirectional": true,
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_002",
+      "source_name": "Manager",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001_evt_002",
+      "target_name": "Marketing Strategy Approval",
+      "rel_type": "participates_in",
+      "description": "Manager approved the marketing strategy",
+      "properties": {
+        "role": "organiser",
+        "outcome": "approved"
+      },
+      "context": "My manager approved the new marketing strategy I proposed last week.",
+      "bidirectional": false,
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+      "source_name": "Self",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001_evt_002",
+      "target_name": "Marketing Strategy Approval",
+      "rel_type": "participates_in",
+      "description": "Self proposed the marketing strategy",
+      "properties": {
+        "role": "subject",
+        "outcome": "approved"
+      },
+      "context": "My manager approved the new marketing strategy I proposed last week.",
+      "bidirectional": false,
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+      "source_name": "Self",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001_emo_001",
+      "target_name": "Satisfaction",
+      "rel_type": "experiences",
+      "description": "Self feels satisfaction from hard work paying off",
+      "properties": {
+        "intensity": "moderate"
+      },
+      "context": "Feels good when the hard work pays off.",
+      "bidirectional": false,
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+      "source_name": "Self",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001_per_003",
+      "target_name": "Preeti",
+      "rel_type": "related_to",
+      "description": "Self and Preeti are partners/spouses",
+      "properties": {
+        "nature": "family",
+        "bond_strength": "close"
+      },
+      "context": "Preeti called in the afternoon.",
+      "bidirectional": true,
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_003",
+      "source_name": "Preeti",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001_per_004",
+      "target_name": "Neetish",
+      "rel_type": "parent_of",
+      "description": "Preeti is the parent of Neetish",
+      "properties": {
+        "nature": "family"
+      },
+      "context": "She wanted to discuss Neetish's tuition classes.",
+      "bidirectional": false,
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_003",
+      "source_name": "Preeti",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001_pla_001",
+      "target_name": "Tuition Decision",
+      "rel_type": "has_plan",
+      "description": "Preeti is deciding on Neetish's tuition center",
+      "properties": {
+        "timeframe": "next month",
+        "urgency": "medium"
+      },
+      "context": "We're considering whether to continue with the same center or look for alternatives.",
+      "bidirectional": false,
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_004",
+      "source_name": "Neetish",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001_plc_002",
+      "target_name": "Tuition Center",
+      "rel_type": "studies_at",
+      "description": "Neetish attends classes at the tuition center",
+      "properties": {
+        "performance": "well"
+      },
+      "context": "Neetish has been performing well there",
+      "bidirectional": false,
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_003",
+      "source_name": "Preeti",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001_per_005",
+      "target_name": "Mohan",
+      "rel_type": "cares_for",
+      "description": "Preeti looks after Mohan's health",
+      "properties": {
+        "nature": "parental"
+      },
+      "context": "Preeti made him rest.",
+      "bidirectional": false,
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_005",
+      "source_name": "Mohan",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001_plc_003",
+      "target_name": "Park",
+      "rel_type": "visits",
+      "description": "Mohan wanted to go to the park",
+      "properties": {
+        "status": "desired"
+      },
+      "context": "He wanted to go to the park",
+      "bidirectional": false,
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+      "source_name": "Self",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001_act_002",
+      "target_name": "Evening Walk",
+      "rel_type": "performs",
+      "description": "Self took an evening walk",
+      "properties": {
+        "feeling": "refreshing"
+      },
+      "context": "Evening walk with Browny was refreshing.",
+      "bidirectional": false,
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+      "source_name": "Self",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001_per_006",
+      "target_name": "Browny",
+      "rel_type": "cares_for",
+      "description": "Self takes Browny for walks",
+      "properties": {
+        "nature": "pet"
+      },
+      "context": "Evening walk with Browny was refreshing.",
+      "bidirectional": true,
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_act_002",
+      "source_name": "Evening Walk",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001_plc_003",
+      "target_name": "Park",
+      "rel_type": "takes_place_at",
+      "description": "The evening walk occurred at the park",
+      "properties": {},
+      "context": "Met some neighbors at the park.",
+      "bidirectional": false,
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+      "source_name": "Self",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001_plc_004",
+      "target_name": "Indore",
+      "rel_type": "lives_at",
+      "description": "Self lives in Indore",
+      "properties": {},
+      "context": "The weather in Indore is pleasant these days.",
+      "bidirectional": false,
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+      "source_name": "Self",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001_per_007",
+      "target_name": "Neighbors",
+      "rel_type": "spends_time_with",
+      "description": "Self interacted with neighbors at the park",
+      "properties": {
+        "nature": "casual"
+      },
+      "context": "Met some neighbors at the park.",
+      "bidirectional": true,
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+      "source_name": "Self",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001_evt_004",
+      "target_name": "Community Fair",
+      "rel_type": "mentions",
+      "description": "Self discussed the community fair with neighbors",
+      "properties": {
+        "role": "observer"
+      },
+      "context": "We discussed the upcoming community fair next month.",
+      "bidirectional": false,
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_007",
+      "source_name": "Neighbors",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001_evt_004",
+      "target_name": "Community Fair",
+      "rel_type": "participates_in",
+      "description": "Neighbors are involved in the community fair",
+      "properties": {
+        "role": "participant"
+      },
+      "context": "We discussed the upcoming community fair next month.",
+      "bidirectional": false,
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_004",
+      "source_name": "Neetish",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001_emo_002",
+      "target_name": "Excitement",
+      "rel_type": "experiences",
+      "description": "Neetish was excited for dinner",
+      "properties": {
+        "trigger": "biryani"
+      },
+      "context": "The kids were excited.",
+      "bidirectional": false,
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_005",
+      "source_name": "Mohan",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001_emo_002",
+      "target_name": "Excitement",
+      "rel_type": "experiences",
+      "description": "Mohan was excited for dinner",
+      "properties": {
+        "trigger": "biryani"
+      },
+      "context": "The kids were excited.",
+      "bidirectional": false,
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+      "source_name": "Self",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001_evt_003",
+      "target_name": "Family Movie Night",
+      "rel_type": "participates_in",
+      "description": "Self watched a movie with family",
+      "properties": {
+        "role": "participant"
+      },
+      "context": "Watched a movie together as a family before bed.",
+      "bidirectional": false,
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_003",
+      "source_name": "Preeti",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001_evt_003",
+      "target_name": "Family Movie Night",
+      "rel_type": "participates_in",
+      "description": "Preeti watched a movie with family",
+      "properties": {
+        "role": "participant"
+      },
+      "context": "Watched a movie together as a family before bed.",
+      "bidirectional": false,
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_004",
+      "source_name": "Neetish",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001_evt_003",
+      "target_name": "Family Movie Night",
+      "rel_type": "participates_in",
+      "description": "Neetish watched a movie with family",
+      "properties": {
+        "role": "participant"
+      },
+      "context": "Watched a movie together as a family before bed.",
+      "bidirectional": false,
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_005",
+      "source_name": "Mohan",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001_evt_003",
+      "target_name": "Family Movie Night",
+      "rel_type": "participates_in",
+      "description": "Mohan watched a movie with family",
+      "properties": {
+        "role": "participant"
+      },
+      "context": "Watched a movie together as a family before bed.",
+      "bidirectional": false,
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+      "source_name": "Self",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001_act_001",
+      "target_name": "Work",
+      "rel_type": "performs",
+      "description": "Self performed work activities",
+      "properties": {},
+      "context": "Today was relatively calm at work.",
+      "bidirectional": false,
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+      "source_name": "Self",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_002",
+      "source_name": "Manager",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_003",
+      "source_name": "Preeti",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_004",
+      "source_name": "Neetish",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_005",
+      "source_name": "Mohan",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_006",
+      "source_name": "Browny",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_007",
+      "source_name": "Neighbors",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_plc_001",
+      "source_name": "Workplace",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_plc_002",
+      "source_name": "Tuition Center",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_plc_003",
+      "source_name": "Park",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_plc_004",
+      "source_name": "Indore",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_evt_001",
+      "source_name": "Spencer Report Completion",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_evt_002",
+      "source_name": "Marketing Strategy Approval",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_evt_003",
+      "source_name": "Family Movie Night",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_evt_004",
+      "source_name": "Community Fair",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_act_001",
+      "source_name": "Work",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_act_002",
+      "source_name": "Evening Walk",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_emo_001",
+      "source_name": "Satisfaction",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_emo_002",
+      "source_name": "Excitement",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "b58db6a4bf3244609469bd018c6476d9_001_pla_001",
+      "source_name": "Tuition Decision",
+      "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+      "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+      "domain": "personal_journal"
+    }
+  ]
+}

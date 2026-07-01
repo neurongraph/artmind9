@@ -1,0 +1,528 @@
+[
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_001",
+    "source_name": "Self",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_002",
+    "target_name": "Browny",
+    "rel_type": "cares_for",
+    "description": "Self lives with and cares for Browny",
+    "properties": {
+      "nature": "pet_ownership"
+    },
+    "context": "Morning started with Browny barking at the mailman.",
+    "bidirectional": true,
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_001",
+    "source_name": "Self",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_003",
+    "target_name": "Preeti",
+    "rel_type": "related_to",
+    "description": "Self is the partner/spouse of Preeti",
+    "properties": {
+      "nature": "family",
+      "bond_strength": "close"
+    },
+    "context": "Preeti was still sleeping.",
+    "bidirectional": true,
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_001",
+    "source_name": "Self",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_004",
+    "target_name": "Neetish",
+    "rel_type": "parent_of",
+    "description": "Self is the parent of Neetish",
+    "properties": {
+      "nature": "family"
+    },
+    "context": "Dropped Neetish at school on the way to office.",
+    "bidirectional": true,
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_001",
+    "source_name": "Self",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_005",
+    "target_name": "Mohan",
+    "rel_type": "parent_of",
+    "description": "Self is the parent of Mohan",
+    "properties": {
+      "nature": "family"
+    },
+    "context": "Left office early to check on Mohan.",
+    "bidirectional": true,
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_001",
+    "source_name": "Self",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_006",
+    "target_name": "Boss",
+    "rel_type": "colleague_of",
+    "description": "Self reports to the Boss",
+    "properties": {
+      "nature": "professional",
+      "hierarchy": "subordinate"
+    },
+    "context": "Boss appreciated the team's work.",
+    "bidirectional": false,
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_001",
+    "source_name": "Self",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_007",
+    "target_name": "Colleagues",
+    "rel_type": "colleague_of",
+    "description": "Self works with colleagues",
+    "properties": {
+      "nature": "professional"
+    },
+    "context": "Lunch with colleagues at the canteen.",
+    "bidirectional": true,
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_001",
+    "source_name": "Self",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001_plc_002",
+    "target_name": "Office",
+    "rel_type": "works_at",
+    "description": "Self works at the office",
+    "properties": {},
+    "context": "Dropped Neetish at school on the way to office.",
+    "bidirectional": false,
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_001",
+    "source_name": "Self",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001_evt_001",
+    "target_name": "Client Presentation",
+    "rel_type": "participates_in",
+    "description": "Self participated in the client presentation",
+    "properties": {
+      "role": "participant",
+      "outcome": "successful"
+    },
+    "context": "major client presentation went well.",
+    "bidirectional": false,
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_001",
+    "source_name": "Self",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001_evt_002",
+    "target_name": "Mohan's Illness",
+    "rel_type": "is_affected_by",
+    "description": "Self was concerned and left work due to Mohan's illness",
+    "properties": {
+      "emotional_impact": "concern"
+    },
+    "context": "Left office early to check on Mohan.",
+    "bidirectional": false,
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_001",
+    "source_name": "Self",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001_pln_001",
+    "target_name": "Weekend Mall Trip",
+    "rel_type": "has_plan",
+    "description": "Self is planning a trip to the mall",
+    "properties": {
+      "timeframe": "weekend",
+      "urgency": "low"
+    },
+    "context": "Planning the weekend trip to the mall with family.",
+    "bidirectional": false,
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_003",
+    "source_name": "Preeti",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_005",
+    "target_name": "Mohan",
+    "rel_type": "parent_of",
+    "description": "Preeti is the parent of Mohan",
+    "properties": {
+      "nature": "family"
+    },
+    "context": "Preeti called: Mohan had a fever. She took him to the doctor.",
+    "bidirectional": true,
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_003",
+    "source_name": "Preeti",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001_evt_002",
+    "target_name": "Mohan's Illness",
+    "rel_type": "participates_in",
+    "description": "Preeti managed Mohan's illness",
+    "properties": {
+      "role": "caregiver"
+    },
+    "context": "She took him to the doctor.",
+    "bidirectional": false,
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_004",
+    "source_name": "Neetish",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001_plc_001",
+    "target_name": "School",
+    "rel_type": "studies_at",
+    "description": "Neetish attends school",
+    "properties": {},
+    "context": "Dropped Neetish at school",
+    "bidirectional": false,
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_005",
+    "source_name": "Mohan",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001_plc_004",
+    "target_name": "Doctor's Office",
+    "rel_type": "visits",
+    "description": "Mohan visited the doctor",
+    "properties": {
+      "reason": "fever"
+    },
+    "context": "She took him to the doctor.",
+    "bidirectional": false,
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_007",
+    "source_name": "Colleagues",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001_plc_003",
+    "target_name": "Canteen",
+    "rel_type": "frequents",
+    "description": "Colleagues had lunch at the canteen",
+    "properties": {},
+    "context": "Lunch with colleagues at the canteen.",
+    "bidirectional": false,
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_evt_001",
+    "source_name": "Client Presentation",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001_plc_002",
+    "target_name": "Office",
+    "rel_type": "occurs_at",
+    "description": "The presentation took place at the office",
+    "properties": {},
+    "context": "Office: major client presentation went well.",
+    "bidirectional": false,
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_evt_002",
+    "source_name": "Mohan's Illness",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001_plc_004",
+    "target_name": "Doctor's Office",
+    "rel_type": "occurs_at",
+    "description": "The medical visit for the illness occurred at the doctor's office",
+    "properties": {},
+    "context": "She took him to the doctor.",
+    "bidirectional": false,
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_pln_001",
+    "source_name": "Weekend Mall Trip",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001_plc_006",
+    "target_name": "Mall",
+    "rel_type": "associated_with",
+    "description": "The plan is to visit the mall",
+    "properties": {},
+    "context": "Planning the weekend trip to the mall with family.",
+    "bidirectional": false,
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_001",
+    "source_name": "Self",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001_act_001",
+    "target_name": "Work",
+    "rel_type": "performs",
+    "description": "Self performed work duties",
+    "properties": {},
+    "context": "Office: major client presentation went well.",
+    "bidirectional": false,
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_001",
+    "source_name": "Self",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001_act_002",
+    "target_name": "Childcare",
+    "rel_type": "performs",
+    "description": "Self performed childcare activities",
+    "properties": {
+      "activities": [
+        "bathing",
+        "bedtime story"
+      ]
+    },
+    "context": "gave the kids a bath... Bedtime story for Mohan.",
+    "bidirectional": false,
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_001",
+    "source_name": "Self",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001_act_003",
+    "target_name": "Socializing",
+    "rel_type": "performs",
+    "description": "Self socialized with colleagues",
+    "properties": {},
+    "context": "Lunch with colleagues at the canteen.",
+    "bidirectional": false,
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_001",
+    "source_name": "Self",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "target_name": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_002",
+    "source_name": "Browny",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "target_name": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_003",
+    "source_name": "Preeti",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "target_name": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_004",
+    "source_name": "Neetish",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "target_name": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_005",
+    "source_name": "Mohan",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "target_name": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_006",
+    "source_name": "Boss",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "target_name": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_007",
+    "source_name": "Colleagues",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "target_name": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_plc_001",
+    "source_name": "School",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "target_name": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_plc_002",
+    "source_name": "Office",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "target_name": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_plc_003",
+    "source_name": "Canteen",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "target_name": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_plc_004",
+    "source_name": "Doctor's Office",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "target_name": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_plc_005",
+    "source_name": "Home",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "target_name": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_plc_006",
+    "source_name": "Mall",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "target_name": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_evt_001",
+    "source_name": "Client Presentation",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "target_name": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_evt_002",
+    "source_name": "Mohan's Illness",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "target_name": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_evt_003",
+    "source_name": "Family Dinner",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "target_name": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_act_001",
+    "source_name": "Work",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "target_name": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_act_002",
+    "source_name": "Childcare",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "target_name": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_act_003",
+    "source_name": "Socializing",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "target_name": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "5e80c406d4fc4366aea35f1e44831d7b_001_pln_001",
+    "source_name": "Weekend Mall Trip",
+    "target_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "target_name": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  }
+]

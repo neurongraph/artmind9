@@ -1,0 +1,609 @@
+[
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+    "source_name": "Self",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001_plc_001",
+    "target_name": "Workplace",
+    "rel_type": "works_at",
+    "description": "Self works at the workplace",
+    "properties": {},
+    "context": "Today was relatively calm at work.",
+    "bidirectional": false,
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+    "source_name": "Self",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001_evt_001",
+    "target_name": "Spencer Report Completion",
+    "rel_type": "participates_in",
+    "description": "Self completed the Spencer report ahead of schedule",
+    "properties": {
+      "role": "subject",
+      "outcome": "completed ahead of schedule"
+    },
+    "context": "Finished the Spencer report ahead of schedule.",
+    "bidirectional": false,
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+    "source_name": "Self",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001_per_002",
+    "target_name": "Manager",
+    "rel_type": "colleague_of",
+    "description": "Self reports to the manager",
+    "properties": {
+      "nature": "professional"
+    },
+    "context": "My manager approved the new marketing strategy I proposed last week.",
+    "bidirectional": true,
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_002",
+    "source_name": "Manager",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001_evt_002",
+    "target_name": "Marketing Strategy Approval",
+    "rel_type": "participates_in",
+    "description": "Manager approved the marketing strategy",
+    "properties": {
+      "role": "organiser",
+      "outcome": "approved"
+    },
+    "context": "My manager approved the new marketing strategy I proposed last week.",
+    "bidirectional": false,
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+    "source_name": "Self",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001_evt_002",
+    "target_name": "Marketing Strategy Approval",
+    "rel_type": "participates_in",
+    "description": "Self proposed the marketing strategy",
+    "properties": {
+      "role": "subject",
+      "outcome": "approved"
+    },
+    "context": "My manager approved the new marketing strategy I proposed last week.",
+    "bidirectional": false,
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+    "source_name": "Self",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001_emo_001",
+    "target_name": "Satisfaction",
+    "rel_type": "experiences",
+    "description": "Self feels satisfaction from hard work paying off",
+    "properties": {
+      "intensity": "moderate"
+    },
+    "context": "Feels good when the hard work pays off.",
+    "bidirectional": false,
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+    "source_name": "Self",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001_per_003",
+    "target_name": "Preeti",
+    "rel_type": "related_to",
+    "description": "Self and Preeti are partners/spouses",
+    "properties": {
+      "nature": "family",
+      "bond_strength": "close"
+    },
+    "context": "Preeti called in the afternoon.",
+    "bidirectional": true,
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_003",
+    "source_name": "Preeti",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001_per_004",
+    "target_name": "Neetish",
+    "rel_type": "parent_of",
+    "description": "Preeti is the parent of Neetish",
+    "properties": {
+      "nature": "family"
+    },
+    "context": "She wanted to discuss Neetish's tuition classes.",
+    "bidirectional": false,
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_003",
+    "source_name": "Preeti",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001_pla_001",
+    "target_name": "Tuition Decision",
+    "rel_type": "has_plan",
+    "description": "Preeti is deciding on Neetish's tuition center",
+    "properties": {
+      "timeframe": "next month",
+      "urgency": "medium"
+    },
+    "context": "We're considering whether to continue with the same center or look for alternatives.",
+    "bidirectional": false,
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_004",
+    "source_name": "Neetish",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001_plc_002",
+    "target_name": "Tuition Center",
+    "rel_type": "studies_at",
+    "description": "Neetish attends classes at the tuition center",
+    "properties": {
+      "performance": "well"
+    },
+    "context": "Neetish has been performing well there",
+    "bidirectional": false,
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_003",
+    "source_name": "Preeti",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001_per_005",
+    "target_name": "Mohan",
+    "rel_type": "cares_for",
+    "description": "Preeti looks after Mohan's health",
+    "properties": {
+      "nature": "parental"
+    },
+    "context": "Preeti made him rest.",
+    "bidirectional": false,
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_005",
+    "source_name": "Mohan",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001_plc_003",
+    "target_name": "Park",
+    "rel_type": "visits",
+    "description": "Mohan wanted to go to the park",
+    "properties": {
+      "status": "desired"
+    },
+    "context": "He wanted to go to the park",
+    "bidirectional": false,
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+    "source_name": "Self",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001_act_002",
+    "target_name": "Evening Walk",
+    "rel_type": "performs",
+    "description": "Self took an evening walk",
+    "properties": {
+      "feeling": "refreshing"
+    },
+    "context": "Evening walk with Browny was refreshing.",
+    "bidirectional": false,
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+    "source_name": "Self",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001_per_006",
+    "target_name": "Browny",
+    "rel_type": "cares_for",
+    "description": "Self takes Browny for walks",
+    "properties": {
+      "nature": "pet"
+    },
+    "context": "Evening walk with Browny was refreshing.",
+    "bidirectional": true,
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_act_002",
+    "source_name": "Evening Walk",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001_plc_003",
+    "target_name": "Park",
+    "rel_type": "takes_place_at",
+    "description": "The evening walk occurred at the park",
+    "properties": {},
+    "context": "Met some neighbors at the park.",
+    "bidirectional": false,
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+    "source_name": "Self",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001_plc_004",
+    "target_name": "Indore",
+    "rel_type": "lives_at",
+    "description": "Self lives in Indore",
+    "properties": {},
+    "context": "The weather in Indore is pleasant these days.",
+    "bidirectional": false,
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+    "source_name": "Self",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001_per_007",
+    "target_name": "Neighbors",
+    "rel_type": "spends_time_with",
+    "description": "Self interacted with neighbors at the park",
+    "properties": {
+      "nature": "casual"
+    },
+    "context": "Met some neighbors at the park.",
+    "bidirectional": true,
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+    "source_name": "Self",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001_evt_004",
+    "target_name": "Community Fair",
+    "rel_type": "mentions",
+    "description": "Self discussed the community fair with neighbors",
+    "properties": {
+      "role": "observer"
+    },
+    "context": "We discussed the upcoming community fair next month.",
+    "bidirectional": false,
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_007",
+    "source_name": "Neighbors",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001_evt_004",
+    "target_name": "Community Fair",
+    "rel_type": "participates_in",
+    "description": "Neighbors are involved in the community fair",
+    "properties": {
+      "role": "participant"
+    },
+    "context": "We discussed the upcoming community fair next month.",
+    "bidirectional": false,
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_004",
+    "source_name": "Neetish",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001_emo_002",
+    "target_name": "Excitement",
+    "rel_type": "experiences",
+    "description": "Neetish was excited for dinner",
+    "properties": {
+      "trigger": "biryani"
+    },
+    "context": "The kids were excited.",
+    "bidirectional": false,
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_005",
+    "source_name": "Mohan",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001_emo_002",
+    "target_name": "Excitement",
+    "rel_type": "experiences",
+    "description": "Mohan was excited for dinner",
+    "properties": {
+      "trigger": "biryani"
+    },
+    "context": "The kids were excited.",
+    "bidirectional": false,
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+    "source_name": "Self",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001_evt_003",
+    "target_name": "Family Movie Night",
+    "rel_type": "participates_in",
+    "description": "Self watched a movie with family",
+    "properties": {
+      "role": "participant"
+    },
+    "context": "Watched a movie together as a family before bed.",
+    "bidirectional": false,
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_003",
+    "source_name": "Preeti",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001_evt_003",
+    "target_name": "Family Movie Night",
+    "rel_type": "participates_in",
+    "description": "Preeti watched a movie with family",
+    "properties": {
+      "role": "participant"
+    },
+    "context": "Watched a movie together as a family before bed.",
+    "bidirectional": false,
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_004",
+    "source_name": "Neetish",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001_evt_003",
+    "target_name": "Family Movie Night",
+    "rel_type": "participates_in",
+    "description": "Neetish watched a movie with family",
+    "properties": {
+      "role": "participant"
+    },
+    "context": "Watched a movie together as a family before bed.",
+    "bidirectional": false,
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_005",
+    "source_name": "Mohan",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001_evt_003",
+    "target_name": "Family Movie Night",
+    "rel_type": "participates_in",
+    "description": "Mohan watched a movie with family",
+    "properties": {
+      "role": "participant"
+    },
+    "context": "Watched a movie together as a family before bed.",
+    "bidirectional": false,
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+    "source_name": "Self",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001_act_001",
+    "target_name": "Work",
+    "rel_type": "performs",
+    "description": "Self performed work activities",
+    "properties": {},
+    "context": "Today was relatively calm at work.",
+    "bidirectional": false,
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+    "source_name": "Self",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_002",
+    "source_name": "Manager",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_003",
+    "source_name": "Preeti",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_004",
+    "source_name": "Neetish",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_005",
+    "source_name": "Mohan",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_006",
+    "source_name": "Browny",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_per_007",
+    "source_name": "Neighbors",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_plc_001",
+    "source_name": "Workplace",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_plc_002",
+    "source_name": "Tuition Center",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_plc_003",
+    "source_name": "Park",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_plc_004",
+    "source_name": "Indore",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_evt_001",
+    "source_name": "Spencer Report Completion",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_evt_002",
+    "source_name": "Marketing Strategy Approval",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_evt_003",
+    "source_name": "Family Movie Night",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_evt_004",
+    "source_name": "Community Fair",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_act_001",
+    "source_name": "Work",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_act_002",
+    "source_name": "Evening Walk",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_emo_001",
+    "source_name": "Satisfaction",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_emo_002",
+    "source_name": "Excitement",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "b58db6a4bf3244609469bd018c6476d9_001_pla_001",
+    "source_name": "Tuition Decision",
+    "target_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "target_name": "b58db6a4bf3244609469bd018c6476d9_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  }
+]

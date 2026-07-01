@@ -1,0 +1,237 @@
+[
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_per_001",
+    "name": "Neetish",
+    "properties": {
+      "relationship_to_diarist": "daughter",
+      "current_state": "hopeful for higher grades",
+      "notable_characteristics": [
+        "studying Maratha history"
+      ]
+    },
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_per_002",
+    "name": "Preeti",
+    "properties": {
+      "relationship_to_diarist": "wife",
+      "recurring_behaviours": [
+        "cooking for the family"
+      ]
+    },
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_per_003",
+    "name": "Mohan",
+    "properties": {
+      "relationship_to_diarist": "son",
+      "life_stage": "school-age",
+      "notable_characteristics": [
+        "artistic"
+      ]
+    },
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_per_004",
+    "name": "Browny",
+    "properties": {
+      "relationship_to_diarist": "pet",
+      "current_state": "healthy but overweight",
+      "personality_traits": [
+        "unhappy with diet"
+      ]
+    },
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_per_005",
+    "name": "The Vet",
+    "properties": {
+      "occupation": "veterinarian",
+      "narrative_function": "provided health assessment for Browny"
+    },
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_per_006",
+    "name": "Self",
+    "properties": {
+      "current_state": "tired after a long day"
+    },
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_plc_001",
+    "name": "Office",
+    "properties": {
+      "place_type": "workplace",
+      "narrative_function": "source of professional news regarding promotion"
+    },
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_plc_002",
+    "name": "Home",
+    "properties": {
+      "place_type": "residence",
+      "atmosphere": "familial"
+    },
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_plc_003",
+    "name": "School",
+    "properties": {
+      "place_type": "educational institution",
+      "who_associated_with": [
+        "Neetish",
+        "Mohan"
+      ]
+    },
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_plc_004",
+    "name": "Vet Clinic",
+    "properties": {
+      "place_type": "medical facility",
+      "narrative_function": "location for Browny's vaccination"
+    },
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_evt_001",
+    "name": "Math Test",
+    "properties": {
+      "participants": [
+        {
+          "name": "Neetish",
+          "role": "student"
+        }
+      ],
+      "outcome": "scored 85",
+      "emotional_significance": "diarist feels proud, Neetish feels slightly disappointed"
+    },
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_evt_002",
+    "name": "Promotion Review",
+    "properties": {
+      "date_or_time": "next month",
+      "emotional_significance": "professional milestone",
+      "status": "upcoming"
+    },
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_evt_003",
+    "name": "Annual Vaccination",
+    "properties": {
+      "participants": [
+        {
+          "name": "Browny",
+          "role": "patient"
+        },
+        {
+          "name": "The Vet",
+          "role": "practitioner"
+        }
+      ],
+      "outcome": "confirmed healthy but needs weight loss",
+      "is_recurring": true
+    },
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_act_001",
+    "name": "Yoga",
+    "properties": {
+      "who_involved": [
+        "Preeti"
+      ],
+      "purpose": "health/wellness",
+      "frequency": "new"
+    },
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_act_002",
+    "name": "History Project",
+    "properties": {
+      "who_involved": [
+        "Neetish",
+        "Self"
+      ],
+      "purpose": "school assignment",
+      "outcome_or_result": "focused on Maratha history"
+    },
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_act_003",
+    "name": "Browny's Diet",
+    "properties": {
+      "who_involved": [
+        "Browny"
+      ],
+      "purpose": "weight loss",
+      "emotional_valence": "disliked by Browny"
+    },
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_emo_001",
+    "name": "Pride",
+    "properties": {
+      "experienced_by": "Self",
+      "trigger": "Neetish's math test score",
+      "intensity": "moderate"
+    },
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_emo_002",
+    "name": "Dissatisfaction",
+    "properties": {
+      "experienced_by": "Browny",
+      "trigger": "new diet",
+      "intensity": "moderate"
+    },
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "id": "53891f4689c14a279e314b0d49f95778_001_pln_001",
+    "name": "Yoga Start Date",
+    "properties": {
+      "timeframe": "next week",
+      "who_involved": [
+        "Preeti"
+      ],
+      "status": "firm intention"
+    },
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  }
+]

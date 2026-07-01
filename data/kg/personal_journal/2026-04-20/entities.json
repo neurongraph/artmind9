@@ -1,0 +1,262 @@
+[
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_per_001",
+    "name": "Diarist",
+    "aliases": [
+      "I"
+    ],
+    "entity_class": "PERSON",
+    "type": "self",
+    "description": "The author of the journal who manages the family's daily routine, works on a technical project, and cares for Neetish and Mohan.",
+    "context": [
+      "Dropped Neetish at school",
+      "Spent the whole day solving them",
+      "Helped Neetish with her project before sleep"
+    ],
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_per_002",
+    "name": "Neetish",
+    "aliases": [
+      "she"
+    ],
+    "entity_class": "PERSON",
+    "type": "child",
+    "description": "The diarist's daughter who is experiencing exam pressure and has been unusually quiet and skipping meals.",
+    "context": [
+      "Dropped Neetish at school. She's been quiet lately.",
+      "Neetish didn't eat her tiffin properly at school",
+      "Helped Neetish with her project before sleep"
+    ],
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_per_003",
+    "name": "Preeti",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "spouse",
+    "description": "The diarist's partner who picks up the children and handles the evening meal from Swad.",
+    "context": [
+      "Preeti picked up the kids",
+      "Preeti made order from Swad"
+    ],
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_per_004",
+    "name": "Mohan",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "child",
+    "description": "The diarist's son who is currently involved in recurring conflicts with his friend Aryan.",
+    "context": [
+      "Mohan has been fighting with his friend Aryan again",
+      "Need to have a conversation with him"
+    ],
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_per_005",
+    "name": "Aryan",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "friend",
+    "description": "Mohan's friend who has been frequently fighting with him.",
+    "context": [
+      "fighting with his friend Aryan again"
+    ],
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_per_006",
+    "name": "Browny",
+    "aliases": [
+      "He"
+    ],
+    "entity_class": "PERSON",
+    "type": "pet",
+    "description": "The family dog who is showing improvement in walking behavior on the leash.",
+    "context": [
+      "Evening walk with Browny",
+      "He's getting better at not pulling the leash"
+    ],
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_plc_001",
+    "name": "School",
+    "aliases": [],
+    "entity_class": "PLACE",
+    "type": "school",
+    "description": "The educational institution where Neetish is a student and where she has been struggling to eat her lunch.",
+    "context": [
+      "Dropped Neetish at school",
+      "didn't eat her tiffin properly at school"
+    ],
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_plc_002",
+    "name": "Office",
+    "aliases": [],
+    "entity_class": "PLACE",
+    "type": "workplace",
+    "description": "The diarist's place of employment which was chaotic due to technical project issues.",
+    "context": [
+      "Office was chaotic",
+      "Spent the whole day solving them"
+    ],
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_plc_003",
+    "name": "Swad",
+    "aliases": [
+      "our favorite Indore restaurant"
+    ],
+    "entity_class": "PLACE",
+    "type": "restaurant",
+    "description": "A favorite restaurant from Indore from which the family ordered dal makhani and naan.",
+    "context": [
+      "Preeti made order from Swad (our favorite Indore restaurant)"
+    ],
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_evt_001",
+    "name": "Technical Project Crisis",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "work_event",
+    "description": "A chaotic day at work spent solving critical technical issues for a new project, resulting in a skipped lunch.",
+    "context": [
+      "The new project has some technical issues",
+      "Spent the whole day solving them",
+      "managed to fix the critical problems"
+    ],
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_evt_002",
+    "name": "Mohan and Aryan Conflict",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "conflict",
+    "description": "A recurring disagreement or fight between Mohan and his friend Aryan.",
+    "context": [
+      "Mohan has been fighting with his friend Aryan again",
+      "This is becoming a regular thing"
+    ],
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_act_001",
+    "name": "Evening Walk",
+    "aliases": [],
+    "entity_class": "ACTIVITY",
+    "type": "leisure",
+    "description": "A routine walk with the dog, Browny, to practice leash training.",
+    "context": [
+      "Evening walk with Browny"
+    ],
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_act_002",
+    "name": "Academic Support",
+    "aliases": [],
+    "entity_class": "ACTIVITY",
+    "type": "care",
+    "description": "The diarist helping Neetish with her school project before bedtime.",
+    "context": [
+      "Helped Neetish with her project before sleep"
+    ],
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_emo_001",
+    "name": "Exam Pressure",
+    "aliases": [],
+    "entity_class": "EMOTION",
+    "type": "anxiety",
+    "description": "The stress Neetish is feeling due to upcoming exams, manifesting as silence and loss of appetite.",
+    "context": [
+      "Might be the exam pressure",
+      "She's been quiet lately"
+    ],
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_emo_002",
+    "name": "Pride",
+    "aliases": [],
+    "entity_class": "EMOTION",
+    "type": "pride",
+    "description": "The diarist's feeling of satisfaction regarding Browny's improved behavior.",
+    "context": [
+      "Proud of him"
+    ],
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_pla_001",
+    "name": "Talk with Neetish",
+    "aliases": [],
+    "entity_class": "PLAN",
+    "type": "family",
+    "description": "The diarist's intention to discuss Neetish's recent behavior and appetite with her.",
+    "context": [
+      "Need to talk to her tonight",
+      "Will check what's going on with her"
+    ],
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_pla_002",
+    "name": "Talk with Mohan",
+    "aliases": [],
+    "entity_class": "PLAN",
+    "type": "family",
+    "description": "The diarist's intention to address the recurring fights between Mohan and Aryan.",
+    "context": [
+      "Need to have a conversation with him"
+    ],
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e",
+    "domain": "personal_journal"
+  }
+]
