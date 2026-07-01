@@ -1,0 +1,711 @@
+[
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_char_001",
+    "name": "Elias Thorne",
+    "properties": {
+      "role": "Aether-Engineer",
+      "physical_description": [
+        "cracked spectacles held by adhesive copper",
+        "hands permanently stained with iridescent oil",
+        "grease on cheek"
+      ],
+      "personality_traits": [
+        "methodical",
+        "dreamer",
+        "risk-taker",
+        "empathetic"
+      ],
+      "motivations": [
+        "change the timeline",
+        "give everyone a chance",
+        "save Ticker"
+      ],
+      "signature_behaviours": [
+        "whispers to machines",
+        "clutches crystal to chest",
+        "slams crystal into Memory Anchor"
+      ],
+      "narrative_arc": "Cautious engineer hiding in shadows becomes a decisive catalyst who rewrites the world's timeline."
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_char_002",
+    "name": "Lyra Belacqua",
+    "properties": {
+      "role": "Shadow-Thief",
+      "physical_description": [
+        "dark cloak shimmering with Shimmer-Field residue",
+        "moves like a flicker of shadow",
+        "predatory grace"
+      ],
+      "personality_traits": [
+        "pragmatic",
+        "desperate",
+        "protective",
+        "hopeful"
+      ],
+      "motivations": [
+        "change the world",
+        "escape the Ministry",
+        "support Elias"
+      ],
+      "signature_behaviours": [
+        "traces grease on Elias's cheek",
+        "throws Gravity-Snare",
+        "brief desperate kiss"
+      ],
+      "narrative_arc": "Stolen crystal carrier transforms into a revolutionary catalyst who urges Elias to break the cycle."
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_char_003",
+    "name": "High Inquisitor Valerius",
+    "properties": {
+      "role": "High Inquisitor",
+      "physical_description": [
+        "ceremonial robes",
+        "cold calculated fury in eyes",
+        "face twisting in realization"
+      ],
+      "personality_traits": [
+        "authoritarian",
+        "calculating",
+        "zealous",
+        "desperate"
+      ],
+      "motivations": [
+        "preserve the status quo",
+        "maintain Aetheric Age stability",
+        "prevent timeline changes"
+      ],
+      "signature_behaviours": [
+        "grips Volt-Blade",
+        "shouts over grinding metal",
+        "ignores Lyra to focus on Elias"
+      ],
+      "narrative_arc": "Powerful enforcer protecting a decaying past realizes the future is already gone, ultimately consumed by the system he tried to control."
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_char_004",
+    "name": "Ticker",
+    "properties": {
+      "role": "Brass Automaton (C-42)",
+      "physical_description": [
+        "glass eyes that flicker",
+        "open chest cavity with interlocking gears",
+        "failing light",
+        "small automaton"
+      ],
+      "personality_traits": [
+        "analytical",
+        "loyal",
+        "data-driven"
+      ],
+      "signature_behaviours": [
+        "reports probabilities",
+        "chirps data frantically",
+        "hitches ride on Elias's belt"
+      ],
+      "narrative_arc": "Failing machine requiring a jump-start becomes a functional data-provider during the climax."
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_loc_001",
+    "name": "Oakhaven",
+    "properties": {
+      "atmosphere": [
+        "soot-stained",
+        "rain smelling of ozone and scorched brass",
+        "feels like a tomb"
+      ],
+      "physical_description": [
+        "permanent bruised purple sky",
+        "cobblestones",
+        "smog"
+      ],
+      "narrative_function": "Central decaying setting representing the stagnant status quo",
+      "symbolic_meaning": "A dying world trapped in a broken timeline",
+      "isolation_level": "Low (urban center)",
+      "parent_location": "Glassreach Valley"
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_loc_002",
+    "name": "Glassreach Valley",
+    "properties": {
+      "atmosphere": [
+        "thin ether-soaked air",
+        "decaying ecosystem"
+      ],
+      "physical_description": [
+        "valley surrounding Oakhaven",
+        "upper levels with thin air",
+        "flora with paralytic toxin"
+      ],
+      "narrative_function": "Geographic setting and source of paralytic toxin",
+      "symbolic_meaning": "The broader world/ecosystem affected by the Aetheric Age's decay",
+      "isolation_level": "Medium"
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_loc_003",
+    "name": "Lower Sprawl",
+    "properties": {
+      "atmosphere": [
+        "bleed dry",
+        "soot-stained",
+        "shadowy",
+        "industrial"
+      ],
+      "physical_description": [
+        "Sub-Level 4 contains workshop",
+        "heavy iron doors",
+        "cobblestones"
+      ],
+      "narrative_function": "Home base for Elias and the Syndicate, represents the oppressed lower class",
+      "symbolic_meaning": "The exploited foundation of the city's power structure",
+      "isolation_level": "High"
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_loc_004",
+    "name": "Gilded Spire",
+    "properties": {
+      "atmosphere": [
+        "cathedral of clockwork",
+        "deafening mechanical roar",
+        "steam hissing",
+        "ozone and ancient grease"
+      ],
+      "physical_description": [
+        "heavy mahogany doors",
+        "brass floor-gratings",
+        "central meridian",
+        "suspended Great Engine"
+      ],
+      "narrative_function": "Seat of Ministry power and climax location",
+      "symbolic_meaning": "The oppressive, elite-controlled heart of the stagnant system",
+      "isolation_level": "High"
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_loc_005",
+    "name": "Chrono-Chamber",
+    "properties": {
+      "atmosphere": [
+        "mechanical roar",
+        "ether-soaked",
+        "cathedral-like"
+      ],
+      "physical_description": [
+        "beyond central meridian",
+        "contains Great Engine",
+        "thousands of gears"
+      ],
+      "narrative_function": "Critical location where the timeline is altered",
+      "symbolic_meaning": "The mechanism of time and fate that must be rewritten",
+      "isolation_level": "High",
+      "parent_location": "Gilded Spire"
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_loc_006",
+    "name": "Spiral of Ascension",
+    "properties": {
+      "atmosphere": [
+        "ascending throat of a dying god",
+        "steam hissing"
+      ],
+      "physical_description": [
+        "brass floor-gratings",
+        "leads up to Gilded Spire"
+      ],
+      "narrative_function": "Path to the Spire emphasizing the arduous climb to power",
+      "symbolic_meaning": "The difficult journey to challenge the status quo",
+      "isolation_level": "Medium",
+      "parent_location": "Lower Sprawl"
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_loc_007",
+    "name": "Smog-Tunnels",
+    "properties": {
+      "atmosphere": [
+        "shadowy",
+        "used for stealth"
+      ],
+      "physical_description": [
+        "tunnels near Lower Sprawl"
+      ],
+      "narrative_function": "Area where Valerius increased patrols, used for evasion",
+      "symbolic_meaning": "The hidden, dangerous underbelly of the city",
+      "isolation_level": "High",
+      "parent_location": "Lower Sprawl"
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_loc_008",
+    "name": "Market Square",
+    "properties": {
+      "atmosphere": [
+        "lockdown zone",
+        "oppressive"
+      ],
+      "physical_description": [
+        "public square in Oakhaven"
+      ],
+      "narrative_function": "Site of Ministry lockdown showing the reach of control",
+      "symbolic_meaning": "The public face of the city under oppressive control",
+      "isolation_level": "Low",
+      "parent_location": "Oakhaven"
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_loc_009",
+    "name": "Outlands",
+    "properties": {
+      "atmosphere": [
+        "wild",
+        "beyond the city"
+      ],
+      "physical_description": [
+        "region past Oakhaven"
+      ],
+      "narrative_function": "Proposed escape route representing freedom",
+      "symbolic_meaning": "The unknown future or escape from the system",
+      "isolation_level": "High"
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_loc_010",
+    "name": "Sub-Level 4",
+    "properties": {
+      "atmosphere": [
+        "deep",
+        "industrial",
+        "shadowy workshop"
+      ],
+      "physical_description": [
+        "contains Elias's workshop",
+        "heavy iron door",
+        "brass piston nearby"
+      ],
+      "narrative_function": "Elias's base of operations and narrative starting point",
+      "symbolic_meaning": "The hidden, working-class foundation of the city",
+      "isolation_level": "High",
+      "parent_location": "Lower Sprawl"
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_obj_001",
+    "name": "Kyber Crystal",
+    "properties": {
+      "physical_description": [
+        "size of a human heart",
+        "twice as heavy",
+        "wrapped in velvet",
+        "pulsing with rhythmic golden light",
+        "erratic pulse"
+      ],
+      "owner_user": [
+        "Lyra Belacqua",
+        "Elias Thorne"
+      ],
+      "narrative_role": "MacGuffin/Temporal Relic, key to changing the timeline",
+      "symbolic_meaning": "The spark of change, hope, and the power to rewrite fate",
+      "significance_status": "Resolved (slotted into Memory Anchor, triggers timeline collapse)"
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_obj_002",
+    "name": "Great Engine",
+    "properties": {
+      "physical_description": [
+        "suspended sphere of obsidian and copper",
+        "thousands of gears",
+        "central intake"
+      ],
+      "owner_user": [
+        "Ministry of Order",
+        "Gilded Spire"
+      ],
+      "narrative_role": "Core mechanism of the Aetheric Age, target of the heist",
+      "symbolic_meaning": "The stagnant status quo and mechanical heart of the world",
+      "significance_status": "Resolved (gives final click, world changes)"
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_obj_003",
+    "name": "Volt-Blade",
+    "properties": {
+      "physical_description": [
+        "blue arcing electricity",
+        "crackling",
+        "smells of ionized death"
+      ],
+      "owner_user": [
+        "High Inquisitor Valerius"
+      ],
+      "narrative_role": "Weapon of the Ministry, symbol of enforced order",
+      "symbolic_meaning": "The violent enforcement of the status quo",
+      "significance_status": "Resolved (used in final confrontation)"
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_obj_004",
+    "name": "Gravity-Snare",
+    "properties": {
+      "physical_description": [
+        "forbidden device",
+        "expands in mid-air",
+        "pins with weight of a thousand stones"
+      ],
+      "owner_user": [
+        "Under-Market Syndicate",
+        "Lyra Belacqua"
+      ],
+      "narrative_role": "Tactical tool for the heist, disables Valerius",
+      "symbolic_meaning": "Rebellion and forbidden technology used to break oppressive power",
+      "significance_status": "Resolved (successfully deployed)"
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_obj_005",
+    "name": "Memory Anchor",
+    "properties": {
+      "physical_description": [
+        "part of the Great Engine/core",
+        "receives the Kyber Crystal"
+      ],
+      "owner_user": [
+        "Ministry/Engine system"
+      ],
+      "narrative_role": "Critical component for slotting the crystal, triggers timeline shift",
+      "symbolic_meaning": "The point of no return and mechanism of memory/time",
+      "significance_status": "Resolved (activated during climax)"
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_obj_006",
+    "name": "Shimmer-Field",
+    "properties": {
+      "physical_description": [
+        "residue on Lyra's cloak",
+        "expands to devour the Gilded Spire"
+      ],
+      "owner_user": [
+        "Under-Market Syndicate",
+        "Shadow-Thieves"
+      ],
+      "narrative_role": "Stealth/escape technology that ultimately consumes the Spire",
+      "symbolic_meaning": "The transformative, consuming power of change",
+      "significance_status": "Resolved (expands and devours the Spire)"
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_obj_007",
+    "name": "Brass Automaton C-42",
+    "properties": {
+      "physical_description": [
+        "open chest cavity",
+        "interlocking gears",
+        "failing light",
+        "glass eyes",
+        "small automaton"
+      ],
+      "owner_user": [
+        "Elias Thorne"
+      ],
+      "narrative_role": "Companion/assistant providing data during climax",
+      "symbolic_meaning": "The fragile, mechanical life that needs saving/renewing",
+      "significance_status": "Resolved (hitches ride, provides data)"
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_evt_001",
+    "name": "Resonance Breach",
+    "properties": {
+      "date_time": "Precedes the 14th of Harvest-Moon",
+      "sequence_number": 2,
+      "what_changed": "Began instability, made removing the crystal dangerous",
+      "who_involved": [
+        "Ministry",
+        "Elias Thorne",
+        "Lyra Belacqua"
+      ],
+      "emotions": [
+        "tension",
+        "urgency",
+        "fear of discovery"
+      ],
+      "is_turning_point": true,
+      "cause": "Removal of the Kyber Crystal from its cradle",
+      "immediate_consequence": "Valerius orders lockdown, increases patrols, timeline instability begins",
+      "why_it_matters": "Catalyst for the entire heist and climax"
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_evt_002",
+    "name": "Chronos Fracture",
+    "properties": {
+      "date_time": "Climax of the 14th of Harvest-Moon",
+      "sequence_number": 4,
+      "what_changed": "Shatters the valley, folds the timeline, changes the world",
+      "who_involved": [
+        "Elias Thorne",
+        "Lyra Belacqua",
+        "High Inquisitor Valerius",
+        "Ticker"
+      ],
+      "emotions": [
+        "desperation",
+        "realization",
+        "sacrifice"
+      ],
+      "is_turning_point": true,
+      "cause": "Slotting the Kyber Crystal into the Memory Anchor",
+      "immediate_consequence": "Shimmer-Field expands, Spire devoured, Great Engine clicks, timeline collapses/rewrites",
+      "why_it_matters": "Resolves the central conflict and changes the future"
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_evt_003",
+    "name": "14th of Harvest-Moon",
+    "properties": {
+      "date_time": "14th of Harvest-Moon",
+      "sequence_number": 3,
+      "what_changed": "Marked the transition from status quo to timeline collapse",
+      "who_involved": [
+        "All main characters"
+      ],
+      "emotions": [
+        "anticipation",
+        "dread",
+        "finality"
+      ],
+      "is_turning_point": true,
+      "cause": "Planned heist and engine alteration",
+      "immediate_consequence": "Valerius arrives, confrontation occurs, timeline folds",
+      "why_it_matters": "Anchors the narrative's temporal stakes"
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_evt_004",
+    "name": "The Heist",
+    "properties": {
+      "date_time": "Precedes the 14th of Harvest-Moon",
+      "sequence_number": 1,
+      "what_changed": "Kyber Crystal stolen, Ministry lockdown initiated",
+      "who_involved": [
+        "Lyra Belacqua",
+        "Elias Thorne",
+        "Iron-Bound Guards",
+        "High Inquisitor Valerius"
+      ],
+      "emotions": [
+        "tension",
+        "adrenaline",
+        "desperation"
+      ],
+      "is_turning_point": true,
+      "cause": "Lyra's theft to secure the crystal for Elias",
+      "immediate_consequence": "Valerius knows it's gone, orders lockdown, patrols increase",
+      "why_it_matters": "Drives the narrative forward and creates the central conflict"
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_evt_005",
+    "name": "Timeline Collapse",
+    "properties": {
+      "date_time": "Climax/Ending",
+      "sequence_number": 5,
+      "what_changed": "Memories stretch, world changes, future is rewritten",
+      "who_involved": [
+        "Elias Thorne",
+        "Lyra Belacqua",
+        "High Inquisitor Valerius",
+        "Ticker"
+      ],
+      "emotions": [
+        "realization",
+        "sacrifice",
+        "hope"
+      ],
+      "is_turning_point": true,
+      "cause": "Resonance Breach + Chronos Fracture triggered by crystal insertion",
+      "immediate_consequence": "Spire devoured, Great Engine stops, silence follows",
+      "why_it_matters": "Resolves thematic and plot threads, offers a new future"
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_org_001",
+    "name": "Ministry of Order",
+    "properties": {
+      "structure": "Hierarchical, enforces strict control, uses patrols and lockdowns",
+      "leadership": "High Inquisitor Valerius",
+      "purpose_goal": "Preserve the status quo, maintain Aetheric Age stability, prevent timeline changes",
+      "resources_assets": [
+        "Iron-Bound Guards",
+        "Volt-Blades",
+        "Gilded Spire",
+        "Great Engine",
+        "Essence Reservoirs"
+      ],
+      "status": "Active, oppressive, currently in lockdown mode",
+      "plot_impact": "Primary antagonist force driving conflict by hunting protagonists and protecting the Engine"
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_org_002",
+    "name": "Under-Market Syndicate",
+    "properties": {
+      "structure": "Underground syndicate, deals in forbidden devices",
+      "leadership": "Unspecified (Lyra is a Shadow-Thief of it)",
+      "purpose_goal": "Operate in shadows, provide illicit tech, oppose Ministry control",
+      "resources_assets": [
+        "Shadow-Thieves",
+        "forbidden tech",
+        "paralytic toxins",
+        "Lower Sprawl network"
+      ],
+      "status": "Hidden, active, operating in the shadows",
+      "plot_impact": "Provides Lyra with tools and motivation, represents the rebellious underclass"
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_org_003",
+    "name": "Iron-Bound Guards",
+    "properties": {
+      "structure": "Military/enforcement unit, heavily armed",
+      "leadership": "Serves under Ministry of Order/Valerius",
+      "purpose_goal": "Enforce lockdowns, protect the Gilded Spire, capture rebels",
+      "resources_assets": [
+        "armed guards",
+        "patrol routes",
+        "control over Market Square"
+      ],
+      "status": "Active, deployed heavily during the climax",
+      "plot_impact": "Physical obstacle for protagonists, shows Ministry's reach"
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_con_001",
+    "name": "Essence Reservoirs",
+    "properties": {
+      "manifestation": "Leaking into upper atmosphere, causing bruised purple sky, powering the Great Engine",
+      "characters_involved": [
+        "Affects Oakhaven's atmosphere",
+        "Central to Aetheric Age stability"
+      ],
+      "thematic_role": "Represents the decaying foundation of the world's power",
+      "resolution_status": "Unresolved leak, source of atmospheric decay"
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_con_002",
+    "name": "Aetheric Age",
+    "properties": {
+      "manifestation": "Era defined by clockwork, ozone, brass, and mechanical stability",
+      "characters_involved": [
+        "Valerius believes stability rests on crystal",
+        "Elias wants to change it"
+      ],
+      "thematic_role": "Represents the oppressive status quo and mechanical nature of their world",
+      "resolution_status": "Stagnant, decaying, maintained by the Great Engine"
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_con_003",
+    "name": "Status Quo",
+    "properties": {
+      "manifestation": "Preserved by Valerius at any cost, described as a cage, keeps elite comfortable",
+      "characters_involved": [
+        "Valerius's primary motivation",
+        "Lyra and Elias's primary target"
+      ],
+      "thematic_role": "The central thematic conflict: order vs. change, oppression vs. hope",
+      "resolution_status": "Oppressive, stagnant, broken by the timeline collapse"
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_con_004",
+    "name": "The Future / Past",
+    "properties": {
+      "manifestation": "Past is already gone (Valerius's realization), future is rewritten by timeline collapse",
+      "characters_involved": [
+        "Valerius hides the fact the future is gone",
+        "Elias wants to give everyone a chance",
+        "Lyra urges him to change the world"
+      ],
+      "thematic_role": "Time as a malleable force, the struggle to escape a predetermined end",
+      "resolution_status": "The past is a cage, the future is uncertain but hopeful"
+    },
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee"
+  }
+]

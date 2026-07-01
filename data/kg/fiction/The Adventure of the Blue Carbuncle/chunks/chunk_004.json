@@ -1,0 +1,2930 @@
+{
+  "embedding": [
+    -0.0072737094,
+    0.08815668,
+    -0.17898394,
+    -0.10417191,
+    0.022827357,
+    -0.0058739455,
+    -0.0030168605,
+    0.05302803,
+    0.037041303,
+    -0.0467686,
+    -0.044295456,
+    0.013535378,
+    0.000975328,
+    0.004386185,
+    0.035215396,
+    -0.010674022,
+    0.04229565,
+    -0.05987695,
+    -0.016645849,
+    0.043514386,
+    -0.05344579,
+    -0.013423075,
+    0.046961788,
+    -0.014656882,
+    0.023871489,
+    -0.017434167,
+    -0.10288416,
+    0.025013158,
+    -0.05244808,
+    0.018892786,
+    0.0047590234,
+    -0.0050082547,
+    -0.06474927,
+    0.008708656,
+    -0.027228557,
+    0.044396564,
+    0.015248144,
+    0.02659072,
+    -0.012250806,
+    -0.02144343,
+    0.06441891,
+    0.0112627745,
+    -0.036282253,
+    -0.021726819,
+    0.013419945,
+    0.046386227,
+    0.08202508,
+    0.015143665,
+    0.013897852,
+    -0.014343673,
+    0.06699683,
+    0.005838181,
+    -0.010653605,
+    0.013145178,
+    0.04568256,
+    0.046065997,
+    0.028300246,
+    -0.019288303,
+    0.04703914,
+    0.03338555,
+    0.053035647,
+    0.00765649,
+    -0.02753215,
+    0.056735873,
+    0.02021966,
+    -0.063019745,
+    0.011954238,
+    0.046941336,
+    0.012928593,
+    -0.061087035,
+    0.05716791,
+    -0.04092531,
+    -0.018895233,
+    0.018116854,
+    -0.016690915,
+    0.013193821,
+    0.007062374,
+    0.0082397275,
+    0.060632538,
+    0.0075913137,
+    0.022517685,
+    -0.046959624,
+    0.02440872,
+    0.0007215985,
+    -0.033620633,
+    0.009552529,
+    0.025083415,
+    -0.0831734,
+    -0.06047164,
+    0.048533414,
+    -0.01632036,
+    -0.0067965225,
+    0.010247211,
+    0.02674067,
+    -0.038994834,
+    0.029214323,
+    -0.033222668,
+    -0.011290441,
+    -0.088347375,
+    -0.019001266,
+    -0.014906204,
+    -0.004195973,
+    -0.018016003,
+    -0.0012544094,
+    0.033265818,
+    0.06309003,
+    0.02604171,
+    -0.00920839,
+    -0.010200931,
+    0.0004806359,
+    -0.047759563,
+    0.024238124,
+    -0.012167712,
+    -0.03720066,
+    0.0074436464,
+    0.003979046,
+    -0.014331968,
+    -0.02064206,
+    0.007071421,
+    0.07791238,
+    -0.038682174,
+    0.028342372,
+    -0.038885906,
+    0.055370953,
+    0.06686814,
+    -0.00635533,
+    -0.04092456,
+    0.0060443,
+    -0.016025526,
+    -0.02411514,
+    0.008352052,
+    -0.0027684057,
+    -0.011882588,
+    -0.0009662703,
+    0.06407583,
+    0.01636017,
+    -0.024911337,
+    -0.03590295,
+    0.030401913,
+    -0.0022062268,
+    0.044992067,
+    0.014918291,
+    0.00057665765,
+    -0.022810094,
+    -0.019711317,
+    0.0041851643,
+    0.010871095,
+    -0.070798226,
+    -0.047846302,
+    0.051778883,
+    -0.0125300465,
+    0.022949368,
+    -0.0149737885,
+    0.047581255,
+    0.03656881,
+    -0.02768692,
+    0.005500144,
+    0.0075141354,
+    -0.006372757,
+    0.084149145,
+    0.020918233,
+    -0.008000165,
+    0.016608074,
+    0.059044752,
+    0.05416469,
+    0.021351567,
+    -0.015825486,
+    0.0134601295,
+    -0.032274023,
+    0.038962334,
+    -0.019841969,
+    0.0031173062,
+    0.002618906,
+    -0.050260108,
+    0.03226891,
+    -0.089212604,
+    0.029659038,
+    -0.017055936,
+    -0.058887616,
+    -0.07180626,
+    0.066251695,
+    -0.044470683,
+    0.020013912,
+    -0.010070781,
+    0.00026536605,
+    0.010606243,
+    0.0036174764,
+    -0.027486457,
+    -0.002553068,
+    -0.061908066,
+    0.015914943,
+    0.0036515945,
+    -0.017419469,
+    0.020263553,
+    -0.022931641,
+    -0.023589715,
+    0.016817072,
+    0.002012493,
+    0.020737026,
+    0.014276071,
+    -0.021499066,
+    -0.0034575316,
+    -0.023007939,
+    -0.0277465,
+    -0.0730044,
+    0.07543053,
+    -0.0016099378,
+    -0.008580222,
+    -0.008940473,
+    -0.00068238535,
+    0.069834016,
+    -0.082961485,
+    0.030119233,
+    0.025983134,
+    -0.0035036986,
+    0.038656574,
+    0.05092342,
+    -0.028001256,
+    -0.033232793,
+    -0.004183153,
+    0.074533634,
+    0.050964344,
+    -0.04088754,
+    -0.0022929595,
+    0.079037756,
+    0.067284055,
+    -0.034384944,
+    -0.015964217,
+    -0.030876784,
+    -0.017634647,
+    0.023561325,
+    -0.03890821,
+    0.056899384,
+    -0.0044237133,
+    -0.010113289,
+    0.007738807,
+    0.017553516,
+    0.023284202,
+    -0.013820563,
+    0.014727101,
+    -0.017800882,
+    0.029061604,
+    -0.028010493,
+    0.001737329,
+    -0.045733225,
+    0.02977511,
+    0.008444116,
+    -0.047187604,
+    0.03412708,
+    0.055085707,
+    -0.0042002955,
+    0.053154346,
+    0.07813761,
+    0.0046964297,
+    -0.008908158,
+    -0.019555654,
+    -0.068393454,
+    0.044834774,
+    -0.01871614,
+    -0.0096487375,
+    0.0009137332,
+    -0.04611791,
+    -0.013003599,
+    -0.031390946,
+    -0.044078905,
+    -0.05495303,
+    -0.07134497,
+    0.00063868,
+    0.003200117,
+    -0.044877633,
+    0.00029575158,
+    0.028673638,
+    0.03137195,
+    0.03301049,
+    -4.1505427e-05,
+    -0.004526691,
+    -0.0008462188,
+    0.019399378,
+    0.009069253,
+    -0.0034789655,
+    0.009425276,
+    0.013776266,
+    -0.02332443,
+    -0.0082578035,
+    0.00819625,
+    -0.0011015554,
+    -0.030270334,
+    0.0010336032,
+    0.028836679,
+    -0.039704427,
+    0.0096098,
+    0.017237045,
+    -0.04279753,
+    0.035390668,
+    0.032286678,
+    0.011518339,
+    0.061702896,
+    -0.020697461,
+    -0.035798613,
+    -0.04564672,
+    0.012187032,
+    0.022834172,
+    -0.003373803,
+    0.07939987,
+    -0.020001873,
+    0.045801863,
+    -0.0036877801,
+    -0.00561116,
+    -0.013192687,
+    -0.024963824,
+    -0.048238743,
+    -0.013709844,
+    -0.04011826,
+    -0.01145997,
+    -0.040119022,
+    -0.005632456,
+    0.027386144,
+    0.040773857,
+    0.029130511,
+    -0.022017146,
+    -0.032821614,
+    -0.0032277047,
+    -0.046614226,
+    -0.028179578,
+    0.019242736,
+    0.06467612,
+    0.0029067618,
+    0.024367852,
+    -0.026688322,
+    -0.049610883,
+    0.0040376177,
+    -0.018333657,
+    0.0009931832,
+    -0.061633978,
+    -0.077561624,
+    -0.0014342696,
+    0.007092011,
+    0.03126205,
+    -0.032540474,
+    0.0155356955,
+    0.055706576,
+    -0.003427751,
+    0.020948758,
+    -0.015926564,
+    -0.041633293,
+    -0.0080853375,
+    -0.085635915,
+    0.0036249105,
+    0.043317076,
+    -0.062109552,
+    -0.00021602742,
+    0.0042548664,
+    0.004801193,
+    0.010714207,
+    0.016507886,
+    0.0029694058,
+    -0.020790998,
+    -0.017103799,
+    -0.0020396241,
+    0.034962222,
+    0.052463416,
+    0.02780394,
+    0.038424894,
+    -0.0340756,
+    -0.005129782,
+    0.023096541,
+    0.04780132,
+    0.011149849,
+    0.05939541,
+    0.012512286,
+    -0.079531215,
+    -0.041695025,
+    -0.011537738,
+    0.036983296,
+    -0.023630397,
+    -0.019002844,
+    -0.05441799,
+    -0.01808422,
+    -0.04372574,
+    0.046911493,
+    -0.020579707,
+    -0.039570313,
+    -0.021859568,
+    0.031139767,
+    0.03357364,
+    0.019074636,
+    0.012681891,
+    -0.07396935,
+    -0.0071023814,
+    0.017951626,
+    0.010980056,
+    0.011831319,
+    0.0007668721,
+    0.014935194,
+    0.06136614,
+    -0.041943498,
+    0.00921014,
+    -0.044639476,
+    0.022430684,
+    0.070155606,
+    -0.02617133,
+    -0.0688512,
+    0.006882241,
+    0.030759366,
+    -0.03149274,
+    0.041755207,
+    0.0020837784,
+    -0.024420151,
+    0.0030152805,
+    -0.0591459,
+    0.0084572425,
+    0.027200542,
+    -0.019629886,
+    -0.0391462,
+    -0.045370925,
+    0.046403155,
+    0.088056765,
+    -0.022231422,
+    -0.00038148306,
+    -0.030889003,
+    0.010881001,
+    0.014567135,
+    0.012087899,
+    0.011297019,
+    0.029662719,
+    0.009923445,
+    -0.024447834,
+    -0.013724605,
+    -0.024042359,
+    -0.07198298,
+    0.042149074,
+    -0.04198952,
+    0.032641403,
+    0.00235127,
+    0.023394698,
+    0.041603923,
+    0.02124192,
+    0.039266728,
+    0.063614994,
+    0.002646341,
+    0.052546933,
+    -0.030119227,
+    -0.012554762,
+    -0.008887169,
+    0.026336404,
+    -0.024630187,
+    0.08163406,
+    -0.025771096,
+    -0.008278968,
+    0.020857383,
+    -0.04781405,
+    -0.048723165,
+    0.009028744,
+    -0.011942081,
+    0.0796625,
+    -0.050768457,
+    -0.015540114,
+    0.003571447,
+    -0.019719029,
+    -0.010770556,
+    0.01049498,
+    0.0070356973,
+    -0.061202083,
+    0.00078634795,
+    0.0065929256,
+    -0.014590873,
+    -0.016177863,
+    -0.028988393,
+    0.050005674,
+    0.004036476,
+    -0.058731105,
+    0.04278889,
+    -0.003720767,
+    0.0024930236,
+    0.019340806,
+    0.012862761,
+    0.01487663,
+    0.03170245,
+    0.024898099,
+    0.076949246,
+    0.04153639,
+    -0.008960583,
+    0.012823589,
+    -0.03331829,
+    0.020138994,
+    -0.033889316,
+    -0.00428052,
+    -0.04425456,
+    0.010357559,
+    -0.036681164,
+    -0.0034668033,
+    -0.027448053,
+    -0.0372663,
+    -0.009616734,
+    5.836368e-05,
+    -0.046400458,
+    -0.03725875,
+    0.021021968,
+    0.047986798,
+    0.014969111,
+    0.034921084,
+    0.08749807,
+    -0.008079624,
+    0.032881007,
+    0.0525607,
+    0.0031830573,
+    0.01859367,
+    -0.040231958,
+    -0.059132177,
+    0.02044263,
+    -0.06497244,
+    0.013002343,
+    -0.039038192,
+    -0.0022190874,
+    0.055225942,
+    0.00011189747,
+    -0.002809658,
+    0.0033406245,
+    0.010125657,
+    0.008054375,
+    0.03419583,
+    -0.025434284,
+    -0.019885723,
+    -0.07721484,
+    -0.07801416,
+    0.028685264,
+    -0.035668746,
+    -0.046631966,
+    0.021665657,
+    0.022787243,
+    -0.025143418,
+    0.006161502,
+    -0.021821542,
+    -0.021075966,
+    0.012807091,
+    0.023440363,
+    -0.035526082,
+    -0.021794552,
+    0.018231072,
+    0.055765286,
+    -0.030291198,
+    0.015653353,
+    0.011800918,
+    -0.008351342,
+    0.025228439,
+    -0.018780425,
+    -0.036857486,
+    0.004094877,
+    0.031930912,
+    0.052495237,
+    0.032037634,
+    -0.058429964,
+    -0.009325376,
+    -0.024498384,
+    -0.0064873025,
+    -0.021104207,
+    -0.033905495,
+    -0.0137761645,
+    -0.02797256,
+    -0.04191447,
+    -0.008812858,
+    0.058583934,
+    0.048883718,
+    0.035901137,
+    -0.02358502,
+    0.029842563,
+    -0.026456906,
+    -0.038315162,
+    -0.029208042,
+    -0.012958904,
+    -0.047406133,
+    -0.035597842,
+    -0.0050531914,
+    0.011402939,
+    0.061844505,
+    0.033441506,
+    0.041965406,
+    0.01775338,
+    -0.05793971,
+    -0.07186049,
+    0.019976048,
+    -0.028869398,
+    0.040838216,
+    0.03554463,
+    -0.013582158,
+    0.0037456907,
+    -0.030745951,
+    -0.052164327,
+    0.10365564,
+    -0.011064838,
+    0.013029548,
+    0.011291214,
+    0.050240576,
+    -0.0018648054,
+    0.0002537925,
+    -0.05799972,
+    0.03198391,
+    -0.041386135,
+    -0.03716655,
+    -0.03861298,
+    0.00020530619,
+    0.030131826,
+    0.12529737,
+    -0.030495632,
+    0.0069448273,
+    -0.0011396129,
+    0.028763259,
+    -0.014265548,
+    0.015445646,
+    0.007655412,
+    0.04342956,
+    -0.0067944326,
+    0.054213803,
+    -0.038373023,
+    0.0156197855,
+    -0.038599826,
+    0.0786967,
+    0.018485611,
+    0.013401191,
+    -0.023332465,
+    -0.023049777,
+    -0.06329604,
+    -0.011940905,
+    -0.041265834,
+    0.01630453,
+    -0.018999975,
+    -0.060933597,
+    -0.03130987,
+    -0.011154678,
+    0.016214672,
+    -0.046254337,
+    0.03156191,
+    -0.06519748,
+    -0.0038073626,
+    -0.04593776,
+    0.023026967,
+    0.002911078,
+    0.016483542,
+    -0.02739789,
+    0.012296624,
+    -0.008528409,
+    0.021669254,
+    -0.053372495,
+    0.019608453,
+    0.03245991,
+    -0.025926234,
+    0.032074522,
+    -0.0008834061,
+    0.03268074,
+    -0.019363571,
+    0.059681013,
+    0.07050517,
+    0.038518734,
+    0.0011771078,
+    -0.0057237805,
+    -0.01097969,
+    0.04049057,
+    -0.019831983,
+    -0.044823855,
+    0.0072674127,
+    0.053596634,
+    0.005598883,
+    -0.08980405,
+    0.012198725,
+    0.004443491,
+    -0.019271392,
+    -0.032714877,
+    -0.023742104,
+    -0.04697452,
+    0.02050068,
+    0.06554984,
+    0.027963635,
+    -0.039007194,
+    0.010084301,
+    0.001686102,
+    0.006367597,
+    0.06387742,
+    0.05795048,
+    0.034391094,
+    -0.007225197,
+    0.0007155323,
+    0.028429221,
+    0.016488463,
+    -0.005062716,
+    -0.06390756,
+    -0.044541713,
+    0.033893947,
+    -0.03291417,
+    -0.0042993524,
+    -0.012222577,
+    -0.0041339365,
+    -0.008075113,
+    0.014524813,
+    0.0019824726,
+    -0.026027298,
+    -0.011853462,
+    0.024294807,
+    -0.028371334,
+    -0.037084773,
+    0.0013501837,
+    -0.012713659,
+    0.032813214,
+    0.011061208,
+    0.01315886,
+    0.019594042,
+    -0.0013195412,
+    0.0841246,
+    0.015157228,
+    -0.006913658,
+    0.015909433,
+    0.05207979,
+    0.019089343,
+    0.002816812,
+    0.05451047,
+    0.082806446,
+    -0.0045577334,
+    -0.031479795,
+    -0.014682629,
+    0.014068246,
+    0.020893157,
+    0.03360406,
+    -0.02985769,
+    -0.08256805,
+    -0.03988527,
+    0.03408157,
+    0.005298391,
+    0.04546257,
+    -0.03840489,
+    0.02159179,
+    -0.000115556046,
+    0.00020226155,
+    0.01468492,
+    -0.042280074,
+    0.022713862,
+    -0.011413761,
+    0.002818656,
+    -0.025633022,
+    -0.037343383,
+    -0.0133636175,
+    -0.045410343,
+    -0.06329459,
+    -0.008562108,
+    0.044807635,
+    0.021939166,
+    -0.0154181775,
+    -0.076308616,
+    -0.009660411,
+    0.0010572916,
+    0.0013502537,
+    0.0048712543,
+    0.064617746,
+    -0.028864553,
+    -6.607162e-05,
+    0.036425795,
+    -0.025471672,
+    -0.0010576894,
+    0.00687803,
+    0.042558406,
+    0.025097996,
+    0.038507745,
+    0.026668385,
+    -0.011449542,
+    0.08792572,
+    0.011621753,
+    -0.03584593,
+    -0.020029288,
+    0.022442117,
+    -0.009717377
+  ],
+  "chunk_seq": 4,
+  "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+  "doc_id": "54fe739d5f764020ad4396c72af29729",
+  "text": "Our visitor gave a rather shamefaced laugh. 'Shillings have not been so plentiful with me as they once were,' he remarked. 'I had no doubt that the gang of roughs who assaulted me had carried off both my hat and the bird. I did not care to spend more money in a hopeless attempt at recovering them.'  \n'Very naturally. By the way, about the bird, we were compelled to eat it.'  \n'To eat it!' Our visitor half rose from his chair in his excitement.  \n'Yes, it would have been of no use to anyone had we not done so. But I presume that this other goose upon the sideboard, which is about the same weight and perfectly fresh, will answer your purpose equally well?'  \n'Oh, certainly, certainly,' answered Mr. Baker with a sigh of relief.  \n'Of course, we still have the feathers, legs, crop, and so on of your own bird, so if you wish-'  \nThe man burst into a hearty laugh. 'They might be useful to me as relics of my adventure,' said he, 'but beyond that I can hardly see what use the disjecta membra of my late acquaintance are going to be to me. No, sir, I think that, with your permission, I will confine my attentions to the excellent bird which I perceive upon the sideboard.'  \nSherlock Holmes glanced sharply across at me with a slight shrug of his shoulders.  \n'There is your hat, then, and there your bird,' said he. 'By the way, would it bore you to tell me where you got the other one from? I am somewhat of a fowl fancier, and I have seldom seen a better grown goose.'  \n'Certainly, sir,' said Baker, who had risen and tucked his newly gained property under his arm. 'There are a few of us who frequent the Alpha Inn, near the Museum-we are to be found in the Museum itself during the day, you understand. This year our good host, Windigate by name, instituted a goose club, by which, on consideration of some few pence every week, we were each to receive a bird at Christmas. My pence were duly paid, and the rest is familiar to you. I am much indebted to you, sir, for a Scotch bonnet is fitted neither to my years nor my gravity.' With a comical pomposity of manner he bowed solemnly to both of us and strode off upon his way.  \n'So much for Mr. Henry Baker,' said Holmes when he had closed the door behind him. 'It is quite certain that he knows nothing whatever about the matter. Are you hungry, Watson?'  \n'Not particularly.'  \n'Then I suggest that we turn our dinner into a supper and follow up this clue while it is still hot.'  \n'By all means.'  \nIt was a bitter night, so we drew on our ulsters and wrapped cravats about our throats. Outside, the stars were shining coldly in a cloudless sky, and the breath of the passers-by blew out into smoke like so many pistol shots. Our footfalls rang out crisply and loudly as we swung through the doctors' quarter, Wimpole Street, Harley Street, and so through Wigmore Street into Oxford Street. In a quarter of an hour we were in Bloomsbury at the Alpha Inn, which is a small public-house at the corner of one of the streets which runs down into Holborn. Holmes pushed open the door of the private bar and ordered two glasses of beer from the ruddy-faced, white-aproned landlord.  \n'Your beer should be excellent if it is as good as your geese,' said he.  \n'My geese!' The man seemed surprised.  \n'Yes. I was speaking only half an hour ago to Mr. Henry Baker, who was a member of your goose club.'  \n'Ah! yes, I see. But you see, sir, them's not our geese.'  \n'Indeed! Whose, then?'  \n'Well, I got the two dozen from a salesman in Covent Garden.'  \n'Indeed? I know some of them. Which was it?'  \n'Breckinridge is his name.'  \n'Ah! I don't know him. Well, here's your good health landlord, and prosperity to your house. Goodnight.'  \n'Now for Mr. Breckinridge,' he continued, buttoning up his coat as we came out into the frosty air. 'Remember, Watson that though we have so homely a thing as a goose at one end of this chain, we have at the other a man who will certainly get seven years' penal servitude unless we can establish his innocence. It is possible that our inquiry may but confirm his guilt; but, in any case, we have a line of investigation which has been missed by the police, and which a singular chance has placed in our hands. Let us follow it out to the bitter end. Faces to the south, then, and quick march!'  \nWe passed across Holborn, down Endell Street, and so through a zigzag of slums to Covent Garden Market. One of the largest stalls bore the name of Breckinridge upon it, and the proprietor a horseylooking man, with a sharp face and trim side-whiskers was helping a boy to put up the shutters.  \n'Good-evening. It's a cold night,' said Holmes.  \nThe salesman nodded and shot a questioning glance at my companion.  \n'Sold out of geese, I see,' continued Holmes, pointing at the bare slabs of marble.  \n'Let you have five hundred to-morrow morning.' 'That's no good.'  \n'Well, there are some on the stall with the gasflare.'  \n'Ah, but I was recommended to you.'  \n'Who by?'  \n'The landlord of the Alpha.'  \n'Oh, yes; I sent him a couple of dozen.'  \n'Fine birds they were, too. Now where did you get them from?'  \nTo my surprise the question provoked a burst of anger from the salesman.  \n'Now, then, mister,' said he, with his head cocked and his arms akimbo, 'what are you driving at? Let's have it straight, now.'  \n'It is straight enough. I should like to know who sold you the geese which you supplied to the Alpha.'  \n'Well then, I shan't tell you. So now!'  \n'Oh, it is a matter of no importance; but I don't know why you should be so warm over such a trifle.'  \n'Warm! You'd be as warm, maybe, if you were as pestered as I am. When I pay good money for a good article there should be an end of the business; but it's 'Where are the geese?' and 'Who did you sell the geese to?' and 'What will you take for the geese?' One would think they were the only geese in the world, to hear the fuss that is made over them.'  \n'Well, I have no connection with any other people who have been making inquiries,' said Holmes carelessly. 'If you won't tell us the bet is off, that is all. But I'm always ready to back my opinion on a matter of fowls, and I have a fiver on it that the bird I ate is country bred.'  \n'Well, then, you've lost your fiver, for it's town bred,' snapped the salesman.  \n'It's nothing of the kind.'  \n'I say it is.'  \n'I don't believe it.'  \n'D'you think you know more about fowls than I, who have handled them ever since I was a nipper? I tell you, all those birds that went to the Alpha were town bred.'  \n'You'll never persuade me to believe that.'  \n'Will you bet, then?'  \n'It's merely taking your money, for I know that I am right. But I'll have a sovereign on with you, just to teach you not to be obstinate.'  \nThe salesman chuckled grimly. 'Bring me the books, Bill,' said he.  \nThe small boy brought round a small thin volume and a great greasy-backed one, laying them out together beneath the hanging lamp.  \n'Now then, Mr. Cocksure,' said the salesman, 'I thought that I was out of geese, but before I finish you'll find that there is still one left in my shop. You see this little book?'  \n'Well?'  \n'That's the list of the folk from whom I buy. D'you see? Well, then, here on this page are the country folk, and the numbers after their names are where their accounts are in the big ledger. Now, then! You see this other page in red ink? Well, that is a list of my town suppliers. Now, look at that third name. Just read it out to me.'",
+  "name": "Chunk 4/7",
+  "domain": "fiction",
+  "prev_chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+  "next_chunk_id": "54fe739d5f764020ad4396c72af29729_005",
+  "raw_entities": [
+    {
+      "id": "char_001",
+      "name": "Henry Baker",
+      "aliases": [
+        "Mr. Baker",
+        "Our visitor",
+        "the man"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "A fowl fancier and member of the Alpha Inn's goose club who was robbed of his hat and goose. He is initially a suspect in a theft but is ultimately cleared by Holmes, serving as the catalyst for the investigation.",
+      "context": [
+        "'Shillings have not been so plentiful with me as they once were,' he remarked.",
+        "'I had no doubt that the gang of roughs who assaulted me had carried off both my hat and the bird.'",
+        "'I am much indebted to you, sir, for a Scotch bonnet is fitted neither to my years nor my gravity.'",
+        "'So much for Mr. Henry Baker,' said Holmes when he had closed the door behind him."
+      ]
+    },
+    {
+      "id": "char_002",
+      "name": "Sherlock Holmes",
+      "aliases": [
+        "Holmes",
+        "our companion",
+        "the detective"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "protagonist",
+      "description": "The consulting detective who deduces the significance of the stolen goose and hat, leading him and Watson on a trail through London to uncover the truth behind the theft.",
+      "context": [
+        "Sherlock Holmes glanced sharply across at me with a slight shrug of his shoulders.",
+        "'By the way, would it bore you to tell me where you got the other one from? I am somewhat of a fowl fancier...'",
+        "'Remember, Watson that though we have so homely a thing as a goose at one end of this chain, we have at the other a man who will certainly get seven years' penal servitude...'",
+        "'Now for Mr. Breckinridge,' he continued, buttoning up his coat as we came out into the frosty air."
+      ]
+    },
+    {
+      "id": "char_003",
+      "name": "Dr. Watson",
+      "aliases": [
+        "Watson",
+        "me",
+        "my companion"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "Holmes's loyal companion and chronicler, who accompanies him on the investigation to the Alpha Inn and Covent Garden Market, providing a grounded perspective to Holmes's deductions.",
+      "context": [
+        "'Are you hungry, Watson?'",
+        "'Not particularly.'",
+        "'To my surprise the question provoked a burst of anger from the salesman.'",
+        "'Faces to the south, then, and quick march!'"
+      ]
+    },
+    {
+      "id": "char_004",
+      "name": "Windigate",
+      "aliases": [
+        "the landlord",
+        "our good host",
+        "the man"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "The landlord of the Alpha Inn who supplies geese to a local club and provides Holmes with the next lead in the investigation after revealing the source of the birds.",
+      "context": [
+        "'This year our good host, Windigate by name, instituted a goose club...'",
+        "'Yes. I was speaking only half an hour ago to Mr. Henry Baker, who was a member of your goose club.'",
+        "'Well, I got the two dozen from a salesman in Covent Garden.'",
+        "'Breckinridge is his name.'"
+      ]
+    },
+    {
+      "id": "char_005",
+      "name": "Breckinridge",
+      "aliases": [
+        "the salesman",
+        "the proprietor",
+        "mister"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "A market salesman in Covent Garden who supplied the geese to the Alpha Inn. He is initially hostile to Holmes's inquiries but eventually reveals his supply ledger after a wager.",
+      "context": [
+        "One of the largest stalls bore the name of Breckinridge upon it, and the proprietor a horseylooking man... was helping a boy to put up the shutters.",
+        "'Now, then, mister,' said he, with his head cocked and his arms akimbo, 'what are you driving at?'",
+        "'Well then, I shan't tell you. So now!'",
+        "'Bring me the books, Bill,' said he."
+      ]
+    },
+    {
+      "id": "char_006",
+      "name": "Bill",
+      "aliases": [
+        "the small boy",
+        "a boy"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "Breckinridge's young assistant who fetches the sales ledgers that become crucial to Holmes's investigation.",
+      "context": [
+        "'The small boy brought round a small thin volume and a great greasy-backed one, laying them out together beneath the hanging lamp.'",
+        "'Bring me the books, Bill,' said he."
+      ]
+    },
+    {
+      "id": "loc_001",
+      "name": "Alpha Inn",
+      "aliases": [
+        "the public-house",
+        "the Alpha",
+        "the bar"
+      ],
+      "entity_class": "LOCATION",
+      "type": "residence",
+      "description": "A small public house near the Museum where the goose club meets. It serves as the first stop in Holmes's investigation, where he questions the landlord about the source of the geese.",
+      "context": [
+        "'There are a few of us who frequent the Alpha Inn, near the Museum...'",
+        "'In a quarter of an hour we were in Bloomsbury at the Alpha Inn, which is a small public-house at the corner of one of the streets which runs down into Holborn.'",
+        "'Holmes pushed open the door of the private bar and ordered two glasses of beer...'",
+        "'Your beer should be excellent if it is as good as your geese,' said he."
+      ]
+    },
+    {
+      "id": "loc_002",
+      "name": "Museum",
+      "aliases": [
+        "the Museum",
+        "British Museum"
+      ],
+      "entity_class": "LOCATION",
+      "type": "institution",
+      "description": "A major London institution near the Alpha Inn, referenced as the daytime workplace of the goose club members and a geographical landmark for locating the pub.",
+      "context": [
+        "'There are a few of us who frequent the Alpha Inn, near the Museum-we are to be found in the Museum itself during the day, you understand.'",
+        "'In a quarter of an hour we were in Bloomsbury at the Alpha Inn, which is a small public-house at the corner of one of the streets which runs down into Holborn.'"
+      ]
+    },
+    {
+      "id": "loc_003",
+      "name": "Covent Garden Market",
+      "aliases": [
+        "Covent Garden",
+        "the market",
+        "the stalls"
+      ],
+      "entity_class": "LOCATION",
+      "type": "landmark",
+      "description": "A bustling London market where Breckinridge operates his stall. It is the second major location in Holmes's investigative trail, leading to the discovery of the supply ledger.",
+      "context": [
+        "'Well, I got the two dozen from a salesman in Covent Garden.'",
+        "'We passed across Holborn, down Endell Street, and so through a zigzag of slums to Covent Garden Market.'",
+        "'One of the largest stalls bore the name of Breckinridge upon it...'",
+        "'Now, then, Mr. Cocksure,' said the salesman, 'I thought that I was out of geese, but before you finish you'll find that there is still one left in my shop.'"
+      ]
+    },
+    {
+      "id": "loc_004",
+      "name": "Holborn",
+      "aliases": [
+        "Holborn",
+        "the streets of Holborn"
+      ],
+      "entity_class": "LOCATION",
+      "type": "region",
+      "description": "A district in London that forms part of the route Holmes and Watson take from their residence to the Alpha Inn and later to Covent Garden Market.",
+      "context": [
+        "'...so through Wigmore Street into Oxford Street. In a quarter of an hour we were in Bloomsbury at the Alpha Inn, which is a small public-house at the corner of one of the streets which runs down into Holborn.'",
+        "'We passed across Holborn, down Endell Street, and so through a zigzag of slums to Covent Garden Market.'"
+      ]
+    },
+    {
+      "id": "loc_005",
+      "name": "Wimpole Street",
+      "aliases": [
+        "Wimpole Street",
+        "the doctors' quarter"
+      ],
+      "entity_class": "LOCATION",
+      "type": "region",
+      "description": "A street in London known for its medical professionals, through which Holmes and Watson walk during their evening investigation.",
+      "context": [
+        "Our footfalls rang out crisply and loudly as we swung through the doctors' quarter, Wimpole Street, Harley Street, and so through Wigmore Street into Oxford Street."
+      ]
+    },
+    {
+      "id": "loc_006",
+      "name": "Harley Street",
+      "aliases": [
+        "Harley Street"
+      ],
+      "entity_class": "LOCATION",
+      "type": "region",
+      "description": "A famous London street associated with medical practice, traversed by Holmes and Watson as they follow the investigative trail.",
+      "context": [
+        "Our footfalls rang out crisply and loudly as we swung through the doctors' quarter, Wimpole Street, Harley Street, and so through Wigmore Street into Oxford Street."
+      ]
+    },
+    {
+      "id": "loc_007",
+      "name": "Wigmore Street",
+      "aliases": [
+        "Wigmore Street"
+      ],
+      "entity_class": "LOCATION",
+      "type": "region",
+      "description": "A London street connecting the medical district to Oxford Street, part of the route taken by the detectives.",
+      "context": [
+        "Our footfalls rang out crisply and loudly as we swung through the doctors' quarter, Wimpole Street, Harley Street, and so through Wigmore Street into Oxford Street."
+      ]
+    },
+    {
+      "id": "loc_008",
+      "name": "Oxford Street",
+      "aliases": [
+        "Oxford Street"
+      ],
+      "entity_class": "LOCATION",
+      "type": "region",
+      "description": "A major London thoroughfare that Holmes and Watson pass through on their way to Bloomsbury and the Alpha Inn.",
+      "context": [
+        "Our footfalls rang out crisply and loudly as we swung through the doctors' quarter, Wimpole Street, Harley Street, and so through Wigmore Street into Oxford Street."
+      ]
+    },
+    {
+      "id": "loc_009",
+      "name": "Bloomsbury",
+      "aliases": [
+        "Bloomsbury"
+      ],
+      "entity_class": "LOCATION",
+      "type": "region",
+      "description": "A district in London where the Alpha Inn is located, marking the detectives' destination for the first leg of their investigation.",
+      "context": [
+        "In a quarter of an hour we were in Bloomsbury at the Alpha Inn, which is a small public-house at the corner of one of the streets which runs down into Holborn."
+      ]
+    },
+    {
+      "id": "loc_010",
+      "name": "Endell Street",
+      "aliases": [
+        "Endell Street"
+      ],
+      "entity_class": "LOCATION",
+      "type": "region",
+      "description": "A street in London that Holmes and Watson traverse on their way from Holborn to Covent Garden Market.",
+      "context": [
+        "We passed across Holborn, down Endell Street, and so through a zigzag of slums to Covent Garden Market."
+      ]
+    },
+    {
+      "id": "obj_001",
+      "name": "The Goose",
+      "aliases": [
+        "the bird",
+        "the fowl",
+        "your own bird",
+        "the other goose",
+        "disjecta membra"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "A stolen goose that becomes the central clue in the investigation. Its consumption by Holmes and Watson, along with its preserved parts, provides crucial evidence for solving the case.",
+      "context": [
+        "'By the way, about the bird, we were compelled to eat it.'",
+        "'But I presume that this other goose upon the sideboard, which is about the same weight and perfectly fresh, will answer your purpose equally well?'",
+        "'Of course, we still have the feathers, legs, crop, and so on of your own bird, so if you wish-'",
+        "'Remember, Watson that though we have so homely a thing as a goose at one end of this chain, we have at the other a man who will certainly get seven years' penal servitude...'"
+      ]
+    },
+    {
+      "id": "obj_002",
+      "name": "The Scotch Bonnet",
+      "aliases": [
+        "the hat",
+        "a Scotch bonnet"
+      ],
+      "entity_class": "OBJECT",
+      "type": "clothing",
+      "description": "A stolen hat belonging to Henry Baker, taken during his assault. It serves as a companion clue to the goose, helping Holmes track the thief's movements.",
+      "context": [
+        "'I had no doubt that the gang of roughs who assaulted me had carried off both my hat and the bird.'",
+        "'I am much indebted to you, sir, for a Scotch bonnet is fitted neither to my years nor my gravity.'",
+        "'There is your hat, then, and there your bird,' said he."
+      ]
+    },
+    {
+      "id": "obj_003",
+      "name": "The Ledgers",
+      "aliases": [
+        "the books",
+        "the list",
+        "the big ledger",
+        "the small thin volume",
+        "greasy-backed one"
+      ],
+      "entity_class": "OBJECT",
+      "type": "document",
+      "description": "Breckinridge's sales records containing lists of country and town suppliers. These documents become the pivotal evidence that allows Holmes to trace the origin of the stolen geese.",
+      "context": [
+        "The small boy brought round a small thin volume and a great greasy-backed one, laying them out together beneath the hanging lamp.",
+        "'That's the list of the folk from whom I buy. D'you see? Well, then, here on this page are the country folk...'",
+        "'Now, then! You see this other page in red ink? Well, that is a list of my town suppliers. Now, look at that third name. Just read it out to me.'"
+      ]
+    },
+    {
+      "id": "evt_001",
+      "name": "The Assault",
+      "aliases": [
+        "the robbery",
+        "the attack",
+        "gang of roughs who assaulted me"
+      ],
+      "entity_class": "EVENT",
+      "type": "crime",
+      "description": "A violent robbery in which Henry Baker's hat and goose were stolen by a gang of roughs. This event sets the investigation in motion and establishes Baker as a victim rather than a perpetrator.",
+      "context": [
+        "'I had no doubt that the gang of roughs who assaulted me had carried off both my hat and the bird.'",
+        "'I am much indebted to you, sir, for a Scotch bonnet is fitted neither to my years nor my gravity.'",
+        "'So much for Mr. Henry Baker,' said Holmes when he had closed the door behind him. 'It is quite certain that he knows nothing whatever about the matter.'"
+      ]
+    },
+    {
+      "id": "evt_002",
+      "name": "The Wager",
+      "aliases": [
+        "the bet",
+        "the fiver",
+        "the sovereign"
+      ],
+      "entity_class": "EVENT",
+      "type": "confrontation",
+      "description": "A heated bet between Holmes and Breckinridge regarding whether the geese were country or town bred. This wager forces the salesman to reveal his supply ledger, advancing the investigation.",
+      "context": [
+        "'I'm always ready to back my opinion on a matter of fowls, and I have a fiver on it that the bird I ate is country bred.'",
+        "'Well, then, you've lost your fiver, for it's town bred,' snapped the salesman.",
+        "'I'll have a sovereign on with you, just to teach you not to be obstinate.'",
+        "'Bring me the books, Bill,' said he."
+      ]
+    },
+    {
+      "id": "evt_003",
+      "name": "The Investigation",
+      "aliases": [
+        "the inquiry",
+        "the line of investigation",
+        "the pursuit"
+      ],
+      "entity_class": "EVENT",
+      "type": "investigation",
+      "description": "Holmes and Watson's methodical pursuit of clues from the Alpha Inn to Covent Garden Market, driven by the desire to clear a man's name and solve a theft that evaded the police.",
+      "context": [
+        "'Then I suggest that we turn our dinner into a supper and follow up this clue while it is still hot.'",
+        "'It is possible that our inquiry may but confirm his guilt; but, in any case, we have a line of investigation which has been missed by the police...'",
+        "'Let us follow it out to the bitter end. Faces to the south, then, and quick march!'",
+        "'Now for Mr. Breckinridge,' he continued, buttoning up his coat as we came out into the frosty air."
+      ]
+    },
+    {
+      "id": "org_001",
+      "name": "The Goose Club",
+      "aliases": [
+        "the goose club",
+        "our goose club"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "club",
+      "description": "A social group formed by patrons of the Alpha Inn who pool small weekly payments to receive a goose at Christmas. It serves as the social framework connecting Baker, Windigate, and the stolen birds.",
+      "context": [
+        "'This year our good host, Windigate by name, instituted a goose club, by which, on consideration of some few pence every week, we were each to receive a bird at Christmas.'",
+        "'Yes. I was speaking only half an hour ago to Mr. Henry Baker, who was a member of your goose club.'",
+        "'Ah! yes, I see. But you see, sir, them's not our geese.'"
+      ]
+    },
+    {
+      "id": "org_002",
+      "name": "The Police",
+      "aliases": [
+        "the police",
+        "officials",
+        "the law"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "government",
+      "description": "The official law enforcement body responsible for the initial investigation, whose methods Holmes considers incomplete and in need of correction through his own deductive approach.",
+      "context": [
+        "'we have a line of investigation which has been missed by the police, and which a singular chance has placed in our hands.'",
+        "'So much for Mr. Henry Baker,' said Holmes when he had closed the door behind him. 'It is quite certain that he knows nothing whatever about the matter.'"
+      ]
+    },
+    {
+      "id": "con_001",
+      "name": "Penal Servitude",
+      "aliases": [
+        "seven years' penal servitude",
+        "punishment",
+        "penal servitude"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "theme",
+      "description": "The severe legal punishment facing the thief, highlighting the high stakes of the investigation and the moral imperative for Holmes to establish the culprit's innocence or guilt.",
+      "context": [
+        "'Remember, Watson that though we have so homely a thing as a goose at one end of this chain, we have at the other a man who will certainly get seven years' penal servitude unless we can establish his innocence.'",
+        "'It is possible that our inquiry may but confirm his guilt; but, in any case, we have a line of investigation which has been missed by the police...'"
+      ]
+    },
+    {
+      "id": "con_002",
+      "name": "Fowl Origin Classification",
+      "aliases": [
+        "town bred",
+        "country bred",
+        "fowl fancier",
+        "fowls"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "mystery",
+      "description": "The debate over whether the stolen geese originated from the countryside or the city, serving as a crucial deductive clue that forces the revelation of the supply ledger.",
+      "context": [
+        "'I'm always ready to back my opinion on a matter of fowls, and I have a fiver on it that the bird I ate is country bred.'",
+        "'Well, then, you've lost your fiver, for it's town bred,' snapped the salesman.",
+        "'I tell you, all those birds that went to the Alpha were town bred.'",
+        "'You'll never persuade me to believe that.'"
+      ]
+    },
+    {
+      "id": "con_003",
+      "name": "Legal Morality",
+      "aliases": [
+        "innocence",
+        "guilt",
+        "establish his innocence",
+        "confirm his guilt"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "theme",
+      "description": "The central moral and legal dilemma driving the investigation, as Holmes seeks to determine whether the thief deserves severe punishment or can be proven innocent.",
+      "context": [
+        "'unless we can establish his innocence.'",
+        "'It is possible that our inquiry may but confirm his guilt; but, in any case, we have a line of investigation which has been missed by the police...'",
+        "'So much for Mr. Henry Baker,' said Holmes when he had closed the door behind him. 'It is quite certain that he knows nothing whatever about the matter.'"
+      ]
+    }
+  ],
+  "id_map": {
+    "char_001": "54fe739d5f764020ad4396c72af29729_004_char_001",
+    "char_002": "54fe739d5f764020ad4396c72af29729_004_char_002",
+    "char_003": "54fe739d5f764020ad4396c72af29729_004_char_003",
+    "char_004": "54fe739d5f764020ad4396c72af29729_004_char_004",
+    "char_005": "54fe739d5f764020ad4396c72af29729_004_char_005",
+    "char_006": "54fe739d5f764020ad4396c72af29729_004_char_006",
+    "loc_001": "54fe739d5f764020ad4396c72af29729_004_loc_001",
+    "loc_002": "54fe739d5f764020ad4396c72af29729_004_loc_002",
+    "loc_003": "54fe739d5f764020ad4396c72af29729_004_loc_003",
+    "loc_004": "54fe739d5f764020ad4396c72af29729_004_loc_004",
+    "loc_005": "54fe739d5f764020ad4396c72af29729_004_loc_005",
+    "loc_006": "54fe739d5f764020ad4396c72af29729_004_loc_006",
+    "loc_007": "54fe739d5f764020ad4396c72af29729_004_loc_007",
+    "loc_008": "54fe739d5f764020ad4396c72af29729_004_loc_008",
+    "loc_009": "54fe739d5f764020ad4396c72af29729_004_loc_009",
+    "loc_010": "54fe739d5f764020ad4396c72af29729_004_loc_010",
+    "obj_001": "54fe739d5f764020ad4396c72af29729_004_obj_001",
+    "obj_002": "54fe739d5f764020ad4396c72af29729_004_obj_002",
+    "obj_003": "54fe739d5f764020ad4396c72af29729_004_obj_003",
+    "evt_001": "54fe739d5f764020ad4396c72af29729_004_evt_001",
+    "evt_002": "54fe739d5f764020ad4396c72af29729_004_evt_002",
+    "evt_003": "54fe739d5f764020ad4396c72af29729_004_evt_003",
+    "org_001": "54fe739d5f764020ad4396c72af29729_004_org_001",
+    "org_002": "54fe739d5f764020ad4396c72af29729_004_org_002",
+    "con_001": "54fe739d5f764020ad4396c72af29729_004_con_001",
+    "con_002": "54fe739d5f764020ad4396c72af29729_004_con_002",
+    "con_003": "54fe739d5f764020ad4396c72af29729_004_con_003"
+  },
+  "entities": [
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_char_001",
+      "name": "Henry Baker",
+      "aliases": [
+        "Mr. Baker",
+        "Our visitor",
+        "the man"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "A fowl fancier and member of the Alpha Inn's goose club who was robbed of his hat and goose. He is initially a suspect in a theft but is ultimately cleared by Holmes, serving as the catalyst for the investigation.",
+      "context": [
+        "'Shillings have not been so plentiful with me as they once were,' he remarked.",
+        "'I had no doubt that the gang of roughs who assaulted me had carried off both my hat and the bird.'",
+        "'I am much indebted to you, sir, for a Scotch bonnet is fitted neither to my years nor my gravity.'",
+        "'So much for Mr. Henry Baker,' said Holmes when he had closed the door behind him."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_char_002",
+      "name": "Sherlock Holmes",
+      "aliases": [
+        "Holmes",
+        "our companion",
+        "the detective"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "protagonist",
+      "description": "The consulting detective who deduces the significance of the stolen goose and hat, leading him and Watson on a trail through London to uncover the truth behind the theft.",
+      "context": [
+        "Sherlock Holmes glanced sharply across at me with a slight shrug of his shoulders.",
+        "'By the way, would it bore you to tell me where you got the other one from? I am somewhat of a fowl fancier...'",
+        "'Remember, Watson that though we have so homely a thing as a goose at one end of this chain, we have at the other a man who will certainly get seven years' penal servitude...'",
+        "'Now for Mr. Breckinridge,' he continued, buttoning up his coat as we came out into the frosty air."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_char_003",
+      "name": "Dr. Watson",
+      "aliases": [
+        "Watson",
+        "me",
+        "my companion"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "Holmes's loyal companion and chronicler, who accompanies him on the investigation to the Alpha Inn and Covent Garden Market, providing a grounded perspective to Holmes's deductions.",
+      "context": [
+        "'Are you hungry, Watson?'",
+        "'Not particularly.'",
+        "'To my surprise the question provoked a burst of anger from the salesman.'",
+        "'Faces to the south, then, and quick march!'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_char_004",
+      "name": "Windigate",
+      "aliases": [
+        "the landlord",
+        "our good host",
+        "the man"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "The landlord of the Alpha Inn who supplies geese to a local club and provides Holmes with the next lead in the investigation after revealing the source of the birds.",
+      "context": [
+        "'This year our good host, Windigate by name, instituted a goose club...'",
+        "'Yes. I was speaking only half an hour ago to Mr. Henry Baker, who was a member of your goose club.'",
+        "'Well, I got the two dozen from a salesman in Covent Garden.'",
+        "'Breckinridge is his name.'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_char_005",
+      "name": "Breckinridge",
+      "aliases": [
+        "the salesman",
+        "the proprietor",
+        "mister"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "A market salesman in Covent Garden who supplied the geese to the Alpha Inn. He is initially hostile to Holmes's inquiries but eventually reveals his supply ledger after a wager.",
+      "context": [
+        "One of the largest stalls bore the name of Breckinridge upon it, and the proprietor a horseylooking man... was helping a boy to put up the shutters.",
+        "'Now, then, mister,' said he, with his head cocked and his arms akimbo, 'what are you driving at?'",
+        "'Well then, I shan't tell you. So now!'",
+        "'Bring me the books, Bill,' said he."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_char_006",
+      "name": "Bill",
+      "aliases": [
+        "the small boy",
+        "a boy"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "Breckinridge's young assistant who fetches the sales ledgers that become crucial to Holmes's investigation.",
+      "context": [
+        "'The small boy brought round a small thin volume and a great greasy-backed one, laying them out together beneath the hanging lamp.'",
+        "'Bring me the books, Bill,' said he."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_loc_001",
+      "name": "Alpha Inn",
+      "aliases": [
+        "the public-house",
+        "the Alpha",
+        "the bar"
+      ],
+      "entity_class": "LOCATION",
+      "type": "residence",
+      "description": "A small public house near the Museum where the goose club meets. It serves as the first stop in Holmes's investigation, where he questions the landlord about the source of the geese.",
+      "context": [
+        "'There are a few of us who frequent the Alpha Inn, near the Museum...'",
+        "'In a quarter of an hour we were in Bloomsbury at the Alpha Inn, which is a small public-house at the corner of one of the streets which runs down into Holborn.'",
+        "'Holmes pushed open the door of the private bar and ordered two glasses of beer...'",
+        "'Your beer should be excellent if it is as good as your geese,' said he."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_loc_002",
+      "name": "Museum",
+      "aliases": [
+        "the Museum",
+        "British Museum"
+      ],
+      "entity_class": "LOCATION",
+      "type": "institution",
+      "description": "A major London institution near the Alpha Inn, referenced as the daytime workplace of the goose club members and a geographical landmark for locating the pub.",
+      "context": [
+        "'There are a few of us who frequent the Alpha Inn, near the Museum-we are to be found in the Museum itself during the day, you understand.'",
+        "'In a quarter of an hour we were in Bloomsbury at the Alpha Inn, which is a small public-house at the corner of one of the streets which runs down into Holborn.'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_loc_003",
+      "name": "Covent Garden Market",
+      "aliases": [
+        "Covent Garden",
+        "the market",
+        "the stalls"
+      ],
+      "entity_class": "LOCATION",
+      "type": "landmark",
+      "description": "A bustling London market where Breckinridge operates his stall. It is the second major location in Holmes's investigative trail, leading to the discovery of the supply ledger.",
+      "context": [
+        "'Well, I got the two dozen from a salesman in Covent Garden.'",
+        "'We passed across Holborn, down Endell Street, and so through a zigzag of slums to Covent Garden Market.'",
+        "'One of the largest stalls bore the name of Breckinridge upon it...'",
+        "'Now, then, Mr. Cocksure,' said the salesman, 'I thought that I was out of geese, but before you finish you'll find that there is still one left in my shop.'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_loc_004",
+      "name": "Holborn",
+      "aliases": [
+        "Holborn",
+        "the streets of Holborn"
+      ],
+      "entity_class": "LOCATION",
+      "type": "region",
+      "description": "A district in London that forms part of the route Holmes and Watson take from their residence to the Alpha Inn and later to Covent Garden Market.",
+      "context": [
+        "'...so through Wigmore Street into Oxford Street. In a quarter of an hour we were in Bloomsbury at the Alpha Inn, which is a small public-house at the corner of one of the streets which runs down into Holborn.'",
+        "'We passed across Holborn, down Endell Street, and so through a zigzag of slums to Covent Garden Market.'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_loc_005",
+      "name": "Wimpole Street",
+      "aliases": [
+        "Wimpole Street",
+        "the doctors' quarter"
+      ],
+      "entity_class": "LOCATION",
+      "type": "region",
+      "description": "A street in London known for its medical professionals, through which Holmes and Watson walk during their evening investigation.",
+      "context": [
+        "Our footfalls rang out crisply and loudly as we swung through the doctors' quarter, Wimpole Street, Harley Street, and so through Wigmore Street into Oxford Street."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_loc_006",
+      "name": "Harley Street",
+      "aliases": [
+        "Harley Street"
+      ],
+      "entity_class": "LOCATION",
+      "type": "region",
+      "description": "A famous London street associated with medical practice, traversed by Holmes and Watson as they follow the investigative trail.",
+      "context": [
+        "Our footfalls rang out crisply and loudly as we swung through the doctors' quarter, Wimpole Street, Harley Street, and so through Wigmore Street into Oxford Street."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_loc_007",
+      "name": "Wigmore Street",
+      "aliases": [
+        "Wigmore Street"
+      ],
+      "entity_class": "LOCATION",
+      "type": "region",
+      "description": "A London street connecting the medical district to Oxford Street, part of the route taken by the detectives.",
+      "context": [
+        "Our footfalls rang out crisply and loudly as we swung through the doctors' quarter, Wimpole Street, Harley Street, and so through Wigmore Street into Oxford Street."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_loc_008",
+      "name": "Oxford Street",
+      "aliases": [
+        "Oxford Street"
+      ],
+      "entity_class": "LOCATION",
+      "type": "region",
+      "description": "A major London thoroughfare that Holmes and Watson pass through on their way to Bloomsbury and the Alpha Inn.",
+      "context": [
+        "Our footfalls rang out crisply and loudly as we swung through the doctors' quarter, Wimpole Street, Harley Street, and so through Wigmore Street into Oxford Street."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_loc_009",
+      "name": "Bloomsbury",
+      "aliases": [
+        "Bloomsbury"
+      ],
+      "entity_class": "LOCATION",
+      "type": "region",
+      "description": "A district in London where the Alpha Inn is located, marking the detectives' destination for the first leg of their investigation.",
+      "context": [
+        "In a quarter of an hour we were in Bloomsbury at the Alpha Inn, which is a small public-house at the corner of one of the streets which runs down into Holborn."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_loc_010",
+      "name": "Endell Street",
+      "aliases": [
+        "Endell Street"
+      ],
+      "entity_class": "LOCATION",
+      "type": "region",
+      "description": "A street in London that Holmes and Watson traverse on their way from Holborn to Covent Garden Market.",
+      "context": [
+        "We passed across Holborn, down Endell Street, and so through a zigzag of slums to Covent Garden Market."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_obj_001",
+      "name": "The Goose",
+      "aliases": [
+        "the bird",
+        "the fowl",
+        "your own bird",
+        "the other goose",
+        "disjecta membra"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "A stolen goose that becomes the central clue in the investigation. Its consumption by Holmes and Watson, along with its preserved parts, provides crucial evidence for solving the case.",
+      "context": [
+        "'By the way, about the bird, we were compelled to eat it.'",
+        "'But I presume that this other goose upon the sideboard, which is about the same weight and perfectly fresh, will answer your purpose equally well?'",
+        "'Of course, we still have the feathers, legs, crop, and so on of your own bird, so if you wish-'",
+        "'Remember, Watson that though we have so homely a thing as a goose at one end of this chain, we have at the other a man who will certainly get seven years' penal servitude...'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_obj_002",
+      "name": "The Scotch Bonnet",
+      "aliases": [
+        "the hat",
+        "a Scotch bonnet"
+      ],
+      "entity_class": "OBJECT",
+      "type": "clothing",
+      "description": "A stolen hat belonging to Henry Baker, taken during his assault. It serves as a companion clue to the goose, helping Holmes track the thief's movements.",
+      "context": [
+        "'I had no doubt that the gang of roughs who assaulted me had carried off both my hat and the bird.'",
+        "'I am much indebted to you, sir, for a Scotch bonnet is fitted neither to my years nor my gravity.'",
+        "'There is your hat, then, and there your bird,' said he."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_obj_003",
+      "name": "The Ledgers",
+      "aliases": [
+        "the books",
+        "the list",
+        "the big ledger",
+        "the small thin volume",
+        "greasy-backed one"
+      ],
+      "entity_class": "OBJECT",
+      "type": "document",
+      "description": "Breckinridge's sales records containing lists of country and town suppliers. These documents become the pivotal evidence that allows Holmes to trace the origin of the stolen geese.",
+      "context": [
+        "The small boy brought round a small thin volume and a great greasy-backed one, laying them out together beneath the hanging lamp.",
+        "'That's the list of the folk from whom I buy. D'you see? Well, then, here on this page are the country folk...'",
+        "'Now, then! You see this other page in red ink? Well, that is a list of my town suppliers. Now, look at that third name. Just read it out to me.'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_evt_001",
+      "name": "The Assault",
+      "aliases": [
+        "the robbery",
+        "the attack",
+        "gang of roughs who assaulted me"
+      ],
+      "entity_class": "EVENT",
+      "type": "crime",
+      "description": "A violent robbery in which Henry Baker's hat and goose were stolen by a gang of roughs. This event sets the investigation in motion and establishes Baker as a victim rather than a perpetrator.",
+      "context": [
+        "'I had no doubt that the gang of roughs who assaulted me had carried off both my hat and the bird.'",
+        "'I am much indebted to you, sir, for a Scotch bonnet is fitted neither to my years nor my gravity.'",
+        "'So much for Mr. Henry Baker,' said Holmes when he had closed the door behind him. 'It is quite certain that he knows nothing whatever about the matter.'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_evt_002",
+      "name": "The Wager",
+      "aliases": [
+        "the bet",
+        "the fiver",
+        "the sovereign"
+      ],
+      "entity_class": "EVENT",
+      "type": "confrontation",
+      "description": "A heated bet between Holmes and Breckinridge regarding whether the geese were country or town bred. This wager forces the salesman to reveal his supply ledger, advancing the investigation.",
+      "context": [
+        "'I'm always ready to back my opinion on a matter of fowls, and I have a fiver on it that the bird I ate is country bred.'",
+        "'Well, then, you've lost your fiver, for it's town bred,' snapped the salesman.",
+        "'I'll have a sovereign on with you, just to teach you not to be obstinate.'",
+        "'Bring me the books, Bill,' said he."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_evt_003",
+      "name": "The Investigation",
+      "aliases": [
+        "the inquiry",
+        "the line of investigation",
+        "the pursuit"
+      ],
+      "entity_class": "EVENT",
+      "type": "investigation",
+      "description": "Holmes and Watson's methodical pursuit of clues from the Alpha Inn to Covent Garden Market, driven by the desire to clear a man's name and solve a theft that evaded the police.",
+      "context": [
+        "'Then I suggest that we turn our dinner into a supper and follow up this clue while it is still hot.'",
+        "'It is possible that our inquiry may but confirm his guilt; but, in any case, we have a line of investigation which has been missed by the police...'",
+        "'Let us follow it out to the bitter end. Faces to the south, then, and quick march!'",
+        "'Now for Mr. Breckinridge,' he continued, buttoning up his coat as we came out into the frosty air."
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_org_001",
+      "name": "The Goose Club",
+      "aliases": [
+        "the goose club",
+        "our goose club"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "club",
+      "description": "A social group formed by patrons of the Alpha Inn who pool small weekly payments to receive a goose at Christmas. It serves as the social framework connecting Baker, Windigate, and the stolen birds.",
+      "context": [
+        "'This year our good host, Windigate by name, instituted a goose club, by which, on consideration of some few pence every week, we were each to receive a bird at Christmas.'",
+        "'Yes. I was speaking only half an hour ago to Mr. Henry Baker, who was a member of your goose club.'",
+        "'Ah! yes, I see. But you see, sir, them's not our geese.'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_org_002",
+      "name": "The Police",
+      "aliases": [
+        "the police",
+        "officials",
+        "the law"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "government",
+      "description": "The official law enforcement body responsible for the initial investigation, whose methods Holmes considers incomplete and in need of correction through his own deductive approach.",
+      "context": [
+        "'we have a line of investigation which has been missed by the police, and which a singular chance has placed in our hands.'",
+        "'So much for Mr. Henry Baker,' said Holmes when he had closed the door behind him. 'It is quite certain that he knows nothing whatever about the matter.'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_con_001",
+      "name": "Penal Servitude",
+      "aliases": [
+        "seven years' penal servitude",
+        "punishment",
+        "penal servitude"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "theme",
+      "description": "The severe legal punishment facing the thief, highlighting the high stakes of the investigation and the moral imperative for Holmes to establish the culprit's innocence or guilt.",
+      "context": [
+        "'Remember, Watson that though we have so homely a thing as a goose at one end of this chain, we have at the other a man who will certainly get seven years' penal servitude unless we can establish his innocence.'",
+        "'It is possible that our inquiry may but confirm his guilt; but, in any case, we have a line of investigation which has been missed by the police...'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_con_002",
+      "name": "Fowl Origin Classification",
+      "aliases": [
+        "town bred",
+        "country bred",
+        "fowl fancier",
+        "fowls"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "mystery",
+      "description": "The debate over whether the stolen geese originated from the countryside or the city, serving as a crucial deductive clue that forces the revelation of the supply ledger.",
+      "context": [
+        "'I'm always ready to back my opinion on a matter of fowls, and I have a fiver on it that the bird I ate is country bred.'",
+        "'Well, then, you've lost your fiver, for it's town bred,' snapped the salesman.",
+        "'I tell you, all those birds that went to the Alpha were town bred.'",
+        "'You'll never persuade me to believe that.'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_con_003",
+      "name": "Legal Morality",
+      "aliases": [
+        "innocence",
+        "guilt",
+        "establish his innocence",
+        "confirm his guilt"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "theme",
+      "description": "The central moral and legal dilemma driving the investigation, as Holmes seeks to determine whether the thief deserves severe punishment or can be proven innocent.",
+      "context": [
+        "'unless we can establish his innocence.'",
+        "'It is possible that our inquiry may but confirm his guilt; but, in any case, we have a line of investigation which has been missed by the police...'",
+        "'So much for Mr. Henry Baker,' said Holmes when he had closed the door behind him. 'It is quite certain that he knows nothing whatever about the matter.'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    }
+  ],
+  "properties": [
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_char_001",
+      "name": "Henry Baker",
+      "properties": {
+        "role": "Visitor and client",
+        "personality_traits": [
+          "shamefaced",
+          "relieved",
+          "comically pompous",
+          "gravity"
+        ],
+        "motivations": [
+          "recover stolen hat and goose",
+          "obtain a replacement bird"
+        ],
+        "narrative_arc": "Enters distressed over theft, leaves relieved and satisfied after Holmes returns his property",
+        "signature_behaviours": [
+          "tucks property under his arm",
+          "bows solemnly",
+          "laughs heartily"
+        ]
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_char_002",
+      "name": "Sherlock Holmes",
+      "properties": {
+        "role": "Consulting detective",
+        "personality_traits": [
+          "observant",
+          "methodical",
+          "logical",
+          "playfully competitive"
+        ],
+        "motivations": [
+          "solve the mystery of the stolen property",
+          "establish innocence or guilt",
+          "follow the investigative clue"
+        ],
+        "signature_behaviours": [
+          "glances sharply at Watson",
+          "suggests turning dinner into supper",
+          "makes a wager to force disclosure of evidence"
+        ]
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_char_003",
+      "name": "Dr. Watson",
+      "properties": {
+        "role": "Narrator and Holmes's companion",
+        "personality_traits": [
+          "practical",
+          "observant",
+          "compliant"
+        ],
+        "motivations": [
+          "assist Holmes",
+          "accompany him on the investigation"
+        ],
+        "signature_behaviours": [
+          "notes environmental details",
+          "agrees to follow the clue",
+          "acts as audience surrogate"
+        ]
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_char_004",
+      "name": "Windigate",
+      "properties": {
+        "role": "Landlord and host of the Alpha Inn",
+        "physical_description": [
+          "ruddy-faced",
+          "white-aproned"
+        ],
+        "motivations": [
+          "protect his business reputation",
+          "clarify the source of his geese"
+        ],
+        "narrative_arc": "Reveals he does not own the geese, directs Holmes to the supplier",
+        "signature_behaviours": [
+          "expresses surprise at Holmes's knowledge",
+          "explains the supply chain"
+        ]
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_char_005",
+      "name": "Breckinridge",
+      "properties": {
+        "role": "Salesman and market stall proprietor",
+        "physical_description": [
+          "horsey-looking",
+          "sharp face",
+          "trim side-whiskers"
+        ],
+        "personality_traits": [
+          "defensive",
+          "argumentative",
+          "confident",
+          "proud of his expertise"
+        ],
+        "motivations": [
+          "defend his reputation",
+          "win the wager",
+          "protect supplier identities"
+        ],
+        "narrative_arc": "Shifts from hostile to competitive, reveals ledgers to prove his point",
+        "signature_behaviours": [
+          "stands with arms akimbo",
+          "chuckles grimly",
+          "uses ledgers as proof"
+        ]
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_char_006",
+      "name": "Bill",
+      "properties": {
+        "role": "Salesman's boy and assistant",
+        "physical_description": [
+          "small boy"
+        ],
+        "motivations": [
+          "assist his employer"
+        ],
+        "signature_behaviours": [
+          "brings the ledgers when summoned"
+        ]
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_loc_001",
+      "name": "Alpha Inn",
+      "properties": {
+        "physical_description": [
+          "small public-house",
+          "located at a street corner running into Holborn",
+          "has a private bar"
+        ],
+        "narrative_function": "Starting point of the investigation, source of the geese",
+        "who_controls": "Windigate"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_loc_002",
+      "name": "Museum",
+      "properties": {
+        "narrative_function": "Geographic reference point for the Goose Club's location",
+        "atmosphere": "Implied daytime gathering spot"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_loc_003",
+      "name": "Covent Garden Market",
+      "properties": {
+        "physical_description": [
+          "large market",
+          "marble slabs",
+          "gasflares",
+          "surrounded by zigzag slums"
+        ],
+        "atmosphere": "Commercial, frosty, busy",
+        "narrative_function": "Location of the next investigative step, leads to the ledgers"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_loc_004",
+      "name": "Holborn",
+      "properties": {
+        "narrative_function": "Geographic reference and route destination",
+        "physical_description": [
+          "district with streets running into it"
+        ]
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_loc_005",
+      "name": "Wimpole Street",
+      "properties": {
+        "physical_description": [
+          "doctors' quarter"
+        ],
+        "narrative_function": "Route taken by Holmes and Watson"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_loc_006",
+      "name": "Harley Street",
+      "properties": {
+        "narrative_function": "Part of the doctors' quarter route"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_loc_007",
+      "name": "Wigmore Street",
+      "properties": {
+        "narrative_function": "Connecting street in the investigative route"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_loc_008",
+      "name": "Oxford Street",
+      "properties": {
+        "narrative_function": "Major street in the investigative route"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_loc_009",
+      "name": "Bloomsbury",
+      "properties": {
+        "narrative_function": "Geographic marker for the Alpha Inn's location",
+        "physical_description": [
+          "area reached in a quarter of an hour"
+        ]
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_loc_010",
+      "name": "Endell Street",
+      "properties": {
+        "narrative_function": "Street leading to Covent Garden, passes through slums"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_obj_001",
+      "name": "The Goose",
+      "properties": {
+        "physical_description": [
+          "about the same weight as the replacement",
+          "perfectly fresh",
+          "town-bred",
+          "reduced to feathers, legs, and crop"
+        ],
+        "who_owns_or_uses_it": [
+          "Henry Baker (original)",
+          "Sherlock Holmes and Dr. Watson (consumed)",
+          "Breckinridge (supplier)"
+        ],
+        "narrative_role": "Central clue and catalyst for the investigation",
+        "symbolic_meaning": "Represents the chain of evidence and the core mystery"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_obj_002",
+      "name": "The Scotch Bonnet",
+      "properties": {
+        "physical_description": [
+          "hat"
+        ],
+        "who_owns_or_uses_it": [
+          "Henry Baker"
+        ],
+        "narrative_role": "Stolen item and part of the mystery, returned to Baker"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_obj_003",
+      "name": "The Ledgers",
+      "properties": {
+        "physical_description": [
+          "small thin volume",
+          "great greasy-backed one",
+          "lists of country and town suppliers",
+          "red ink"
+        ],
+        "who_owns_or_uses_it": [
+          "Breckinridge"
+        ],
+        "narrative_role": "Physical evidence and proof, central to the wager",
+        "significance_status": "Resolved as proof of origin"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_evt_001",
+      "name": "The Assault",
+      "properties": {
+        "cause": "Robbery by a gang of roughs",
+        "immediate_consequence": "Baker loses his hat and goose, prompting Holmes's involvement",
+        "who_was_involved": [
+          "Henry Baker",
+          "gang of roughs"
+        ],
+        "why_it_matters": "Catalyst for the entire plot and investigation"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_evt_002",
+      "name": "The Wager",
+      "properties": {
+        "cause": "Disagreement over whether the goose is country or town bred",
+        "immediate_consequence": "Breckinridge brings out the ledgers to prove his point",
+        "who_was_involved": [
+          "Sherlock Holmes",
+          "Breckinridge"
+        ],
+        "emotions": [
+          "argumentative",
+          "confident",
+          "grimly amused"
+        ],
+        "why_it_matters": "Drives the plot forward and forces disclosure of key evidence"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_evt_003",
+      "name": "The Investigation",
+      "properties": {
+        "cause": "Stolen property and mystery of the goose's origin",
+        "immediate_consequence": "Leads Holmes and Watson from the Alpha Inn to Covent Garden Market",
+        "who_was_involved": [
+          "Sherlock Holmes",
+          "Dr. Watson",
+          "Henry Baker",
+          "Windigate",
+          "Breckinridge",
+          "Bill"
+        ],
+        "emotions": [
+          "determined",
+          "cold",
+          "focused"
+        ],
+        "why_it_matters": "Core narrative drive demonstrating deductive method and advancing the mystery"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_org_001",
+      "name": "The Goose Club",
+      "properties": {
+        "structure": "Informal subscription club",
+        "leadership": "Hosted by Windigate at the Alpha Inn",
+        "purpose/goal": "Provide each member with a goose at Christmas in exchange for weekly pence",
+        "resources/assets": [
+          "weekly pence",
+          "geese supplied by Breckinridge"
+        ],
+        "status": "Active",
+        "plot_impact": "Connects Baker to the Alpha Inn and establishes the supply chain"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_org_002",
+      "name": "The Police",
+      "properties": {
+        "purpose/goal": "Investigate the theft and pursue the guilty party",
+        "status": "Active but missed the crucial clue",
+        "plot_impact": "Their failure highlights Holmes's superior deduction and sets up the stakes"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_con_001",
+      "name": "Penal Servitude",
+      "properties": {
+        "manifestation": "The threat of seven years' imprisonment for the thief",
+        "thematic_role": "Raises the stakes of the investigation and frames the legal consequences of the crime"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_con_002",
+      "name": "Fowl Origin Classification",
+      "properties": {
+        "manifestation": "Distinguishing between country-bred and town-bred geese",
+        "resolution_status": "Unresolved in this excerpt but drives the wager and ledger examination",
+        "thematic_role": "Demonstrates Holmes's reliance on specialized knowledge and physical evidence"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_004_con_003",
+      "name": "Legal Morality",
+      "properties": {
+        "manifestation": "The tension between confirming guilt and establishing innocence",
+        "thematic_role": "Frames the ethical weight of the investigation and the pursuit of justice"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_char_001",
+      "source_name": "Henry Baker",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004_char_002",
+      "target_name": "Sherlock Holmes",
+      "rel_type": "knows",
+      "description": "Baker acknowledges Holmes's assistance and expresses gratitude for the return of his property.",
+      "properties": {
+        "sentiment": "positive",
+        "nature": "personal"
+      },
+      "context": "I am much indebted to you, sir, for a Scotch bonnet is fitted neither to my years nor my gravity.",
+      "bidirectional": true,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_char_001",
+      "source_name": "Henry Baker",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004_evt_001",
+      "target_name": "The Assault",
+      "rel_type": "participates_in",
+      "description": "Baker was the victim of an assault by a gang of roughs who stole his hat and goose.",
+      "properties": {
+        "role": "victim",
+        "contribution": "Suffered theft and physical assault"
+      },
+      "context": "I had no doubt that the gang of roughs who assaulted me had carried off both my hat and the bird.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_char_001",
+      "source_name": "Henry Baker",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004_loc_001",
+      "target_name": "Alpha Inn",
+      "rel_type": "resides_at",
+      "description": "Baker frequents the Alpha Inn as a regular patron and member of the local goose club.",
+      "properties": {
+        "frequency": "regular",
+        "purpose": "social gathering"
+      },
+      "context": "There are a few of us who frequent the Alpha Inn, near the Museum-we are to be found in the Museum itself during the day, you understand.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_char_001",
+      "source_name": "Henry Baker",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004_org_001",
+      "target_name": "The Goose Club",
+      "rel_type": "belongs_to",
+      "description": "Baker is a paying member of the Goose Club, which provides him with a bird at Christmas.",
+      "properties": {
+        "membership_status": "active",
+        "contribution": "Weekly payments"
+      },
+      "context": "This year our good host, Windigate by name, instituted a goose club, by which, on consideration of some few pence every week, we were each to receive a bird at Christmas.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_char_001",
+      "source_name": "Henry Baker",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004_obj_002",
+      "target_name": "The Scotch Bonnet",
+      "rel_type": "owns",
+      "description": "Baker owns the Scotch bonnet hat that was stolen during the assault.",
+      "properties": {
+        "condition": "stolen",
+        "recovered": true
+      },
+      "context": "I am much indebted to you, sir, for a Scotch bonnet is fitted neither to my years nor my gravity.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_char_002",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004_evt_001",
+      "target_name": "The Assault",
+      "rel_type": "investigates",
+      "description": "Holmes takes on the case to investigate the assault and theft involving Baker's property.",
+      "properties": {
+        "role": "investigator",
+        "motivation": "intellectual challenge"
+      },
+      "context": "Then I suggest that we turn our dinner into a supper and follow up this clue while it is still hot.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_char_002",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004_evt_003",
+      "target_name": "The Investigation",
+      "rel_type": "investigates",
+      "description": "Holmes leads the broader investigation into the origin of the geese and the underlying crime.",
+      "properties": {
+        "role": "investigator",
+        "progress": "active"
+      },
+      "context": "but we have a line of investigation which has been missed by the police, and which a singular chance has placed in our hands.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_char_002",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004_char_003",
+      "target_name": "Dr. Watson",
+      "rel_type": "works_with",
+      "description": "Holmes collaborates closely with Watson, treating him as a companion and assistant in the case.",
+      "properties": {
+        "sentiment": "positive",
+        "nature": "professional_and_personal"
+      },
+      "context": "So much for Mr. Henry Baker,' said Holmes when he had closed the door behind him. 'It is quite certain that he knows nothing whatever about the matter. Are you hungry, Watson?",
+      "bidirectional": true,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_char_002",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004_loc_001",
+      "target_name": "Alpha Inn",
+      "rel_type": "visits",
+      "description": "Holmes visits the Alpha Inn to question the landlord about the goose supply chain.",
+      "properties": {
+        "purpose": "interrogation",
+        "time": "evening"
+      },
+      "context": "In a quarter of an hour we were in Bloomsbury at the Alpha Inn, which is a small public-house at the corner of one of the streets which runs down into Holborn.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_char_002",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004_loc_003",
+      "target_name": "Covent Garden Market",
+      "rel_type": "visits",
+      "description": "Holmes travels to Covent Garden Market to track down the salesman Breckinridge.",
+      "properties": {
+        "purpose": "evidence gathering",
+        "time": "evening"
+      },
+      "context": "We passed across Holborn, down Endell Street, and so through a zigzag of slums to Covent Garden Market.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_char_002",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004_evt_002",
+      "target_name": "The Wager",
+      "rel_type": "participates_in",
+      "description": "Holmes engages in a bet with Breckinridge regarding the origin of the geese.",
+      "properties": {
+        "role": "participant",
+        "contribution": "Staked a fiver on country-bred origin"
+      },
+      "context": "If you won't tell us the bet is off, that is all. But I'm always ready to back my opinion on a matter of fowls, and I have a fiver on it that the bird I ate is country bred.",
+      "bidirectional": true,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_char_003",
+      "source_name": "Dr. Watson",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004_loc_001",
+      "target_name": "Alpha Inn",
+      "rel_type": "visits",
+      "description": "Watson accompanies Holmes to the Alpha Inn during their investigation.",
+      "properties": {
+        "purpose": "accompaniment",
+        "time": "evening"
+      },
+      "context": "In a quarter of an hour we were in Bloomsbury at the Alpha Inn, which is a small public-house at the corner of one of the streets which runs down into Holborn.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_char_003",
+      "source_name": "Dr. Watson",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004_loc_003",
+      "target_name": "Covent Garden Market",
+      "rel_type": "visits",
+      "description": "Watson follows Holmes to Covent Garden Market to observe the interrogation of Breckinridge.",
+      "properties": {
+        "purpose": "observation",
+        "time": "evening"
+      },
+      "context": "We passed across Holborn, down Endell Street, and so through a zigzag of slums to Covent Garden Market.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_char_003",
+      "source_name": "Dr. Watson",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004_evt_003",
+      "target_name": "The Investigation",
+      "rel_type": "participates_in",
+      "description": "Watson assists Holmes in the broader investigation by accompanying him and providing support.",
+      "properties": {
+        "role": "helper",
+        "contribution": "Physical and moral support"
+      },
+      "context": "Then I suggest that we turn our dinner into a supper and follow up this clue while it is still hot.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_char_004",
+      "source_name": "Windigate",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004_org_001",
+      "target_name": "The Goose Club",
+      "rel_type": "leads",
+      "description": "Windigate founded and operates the Goose Club, which supplies members with Christmas geese.",
+      "properties": {
+        "role": "founder_and_host",
+        "status": "active"
+      },
+      "context": "This year our good host, Windigate by name, instituted a goose club, by which, on consideration of some few pence every week, we were each to receive a bird at Christmas.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_char_004",
+      "source_name": "Windigate",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004_loc_001",
+      "target_name": "Alpha Inn",
+      "rel_type": "works_at",
+      "description": "Windigate is the landlord and proprietor of the Alpha Inn.",
+      "properties": {
+        "role": "landlord",
+        "responsibility": "management_and_service"
+      },
+      "context": "Holmes pushed open the door of the private bar and ordered two glasses of beer from the ruddy-faced, white-aproned landlord.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_char_005",
+      "source_name": "Breckinridge",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004_loc_003",
+      "target_name": "Covent Garden Market",
+      "rel_type": "works_at",
+      "description": "Breckinridge operates a stall at Covent Garden Market as a salesman.",
+      "properties": {
+        "role": "proprietor",
+        "trade": "fowl_sales"
+      },
+      "context": "One of the largest stalls bore the name of Breckinridge upon it, and the proprietor a horseylooking man, with a sharp face and trim side-whiskers was helping a boy to put up the shutters.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_char_005",
+      "source_name": "Breckinridge",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004_evt_002",
+      "target_name": "The Wager",
+      "rel_type": "participates_in",
+      "description": "Breckinridge accepts Holmes's bet regarding the geographical origin of the geese.",
+      "properties": {
+        "role": "participant",
+        "contribution": "Staked a sovereign on town-bred origin"
+      },
+      "context": "'Will you bet, then?' 'It is merely taking your money, for I know that I am right. But I'll have a sovereign on with you, just to teach you not to be obstinate.'",
+      "bidirectional": true,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_char_006",
+      "source_name": "Bill",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004_char_005",
+      "target_name": "Breckinridge",
+      "rel_type": "works_with",
+      "description": "Bill assists Breckinridge as a young boy at his market stall.",
+      "properties": {
+        "role": "assistant",
+        "task": "fetching_ledgers"
+      },
+      "context": "The salesman nodded and shot a questioning glance at my companion. ... 'Bring me the books, Bill,' said he. The small boy brought round a small thin volume and a great greasy-backed one...",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_char_001",
+      "source_name": "Henry Baker",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004_evt_003",
+      "target_name": "The Investigation",
+      "rel_type": "participates_in",
+      "description": "Baker is a key witness in the investigation, though he initially knows nothing of the underlying matter.",
+      "properties": {
+        "role": "witness",
+        "contribution": "Provides initial clue via stolen property"
+      },
+      "context": "'It is quite certain that he knows nothing whatever about the matter.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_org_002",
+      "source_name": "The Police",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004_evt_001",
+      "target_name": "The Assault",
+      "rel_type": "investigates",
+      "description": "The police attempted to investigate the assault but missed the crucial line of inquiry.",
+      "properties": {
+        "role": "investigator",
+        "outcome": "failed_to_solve"
+      },
+      "context": "but we have a line of investigation which has been missed by the police, and which a singular chance has placed in our hands.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_char_001",
+      "source_name": "Henry Baker",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004_obj_001",
+      "target_name": "The Goose",
+      "rel_type": "owns",
+      "description": "Baker originally owned the goose that was stolen during the assault.",
+      "properties": {
+        "status": "stolen",
+        "recovered": false
+      },
+      "context": "I had no doubt that the gang of roughs who assaulted me had carried off both my hat and the bird.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_char_005",
+      "source_name": "Breckinridge",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004_obj_003",
+      "target_name": "The Ledgers",
+      "rel_type": "owns",
+      "description": "Breckinridge maintains detailed ledgers tracking his suppliers and their accounts.",
+      "properties": {
+        "purpose": "business_records",
+        "content": "supplier_lists_and_accounts"
+      },
+      "context": "You see this little book?' 'Well?' 'That's the list of the folk from whom I buy. D'you see? Well, then, here on this page are the country folk, and the numbers after their names are where their accounts are in the big ledger.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_con_001",
+      "source_name": "Penal Servitude",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004_evt_001",
+      "target_name": "The Assault",
+      "rel_type": "triggers",
+      "description": "The assault carries the legal consequence of seven years' penal servitude for the perpetrator.",
+      "properties": {
+        "severity": "high",
+        "legal_consequence": "seven_years_imprisonment"
+      },
+      "context": "we have at the other a man who will certainly get seven years' penal servitude unless we can establish his innocence.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_con_002",
+      "source_name": "Fowl Origin Classification",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004_evt_002",
+      "target_name": "The Wager",
+      "rel_type": "expressed_through",
+      "description": "The wager centers entirely on classifying whether the geese are country-bred or town-bred.",
+      "properties": {
+        "classification_options": [
+          "country_bred",
+          "town_bred"
+        ],
+        "stake": "five_pounds"
+      },
+      "context": "I have a fiver on it that the bird I ate is country bred.\" / \"Well, then, you've lost your fiver, for it's town bred,",
+      "salesman.": "bidirectional",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_con_003",
+      "source_name": "Legal Morality",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004_evt_003",
+      "target_name": "The Investigation",
+      "rel_type": "resolved_by",
+      "description": "The investigation aims to establish the perpetrator's innocence or guilt, thereby resolving the moral and legal dilemma.",
+      "properties": {
+        "objective": "establish_innocence_or_guilt",
+        "outcome": "pending"
+      },
+      "context": "unless we can establish his innocence. It is possible that our inquiry may but confirm his guilt; but, in any case, we have a line of investigation which has been missed by the police...",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_char_001",
+      "source_name": "Henry Baker",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004",
+      "target_name": "54fe739d5f764020ad4396c72af29729_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_char_002",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004",
+      "target_name": "54fe739d5f764020ad4396c72af29729_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_char_003",
+      "source_name": "Dr. Watson",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004",
+      "target_name": "54fe739d5f764020ad4396c72af29729_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_char_004",
+      "source_name": "Windigate",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004",
+      "target_name": "54fe739d5f764020ad4396c72af29729_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_char_005",
+      "source_name": "Breckinridge",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004",
+      "target_name": "54fe739d5f764020ad4396c72af29729_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_char_006",
+      "source_name": "Bill",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004",
+      "target_name": "54fe739d5f764020ad4396c72af29729_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_loc_001",
+      "source_name": "Alpha Inn",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004",
+      "target_name": "54fe739d5f764020ad4396c72af29729_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_loc_002",
+      "source_name": "Museum",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004",
+      "target_name": "54fe739d5f764020ad4396c72af29729_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_loc_003",
+      "source_name": "Covent Garden Market",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004",
+      "target_name": "54fe739d5f764020ad4396c72af29729_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_loc_004",
+      "source_name": "Holborn",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004",
+      "target_name": "54fe739d5f764020ad4396c72af29729_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_loc_005",
+      "source_name": "Wimpole Street",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004",
+      "target_name": "54fe739d5f764020ad4396c72af29729_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_loc_006",
+      "source_name": "Harley Street",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004",
+      "target_name": "54fe739d5f764020ad4396c72af29729_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_loc_007",
+      "source_name": "Wigmore Street",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004",
+      "target_name": "54fe739d5f764020ad4396c72af29729_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_loc_008",
+      "source_name": "Oxford Street",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004",
+      "target_name": "54fe739d5f764020ad4396c72af29729_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_loc_009",
+      "source_name": "Bloomsbury",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004",
+      "target_name": "54fe739d5f764020ad4396c72af29729_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_loc_010",
+      "source_name": "Endell Street",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004",
+      "target_name": "54fe739d5f764020ad4396c72af29729_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_obj_001",
+      "source_name": "The Goose",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004",
+      "target_name": "54fe739d5f764020ad4396c72af29729_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_obj_002",
+      "source_name": "The Scotch Bonnet",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004",
+      "target_name": "54fe739d5f764020ad4396c72af29729_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_obj_003",
+      "source_name": "The Ledgers",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004",
+      "target_name": "54fe739d5f764020ad4396c72af29729_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_evt_001",
+      "source_name": "The Assault",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004",
+      "target_name": "54fe739d5f764020ad4396c72af29729_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_evt_002",
+      "source_name": "The Wager",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004",
+      "target_name": "54fe739d5f764020ad4396c72af29729_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_evt_003",
+      "source_name": "The Investigation",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004",
+      "target_name": "54fe739d5f764020ad4396c72af29729_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_org_001",
+      "source_name": "The Goose Club",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004",
+      "target_name": "54fe739d5f764020ad4396c72af29729_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_org_002",
+      "source_name": "The Police",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004",
+      "target_name": "54fe739d5f764020ad4396c72af29729_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_con_001",
+      "source_name": "Penal Servitude",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004",
+      "target_name": "54fe739d5f764020ad4396c72af29729_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_con_002",
+      "source_name": "Fowl Origin Classification",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004",
+      "target_name": "54fe739d5f764020ad4396c72af29729_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_004_con_003",
+      "source_name": "Legal Morality",
+      "target_id": "54fe739d5f764020ad4396c72af29729_004",
+      "target_name": "54fe739d5f764020ad4396c72af29729_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_004",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    }
+  ]
+}

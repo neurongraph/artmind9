@@ -1,0 +1,536 @@
+[
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_char_001",
+    "name": "Elias Thorne",
+    "aliases": [],
+    "entity_class": "CHARACTER",
+    "type": "protagonist",
+    "description": "An Aether-Engineer operating in the Lower Sprawl, driven by a desire to rewrite the timeline and liberate Oakhaven from the Ministry's oppressive control. His technical expertise and moral conviction make him the catalyst for the timeline collapse.",
+    "context": [
+      "Elias Thorne adjusted his spectacles.",
+      "The Ministry would hunt us to the ends of the Glassreach. But if we fix the engine… we change the timeline.",
+      "Elias slammed the Kyber Crystal into the Memory Anchor."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_char_002",
+    "name": "Lyra Belacqua",
+    "aliases": [],
+    "entity_class": "CHARACTER",
+    "type": "supporting",
+    "description": "A Shadow-Thief from the Under-Market Syndicate who partners with Elias, motivated by rebellion against the elite and a deep personal connection to the engineer. Her tactical skills and willingness to sacrifice enable the final timeline reset.",
+    "context": [
+      "Lyra Belacqua stepped inside, her dark cloak shimmering with the residue of a Shimmer-Field.",
+      "You’re a dreamer, Elias,” Lyra murmured, her lips brushing his in a brief, desperate kiss that tasted of copper and rain.",
+      "She reached out, her fingers brushing his sleeve one last time. 'Do it, Elias. Change the world.'"
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_char_003",
+    "name": "High Inquisitor Valerius",
+    "aliases": [],
+    "entity_class": "CHARACTER",
+    "type": "antagonist",
+    "description": "The ruthless leader of the Ministry of Order, determined to preserve the Aetheric Age's stability at any cost. His obsession with maintaining the status quo masks the terrifying truth that the future has already been erased.",
+    "context": [
+      "High Inquisitor Valerius had arrived at the perimeter, his Volt-Blade crackling with the intent to preserve the status quo at any cost.",
+      "The stability of the Aetheric Age rests on that crystal remaining in its cradle. To remove it is heresy...",
+      "The Inquisitor hadn't been protecting the past; he had been hiding the fact that the future was already gone."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_char_004",
+    "name": "Ticker",
+    "aliases": [
+      "C-42",
+      "Brass Automaton C-42"
+    ],
+    "entity_class": "CHARACTER",
+    "type": "non-human",
+    "description": "A brass automaton with a failing gear-heart, serving as Elias's assistant and providing critical data during the climax. Its presence underscores the blend of clockwork technology and fragile life in the narrative.",
+    "context": [
+      "Before him sat a Brass Automaton designated C-42, though Elias simply called him Ticker.",
+      "Ticker’s glass eyes flickered. 'Probability of discovery is 74%, Elias. High Inquisitor Valerius has increased patrols near the Smog-Tunnels.'",
+      "Elias glanced at the Ticker —the small automaton had hitched a ride on his belt and was now frantically chirping data."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_loc_001",
+    "name": "Oakhaven",
+    "aliases": [],
+    "entity_class": "LOCATION",
+    "type": "city",
+    "description": "A soot-stained, oppressive city in the Glassreach Valley, characterized by a permanently bruised purple sky and heavy industrial pollution. It serves as the primary setting and the target of the protagonists' rebellion.",
+    "context": [
+      "The rain over Oakhaven didn’t smell of water; it smelled of ozone and scorched brass.",
+      "Oakhaven isn't a city anymore—it's a tomb.",
+      "But you’re the only dreamer left in Oakhaven."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_loc_002",
+    "name": "Glassreach Valley",
+    "aliases": [],
+    "entity_class": "LOCATION",
+    "type": "region",
+    "description": "A geographical region where the sky is permanently bruised purple due to leaking Essence Reservoirs. It serves as the broader setting and the geographical stake threatened by the Chronos Fracture.",
+    "context": [
+      "the sky above the Glassreach Valley was a permanent bruised purple, a side effect of the Essence Reservoirs leaking into the upper atmosphere.",
+      "If I don't slot the crystal in the next thirty seconds, the Chronos Fracture will shatter the valley!",
+      "The Ministry would hunt us to the ends of the Glassreach."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_loc_003",
+    "name": "Lower Sprawl",
+    "aliases": [],
+    "entity_class": "LOCATION",
+    "type": "region",
+    "description": "A subterranean or lower-level district of Oakhaven where Elias works and where the Ministry's oppression is most acutely felt. It represents the industrial underbelly of the city.",
+    "context": [
+      "Deep within Sub-Level 4 of the Lower Sprawl, Elias Thorne adjusted his spectacles.",
+      "You’ve bled the Lower Sprawl dry to keep these gears turning.",
+      "The Ministry would hunt us to the ends of the Glassreach."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_loc_004",
+    "name": "Gilded Spire",
+    "aliases": [],
+    "entity_class": "LOCATION",
+    "type": "landmark",
+    "description": "The towering, clockwork heart of Oakhaven's elite, housing the Great Engine and serving as the primary target for the heist and final confrontation. It symbolizes the oppressive stability maintained by the Ministry.",
+    "context": [
+      "The Gilded Spire is crawling with Iron-Bound Guards, Elias.",
+      "The climb up the Spiral of Ascension felt like ascending the throat of a dying god. Steam hissed from the brass floor-gratings of the Gilded Spire...",
+      "As the Shimmer-Field expanded, devouring the Gilded Spire and everyone within it..."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_loc_005",
+    "name": "Chrono-Chamber",
+    "aliases": [],
+    "entity_class": "LOCATION",
+    "type": "room",
+    "description": "The central chamber within the Gilded Spire, described as a cathedral of clockwork housing the Great Engine. It is the site of the final confrontation and timeline reset.",
+    "context": [
+      "The Chrono-Chamber is just beyond the central meridian,",
+      "Elias wheezed...",
+      "They burst through the heavy mahogany doors into the heart of the Spire. The room was a cathedral of clockwork...",
+      "At the center sat the Great Engine, a suspended sphere of obsidian and copper."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_loc_006",
+    "name": "Spiral of Ascension",
+    "aliases": [],
+    "entity_class": "LOCATION",
+    "type": "landmark",
+    "description": "The arduous, steam-filled ascent leading to the Gilded Spire, symbolizing the difficult journey to reach the engine's core and the physical toll of the rebellion.",
+    "context": [
+      "The climb up the Spiral of Ascension felt like ascending the throat of a dying god.",
+      "Steam hissed from the brass floor-gratings of the Gilded Spire...",
+      "Elias clutched the Kyber Crystal to his chest, its golden pulse now erratic, mirroring his own heartbeat."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_loc_007",
+    "name": "Smog-Tunnels",
+    "aliases": [],
+    "entity_class": "LOCATION",
+    "type": "region",
+    "description": "A network of tunnels near the Lower Sprawl where Ministry patrols have been increased, indicating heightened security and the tightening grip of the Ministry of Order.",
+    "context": [
+      "High Inquisitor Valerius has increased patrols near the Smog-Tunnels.",
+      "The Ministry would hunt us to the ends of the Glassreach.",
+      "The 14th of Harvest-Moon was about to become the day the clock stopped."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_loc_008",
+    "name": "Market Square",
+    "aliases": [],
+    "entity_class": "LOCATION",
+    "type": "landmark",
+    "description": "A central area in Oakhaven placed under lockdown by Valerius following the theft of the Kyber Crystal, highlighting the Ministry's rapid and oppressive response.",
+    "context": [
+      "He’s already ordered a lockdown of the Market Square.",
+      "The Gilded Spire is crawling with Iron-Bound Guards, Elias.",
+      "The 14th of Harvest-Moon was about to become the day the clock stopped."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_loc_009",
+    "name": "Outlands",
+    "aliases": [],
+    "entity_class": "LOCATION",
+    "type": "region",
+    "description": "The wilderness beyond Oakhaven that Lyra suggests as an escape route for the fugitives, representing the possibility of freedom from the city's oppressive control.",
+    "context": [
+      "Take the crystal, head past the Outlands, and never look back at this soot-stained city.",
+      "The Ministry would hunt us to the ends of the Glassreach.",
+      "You’re a dreamer, Elias,” Lyra murmured..."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_loc_010",
+    "name": "Sub-Level 4",
+    "aliases": [],
+    "entity_class": "LOCATION",
+    "type": "room",
+    "description": "Elias Thorne's workshop location, deep within the Lower Sprawl, where he maintains the automaton Ticker and plans the heist. It serves as the narrative's starting point.",
+    "context": [
+      "Deep within Sub-Level 4 of the Lower Sprawl, Elias Thorne adjusted his spectacles.",
+      "Before him sat a Brass Automaton designated C-42, though Elias simply called him Ticker.",
+      "The machine’s chest cavity was open, revealing a heart of interlocking gears that hummed with a failing light."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_obj_001",
+    "name": "Kyber Crystal",
+    "aliases": [],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "A massive, pulsing golden crystal stolen from the Gilded Spire, serving as the key to resetting the timeline and the central MacGuffin of the narrative. Its removal triggers the Resonance Breach and Chronos Fracture.",
+    "context": [
+      "Lyra pulled back the velvet to reveal a Kyber Crystal. It was the size of a human heart and twice as heavy.",
+      "Elias clutched the Kyber Crystal to his chest, its golden pulse now erratic, mirroring his own heartbeat.",
+      "Elias slammed the Kyber Crystal into the Memory Anchor."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_obj_002",
+    "name": "Great Engine",
+    "aliases": [],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "A massive suspended sphere of obsidian and copper at the center of the Gilded Spire, responsible for maintaining the Aetheric Age's stability and timeline. It is the focal point of the climax and the mechanism of the timeline reset.",
+    "context": [
+      "At the center sat the Great Engine, a suspended sphere of obsidian and copper.",
+      "The Great Engine gave one final, thunderous click. Then, there was only silence.",
+      "The stability of the Aetheric Age rests on that crystal remaining in its cradle."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_obj_003",
+    "name": "Volt-Blade",
+    "aliases": [],
+    "entity_class": "OBJECT",
+    "type": "weapon",
+    "description": "A ceremonial weapon wielded by High Inquisitor Valerius, crackling with blue arcing electricity and ionized death. It symbolizes the Ministry's violent enforcement of the status quo.",
+    "context": [
+      "High Inquisitor Valerius had arrived at the perimeter, his Volt-Blade crackling with the intent to preserve the status quo at any cost.",
+      "In his right hand, he gripped a Volt-Blade, its blue arcing electricity illuminating the cold, calculated fury in his eyes.",
+      "Valerius lunged. The Volt-Blade hissed through the air, narrowly missing Lyra’s shoulder."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_obj_004",
+    "name": "Gravity-Snare",
+    "aliases": [],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "A forbidden device from the Under-Market Syndicate that Lyra uses to pin Valerius to the floor, enabling the final timeline shift. It represents the dangerous, outlawed technology of the rebellion.",
+    "context": [
+      "She threw a Gravity-Snare, a forbidden device from the Under-Market Syndicate.",
+      "It expanded in mid-air, pinning Valerius’s arm to the floor with the weight of a thousand stones.",
+      "In that heartbeat of frozen time, Lyra looked at Elias."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_obj_005",
+    "name": "Memory Anchor",
+    "aliases": [],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "The receptacle within the Great Engine where the Kyber Crystal is slotted to trigger the timeline reset. It serves as the mechanical interface for the Chronos Fracture.",
+    "context": [
+      "Elias slammed the Kyber Crystal into the Memory Anchor.",
+      "The stability of the Aetheric Age rests on that crystal remaining in its cradle.",
+      "The 14th of Harvest-Moon began to fold."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_obj_006",
+    "name": "Shimmer-Field",
+    "aliases": [],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "A cloaking or protective field residue on Lyra's cloak, later expanding to consume the Gilded Spire during the timeline collapse. It represents the transformative, destructive power of the reset.",
+    "context": [
+      "her dark cloak shimmering with the residue of a Shimmer-Field.",
+      "As the Shimmer-Field expanded, devouring the Gilded Spire and everyone within it...",
+      "The 14th of Harvest-Moon began to fold."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_obj_007",
+    "name": "Brass Automaton C-42",
+    "aliases": [
+      "Ticker"
+    ],
+    "entity_class": "OBJECT",
+    "type": "physical",
+    "description": "The official designation for Ticker, a clockwork machine with a failing gear-heart that Elias maintains in his workshop. It underscores the blend of technology and fragile life in the narrative.",
+    "context": [
+      "Before him sat a Brass Automaton designated C-42, though Elias simply called him Ticker.",
+      "The machine’s chest cavity was open, revealing a heart of interlocking gears that hummed with a failing light.",
+      "Elias glanced at the Ticker —the small automaton had hitched a ride on his belt and was now frantically chirping data."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_evt_001",
+    "name": "Resonance Breach",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "conflict",
+    "description": "A catastrophic magical/technological event triggered by the removal of the Kyber Crystal, threatening to shatter the valley and collapse the timeline. It serves as the immediate catalyst for the climax.",
+    "context": [
+      "to return it now, after the Resonance Breach has begun, is suicide.",
+      "The 14th of Harvest-Moon was about to become the day the clock stopped.",
+      "If I don't slot the crystal in the next thirty seconds, the Chronos Fracture will shatter the valley!"
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_evt_002",
+    "name": "Chronos Fracture",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "conflict",
+    "description": "The impending temporal collapse caused by the Kyber Crystal's removal, forcing Elias to make a critical choice to reset the timeline. It represents the narrative's central temporal stakes.",
+    "context": [
+      "The Chronos Fracture they were risking wasn't just a mathematical probability anymore; it was a choice.",
+      "If I don't slot the crystal in the next thirty seconds, the Chronos Fracture will shatter the valley!",
+      "Elias felt his memories stretching... all of it becoming data points in a collapsing timeline."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_evt_003",
+    "name": "14th of Harvest-Moon",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "episode",
+    "description": "The specific date on which the heist, confrontation, and timeline collapse occur, marking the end of the old era and the beginning of the reset. It serves as the temporal anchor of the narrative.",
+    "context": [
+      "The 14th of Harvest-Moon was about to become the day the clock stopped.",
+      "The 14th of Harvest-Moon began to fold.",
+      "Elias felt his memories stretching... all of it becoming data points in a collapsing timeline."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_evt_004",
+    "name": "The Heist",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "crime",
+    "description": "Lyra's successful infiltration and theft of the Kyber Crystal from the Gilded Spire, setting the entire narrative in motion. It represents the initial act of rebellion against the Ministry.",
+    "context": [
+      "The tension of the heist still radiating off her in waves.",
+      "The Gilded Spire is crawling with Iron-Bound Guards, Elias. Valerius knows it’s gone.",
+      "You brought the spark to the powder keg, Elias..."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_evt_005",
+    "name": "Timeline Collapse",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "resolution",
+    "description": "The final event where the Shimmer-Field expands, the Great Engine clicks, and the old timeline is erased, leaving only silence. It serves as the narrative's climax and thematic resolution.",
+    "context": [
+      "As the Shimmer-Field expanded, devouring the Gilded Spire and everyone within it...",
+      "The Great Engine gave one final, thunderous click. Then, there was only silence.",
+      "Elias felt his memories stretching... all of it becoming data points in a collapsing timeline."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_org_001",
+    "name": "Ministry of Order",
+    "aliases": [],
+    "entity_class": "ORGANIZATION",
+    "type": "government",
+    "description": "The ruling authority of Oakhaven, led by High Inquisitor Valerius, dedicated to preserving the Aetheric Age's stability through oppressive control and patrols. It represents the antagonistic force of stagnation.",
+    "context": [
+      "If the Ministry of Order finds out I’m using a Temporal Relic to jump-start your core...",
+      "His ceremonial robes of the Ministry of Order billowing in the updraft...",
+      "There was no Ministry, no rebellion—only the two of them."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_org_002",
+    "name": "Under-Market Syndicate",
+    "aliases": [],
+    "entity_class": "ORGANIZATION",
+    "type": "criminal syndicate",
+    "description": "The criminal organization Lyra Belacqua belongs to, known for dealing in forbidden devices like the Gravity-Snare. It represents the underground resistance and outlawed technology.",
+    "context": [
+      "she was a Shadow-Thief of the Under-Market Syndicate...",
+      "She threw a Gravity-Snare, a forbidden device from the Under-Market Syndicate.",
+      "The tension of the heist still radiating off her in waves."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_org_003",
+    "name": "Iron-Bound Guards",
+    "aliases": [],
+    "entity_class": "ORGANIZATION",
+    "type": "military",
+    "description": "The elite security force patrolling the Gilded Spire, deployed to secure the Kyber Crystal and enforce the Ministry's lockdown. They symbolize the physical enforcement of the Ministry's will.",
+    "context": [
+      "The Gilded Spire is crawling with Iron-Bound Guards, Elias.",
+      "Valerius knows it’s gone. He’s already ordered a lockdown of the Market Square.",
+      "The 14th of Harvest-Moon was about to become the day the clock stopped."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_con_001",
+    "name": "Essence Reservoirs",
+    "aliases": [],
+    "entity_class": "CONCEPT",
+    "type": "mystery",
+    "description": "Leaking atmospheric reservoirs responsible for the permanently bruised purple sky over the Glassreach Valley, hinting at a deeper environmental or technological catastrophe that underpins the setting's decay.",
+    "context": [
+      "a side effect of the Essence Reservoirs leaking into the upper atmosphere.",
+      "The stability of the Aetheric Age rests on that crystal remaining in its cradle.",
+      "The rain over Oakhaven didn’t smell of water; it smelled of ozone and scorched brass."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_con_002",
+    "name": "Aetheric Age",
+    "aliases": [],
+    "entity_class": "CONCEPT",
+    "type": "movement",
+    "description": "The current historical era defined by clockwork technology, aetheric power, and the oppressive stability maintained by the Ministry. It serves as the temporal and thematic backdrop for the conflict.",
+    "context": [
+      "In the Year 1042 of the Late Aetheric Age...",
+      "The stability of the Aetheric Age rests on that crystal remaining in its cradle.",
+      "The Great Engine gave one final, thunderous click. Then, there was only silence."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_con_003",
+    "name": "Status Quo",
+    "aliases": [],
+    "entity_class": "CONCEPT",
+    "type": "theme",
+    "description": "The oppressive, stagnant order maintained by the Ministry of Order, which Valerius seeks to preserve even as the future becomes impossible. It represents the central thematic conflict between control and liberation.",
+    "context": [
+      "his Volt-Blade crackling with the intent to preserve the status quo at any cost.",
+      "The stability you crave is a cage, Valerius!",
+      "The Inquisitor hadn't been protecting the past; he had been hiding the fact that the future was already gone."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  },
+  {
+    "id": "ddb88a92c727451796755224652ac8ee_001_con_004",
+    "name": "The Future / Past",
+    "aliases": [],
+    "entity_class": "CONCEPT",
+    "type": "theme",
+    "description": "The central temporal conflict of the narrative, where preserving the past is revealed to be a futile attempt to hide an already destroyed future. It drives the protagonists' motivation to reset the timeline.",
+    "context": [
+      "The Inquisitor hadn't been protecting the past; he had been hiding the fact that the future was already gone.",
+      "We change the timeline. We give everyone a chance, not just the elite in the Spire.",
+      "Elias felt his memories stretching... all of it becoming data points in a collapsing timeline."
+    ],
+    "chunk_id": "ddb88a92c727451796755224652ac8ee_001",
+    "doc_id": "ddb88a92c727451796755224652ac8ee",
+    "domain": "fiction"
+  }
+]

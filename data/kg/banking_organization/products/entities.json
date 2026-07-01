@@ -1,0 +1,4119 @@
+[
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_001_org_001",
+    "name": "Product Management",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "The internal department responsible for owning and maintaining the FirstUK Bank Product Catalogue document, as explicitly stated in the metadata.",
+    "context": [
+      "Department | Product Management"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_001",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_001_rol_001",
+    "name": "Director of Product Management",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "director",
+    "description": "The named leadership role holding ownership and accountability for the Product Catalogue document within FirstUK Bank.",
+    "context": [
+      "Owner | Director of Product Management"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_001",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_001_org_002",
+    "name": "Customer Service",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "team",
+    "description": "An internal operational team identified as a primary audience for the Product Catalogue, indicating its role in customer-facing operations and support.",
+    "context": [
+      "Audience | Sales Staff, Customer Service, Risk, Compliance, Technology"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_001",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_001_org_003",
+    "name": "Risk",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A governance and control department within FirstUK Bank designated as a key audience for the Product Catalogue, responsible for risk oversight.",
+    "context": [
+      "Audience | Sales Staff, Customer Service, Risk, Compliance, Technology"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_001",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_001_org_004",
+    "name": "Compliance",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A regulatory oversight department within FirstUK Bank listed as a primary audience for the Product Catalogue, ensuring adherence to internal and external standards.",
+    "context": [
+      "Audience | Sales Staff, Customer Service, Risk, Compliance, Technology"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_001",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_001_org_005",
+    "name": "Technology",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "The internal technology and engineering department identified as a key audience for the Product Catalogue, responsible for system implementation and support.",
+    "context": [
+      "Audience | Sales Staff, Customer Service, Risk, Compliance, Technology"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_001",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_001_rol_002",
+    "name": "Sales Staff",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "specialist",
+    "description": "Frontline employee group designated as a primary audience for the Product Catalogue, indicating their need for product knowledge to support client sales.",
+    "context": [
+      "Audience | Sales Staff, Customer Service, Risk, Compliance, Technology"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_001",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_001_org_006",
+    "name": "Financial Conduct Authority",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "regulatory_body",
+    "description": "The UK financial regulatory authority whose handbook (COBS) is referenced as a governing regulatory framework for FirstUK Bank's product documentation.",
+    "context": [
+      "Regulatory References | FCA Handbook (COBS), PRA Rulebook"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_001",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_001_org_007",
+    "name": "Prudential Regulation Authority",
+    "aliases": [
+      "PRA"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "regulatory_body",
+    "description": "The UK prudential regulatory authority whose rulebook is cited as a key compliance framework governing FirstUK Bank's operations and product standards.",
+    "context": [
+      "Regulatory References | FCA Handbook (COBS), PRA Rulebook"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_001",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_002_org_001",
+    "name": "FirstUK Bank",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "The primary retail banking institution offering a focused suite of products designed for UK consumer customers. It currently manages a portfolio value of £3.4M across 500 customers and 800 active accounts.",
+    "context": [
+      "FirstUK Bank offers a focused suite of retail banking products designed for UK consumer customers."
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_002",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_002_bnk_001",
+    "name": "SmartSaver Account",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A flexible, easy-access savings product serving as the primary offering for UK consumer customers. The product is characterized by attractive features and streamlined digital onboarding processes.",
+    "context": [
+      "The primary product is the **SmartSaver Account**, a flexible, easy-access savings product with attractive features and streamlined digital onboarding."
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_002",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_002_met_001",
+    "name": "Total Active Accounts",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "headcount",
+    "description": "The total count of currently active accounts within the bank's retail portfolio. This metric is currently recorded at 800.",
+    "context": [
+      "**Total Active Accounts:** 800"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_002",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_002_met_002",
+    "name": "Total Customers",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "headcount",
+    "description": "The total number of unique customer parties associated with the bank's retail portfolio. This metric is currently recorded at 500.",
+    "context": [
+      "**Total Customers:** 500"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_002",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_002_met_003",
+    "name": "Average Account Balance",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "The mean monetary value held across all active accounts in the retail portfolio. This performance indicator is currently measured at £4,250.",
+    "context": [
+      "**Average Account Balance:** £4,250"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_002",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_002_met_004",
+    "name": "Product Portfolio Value",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "budget",
+    "description": "The total monetary valuation of the bank's current retail product portfolio. This financial metric is currently recorded at £3.4M.",
+    "context": [
+      "**Product Portfolio Value:** £3.4M"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_002",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_003_bnk_001",
+    "name": "SmartSaver Account",
+    "aliases": [
+      "SmartSaver"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "A savings product launched in 2018 and currently marked as active within the FirstUK Bank portfolio. Functions as a core retail deposit offering with an established customer base and associated account structures.",
+    "context": [
+      "SmartSaver Account | Savings | 2018 | Active | 480 | 650"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_003",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_003_bnk_002",
+    "name": "SmartSaver Plus",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A premium savings product introduced in 2021 and currently active. Functions as a higher-tier deposit offering designed to capture specific customer segments within the bank's portfolio.",
+    "context": [
+      "SmartSaver Plus | Premium Savings | 2021 | Active | 120 | 150"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_003",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_003_bnk_003",
+    "name": "Current Account",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "A transactional banking product launched in 2020 and currently active. Provides everyday payment and deposit functionality for customers through dedicated account arrangements.",
+    "context": [
+      "Current Account | Transactional | 2020 | Active | 320 | 450"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_003",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_003_bnk_004",
+    "name": "Mortgage",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A lending product introduced in 2022 and currently active. Delivers long-term credit financing to customers, structured through dedicated account frameworks within the bank's portfolio.",
+    "context": [
+      "Mortgage | Lending | 2022 | Active | 45 | 45"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_003",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_003_bnk_005",
+    "name": "Debit Card",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "card",
+    "description": "A payment product launched in 2018 and currently active. Serves as a transactional instrument enabling customer spending and cash access linked to underlying deposit accounts.",
+    "context": [
+      "Debit Card | Payment | 2018 | Active | 750 | 800"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_003",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_004_bnk_001",
+    "name": "SmartSaver Account",
+    "aliases": [
+      "SAV-001"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A deposit savings product launched on 2026-01-15, currently marked as Active. It is formally classified under FCA COBS guidelines and restricted to general consumers aged 18 and over.",
+    "context": [
+      "## 1. SmartSaver Account",
+      "**Product ID:** SAV-001",
+      "**Launch Date:** 2026-01-15",
+      "**Status:** Active"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_004",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_004_bnk_002",
+    "name": "Deposit Product",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "The official regulatory classification assigned to the SmartSaver Account, dictating its operational and compliance framework under financial conduct authority standards.",
+    "context": [
+      "**Regulatory Classification:** Deposit product"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_004",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_004_rul_001",
+    "name": "FCA COBS Regulatory Framework",
+    "aliases": [
+      "FCA COBS",
+      "Financial Conduct Authority Consumer Protection Rules"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "The regulatory classification standard governing how the SmartSaver Account must be categorized and operated, mandating compliance with Financial Conduct Authority guidelines.",
+    "context": [
+      "**Regulatory Classification:** Deposit product (FCA COBS)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_004",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_004_rul_002",
+    "name": "Age Eligibility Constraint",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A strict eligibility rule limiting account access to general consumers who are at least 18 years of age.",
+    "context": [
+      "**Target Audience:** General consumers, ages 18+"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_004",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_005_bnk_001",
+    "name": "Savings Account",
+    "aliases": [
+      "savings account"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "A flexible, easy-access deposit product designed for straightforward savings. It is characterized by competitive interest rates, zero monthly fees, and a digital-first onboarding process, targeting customers seeking liquidity and ease of access to funds.",
+    "context": [
+      "A flexible, easy-access savings account with competitive interest rates, no monthly fees, and digital-first onboarding.",
+      "Designed for customers who want straightforward savings with easy access to funds."
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_005",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_005_bnk_002",
+    "name": "Interest Rates",
+    "aliases": [
+      "interest rates"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "interest_rate",
+    "description": "A core banking concept representing the yield applied to customer deposits. In this product context, they are explicitly described as competitive and serve as a primary value proposition for the savings account.",
+    "context": [
+      "A flexible, easy-access savings account with competitive interest rates, no monthly fees, and digital-first onboarding."
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_005",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_005_bnk_003",
+    "name": "Customers",
+    "aliases": [
+      "customers"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "customer",
+    "description": "The target party segment for the savings account product. Defined in this document as individuals seeking straightforward savings solutions with easy access to their deposited funds.",
+    "context": [
+      "Designed for customers who want straightforward savings with easy access to funds."
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_005",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_006_org_001",
+    "name": "FirstUK Branch Network",
+    "aliases": [
+      "FirstUK branch",
+      "branches"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "Physical retail locations serving as customer-facing points for account onboarding procedures and service inquiries.",
+    "context": [
+      "Branch Access: Account opening and queries at any FirstUK branch (see [[branches]])"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_006",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_006_sys_001",
+    "name": "Online Banking Platform",
+    "aliases": [
+      "Online Banking",
+      "Web Banking"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "internet_banking",
+    "description": "Web-based digital channel providing full account management capabilities and remote customer access across browser environments.",
+    "context": [
+      "Online Banking: Full digital access via mobile and web"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_006",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_006_sys_002",
+    "name": "Mobile Banking Application",
+    "aliases": [
+      "Mobile Banking",
+      "Dedicated mobile app"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "mobile_banking",
+    "description": "Smartphone application delivering full account functionality with integrated biometric authentication for secure user access.",
+    "context": [
+      "Mobile Banking: Dedicated mobile app with biometric authentication"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_006",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_006_bnk_001",
+    "name": "Joint Account",
+    "aliases": [
+      "Joint Accounts",
+      "joint account holders"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "Shared account structure supporting multiple authorized holders, with ownership and operational rules defined in the bank's business ontology.",
+    "context": [
+      "Joint Accounts: Support for joint account holders (see [[business_ontology]])"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_006",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_006_bnk_002",
+    "name": "Standing Order",
+    "aliases": [
+      "Standing Orders",
+      "regular transfers"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "standing_order",
+    "description": "Automated payment instruction enabling customers to schedule and execute recurring fund transfers between accounts.",
+    "context": [
+      "Standing Orders: Set up regular transfers to other accounts"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_006",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_006_bnk_003",
+    "name": "Direct Debit",
+    "aliases": [
+      "Direct Debits",
+      "Automatic payment setup"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "direct_debit",
+    "description": "Pre-authorized collection mechanism allowing automatic fund extraction for recurring bills and subscription services.",
+    "context": [
+      "Direct Debits: Automatic payment setup for bills and subscriptions"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_006",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_006_bnk_004",
+    "name": "Debit Card",
+    "aliases": [
+      "Debit Card",
+      "Linked debit card"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "card",
+    "description": "Account-linked payment instrument facilitating cash withdrawals at ATMs and point-of-sale online purchases.",
+    "context": [
+      "Debit Card: Linked debit card for ATM withdrawals and online purchases"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_006",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_006_bnk_005",
+    "name": "Variable Interest Rate",
+    "aliases": [
+      "Competitive Interest",
+      "Variable interest rate"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "interest_rate",
+    "description": "Non-fixed pricing mechanism applied to account balances, with accrued interest distributed to the customer on a monthly basis.",
+    "context": [
+      "Competitive Interest: Variable interest rate, paid monthly"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_006",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_007_bnk_001",
+    "name": "Account",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "A core banking product entity defined by specific operational and financial specifications. It operates in GBP currency with an indefinite tenure until closure, and supports variable interest accrual paid monthly.",
+    "context": [
+      "Account Specifications",
+      "Account Currency | GBP",
+      "Account Tenure | Indefinite (until closure)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_007",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_007_rul_001",
+    "name": "Minimum Opening Balance",
+    "aliases": [
+      "Min Opening Balance"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A hard operational constraint requiring a minimum initial deposit of £1 to establish the account. Prevents account creation below this threshold.",
+    "context": [
+      "Minimum Opening Balance | £1"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_007",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_007_rul_002",
+    "name": "Maximum Balance",
+    "aliases": [
+      "Max Balance"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "An unlimited upper limit on account holdings, allowing unrestricted deposit accumulation without balance caps or tiered restrictions.",
+    "context": [
+      "Maximum Balance | Unlimited"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_007",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_007_bnk_002",
+    "name": "Interest Rate",
+    "aliases": [
+      "Variable Interest Rate",
+      "IRS-2026-001"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "interest_rate",
+    "description": "A variable rate applied to the account balance, governed by the external Interest Rate Schedule IRS-2026-001. Paid out on a monthly frequency.",
+    "context": [
+      "Interest Rate | Variable (see Interest Rate Schedule IRS-2026-001)",
+      "Interest Payment Frequency | Monthly"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_007",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_007_bnk_003",
+    "name": "Debit Card",
+    "aliases": [
+      "Visa Debit",
+      "Linked Debit Card"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "card",
+    "description": "A payment instrument permanently linked to the account, specifically issued as a Visa Debit card for customer transactions and withdrawals.",
+    "context": [
+      "Debit Card Linked | Yes (Visa Debit)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_007",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_007_rul_003",
+    "name": "Account Opening Method",
+    "aliases": [
+      "Opening Channels",
+      "Onboarding Methods"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "operational_limit",
+    "description": "Defines the authorized channels for account creation, restricted to Online, Branch, or Postal methods. Excludes other onboarding pathways.",
+    "context": [
+      "Opening Method | Online, Branch, or Postal"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_007",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_007_rul_004",
+    "name": "Interest Payment Frequency",
+    "aliases": [
+      "Monthly Interest Payout",
+      "Interest Accrual Schedule"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "operational_limit",
+    "description": "A fixed operational rule mandating that accrued interest is calculated and disbursed to the account holder on a monthly basis.",
+    "context": [
+      "Interest Payment Frequency | Monthly"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_007",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_007_bnk_004",
+    "name": "Account Currency",
+    "aliases": [
+      "GBP",
+      "Base Currency"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "The designated legal tender for the account, strictly set to British Pound Sterling (GBP) for all transactions and balance calculations.",
+    "context": [
+      "Account Currency | GBP"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_007",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_007_bnk_005",
+    "name": "Account Tenure",
+    "aliases": [
+      "Product Lifespan",
+      "Duration"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "The operational lifespan of the account, defined as indefinite until explicitly closed by the bank or customer.",
+    "context": [
+      "Account Tenure | Indefinite (until closure)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_007",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_008_bnk_001",
+    "name": "Interest Rate Structure",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "The overarching pricing framework defining how interest is calculated and applied to customer deposits, structured around a base rate and segmented balance thresholds.",
+    "context": [
+      "### Interest Rate Structure"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_008",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_008_bnk_002",
+    "name": "Base Rate",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "interest_rate",
+    "description": "The foundational interest rate applied to the lowest deposit tier, serving as the baseline for all subsequent tiered pricing calculations.",
+    "context": [
+      "**Base Rate:** 4.5% AER (Annual Equivalent Rate)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_008",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_008_bnk_003",
+    "name": "Annual Equivalent Rate",
+    "aliases": [
+      "AER"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "interest_rate",
+    "description": "The standardized metric used to express the effective annual rate of return on deposits, accounting for compounding effects.",
+    "context": [
+      "4.5% AER (Annual Equivalent Rate)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_008",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_008_bnk_004",
+    "name": "Rate Tiers",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "The segmented balance thresholds that determine which interest rate applies to a customer's deposit, ranging from £0 up to £50,001 and above.",
+    "context": [
+      "**Rate Tiers:**\n- £0–£10,000: 4.5% AER\n- £10,001–£50,000: 4.7% AER\n- £50,001+: 4.8% AER"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_008",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_008_org_001",
+    "name": "Bank of England",
+    "aliases": [
+      "BoE"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "external_agency",
+    "description": "The UK's central bank and monetary authority, whose base rate directly dictates the monthly review and adjustment of the bank's deposit interest rates.",
+    "context": [
+      "linked to Bank of England base rate"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_008",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_008_rul_001",
+    "name": "Interest Rate Variation Policy",
+    "aliases": [
+      "Variation Policy"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "operational_limit",
+    "description": "The governance rule mandating that the applied interest rate must be reviewed on a monthly basis and adjusted in direct correlation with external central bank rates.",
+    "context": [
+      "**Variation Policy:** Rate reviewed monthly, linked to Bank of England base rate"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_008",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_008_met_001",
+    "name": "Deposit Balance Threshold Tier 1",
+    "aliases": [
+      "£0–£10,000"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "The lower deposit balance threshold bracket that qualifies for the base interest rate application.",
+    "context": [
+      "- £0–£10,000: 4.5% AER"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_008",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_008_met_002",
+    "name": "Deposit Balance Threshold Tier 2",
+    "aliases": [
+      "£10,001–£50,000"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "The mid-range deposit balance threshold bracket that qualifies for the intermediate interest rate application.",
+    "context": [
+      "- £10,001–£50,000: 4.7% AER"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_008",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_008_met_003",
+    "name": "Deposit Balance Threshold Tier 3",
+    "aliases": [
+      "£50,001+"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "The upper deposit balance threshold bracket that qualifies for the highest interest rate application.",
+    "context": [
+      "- £50,001+: 4.8% AER"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_008",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_008_sys_001",
+    "name": "Interest Rate Schedule",
+    "aliases": [
+      "IRS-2026-001"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "document_management",
+    "description": "The authoritative reference document or system repository that formally publishes and maintains the bank's interest rate structure and tiered pricing rules.",
+    "context": [
+      "**See:** Interest Rate Schedule (IRS-2026-001)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_008",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_009_bnk_001",
+    "name": "SmartSaver",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "SmartSaver is a FirstUK Bank banking product designed to support joint account structures. It accommodates up to two registered account holders and operates under specific regulatory and operational frameworks defined in the business ontology.",
+    "context": [
+      "SmartSaver supports joint accounts with up to 2 account holders."
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_009",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_009_bnk_002",
+    "name": "Joint Account",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "A Joint Account is an account structure defined within the FirstUK Bank business ontology that allows multiple parties to share ownership. The structure enforces shared liability and specific withdrawal permissions for all registered holders.",
+    "context": [
+      "SmartSaver supports joint accounts with up to 2 account holders.",
+      "See: [[business_ontology]] — Joint Account concept"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_009",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_009_bnk_003",
+    "name": "Account Holder",
+    "aliases": [
+      "Signatory"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account_holder",
+    "description": "An Account Holder, also referred to as a Signatory in this context, is an individual party registered on a joint account. This role carries shared ownership rights and is subject to joint liability for the account's balance and operations.",
+    "context": [
+      "up to 2 account holders",
+      "Both signatories on account opening",
+      "Either signatory can withdraw full balance"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_009",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_009_rul_001",
+    "name": "Joint and Several Liability",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "Joint and Several Liability is a regulatory constraint that applies to all holders of a joint account. It mandates that each holder is collectively and individually responsible for the account's obligations, ensuring full coverage of the balance regardless of individual contributions.",
+    "context": [
+      "Regulatory treatment: Both holders jointly and severally liable"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_009",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_009_rul_002",
+    "name": "Full Balance Withdrawal Authority",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "decision_authority",
+    "description": "Full Balance Withdrawal Authority is an operational rule governing transaction permissions on joint accounts. It grants any single signatory the unilateral authority to withdraw the entire account balance without requiring explicit consent from other registered holders.",
+    "context": [
+      "Either signatory can withdraw full balance"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_009",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_009_rul_003",
+    "name": "Complaints Policy Dispute Resolution",
+    "aliases": [
+      "COM-POL-006"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "Complaints Policy Dispute Resolution is a compliance requirement that dictates how customer disputes must be handled. All resolution processes must strictly adhere to the procedures outlined in the bank's formal Complaints Policy document, identified as COM-POL-006.",
+    "context": [
+      "Dispute resolution per Complaints Policy (COM-POL-006)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_009",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_009_rul_004",
+    "name": "Total Balance Interest Calculation",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "Total Balance Interest Calculation is a product configuration rule that defines how interest accrues on joint accounts. The system calculates interest based on the aggregate balance of all account holders rather than splitting or attributing portions to individual parties.",
+    "context": [
+      "Interest calculated on total balance"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_009",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_009_rul_005",
+    "name": "Dual Signatory Onboarding Requirement",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "Dual Signatory Onboarding Requirement is an operational constraint governing the account creation process. It mandates that both designated signatories must be formally present and verified during the initial account opening procedure.",
+    "context": [
+      "Both signatories on account opening"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_009",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_010_bnk_001",
+    "name": "KYC Verification",
+    "aliases": [
+      "Know Your Customer",
+      "KYC"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "kyc_verification",
+    "description": "A mandatory pre-onboarding process requiring identity, address, beneficial ownership, and source of funds checks to satisfy account opening requirements. The process is formally governed by a dedicated standard operating procedure.",
+    "context": [
+      "**KYC Verification:**",
+      "- Identity verification (UK Passport or Driving License)",
+      "- Address verification (Utility bill, Council tax, or Bank statement)",
+      "- Beneficial ownership verification (for business accounts)",
+      "- Source of funds verification (for deposits >£10,000)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_010",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_010_bnk_002",
+    "name": "AML Screening",
+    "aliases": [
+      "Anti-Money Laundering Screening",
+      "AML"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "aml_screening",
+    "description": "A mandatory risk assessment process applied during account opening to screen customer names against sanctions lists, check for Politically Exposed Person status, and assess adverse media. The screening framework is governed by the bank's AML Policy.",
+    "context": [
+      "**AML Screening:**",
+      "- Customer name screening against sanctions lists",
+      "- PEP (Politically Exposed Person) screening",
+      "- Adverse media screening"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_010",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_010_bnk_003",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "customer",
+    "description": "The individual or legal entity undergoing verification and screening processes during the account opening workflow, with their name subject to mandatory sanctions and PEP checks.",
+    "context": [
+      "Customer name screening against sanctions lists"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_010",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_010_bnk_004",
+    "name": "Account",
+    "aliases": [
+      "Business accounts",
+      "Deposit accounts"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "The financial product being opened, subject to specific verification triggers such as beneficial ownership checks for business structures and source of funds validation for large deposits.",
+    "context": [
+      "Beneficial ownership verification (for business accounts)",
+      "Source of funds verification (for deposits >£10,000)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_010",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_010_bnk_005",
+    "name": "Identification Document",
+    "aliases": [
+      "ID Documents",
+      "Proof of Identity",
+      "Proof of Address"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "identification_document",
+    "description": "Official government-issued or financial records mandated to verify identity and residential address during the KYC process. Includes UK passports, driving licenses, utility bills, council tax notices, and bank statements.",
+    "context": [
+      "Identity verification (UK Passport or Driving License)",
+      "Address verification (Utility bill, Council tax, or Bank statement)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_010",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_010_met_001",
+    "name": "Deposit Threshold >£10,000",
+    "aliases": [
+      "£10,000 Deposit Limit",
+      "Source of Funds Trigger"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "risk_threshold",
+    "description": "A quantitative monetary threshold that triggers mandatory source of funds verification for any deposit exceeding ten thousand pounds during the account opening process.",
+    "context": [
+      "Source of funds verification (for deposits >£10,000)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_010",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_010_rul_001",
+    "name": "KYC Verification SOP Requirement",
+    "aliases": [
+      "KYC-SOP-001",
+      "Identity & Address Checks"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "A hard operational constraint mandating that all account applicants undergo identity, address, beneficial ownership, and source of funds verification prior to onboarding, as defined in KYC-SOP-001.",
+    "context": [
+      "**KYC Verification:**",
+      "- Identity verification (UK Passport or Driving License)",
+      "- Address verification (Utility bill, Council tax, or Bank statement)",
+      "See: KYC Verification SOP (KYC-SOP-001)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_010",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_010_rul_002",
+    "name": "AML Screening Policy Requirement",
+    "aliases": [
+      "AML-POL-002",
+      "Sanctions & PEP Checks"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "A mandatory regulatory obligation requiring customer names, PEP status, and adverse media to be screened against relevant lists before account activation, per AML-POL-002.",
+    "context": [
+      "**AML Screening:**",
+      "- Customer name screening against sanctions lists",
+      "- PEP (Politically Exposed Person) screening",
+      "- Adverse media screening",
+      "See: AML Policy (AML-POL-002)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_010",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_011_bnk_001",
+    "name": "Account Opening Process",
+    "aliases": [
+      "Account Opening"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "process",
+    "description": "The end-to-end workflow for onboarding new customers into FirstUK Bank, executed across multiple delivery channels with defined processing timelines and mandatory documentation requirements.",
+    "context": [
+      "### Account Opening Process"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_011",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_011_sys_001",
+    "name": "Online Channel",
+    "aliases": [
+      "Online"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "channel",
+    "description": "A digital customer-facing delivery channel used for submitting account opening applications, subject to a 1–2 business day processing timeline.",
+    "context": [
+      "**Channel:** Online, Branch, Postal"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_011",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_011_sys_002",
+    "name": "Branch Channel",
+    "aliases": [
+      "Branch"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "channel",
+    "description": "A physical customer-facing delivery channel for account opening, operating under the same 1–2 business day processing timeline as the online channel.",
+    "context": [
+      "**Channel:** Online, Branch, Postal"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_011",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_011_sys_003",
+    "name": "Postal Channel",
+    "aliases": [
+      "Postal"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "channel",
+    "description": "A mail-based customer-facing delivery channel for account opening, with a longer processing timeline of 5–7 business days due to physical document handling.",
+    "context": [
+      "**Channel:** Online, Branch, Postal"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_011",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_011_met_001",
+    "name": "Account Opening Processing Time SLA",
+    "aliases": [
+      "Processing Time"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "The maximum allowable timeframe for completing the account opening workflow, defined as 1–2 business days for online and branch channels, and 5–7 business days for postal submissions.",
+    "context": [
+      "**Processing Time:** 1–2 business days (online/branch), 5–7 days (postal)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_011",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_011_bnk_002",
+    "name": "Terms & Conditions",
+    "aliases": [
+      "SAV-001-TC"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "contract",
+    "description": "The mandatory legal agreement document required during the account opening process, identified by internal reference code SAV-001-TC.",
+    "context": [
+      "**Documentation:** Terms & Conditions (SAV-001-TC), Product Information Document (SAV-001-PID)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_011",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_011_bnk_003",
+    "name": "Product Information Document",
+    "aliases": [
+      "SAV-001-PID"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "document",
+    "description": "A mandatory informational document provided to customers during account opening, detailing product features and terms, tracked under reference code SAV-001-PID.",
+    "context": [
+      "**Documentation:** Terms & Conditions (SAV-001-TC), Product Information Document (SAV-001-PID)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_011",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_011_rul_001",
+    "name": "Account Opening SOP",
+    "aliases": [
+      "ACCT-OPEN-SOP-001"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "control",
+    "description": "The standardized operating procedure governing the execution, validation, and approval steps of the account opening workflow, serving as the primary control document for this process.",
+    "context": [
+      "**See:** Account Opening SOP (ACCT-OPEN-SOP-001)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_011",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_012_sys_001",
+    "name": "Online Banking",
+    "aliases": [],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "internet_banking",
+    "description": "The primary digital self-service channel for FirstUK Bank customers, enabling account access, transaction monitoring, and payment configuration. It serves as the central interface for managing customer financial interactions without branch or call centre intervention.",
+    "context": [
+      "#### Online Banking",
+      "- Real-time balance view",
+      "- Transaction history (24 months)",
+      "- Beneficiary management"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_012",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_012_bnk_001",
+    "name": "Real-time Balance View",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "A digital banking capability that provides customers with immediate, up-to-date visibility of their account balances. This feature ensures financial awareness is maintained without processing delays or batch-settlement lag.",
+    "context": [
+      "- Real-time balance view",
+      "#### Online Banking"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_012",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_012_bnk_002",
+    "name": "Transaction History",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "A record-keeping and reporting function within the online banking platform that retains and displays past account movements. It enforces a defined data retention window to support customer reconciliation and audit trails.",
+    "context": [
+      "- Transaction history (24 months)",
+      "#### Online Banking"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_012",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_012_bnk_003",
+    "name": "Standing Order Setup",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "standing_order",
+    "description": "A customer-facing configuration tool that enables the creation and scheduling of recurring fixed-amount payments to designated beneficiaries. It automates outbound fund transfers based on predefined dates and amounts.",
+    "context": [
+      "- Standing order setup",
+      "#### Online Banking"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_012",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_012_bnk_004",
+    "name": "Direct Debit Management",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "direct_debit",
+    "description": "A control mechanism allowing customers to monitor, modify, or cancel authorized pull-based payment arrangements initiated by third-party payees. It provides oversight and revocation capabilities for recurring debit mandates.",
+    "context": [
+      "- Direct debit management",
+      "#### Online Banking"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_012",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_012_bnk_005",
+    "name": "Electronic Statements",
+    "aliases": [
+      "E-statements"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A digital delivery method for account statements that replaces paper-based reporting. It provides customers with accessible, searchable financial documentation delivered electronically through the banking platform.",
+    "context": [
+      "- E-statements",
+      "#### Online Banking"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_012",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_013_sys_001",
+    "name": "Mobile App",
+    "aliases": [
+      "Mobile Banking Application",
+      "FirstUK Mobile Channel"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "mobile_banking",
+    "description": "The primary customer-facing digital channel for FirstUK Bank, serving as the central interface for secure authentication, transaction monitoring, and account servicing. It enables customers to manage their banking interactions digitally through a dedicated mobile interface.",
+    "context": [
+      "#### Mobile App",
+      "- Biometric login (fingerprint, face recognition)",
+      "- Push notifications for transactions",
+      "- Mobile cheque deposit (future feature)",
+      "- Card management (blocking, replacement)",
+      "- Account alerts (balance thresholds)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_013",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_013_bnk_001",
+    "name": "Biometric Login",
+    "aliases": [
+      "Fingerprint Authentication",
+      "Face Recognition"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "A secure authentication mechanism integrated into the mobile banking channel, utilizing fingerprint and facial recognition technologies to verify customer identity during digital access.",
+    "context": [
+      "- Biometric login (fingerprint, face recognition)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_013",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_013_bnk_002",
+    "name": "Push Notifications",
+    "aliases": [
+      "Transaction Alerts",
+      "Mobile Alerts"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "A real-time communication feature that delivers immediate transaction updates directly to the customer's mobile device, enhancing transparency and security awareness.",
+    "context": [
+      "- Push notifications for transactions"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_013",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_013_bnk_003",
+    "name": "Mobile Cheque Deposit",
+    "aliases": [
+      "Mobile Check Deposit",
+      "Cheque Capture"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "A planned digital capability allowing customers to deposit physical cheques via the mobile application, currently designated as a future rollout item for the banking channel.",
+    "context": [
+      "- Mobile cheque deposit (future feature)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_013",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_013_bnk_004",
+    "name": "Card Management",
+    "aliases": [
+      "Card Controls",
+      "Debit/Credit Card Administration"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "A digital servicing function enabling customers to control their payment cards directly through the mobile interface, including capabilities for blocking and requesting replacements.",
+    "context": [
+      "- Card management (blocking, replacement)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_013",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_013_bnk_005",
+    "name": "Account Alerts",
+    "aliases": [
+      "Balance Threshold Notifications",
+      "Account Monitoring Alerts"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "A configurable notification system that triggers alerts when account balances cross predefined thresholds, providing customers with proactive financial oversight and balance monitoring.",
+    "context": [
+      "- Account alerts (balance thresholds)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_013",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_014_org_001",
+    "name": "Branch Services",
+    "aliases": [
+      "Branch Operations",
+      "Physical Branch Functions"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "Defines the operational scope and service catalog delivered through physical branch locations, encompassing customer-facing transactional and support functions.",
+    "context": [
+      "#### Branch Services"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_014",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_014_sys_002",
+    "name": "Teller Access System",
+    "aliases": [
+      "Teller access for deposits/withdrawals"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "teller_channel",
+    "description": "The system interface or channel enabling branch staff to process cash deposit and withdrawal transactions for customers.",
+    "context": [
+      "- Teller access for deposits/withdrawals"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_014",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_014_bnk_003",
+    "name": "Account Enquiries Service",
+    "aliases": [
+      "Account enquiries"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A customer service function allowing account holders to request information regarding their account status, balances, and transaction history.",
+    "context": [
+      "- Account enquiries"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_014",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_014_bnk_004",
+    "name": "Card Replacement Service",
+    "aliases": [
+      "Card replacement"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "card",
+    "description": "An operational service for issuing new physical or virtual cards to replace lost, stolen, or damaged payment instruments.",
+    "context": [
+      "- Card replacement"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_014",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_014_bnk_005",
+    "name": "Dispute Resolution Process",
+    "aliases": [
+      "Dispute resolution"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "A dedicated service channel and workflow for investigating, validating, and resolving customer complaints or unauthorized transaction claims.",
+    "context": [
+      "- Dispute resolution"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_014",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_014_bnk_006",
+    "name": "Complex Transaction Query Support",
+    "aliases": [
+      "Complex transaction queries"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "A specialized support function designed to handle non-standard, high-value, or multi-step payment and transfer requests that exceed routine processing parameters.",
+    "context": [
+      "- Complex transaction queries"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_014",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_015_bnk_001",
+    "name": "Monthly Maintenance Fee",
+    "aliases": [
+      "MMF"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "A recurring monthly charge applied to the customer's account for standard account servicing and administration. The document explicitly defines a zero-cost structure, indicating that no fee is levied on customers for this service.",
+    "context": [
+      "**Monthly Maintenance Fee:** £0"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_015",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_015_bnk_002",
+    "name": "Overdraft Facility",
+    "aliases": [
+      "Overdraft",
+      "Credit Line"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A short-term credit facility allowing customers to withdraw funds beyond their available account balance. The document specifies that no overdraft facility is available for this product, with an explicit availability limit of £0.",
+    "context": [
+      "**Overdraft Availability:** £0 (no overdraft facility)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_015",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_015_bnk_003",
+    "name": "ATM Withdrawals",
+    "aliases": [
+      "Cash Machine Transactions",
+      "ATM Cash"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "Cash withdrawal transactions conducted at Automated Teller Machines linked to the customer's account. The document specifies unlimited usage rights with no associated transaction fees applied to these withdrawals.",
+    "context": [
+      "**ATM Withdrawals:** Unlimited, no fees"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_015",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_015_bnk_004",
+    "name": "International Transfers",
+    "aliases": [
+      "Cross-Border Payments",
+      "FX Transfers"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "Payment transactions initiated to transfer funds across national borders. The document specifies a fixed operational fee of £5 per transfer executed through this channel.",
+    "context": [
+      "**International Transfers:** £5 per transfer"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_015",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_015_bnk_005",
+    "name": "Card Replacement Service",
+    "aliases": [
+      "Card Reissue",
+      "Replacement Card"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "A service allowing customers to obtain a new payment card in cases of loss, damage, or expiration. The document defines a tiered pricing structure where the first replacement is free, while subsequent replacements incur a £15 fee.",
+    "context": [
+      "**Card Replacement:** £0 for first card, £15 for replacement"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_015",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_015_bnk_006",
+    "name": "Debit Card",
+    "aliases": [
+      "Payment Card",
+      "Debit"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "card",
+    "description": "A payment instrument directly linked to the customer's account balance, enabling point-of-sale and ATM transactions. The document states that the card is provided free of charge as part of the standard product offering.",
+    "context": [
+      "**Debit Card:** Free"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_015",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_015_sys_001",
+    "name": "Pricing Guide",
+    "aliases": [
+      "PRC-GUIDE-2026",
+      "Fee Schedule Document"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "document_management",
+    "description": "An internal reference system or documentation module containing detailed pricing structures, fee schedules, and product cost definitions for bank offerings. The text directs users to this guide for comprehensive pricing information.",
+    "context": [
+      "**See:** Pricing Guide (PRC-GUIDE-2026)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_015",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_016_bnk_001",
+    "name": "Account",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "A core banking product entity whose operational status is explicitly defined by inactivity criteria. The policy establishes specific conditions under which an account transitions to dormant status, triggering automated procedural responses while preserving certain financial attributes for the customer.",
+    "context": [
+      "An account is considered dormant if:",
+      "Full reactivation available upon customer request"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_016",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_016_bnk_002",
+    "name": "Transaction",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "A financial movement entity used as a primary metric for determining account activity status. It specifically encompasses both deposits and withdrawals, serving as a key indicator of whether an account remains active or meets dormancy thresholds.",
+    "context": [
+      "No transactions (deposits or withdrawals) for 12 months"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_016",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_016_bnk_003",
+    "name": "Interest",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "interest_rate",
+    "description": "A financial attribute that continues to accrue on an account even after it has been classified as dormant. This ensures customers retain earned funds during inactivity periods without requiring manual intervention or additional requests.",
+    "context": [
+      "Interest still accrued"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_016",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_016_met_001",
+    "name": "12-Month Inactivity Threshold",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "risk_threshold",
+    "description": "A quantitative operational threshold defining the maximum allowable period of zero financial movements and zero customer engagement before an account is automatically classified as dormant. It establishes a fixed timeframe for both transactional activity and direct customer contact.",
+    "context": [
+      "No transactions (deposits or withdrawals) for 12 months",
+      "No customer contact for 12 months"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_016",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_016_rul_001",
+    "name": "Dormancy Classification Rule",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A mandatory operational constraint that dictates the exact conditions under which an account transitions to dormant status. The rule requires simultaneous inactivity in transactions and customer contact over a fixed period, ensuring consistent status assignment across all accounts.",
+    "context": [
+      "An account is considered dormant if:",
+      "No transactions (deposits or withdrawals) for 12 months",
+      "No customer contact for 12 months"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_016",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_016_rul_002",
+    "name": "Dormancy Operational Procedures",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "control",
+    "description": "A set of mandatory operational controls and customer-facing actions triggered upon dormancy classification. These procedures mandate external communication, system flagging, continued interest accrual, and provide a clear pathway for full account reactivation upon customer request.",
+    "context": [
+      "Letter sent to last known address",
+      "Account flagged in system",
+      "Interest still accrued",
+      "Full reactivation available upon customer request"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_016",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_017_sys_001",
+    "name": "Online Banking",
+    "aliases": [
+      "online banking"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "internet_banking",
+    "description": "Digital channel through which customers can submit account closure requests. Serves as a primary submission point alongside physical and postal channels.",
+    "context": [
+      "Submitted via online banking, branch, or mail"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_017",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_017_org_001",
+    "name": "Branch Office",
+    "aliases": [
+      "branch"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "Physical location where customers may submit account closure requests in person. Acts as a secondary submission channel alongside digital and postal options.",
+    "context": [
+      "Submitted via online banking, branch, or mail"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_017",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_017_bnk_001",
+    "name": "Standing Order",
+    "aliases": [
+      "standing orders"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "standing_order",
+    "description": "Recurring payment instruction that must be explicitly cancelled as part of the account closure process to prevent unauthorized future transactions.",
+    "context": [
+      "All standing orders/direct debits cancelled"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_017",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_017_bnk_002",
+    "name": "Direct Debit",
+    "aliases": [
+      "direct debits"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "direct_debit",
+    "description": "Authorised payment arrangement that must be explicitly cancelled during account closure to ensure no further funds are drawn from the closing account.",
+    "context": [
+      "All standing orders/direct debits cancelled"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_017",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_017_bnk_003",
+    "name": "Fraud Alert",
+    "aliases": [
+      "fraud"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "fraud_alert",
+    "description": "Illicit activity that serves as a primary ground for bank-initiated account closure, alongside regulatory compliance issues and policy violations.",
+    "context": [
+      "For regulatory reasons, fraud, or policy violation"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_017",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_017_rul_001",
+    "name": "Account Closure Policy",
+    "aliases": [
+      "Closure Policy"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "Governing rule defining the operational procedures, timelines, and conditions for both customer-initiated and bank-initiated account closures. Specifies balance handling methods and mandatory notice periods.",
+    "context": [
+      "### Closure Policy",
+      "Customer-Initiated Closure:",
+      "Bank-Initiated Closure:"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_017",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_017_met_001",
+    "name": "Account Closure Processing Time",
+    "aliases": [
+      "Processing time"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "Target timeframe for completing customer-initiated account closure requests, measured in business days.",
+    "context": [
+      "Processing time: 3–5 business days"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_017",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_017_met_002",
+    "name": "Bank-Initiated Closure Notice Period",
+    "aliases": [
+      "30-day notice"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "Mandatory advance notice period required before executing a bank-initiated account closure, ensuring customers are informed prior to finalisation.",
+    "context": [
+      "30-day notice provided"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_017",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_017_sys_002",
+    "name": "Account Closure Standard Operating Procedure",
+    "aliases": [
+      "Account Closure SOP",
+      "ACCT-CLOSE-SOP-001"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "document_management",
+    "description": "Internal procedural system or repository containing the detailed workflow and compliance steps for executing account closures. Referenced as the authoritative source for closure execution.",
+    "context": [
+      "**See:** Account Closure SOP (ACCT-CLOSE-SOP-001)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_017",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_018_org_001",
+    "name": "Product Support",
+    "aliases": [
+      "Support Department"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "Internal organizational unit responsible for managing customer inquiries and providing assistance through multiple communication channels including phone, digital chat, email, and physical branches.",
+    "context": [
+      "### Product Support"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_018",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_018_met_001",
+    "name": "Customer Service Hours",
+    "aliases": [
+      "Operating Hours",
+      "Service Availability Window"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "availability_target",
+    "description": "Defined operational availability window for customer service delivery, specifying distinct operating hours for weekdays and Saturdays to ensure consistent support access.",
+    "context": [
+      "**Customer Service Hours:** Monday–Friday 08:00–20:00, Saturday 09:00–17:00"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_018",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_018_sys_001",
+    "name": "Online Chat",
+    "aliases": [
+      "Digital Chat Support",
+      "Web Chat"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "customer_facing_channel",
+    "description": "Digital communication platform integrated with FirstUK Bank's support infrastructure, enabling real-time text-based customer assistance during designated business hours.",
+    "context": [
+      "- Online Chat: Available during business hours"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_018",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_018_org_002",
+    "name": "FirstUK branch",
+    "aliases": [
+      "Branch Network",
+      "Physical Branches"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "Physical retail locations operated by FirstUK Bank where customers can access in-person support and banking services as an alternative to digital or telephonic channels.",
+    "context": [
+      "- Branch: Visit any FirstUK branch (see [[branches]])"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_018",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_019_met_001",
+    "name": "Active Accounts",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Tracks the total number of currently active accounts associated with the product portfolio. Serves as a primary indicator of product adoption and ongoing customer engagement levels.",
+    "context": [
+      "| Active Accounts | 650 |",
+      "### Product Performance"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_019",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_019_met_002",
+    "name": "Total Customers",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Measures the aggregate count of distinct customers linked to the product. Provides a baseline for evaluating market penetration and customer base growth.",
+    "context": [
+      "| Total Customers | 480 |",
+      "### Product Performance"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_019",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_019_met_003",
+    "name": "Total Balance",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Represents the combined monetary value held across all product accounts. Acts as a key financial performance indicator reflecting overall asset accumulation and revenue potential.",
+    "context": [
+      "| Total Balance | £2.8M |",
+      "### Product Performance"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_019",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_019_met_004",
+    "name": "Average Account Balance",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Calculates the mean balance per individual account within the product. Used to assess customer deposit behavior and identify opportunities for cross-selling or upselling.",
+    "context": [
+      "| Average Account Balance | £4,308 |",
+      "### Product Performance"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_019",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_019_met_005",
+    "name": "Monthly New Accounts",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Tracks the volume of newly opened accounts on a monthly basis. Serves as a leading indicator for product acquisition effectiveness and marketing campaign performance.",
+    "context": [
+      "| Monthly New Accounts | 12 |",
+      "### Product Performance"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_019",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_019_met_006",
+    "name": "Account Closure Rate",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Measures the percentage of accounts closed within a defined reporting period. Functions as a critical churn metric to evaluate product retention and customer satisfaction trends.",
+    "context": [
+      "| Account Closure Rate | 0.8% |",
+      "### Product Performance"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_019",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_019_met_007",
+    "name": "Customer Satisfaction (NPS)",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Quantifies overall customer satisfaction using the Net Promoter Score framework. Provides actionable insights into service quality and identifies areas requiring operational improvement.",
+    "context": [
+      "| Customer Satisfaction (NPS) | 72 |",
+      "### Product Performance"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_019",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_019_met_008",
+    "name": "Regulatory Complaints",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Tracks the frequency of formal complaints received from regulatory bodies on a quarterly basis. Monitors compliance health and operational risk exposure related to customer interactions.",
+    "context": [
+      "| Regulatory Complaints | 2 per quarter |",
+      "### Product Performance"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_019",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_020_bnk_001",
+    "name": "Current Account",
+    "aliases": [
+      "CURR-001"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "A core retail transactional account held by customers, identified in the document as a primary node for cross-selling linked products and services.",
+    "context": [
+      "Current Account (CURR-001)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_020",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_020_bnk_002",
+    "name": "Debit Card",
+    "aliases": [
+      "CARD-001"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "card",
+    "description": "A payment instrument linked to customer accounts, listed as a frequently cross-sold product alongside current accounts and mortgages.",
+    "context": [
+      "Debit Card (CARD-001)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_020",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_020_bnk_003",
+    "name": "Mortgage",
+    "aliases": [
+      "MORT-001"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A long-term lending product used for property financing, identified as a key account that customers frequently link with current accounts and debit cards.",
+    "context": [
+      "Mortgage (MORT-001)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_020",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_020_bnk_004",
+    "name": "Insurance Products",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A category of insurance offerings slated for future integration into the bank's cross-sell portfolio, positioned alongside existing account and card products.",
+    "context": [
+      "Insurance Products (future)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_020",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_021_bnk_001",
+    "name": "SmartSaver Plus",
+    "aliases": [
+      "SAV-002"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A premium tier savings product designed for high-net-worth customers, identified by the internal product code SAV-002. Launched on 1 June 2021, it maintains an active status within the bank's retail banking portfolio.",
+    "context": [
+      "## 2. SmartSaver Plus",
+      "**Product ID:** SAV-002",
+      "**Launch Date:** 2021-06-01",
+      "**Status:** Active"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_021",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_021_bnk_002",
+    "name": "High-net-worth Customer",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "customer",
+    "description": "A specific customer segment defined by significant asset holdings, qualifying for premium tier product access and specialized service levels within the bank's retail banking framework.",
+    "context": [
+      "**Premium Tier for:** High-net-worth customers"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_021",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_021_met_001",
+    "name": "£50,000 Balance Threshold",
+    "aliases": [
+      ">£50,000 balance"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "threshold",
+    "description": "A quantitative account balance requirement that serves as the primary qualification criterion for accessing premium tier products and associated customer benefits.",
+    "context": [
+      "**Premium Tier for:** High-net-worth customers (>£50,000 balance)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_021",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_022_bnk_001",
+    "name": "Base Interest Rate",
+    "aliases": [
+      "5.2% AER",
+      "Higher interest rates"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "interest_rate",
+    "description": "The foundational interest rate applied to customer accounts, specified at 5.2% AER base as a key differentiator for the bank's offering.",
+    "context": [
+      "Higher interest rates (5.2% AER base)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_022",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_022_rol_001",
+    "name": "Dedicated Relationship Manager",
+    "aliases": [
+      "relationship manager",
+      "RM"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "manager",
+    "description": "A dedicated staff member assigned to provide personalised support and oversight for customer accounts, serving as a key service differentiator.",
+    "context": [
+      "Dedicated relationship manager"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_022",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_022_sys_001",
+    "name": "Exclusive Financial Planning Platform",
+    "aliases": [
+      "financial planning tools",
+      "planning tools"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "financial_planning_tool",
+    "description": "A dedicated digital application or suite of tools provided to customers to assist with financial planning and portfolio management.",
+    "context": [
+      "Exclusive financial planning tools"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_022",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_022_met_001",
+    "name": "Customer Headcount",
+    "aliases": [
+      "Total Customers",
+      "customer count"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "headcount",
+    "description": "The total number of active customers associated with the portfolio or segment, currently recorded at 120.",
+    "context": [
+      "**Total Customers:** 120"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_022",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_022_met_002",
+    "name": "Account Volume Metric",
+    "aliases": [
+      "Total Accounts",
+      "account count"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "The aggregate number of accounts held within the specified customer segment or portfolio, currently recorded at 150.",
+    "context": [
+      "**Total Accounts:** 150"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_022",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_022_met_003",
+    "name": "Portfolio Average Balance",
+    "aliases": [
+      "Average Balance",
+      "avg balance"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "balance_metric",
+    "description": "The mean monetary value held across all accounts in the segment, calculated at £87,500.",
+    "context": [
+      "**Average Balance:** £87,500"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_022",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_023_bnk_001",
+    "name": "Current Account",
+    "aliases": [
+      "CURR-001"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A retail banking product designed for general consumers and salary earners. Launched on 2020-03-15, it holds an active status within the bank's product portfolio and serves as a foundational transactional account type.",
+    "context": [
+      "## 3. Current Account",
+      "**Product ID:** CURR-001",
+      "**Launch Date:** 2020-03-15",
+      "**Target Audience:** General consumers, salary earners"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_023",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_024_sys_001",
+    "name": "Online Banking System",
+    "aliases": [
+      "Online banking"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "internet_banking",
+    "description": "Digital web-based channel enabling customers to access accounts, view balances, and execute transactions remotely.",
+    "context": [
+      "Online banking"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_024",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_024_sys_002",
+    "name": "Mobile Banking Application",
+    "aliases": [
+      "mobile app"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "mobile_banking",
+    "description": "Smartphone-based application providing customers with portable access to account management and transaction capabilities.",
+    "context": [
+      "mobile app"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_024",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_024_bnk_001",
+    "name": "Standing Order",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "standing_order",
+    "description": "Pre-authorized payment instruction allowing customers to schedule recurring transfers from their accounts at fixed intervals.",
+    "context": [
+      "Standing orders"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_024",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_024_bnk_002",
+    "name": "Direct Debit",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "direct_debit",
+    "description": "Payment method enabling third-party collectors to withdraw varying amounts from a customer's account with prior authorization.",
+    "context": [
+      "direct debits"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_024",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_024_bnk_003",
+    "name": "Overdraft Facility",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "Optional credit arrangement allowing account holders to withdraw funds beyond their available balance, with a specified limit range of £500–£5,000.",
+    "context": [
+      "Overdraft facility (optional): £500–£5,000"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_024",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_024_bnk_004",
+    "name": "Current Account Product",
+    "aliases": [
+      "current account"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "Standard transactional banking product offered with a zero monthly fee and comprehensive domestic transfer capabilities.",
+    "context": [
+      "Monthly current account fee: £0"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_024",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_024_bnk_005",
+    "name": "Cheque Book",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "Physical payment instrument provided to customers as an alternative or supplementary method for executing transactions.",
+    "context": [
+      "Cheque book available"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_024",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_024_met_001",
+    "name": "Total Customer Headcount (320)",
+    "aliases": [
+      "Total Customers"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "headcount",
+    "description": "Quantitative measure of the active customer base utilizing the bank's services, currently recorded at 320.",
+    "context": [
+      "**Total Customers:** 320"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_024",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_024_met_002",
+    "name": "Total Account Capacity (450)",
+    "aliases": [
+      "Total Accounts"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "Quantitative measure of all active banking accounts held by customers, currently recorded at 450.",
+    "context": [
+      "**Total Accounts:** 450"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_024",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_025_bnk_001",
+    "name": "Overdraft Facility",
+    "aliases": [
+      "Overdraft"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A core banking product that allows customers to withdraw funds beyond their available account balance. The facility is governed by strict eligibility criteria and features distinct pricing structures for pre-approved versus unauthorized usage.",
+    "context": [
+      "### Overdraft Policy",
+      "Overdraft limit: £500–£5,000 (customer choice)",
+      "Arranged overdraft: 15% AER (fixed)",
+      "Unarranged overdraft: 25% AER + £5 daily fee"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_025",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_025_bnk_002",
+    "name": "Arranged Overdraft",
+    "aliases": [
+      "Pre-approved Overdraft"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A pre-authorized borrowing facility where the bank has agreed to a specific limit and interest rate. It is charged at a fixed annual equivalent rate and represents the standard tier of overdraft usage.",
+    "context": [
+      "Arranged overdraft: 15% AER (fixed)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_025",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_025_bnk_003",
+    "name": "Unarranged Overdraft",
+    "aliases": [
+      "Unauthorized Overdraft"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "An unauthorized borrowing facility incurred when account balances fall below zero without prior agreement. It is subject to a higher interest rate and incurs a daily administrative fee to reflect elevated credit risk.",
+    "context": [
+      "Unarranged overdraft: 25% AER + £5 daily fee"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_025",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_025_rul_001",
+    "name": "Overdraft Eligibility Constraints",
+    "aliases": [
+      "Eligibility Criteria"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "Mandatory operational rules governing customer qualification for the overdraft facility. Customers must satisfy a minimum account tenure of six months, demonstrate verified regular monthly income, and successfully pass a credit assessment before approval.",
+    "context": [
+      "Account tenure: 6+ months",
+      "Regular income: £1,500+ per month",
+      "Credit check passed"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_025",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_025_met_001",
+    "name": "Overdraft Limit Range",
+    "aliases": [
+      "Borrowing Ceiling"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "The quantitative borrowing ceiling for the overdraft facility, defined as a customer-selectable range between £500 and £5,000. This metric establishes the maximum exposure limit per account based on customer preference.",
+    "context": [
+      "Overdraft limit: £500–£5,000 (customer choice)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_025",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_025_met_002",
+    "name": "Arranged Overdraft Interest Rate",
+    "aliases": [
+      "Fixed AER"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "The fixed annual equivalent rate applied to pre-approved overdraft balances. This metric standardizes the cost of borrowing for authorized usage at 15% per annum.",
+    "context": [
+      "Arranged overdraft: 15% AER (fixed)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_025",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_025_met_003",
+    "name": "Unarranged Overdraft Interest Rate",
+    "aliases": [
+      "Penalty AER"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "risk_threshold",
+    "description": "The higher annual equivalent rate applied to unauthorized overdraft usage. This metric reflects elevated credit risk and is set at 25% per annum.",
+    "context": [
+      "Unarranged overdraft: 25% AER"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_025",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_025_met_004",
+    "name": "Daily Unarranged Fee",
+    "aliases": [
+      "Overdraft Daily Charge"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "operational_limit",
+    "description": "A fixed daily charge applied to unarranged overdraft balances as part of the pricing structure. This metric establishes a £5 per day administrative fee for unauthorized usage.",
+    "context": [
+      "25% AER + £5 daily fee"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_025",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_026_bnk_001",
+    "name": "Mortgage Product",
+    "aliases": [
+      "MORT-001"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A core banking product offered by FirstUK Bank, identified internally as MORT-001. Launched on 2022-01-15 and currently operating in an Active status, it is specifically structured to serve property purchasers and existing homeowners.",
+    "context": [
+      "## 4. Mortgage Product",
+      "**Product ID:** MORT-001",
+      "**Launch Date:** 2022-01-15",
+      "**Status:** Active"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_026",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_026_bnk_002",
+    "name": "Property Purchasers",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "customer",
+    "description": "A defined target customer segment for the Mortgage Product, representing individuals seeking to acquire property through FirstUK Bank's lending solutions.",
+    "context": [
+      "**Target Audience:** Property purchasers and existing homeowners"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_026",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_026_bnk_003",
+    "name": "Existing Homeowners",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "customer",
+    "description": "A defined target customer segment for the Mortgage Product, representing current property owners who may require refinancing or additional mortgage facilities.",
+    "context": [
+      "**Target Audience:** Property purchasers and existing homeowners"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_026",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_027_bnk_001",
+    "name": "Mortgage Product",
+    "aliases": [
+      "Mortgage",
+      "Loan"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A secured lending facility offered by FirstUK Bank, defined by specific borrowing limits, repayment durations, and interest rate structures contingent on borrower risk profiles.",
+    "context": [
+      "**Total Mortgages:** 45",
+      "Loan amounts: £50,000–£500,000"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_027",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_027_met_001",
+    "name": "Mortgage Loan Amount Range",
+    "aliases": [
+      "Loan amounts"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "The defined borrowing ceiling and floor for mortgage facilities, specifying a minimum of £50,000 and a maximum of £500,000 per facility.",
+    "context": [
+      "Loan amounts: £50,000–£500,000"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_027",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_027_met_002",
+    "name": "Mortgage Repayment Term Range",
+    "aliases": [
+      "Terms"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "The allowable duration for mortgage repayment, set between 2 and 25 years.",
+    "context": [
+      "Terms: 2–25 years"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_027",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_027_met_003",
+    "name": "Mortgage Interest Rate Spectrum",
+    "aliases": [
+      "Rates",
+      "Rate"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "The applicable interest rate range for the mortgage product, spanning 3.5% to 6.5%, with fixed terms of 2 or 5 years or variable structures.",
+    "context": [
+      "Rates: Fixed (2/5 years) or Variable",
+      "Rate: 3.5%–6.5% (dependent on LTV, credit score)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_027",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_027_met_004",
+    "name": "Total Active Mortgages",
+    "aliases": [
+      "Total Mortgages"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "The current portfolio count of active mortgage facilities held by the bank.",
+    "context": [
+      "**Total Mortgages:** 45"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_027",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_027_met_005",
+    "name": "Total Mortgage Portfolio Balance",
+    "aliases": [
+      "Total Mortgage Balance"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "The aggregate outstanding principal value of the entire mortgage portfolio.",
+    "context": [
+      "**Total Mortgage Balance:** £15.2M"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_027",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_027_met_006",
+    "name": "Average Mortgage Facility Size",
+    "aliases": [
+      "Average Loan Size"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "The mean principal amount across all active mortgage facilities in the portfolio.",
+    "context": [
+      "**Average Loan Size:** £337,000"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_027",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_028_bnk_001",
+    "name": "Underwriting Process",
+    "aliases": [
+      "Underwriting"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "process",
+    "description": "The core mortgage lending evaluation process that governs the assessment of borrower eligibility and risk prior to loan approval. This process requires specific documentation and analytical checks to ensure compliance with FirstUK Bank's lending criteria.",
+    "context": [
+      "### Underwriting",
+      "**See:** Mortgage Underwriting SOP (MORT-UW-SOP-001)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_028",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_028_bnk_002",
+    "name": "Proof of Income",
+    "aliases": [
+      "Income Verification",
+      "Proof of Income"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "identification_document",
+    "description": "A mandatory documentation requirement for mortgage underwriting, accepted in the form of either three years of accounts or three months of payslips to verify borrower earnings and repayment capacity.",
+    "context": [
+      "- Proof of income (last 3 years accounts or 3 months payslips)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_028",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_028_bnk_003",
+    "name": "Property Valuation",
+    "aliases": [
+      "Property Valuation"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "valuation",
+    "description": "A required assessment document used during the mortgage underwriting process to determine the market value and collateral security of the mortgaged property.",
+    "context": [
+      "- Property valuation"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_028",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_028_bnk_004",
+    "name": "Proof of Deposit",
+    "aliases": [
+      "Proof of Deposit"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "document",
+    "description": "A mandatory financial documentation requirement confirming the source and availability of the borrower's initial deposit funds for mortgage approval.",
+    "context": [
+      "- Proof of deposit"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_028",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_028_bnk_005",
+    "name": "Credit Check",
+    "aliases": [
+      "Credit Check"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "verification",
+    "description": "A mandatory risk assessment procedure performed during underwriting to evaluate the borrower's credit history, debt obligations, and overall repayment capacity.",
+    "context": [
+      "- Credit check"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_028",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_028_bnk_006",
+    "name": "Affordability Assessment",
+    "aliases": [
+      "Affordability Assessment"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "assessment",
+    "description": "A required analytical evaluation during the underwriting process to determine whether the borrower's income and financial commitments can sustain the proposed mortgage repayments over the loan term.",
+    "context": [
+      "- Affordability assessment"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_028",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_028_rul_001",
+    "name": "Mortgage Underwriting Standard Operating Procedure",
+    "aliases": [
+      "Mortgage Underwriting SOP",
+      "MORT-UW-SOP-001"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "operational_rule",
+    "description": "The governing standard operating procedure that defines the mandatory documentation requirements, procedural steps, and compliance controls for conducting mortgage underwriting at FirstUK Bank.",
+    "context": [
+      "**See:** Mortgage Underwriting SOP (MORT-UW-SOP-001)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_028",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_028_rul_002",
+    "name": "Mortgage Underwriting Documentation Requirement",
+    "aliases": [
+      "Required Documentation"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A hard operational constraint mandating that all mortgage applications must be supported by specific proof documents, valuations, and assessments before underwriting approval can be granted.",
+    "context": [
+      "**Required Documentation:**",
+      "- Proof of income (last 3 years accounts or 3 months payslips)",
+      "- Property valuation",
+      "- Proof of deposit",
+      "- Credit check",
+      "- Affordability assessment"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_028",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_029_bnk_001",
+    "name": "Debit Card",
+    "aliases": [
+      "Visa Debit"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "card",
+    "description": "A core banking product representing a Visa-branded debit card issued by FirstUK Bank. The product identity specifications define it with Product ID CARD-001, a launch date of 2018-06-01, and an Active operational status.",
+    "context": [
+      "## 5. Debit Card",
+      "**Product ID:** CARD-001",
+      "**Launch Date:** 2018-06-01",
+      "**Card Type:** Visa Debit"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_029",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_030_bnk_001",
+    "name": "Visa Debit Card",
+    "aliases": [
+      "Visa Debit",
+      "Debit Card Product"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "card",
+    "description": "Defines the primary payment product specification for FirstUK Bank, identifying the underlying network scheme and product classification for customer issuance.",
+    "context": [
+      "| Card Scheme | Visa Debit |"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_030",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_030_rul_001",
+    "name": "Contactless Transaction Limit",
+    "aliases": [
+      "Contactless Limit",
+      "Tap-and-Pay Threshold"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "Establishes the maximum monetary value permitted for a single contactless payment transaction processed through the card network.",
+    "context": [
+      "| Contactless Limit | £100 per transaction |"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_030",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_030_rul_002",
+    "name": "Daily ATM Withdrawal Limit",
+    "aliases": [
+      "ATM Withdrawal Limit",
+      "Daily Cash Limit"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "Sets the maximum aggregate amount that can be withdrawn from automated teller machines within a rolling 24-hour period.",
+    "context": [
+      "| Daily ATM Withdrawal Limit | £500 |"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_030",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_030_bnk_002",
+    "name": "Card Validity Period",
+    "aliases": [
+      "Card Validity",
+      "Product Lifespan"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "Specifies the operational lifespan of the issued payment instrument before mandatory renewal or reissuance is required.",
+    "context": [
+      "| Card Validity | 3 years |"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_030",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_030_rul_003",
+    "name": "Card Replacement Fee Policy",
+    "aliases": [
+      "Replacement Fee",
+      "Reissue Cost"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "Defines the financial cost associated with issuing a replacement card, including a specific exemption for the first replacement issued.",
+    "context": [
+      "| Replacement Fee | £15 (first card free) |"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_030",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_030_bnk_003",
+    "name": "International Usage Authorization",
+    "aliases": [
+      "International Use",
+      "Cross-Border Transactions"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "Confirms the capability of the card to process transactions outside the domestic market via the Visa network infrastructure.",
+    "context": [
+      "| International Use | Yes (Visa network) |"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_030",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_030_bnk_004",
+    "name": "Card Material Specification",
+    "aliases": [
+      "Card Material",
+      "Physical Composition"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "Details the physical composition of the payment instrument, specifying the use of recycled plastic for manufacturing.",
+    "context": [
+      "| Card Material | Recycled plastic |"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_030",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_030_rul_004",
+    "name": "PIN Length Requirement",
+    "aliases": [
+      "PIN Length",
+      "Security Code Format"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "Mandates the fixed character count for the personal identification number used to authenticate cardholder transactions.",
+    "context": [
+      "| PIN Length | 4 digits |"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_030",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_031_bnk_001",
+    "name": "Card",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "card",
+    "description": "The primary payment instrument offered by FirstUK Bank, serving as the central subject for a suite of integrated security, transactional, and management capabilities.",
+    "context": [
+      "### Card Features"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_031",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_031_bnk_002",
+    "name": "Biometric Authentication",
+    "aliases": [
+      "biometric auth"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "A security feature integrated into the mobile application that enables secure user verification and access control using biological identifiers.",
+    "context": [
+      "- Biometric authentication (app)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_031",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_031_bnk_003",
+    "name": "Transaction Notifications",
+    "aliases": [
+      "push/SMS alerts"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "An alerting mechanism that delivers real-time updates regarding card activity to customers via push notifications and SMS channels.",
+    "context": [
+      "- Transaction notifications (push/SMS)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_031",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_031_bnk_004",
+    "name": "Contactless Payment",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "A transaction capability allowing customers to complete purchases by tapping the card on compatible terminals without physical swiping or insertion.",
+    "context": [
+      "- Contactless payment"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_031",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_031_bnk_005",
+    "name": "ATM Withdrawals",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "A cash dispensing service accessible through automated teller machines across both UK and international networks.",
+    "context": [
+      "- ATM withdrawals (UK & international)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_031",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_031_bnk_006",
+    "name": "Online Shopping",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "A payment use case supported by the card, enabling customers to conduct e-commerce transactions securely over the internet.",
+    "context": [
+      "- Online shopping"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_031",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_031_bnk_007",
+    "name": "Virtual Card Number",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "card",
+    "description": "A digitally generated payment credential designed specifically for securing online transactions and protecting the primary physical card details.",
+    "context": [
+      "- Virtual card number (for online payments)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_031",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_031_bnk_008",
+    "name": "Card Lock/Unlock",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "A customer-controlled security function accessible via the mobile application that allows immediate suspension and restoration of card transaction capabilities.",
+    "context": [
+      "- Card lock/unlock (via app)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_031",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_031_bnk_009",
+    "name": "Real-Time Fraud Detection",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "fraud_alert",
+    "description": "An automated monitoring capability that continuously analyzes card activity to identify and flag suspicious transactions as they occur.",
+    "context": [
+      "- Real-time fraud detection"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_031",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_032_rul_001",
+    "name": "Customer Liability Threshold",
+    "aliases": [
+      "Customer liability"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "Defines the financial responsibility limit for customers in the event of fraud, specifying a £0 liability provided the incident is reported within a 24-hour window. This rule establishes the primary trigger for shifting financial risk from the customer to the bank and dictates the initial reporting requirement for claim eligibility.",
+    "context": [
+      "- Customer liability: £0 if reported within 24 hours"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_032",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_032_rul_002",
+    "name": "Bank Liability Coverage",
+    "aliases": [
+      "Bank liability"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "Establishes the bank's financial responsibility for fraudulent activity, mandating full (100%) coverage for all unauthorized transactions. This rule dictates the bank's risk exposure and reimbursement obligation when fraud occurs, ensuring complete customer protection against non-consensual charges.",
+    "context": [
+      "- Bank liability: 100% for unauthorized transactions"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_032",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_032_rul_003",
+    "name": "Fraud Reimbursement Timeframe",
+    "aliases": [
+      "Fraud reimbursement"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "operational_limit",
+    "description": "Specifies the maximum operational deadline for processing and issuing fraud reimbursements following a customer claim submission. This constraint governs the speed of financial remediation in the fraud protection workflow and sets the service standard for claim resolution.",
+    "context": [
+      "- Fraud reimbursement: Within 10 business days of claim"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_032",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_032_met_001",
+    "name": "Total Cards Issued",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "Quantitative metric tracking the cumulative number of payment cards issued by FirstUK Bank to date. Serves as a baseline measure for portfolio size and issuance volume, providing context for active card utilization rates.",
+    "context": [
+      "**Total Cards Issued:** 800"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_032",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_032_met_002",
+    "name": "Active Cards",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "Operational metric indicating the number of issued cards currently in active use or status. Used alongside total issuance to monitor card portfolio health, track churn, and assess the effective reach of the bank's payment network.",
+    "context": [
+      "**Active Cards:** 780"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_032",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_032_met_003",
+    "name": "Monthly Fraud Claims",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Volume metric measuring the average number of fraud claims processed by the bank each month. Acts as a key performance indicator for fraud volume and operational workload, directly influencing resource allocation for claims handling and reimbursement processing.",
+    "context": [
+      "**Monthly Fraud Claims:** 2–3"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_032",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_032_bnk_001",
+    "name": "Card",
+    "aliases": [
+      "payment card",
+      "cards"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "card",
+    "description": "A core payment instrument issued by FirstUK Bank, tracked through issuance and active status metrics to monitor portfolio health. Serves as the primary vehicle for customer transactions subject to fraud protection rules, liability thresholds, and reimbursement workflows.",
+    "context": [
+      "**Total Cards Issued:** 800",
+      "**Active Cards:** 780"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_032",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_032_bnk_002",
+    "name": "Unauthorized Transaction",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "A fraudulent or non-consensual financial transaction that triggers bank liability coverage and initiates the fraud protection and reimbursement workflow. Represents the core risk event addressed by the liability rules and serves as the basis for customer claims.",
+    "context": [
+      "- Bank liability: 100% for unauthorized transactions"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_032",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_032_bnk_003",
+    "name": "Fraud Claim",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "fraud_alert",
+    "description": "A formal customer report of fraudulent activity that serves as the trigger for liability assessment, investigation, and subsequent reimbursement processing. Acts as the operational input for the 10-business-day reimbursement rule and feeds into monthly fraud claim tracking.",
+    "context": [
+      "- Fraud reimbursement: Within 10 business days of claim",
+      "**Monthly Fraud Claims:** 2–3"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_032",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_033_bnk_001",
+    "name": "Investment Account",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A retail investment product currently in the design phase. It offers exposure to stocks, ETFs, and ISAs. Scheduled for launch in Q3 2026 as part of the bank's under-development pipeline.",
+    "context": [
+      "| Investment Account | Design | Q3 2026 | Stocks, ETFs, ISA |"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_033",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_033_bnk_002",
+    "name": "Travel Money Card",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "card",
+    "description": "A multi-currency prepaid card product currently in development. Designed to facilitate international travel spending and currency exchange. Targeting a Q4 2026 launch date within the current product roadmap.",
+    "context": [
+      "| Travel Money Card | Development | Q4 2026 | Multi-currency prepaid |"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_033",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_033_bnk_003",
+    "name": "Savings Bonds",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A fixed-term savings instrument currently in the research phase. Structured to provide guaranteed returns over a set period. Scheduled for launch in Q1 2027 as part of the development pipeline.",
+    "context": [
+      "| Savings Bonds | Research | Q1 2027 | Fixed-term savings |"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_033",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_033_bnk_004",
+    "name": "Small Business Account",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "A business transactional account currently in the scoping phase. Intended to support SME operational banking needs and daily cash flow management. Planned for launch in Q2 2027.",
+    "context": [
+      "| Small Business Account | Scoping | Q2 2027 | Business transactional |"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_033",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_033_met_001",
+    "name": "Investment Account Target Launch Date",
+    "aliases": [
+      "Q3 2026"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "The scheduled operational launch timeline for the Investment Account product. Established as a key development milestone to ensure timely market entry and regulatory readiness.",
+    "context": [
+      "| Investment Account | Design | Q3 2026 | Stocks, ETFs, ISA |"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_033",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_033_met_002",
+    "name": "Travel Money Card Target Launch Date",
+    "aliases": [
+      "Q4 2026"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "The scheduled operational launch timeline for the Travel Money Card product. Defined as a development milestone to align multi-currency infrastructure deployment with market demand.",
+    "context": [
+      "| Travel Money Card | Development | Q4 2026 | Multi-currency prepaid |"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_033",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_033_met_003",
+    "name": "Savings Bonds Target Launch Date",
+    "aliases": [
+      "Q1 2027"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "The scheduled operational launch timeline for the Savings Bonds product. Set as a research-to-launch milestone to validate fixed-term savings structures before commercial rollout.",
+    "context": [
+      "| Savings Bonds | Research | Q1 2027 | Fixed-term savings |"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_033",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_033_met_004",
+    "name": "Small Business Account Target Launch Date",
+    "aliases": [
+      "Q2 2027"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "The scheduled operational launch timeline for the Small Business Account product. Established as a scoping completion target to ensure SME transactional capabilities are ready for deployment.",
+    "context": [
+      "| Small Business Account | Scoping | Q2 2027 | Business transactional |"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_033",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_034_org_001",
+    "name": "Product Committee",
+    "aliases": [
+      "PC"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "committee",
+    "description": "An internal governance committee responsible for conducting bi-weekly reviews of product-related matters within FirstUK Bank's operational framework. This body operates under the broader organisational model and ensures consistent oversight across all product lifecycle stages.",
+    "context": [
+      "Product Committee Review:",
+      "Bi-weekly (see [[organisation_model]])"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_034",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_034_org_002",
+    "name": "Board Risk Committee",
+    "aliases": [
+      "BRC"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "board",
+    "description": "A senior governance board that holds the formal decision authority for approving new products. It specifically oversees high-value offerings, requiring explicit sign-off when potential values exceed £1 million.",
+    "context": [
+      "Product Approval Authority:",
+      "Board Risk Committee (products >£1M potential)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_034",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_034_rul_003",
+    "name": "Product Approval Threshold",
+    "aliases": [
+      ">£1M Potential"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "approval_threshold",
+    "description": "A governance constraint that mandates escalation to the Board Risk Committee for any product with a potential value exceeding £1 million. This rule ensures strict oversight and risk mitigation for high-value product launches.",
+    "context": [
+      "Board Risk Committee (products >£1M potential)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_034",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_034_bnk_004",
+    "name": "Risk Appetite",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "risk_appetite",
+    "description": "The bank's defined strategic tolerance for risk exposure, explicitly established as conservative within the product governance framework. This stance directly influences capital planning and aligns with regulatory expectations for Pillar 1 requirements.",
+    "context": [
+      "Risk Appetite:",
+      "Conservative (Pillar 1 capital adequacy at 15%+)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_034",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_034_met_005",
+    "name": "Pillar 1 Capital Adequacy Ratio",
+    "aliases": [
+      "Capital Adequacy Target"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "risk_threshold",
+    "description": "A quantitative regulatory and internal capital requirement target set at a minimum of 15%+. This threshold serves as the primary metric to enforce the bank's conservative risk appetite and maintain adequate capital buffers.",
+    "context": [
+      "Conservative (Pillar 1 capital adequacy at 15%+)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_034",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_035_org_001",
+    "name": "Financial Conduct Authority",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "regulatory_body",
+    "description": "The UK regulatory authority responsible for overseeing conduct of business standards, market integrity, and consumer protection within the financial services sector.",
+    "context": [
+      "FCA COBS (Conduct of Business sourcebook)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_035",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_035_org_002",
+    "name": "Prudential Regulation Authority",
+    "aliases": [
+      "PRA"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "regulatory_body",
+    "description": "The UK regulatory body responsible for the prudential regulation and supervision of banks, building societies, and credit unions.",
+    "context": [
+      "PRA Rulebook"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_035",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_035_rul_001",
+    "name": "FCA Conduct of Business Sourcebook",
+    "aliases": [
+      "FCA COBS"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "The regulatory framework issued by the FCA that establishes mandatory conduct standards and operational rules governing the bank's business activities and client interactions.",
+    "context": [
+      "FCA COBS (Conduct of Business sourcebook)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_035",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_035_rul_002",
+    "name": "PRA Prudential Rulebook",
+    "aliases": [
+      "PRA Rulebook"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "The regulatory framework issued by the PRA setting out prudential requirements, capital standards, and risk management obligations for the bank's operations.",
+    "context": [
+      "PRA Rulebook"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_035",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_035_rul_003",
+    "name": "General Data Protection Regulation",
+    "aliases": [
+      "GDPR"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "The data protection and privacy regulation establishing mandatory compliance requirements for the bank's processing, storage, and handling of personal data.",
+    "context": [
+      "GDPR (Data protection)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_035",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_035_rul_004",
+    "name": "Open Banking Regulatory Framework",
+    "aliases": [
+      "Open Banking regulations",
+      "PSD2",
+      "Open Banking Standard"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "The regulatory framework governing open banking standards, third-party data sharing, and payment service directives applicable to the bank's digital services.",
+    "context": [
+      "Open Banking regulations (PSD2, Open Banking Standard)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_035",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_036_sys_001",
+    "name": "Product Information Document System",
+    "aliases": [
+      "PIDs",
+      "PID"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "document_management",
+    "description": "A centralized documentation framework used to maintain consistent product information across the bank's offerings.",
+    "context": [
+      "Each product has a standardized Product Information Document (PID):"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_036",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_036_bnk_001",
+    "name": "SmartSaver Account",
+    "aliases": [
+      "SAV-001-PID"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A retail savings account product managed within the bank's portfolio, governed by a standardized PID.",
+    "context": [
+      "SAV-001-PID: SmartSaver Account"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_036",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_036_bnk_002",
+    "name": "SmartSaver Plus",
+    "aliases": [
+      "SAV-002-PID"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "An enhanced savings account variant within the bank's product suite, linked to its corresponding PID.",
+    "context": [
+      "SAV-002-PID: SmartSaver Plus"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_036",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_036_bnk_003",
+    "name": "Current Account",
+    "aliases": [
+      "CURR-001-PID"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A standard transactional account product for everyday banking, governed by a dedicated PID.",
+    "context": [
+      "CURR-001-PID: Current Account"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_036",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_036_bnk_004",
+    "name": "Mortgage",
+    "aliases": [
+      "MORT-001-PID"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A property financing lending product, with its specifications documented in a standardized PID.",
+    "context": [
+      "MORT-001-PID: Mortgage"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_036",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_036_bnk_005",
+    "name": "Debit Card",
+    "aliases": [
+      "CARD-001-PID"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "card",
+    "description": "A payment instrument linked to customer accounts, requiring standardized product information documentation.",
+    "context": [
+      "CARD-001-PID: Debit Card"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_036",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_036_sys_002",
+    "name": "Product FAQ Repository",
+    "aliases": [
+      "Product FAQ",
+      "PROD-FAQ-001"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "document_management",
+    "description": "A centralized reference system providing frequently asked questions and product details for bank offerings.",
+    "context": [
+      "**See:** Product FAQ (PROD-FAQ-001)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_036",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_036_rul_001",
+    "name": "Mandatory PID Documentation Rule",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A mandatory operational rule requiring that every bank product must be accompanied by a standardized Product Information Document.",
+    "context": [
+      "Each product has a standardized Product Information Document (PID):"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_036",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_037_bnk_001",
+    "name": "SmartSaver Account",
+    "aliases": [
+      "SAV-001"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "A savings account product governed by FirstUK Bank's specific Terms & Conditions (SAV-001-TC). The product documentation is subject to mandatory periodic review to ensure ongoing compliance and accuracy.",
+    "context": [
+      "SAV-001-TC: SmartSaver Account Terms"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_037",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_037_bnk_002",
+    "name": "Current Account",
+    "aliases": [
+      "CURR-001"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "A standard transactional account product managed by FirstUK Bank, with dedicated Terms & Conditions (CURR-001-TC) that require structured governance and periodic validation.",
+    "context": [
+      "CURR-001-TC: Current Account Terms"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_037",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_037_bnk_003",
+    "name": "Mortgage",
+    "aliases": [
+      "MORT-001"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A lending product offered by FirstUK Bank, governed by specific Terms & Conditions (MORT-001-TC) that must be reviewed annually or immediately upon any structural product changes.",
+    "context": [
+      "MORT-001-TC: Mortgage Terms"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_037",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_037_rul_001",
+    "name": "Product Terms Review Policy",
+    "aliases": [
+      "Review Frequency",
+      "Annual Review Cycle"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A mandatory governance rule requiring all product-specific Terms & Conditions to be reviewed on an annual basis, with immediate re-evaluation triggered whenever a product undergoes changes.",
+    "context": [
+      "Review Frequency: Annual (or when product changes)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_037",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_037_met_001",
+    "name": "Terms & Conditions Last Review Date",
+    "aliases": [
+      "Last Reviewed"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Tracks the most recent compliance review date for product documentation, serving as an audit metric to verify adherence to the annual review constraint and maintain regulatory readiness.",
+    "context": [
+      "Last Reviewed: 2026-01-15"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_037",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_038_rol_001",
+    "name": "Product Head",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "department_head",
+    "description": "The designated owner responsible for managing the product version history, overseeing updates to account details, rates, and new product tiers. Holds accountability for the lifecycle and commercial governance of the product catalogue.",
+    "context": [
+      "Owner",
+      "Product Head"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_038",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_038_bnk_001",
+    "name": "Joint Account",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "A shared account structure added to the product offering, requiring specific details and likely dual ownership or authorization parameters within the bank's retail banking framework.",
+    "context": [
+      "Added joint account details, updated rates"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_038",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_038_bnk_002",
+    "name": "SmartSaver Plus",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A specific savings tier introduced into the product catalogue, representing a distinct offering within the bank's retail portfolio that requires version tracking and rate management.",
+    "context": [
+      "SmartSaver Plus tier introduction"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_038",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_038_bnk_003",
+    "name": "Mortgage",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A secured lending product added to the catalogue, indicating an expansion of the bank's credit offerings and customer financing capabilities.",
+    "context": [
+      "Added mortgage, investment roadmap"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_038",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_038_bnk_004",
+    "name": "Investment Roadmap",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "A structured planning or offering related to investment products, added alongside mortgage capabilities to expand the customer's financial journey and product suite.",
+    "context": [
+      "Added mortgage, investment roadmap"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_038",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_038_bnk_005",
+    "name": "Interest Rate",
+    "aliases": [
+      "rates"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "interest_rate",
+    "description": "The pricing mechanism for deposits or loans, subject to periodic updates and annual reviews as part of the product's commercial governance and version control process.",
+    "context": [
+      "updated rates",
+      "Annual review, rate updates"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_038",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_038_bnk_006",
+    "name": "Product Catalogue",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "The central repository or listing of all available banking products and services, initially established in version 1.0 and continuously updated to reflect new offerings and rate changes.",
+    "context": [
+      "Initial product catalogue"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_038",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_039_org_001",
+    "name": "Product Management Department",
+    "aliases": [
+      "Product Management"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A core internal department responsible for product lifecycle management and strategy, referenced as a key governance and operational unit within the bank's organizational structure.",
+    "context": [
+      "[[departments]] — Product Management department"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_039",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_039_org_002",
+    "name": "Departments Reference Catalog",
+    "aliases": [
+      "departments"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "A structural reference cataloging the bank's internal organizational units and governance bodies, used to map reporting lines, functional responsibilities, and cross-departmental dependencies.",
+    "context": [
+      "[[departments]] — Product Management department"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_039",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_039_bnk_001",
+    "name": "Business Ontology",
+    "aliases": [
+      "business_ontology"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "A foundational conceptual framework defining core product concepts, account types, and domain entities that standardize terminology, data structures, and business definitions across FirstUK Bank.",
+    "context": [
+      "[[business_ontology]] — Product concepts, account types"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_039",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_039_bnk_002",
+    "name": "Interest Rate Schedule",
+    "aliases": [
+      "IRS-2026-001"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "interest_rate",
+    "description": "A structured reference framework defining applicable interest rates, pricing tiers, and yield calculations for banking products, serving as a quantitative benchmark for commercial decisions and account configuration.",
+    "context": [
+      "Interest Rate Schedule (IRS-2026-001)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_039",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_039_rul_001",
+    "name": "Account Opening Standard Operating Procedure",
+    "aliases": [
+      "ACCT-OPEN-SOP-001",
+      "Account Opening SOP"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "operational_limit",
+    "description": "A mandatory procedural constraint governing the end-to-end workflow for creating new customer accounts, ensuring standardized onboarding steps, data validation, and compliance checks before activation.",
+    "context": [
+      "Account Opening SOP (ACCT-OPEN-SOP-001)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_039",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_039_rul_002",
+    "name": "KYC Verification Standard Operating Procedure",
+    "aliases": [
+      "KYC-SOP-001",
+      "KYC Verification SOP"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "A formal governance procedure establishing mandatory controls and steps for Know Your Customer verification, ensuring regulatory compliance and identity validation prior to account activation.",
+    "context": [
+      "KYC Verification SOP (KYC-SOP-001)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_039",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_039_rul_003",
+    "name": "Anti-Money Laundering Policy",
+    "aliases": [
+      "AML-POL-002",
+      "AML Policy"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "A comprehensive policy framework defining mandatory controls, screening procedures, and reporting mechanisms to prevent, detect, and mitigate money laundering activities in accordance with regulatory standards.",
+    "context": [
+      "AML Policy (AML-POL-002)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_039",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_039_rul_004",
+    "name": "Pricing Guide",
+    "aliases": [
+      "PRC-GUIDE-2026"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "control",
+    "description": "A reference framework establishing approved pricing structures, fee schedules, and rate parameters for bank products, serving as a constraint for commercial decisions and product configuration.",
+    "context": [
+      "Pricing Guide (PRC-GUIDE-2026)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_039",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_039_rul_005",
+    "name": "Complaint Handling Policy",
+    "aliases": [
+      "COM-POL-006",
+      "Complaint Handling Policy"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "control",
+    "description": "A governance framework outlining mandatory processes for logging, investigating, and resolving customer complaints to ensure service quality, accountability, and regulatory adherence.",
+    "context": [
+      "Complaint Handling Policy (COM-POL-006)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_039",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_039_rul_006",
+    "name": "Fraud Prevention and Detection Policy",
+    "aliases": [
+      "FRAUD-POL-007",
+      "Fraud Policy"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "control",
+    "description": "A formal policy establishing operational controls, detection thresholds, and response protocols for identifying and mitigating fraudulent activities across bank operations and customer channels.",
+    "context": [
+      "Fraud Policy (FRAUD-POL-007)"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_039",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_040_rol_001",
+    "name": "Director of Product Management",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "director",
+    "description": "Senior leadership role responsible for product management governance and final approval authority within FirstUK Bank, as evidenced by the document sign-off requirement.",
+    "context": [
+      "Director of Product Management — **Date: 2026-01-15**"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_040",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_040_rol_002",
+    "name": "Chief Risk Officer",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "C-level executive role accountable for enterprise risk management and oversight at FirstUK Bank, designated as a required approver in the sign-off process.",
+    "context": [
+      "Chief Risk Officer — **Date: 2026-01-15**"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_040",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_040_rol_003",
+    "name": "Compliance Head",
+    "aliases": [],
+    "entity_class": "ROLE_PERSON",
+    "type": "department_head",
+    "description": "Department leadership role responsible for regulatory compliance and control functions within FirstUK Bank, required to authorize the document upon sign-off.",
+    "context": [
+      "Compliance Head — **Date: 2026-01-15**"
+    ],
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_040",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08",
+    "domain": "banking_organization"
+  }
+]

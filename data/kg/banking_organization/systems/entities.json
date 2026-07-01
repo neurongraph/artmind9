@@ -1,0 +1,4827 @@
+[
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_001_org_001",
+    "name": "Technology",
+    "aliases": [
+      "Tech"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "The internal department within FirstUK Bank responsible for technology systems, architecture, and related operational functions. It serves as the owning unit for technology governance documentation and defines the target audience for technical staff.",
+    "context": [
+      "Department | Technology",
+      "Audience | Technology Staff, Architects, Developers, Operations"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_001",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_001_rol_001",
+    "name": "Chief Technology Officer",
+    "aliases": [
+      "CTO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "The executive leadership role designated as the document owner for FirstUK Bank's technology systems and architecture documentation, holding accountability for its content, version control, and governance.",
+    "context": [
+      "Owner | Chief Technology Officer"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_001",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_002_org_001",
+    "name": "FirstUK Bank",
+    "aliases": [
+      "FirstUK"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "The primary financial institution operating an integrated technology architecture designed to support retail banking operations. It maintains a cloud-ready infrastructure emphasizing microservices and API-first design while ensuring strict regulatory compliance and security standards.",
+    "context": [
+      "FirstUK Bank operates an integrated technology architecture supporting retail banking operations across 12 branches and digital channels."
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_002",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_002_sys_002",
+    "name": "Data Warehouse",
+    "aliases": [
+      "DW"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "database",
+    "description": "A centralized data repository within the bank's technology stack, configured to handle real-time data processing. It serves as a foundational component supporting the bank's cloud-ready infrastructure and operational analytics needs.",
+    "context": [
+      "**Data Warehouse:** Real-time processing"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_002",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_002_met_003",
+    "name": "System Availability SLA",
+    "aliases": [
+      "Availability Target",
+      "SLA-99.8"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "The formal service level agreement defining the minimum acceptable uptime for the bank's core technology systems. It establishes a 99.8% availability threshold that infrastructure and operations must consistently meet.",
+    "context": [
+      "**System Availability:** 99.8% (SLA)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_002",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_002_met_004",
+    "name": "2025 Uptime Performance",
+    "aliases": [
+      "Uptime-2025",
+      "Actual Uptime 2025"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "availability_target",
+    "description": "The recorded operational uptime metric for the calendar year 2025, reflecting actual system performance against the established SLA. It demonstrates a 99.85% achievement rate for the reporting period.",
+    "context": [
+      "**Uptime (2025):** 99.85%"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_002",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_002_org_005",
+    "name": "Branch Network",
+    "aliases": [
+      "12 Branches",
+      "Physical Branches"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "office",
+    "description": "The physical retail banking locations operated by the institution, serving as key touchpoints for customer-facing operations. The network comprises exactly 12 branches distributed across the bank's operational footprint.",
+    "context": [
+      "across 12 branches and digital channels."
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_002",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_003_org_001",
+    "name": "Financial Conduct Authority",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "regulatory_body",
+    "description": "The UK financial regulator responsible for setting and enforcing conduct rules that govern how FirstUK Bank must operate its business activities.",
+    "context": [
+      "FCA COBS (Conduct of Business)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_003",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_003_org_002",
+    "name": "Prudential Regulation Authority",
+    "aliases": [
+      "PRA"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "regulatory_body",
+    "description": "The UK regulatory body overseeing prudential standards, including capital adequacy and liquidity requirements for FirstUK Bank.",
+    "context": [
+      "PRA Rulebook (capital, liquidity)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_003",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_003_sys_001",
+    "name": "Microservices Event-Driven Architecture",
+    "aliases": [
+      "Microservices-based, event-driven architecture"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "architecture",
+    "description": "The foundational technical architecture guiding FirstUK Bank's system design, emphasizing decoupled services and asynchronous event communication.",
+    "context": [
+      "Microservices-based, event-driven architecture"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_003",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_003_sys_002",
+    "name": "API-First Integration Model",
+    "aliases": [
+      "API-first integration model"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "integration_model",
+    "description": "The strategic approach to system connectivity where APIs are designed as the primary interface for all internal and external integrations.",
+    "context": [
+      "API-first integration model"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_003",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_003_sys_003",
+    "name": "Hybrid Cloud Infrastructure",
+    "aliases": [
+      "Cloud-ready infrastructure",
+      "hybrid cloud"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "infrastructure",
+    "description": "The target deployment environment for FirstUK Bank's technology stack, combining on-premises and public cloud resources to ensure scalability and resilience.",
+    "context": [
+      "Cloud-ready infrastructure (hybrid cloud)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_003",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_003_sys_004",
+    "name": "Real-Time Data Processing & Analytics Platform",
+    "aliases": [
+      "Real-time data processing and analytics"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "analytics",
+    "description": "The capability to ingest, process, and analyze banking data instantaneously to support immediate decision-making and operational visibility.",
+    "context": [
+      "Real-time data processing and analytics"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_003",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_003_sys_005",
+    "name": "Zero-Trust Security Architecture",
+    "aliases": [
+      "Security-first design",
+      "zero-trust"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "security_architecture",
+    "description": "A security framework requiring strict identity verification for every person and device trying to access resources on FirstUK Bank's network, regardless of location.",
+    "context": [
+      "Security-first design (zero-trust)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_003",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_003_rul_001",
+    "name": "Open Banking Compliance Framework",
+    "aliases": [
+      "Open Banking compliance"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "The mandatory operational requirement for FirstUK Bank to adhere to open banking standards, enabling secure data sharing with third-party providers.",
+    "context": [
+      "Open Banking compliance (PSD2, Open Banking Standard)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_003",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_003_rul_002",
+    "name": "Payment Services Directive 2",
+    "aliases": [
+      "PSD2"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "The EU/UK regulatory directive governing payment services and enforcing open banking data access requirements for FirstUK Bank.",
+    "context": [
+      "Open Banking compliance (PSD2, Open Banking Standard)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_003",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_003_rul_003",
+    "name": "Open Banking Standard",
+    "aliases": [
+      "Open Banking Standard"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "The technical and operational specification defining how FirstUK Bank must expose customer data via APIs to authorized third parties.",
+    "context": [
+      "Open Banking compliance (PSD2, Open Banking Standard)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_003",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_003_rul_004",
+    "name": "FCA Conduct of Business Sourcebook",
+    "aliases": [
+      "FCA COBS",
+      "Conduct of Business"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "The specific set of rules issued by the FCA that dictate how FirstUK Bank must conduct its business activities and interact with customers.",
+    "context": [
+      "FCA COBS (Conduct of Business)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_003",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_003_rul_005",
+    "name": "PRA Supervisory Statement & Rulebook",
+    "aliases": [
+      "PRA Rulebook"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "The regulatory framework establishing capital and liquidity thresholds that FirstUK Bank must maintain to ensure financial stability.",
+    "context": [
+      "PRA Rulebook (capital, liquidity)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_003",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_003_rul_006",
+    "name": "General Data Protection Regulation",
+    "aliases": [
+      "GDPR"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "The data protection law mandating how FirstUK Bank must collect, store, process, and secure customer and operational data.",
+    "context": [
+      "GDPR (data protection)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_003",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_003_rul_007",
+    "name": "Open Banking Regulatory Framework",
+    "aliases": [
+      "Open Banking regulations"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "The overarching legal and regulatory requirements governing data sharing, API standards, and consumer consent mechanisms for FirstUK Bank.",
+    "context": [
+      "Open Banking regulations"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_003",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_001",
+    "name": "Account Management System",
+    "aliases": [
+      "AMS",
+      "AMS-001"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "core_banking",
+    "description": "Serves as the central repository for managing customer accounts, balances, and transactions. Built on Java microservices and PostgreSQL, it operates in a cloud environment (AWS) and exposes RESTful APIs for account lifecycle management, balance retrieval, and transaction recording. It integrates with internet banking, mobile apps, fraud detection, and data warehousing systems.",
+    "context": [
+      "Central repository for customer accounts, balances, and transactions",
+      "Account creation and lifecycle",
+      "Balance management",
+      "Transaction recording"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_002",
+    "name": "Internet Banking Platform",
+    "aliases": [
+      "IBP"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "internet_banking",
+    "description": "A customer-facing digital channel that integrates with the core account management system to deliver online banking services and facilitate account access through web interfaces.",
+    "context": [
+      "Internet Banking Platform (IBP)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_003",
+    "name": "Mobile Banking App",
+    "aliases": [],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "mobile_banking",
+    "description": "A mobile application integrated with the core banking infrastructure to provide customers with account access and transaction capabilities on mobile devices.",
+    "context": [
+      "Mobile Banking App"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_004",
+    "name": "Fraud Detection Engine",
+    "aliases": [],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "fraud_detection",
+    "description": "A security and compliance system integrated with the account management platform to monitor and identify potentially fraudulent activities across customer accounts and transactions.",
+    "context": [
+      "Fraud Detection Engine"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_005",
+    "name": "Data Warehouse",
+    "aliases": [],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "analytics",
+    "description": "A centralized data repository that ingests information from the account management system to support analytical reporting, business intelligence, and historical data analysis.",
+    "context": [
+      "Data Warehouse"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_006",
+    "name": "PostgreSQL Database",
+    "aliases": [
+      "PostgreSQL 13+"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "database",
+    "description": "The underlying relational database technology powering the Account Management System, storing core banking data and supporting high-volume transaction processing with defined record scaling.",
+    "context": [
+      "PostgreSQL 13+",
+      "800 accounts × 2,000+ transactions = 1.6M records"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_007",
+    "name": "AWS Cloud Infrastructure",
+    "aliases": [
+      "Cloud (AWS)"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "cloud_infrastructure",
+    "description": "The cloud hosting environment where the Account Management System and its associated microservices are deployed to ensure scalability, performance, and high availability.",
+    "context": [
+      "Deployment: Cloud (AWS)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_met_001",
+    "name": "System Availability SLA",
+    "aliases": [
+      "99.9% SLA"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "availability_target",
+    "description": "The defined service level agreement specifying the required uptime percentage for the Account Management System to ensure continuous operational access and meet customer expectations.",
+    "context": [
+      "Availability: 99.9% (SLA)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_met_002",
+    "name": "Recovery Point Objective",
+    "aliases": [
+      "RPO",
+      "15 minutes RPO"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "operational_limit",
+    "description": "The maximum acceptable amount of data loss measured in time, defining the recovery target for the system's database backups and ensuring minimal data disruption during failover events.",
+    "context": [
+      "Recovery Point Objective (RPO): 15 minutes"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_met_003",
+    "name": "Daily Encrypted Backup Schedule",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "operational_limit",
+    "description": "A defined data protection frequency and security standard ensuring regular, encrypted preservation of critical banking records to S3 storage for disaster recovery compliance.",
+    "context": [
+      "Backup: Daily encrypted backup to S3"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_001",
+    "name": "Customer",
+    "aliases": [
+      "Customers"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "customer",
+    "description": "A primary party entity within the banking ontology, representing individuals or entities whose accounts and transactions are managed by the core system.",
+    "context": [
+      "Customers",
+      "Central repository for customer accounts"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_002",
+    "name": "Account",
+    "aliases": [
+      "Accounts"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "A core banking product entity that holds balances and records transactions, serving as a fundamental data model component within the account management system.",
+    "context": [
+      "Accounts (see [[business_ontology]])",
+      "Account creation and lifecycle"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_003",
+    "name": "Account Holder",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account_holder",
+    "description": "A party role associated with an account, defined by primary, secondary, or joint ownership structures within the banking data model.",
+    "context": [
+      "Account Holders (primary, secondary, joint)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_004",
+    "name": "Transaction",
+    "aliases": [
+      "Transactions"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "A financial event recorded within an account, representing the movement or recording of funds that contributes to balance management and historical tracking.",
+    "context": [
+      "Transaction recording",
+      "GET /accounts/{accountId}/transactions — Transaction history"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_005",
+    "name": "Interest Rate",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "interest_rate",
+    "description": "A financial parameter calculated and applied to accounts, representing the cost of borrowing or return on deposits as part of account lifecycle management.",
+    "context": [
+      "Interest calculation"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_006",
+    "name": "Account Status",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "A tracking attribute that defines the current operational state or lifecycle phase of a customer account within the banking system.",
+    "context": [
+      "Account status tracking",
+      "Account Status"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_sys_001",
+    "name": "Internet Banking Platform",
+    "aliases": [
+      "IBP",
+      "IBP-001"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "internet_banking",
+    "description": "A cloud-deployed (AWS) web-based customer portal built on React.js and Node.js, designed to provide account access, self-service capabilities, and secure transaction management for retail customers.",
+    "context": [
+      "Internet Banking Platform (IBP)",
+      "System ID: IBP-001",
+      "Web-based customer portal for account access and self-service"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_sys_002",
+    "name": "Account Management System",
+    "aliases": [
+      "AMS"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "account_management",
+    "description": "An integrated backend system that supplies core account data to the Internet Banking Platform for dashboard display and customer self-service operations.",
+    "context": [
+      "Account Management System (AMS) — account data"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_sys_003",
+    "name": "Fraud Detection Engine",
+    "aliases": [],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "fraud_detection",
+    "description": "A security integration responsible for validating transactions initiated through the customer portal to prevent unauthorized or suspicious financial activity.",
+    "context": [
+      "Fraud Detection Engine — transaction validation"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_sys_004",
+    "name": "Payment Processing System",
+    "aliases": [
+      "PPS"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "payment_processor",
+    "description": "An external infrastructure system integrated to execute money transfers and standing orders initiated by customers via the web portal.",
+    "context": [
+      "Payment Processing System (PPS) — transfer execution"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_met_001",
+    "name": "Platform Availability SLA",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "availability_target",
+    "description": "A service level agreement requirement mandating 99.8% operational uptime for the Internet Banking Platform to ensure continuous customer access.",
+    "context": [
+      "Availability: 99.8% (SLA)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_met_002",
+    "name": "Daily Active User Capacity",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "An operational capacity metric defining the expected daily user base range for the platform, measured between 200 and 300 active users.",
+    "context": [
+      "Daily active users: 200–300"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_met_003",
+    "name": "Peak Traffic Window",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "A defined operational period indicating maximum system load, occurring daily between 10:00 and 12:00 GMT.",
+    "context": [
+      "Peak traffic: 10:00–12:00 GMT"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_met_004",
+    "name": "Response Time Threshold",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "response_time",
+    "description": "A performance SLA requiring all platform interactions to complete in under 2 seconds at the 95th percentile (p95) to maintain user experience standards.",
+    "context": [
+      "Response time: <2 seconds (p95)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_bnk_001",
+    "name": "Account",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "A core banking entity whose information is displayed on the customer dashboard and accessed via the web portal for self-service management.",
+    "context": [
+      "account access",
+      "Account information dashboard"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_bnk_002",
+    "name": "Transaction",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "A financial event recorded in customer history, subject to search functionality and mandatory fraud validation before execution.",
+    "context": [
+      "Transaction history",
+      "transaction validation"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_bnk_003",
+    "name": "Standing Order",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "standing_order",
+    "description": "A recurring payment instruction managed through the self-service portal, requiring beneficiary setup and scheduled execution.",
+    "context": [
+      "Standing orders"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_bnk_004",
+    "name": "Direct Debit",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "direct_debit",
+    "description": "An automated payment authorization feature available for customer management within the platform, enabling recurring collections.",
+    "context": [
+      "direct debits"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_bnk_005",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "customer",
+    "description": "The end-user entity accessing the web portal to manage profiles, view account information, and initiate transfers or beneficiary updates.",
+    "context": [
+      "customer portal",
+      "Profile and settings management"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_rul_001",
+    "name": "Session Idle Timeout Constraint",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "operational_limit",
+    "description": "A security control mandating automatic session termination after 15 minutes of inactivity to protect customer accounts from unauthorized access.",
+    "context": [
+      "Session management (15-min idle timeout)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_rul_002",
+    "name": "Two-Factor Authentication Requirement",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "control",
+    "description": "A mandatory security protocol requiring OTP verification via email or SMS for all secure login attempts to the platform.",
+    "context": [
+      "Two-factor authentication (OTP via email/SMS)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_rul_003",
+    "name": "Encryption Standard Compliance",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "A data protection rule enforcing TLS 1.3 encryption for all communications within the platform to safeguard sensitive customer and transactional data.",
+    "context": [
+      "TLS 1.3 encryption"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_006_sys_001",
+    "name": "Mobile Banking App",
+    "aliases": [
+      "MBA-001"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "mobile_banking",
+    "description": "Native mobile application deployed on AWS cloud infrastructure with CloudFront CDN, serving iOS and Android platforms. Provides core customer-facing capabilities including secure biometric login, account viewing, transaction history, money transfers, card management, virtual card numbers, and location-aware services. Integrates with backend systems for account data, fraud monitoring, and push notifications.",
+    "context": [
+      "**System ID:** MBA-001",
+      "**Purpose:** Native mobile application for iOS and Android",
+      "Integration:",
+      "- Account Management System (AMS)",
+      "- Fraud Detection Engine",
+      "- Push Notification Service (PNS)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_006",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_006_sys_002",
+    "name": "Account Management System",
+    "aliases": [
+      "AMS"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "core_banking",
+    "description": "Foundational backend system integrated with the mobile banking channel to manage account data and support customer-facing operations. Acts as a primary data source for account viewing and transaction processing within the mobile application.",
+    "context": [
+      "Integration:",
+      "- Account Management System (AMS)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_006",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_006_sys_003",
+    "name": "Fraud Detection Engine",
+    "aliases": [],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "fraud_detection",
+    "description": "Security infrastructure system integrated with the mobile banking app to monitor transaction patterns and detect potential fraudulent activities across customer accounts.",
+    "context": [
+      "Integration:",
+      "- Fraud Detection Engine"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_006",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_006_sys_004",
+    "name": "Push Notification Service",
+    "aliases": [
+      "PNS"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "messaging",
+    "description": "External infrastructure system responsible for delivering real-time alerts and communications to mobile banking users, including transaction alerts, security alerts, marketing messages, and service notifications.",
+    "context": [
+      "Integration:",
+      "- Push Notification Service (PNS)",
+      "Push Notifications:",
+      "- Transaction alerts",
+      "- Security alerts"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_006",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_006_met_005",
+    "name": "Mobile Banking App Availability SLA",
+    "aliases": [
+      "99.5% SLA"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "Service Level Agreement defining the required uptime threshold for the mobile banking application, set at 99.5% to ensure consistent customer access and system reliability.",
+    "context": [
+      "Availability: 99.5% (SLA)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_006",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_006_met_006",
+    "name": "Daily Active Users KPI",
+    "aliases": [
+      "DAU",
+      "150–200 DAU"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Operational performance metric measuring the volume of unique users accessing the mobile banking application on a daily basis, currently tracked between 150 and 200 users.",
+    "context": [
+      "Usage:",
+      "- Daily active users: 150–200"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_006",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_006_bnk_007",
+    "name": "Mobile Money Transfer",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "A core banking transaction capability enabled through the mobile application, allowing customers to initiate and execute fund transfers directly from their mobile devices.",
+    "context": [
+      "Key Features:",
+      "- Mobile money transfer"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_006",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_006_bnk_008",
+    "name": "Virtual Card Numbers",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "card",
+    "description": "A digital payment instrument feature designed for secure online shopping, providing customers with temporary or single-use card details linked to their primary account.",
+    "context": [
+      "Key Features:",
+      "- Virtual card numbers (for online shopping)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_006",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_006_bnk_009",
+    "name": "Card Management",
+    "aliases": [
+      "Card Lock/Unlock"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "feature",
+    "description": "A banking feature enabling customers to control the security status of their payment cards, specifically allowing them to lock or unlock cards directly through the mobile interface.",
+    "context": [
+      "Key Features:",
+      "- Card management (lock/unlock)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_006",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_sys_001",
+    "name": "Fraud Detection Engine",
+    "aliases": [
+      "FDE",
+      "FDE-001"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "fraud_detection",
+    "description": "A real-time transaction risk scoring and anomaly detection platform deployed across AWS cloud and on-premises infrastructure. The system leverages Python, Apache Kafka, and TensorFlow machine learning models to evaluate transaction velocity, geographic patterns, and beneficiary data. It serves as the central control point for preventing card fraud, account takeovers, and suspicious activity flagging before transactions are finalized.",
+    "context": [
+      "Real-time detection and prevention of fraudulent transactions",
+      "Python, Apache Kafka, TensorFlow (ML models)",
+      "Cloud (AWS) + on-premises (for sensitive rules)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_sys_002",
+    "name": "Account Management System",
+    "aliases": [
+      "AMS"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "core_banking",
+    "description": "The primary core banking system responsible for maintaining customer account data and transaction records. It feeds raw transaction data to the Fraud Detection Engine to enable real-time risk scoring and anomaly detection workflows.",
+    "context": [
+      "Account Management System (AMS) — transaction data"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_sys_003",
+    "name": "Internet Banking Platform",
+    "aliases": [
+      "IBP"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "internet_banking",
+    "description": "The web-based customer channel integrated with the Fraud Detection Engine to enforce real-time transaction blocking. It acts as the execution layer that halts suspicious payments identified by FDE risk models.",
+    "context": [
+      "Internet Banking Platform (IBP) — real-time blocking"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_sys_004",
+    "name": "Mobile Banking App",
+    "aliases": [
+      "MBA"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "mobile_banking",
+    "description": "The mobile application channel connected to the Fraud Detection Engine for continuous transaction monitoring and security enforcement across mobile devices.",
+    "context": [
+      "Mobile Banking App (MBA)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_sys_005",
+    "name": "Payment Processing System",
+    "aliases": [
+      "PPS"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "payment_processor",
+    "description": "The backend payment infrastructure that routes and settles customer transactions. It integrates with FDE to ensure all payment executions are screened against fraud rules before settlement.",
+    "context": [
+      "Payment Processing System (PPS)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_sys_006",
+    "name": "Financial Crime System",
+    "aliases": [],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "regulatory_reporting",
+    "description": "The dedicated compliance platform used to generate and file Suspicious Activity Reports (SARs). It receives high-risk fraud alerts escalated from the FDE for regulatory documentation and investigation tracking.",
+    "context": [
+      "Financial Crime System — SAR filing"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_org_001",
+    "name": "Financial Crime team",
+    "aliases": [
+      "Financial Crime"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "team",
+    "description": "An internal governance and operational unit responsible for investigating high-risk fraud alerts escalated by the Fraud Detection Engine. The team manages SAR filing coordination, customer notification protocols, and advanced transaction blocking decisions.",
+    "context": [
+      "escalate to Financial Crime team (see [[departments]])"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_met_001",
+    "name": "Transaction Latency Threshold",
+    "aliases": [
+      "Latency"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "response_time",
+    "description": "The maximum allowable processing time for the Fraud Detection Engine to evaluate and score each transaction. This SLA ensures real-time risk assessment without disrupting customer payment flows, capped at under 100 milliseconds per transaction.",
+    "context": [
+      "Latency: <100ms per transaction"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_met_002",
+    "name": "Fraud Detection Rate",
+    "aliases": [
+      "Detection Rate"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "A key performance indicator measuring the system's accuracy in identifying actual fraudulent activity. The target requires a minimum detection rate of 97% or higher to maintain effective fraud prevention standards.",
+    "context": [
+      "Detection Rate: 97%+"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_met_003",
+    "name": "False Positive Rate Limit",
+    "aliases": [
+      "False Positive Rate"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "risk_threshold",
+    "description": "An operational constraint limiting the frequency of incorrectly flagged legitimate transactions. The system must maintain a false positive rate below 2% to prevent unnecessary customer friction and operational overhead.",
+    "context": [
+      "False Positive Rate: <2%"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_met_004",
+    "name": "Monthly Fraud Prevention Value",
+    "aliases": [
+      "Monthly fraud prevented"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "A financial KPI tracking the monetary value of fraudulent transactions successfully blocked by the FDE. The target range indicates monthly savings between £45,000 and £80,000 through proactive risk intervention.",
+    "context": [
+      "Monthly fraud prevented: ~£45k–£80k"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_rul_001",
+    "name": "Large Transaction Amount Rule",
+    "aliases": [
+      ">£5,000 threshold"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A hard operational constraint that flags any single transaction exceeding £5,000 for enhanced risk scoring and potential manual review within the FDE workflow.",
+    "context": [
+      "Large transaction amount (>£5,000)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_rul_002",
+    "name": "Geographic Anomaly Rule",
+    "aliases": [
+      "Cross-border velocity"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A detection rule that triggers alerts when a transaction occurs in a different country within a 2-hour window, identifying potential card skimming or account takeover attempts.",
+    "context": [
+      "Geographic anomaly (transaction in different country within 2 hours)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_rul_003",
+    "name": "Transaction Velocity Check",
+    "aliases": [
+      "Velocity checks"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "An operational limit that flags accounts executing more than 5 transactions within a single hour, preventing rapid sequential fraud or automated bot attacks.",
+    "context": [
+      "Velocity checks (>5 transactions within 1 hour)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_rul_004",
+    "name": "Unusual Beneficiary Rule",
+    "aliases": [
+      "New beneficiary rule"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A risk control that flags transfers directed to newly added beneficiaries combined with large transfer amounts, mitigating social engineering and authorized push payment fraud.",
+    "context": [
+      "Unusual beneficiary (new beneficiary + large transfer)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_rul_005",
+    "name": "Card Not Present High-Value Rule",
+    "aliases": [
+      "CNP high-value"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A specialized detection rule targeting high-value transactions conducted without physical card presence, requiring additional scrutiny due to elevated fraud exposure.",
+    "context": [
+      "Card not present (CNP) high-value transaction"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_rul_006",
+    "name": "Low Risk Escalation Protocol",
+    "aliases": [
+      "Auto-approve"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "decision_authority",
+    "description": "A governance rule dictating that transactions classified as low risk are automatically approved without requiring manual intervention or additional verification steps.",
+    "context": [
+      "Low Risk: Auto-approve"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_rul_007",
+    "name": "Medium Risk Verification Rule",
+    "aliases": [
+      "OTP verification"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "control",
+    "description": "An operational requirement mandating One-Time Password (OTP) verification for medium-risk flagged transactions to confirm customer intent before authorization.",
+    "context": [
+      "Medium Risk: Require OTP verification"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_rul_008",
+    "name": "High Risk Blocking Protocol",
+    "aliases": [
+      "Block and escalate"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A hard control requiring immediate transaction blocking, automated customer notification, and escalation to the Financial Crime team when high-risk fraud indicators are detected.",
+    "context": [
+      "High Risk: Block transaction, notify customer, escalate to Financial Crime team"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_bnk_001",
+    "name": "Transaction",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "The core banking entity representing monetary exchanges evaluated by the Fraud Detection Engine. Transactions are subjected to risk scoring, velocity checks, geographic anomaly detection, and rule-based screening before settlement.",
+    "context": [
+      "Real-time detection and prevention of fraudulent transactions",
+      "Transaction risk scoring",
+      "Velocity checks (>5 transactions within 1 hour)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_bnk_002",
+    "name": "Card",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "card",
+    "description": "A payment instrument monitored for fraud prevention within the FDE framework. The system specifically tracks card-not-present (CNP) high-value transactions and physical usage anomalies to prevent unauthorized card exploitation.",
+    "context": [
+      "Card fraud prevention",
+      "Card not present (CNP) high-value transaction"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_bnk_003",
+    "name": "Account",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "A customer financial record subject to account takeover detection and continuous risk scoring. The FDE monitors account behavior patterns to identify unauthorized access or suspicious activity flagging.",
+    "context": [
+      "Account takeover detection",
+      "Suspicious activity flagging"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_bnk_004",
+    "name": "SAR",
+    "aliases": [
+      "Suspicious Activity Report"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "sar",
+    "description": "A regulatory reporting document generated and filed through the Financial Crime System. SARs are triggered by high-risk fraud alerts identified by the FDE to satisfy anti-money laundering and financial crime compliance obligations.",
+    "context": [
+      "Financial Crime System — SAR filing",
+      "Suspicious activity flagging"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_bnk_005",
+    "name": "Fraud Alert",
+    "aliases": [
+      "Chargeback"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "fraud_alert",
+    "description": "A system-generated notification indicating potential fraudulent activity, categorized into low, medium, or high risk tiers. Alerts dictate specific escalation protocols, from auto-approval to transaction blocking and Financial Crime team review.",
+    "context": [
+      "Suspicious activity flagging",
+      "Chargeback Prediction Model",
+      "Low Risk: Auto-approve",
+      "Medium Risk: Require OTP verification"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_sys_001",
+    "name": "Payment Processing System",
+    "aliases": [
+      "PPS",
+      "PPS-001"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "payment_processor",
+    "description": "Core banking system responsible for processing customer payments and inter-bank settlements. Operates on Java microservices with a RabbitMQ message queue, deployed on AWS cloud infrastructure. Handles both real-time and overnight batch processing across multiple payment schemes.",
+    "context": [
+      "Payment Processing System (PPS)",
+      "System ID: PPS-001",
+      "Process customer payments and inter-bank settlements",
+      "Java microservices, message queue (RabbitMQ)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_sys_002",
+    "name": "Account Management System",
+    "aliases": [
+      "AMS"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "core_banking",
+    "description": "Integrated system used by the PPS to perform account validation for payment processing and transfers before execution.",
+    "context": [
+      "Account Management System (AMS) — account validation"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_sys_003",
+    "name": "Fraud Detection Engine",
+    "aliases": [
+      "FDE"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "fraud_detection",
+    "description": "Security system integrated with the PPS to perform fraud checks on transactions prior to processing and settlement.",
+    "context": [
+      "Fraud Detection Engine (FDE) — fraud check"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_sys_004",
+    "name": "Bank of England Settlement Systems",
+    "aliases": [],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "payment_processor",
+    "description": "External settlement infrastructure integrated with the PPS to finalize inter-bank settlements and ensure regulatory compliance.",
+    "context": [
+      "Bank of England Settlement Systems (external)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_sys_005",
+    "name": "Treasury System",
+    "aliases": [],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "analytics",
+    "description": "Internal system integrated with the PPS to handle reconciliation of payment transactions and manage treasury reporting.",
+    "context": [
+      "Treasury System — reconciliation"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_org_001",
+    "name": "Bank of England",
+    "aliases": [],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "external_agency",
+    "description": "External regulatory and settlement authority whose infrastructure is integrated with the PPS for inter-bank settlement finalization.",
+    "context": [
+      "Bank of England Settlement Systems (external)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_bnk_001",
+    "name": "Standing Order",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "standing_order",
+    "description": "Payment instruction processed by the PPS that enables customers to schedule recurring transfers to a specified account.",
+    "context": [
+      "Standing order processing"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_bnk_002",
+    "name": "Direct Debit",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "direct_debit",
+    "description": "Payment method processed by the PPS allowing authorized third parties to collect variable or fixed amounts from a customer's account.",
+    "context": [
+      "Direct debit processing"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_bnk_003",
+    "name": "Faster Payments Service",
+    "aliases": [
+      "FPS"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "Real-time payment scheme supported by the PPS, enabling immediate transfers with a maximum limit of £1 million per transaction.",
+    "context": [
+      "Faster Payments Service (FPS) — Real-time, up to £1M",
+      "FPS: Real-time (immediate)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_bnk_004",
+    "name": "Bankers Automated Clearing Services",
+    "aliases": [
+      "BACS"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "High-volume, overnight payment scheme processed by the PPS for bulk transfers and direct debits.",
+    "context": [
+      "BACS — Overnight, high volume",
+      "BACS Submission: 20:00 GMT daily"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_bnk_005",
+    "name": "Clearing House Automated Payment System",
+    "aliases": [
+      "CHAPS"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "High-value, real-time payment scheme processed by the PPS during operating hours for same-day settlement.",
+    "context": [
+      "CHAPS — High-value, real-time",
+      "CHAPS: Real-time (during hours)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_bnk_006",
+    "name": "Internal Transfer",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "Payment method enabling customers to move funds between accounts within the same bank, processed through the PPS.",
+    "context": [
+      "Internal transfers (same bank)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_met_001",
+    "name": "FPS Processing Time SLA",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "Performance target requiring Faster Payments Service transactions to be processed in under 15 minutes.",
+    "context": [
+      "FPS processing: <15 minutes"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_met_002",
+    "name": "BACS Processing Time SLA",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "Performance target requiring BACS transactions to be completed by the next business day.",
+    "context": [
+      "BACS processing: Next business day"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_met_003",
+    "name": "Payment Success Rate",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "Operational KPI targeting a 99.95% success rate for all payment transactions processed by the system.",
+    "context": [
+      "Success rate: 99.95%"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_met_004",
+    "name": "Daily Failed Transaction Limit",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "risk_threshold",
+    "description": "Operational limit capping failed transactions to fewer than 5 per day across all payment schemes.",
+    "context": [
+      "Failed transactions: <5 per day"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_rul_001",
+    "name": "FPS Transaction Value Limit",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "Hard constraint limiting Faster Payments Service transactions to a maximum value of £1 million per transaction.",
+    "context": [
+      "Faster Payments Service (FPS) — Real-time, up to £1M"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_rul_002",
+    "name": "BACS Daily Submission Deadline",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "operational_limit",
+    "description": "Operational rule mandating that all BACS batch submissions must be completed by 20:00 GMT daily.",
+    "context": [
+      "BACS Submission: 20:00 GMT daily"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_rul_003",
+    "name": "CHAPS Real-Time Processing Window",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "operational_limit",
+    "description": "Governance rule restricting CHAPS real-time processing to bank operating hours only.",
+    "context": [
+      "CHAPS: Real-time (during hours)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_001",
+    "name": "Data Warehouse",
+    "aliases": [
+      "DW",
+      "DW-001"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "analytics",
+    "description": "Centralized analytics and business intelligence platform operating on AWS Redshift and Apache Spark. Utilizes a star schema data model with real-time updates for hot data and nightly batch processing for historical data. Serves as the foundational data layer for multiple specialized marts and executive dashboards.",
+    "context": [
+      "System ID: DW-001",
+      "Purpose: Centralized analytics and business intelligence",
+      "Technology: AWS Redshift, Apache Spark",
+      "Data Model: Star schema (facts + dimensions)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_002",
+    "name": "Customer Mart",
+    "aliases": [
+      "Customer Mart"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "analytics",
+    "description": "Specialized data mart within the Data Warehouse focused on customer analytics. Stores structured customer data comprising 500 customers across 50 attributes to support analytical queries and reporting.",
+    "context": [
+      "Key Data Marts:",
+      "- **Customer Mart:** 500 customers × 50 attributes"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_003",
+    "name": "Account Mart",
+    "aliases": [
+      "Account Mart"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "analytics",
+    "description": "Dedicated data mart housing account-level information. Maintains records for 800 accounts with associated attributes to support analytical queries and reporting.",
+    "context": [
+      "- **Account Mart:** 800 accounts × attributes"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_004",
+    "name": "Transaction Mart",
+    "aliases": [
+      "Transaction Mart"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "analytics",
+    "description": "Data mart designed to store and process transactional data. Handles a volume of over 2,000 monthly transactions for analytical processing and reporting.",
+    "context": [
+      "- **Transaction Mart:** 2,000+ monthly transactions"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_005",
+    "name": "Product Mart",
+    "aliases": [
+      "Product Mart"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "analytics",
+    "description": "Analytics data mart focused on banking products. Stores performance metrics for 5 distinct products to enable product-level analysis and reporting.",
+    "context": [
+      "- **Product Mart:** 5 products × performance metrics"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_006",
+    "name": "Compliance Mart",
+    "aliases": [
+      "Compliance Mart"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "analytics",
+    "description": "Specialized data mart dedicated to regulatory and compliance data. Aggregates KYC, AML, and complaints data to support compliance reporting and risk monitoring.",
+    "context": [
+      "- **Compliance Mart:** KYC, AML, complaints data"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_007",
+    "name": "Executive Dashboard",
+    "aliases": [
+      "Executive Dashboard"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "analytics",
+    "description": "Reporting interface providing daily key performance indicators for executive oversight and strategic decision-making.",
+    "context": [
+      "**Dashboards & Reports:**",
+      "- Executive Dashboard (daily KPIs)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_008",
+    "name": "Product Performance Dashboard",
+    "aliases": [
+      "Product Performance Dashboard"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "analytics",
+    "description": "Analytical reporting tool focused on tracking and visualizing the performance metrics of banking products.",
+    "context": [
+      "- Product Performance Dashboard"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_009",
+    "name": "Fraud Detection Dashboard",
+    "aliases": [
+      "Fraud Detection Dashboard"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "fraud_detection",
+    "description": "Analytics dashboard designed to monitor, analyze, and report on fraud-related activities and alerts within the bank's systems.",
+    "context": [
+      "- Fraud Detection Dashboard"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_010",
+    "name": "Compliance & Risk Dashboard",
+    "aliases": [
+      "Compliance & Risk Dashboard"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "analytics",
+    "description": "Reporting interface focused on monitoring regulatory compliance status and organizational risk exposure through aggregated data visualizations.",
+    "context": [
+      "- Compliance & Risk Dashboard"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_011",
+    "name": "Customer Analytics Dashboard",
+    "aliases": [
+      "Customer Analytics Dashboard"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "analytics",
+    "description": "Analytical reporting tool dedicated to tracking customer behavior, trends, and metrics for business intelligence purposes.",
+    "context": [
+      "- Customer Analytics Dashboard"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_rul_001",
+    "name": "Data Retention Policy",
+    "aliases": [
+      "Retention Policy",
+      "Hot/Warm/Cold Data Lifecycle"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "data_rule",
+    "description": "Governs the storage lifecycle and processing frequency of data based on its age. Mandates real-time updates for hot data (3 months), nightly batch processing for warm data (1–3 years), and S3 archiving for cold data (3+ years).",
+    "context": [
+      "**Retention Policy:**",
+      "- Hot data (3 months): Real-time",
+      "- Warm data (1–3 years): Nightly batch",
+      "- Cold data (3+ years): Archive (S3)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_001",
+    "name": "Daily Executive KPI Reporting Frequency",
+    "aliases": [
+      "Daily KPIs",
+      "Executive Dashboard KPIs"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "Operational target requiring the delivery of key performance indicators on a daily basis through the Executive Dashboard.",
+    "context": [
+      "- Executive Dashboard (daily KPIs)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_002",
+    "name": "Monthly Transaction Processing Capacity",
+    "aliases": [
+      "Transaction Mart Volume",
+      "2,000+ monthly transactions"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "Quantitative target defining the data warehouse's transaction mart capacity to handle over 2,000 transactions per month.",
+    "context": [
+      "- **Transaction Mart:** 2,000+ monthly transactions"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_003",
+    "name": "Customer Data Profile Size",
+    "aliases": [
+      "Customer Mart Attributes",
+      "50 attributes per customer"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "Target defining the data mart's storage scope for customer profiles, specifying 500 customers with 50 attributes each.",
+    "context": [
+      "- **Customer Mart:** 500 customers × 50 attributes"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_004",
+    "name": "Account Data Profile Size",
+    "aliases": [
+      "Account Mart Attributes",
+      "800 accounts"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "Target defining the data mart's storage scope for account records, specifying 800 accounts with associated attributes.",
+    "context": [
+      "- **Account Mart:** 800 accounts × attributes"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_005",
+    "name": "Product Performance Data Scope",
+    "aliases": [
+      "Product Mart Metrics",
+      "5 products metrics"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "Target defining the product mart's analytical scope, covering performance metrics for 5 distinct banking products.",
+    "context": [
+      "- **Product Mart:** 5 products × performance metrics"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_010_sys_001",
+    "name": "Document Management System",
+    "aliases": [
+      "DMS",
+      "DMS-001"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "document_management",
+    "description": "A supporting technology system responsible for storing and managing internal bank documentation, including policies, standard operating procedures, communication templates, reports, and audit records. The platform is implemented using Elasticsearch and S3 infrastructure to support document lifecycle operations.",
+    "context": [
+      "Store and manage documents (policies, procedures, templates)",
+      "System ID: DMS-001",
+      "Technology: Elasticsearch, S3"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_010",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_011_sys_001",
+    "name": "Customer Relationship Management (CRM)",
+    "aliases": [
+      "CRM-001",
+      "Salesforce CRM"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "crm",
+    "description": "A cloud-based SaaS platform deployed on Salesforce infrastructure, designed for customer interaction and relationship tracking. It manages customer contact information, interaction history, complaints, marketing campaigns, and feedback, while integrating with core banking and communication systems.",
+    "context": [
+      "Customer Relationship Management (CRM)",
+      "System ID: CRM-001",
+      "Purpose: Customer interaction and relationship tracking",
+      "Integration: Account Management System (AMS)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_011",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_011_sys_002",
+    "name": "Account Management System",
+    "aliases": [
+      "AMS"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "core_banking",
+    "description": "A banking system integrated with the CRM platform to support account data synchronization and customer relationship management workflows.",
+    "context": [
+      "Integration:",
+      "Account Management System (AMS)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_011",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_011_sys_003",
+    "name": "Email System",
+    "aliases": [],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "communication_channel",
+    "description": "A messaging platform integrated with the CRM to capture and track customer email interactions as part of the relationship history.",
+    "context": [
+      "Email system"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_011",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_011_sys_004",
+    "name": "Phone System",
+    "aliases": [],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "communication_channel",
+    "description": "A telephony platform integrated with the CRM to log and manage customer phone interactions within the relationship tracking workflow.",
+    "context": [
+      "Phone system"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_011",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_012_sys_001",
+    "name": "Reporting & Regulatory System",
+    "aliases": [
+      "RRS",
+      "RRS-001"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "regulatory_reporting",
+    "description": "An on-premises technology system built using Python and an XBRL toolkit, designed to generate and format regulatory reports for submission to UK financial authorities. It serves as the central platform for compliance reporting across multiple regulatory domains.",
+    "context": [
+      "#### Reporting & Regulatory System",
+      "**System ID:** RRS-001",
+      "**Purpose:** Generate regulatory reports for FCA/PRA",
+      "**Technology:** Python, XBRL toolkit"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_012",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_012_org_001",
+    "name": "Financial Conduct Authority / Prudential Regulation Authority",
+    "aliases": [
+      "FCA",
+      "PRA"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "regulatory_body",
+    "description": "UK financial regulatory authorities that receive the bank's generated regulatory reports. They oversee compliance with client asset safeguarding, capital adequacy, financial disclosure, and anti-money laundering standards.",
+    "context": [
+      "**Purpose:** Generate regulatory reports for FCA/PRA"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_012",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_012_bnk_001",
+    "name": "Client Assets Sourcebook Report",
+    "aliases": [
+      "CASS",
+      "CASS report"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "regulatory_report",
+    "description": "A regulatory reporting concept detailing client asset holdings and safeguarding measures as mandated by the Client Assets sourcebook. It ensures compliance with prudential rules regarding customer fund segregation and protection.",
+    "context": [
+      "- CASS (Client Assets sourcebook) report"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_012",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_012_bnk_002",
+    "name": "Capital Requirement and Exposure Report",
+    "aliases": [
+      "COREP",
+      "COREP report"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "regulatory_report",
+    "description": "A regulatory reporting concept capturing the bank's capital adequacy, risk exposures, and leverage ratios. It provides regulators with standardized data on the institution's financial resilience and risk management framework.",
+    "context": [
+      "- COREP (Capital requirement and Exposure report)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_012",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_012_bnk_003",
+    "name": "Financial Report",
+    "aliases": [
+      "FINREP",
+      "FINREP report"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "regulatory_report",
+    "description": "A standardized financial reporting concept used to disclose the institution's financial position, performance, and cash flows. It serves as a core disclosure mechanism for regulatory oversight of the bank's economic health.",
+    "context": [
+      "- FINREP (Financial report)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_012",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_012_bnk_004",
+    "name": "Anti-Money Laundering Suspicious Activity Report",
+    "aliases": [
+      "AML reports",
+      "Suspicious activity reports"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "aml_report",
+    "description": "Regulatory reporting documents generated to disclose suspicious transactions and activities in compliance with anti-money laundering obligations. They enable regulators to monitor and investigate potential financial crime within the banking sector.",
+    "context": [
+      "- AML reports (suspicious activity)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_012",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_013_sys_001",
+    "name": "Bank of England Settlement Systems",
+    "aliases": [
+      "BoE Settlement",
+      "BoESS"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "payment_processor",
+    "description": "External settlement infrastructure operated by the Bank of England, serving as a critical integration point for interbank fund transfers and central bank liquidity management. It enables FirstUK Bank to execute high-value settlements and maintain compliance with central bank operational requirements.",
+    "context": [
+      "Bank of England Settlement Systems"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_013",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_013_org_001",
+    "name": "Payment Scheme Operators",
+    "aliases": [
+      "FPS",
+      "BACS",
+      "CHAPS"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "external_agency",
+    "description": "External entities and networks responsible for operating UK payment schemes, including Faster Payments, BACS, and CHAPS. These operators facilitate domestic fund transfers and dictate the technical and operational standards FirstUK Bank must adhere to.",
+    "context": [
+      "Payment Scheme Operators (FPS, BACS, CHAPS)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_013",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_013_org_002",
+    "name": "Regulatory Authorities",
+    "aliases": [
+      "FCA",
+      "PRA"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "regulatory_body",
+    "description": "External UK financial regulators overseeing banking compliance, prudential standards, and market conduct. Specifically the Financial Conduct Authority and Prudential Regulation Authority, they enforce reporting obligations and audit requirements across FirstUK Bank's operations.",
+    "context": [
+      "Regulatory Authorities (FCA, PRA)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_013",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_013_sys_002",
+    "name": "IBP Portal",
+    "aliases": [
+      "Internal Business Portal",
+      "IBP"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "internet_banking",
+    "description": "Web-based customer or employee-facing portal providing digital access to banking services, account information, and self-service functionalities. It acts as a primary channel for initiating requests and retrieving real-time data through the API gateway.",
+    "context": [
+      "IBP Portal"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_013",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_013_sys_003",
+    "name": "Mobile App",
+    "aliases": [
+      "Mobile Application",
+      "Mobile Banking App"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "mobile_banking",
+    "description": "Customer-facing mobile application enabling digital banking interactions, transaction initiation, and service delivery via smartphones. It routes requests through the central API gateway to backend processing systems for secure execution.",
+    "context": [
+      "Mobile App"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_013",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_013_sys_004",
+    "name": "Branch Systems",
+    "aliases": [
+      "Branch Infrastructure",
+      "Teller Systems"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "core_banking",
+    "description": "Physical branch infrastructure supporting in-person customer transactions, teller operations, and localized account management workflows. It integrates with backend systems to ensure real-time data synchronization across physical touchpoints.",
+    "context": [
+      "Branch Systems"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_013",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_013_sys_005",
+    "name": "API Gateway",
+    "aliases": [
+      "Kong",
+      "Kong API Gateway"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "api_gateway",
+    "description": "Centralized middleware platform powered by Kong that routes, secures, rate-limits, and manages API traffic between customer channels and backend services. It serves as the primary architectural control plane for all inbound and outbound system communications.",
+    "context": [
+      "API Gateway\n(Kong)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_013",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_013_sys_006",
+    "name": "Account Management System",
+    "aliases": [
+      "AMS"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "core_banking",
+    "description": "Core system responsible for maintaining customer account data, balances, lifecycle management, and product configuration within the banking ecosystem. It acts as the authoritative source of truth for account states and interacts with payment and fraud systems.",
+    "context": [
+      "AMS"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_013",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_013_sys_007",
+    "name": "Fraud Detection Engine",
+    "aliases": [
+      "Fraud Engine",
+      "FDE"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "fraud_detection",
+    "description": "Specialized analytical system monitoring transactions and behavioral patterns to identify, flag, and prevent fraudulent activities in real-time. It leverages data from core systems and external feeds to enforce risk controls and trigger alerts.",
+    "context": [
+      "Fraud Detection Engine"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_013",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_013_sys_008",
+    "name": "Payment Processing System",
+    "aliases": [
+      "PPS",
+      "Payment Engine"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "payment_processor",
+    "description": "Backend system handling the execution, clearing, reconciliation, and settlement of customer payment instructions across various channels. It coordinates with external scheme operators and settlement systems to ensure timely fund movement.",
+    "context": [
+      "Payment Processing System"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_013",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_013_sys_009",
+    "name": "Data Warehouse",
+    "aliases": [
+      "DW",
+      "Enterprise Data Warehouse"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "database",
+    "description": "Centralized repository aggregating structured data from various bank systems for reporting, analytics, and business intelligence operations. It supports strategic decision-making by providing a unified view of customer, transaction, and operational metrics.",
+    "context": [
+      "Data Warehouse"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_013",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_014_sys_001",
+    "name": "Account APIs",
+    "aliases": [
+      "API Catalogue"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "api_gateway",
+    "description": "A digital platform exposing RESTful endpoints for account management operations, including creation, detail retrieval, balance tracking, transaction recording, and recurring payment configuration.",
+    "context": [
+      "## API Catalogue",
+      "### Account APIs"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_014",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_014_bnk_001",
+    "name": "account",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "A core banking entity representing a customer's financial holding, managed through dedicated API endpoints for creation, detail retrieval, and balance tracking.",
+    "context": [
+      "/accounts | POST | Create account",
+      "/accounts/{id} | GET | Get account details"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_014",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_014_bnk_002",
+    "name": "transaction",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "A financial movement recorded within an account, accessible via API for listing and internal recording purposes.",
+    "context": [
+      "/accounts/{id}/transactions | GET | List transactions",
+      "/accounts/{id}/transactions | POST | Record transaction"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_014",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_014_bnk_003",
+    "name": "standing-order",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "standing_order",
+    "description": "A pre-authorized recurring payment instruction linked to an account, configurable and retrievable through dedicated API endpoints.",
+    "context": [
+      "/accounts/{id}/standing-orders | GET/POST | Standing orders"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_014",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_014_bnk_004",
+    "name": "direct-debit",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "direct_debit",
+    "description": "A payment authorization mechanism allowing third-party collection from an account, managed via specific API endpoints.",
+    "context": [
+      "/accounts/{id}/direct-debits | GET/POST | Direct debits"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_014",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_014_rul_001",
+    "name": "API Key + JWT Authentication Requirement",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "Mandatory dual authentication protocol required for account creation, enforcing both an API Key and a JSON Web Token to ensure secure access control.",
+    "context": [
+      "/accounts | POST | Create account | API Key + JWT"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_014",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_014_rul_002",
+    "name": "JWT-Only Access Control",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "Required authentication protocol for retrieving account details, balances, transactions, and managing standing orders or direct debits.",
+    "context": [
+      "/accounts/{id} | GET | Get account details | JWT",
+      "/accounts/{id}/balance | GET | Get balance | JWT"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_014",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_014_rul_003",
+    "name": "Internal-Only Transaction Recording",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "Restricts transaction recording operations to internal systems only, requiring an API Key without external JWT validation.",
+    "context": [
+      "/accounts/{id}/transactions | POST | Record transaction | API Key (internal)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_014",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_015_sys_001",
+    "name": "Payment APIs",
+    "aliases": [
+      "Payment API Endpoints"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "api_gateway",
+    "description": "A digital application providing a set of endpoints for processing FPS and BACS transfers, as well as validating payments. The system enforces JWT-based authentication across all listed interfaces.",
+    "context": [
+      "### Payment APIs",
+      "| `/payments/fps` | POST | FPS transfer | JWT |",
+      "| `/payments/bacs` | POST | BACS transfer | JWT |",
+      "| `/payments/validate` | POST | Validate payment | JWT |"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_015",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_016_sys_001",
+    "name": "Customer APIs",
+    "aliases": [
+      "Customer API Suite",
+      "CustAPI"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "api_gateway",
+    "description": "A centralized API suite exposing RESTful endpoints for customer lifecycle management and regulatory compliance. It serves as the primary integration layer enabling internal systems to create records, retrieve details, and execute identity and screening checks.",
+    "context": [
+      "### Customer APIs",
+      "Create customer",
+      "Get customer details"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_016",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_016_bnk_001",
+    "name": "customer",
+    "aliases": [
+      "Customer",
+      "Party"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "customer",
+    "description": "The core party entity representing a banking relationship. The system supports dedicated endpoints for creating new customer records and retrieving their detailed information.",
+    "context": [
+      "Create customer",
+      "Get customer details"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_016",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_016_bnk_002",
+    "name": "KYC verification",
+    "aliases": [
+      "Know Your Customer",
+      "KYC"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "kyc_verification",
+    "description": "A mandatory compliance process for verifying the identity of a customer. It is exposed via a dedicated API endpoint that requires internal authentication to ensure secure processing of onboarding data.",
+    "context": [
+      "KYC verification",
+      "/customers/{id}/kyc"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_016",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_016_bnk_003",
+    "name": "AML screening",
+    "aliases": [
+      "Anti-Money Laundering Screening",
+      "AML Check"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "aml_screening",
+    "description": "A regulatory compliance check designed to screen customer data against sanctions and adverse lists. The process is accessible through a specific API endpoint secured by an internal API key to enforce data protection standards.",
+    "context": [
+      "AML screening",
+      "/customers/{id}/aml-screening"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_016",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_016_rul_001",
+    "name": "API Access Control Policy",
+    "aliases": [
+      "Authentication Requirement",
+      "Auth Constraint"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "Defines the mandatory authentication mechanisms required to interact with the Customer APIs. Standard customer data access mandates JWT or combined API Key + JWT tokens, while compliance-related endpoints are strictly restricted to internal API Keys only.",
+    "context": [
+      "API Key + JWT",
+      "JWT",
+      "API Key (internal)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_016",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_017_sys_001",
+    "name": "Card APIs",
+    "aliases": [
+      "Cards API"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "api_gateway",
+    "description": "A digital interface providing programmatic endpoints for managing card lifecycle operations. The system enforces security via JSON Web Token (JWT) authentication and supports POST requests to lock, unlock, or replace cards.",
+    "context": [
+      "### Card APIs",
+      "/cards/{id}/lock | POST | Lock card | JWT",
+      "/cards/{id}/unlock | POST | Unlock card | JWT"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_017",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_017_bnk_001",
+    "name": "Card",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "card",
+    "description": "A payment instrument subject to lifecycle management operations including locking, unlocking, and replacement. Digital interfaces govern how the bank controls access and issues replacements for this asset.",
+    "context": [
+      "Lock card",
+      "Unlock card",
+      "Replace card"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_017",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_018_sys_001",
+    "name": "Fraud APIs",
+    "aliases": [
+      "Fraud API Suite"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "api_gateway",
+    "description": "Internal API suite providing endpoints for scoring transactions and listing fraud alerts, secured via internal authentication mechanisms.",
+    "context": [
+      "### Fraud APIs",
+      "| `/fraud/score` | POST | Score transaction | API Key (internal) |",
+      "| `/fraud/alerts` | GET | List alerts | API Key (internal) |"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_018",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_018_bnk_001",
+    "name": "Transaction",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "Core banking event evaluated for fraud risk through the scoring endpoint.",
+    "context": [
+      "Score transaction"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_018",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_018_bnk_002",
+    "name": "Fraud Alert",
+    "aliases": [
+      "alerts"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "fraud_alert",
+    "description": "System-generated records of suspicious activity that can be retrieved via the alerts listing endpoint.",
+    "context": [
+      "List alerts"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_018",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_018_rul_001",
+    "name": "Internal API Key Authentication Constraint",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "Mandatory authentication control requiring an internal API key to access all fraud-related endpoints.",
+    "context": [
+      "API Key (internal)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_018",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_019_sys_001",
+    "name": "Reporting APIs",
+    "aliases": [],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "api_gateway",
+    "description": "Internal-facing application programming interface suite designed to serve reporting endpoints for customer, transaction, and compliance data. Enforces strict internal-only access controls via API key authentication to secure sensitive reporting functions.",
+    "context": [
+      "Reporting APIs",
+      "API Key (internal)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_019",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_019_bnk_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "customer",
+    "description": "Core banking ontology entity representing the party whose data is extracted and formatted for reporting via the /reports/customers endpoint.",
+    "context": [
+      "/reports/customers",
+      "Customer report"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_019",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_019_bnk_002",
+    "name": "Transaction",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "Core banking ontology entity representing financial events whose data is extracted and formatted for reporting via the /reports/transactions endpoint.",
+    "context": [
+      "/reports/transactions",
+      "Transaction report"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_019",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_019_rul_001",
+    "name": "Internal API Key Authentication Constraint",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "Operational security rule mandating that all Reporting API endpoints require valid internal API key authentication to authorize requests and restrict access to authorized systems only.",
+    "context": [
+      "Auth",
+      "API Key (internal)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_019",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_020_sys_001",
+    "name": "Apache Kafka",
+    "aliases": [
+      "Kafka"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "message_queue",
+    "description": "The central asynchronous message queue infrastructure used for event-driven integration across FirstUK Bank's systems, facilitating communication between core banking, payment processing, fraud detection, and analytics platforms.",
+    "context": [
+      "Message Queue: Apache Kafka",
+      "Event-Driven Integration (Asynchronous)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_020",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_020_sys_002",
+    "name": "Internet Banking Platform",
+    "aliases": [
+      "IBP"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "internet_banking",
+    "description": "The customer-facing digital channel through which customers initiate fund transfers, serving as the primary trigger for the downstream event-driven processing workflow.",
+    "context": [
+      "Customer initiates transfer via IBP",
+      "transfer.initiated"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_020",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_020_sys_003",
+    "name": "Payment Processing System",
+    "aliases": [
+      "PPS"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "payment_processor",
+    "description": "Core system responsible for validating and processing customer transfer requests, emitting events upon initiation and completion of transactions.",
+    "context": [
+      "PPS validates transfer → `transfer.initiated` event",
+      "If approved: PPS processes → `transfer.completed` event"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_020",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_020_sys_004",
+    "name": "Fraud Detection Engine",
+    "aliases": [
+      "FDE"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "fraud_detection",
+    "description": "Security system that evaluates transfer events for potential fraudulent activity, scoring risk and determining whether transactions proceed to processing.",
+    "context": [
+      "FDE checks fraud → `fraud.scored` event",
+      "`fraud.alert` — Fraud detection alert"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_020",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_020_sys_005",
+    "name": "Account Management System",
+    "aliases": [
+      "AMS"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "core_banking",
+    "description": "System responsible for maintaining customer account balances, updating them in real-time following approved transactions, and emitting balance change events.",
+    "context": [
+      "AMS updates balance → `balance.updated` event",
+      "`account.created` — New account opened"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_020",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_020_sys_006",
+    "name": "Data Warehouse",
+    "aliases": [
+      "DW"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "analytics",
+    "description": "Centralized data repository that ingests processed transaction and account events to enable analytical reporting, with a defined latency for data availability.",
+    "context": [
+      "DW updates data → analytics available in 5 min",
+      "`transaction.recorded` — Transaction completed"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_020",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_020_bnk_001",
+    "name": "Account",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "Core banking entity representing a customer's financial holding, tracked through lifecycle events including creation and closure within the event-driven architecture.",
+    "context": [
+      "`account.created` — New account opened",
+      "`account.closed` — Account closed"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_020",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_020_bnk_002",
+    "name": "Transaction",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "Financial movement recorded upon completion, serving as a key event trigger that propagates through the payment processing and fraud detection systems.",
+    "context": [
+      "`transaction.recorded` — Transaction completed",
+      "`transfer.completed` event"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_020",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_020_bnk_003",
+    "name": "Fraud Alert",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "fraud_alert",
+    "description": "Security notification generated when suspicious activity is detected, triggering risk scoring and potential transaction blocking within the integration workflow.",
+    "context": [
+      "`fraud.alert` — Fraud detection alert",
+      "FDE checks fraud → `fraud.scored` event"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_020",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_020_bnk_004",
+    "name": "KYC Verification",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "kyc_verification",
+    "description": "Compliance process for verifying customer identity, tracked as a completed event within the asynchronous message queue architecture.",
+    "context": [
+      "`kyc.completed` — KYC verification done",
+      "Event-Driven Integration (Asynchronous)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_020",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_020_bnk_005",
+    "name": "Standing Order",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "standing_order",
+    "description": "Recurring payment instruction executed automatically, with its processing status tracked and emitted as an event in the system.",
+    "context": [
+      "`standing-order.processed` — Standing order executed",
+      "Event-Driven Integration (Asynchronous)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_020",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_020_met_001",
+    "name": "Analytics Data Availability Latency",
+    "aliases": [
+      "DW update latency",
+      "5 min analytics availability"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "response_time",
+    "description": "Maximum allowable time for processed data to be ingested into the data warehouse and become available for analytical querying, specified as a 5-minute threshold.",
+    "context": [
+      "DW updates data → analytics available in 5 min",
+      "analytics available in 5 min"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_020",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_021_sys_001",
+    "name": "Kong",
+    "aliases": [],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "api_gateway",
+    "description": "Central API gateway responsible for managing authentication, rate limiting, and monitoring across synchronous integration channels. It serves as the primary control plane for all external and internal API traffic within the bank's digital ecosystem.",
+    "context": [
+      "**API Gateway:** Kong (manages authentication, rate limiting, monitoring)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_021",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_021_met_002",
+    "name": "RESTful API Endpoint Count",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "Quantifies the total number of exposed synchronous integration endpoints available for customer and internal service access. This metric establishes the current scale of the bank's API surface area for capacity planning.",
+    "context": [
+      "**Endpoints:** 45+ RESTful API endpoints (see above)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_021",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_021_sys_003",
+    "name": "JWT Authentication",
+    "aliases": [
+      "JSON Web Token"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "authentication_protocol",
+    "description": "Session-based authentication protocol applied to customer-facing API integrations. It ensures secure identity verification while maintaining stateful session management for retail banking users.",
+    "context": [
+      "- JWT (session-based, for customers)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_021",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_021_sys_004",
+    "name": "API Key Authentication",
+    "aliases": [],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "authentication_protocol",
+    "description": "Credential-based authentication method designated for internal service-to-service communications. It enforces strict access controls between backend systems without requiring interactive user sessions.",
+    "context": [
+      "- API Key (for internal services)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_021",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_021_sys_005",
+    "name": "OAuth 2.0",
+    "aliases": [],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "authentication_protocol",
+    "description": "Standardized authorization framework planned for future third-party integrations. It will enable secure delegated access for external partners and fintech ecosystems.",
+    "context": [
+      "- OAuth 2.0 (future: for third-party integrations)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_021",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_sys_001",
+    "name": "FirstUK Production Database",
+    "aliases": [
+      "firstuk_prod",
+      "Primary Database"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "database",
+    "description": "The primary PostgreSQL relational database serving as the central data store for FirstUK Bank's core banking operations. It hosts critical schemas for customer, account, transaction, and compliance data, supporting high-volume operational queries and historical reporting.",
+    "context": [
+      "### Primary Database (PostgreSQL)",
+      "**Database:** `firstuk_prod`"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_sys_002",
+    "name": "Standby Database",
+    "aliases": [
+      "replica",
+      "secondary database"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "database",
+    "description": "A continuously replicated secondary database instance designed to ensure high availability and support disaster recovery operations. It maintains a synchronized copy of the primary database to minimize service disruption during failover events.",
+    "context": [
+      "- Continuous replication to standby database"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_001",
+    "name": "Account",
+    "aliases": [
+      "accounts"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account",
+    "description": "Represents individual and joint account records stored within the primary database schema. It tracks customer financial positions, balances, and lifecycle states for operational and reporting purposes.",
+    "context": [
+      "`public.accounts` — Account records (800 records)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_002",
+    "name": "Customer",
+    "aliases": [
+      "customers"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "customer",
+    "description": "Stores core customer identification and profile data required for banking relationships and regulatory compliance. It serves as the foundational party entity linked to accounts, transactions, and cards.",
+    "context": [
+      "`public.customers` — Customer records (500 records)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_003",
+    "name": "Transaction",
+    "aliases": [
+      "transactions"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "transaction",
+    "description": "Captures detailed transactional activity logs, processing a volume exceeding 2,000 records per month. It maintains chronological financial event data for historical analysis, reconciliation, and customer reporting.",
+    "context": [
+      "`public.transactions` — Transaction log (2,000+ records/month)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_004",
+    "name": "Account Holder",
+    "aliases": [
+      "account_holders"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "account_holder",
+    "description": "Manages joint account holder relationships and ownership structures within the database schema. It defines multi-party access rights and liability allocations for shared financial products.",
+    "context": [
+      "`public.account_holders` — Joint account holders"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_005",
+    "name": "Standing Order",
+    "aliases": [
+      "standing_orders"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "standing_order",
+    "description": "Tracks recurring customer transfer instructions and scheduled payment mandates. It stores authorization details, frequency parameters, and execution history for automated fund movements.",
+    "context": [
+      "`public.standing_orders` — Recurring transfers"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_006",
+    "name": "Direct Debit",
+    "aliases": [
+      "direct_debits"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "direct_debit",
+    "description": "Records automated bill payment authorizations and recurring debit instructions for customers. It maintains mandate validity, collection schedules, and dispute statuses for utility and service payments.",
+    "context": [
+      "`public.direct_debits` — Recurring bill payments"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_007",
+    "name": "Card",
+    "aliases": [
+      "cards"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "card",
+    "description": "Stores debit card issuance details, status, and lifecycle records for the bank's payment portfolio. It tracks cardholder assignments, PIN statuses, and authorization limits.",
+    "context": [
+      "`public.cards` — Debit card records (800 cards)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_008",
+    "name": "KYC Verification",
+    "aliases": [
+      "compliance_kyc"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "kyc_verification",
+    "description": "Maintains Know Your Customer verification records and identity documentation for regulatory compliance. It stores customer due diligence results, risk ratings, and document expiry dates.",
+    "context": [
+      "`public.compliance_kyc` — KYC verification records"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_009",
+    "name": "AML Screening",
+    "aliases": [
+      "compliance_aml"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "aml_screening",
+    "description": "Holds Anti-Money Laundering screening results, watchlist checks, and compliance audit data. It records transactional risk assessments and regulatory reporting outcomes for suspicious activity monitoring.",
+    "context": [
+      "`public.compliance_aml` — AML screening records"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_010",
+    "name": "Product",
+    "aliases": [
+      "products"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "Defines the bank's core financial offerings, including their structural parameters and feature sets. It serves as the master reference for account types, interest rates, and eligibility criteria.",
+    "context": [
+      "`public.products` — Product definitions (5 products)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_met_001",
+    "name": "Recovery Point Objective (RPO)",
+    "aliases": [
+      "RPO"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "Specifies the maximum acceptable data loss window during a disaster recovery event, mandated at 15 minutes. It dictates the required frequency of database replication and backup operations to meet continuity standards.",
+    "context": [
+      "- RPO: 15 minutes"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_met_002",
+    "name": "Recovery Time Objective (RTO)",
+    "aliases": [
+      "RTO"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "Defines the maximum allowable downtime for system restoration following a disruption, set at 2 hours. It establishes the operational performance threshold for failover processes and infrastructure recovery procedures.",
+    "context": [
+      "- RTO: 2 hours"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_023_sys_001",
+    "name": "Caching Layer",
+    "aliases": [
+      "Redis"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "caching_layer",
+    "description": "A Redis-based caching infrastructure implemented to reduce underlying database load and improve overall system response times. Manages specific cache keys for account balances, customer profiles, and fraud detection rules with defined time-to-live (TTL) parameters to optimize performance while maintaining data freshness.",
+    "context": [
+      "### Caching Layer (Redis)",
+      "**Purpose:** Reduce database load, improve response times",
+      "- `account:{accountId}:balance` — Current balance (5-min TTL)",
+      "- `customer:{customerId}:profile` — Customer info (10-min TTL)",
+      "- `fraud-rules` — Fraud detection rules (1-hour TTL)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_023",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_023_met_001",
+    "name": "Cache Time-To-Live (TTL) Thresholds",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "response_time",
+    "description": "Defines the maximum lifespan for cached data entries to ensure data freshness and manage memory usage. Specifies a 5-minute TTL for account balances, a 10-minute TTL for customer profiles, and a 1-hour TTL for fraud detection rules.",
+    "context": [
+      "- `account:{accountId}:balance` — Current balance (5-min TTL)",
+      "- `customer:{customerId}:profile` — Customer info (10-min TTL)",
+      "- `fraud-rules` — Fraud detection rules (1-hour TTL)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_023",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_024_sys_001",
+    "name": "Internet Banking",
+    "aliases": [
+      "Online Banking"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "internet_banking",
+    "description": "Customer-facing digital channel for online banking services, requiring username/password combination and One-Time Password (OTP) authentication delivered via email or SMS.",
+    "context": [
+      "Internet Banking: Username/password + OTP (email/SMS)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_024",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_024_sys_002",
+    "name": "Mobile App",
+    "aliases": [
+      "Mobile Banking Application"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "mobile_banking",
+    "description": "Customer-facing mobile application for banking access, utilizing biometric verification methods such as fingerprint or facial recognition, with an optional PIN fallback.",
+    "context": [
+      "Mobile App: Biometric (fingerprint/face) + optional PIN"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_024",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_024_sys_003",
+    "name": "API Services",
+    "aliases": [
+      "Application Programming Interfaces"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "api_gateway",
+    "description": "System integration layer handling programmatic access, secured through Mutual TLS (mTLS) protocol and JSON Web Tokens (JWT) for authentication.",
+    "context": [
+      "API Services: Mutual TLS (mTLS) + JWT"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_024",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_024_sys_004",
+    "name": "LDAP/Active Directory",
+    "aliases": [
+      "Directory Service",
+      "AD"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "identity_management",
+    "description": "Centralized identity and access management platform used to authenticate internal staff and manage user credentials across the bank's infrastructure.",
+    "context": [
+      "Staff: LDAP/Active Directory"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_024",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_024_bnk_001",
+    "name": "Customer Authentication",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "security_feature",
+    "description": "The overarching security process governing how retail customers verify their identity across multiple banking channels, including digital platforms and physical branches.",
+    "context": [
+      "Customer Authentication:",
+      "Internet Banking: Username/password + OTP (email/SMS)",
+      "Mobile App: Biometric (fingerprint/face) + optional PIN",
+      "Branch: Photo ID verification"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_024",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_024_bnk_002",
+    "name": "Internal Authentication",
+    "aliases": [],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "security_feature",
+    "description": "The security framework defining authentication protocols for bank employees and administrators, leveraging directory services, cryptographic standards, and multi-factor requirements.",
+    "context": [
+      "Internal Authentication:",
+      "Staff: LDAP/Active Directory",
+      "API Services: Mutual TLS (mTLS) + JWT",
+      "Admin Access: Multi-factor authentication (MFA)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_024",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_024_rul_001",
+    "name": "Role-Based Access Control (RBAC)",
+    "aliases": [
+      "RBAC"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "control",
+    "description": "A mandatory access governance rule that restricts system permissions and data visibility strictly according to predefined user roles within the organization.",
+    "context": [
+      "Role-Based Access Control (RBAC)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_024",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_024_rul_002",
+    "name": "Attribute-Based Access Control (ABAC)",
+    "aliases": [
+      "ABAC"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "control",
+    "description": "A granular access governance rule applied specifically to sensitive operations, evaluating contextual attributes to determine authorization decisions beyond standard role assignments.",
+    "context": [
+      "Attribute-Based Access Control (ABAC) for sensitive operations"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_024",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_024_rul_003",
+    "name": "Audit Logging",
+    "aliases": [],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "A mandatory operational control requiring comprehensive logging of all system access events to ensure full traceability, accountability, and regulatory compliance.",
+    "context": [
+      "Audit logging for all access"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_024",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_025_sys_001",
+    "name": "TLS 1.3 Protocol",
+    "aliases": [
+      "TLS-1.3"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "protocol",
+    "description": "Transport Layer Security version 1.3 standard mandated as the primary encryption protocol for securing all external network connections to FirstUK Bank infrastructure.",
+    "context": [
+      "TLS 1.3 for all external connections"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_025",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_025_sys_002",
+    "name": "Mutual TLS (mTLS)",
+    "aliases": [
+      "mTLS"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "protocol",
+    "description": "Mutual authentication protocol required to secure internal service-to-service communication across FirstUK Bank's distributed infrastructure.",
+    "context": [
+      "mTLS for internal service-to-service communication"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_025",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_025_rul_001",
+    "name": "AES-256 Data Encryption Standard",
+    "aliases": [
+      "AES-256"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "Mandatory data-at-rest security requirement dictating that all database backups must be encrypted using the Advanced Encryption Standard with a 256-bit key length.",
+    "context": [
+      "AES-256 encryption for database backups"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_025",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_025_sys_003",
+    "name": "S3 Storage Infrastructure",
+    "aliases": [
+      "S3 buckets",
+      "Amazon S3"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "storage_infrastructure",
+    "description": "Cloud-based object storage system used by FirstUK Bank, required to implement mandatory encryption controls for data-at-rest compliance.",
+    "context": [
+      "Encrypted S3 buckets"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_025",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_025_sys_004",
+    "name": "Database Backup Systems",
+    "aliases": [
+      "DB Backups",
+      "Database Backups"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "database",
+    "description": "Automated backup infrastructure for FirstUK Bank databases, subject to mandatory AES-256 encryption requirements for data at rest.",
+    "context": [
+      "AES-256 encryption for database backups"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_025",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_025_sys_005",
+    "name": "File Storage Systems",
+    "aliases": [
+      "File Systems"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "infrastructure",
+    "description": "Underlying storage infrastructure for bank files, required to implement mandatory encryption controls for data-at-rest protection.",
+    "context": [
+      "Encrypted file systems"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_025",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_026_sys_001",
+    "name": "AWS Secrets Manager",
+    "aliases": [
+      "AWS SM",
+      "Secrets Manager"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "external_infrastructure",
+    "description": "Centralized cloud-based tool used to securely store, manage, and control access to sensitive configuration data. It serves as the primary repository for database credentials, API keys, TLS certificates, and integration passwords across FirstUK Bank's infrastructure.",
+    "context": [
+      "**Tool:** AWS Secrets Manager"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_026",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_026_met_001",
+    "name": "Credential Rotation SLA",
+    "aliases": [
+      "90-day rotation",
+      "Automatic rotation"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "Quantitative operational target mandating the automatic replacement of database credentials and other secrets every 90 days. This SLA ensures continuous security compliance by enforcing regular credential updates without manual intervention.",
+    "context": [
+      "**Rotation:** Automatic (90-day rotation for credentials)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_026",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_027_sys_001",
+    "name": "AWS Shield",
+    "aliases": [
+      "Shield"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "security",
+    "description": "A managed DDoS protection service integrated into FirstUK Bank's network infrastructure to automatically mitigate distributed denial-of-service attacks and ensure continuous availability of public-facing endpoints.",
+    "context": [
+      "AWS Shield (managed DDoS protection)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_027",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_027_sys_002",
+    "name": "CloudFlare",
+    "aliases": [
+      "Cloudflare",
+      "CF"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "security",
+    "description": "An optional third-party network security and performance platform available as a supplementary DDoS mitigation layer for FirstUK Bank's infrastructure when additional protection is required.",
+    "context": [
+      "CloudFlare (optional, if needed)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_027",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_027_sys_003",
+    "name": "AWS GuardDuty",
+    "aliases": [
+      "GuardDuty",
+      "AWS Threat Detection"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "threat_detection",
+    "description": "A continuous threat detection and monitoring system deployed by FirstUK Bank to identify potential security risks, supported by automated log analysis and real-time alerting workflows.",
+    "context": [
+      "AWS GuardDuty (threat detection)",
+      "Log analysis and alerting"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_027",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_027_rul_001",
+    "name": "Network Firewall Access Policy",
+    "aliases": [
+      "Firewall Rules",
+      "Ingress & Admin Controls"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "A strict operational security constraint governing network traffic and system access, mandating HTTPS-only ingress for public APIs, VPN-only connectivity for branch systems, and IP-whitelisted restrictions for administrative access.",
+    "context": [
+      "Ingress: Port 443 (HTTPS) only for public APIs",
+      "Branch systems: VPN-only access",
+      "Admin access: Restricted IP whitelist"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_027",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_027_rul_002",
+    "name": "DDoS Mitigation Protocol",
+    "aliases": [
+      "DDoS Protection Rules"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "control",
+    "description": "A mandatory security control requiring the deployment of managed DDoS protection services, with CloudFlare designated as a conditional fallback or supplementary measure based on operational needs.",
+    "context": [
+      "AWS Shield (managed DDoS protection)",
+      "CloudFlare (optional, if needed)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_027",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_027_rul_003",
+    "name": "Intrusion Detection & Alerting Protocol",
+    "aliases": [
+      "Threat Monitoring Rules"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "control",
+    "description": "An operational security rule requiring continuous log analysis and automated alerting to support threat detection capabilities, ensuring rapid response to potential network intrusions or anomalies.",
+    "context": [
+      "AWS GuardDuty (threat detection)",
+      "Log analysis and alerting"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_027",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_028_met_001",
+    "name": "Recovery Time Objective",
+    "aliases": [
+      "RTO"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "Defines the maximum acceptable duration for restoring critical systems and services following a disruption, set at 2 hours to ensure business continuity and minimize operational downtime.",
+    "context": [
+      "Recovery Time Objective (RTO) | 2 hours"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_028",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_028_met_002",
+    "name": "Recovery Point Objective",
+    "aliases": [
+      "RPO"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "Specifies the maximum tolerable period in which data might be lost from a system during a disaster, capped at 15 minutes to minimize data loss impact and maintain transactional integrity.",
+    "context": [
+      "Recovery Point Objective (RPO) | 15 minutes"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_028",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_028_met_003",
+    "name": "Backup Frequency",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "Establishes the required cadence for data protection operations, mandating daily backups combined with continuous replication to maintain data integrity and meet recovery objectives.",
+    "context": [
+      "Backup Frequency | Daily + continuous replication"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_028",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_029_sys_001",
+    "name": "Amazon S3",
+    "aliases": [
+      "S3",
+      "Simple Storage Service"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "cloud_storage",
+    "description": "AWS-managed object storage service used as the primary target for daily encrypted database backups, enforcing a strict 30-day data retention window.",
+    "context": [
+      "Daily encrypted backup to S3 (retention: 30 days)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_029",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_029_sys_002",
+    "name": "Amazon Elastic Container Registry (ECR)",
+    "aliases": [
+      "AWS ECR",
+      "ECR",
+      "Docker Registry"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "container_registry",
+    "description": "Secure cloud-based registry service used to store and manage Docker container images for application backup and deployment processes.",
+    "context": [
+      "Docker images in registry (AWS ECR)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_029",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_029_sys_003",
+    "name": "GitHub",
+    "aliases": [
+      "Git",
+      "GitHub Enterprise"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "version_control_system",
+    "description": "Git-based source code repository platform used to store, track, and back up application source code and configuration files.",
+    "context": [
+      "Source code in Git (GitHub)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_029",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_029_sys_004",
+    "name": "Database Standby Replication Target",
+    "aliases": [
+      "standby",
+      "replica"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "database_standby",
+    "description": "Real-time replicated database instance maintained to ensure continuous data synchronization and immediate failover capability for disaster recovery.",
+    "context": [
+      "Continuous replication to standby (real-time)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_029",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_029_met_001",
+    "name": "Daily Database Backup Retention Period",
+    "aliases": [
+      "retention: 30 days",
+      "30-day retention"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "Operational performance target mandating that daily encrypted database backups stored on S3 must be retained for a minimum of 30 days before archival or deletion.",
+    "context": [
+      "retention: 30 days",
+      "Daily encrypted backup to S3 (retention: 30 days)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_029",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_029_met_002",
+    "name": "Weekly Database Backup Retention Period",
+    "aliases": [
+      "retention: 1 year",
+      "1-year retention"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "Operational performance target requiring weekly database backups to be preserved in cold storage for a minimum of one year to satisfy long-term data governance and compliance requirements.",
+    "context": [
+      "retention: 1 year",
+      "Weekly backup to cold storage (retention: 1 year)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_029",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_029_rul_001",
+    "name": "Database Backup & Replication Policy",
+    "aliases": [
+      "Database Backups strategy",
+      "Backup Strategy"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "operational_policy",
+    "description": "Mandatory operational constraint dictating that database backups must follow a tiered retention model comprising real-time standby replication, daily encrypted S3 backups, and weekly cold storage archives.",
+    "context": [
+      "Database Backups:",
+      "Continuous replication to standby (real-time)",
+      "Daily encrypted backup to S3 (retention: 30 days)",
+      "Weekly backup to cold storage (retention: 1 year)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_029",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_029_rul_002",
+    "name": "Application Backup & Configuration Rule",
+    "aliases": [
+      "Application Backups",
+      "Version Control Policy"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "Governance rule requiring that all application source code, Docker container images, and system configurations must be preserved within version-controlled repositories to ensure recoverability and auditability.",
+    "context": [
+      "Application Backups:",
+      "Source code in Git (GitHub)",
+      "Docker images in registry (AWS ECR)",
+      "Configuration in version control"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_029",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_030_met_001",
+    "name": "Disaster Recovery Test Frequency",
+    "aliases": [
+      "Quarterly Testing"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "kpi",
+    "description": "Specifies the minimum operational frequency for conducting disaster recovery tests across FirstUK Bank's infrastructure and systems.",
+    "context": [
+      "**Frequency:** Quarterly (at least)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_030",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_030_rul_001",
+    "name": "Disaster Recovery Testing Protocol",
+    "aliases": [
+      "DR Test Scenarios"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "constraint",
+    "description": "Mandates specific operational scenarios that must be executed during disaster recovery exercises, ensuring resilience across data, application, network, and storage layers.",
+    "context": [
+      "**Test Scenarios:**",
+      "- Database restoration from backup",
+      "- Application failover to standby region",
+      "- Network failure simulation",
+      "- Data loss scenario"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_030",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_030_sys_001",
+    "name": "Database System",
+    "aliases": [
+      "DB"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "database",
+    "description": "Core data storage infrastructure subject to backup and restoration procedures as part of the bank's disaster recovery testing framework.",
+    "context": [
+      "- Database restoration from backup"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_030",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_030_sys_002",
+    "name": "Application Platform",
+    "aliases": [
+      "App"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "core_banking",
+    "description": "Primary software infrastructure required to execute failover procedures to a standby region during disaster recovery simulations.",
+    "context": [
+      "- Application failover to standby region"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_030",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_031_sys_001",
+    "name": "IBP",
+    "aliases": [
+      "Internet Banking Platform"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "internet_banking",
+    "description": "Customer-facing digital banking platform responsible for processing online transactions and handling API requests. Current load analysis indicates a daily transaction volume of 500–700, peak QPS of 5, and p95 response time under 2 seconds.",
+    "context": [
+      "IBP | 500–700 | 5 | <2s"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_031",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_031_sys_002",
+    "name": "MBA",
+    "aliases": [
+      "Mobile Banking Application"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "mobile_banking",
+    "description": "Mobile digital banking channel managing customer transactions and concurrent query loads. Documented performance metrics specify a daily transaction volume of 300–500, peak QPS of 3, and p95 response time under 2 seconds.",
+    "context": [
+      "MBA | 300–500 | 3 | <2s"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_031",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_031_sys_003",
+    "name": "AMS",
+    "aliases": [
+      "Account Management System"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "account_management",
+    "description": "Core system handling account-related operations, data management, and high-frequency transaction processing. Current load data shows over 2,000 daily transactions, peak QPS of 10, and p95 response time under 100 milliseconds.",
+    "context": [
+      "AMS | 2,000+ | 10 | <100ms"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_031",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_031_sys_004",
+    "name": "PPS",
+    "aliases": [
+      "Payment Processing System"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "payment_processor",
+    "description": "Batch-oriented system responsible for processing payment-related transactions and settlement workflows. Documented performance indicates 100–200 daily transactions, peak QPS of 2, and p95 response time under 15 minutes in batch mode.",
+    "context": [
+      "PPS | 100–200 | 2 | <15min (batch)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_031",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_031_sys_005",
+    "name": "FDE",
+    "aliases": [
+      "Fraud Detection Engine"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "fraud_detection",
+    "description": "Security and monitoring system designed to detect fraudulent activities in real-time. Current load metrics specify over 2,000 daily transactions, peak QPS of 20, and p95 response time under 100 milliseconds.",
+    "context": [
+      "FDE | 2,000+ | 20 | <100ms"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_031",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_031_met_001",
+    "name": "Daily Transactions Volume",
+    "aliases": [
+      "Daily Transactions"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "processing_rate",
+    "description": "Quantitative performance metric tracking the number of transactions processed per system on a daily basis. Documented ranges vary by platform, from 100–200 for batch processing to over 2,000 for high-volume customer-facing systems.",
+    "context": [
+      "Daily Transactions",
+      "500–700",
+      "300–500",
+      "2,000+",
+      "100–200",
+      "2,000+"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_031",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_031_met_002",
+    "name": "Peak Queries Per Second (QPS)",
+    "aliases": [
+      "Peak QPS"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "Performance threshold measuring the maximum sustained query load a system must handle concurrently. Documented targets range from 2 to 20 peak queries per second across the bank's core and customer-facing platforms.",
+    "context": [
+      "Peak QPS",
+      "5",
+      "3",
+      "10",
+      "2",
+      "20"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_031",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_031_met_003",
+    "name": "Response Time (p95)",
+    "aliases": [
+      "p95 Latency",
+      "Response Time"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "response_time",
+    "description": "Service level metric defining the 95th percentile latency threshold for system responses. Documented targets range from under 100 milliseconds for real-time processing to under 15 minutes for batch-oriented operations.",
+    "context": [
+      "Response Time (p95)",
+      "<2s",
+      "<100ms",
+      "<15min (batch)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_031",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_032_sys_001",
+    "name": "Microservices Architecture",
+    "aliases": [
+      "Microservices"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "system",
+    "description": "The foundational application architecture for FirstUK Bank, designed to support independent auto-scaling of computational resources based on real-time load metrics.",
+    "context": [
+      "Microservices: Auto-scale based on CPU (target: 70%)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_032",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_032_sys_002",
+    "name": "Primary Database System",
+    "aliases": [
+      "Database"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "database",
+    "description": "Core data storage layer optimized for high-volume read workloads, utilizing read replicas to distribute query traffic and maintain performance during peak operations.",
+    "context": [
+      "Database: Read replicas for read-heavy operations"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_032",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_032_sys_003",
+    "name": "API Gateway",
+    "aliases": [
+      "API Gateway"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "api_gateway",
+    "description": "Centralized routing and traffic management component for FirstUK Bank's digital channels, responsible for request distribution, scaling enforcement, and integration with backend services.",
+    "context": [
+      "API Gateway: Managed by Kong (can scale to 1000+ QPS)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_032",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_032_sys_004",
+    "name": "Kong API Platform",
+    "aliases": [
+      "Kong"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "api_gateway",
+    "description": "Third-party gateway and management solution deployed to control, monitor, and scale FirstUK Bank's API traffic and enforce throughput limits.",
+    "context": [
+      "API Gateway: Managed by Kong (can scale to 1000+ QPS)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_032",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_032_sys_005",
+    "name": "Redis Caching Layer",
+    "aliases": [
+      "Redis",
+      "Caching"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "caching_layer",
+    "description": "High-performance in-memory data store used to cache frequently accessed information, reducing latency and offloading read operations from the primary database.",
+    "context": [
+      "Caching (Redis) for frequently accessed data"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_032",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_032_sys_006",
+    "name": "Apache Kafka Message Queue",
+    "aliases": [
+      "Kafka",
+      "Asynchronous processing"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "message_queue",
+    "description": "Distributed event streaming platform utilized to decouple system components and handle non-critical operations asynchronously, preventing bottlenecks in critical transaction paths.",
+    "context": [
+      "Asynchronous processing (Kafka) for non-critical operations"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_032",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_032_met_001",
+    "name": "Microservices CPU Utilization Threshold",
+    "aliases": [
+      "CPU target",
+      "Scaling threshold"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "capacity",
+    "description": "Operational scaling limit defining the maximum acceptable CPU utilization percentage before auto-scaling mechanisms trigger additional compute resources for microservice instances.",
+    "context": [
+      "Auto-scale based on CPU (target: 70%)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_032",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_032_met_002",
+    "name": "API Gateway Throughput Capacity",
+    "aliases": [
+      "QPS limit",
+      "Scaling capacity"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "processing_rate",
+    "description": "Maximum throughput capacity target for the API gateway, defining the upper bound of queries per second it can handle under load before requiring architectural scaling.",
+    "context": [
+      "can scale to 1000+ QPS"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_032",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_033_org_001",
+    "name": "Financial Conduct Authority",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "regulatory_body",
+    "description": "UK financial regulatory authority responsible for enforcing standards around customer communication, fair treatment, system reliability, business continuity, and data security within the banking sector.",
+    "context": [
+      "**FCA COBS:**",
+      "Customer communication and fair treatment",
+      "System reliability and business continuity",
+      "Data security and privacy"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_033",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_033_org_002",
+    "name": "Prudential Regulation Authority",
+    "aliases": [
+      "PRA"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "regulatory_body",
+    "description": "UK regulatory body overseeing prudential standards for banks, specifically mandating capital adequacy monitoring, operational resilience frameworks, and cyber security controls to ensure institutional stability.",
+    "context": [
+      "**PRA Requirements:**",
+      "Capital adequacy monitoring",
+      "Operational resilience",
+      "Cyber security (Operational Resilience)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_033",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_033_rul_001",
+    "name": "General Data Protection Regulation",
+    "aliases": [
+      "GDPR"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "Comprehensive data protection framework imposing strict obligations on customer data rights, privacy-by-design architecture, and mandatory breach reporting procedures for banking operations.",
+    "context": [
+      "**GDPR:**",
+      "Data subject rights (access, deletion)",
+      "Data protection by design",
+      "Breach notification (72-hour requirement)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_033",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_033_rul_002",
+    "name": "Customer Communication and Fair Treatment Requirement",
+    "aliases": [
+      "Customer communication and fair treatment"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "Regulatory mandate requiring all banking communications, marketing materials, and customer interactions to adhere to fairness standards, transparency, and ethical treatment protocols.",
+    "context": [
+      "**FCA COBS:**",
+      "Customer communication and fair treatment"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_033",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_033_rul_003",
+    "name": "System Reliability and Business Continuity Requirement",
+    "aliases": [
+      "System reliability and business continuity"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "operational_limit",
+    "description": "Operational constraint requiring banking technology infrastructure to maintain high availability, robust failover mechanisms, and uninterrupted service delivery during normal and stress conditions.",
+    "context": [
+      "**FCA COBS:**",
+      "System reliability and business continuity"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_033",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_033_rul_004",
+    "name": "Data Security and Privacy Requirement",
+    "aliases": [
+      "Data security and privacy"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "Regulatory obligation mandating the implementation of technical and procedural safeguards to protect sensitive customer and operational data from unauthorized access, leaks, or privacy violations.",
+    "context": [
+      "**FCA COBS:**",
+      "Data security and privacy"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_033",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_033_rul_005",
+    "name": "Capital Adequacy Monitoring Requirement",
+    "aliases": [
+      "Capital adequacy monitoring"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "PRA-enforced control requiring continuous tracking, reporting, and stress-testing of financial reserves to ensure the bank maintains sufficient capital buffers against potential losses.",
+    "context": [
+      "**PRA Requirements:**",
+      "Capital adequacy monitoring"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_033",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_033_rul_006",
+    "name": "Operational Resilience Requirement",
+    "aliases": [
+      "Operational resilience"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "Regulatory standard requiring the bank to maintain critical services, establish impact tolerances, and recover quickly from operational disruptions or technology failures.",
+    "context": [
+      "**PRA Requirements:**",
+      "Operational resilience"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_033",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_033_rul_007",
+    "name": "Cyber Security Requirement",
+    "aliases": [
+      "Cyber security"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "PRA-mandated control requiring robust technical defenses, threat monitoring, and incident response protocols to protect banking infrastructure and data from cyber threats.",
+    "context": [
+      "**PRA Requirements:**",
+      "Cyber security (Operational Resilience)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_033",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_033_rul_008",
+    "name": "Data Subject Rights Requirement",
+    "aliases": [
+      "Data subject rights"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "GDPR obligation ensuring customers retain enforceable rights to access their personal data and request its deletion upon valid legal grounds.",
+    "context": [
+      "**GDPR:**",
+      "Data subject rights (access, deletion)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_033",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_033_rul_009",
+    "name": "Data Protection by Design Requirement",
+    "aliases": [
+      "Data protection by design"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "GDPR principle requiring privacy safeguards, data minimization techniques, and security controls to be integrated into the architecture of systems and processes from inception.",
+    "context": [
+      "**GDPR:**",
+      "Data protection by design"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_033",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_033_rul_010",
+    "name": "Breach Notification Requirement",
+    "aliases": [
+      "Breach notification"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "regulatory_obligation",
+    "description": "Mandatory procedural rule requiring the bank to formally report confirmed data security incidents to relevant regulators and impacted individuals within a strict timeframe.",
+    "context": [
+      "**GDPR:**",
+      "Breach notification (72-hour requirement)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_033",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_033_met_001",
+    "name": "72-Hour Breach Reporting SLA",
+    "aliases": [
+      "72-hour requirement"
+    ],
+    "entity_class": "METRIC_TARGET",
+    "type": "sla",
+    "description": "Quantitative operational threshold mandating that all confirmed data security incidents must be formally reported to regulators and affected parties within exactly 72 hours of discovery.",
+    "context": [
+      "**GDPR:**",
+      "Breach notification (72-hour requirement)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_033",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_034_sys_001",
+    "name": "AWS CloudWatch",
+    "aliases": [
+      "CloudWatch"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "monitoring",
+    "description": "Centralized logging and performance monitoring platform deployed across FirstUK Bank's infrastructure to capture transaction audit logs, track system health metrics, and support operational observability.",
+    "context": [
+      "Centralized logging (AWS CloudWatch)",
+      "Performance monitoring (CloudWatch, New Relic)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_034",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_034_sys_002",
+    "name": "New Relic",
+    "aliases": [],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "monitoring",
+    "description": "External application performance monitoring and observability tool integrated with FirstUK Bank's technology stack to track system health, analyze performance metrics, and complement internal logging solutions.",
+    "context": [
+      "Performance monitoring (CloudWatch, New Relic)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_034",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_034_sys_003",
+    "name": "Amazon CloudTrail",
+    "aliases": [
+      "CloudTrail"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "monitoring",
+    "description": "AWS-native security monitoring and audit trail service used to record API activity, track access events, and ensure regulatory compliance across FirstUK Bank's cloud infrastructure.",
+    "context": [
+      "Security monitoring (CloudTrail, GuardDuty)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_034",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_034_sys_004",
+    "name": "Amazon GuardDuty",
+    "aliases": [
+      "GuardDuty"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "monitoring",
+    "description": "Automated threat detection and security monitoring service that continuously analyzes cloud infrastructure activity to identify potential security risks, support compliance requirements, and trigger incident response workflows.",
+    "context": [
+      "Security monitoring (CloudTrail, GuardDuty)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_034",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_034_rul_001",
+    "name": "Post-Incident Review (PIR)",
+    "aliases": [
+      "PIR"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "control",
+    "description": "Mandatory governance process executed following system incidents to analyze root causes, document operational lessons, and drive continuous improvement across FirstUK Bank's incident management framework.",
+    "context": [
+      "Post-incident review (PIR)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_034",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_034_rul_002",
+    "name": "Incident Escalation Procedure",
+    "aliases": [
+      "Escalation procedure"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "operational_limit",
+    "description": "Defined governance workflow dictating how system incidents and security alerts are escalated across FirstUK Bank's organizational structure, with explicit references to departmental accountability and reporting lines.",
+    "context": [
+      "Incident Response:",
+      "Escalation procedure (see [[departments]])"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_034",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_035_sys_001",
+    "name": "Mobile App v2.0",
+    "aliases": [
+      "Mobile App v2.0 (redesign)",
+      "v2.0"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "mobile_banking",
+    "description": "A redesigned iteration of the bank's primary customer-facing mobile application, currently in the planning phase with a target delivery in Q2 2026 to deliver an enhanced user experience.",
+    "context": [
+      "Mobile App v2.0 (redesign)",
+      "Enhanced UX"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_035",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_035_sys_002",
+    "name": "Open Banking (PSD2) API",
+    "aliases": [
+      "Open Banking API",
+      "PSD2 API",
+      "Third-party Integration API"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "api_gateway",
+    "description": "A dedicated application programming interface designed to enable secure third-party financial service integrations in alignment with PSD2 regulatory standards, scheduled for design completion in Q3 2026.",
+    "context": [
+      "Open Banking (PSD2) API",
+      "Third-party integration"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_035",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_035_sys_003",
+    "name": "Blockchain Settlement",
+    "aliases": [
+      "Blockchain Pilot",
+      "Pilot Settlement System"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "core_banking",
+    "description": "A pilot technology initiative leveraging distributed ledger infrastructure to accelerate transaction settlement processes, currently undergoing research ahead of a Q4 2026 launch.",
+    "context": [
+      "Blockchain Settlement (pilot)",
+      "Faster settlement"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_035",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_036_sys_001",
+    "name": "Video Account Opening",
+    "aliases": [],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "digital_channel",
+    "description": "A digital-first onboarding initiative scheduled for Q1 2027, currently in the design phase. The system aims to modernize customer account opening processes through video-based verification and remote onboarding capabilities.",
+    "context": [
+      "Video Account Opening",
+      "Q1 2027",
+      "Design",
+      "Digital-first onboarding"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_036",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_036_sys_002",
+    "name": "AI-Powered Chat Bot",
+    "aliases": [],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "chatbot",
+    "description": "An automated customer support platform slated for Q2 2027 scoping. The application leverages artificial intelligence to automate routine customer inquiries and improve service delivery efficiency.",
+    "context": [
+      "AI-Powered Chat Bot",
+      "Q2 2027",
+      "Scoping",
+      "Customer support automation"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_036",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_036_sys_003",
+    "name": "Advanced Analytics Platform",
+    "aliases": [],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "analytics",
+    "description": "A predictive analytics infrastructure planned for Q3 2027 research phase. The platform is intended to enable data-driven forecasting, risk modeling, and strategic decision-making across FirstUK Bank.",
+    "context": [
+      "Advanced Analytics Platform",
+      "Q3 2027",
+      "Research",
+      "Predictive analytics"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_036",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_037_met_001",
+    "name": "Annual Technology Budget",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "budget",
+    "description": "Represents the total allocated financial resources for technology-related expenditures at FirstUK Bank. It encompasses infrastructure hosting, personnel costs, software licensing, staff upskilling, and contingency reserves to ensure operational continuity and strategic delivery.",
+    "context": [
+      "Annual Technology Budget: £800k"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_037",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_037_sys_001",
+    "name": "Cloud Infrastructure (AWS)",
+    "aliases": [
+      "AWS",
+      "Amazon Web Services"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "cloud_infrastructure",
+    "description": "External cloud computing platform utilized by FirstUK Bank to host technology infrastructure and support digital operations. It represents the largest single budget allocation at £300k, accounting for 37.5% of total technology spend.",
+    "context": [
+      "Cloud Infrastructure (AWS) | £300k | 37.5%"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_037",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_037_met_002",
+    "name": "Staff & Contractors Budget",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "budget",
+    "description": "Financial allocation designated for internal technology personnel and external contractor costs. It accounts for 37.5% of the total technology budget, reflecting the bank's reliance on skilled human capital for delivery and maintenance.",
+    "context": [
+      "Staff & Contractors | £300k | 37.5%"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_037",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_037_met_003",
+    "name": "Tools & Licenses Budget",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "budget",
+    "description": "Allocation for commercial software tools, development environments, and licensing fees required to support technology operations and system maintenance.",
+    "context": [
+      "Tools & Licenses | £100k | 12.5%"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_037",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_037_met_004",
+    "name": "Training & Development Budget",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "budget",
+    "description": "Financial provision earmarked for upskilling technology staff and contractors through formal training programs, certifications, and professional development initiatives.",
+    "context": [
+      "Training & Development | £50k | 6.25%"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_037",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_037_met_005",
+    "name": "Technology Contingency Reserve",
+    "aliases": [],
+    "entity_class": "METRIC_TARGET",
+    "type": "budget",
+    "description": "Reserved funds set aside to absorb unforeseen technology-related costs, infrastructure overruns, or emergency operational requirements without disrupting the core budget.",
+    "context": [
+      "Contingency | £50k | 6.25%"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_037",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_038_org_001",
+    "name": "Organisation Model",
+    "aliases": [
+      "organisation_model"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "business_unit",
+    "description": "Reference document outlining the structural framework and governance hierarchy of the Technology department.",
+    "context": [
+      "[[organisation_model]] — Technology department structure"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_038",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_038_org_002",
+    "name": "Departments",
+    "aliases": [
+      "departments"
+    ],
+    "entity_class": "ORGANIZATIONAL_UNIT",
+    "type": "department",
+    "description": "Reference document providing detailed operational information and structural breakdowns for the Technology department.",
+    "context": [
+      "[[departments]] — Technology department details"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_038",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_038_bnk_003",
+    "name": "Products",
+    "aliases": [
+      "products"
+    ],
+    "entity_class": "BANKING_CONCEPT",
+    "type": "product",
+    "description": "Reference document containing specifications, features, and definitions for bank products.",
+    "context": [
+      "[[products]] — Product specifications"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_038",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_038_sys_004",
+    "name": "Application Landscape",
+    "aliases": [
+      "APP-LAND-001"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "document_management",
+    "description": "Architectural overview document mapping the bank's application ecosystem, system boundaries, and interdependencies.",
+    "context": [
+      "Application Landscape (APP-LAND-001)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_038",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_038_sys_005",
+    "name": "Logical Data Model",
+    "aliases": [
+      "LDM-001"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "data_model",
+    "description": "Logical representation of the bank's data structures, entities, attributes, and relational mappings.",
+    "context": [
+      "Logical Data Model (LDM-001)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_038",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_038_sys_006",
+    "name": "Integration Specification",
+    "aliases": [
+      "INT-SPEC-001"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "specification",
+    "description": "Technical specification detailing system integration points, interfaces, data exchange protocols, and connectivity standards.",
+    "context": [
+      "Integration Specification (INT-SPEC-001)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_038",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_038_rul_007",
+    "name": "Information Security Policy",
+    "aliases": [
+      "SEC-POL-002"
+    ],
+    "entity_class": "BUSINESS_RULE",
+    "type": "compliance_requirement",
+    "description": "Governing policy establishing mandatory security controls, data protection standards, and regulatory compliance obligations for the bank.",
+    "context": [
+      "Information Security Policy (SEC-POL-002)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_038",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_038_sys_008",
+    "name": "Disaster Recovery Plan",
+    "aliases": [
+      "DRP-001"
+    ],
+    "entity_class": "SYSTEM_APPLICATION",
+    "type": "operational_plan",
+    "description": "Operational plan outlining procedures for system recovery, business continuity, and incident response in the event of service disruption.",
+    "context": [
+      "Disaster Recovery Plan (DRP-001)"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_038",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_039_rol_001",
+    "name": "Chief Technology Officer",
+    "aliases": [
+      "CTO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "Senior executive role responsible for approving and signing off on this document, representing FirstUK Bank's technology leadership, strategic oversight, and digital delivery accountability.",
+    "context": [
+      "Chief Technology Officer — **Date: 2026-01-15**"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_039",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_039_rol_002",
+    "name": "Chief Information Security Officer",
+    "aliases": [
+      "CISO"
+    ],
+    "entity_class": "ROLE_PERSON",
+    "type": "c_suite",
+    "description": "Senior executive role responsible for approving and signing off on this document, representing FirstUK Bank's information security leadership, risk governance, and regulatory compliance accountability.",
+    "context": [
+      "Chief Information Security Officer — **Date: 2026-01-15**"
+    ],
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_039",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+    "domain": "banking_organization"
+  }
+]

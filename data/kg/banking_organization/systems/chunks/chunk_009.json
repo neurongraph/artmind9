@@ -1,0 +1,1973 @@
+{
+  "embedding": [
+    -0.033474542,
+    0.043973837,
+    -0.18087915,
+    -0.014661593,
+    0.045751426,
+    -0.03181655,
+    0.039886612,
+    -0.009734916,
+    -0.0022535142,
+    -0.08763782,
+    0.030400967,
+    0.038436107,
+    0.101504005,
+    -0.014245889,
+    -0.0113274045,
+    0.008334472,
+    -0.06496828,
+    -0.038157664,
+    -0.054627996,
+    0.02171173,
+    0.01842796,
+    -0.078933306,
+    -0.0260772,
+    -0.04347973,
+    0.07421758,
+    0.028157478,
+    0.030537993,
+    0.01971105,
+    0.004801379,
+    0.033530407,
+    0.011417727,
+    0.061254606,
+    0.0009960872,
+    -0.016830275,
+    -0.019863836,
+    -0.055495497,
+    0.0016905711,
+    -0.010574153,
+    -0.00048515864,
+    -0.015966935,
+    0.057641864,
+    -0.022062164,
+    0.068052806,
+    -0.017648136,
+    0.0016729645,
+    0.03925063,
+    0.028944556,
+    -0.007904759,
+    0.083473854,
+    0.02026048,
+    -0.013687573,
+    -0.015204261,
+    0.037671007,
+    0.022939052,
+    0.025239283,
+    -0.015343667,
+    0.003268966,
+    -0.0068442104,
+    -0.020485999,
+    -0.059693027,
+    0.07277283,
+    0.054624595,
+    0.036161553,
+    0.044228394,
+    -0.0077167233,
+    -0.03617896,
+    -0.01315053,
+    -0.0038366748,
+    -0.006460524,
+    -0.109015316,
+    0.04874885,
+    -0.011754812,
+    0.014130364,
+    -0.010839405,
+    0.0020099198,
+    0.016633257,
+    -0.03257588,
+    -0.025581367,
+    -0.038387004,
+    0.014350501,
+    0.017807554,
+    -0.040207446,
+    0.03262278,
+    -0.0011587178,
+    0.013246595,
+    0.024517447,
+    -0.039765954,
+    -0.009449077,
+    0.012495676,
+    0.023905946,
+    0.0038199956,
+    0.0530415,
+    0.05815684,
+    -0.01078876,
+    -0.027928837,
+    0.062150452,
+    -0.006955589,
+    -0.024999678,
+    0.00059812336,
+    -0.012603897,
+    -0.030368399,
+    -0.019643918,
+    0.014046961,
+    0.06373934,
+    0.048557606,
+    0.028511686,
+    0.01741044,
+    0.017797159,
+    -0.03911402,
+    -0.025301123,
+    -0.04412507,
+    0.0452476,
+    -0.013082585,
+    -0.019914802,
+    0.037316635,
+    0.022453398,
+    0.06502965,
+    -0.03280527,
+    -0.01909949,
+    0.010787792,
+    0.04896513,
+    -0.04469554,
+    -0.0020834652,
+    -0.007574384,
+    0.005648828,
+    -0.02501508,
+    -0.06821652,
+    -0.0002086647,
+    0.0050560315,
+    -0.008709112,
+    0.014134187,
+    -0.007217597,
+    -0.07705376,
+    0.0589538,
+    -0.0007455429,
+    0.036902275,
+    0.0096300915,
+    -0.0017583122,
+    -0.0046469863,
+    0.03890803,
+    0.008178609,
+    0.031499866,
+    -0.011586936,
+    0.035103176,
+    -0.028013192,
+    -0.05110495,
+    0.046424136,
+    -0.041229796,
+    0.009467497,
+    -0.0075133755,
+    -0.017957183,
+    0.013859628,
+    -0.03857503,
+    -0.009418341,
+    0.008714124,
+    -0.06355851,
+    -0.0051616053,
+    0.024515128,
+    0.033035997,
+    0.022649067,
+    0.019691091,
+    0.032623757,
+    -0.013127086,
+    0.038083658,
+    0.037848942,
+    -0.107513174,
+    0.010714062,
+    0.058705103,
+    0.095451266,
+    0.012125049,
+    -0.0575079,
+    -0.032024734,
+    0.0042314446,
+    -0.015987275,
+    0.020269275,
+    0.009916166,
+    0.0532714,
+    -0.0021474094,
+    0.04878418,
+    -0.06428862,
+    0.0052679162,
+    -0.021551326,
+    0.039574765,
+    0.012478329,
+    0.0017838026,
+    -0.013661372,
+    0.011129022,
+    -0.042779,
+    -0.04872292,
+    -0.0012584366,
+    0.016625745,
+    0.028957937,
+    0.005502091,
+    -0.016631966,
+    -0.009460309,
+    -0.04159252,
+    0.04438458,
+    0.025511008,
+    0.017296456,
+    -0.061970845,
+    -0.018422987,
+    -0.04477525,
+    -0.04794801,
+    0.014308679,
+    0.01837086,
+    0.014086257,
+    -0.021535562,
+    -0.0068746004,
+    0.011326717,
+    0.039298233,
+    0.037062597,
+    0.00041847085,
+    -0.034745615,
+    -0.01895487,
+    0.021407375,
+    -0.03339234,
+    -0.0058663026,
+    -0.014862154,
+    0.04741606,
+    0.026787441,
+    -0.021962019,
+    -0.03778484,
+    0.054655667,
+    0.004148304,
+    0.043125447,
+    -0.0021543358,
+    -0.023817752,
+    -0.052135114,
+    0.015790695,
+    -0.02012885,
+    -0.025672076,
+    -0.019237462,
+    0.010924656,
+    -0.022961987,
+    0.01624552,
+    0.014170851,
+    0.010894476,
+    0.021893602,
+    0.04343907,
+    0.019175122,
+    -0.045090515,
+    0.052752633,
+    -0.03585881,
+    0.018638512,
+    -0.031860504,
+    0.03228268,
+    -0.0045977733,
+    0.011928466,
+    0.017887546,
+    0.019137455,
+    -0.0016277438,
+    -0.010821732,
+    0.020687113,
+    -0.03643142,
+    0.01423878,
+    -0.068147615,
+    -0.02811961,
+    -0.020767285,
+    0.0013339043,
+    -0.024996338,
+    0.013624379,
+    -0.05505283,
+    0.06255507,
+    -0.041466624,
+    0.05958516,
+    -0.024867037,
+    -0.038414635,
+    -0.031726576,
+    0.018228889,
+    -0.03638496,
+    0.039549153,
+    0.0045533767,
+    0.02249738,
+    0.045546256,
+    -0.01759067,
+    0.050276596,
+    0.024696348,
+    -0.020372756,
+    -0.011188821,
+    0.009467109,
+    -0.045963716,
+    -0.039089303,
+    -0.013387119,
+    0.012177778,
+    0.0038770179,
+    0.09936084,
+    0.038052548,
+    0.0045801965,
+    0.041915383,
+    0.017759578,
+    0.024973027,
+    0.025840243,
+    -0.05302484,
+    -0.015153713,
+    -0.04559632,
+    0.02075477,
+    0.057440415,
+    -0.008550795,
+    0.042247698,
+    -0.062094104,
+    0.004523121,
+    0.02436809,
+    0.05454617,
+    0.056401245,
+    -0.019137334,
+    0.023532663,
+    -0.004990081,
+    -0.014293597,
+    0.035064854,
+    0.009902227,
+    -0.024434444,
+    0.015001244,
+    -0.06778743,
+    0.012584419,
+    -0.013626361,
+    0.031657875,
+    0.020821584,
+    -0.0057864576,
+    0.045392793,
+    -0.005057206,
+    0.008337109,
+    -0.08939324,
+    0.0011980371,
+    -0.048338965,
+    -0.014233215,
+    0.086818,
+    -0.0051029525,
+    0.031742427,
+    0.013644698,
+    -0.007362463,
+    0.044026412,
+    -0.018256003,
+    0.031737152,
+    -0.07271274,
+    -0.030160377,
+    0.07834375,
+    0.0048128576,
+    -0.0024603708,
+    -0.020581452,
+    0.05209929,
+    0.03550871,
+    0.024079967,
+    -0.008667498,
+    -0.040889204,
+    0.0018837922,
+    -0.0073063457,
+    -0.018372757,
+    0.01143812,
+    0.03290882,
+    0.026929477,
+    -0.010962208,
+    -0.0037061279,
+    0.027490925,
+    -0.025489109,
+    -0.044783913,
+    -0.026310282,
+    0.036806975,
+    0.0629653,
+    -0.0011515239,
+    -0.02022237,
+    0.0057036,
+    0.0069849887,
+    0.011619719,
+    -0.026177801,
+    0.0018857684,
+    0.017721035,
+    0.0709642,
+    -0.024047427,
+    0.04868043,
+    -0.014628828,
+    0.022167409,
+    0.0014073255,
+    0.033819545,
+    0.030677209,
+    0.011254761,
+    0.0012124472,
+    -0.03384699,
+    -0.011793236,
+    -0.034182265,
+    0.058162343,
+    0.06480414,
+    0.030654624,
+    -0.0055156546,
+    0.07061469,
+    -0.0055001588,
+    -0.064460136,
+    0.0030329942,
+    -0.0258574,
+    -0.012333681,
+    0.013650681,
+    -0.02117117,
+    0.010495013,
+    0.01007023,
+    0.0336582,
+    0.03269873,
+    -0.019206678,
+    -0.031644087,
+    -0.0013724555,
+    -0.031757805,
+    0.032341313,
+    -0.033096492,
+    -0.047859665,
+    -0.007377301,
+    -0.055615943,
+    0.028867858,
+    0.0019214982,
+    -0.053316858,
+    0.0024554809,
+    0.055765044,
+    0.028333534,
+    0.016771596,
+    0.052188113,
+    0.0034120341,
+    -0.05252868,
+    0.045247592,
+    0.0070499103,
+    0.062475618,
+    -0.047697615,
+    -0.010438823,
+    -0.03229237,
+    0.03875271,
+    0.032274697,
+    0.024323175,
+    -0.0052195233,
+    0.031120943,
+    -0.006733852,
+    0.024666777,
+    0.0323693,
+    -0.04548257,
+    -0.036837112,
+    0.049524803,
+    -0.012633132,
+    0.016388955,
+    0.039874792,
+    -0.04997434,
+    0.035077546,
+    0.0387824,
+    0.0051941797,
+    0.017704116,
+    0.060563378,
+    -0.011161625,
+    -0.052954737,
+    0.006729901,
+    -0.041230716,
+    -0.024752703,
+    0.10108373,
+    0.03630923,
+    -0.04574806,
+    0.003786367,
+    0.06579901,
+    0.025219396,
+    0.044888552,
+    -0.005345857,
+    0.036778063,
+    0.07760468,
+    -0.025381623,
+    0.004459641,
+    0.003384514,
+    0.013163395,
+    0.06362827,
+    0.0049344325,
+    -0.00021566579,
+    -0.068407424,
+    -0.022915307,
+    -0.040682286,
+    -0.05006485,
+    -0.0017112647,
+    -0.01274025,
+    -0.007965879,
+    0.057554092,
+    -0.034758493,
+    -0.008166483,
+    0.0033719055,
+    -0.014425167,
+    -0.024487788,
+    0.028935416,
+    -0.032015126,
+    -0.006205997,
+    0.021467857,
+    0.058586728,
+    0.014689195,
+    0.0013793788,
+    -0.03872562,
+    0.015314743,
+    0.012271702,
+    0.036279984,
+    0.04948967,
+    -0.045063943,
+    0.03145208,
+    -0.002027366,
+    -0.025698101,
+    -0.005185817,
+    0.022560546,
+    -0.03504139,
+    -0.016814066,
+    0.006555546,
+    -0.016719874,
+    0.0066570495,
+    -0.025925841,
+    -0.033662044,
+    0.05209818,
+    0.0313294,
+    0.024540536,
+    0.008939156,
+    0.03602713,
+    -0.023101522,
+    0.03130884,
+    -0.055122685,
+    -0.013789391,
+    -0.028822856,
+    -0.018381232,
+    0.040930096,
+    0.04099703,
+    0.053795293,
+    0.053761926,
+    -0.0465486,
+    -0.006924584,
+    0.03013462,
+    -0.0012339697,
+    0.01172964,
+    -0.047993645,
+    -0.020343097,
+    -0.0061623873,
+    -0.046034798,
+    -0.020271495,
+    0.038447868,
+    0.030178452,
+    -0.033107974,
+    0.03840717,
+    0.025025174,
+    0.023630485,
+    0.04625349,
+    -0.04441049,
+    -0.062908106,
+    0.053498574,
+    -0.014331677,
+    -0.029191148,
+    -0.0075791255,
+    0.03855089,
+    0.05030611,
+    -0.024658017,
+    -0.030916302,
+    -0.027201945,
+    -0.06794357,
+    -0.022037057,
+    -0.08199079,
+    0.02580176,
+    0.05656743,
+    -0.024769975,
+    -0.027309828,
+    0.028897623,
+    -0.044872984,
+    0.019134242,
+    -0.087528825,
+    -0.011845191,
+    -0.011382134,
+    0.026600474,
+    -0.015938746,
+    -0.07137604,
+    -0.041545767,
+    -0.032759294,
+    0.038667414,
+    0.06745094,
+    0.036962084,
+    -0.0129211545,
+    -0.025241511,
+    -0.0041683614,
+    -0.005832114,
+    0.025407434,
+    0.011430748,
+    0.0069715893,
+    -0.048618518,
+    -0.03663843,
+    0.00456249,
+    0.0070907692,
+    -0.008939328,
+    0.022152904,
+    0.0012803671,
+    -0.018635066,
+    -0.03746149,
+    0.015692038,
+    -0.057807993,
+    0.039187357,
+    0.046179306,
+    -0.03178306,
+    -0.017846968,
+    -0.04116559,
+    -0.024739098,
+    -0.01797935,
+    -0.08991232,
+    -0.036617745,
+    0.0048918226,
+    -0.010028642,
+    -0.06294552,
+    -0.039866563,
+    -0.027940057,
+    0.0098820925,
+    0.008595247,
+    -0.024083419,
+    -0.11108939,
+    -0.057530586,
+    -0.010979631,
+    0.011793879,
+    -0.03686964,
+    0.0087268585,
+    -0.007453692,
+    0.02236297,
+    -0.017839758,
+    -0.03903422,
+    -0.017329251,
+    0.05462852,
+    -0.015439356,
+    -0.04513315,
+    0.03210618,
+    0.010744177,
+    -0.01439621,
+    0.08370434,
+    -0.023886224,
+    -0.002048758,
+    -0.029876525,
+    -0.037984747,
+    -0.06597014,
+    0.028754564,
+    -0.02485438,
+    0.031063458,
+    -0.047883756,
+    -0.045269668,
+    -0.033278782,
+    -0.022650616,
+    0.055317055,
+    -0.020746332,
+    0.0547902,
+    -0.06906286,
+    -0.068940505,
+    -0.10941126,
+    0.0013521358,
+    0.046573266,
+    0.03692968,
+    0.037319615,
+    0.022409895,
+    0.05802978,
+    0.011043104,
+    -0.051431812,
+    0.043136995,
+    0.009351198,
+    -0.04118608,
+    0.03611733,
+    0.062447116,
+    0.07827964,
+    0.00660541,
+    0.04184272,
+    0.047166012,
+    0.027811192,
+    -0.03834877,
+    0.0015984412,
+    -0.035283122,
+    -0.011424465,
+    -0.015071016,
+    -0.04829359,
+    -0.027340293,
+    0.005909186,
+    0.0023659538,
+    -0.008981482,
+    0.026421439,
+    0.014796348,
+    0.025406912,
+    0.026957877,
+    0.03193493,
+    -0.016485414,
+    -0.041118495,
+    0.041509036,
+    0.02584059,
+    0.013190064,
+    -0.03796134,
+    -0.0124310395,
+    0.0645204,
+    0.032374844,
+    -0.021715237,
+    -0.04321148,
+    -0.002618107,
+    0.010352605,
+    -0.032795288,
+    0.03767639,
+    -0.03285866,
+    -0.012061331,
+    -0.009070107,
+    0.0034115904,
+    0.007134412,
+    0.010666709,
+    -0.012403592,
+    -0.005975602,
+    -0.03831135,
+    -0.027959138,
+    -0.025665903,
+    -0.01981379,
+    0.05108666,
+    0.011796083,
+    -0.029496763,
+    -0.04170861,
+    0.009261132,
+    -0.025651079,
+    0.0092327185,
+    0.011826125,
+    0.025426121,
+    0.0016720298,
+    0.021303888,
+    0.026663056,
+    -0.0054293447,
+    0.02372143,
+    -0.0028998377,
+    0.014850366,
+    -0.0017433829,
+    -0.0077010016,
+    -0.01706028,
+    -0.037613273,
+    0.027820773,
+    -0.022479659,
+    -0.07619655,
+    -0.003988618,
+    0.014433995,
+    0.05523225,
+    0.005420797,
+    -0.037858,
+    -0.021741387,
+    -0.011998013,
+    -0.045002624,
+    0.0036422582,
+    -0.018718906,
+    0.03458995,
+    -0.0032462706,
+    -0.0076992596,
+    0.008539093,
+    -0.049407426,
+    0.075094126,
+    -0.026334895,
+    0.03271417,
+    -0.013125657,
+    -0.010518784,
+    -0.062590376,
+    0.0134389205,
+    -0.04462315,
+    -0.02898258,
+    -0.015105074,
+    -0.0020293056,
+    0.006355608,
+    -0.011505817,
+    0.009078395,
+    0.07524316,
+    0.044397116,
+    -0.04737107,
+    0.0043102833,
+    -0.045584474,
+    -0.04373134,
+    0.016159698,
+    -0.067250654,
+    0.03658549,
+    0.013994686,
+    0.01612892,
+    0.053084534,
+    0.023352291,
+    0.05204275,
+    -0.023535224,
+    0.01635727,
+    0.04193223,
+    -0.04510355,
+    -0.08115821,
+    -0.052355688,
+    0.012618096
+  ],
+  "chunk_seq": 9,
+  "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+  "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+  "text": "### Data & Analytics Systems  \n#### Data Warehouse (DW)  \n**System ID:** DW-001\n**Purpose:** Centralized analytics and business intelligence\n**Technology:** AWS Redshift, Apache Spark\n**Data Model:** Star schema (facts + dimensions)\n**Update Frequency:** Real-time (for hot data), nightly batch (historical)  \n**Key Data Marts:**\n- **Customer Mart:** 500 customers × 50 attributes\n- **Account Mart:** 800 accounts × attributes\n- **Transaction Mart:** 2,000+ monthly transactions\n- **Product Mart:** 5 products × performance metrics\n- **Compliance Mart:** KYC, AML, complaints data  \n**Dashboards & Reports:**\n- Executive Dashboard (daily KPIs)\n- Product Performance Dashboard\n- Fraud Detection Dashboard\n- Compliance & Risk Dashboard\n- Customer Analytics Dashboard  \n**Retention Policy:**\n- Hot data (3 months): Real-time\n- Warm data (1–3 years): Nightly batch\n- Cold data (3+ years): Archive (S3)  \n---",
+  "name": "Chunk 9/39",
+  "domain": "banking_organization",
+  "prev_chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+  "next_chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_010",
+  "raw_entities": [
+    {
+      "id": "sys_001",
+      "name": "Data Warehouse",
+      "aliases": [
+        "DW",
+        "DW-001"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "analytics",
+      "description": "Centralized analytics and business intelligence platform operating on AWS Redshift and Apache Spark. Utilizes a star schema data model with real-time updates for hot data and nightly batch processing for historical data. Serves as the foundational data layer for multiple specialized marts and executive dashboards.",
+      "context": [
+        "System ID: DW-001",
+        "Purpose: Centralized analytics and business intelligence",
+        "Technology: AWS Redshift, Apache Spark",
+        "Data Model: Star schema (facts + dimensions)"
+      ]
+    },
+    {
+      "id": "sys_002",
+      "name": "Customer Mart",
+      "aliases": [
+        "Customer Mart"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "analytics",
+      "description": "Specialized data mart within the Data Warehouse focused on customer analytics. Stores structured customer data comprising 500 customers across 50 attributes to support analytical queries and reporting.",
+      "context": [
+        "Key Data Marts:",
+        "- **Customer Mart:** 500 customers × 50 attributes"
+      ]
+    },
+    {
+      "id": "sys_003",
+      "name": "Account Mart",
+      "aliases": [
+        "Account Mart"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "analytics",
+      "description": "Dedicated data mart housing account-level information. Maintains records for 800 accounts with associated attributes to support analytical queries and reporting.",
+      "context": [
+        "- **Account Mart:** 800 accounts × attributes"
+      ]
+    },
+    {
+      "id": "sys_004",
+      "name": "Transaction Mart",
+      "aliases": [
+        "Transaction Mart"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "analytics",
+      "description": "Data mart designed to store and process transactional data. Handles a volume of over 2,000 monthly transactions for analytical processing and reporting.",
+      "context": [
+        "- **Transaction Mart:** 2,000+ monthly transactions"
+      ]
+    },
+    {
+      "id": "sys_005",
+      "name": "Product Mart",
+      "aliases": [
+        "Product Mart"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "analytics",
+      "description": "Analytics data mart focused on banking products. Stores performance metrics for 5 distinct products to enable product-level analysis and reporting.",
+      "context": [
+        "- **Product Mart:** 5 products × performance metrics"
+      ]
+    },
+    {
+      "id": "sys_006",
+      "name": "Compliance Mart",
+      "aliases": [
+        "Compliance Mart"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "analytics",
+      "description": "Specialized data mart dedicated to regulatory and compliance data. Aggregates KYC, AML, and complaints data to support compliance reporting and risk monitoring.",
+      "context": [
+        "- **Compliance Mart:** KYC, AML, complaints data"
+      ]
+    },
+    {
+      "id": "sys_007",
+      "name": "Executive Dashboard",
+      "aliases": [
+        "Executive Dashboard"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "analytics",
+      "description": "Reporting interface providing daily key performance indicators for executive oversight and strategic decision-making.",
+      "context": [
+        "**Dashboards & Reports:**",
+        "- Executive Dashboard (daily KPIs)"
+      ]
+    },
+    {
+      "id": "sys_008",
+      "name": "Product Performance Dashboard",
+      "aliases": [
+        "Product Performance Dashboard"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "analytics",
+      "description": "Analytical reporting tool focused on tracking and visualizing the performance metrics of banking products.",
+      "context": [
+        "- Product Performance Dashboard"
+      ]
+    },
+    {
+      "id": "sys_009",
+      "name": "Fraud Detection Dashboard",
+      "aliases": [
+        "Fraud Detection Dashboard"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "fraud_detection",
+      "description": "Analytics dashboard designed to monitor, analyze, and report on fraud-related activities and alerts within the bank's systems.",
+      "context": [
+        "- Fraud Detection Dashboard"
+      ]
+    },
+    {
+      "id": "sys_010",
+      "name": "Compliance & Risk Dashboard",
+      "aliases": [
+        "Compliance & Risk Dashboard"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "analytics",
+      "description": "Reporting interface focused on monitoring regulatory compliance status and organizational risk exposure through aggregated data visualizations.",
+      "context": [
+        "- Compliance & Risk Dashboard"
+      ]
+    },
+    {
+      "id": "sys_011",
+      "name": "Customer Analytics Dashboard",
+      "aliases": [
+        "Customer Analytics Dashboard"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "analytics",
+      "description": "Analytical reporting tool dedicated to tracking customer behavior, trends, and metrics for business intelligence purposes.",
+      "context": [
+        "- Customer Analytics Dashboard"
+      ]
+    },
+    {
+      "id": "rul_001",
+      "name": "Data Retention Policy",
+      "aliases": [
+        "Retention Policy",
+        "Hot/Warm/Cold Data Lifecycle"
+      ],
+      "entity_class": "BUSINESS_RULE",
+      "type": "data_rule",
+      "description": "Governs the storage lifecycle and processing frequency of data based on its age. Mandates real-time updates for hot data (3 months), nightly batch processing for warm data (1–3 years), and S3 archiving for cold data (3+ years).",
+      "context": [
+        "**Retention Policy:**",
+        "- Hot data (3 months): Real-time",
+        "- Warm data (1–3 years): Nightly batch",
+        "- Cold data (3+ years): Archive (S3)"
+      ]
+    },
+    {
+      "id": "met_001",
+      "name": "Daily Executive KPI Reporting Frequency",
+      "aliases": [
+        "Daily KPIs",
+        "Executive Dashboard KPIs"
+      ],
+      "entity_class": "METRIC_TARGET",
+      "type": "sla",
+      "description": "Operational target requiring the delivery of key performance indicators on a daily basis through the Executive Dashboard.",
+      "context": [
+        "- Executive Dashboard (daily KPIs)"
+      ]
+    },
+    {
+      "id": "met_002",
+      "name": "Monthly Transaction Processing Capacity",
+      "aliases": [
+        "Transaction Mart Volume",
+        "2,000+ monthly transactions"
+      ],
+      "entity_class": "METRIC_TARGET",
+      "type": "capacity",
+      "description": "Quantitative target defining the data warehouse's transaction mart capacity to handle over 2,000 transactions per month.",
+      "context": [
+        "- **Transaction Mart:** 2,000+ monthly transactions"
+      ]
+    },
+    {
+      "id": "met_003",
+      "name": "Customer Data Profile Size",
+      "aliases": [
+        "Customer Mart Attributes",
+        "50 attributes per customer"
+      ],
+      "entity_class": "METRIC_TARGET",
+      "type": "capacity",
+      "description": "Target defining the data mart's storage scope for customer profiles, specifying 500 customers with 50 attributes each.",
+      "context": [
+        "- **Customer Mart:** 500 customers × 50 attributes"
+      ]
+    },
+    {
+      "id": "met_004",
+      "name": "Account Data Profile Size",
+      "aliases": [
+        "Account Mart Attributes",
+        "800 accounts"
+      ],
+      "entity_class": "METRIC_TARGET",
+      "type": "capacity",
+      "description": "Target defining the data mart's storage scope for account records, specifying 800 accounts with associated attributes.",
+      "context": [
+        "- **Account Mart:** 800 accounts × attributes"
+      ]
+    },
+    {
+      "id": "met_005",
+      "name": "Product Performance Data Scope",
+      "aliases": [
+        "Product Mart Metrics",
+        "5 products metrics"
+      ],
+      "entity_class": "METRIC_TARGET",
+      "type": "capacity",
+      "description": "Target defining the product mart's analytical scope, covering performance metrics for 5 distinct banking products.",
+      "context": [
+        "- **Product Mart:** 5 products × performance metrics"
+      ]
+    }
+  ],
+  "id_map": {
+    "sys_001": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_001",
+    "sys_002": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_002",
+    "sys_003": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_003",
+    "sys_004": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_004",
+    "sys_005": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_005",
+    "sys_006": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_006",
+    "sys_007": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_007",
+    "sys_008": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_008",
+    "sys_009": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_009",
+    "sys_010": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_010",
+    "sys_011": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_011",
+    "rul_001": "c98d3d3d6b9945b1b7e79a809edddbcb_009_rul_001",
+    "met_001": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_001",
+    "met_002": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_002",
+    "met_003": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_003",
+    "met_004": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_004",
+    "met_005": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_005"
+  },
+  "entities": [
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_001",
+      "name": "Data Warehouse",
+      "aliases": [
+        "DW",
+        "DW-001"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "analytics",
+      "description": "Centralized analytics and business intelligence platform operating on AWS Redshift and Apache Spark. Utilizes a star schema data model with real-time updates for hot data and nightly batch processing for historical data. Serves as the foundational data layer for multiple specialized marts and executive dashboards.",
+      "context": [
+        "System ID: DW-001",
+        "Purpose: Centralized analytics and business intelligence",
+        "Technology: AWS Redshift, Apache Spark",
+        "Data Model: Star schema (facts + dimensions)"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_002",
+      "name": "Customer Mart",
+      "aliases": [
+        "Customer Mart"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "analytics",
+      "description": "Specialized data mart within the Data Warehouse focused on customer analytics. Stores structured customer data comprising 500 customers across 50 attributes to support analytical queries and reporting.",
+      "context": [
+        "Key Data Marts:",
+        "- **Customer Mart:** 500 customers × 50 attributes"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_003",
+      "name": "Account Mart",
+      "aliases": [
+        "Account Mart"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "analytics",
+      "description": "Dedicated data mart housing account-level information. Maintains records for 800 accounts with associated attributes to support analytical queries and reporting.",
+      "context": [
+        "- **Account Mart:** 800 accounts × attributes"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_004",
+      "name": "Transaction Mart",
+      "aliases": [
+        "Transaction Mart"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "analytics",
+      "description": "Data mart designed to store and process transactional data. Handles a volume of over 2,000 monthly transactions for analytical processing and reporting.",
+      "context": [
+        "- **Transaction Mart:** 2,000+ monthly transactions"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_005",
+      "name": "Product Mart",
+      "aliases": [
+        "Product Mart"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "analytics",
+      "description": "Analytics data mart focused on banking products. Stores performance metrics for 5 distinct products to enable product-level analysis and reporting.",
+      "context": [
+        "- **Product Mart:** 5 products × performance metrics"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_006",
+      "name": "Compliance Mart",
+      "aliases": [
+        "Compliance Mart"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "analytics",
+      "description": "Specialized data mart dedicated to regulatory and compliance data. Aggregates KYC, AML, and complaints data to support compliance reporting and risk monitoring.",
+      "context": [
+        "- **Compliance Mart:** KYC, AML, complaints data"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_007",
+      "name": "Executive Dashboard",
+      "aliases": [
+        "Executive Dashboard"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "analytics",
+      "description": "Reporting interface providing daily key performance indicators for executive oversight and strategic decision-making.",
+      "context": [
+        "**Dashboards & Reports:**",
+        "- Executive Dashboard (daily KPIs)"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_008",
+      "name": "Product Performance Dashboard",
+      "aliases": [
+        "Product Performance Dashboard"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "analytics",
+      "description": "Analytical reporting tool focused on tracking and visualizing the performance metrics of banking products.",
+      "context": [
+        "- Product Performance Dashboard"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_009",
+      "name": "Fraud Detection Dashboard",
+      "aliases": [
+        "Fraud Detection Dashboard"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "fraud_detection",
+      "description": "Analytics dashboard designed to monitor, analyze, and report on fraud-related activities and alerts within the bank's systems.",
+      "context": [
+        "- Fraud Detection Dashboard"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_010",
+      "name": "Compliance & Risk Dashboard",
+      "aliases": [
+        "Compliance & Risk Dashboard"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "analytics",
+      "description": "Reporting interface focused on monitoring regulatory compliance status and organizational risk exposure through aggregated data visualizations.",
+      "context": [
+        "- Compliance & Risk Dashboard"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_011",
+      "name": "Customer Analytics Dashboard",
+      "aliases": [
+        "Customer Analytics Dashboard"
+      ],
+      "entity_class": "SYSTEM_APPLICATION",
+      "type": "analytics",
+      "description": "Analytical reporting tool dedicated to tracking customer behavior, trends, and metrics for business intelligence purposes.",
+      "context": [
+        "- Customer Analytics Dashboard"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_rul_001",
+      "name": "Data Retention Policy",
+      "aliases": [
+        "Retention Policy",
+        "Hot/Warm/Cold Data Lifecycle"
+      ],
+      "entity_class": "BUSINESS_RULE",
+      "type": "data_rule",
+      "description": "Governs the storage lifecycle and processing frequency of data based on its age. Mandates real-time updates for hot data (3 months), nightly batch processing for warm data (1–3 years), and S3 archiving for cold data (3+ years).",
+      "context": [
+        "**Retention Policy:**",
+        "- Hot data (3 months): Real-time",
+        "- Warm data (1–3 years): Nightly batch",
+        "- Cold data (3+ years): Archive (S3)"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_001",
+      "name": "Daily Executive KPI Reporting Frequency",
+      "aliases": [
+        "Daily KPIs",
+        "Executive Dashboard KPIs"
+      ],
+      "entity_class": "METRIC_TARGET",
+      "type": "sla",
+      "description": "Operational target requiring the delivery of key performance indicators on a daily basis through the Executive Dashboard.",
+      "context": [
+        "- Executive Dashboard (daily KPIs)"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_002",
+      "name": "Monthly Transaction Processing Capacity",
+      "aliases": [
+        "Transaction Mart Volume",
+        "2,000+ monthly transactions"
+      ],
+      "entity_class": "METRIC_TARGET",
+      "type": "capacity",
+      "description": "Quantitative target defining the data warehouse's transaction mart capacity to handle over 2,000 transactions per month.",
+      "context": [
+        "- **Transaction Mart:** 2,000+ monthly transactions"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_003",
+      "name": "Customer Data Profile Size",
+      "aliases": [
+        "Customer Mart Attributes",
+        "50 attributes per customer"
+      ],
+      "entity_class": "METRIC_TARGET",
+      "type": "capacity",
+      "description": "Target defining the data mart's storage scope for customer profiles, specifying 500 customers with 50 attributes each.",
+      "context": [
+        "- **Customer Mart:** 500 customers × 50 attributes"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_004",
+      "name": "Account Data Profile Size",
+      "aliases": [
+        "Account Mart Attributes",
+        "800 accounts"
+      ],
+      "entity_class": "METRIC_TARGET",
+      "type": "capacity",
+      "description": "Target defining the data mart's storage scope for account records, specifying 800 accounts with associated attributes.",
+      "context": [
+        "- **Account Mart:** 800 accounts × attributes"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_005",
+      "name": "Product Performance Data Scope",
+      "aliases": [
+        "Product Mart Metrics",
+        "5 products metrics"
+      ],
+      "entity_class": "METRIC_TARGET",
+      "type": "capacity",
+      "description": "Target defining the product mart's analytical scope, covering performance metrics for 5 distinct banking products.",
+      "context": [
+        "- **Product Mart:** 5 products × performance metrics"
+      ],
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    }
+  ],
+  "properties": [
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_001",
+      "name": "Data Warehouse",
+      "properties": {
+        "system_id": "DW-001",
+        "purpose": "Centralized analytics and business intelligence",
+        "technology_stack": [
+          "AWS Redshift",
+          "Apache Spark"
+        ],
+        "deployment": "Cloud (AWS)",
+        "update_frequency": [
+          "Real-time (hot data)",
+          "Nightly batch (historical)"
+        ],
+        "data_model": "Star schema (facts + dimensions)"
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_002",
+      "name": "Customer Mart",
+      "properties": {
+        "data_scope": "Customer profiles and attributes",
+        "record_count": 500,
+        "attributes_per_record": 50
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_003",
+      "name": "Account Mart",
+      "properties": {
+        "data_scope": "Account details and attributes",
+        "record_count": 800
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_004",
+      "name": "Transaction Mart",
+      "properties": {
+        "data_scope": "Transaction records",
+        "throughput": "2,000+ monthly transactions"
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_005",
+      "name": "Product Mart",
+      "properties": {
+        "data_scope": "Product details and performance metrics",
+        "record_count": 5
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_006",
+      "name": "Compliance Mart",
+      "properties": {
+        "data_scope": [
+          "KYC data",
+          "AML data",
+          "Complaints data"
+        ]
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_007",
+      "name": "Executive Dashboard",
+      "properties": {
+        "purpose": "Daily KPI monitoring and reporting"
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_008",
+      "name": "Product Performance Dashboard",
+      "properties": {
+        "purpose": "Monitor product performance metrics"
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_009",
+      "name": "Fraud Detection Dashboard",
+      "properties": {
+        "purpose": "Track and detect fraud patterns"
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_010",
+      "name": "Compliance & Risk Dashboard",
+      "properties": {
+        "purpose": "Monitor compliance and risk indicators"
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_011",
+      "name": "Customer Analytics Dashboard",
+      "properties": {
+        "purpose": "Analyze customer behavior and trends"
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_rul_001",
+      "name": "Data Retention Policy",
+      "properties": {
+        "rule_statement": "Hot data retained for 3 months with real-time updates; warm data for 1-3 years with nightly batch; cold data archived to S3 after 3+ years",
+        "applies_to": [
+          "Data Warehouse",
+          "All Data Marts"
+        ],
+        "retention_schedule": {
+          "hot_data": "Real-time (up to 3 months)",
+          "warm_data": "Nightly batch (1-3 years)",
+          "cold_data": "Archive to S3 (3+ years)"
+        }
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_001",
+      "name": "Daily Executive KPI Reporting Frequency",
+      "properties": {
+        "value": 1,
+        "unit": "times per day",
+        "what_it_measures": "Cadence of executive KPI reporting"
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_002",
+      "name": "Monthly Transaction Processing Capacity",
+      "properties": {
+        "value": 2000,
+        "unit": "transactions per month",
+        "what_it_measures": "Volume of monthly transactions processed"
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_003",
+      "name": "Customer Data Profile Size",
+      "properties": {
+        "value": 500,
+        "unit": "customer records",
+        "what_it_measures": "Number of customer profiles stored"
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_004",
+      "name": "Account Data Profile Size",
+      "properties": {
+        "value": 800,
+        "unit": "account records",
+        "what_it_measures": "Number of account profiles stored"
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_005",
+      "name": "Product Performance Data Scope",
+      "properties": {
+        "value": 5,
+        "unit": "product records",
+        "what_it_measures": "Number of products tracked for performance metrics"
+      },
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_001",
+      "source_name": "Data Warehouse",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_002",
+      "target_name": "Customer Mart",
+      "rel_type": "feeds_data_to",
+      "description": "The Data Warehouse provides customer attribute data to the Customer Mart for downstream analytics and reporting.",
+      "properties": {
+        "data_flow_type": "batch_and_real_time",
+        "frequency": "nightly_batch_and_real_time"
+      },
+      "context": "Key Data Marts: Customer Mart: 500 customers × 50 attributes",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_001",
+      "source_name": "Data Warehouse",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_003",
+      "target_name": "Account Mart",
+      "rel_type": "feeds_data_to",
+      "description": "The Data Warehouse provides account-level data to the Account Mart for performance tracking.",
+      "properties": {
+        "data_flow_type": "batch_and_real_time",
+        "frequency": "nightly_batch_and_real_time"
+      },
+      "context": "Account Mart: 800 accounts × attributes",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_001",
+      "source_name": "Data Warehouse",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_004",
+      "target_name": "Transaction Mart",
+      "rel_type": "feeds_data_to",
+      "description": "The Data Warehouse provides transactional data to the Transaction Mart for processing capacity monitoring.",
+      "properties": {
+        "data_flow_type": "batch_and_real_time",
+        "frequency": "nightly_batch_and_real_time"
+      },
+      "context": "Transaction Mart: 2,000+ monthly transactions",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_001",
+      "source_name": "Data Warehouse",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_005",
+      "target_name": "Product Mart",
+      "rel_type": "feeds_data_to",
+      "description": "The Data Warehouse provides product performance metrics to the Product Mart for scope tracking.",
+      "properties": {
+        "data_flow_type": "batch_and_real_time",
+        "frequency": "nightly_batch_and_real_time"
+      },
+      "context": "Product Mart: 5 products × performance metrics",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_001",
+      "source_name": "Data Warehouse",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_006",
+      "target_name": "Compliance Mart",
+      "rel_type": "feeds_data_to",
+      "description": "The Data Warehouse provides KYC, AML, and complaints data to the Compliance Mart for regulatory tracking.",
+      "properties": {
+        "data_flow_type": "batch_and_real_time",
+        "frequency": "nightly_batch_and_real_time"
+      },
+      "context": "Compliance Mart: KYC, AML, complaints data",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_001",
+      "source_name": "Data Warehouse",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_007",
+      "target_name": "Executive Dashboard",
+      "rel_type": "feeds_data_to",
+      "description": "The Data Warehouse feeds daily KPI data to the Executive Dashboard for executive reporting.",
+      "properties": {
+        "data_flow_type": "real_time",
+        "frequency": "daily"
+      },
+      "context": "Dashboards & Reports: Executive Dashboard (daily KPIs)",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_001",
+      "source_name": "Data Warehouse",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_008",
+      "target_name": "Product Performance Dashboard",
+      "rel_type": "feeds_data_to",
+      "description": "The Data Warehouse feeds product performance data to the Product Performance Dashboard.",
+      "properties": {
+        "data_flow_type": "batch_and_real_time",
+        "frequency": "nightly_batch"
+      },
+      "context": "Dashboards & Reports: Product Performance Dashboard",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_001",
+      "source_name": "Data Warehouse",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_009",
+      "target_name": "Fraud Detection Dashboard",
+      "rel_type": "feeds_data_to",
+      "description": "The Data Warehouse feeds transactional and customer data to the Fraud Detection Dashboard.",
+      "properties": {
+        "data_flow_type": "real_time",
+        "frequency": "real_time"
+      },
+      "context": "Dashboards & Reports: Fraud Detection Dashboard",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_001",
+      "source_name": "Data Warehouse",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_010",
+      "target_name": "Compliance & Risk Dashboard",
+      "rel_type": "feeds_data_to",
+      "description": "The Data Warehouse feeds compliance and risk data to the Compliance & Risk Dashboard.",
+      "properties": {
+        "data_flow_type": "batch_and_real_time",
+        "frequency": "nightly_batch"
+      },
+      "context": "Dashboards & Reports: Compliance & Risk Dashboard",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_001",
+      "source_name": "Data Warehouse",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_011",
+      "target_name": "Customer Analytics Dashboard",
+      "rel_type": "feeds_data_to",
+      "description": "The Data Warehouse feeds customer analytics data to the Customer Analytics Dashboard.",
+      "properties": {
+        "data_flow_type": "batch_and_real_time",
+        "frequency": "nightly_batch"
+      },
+      "context": "Dashboards & Reports: Customer Analytics Dashboard",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_002",
+      "source_name": "Customer Mart",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_003",
+      "target_name": "Customer Data Profile Size",
+      "rel_type": "measured_by",
+      "description": "The Customer Mart tracks and measures the size of customer data profiles based on attribute counts.",
+      "properties": {
+        "metric_type": "data_volume",
+        "threshold": "50 attributes per customer"
+      },
+      "context": "Customer Mart: 500 customers × 50 attributes",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_003",
+      "source_name": "Account Mart",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_004",
+      "target_name": "Account Data Profile Size",
+      "rel_type": "measured_by",
+      "description": "The Account Mart tracks and measures the size of account data profiles based on attribute counts.",
+      "properties": {
+        "metric_type": "data_volume",
+        "threshold": "800 accounts"
+      },
+      "context": "Account Mart: 800 accounts × attributes",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_004",
+      "source_name": "Transaction Mart",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_002",
+      "target_name": "Monthly Transaction Processing Capacity",
+      "rel_type": "measured_by",
+      "description": "The Transaction Mart measures monthly transaction processing capacity against volume thresholds.",
+      "properties": {
+        "metric_type": "processing_capacity",
+        "threshold": "2,000+ monthly transactions"
+      },
+      "context": "Transaction Mart: 2,000+ monthly transactions",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_005",
+      "source_name": "Product Mart",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_005",
+      "target_name": "Product Performance Data Scope",
+      "rel_type": "measured_by",
+      "description": "The Product Mart measures the scope of product performance data across tracked products.",
+      "properties": {
+        "metric_type": "data_scope",
+        "threshold": "5 products"
+      },
+      "context": "Product Mart: 5 products × performance metrics",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_007",
+      "source_name": "Executive Dashboard",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_001",
+      "target_name": "Daily Executive KPI Reporting Frequency",
+      "rel_type": "measured_by",
+      "description": "The Executive Dashboard tracks and reports daily executive KPIs according to the specified frequency.",
+      "properties": {
+        "metric_type": "reporting_frequency",
+        "threshold": "daily"
+      },
+      "context": "Executive Dashboard (daily KPIs)",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_001",
+      "source_name": "Data Warehouse",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_rul_001",
+      "target_name": "Data Retention Policy",
+      "rel_type": "subject_to",
+      "description": "The Data Warehouse's data lifecycle and storage operations are governed by the Data Retention Policy across hot, warm, and cold tiers.",
+      "properties": {
+        "policy_scope": "data_lifecycle_management",
+        "tiers": [
+          "hot (3 months)",
+          "warm (1-3 years)",
+          "cold (3+ years)"
+        ],
+        "storage_targets": [
+          "AWS Redshift",
+          "S3"
+        ]
+      },
+      "context": "Retention Policy: Hot data (3 months): Real-time - Warm data (1–3 years): Nightly batch - Cold data (3+ years): Archive (S3)",
+      "bidirectional": false,
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_001",
+      "source_name": "Data Warehouse",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_002",
+      "source_name": "Customer Mart",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_003",
+      "source_name": "Account Mart",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_004",
+      "source_name": "Transaction Mart",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_005",
+      "source_name": "Product Mart",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_006",
+      "source_name": "Compliance Mart",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_007",
+      "source_name": "Executive Dashboard",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_008",
+      "source_name": "Product Performance Dashboard",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_009",
+      "source_name": "Fraud Detection Dashboard",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_010",
+      "source_name": "Compliance & Risk Dashboard",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_011",
+      "source_name": "Customer Analytics Dashboard",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_rul_001",
+      "source_name": "Data Retention Policy",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_001",
+      "source_name": "Daily Executive KPI Reporting Frequency",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_002",
+      "source_name": "Monthly Transaction Processing Capacity",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_003",
+      "source_name": "Customer Data Profile Size",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_004",
+      "source_name": "Account Data Profile Size",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    },
+    {
+      "source_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_005",
+      "source_name": "Product Performance Data Scope",
+      "target_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "target_name": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+      "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb",
+      "domain": "banking_organization"
+    }
+  ]
+}

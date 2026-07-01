@@ -1,0 +1,4375 @@
+[
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_001_org_001",
+    "name": "Technology",
+    "properties": {
+      "department_classification": "Internal",
+      "status": "Active",
+      "audience": [
+        "Technology Staff",
+        "Architects",
+        "Developers",
+        "Operations"
+      ],
+      "related_documents": [
+        "organisation_model",
+        "departments",
+        "products"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_001",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_001_rol_001",
+    "name": "Chief Technology Officer",
+    "properties": {
+      "department_or_unit": [
+        "Technology"
+      ],
+      "accountable_for": [
+        "Document ownership for Technology Systems & Architecture"
+      ],
+      "appointment_type": "executive"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_001",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_002_org_001",
+    "name": "FirstUK Bank",
+    "properties": {
+      "key_functions": [
+        "retail banking operations",
+        "integrated technology architecture management"
+      ],
+      "location": [
+        "12 branches",
+        "digital channels"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_002",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_002_sys_002",
+    "name": "Data Warehouse",
+    "properties": {
+      "purpose": "Centralized data storage and processing",
+      "key_features": [
+        "real-time processing"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_002",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_002_met_003",
+    "name": "System Availability SLA",
+    "properties": {
+      "value": "99.8%",
+      "unit": "percentage",
+      "what_it_measures": "Target system availability threshold"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_002",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_002_met_004",
+    "name": "2025 Uptime Performance",
+    "properties": {
+      "value": "99.85%",
+      "unit": "percentage",
+      "what_it_measures": "Annual system uptime performance for 2025"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_002",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_002_org_005",
+    "name": "Branch Network",
+    "properties": {
+      "location": [
+        "12 physical branches"
+      ],
+      "key_functions": [
+        "retail banking operations delivery"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_002",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_003_org_001",
+    "name": "Financial Conduct Authority",
+    "properties": {
+      "regulatory_responsibilities": [
+        "Conduct of Business oversight"
+      ],
+      "focus_areas": [
+        "Customer conduct",
+        "Market integrity"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_003",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_003_org_002",
+    "name": "Prudential Regulation Authority",
+    "properties": {
+      "regulatory_responsibilities": [
+        "Capital and liquidity supervision"
+      ],
+      "focus_areas": [
+        "Prudential standards"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_003",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_003_sys_001",
+    "name": "Microservices Event-Driven Architecture",
+    "properties": {
+      "architecture_type": [
+        "Microservices",
+        "Event-driven"
+      ],
+      "deployment_model": "Cloud-ready",
+      "key_features": [
+        "Modular service decomposition",
+        "Asynchronous event processing"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_003",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_003_sys_002",
+    "name": "API-First Integration Model",
+    "properties": {
+      "integration_approach": "API-first",
+      "purpose": "Standardized system connectivity and data exchange"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_003",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_003_sys_003",
+    "name": "Hybrid Cloud Infrastructure",
+    "properties": {
+      "deployment": "Hybrid cloud",
+      "key_features": [
+        "Cloud-ready infrastructure",
+        "Scalable resource allocation"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_003",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_003_sys_004",
+    "name": "Real-Time Data Processing & Analytics Platform",
+    "properties": {
+      "purpose": "Real-time data processing and analytics",
+      "performance_target": "Real-time processing"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_003",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_003_sys_005",
+    "name": "Zero-Trust Security Architecture",
+    "properties": {
+      "security_model": "Zero-trust",
+      "design_principle": "Security-first",
+      "key_features": [
+        "Continuous verification",
+        "Least privilege access"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_003",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_003_rul_001",
+    "name": "Open Banking Compliance Framework",
+    "properties": {
+      "rule_statement": "Compliance with Open Banking standards and regulations",
+      "regulatory_source": [
+        "PSD2",
+        "Open Banking Standard"
+      ],
+      "applies_to": [
+        "Technology architecture",
+        "Data sharing processes"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_003",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_003_rul_002",
+    "name": "Payment Services Directive 2",
+    "properties": {
+      "rule_statement": "Adherence to PSD2 requirements",
+      "regulatory_source": "PSD2",
+      "business_rules": [
+        "Open Banking compliance"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_003",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_003_rul_003",
+    "name": "Open Banking Standard",
+    "properties": {
+      "rule_statement": "Adherence to Open Banking Standard specifications",
+      "regulatory_source": "Open Banking Standard",
+      "key_attributes": [
+        "Data sharing standards",
+        "API specifications"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_003",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_003_rul_004",
+    "name": "FCA Conduct of Business Sourcebook",
+    "properties": {
+      "rule_statement": "Compliance with FCA Conduct of Business rules",
+      "regulatory_source": "FCA COBS",
+      "applies_to": [
+        "Customer conduct",
+        "Business practices"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_003",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_003_rul_005",
+    "name": "PRA Supervisory Statement & Rulebook",
+    "properties": {
+      "rule_statement": "Compliance with PRA capital and liquidity rules",
+      "regulatory_source": "PRA Rulebook",
+      "key_attributes": [
+        "Capital requirements",
+        "Liquidity management"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_003",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_003_rul_006",
+    "name": "General Data Protection Regulation",
+    "properties": {
+      "rule_statement": "Compliance with data protection regulations",
+      "regulatory_source": "GDPR",
+      "key_attributes": [
+        "Data protection",
+        "Privacy controls"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_003",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_003_rul_007",
+    "name": "Open Banking Regulatory Framework",
+    "properties": {
+      "rule_statement": "Adherence to Open Banking regulatory framework",
+      "regulatory_source": "Open Banking regulations",
+      "applies_to": [
+        "Regulatory alignment",
+        "Compliance processes"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_003",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_001",
+    "name": "Account Management System",
+    "properties": {
+      "system_id": "AMS-001",
+      "purpose": "Central repository for customer accounts, balances, and transactions",
+      "technology_stack": [
+        "Java microservices",
+        "PostgreSQL database"
+      ],
+      "deployment": "Cloud (AWS)",
+      "availability_sla": "99.9%",
+      "key_functions": [
+        "Account creation and lifecycle",
+        "Balance management",
+        "Transaction recording",
+        "Interest calculation",
+        "Account status tracking"
+      ],
+      "apis_exposed": [
+        "POST /accounts",
+        "GET /accounts/{accountId}",
+        "GET /accounts/{accountId}/balance",
+        "GET /accounts/{accountId}/transactions",
+        "POST /accounts/{accountId}/transactions"
+      ],
+      "integrations": [
+        "Internet Banking Platform",
+        "Mobile Banking App",
+        "Fraud Detection Engine",
+        "Data Warehouse"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_002",
+    "name": "Internet Banking Platform",
+    "properties": {
+      "integrated_with": [
+        "Account Management System"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_003",
+    "name": "Mobile Banking App",
+    "properties": {
+      "integrated_with": [
+        "Account Management System"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_004",
+    "name": "Fraud Detection Engine",
+    "properties": {
+      "integrated_with": [
+        "Account Management System"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_005",
+    "name": "Data Warehouse",
+    "properties": {
+      "integrated_with": [
+        "Account Management System"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_006",
+    "name": "PostgreSQL Database",
+    "properties": {
+      "technology_stack": [
+        "PostgreSQL 13+"
+      ],
+      "data_volume": "1.6M records (800 accounts × 2,000+ transactions)",
+      "backup_method": "Daily encrypted backup to S3"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_sys_007",
+    "name": "AWS Cloud Infrastructure",
+    "properties": {
+      "deployment_environment": [
+        "AWS"
+      ],
+      "used_by": [
+        "Account Management System"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_met_001",
+    "name": "System Availability SLA",
+    "properties": {
+      "value": "99.9",
+      "unit": "percentage",
+      "what_it_measures": "Target system uptime/availability",
+      "applies_to": [
+        "Account Management System"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_met_002",
+    "name": "Recovery Point Objective",
+    "properties": {
+      "value": "15",
+      "unit": "minutes",
+      "what_it_measures": "Maximum acceptable data loss window during recovery",
+      "applies_to": [
+        "Account Management System"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_met_003",
+    "name": "Daily Encrypted Backup Schedule",
+    "properties": {
+      "value": "Daily",
+      "unit": "frequency",
+      "what_it_measures": "Cadence of data backup operations",
+      "storage_target": "S3",
+      "encryption": "Encrypted",
+      "applies_to": [
+        "Account Management System"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_001",
+    "name": "Customer",
+    "properties": {
+      "definition": "Entities whose financial records are managed by the AMS",
+      "relationships_to": [
+        "Account",
+        "Account Holder"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_002",
+    "name": "Account",
+    "properties": {
+      "definition": "Financial record managed by the AMS containing balances and transactions",
+      "key_attributes": [
+        "balance"
+      ],
+      "business_rules": [
+        "Requires lifecycle management and balance tracking"
+      ],
+      "relationships_to": [
+        "Customer",
+        "Transaction",
+        "Account Holder"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_003",
+    "name": "Account Holder",
+    "properties": {
+      "definition": "Entity linked to an account for ownership or access purposes",
+      "subtypes": [
+        "primary",
+        "secondary",
+        "joint"
+      ],
+      "relationships_to": [
+        "Account",
+        "Customer"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_004",
+    "name": "Transaction",
+    "properties": {
+      "definition": "Record of financial movement linked to an account",
+      "business_rules": [
+        "Must be recorded against a valid account"
+      ],
+      "relationships_to": [
+        "Account",
+        "Customer"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_005",
+    "name": "Interest Rate",
+    "properties": {
+      "definition": "Rate used for calculating interest on accounts",
+      "business_rules": [
+        "Calculated during account lifecycle management"
+      ],
+      "relationships_to": [
+        "Account"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_004_bnk_006",
+    "name": "Account Status",
+    "properties": {
+      "definition": "Current state or phase of an account",
+      "business_rules": [
+        "Must be tracked throughout the account lifecycle"
+      ],
+      "relationships_to": [
+        "Account"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_004",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_sys_001",
+    "name": "Internet Banking Platform",
+    "properties": {
+      "system_id": "IBP-001",
+      "purpose": "Web-based customer portal for account access and self-service",
+      "technology_stack": [
+        "React.js",
+        "Node.js"
+      ],
+      "deployment": "Cloud (AWS)",
+      "availability_sla": "99.8%",
+      "key_features": [
+        "Secure login",
+        "Account information dashboard",
+        "Transaction history and search",
+        "Standing orders and direct debits",
+        "Beneficiary management",
+        "Money transfer",
+        "E-statements",
+        "Profile and settings management"
+      ],
+      "security_controls": [
+        "TLS 1.3 encryption",
+        "Session management (15-min idle timeout)",
+        "Two-factor authentication (OTP via email/SMS)",
+        "XSS/CSRF protection",
+        "SQL injection prevention"
+      ],
+      "integrations": [
+        "Account Management System",
+        "Fraud Detection Engine",
+        "Payment Processing System"
+      ],
+      "performance": {
+        "response_time": "<2 seconds (p95)"
+      }
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_sys_002",
+    "name": "Account Management System",
+    "properties": {
+      "system_id": "AMS",
+      "purpose": "Manage account data",
+      "integrations": [
+        "Internet Banking Platform"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_sys_003",
+    "name": "Fraud Detection Engine",
+    "properties": {
+      "system_id": "FDE",
+      "purpose": "Transaction validation",
+      "integrations": [
+        "Internet Banking Platform"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_sys_004",
+    "name": "Payment Processing System",
+    "properties": {
+      "system_id": "PPS",
+      "purpose": "Transfer execution",
+      "integrations": [
+        "Internet Banking Platform"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_met_001",
+    "name": "Platform Availability SLA",
+    "properties": {
+      "value": "99.8%",
+      "unit": "percentage",
+      "what_it_measures": "Target uptime for the internet banking platform"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_met_002",
+    "name": "Daily Active User Capacity",
+    "properties": {
+      "value": "200-300",
+      "unit": "count",
+      "what_it_measures": "Number of unique users accessing the platform daily"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_met_003",
+    "name": "Peak Traffic Window",
+    "properties": {
+      "value": "10:00-12:00 GMT",
+      "unit": "hours",
+      "what_it_measures": "Daily period of highest concurrent user traffic"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_met_004",
+    "name": "Response Time Threshold",
+    "properties": {
+      "value": "<2 seconds",
+      "unit": "seconds",
+      "what_it_measures": "95th percentile page/transaction load time"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_bnk_001",
+    "name": "Account",
+    "properties": {
+      "definition": "Financial record accessed and managed by customers via self-service portal",
+      "key_attributes": [
+        "account information",
+        "transaction history"
+      ],
+      "relationships_to": [
+        "Transaction",
+        "Standing Order",
+        "Direct Debit"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_bnk_002",
+    "name": "Transaction",
+    "properties": {
+      "definition": "Monetary movement recorded within a customer account",
+      "key_attributes": [
+        "history",
+        "validation status"
+      ],
+      "relationships_to": [
+        "Account",
+        "Standing Order",
+        "Direct Debit"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_bnk_003",
+    "name": "Standing Order",
+    "properties": {
+      "definition": "Pre-authorized recurring payment instruction initiated by the customer",
+      "key_attributes": [
+        "schedule",
+        "beneficiary details"
+      ],
+      "relationships_to": [
+        "Account",
+        "Transaction"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_bnk_004",
+    "name": "Direct Debit",
+    "properties": {
+      "definition": "Payment method allowing authorized third-party collection from a customer account",
+      "key_attributes": [
+        "mandate",
+        "collection schedule"
+      ],
+      "relationships_to": [
+        "Account",
+        "Transaction"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_bnk_005",
+    "name": "Customer",
+    "properties": {
+      "definition": "Individual or entity utilizing the banking platform for self-service and account management",
+      "key_attributes": [
+        "username",
+        "profile settings",
+        "beneficiary list"
+      ],
+      "relationships_to": [
+        "Account",
+        "Transaction"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_rul_001",
+    "name": "Session Idle Timeout Constraint",
+    "properties": {
+      "rule_statement": "User sessions must automatically terminate after 15 minutes of inactivity",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Internet Banking Platform",
+        "Customer login sessions"
+      ],
+      "enforcement": "System session management module"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_rul_002",
+    "name": "Two-Factor Authentication Requirement",
+    "properties": {
+      "rule_statement": "All customer logins must require OTP verification via email or SMS",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Internet Banking Platform",
+        "Customer access"
+      ],
+      "enforcement": "Authentication module"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_005_rul_003",
+    "name": "Encryption Standard Compliance",
+    "properties": {
+      "rule_statement": "All data in transit must be encrypted using TLS 1.3 standard",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Internet Banking Platform",
+        "Data transmission"
+      ],
+      "enforcement": "Security controls / Network infrastructure"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_005",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_006_sys_001",
+    "name": "Mobile Banking App",
+    "properties": {
+      "system_id": "MBA-001",
+      "purpose": "Native mobile application for iOS and Android",
+      "technology_stack": [
+        "React Native",
+        "Node.js"
+      ],
+      "deployment": "Cloud (AWS) + CDN (CloudFront)",
+      "availability_sla": "99.5%",
+      "key_features": [
+        "Secure login (biometric + PIN)",
+        "Account viewing",
+        "Mobile-optimized transaction history",
+        "Push notifications for transactions",
+        "Mobile money transfer",
+        "Card management (lock/unlock)",
+        "Virtual card numbers (for online shopping)",
+        "Location-aware services"
+      ],
+      "security_controls": [
+        "Biometric authentication (Face ID, Touch ID, Fingerprint)",
+        "PIN fallback"
+      ],
+      "integrations": [
+        "Account Management System",
+        "Fraud Detection Engine",
+        "Push Notification Service"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_006",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_006_sys_002",
+    "name": "Account Management System",
+    "properties": {
+      "system_id": "AMS",
+      "integrations": [
+        "Mobile Banking App"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_006",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_006_sys_003",
+    "name": "Fraud Detection Engine",
+    "properties": {
+      "integrations": [
+        "Mobile Banking App"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_006",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_006_sys_004",
+    "name": "Push Notification Service",
+    "properties": {
+      "system_id": "PNS",
+      "integrations": [
+        "Mobile Banking App"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_006",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_006_met_005",
+    "name": "Mobile Banking App Availability SLA",
+    "properties": {
+      "value": "99.5%",
+      "unit": "percentage",
+      "what_it_measures": "Target uptime for the mobile banking platform",
+      "context": "Service level agreement defining expected availability"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_006",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_006_met_006",
+    "name": "Daily Active Users KPI",
+    "properties": {
+      "value": "150-200",
+      "unit": "count",
+      "what_it_measures": "Number of unique users accessing the mobile app daily",
+      "context": "Tracks platform engagement and usage volume"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_006",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_006_bnk_007",
+    "name": "Mobile Money Transfer",
+    "properties": {
+      "definition": "Feature enabling monetary transfers directly through the mobile banking application",
+      "key_attributes": [
+        "Mobile-optimized interface"
+      ],
+      "relationships_to": [
+        "Mobile Banking App"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_006",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_006_bnk_008",
+    "name": "Virtual Card Numbers",
+    "properties": {
+      "definition": "Card details generated specifically for online shopping transactions",
+      "key_attributes": [
+        "Online shopping use case"
+      ],
+      "relationships_to": [
+        "Mobile Banking App",
+        "Card Management"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_006",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_006_bnk_009",
+    "name": "Card Management",
+    "properties": {
+      "definition": "Controls allowing users to lock or unlock payment cards via the mobile app",
+      "key_attributes": [
+        "Lock/Unlock functionality"
+      ],
+      "relationships_to": [
+        "Mobile Banking App"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_006",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_sys_001",
+    "name": "Fraud Detection Engine",
+    "properties": {
+      "system_id": "FDE-001",
+      "purpose": "Real-time detection and prevention of fraudulent transactions",
+      "technology_stack": [
+        "Python",
+        "Apache Kafka",
+        "TensorFlow"
+      ],
+      "deployment": "Cloud (AWS) + on-premises",
+      "performance": {
+        "latency": "<100ms per transaction"
+      },
+      "key_features": [
+        "Transaction risk scoring",
+        "Anomaly detection",
+        "Rule-based detection",
+        "Card fraud prevention",
+        "Account takeover detection",
+        "Suspicious activity flagging"
+      ],
+      "integrations": [
+        "Account Management System",
+        "Internet Banking Platform",
+        "Mobile Banking App",
+        "Payment Processing System",
+        "Financial Crime System"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_sys_002",
+    "name": "Account Management System",
+    "properties": {
+      "system_id": "AMS",
+      "integrations": [
+        "Fraud Detection Engine"
+      ],
+      "data_stored": [
+        "Transaction data"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_sys_003",
+    "name": "Internet Banking Platform",
+    "properties": {
+      "system_id": "IBP",
+      "integrations": [
+        "Fraud Detection Engine"
+      ],
+      "key_features": [
+        "Real-time transaction blocking"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_sys_004",
+    "name": "Mobile Banking App",
+    "properties": {
+      "system_id": "MBA",
+      "integrations": [
+        "Fraud Detection Engine"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_sys_005",
+    "name": "Payment Processing System",
+    "properties": {
+      "system_id": "PPS",
+      "integrations": [
+        "Fraud Detection Engine"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_met_001",
+    "name": "Transaction Latency Threshold",
+    "properties": {
+      "value": "<100ms",
+      "unit": "milliseconds",
+      "what_it_measures": "Processing time per transaction"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_met_002",
+    "name": "Fraud Detection Rate",
+    "properties": {
+      "value": "97%",
+      "unit": "percentage",
+      "what_it_measures": "Percentage of fraudulent transactions successfully identified"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_met_003",
+    "name": "False Positive Rate Limit",
+    "properties": {
+      "value": "<2%",
+      "unit": "percentage",
+      "what_it_measures": "Rate of legitimate transactions incorrectly flagged as fraud"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_met_004",
+    "name": "Monthly Fraud Prevention Value",
+    "properties": {
+      "value": "~£45,000–£80,000",
+      "unit": "GBP",
+      "what_it_measures": "Total monetary value of fraudulent activity stopped monthly"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_rul_001",
+    "name": "Large Transaction Amount Rule",
+    "properties": {
+      "rule_statement": "Flag transactions exceeding £5,000",
+      "rule_type": "threshold",
+      "applies_to": [
+        "Transaction processing"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_rul_002",
+    "name": "Geographic Anomaly Rule",
+    "properties": {
+      "rule_statement": "Flag transactions occurring in a different country within 2 hours of previous transaction",
+      "rule_type": "threshold",
+      "applies_to": [
+        "Transaction processing"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_rul_003",
+    "name": "Transaction Velocity Check",
+    "properties": {
+      "rule_statement": "Flag more than 5 transactions within a 1-hour window",
+      "rule_type": "threshold",
+      "applies_to": [
+        "Transaction processing"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_rul_004",
+    "name": "Unusual Beneficiary Rule",
+    "properties": {
+      "rule_statement": "Flag transfers to new beneficiaries combined with large amounts",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Transaction processing"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_rul_005",
+    "name": "Card Not Present High-Value Rule",
+    "properties": {
+      "rule_statement": "Flag high-value transactions where the physical card is not presented",
+      "rule_type": "threshold",
+      "applies_to": [
+        "Transaction processing"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_rul_006",
+    "name": "Low Risk Escalation Protocol",
+    "properties": {
+      "rule_statement": "Automatically approve transactions flagged as low risk",
+      "rule_type": "authority",
+      "applies_to": [
+        "Fraud alert handling"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_rul_007",
+    "name": "Medium Risk Verification Rule",
+    "properties": {
+      "rule_statement": "Require One-Time Password verification for medium risk alerts",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Fraud alert handling"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_rul_008",
+    "name": "High Risk Blocking Protocol",
+    "properties": {
+      "rule_statement": "Block transaction, notify customer, and escalate to Financial Crime team for high risk alerts",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Fraud alert handling"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_bnk_001",
+    "name": "Transaction",
+    "properties": {
+      "key_attributes": [
+        "amount",
+        "timestamp",
+        "location",
+        "beneficiary",
+        "card_present_status"
+      ],
+      "business_rules": [
+        "Large amount (>£5k)",
+        "Geographic anomaly",
+        "Velocity >5/hr",
+        "Unusual beneficiary",
+        "CNP high-value"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_bnk_002",
+    "name": "Card",
+    "properties": {
+      "key_attributes": [
+        "card_present_status"
+      ],
+      "relationships_to": [
+        "Fraud Detection Engine"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_bnk_003",
+    "name": "Account",
+    "properties": {
+      "key_attributes": [
+        "takeover_detection_flag"
+      ],
+      "relationships_to": [
+        "Fraud Detection Engine"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_bnk_004",
+    "name": "SAR",
+    "properties": {
+      "regulatory_significance": "Required for high-risk fraud alerts",
+      "relationships_to": [
+        "Financial Crime System"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_007_bnk_005",
+    "name": "Fraud Alert",
+    "properties": {
+      "subtypes": [
+        "Low Risk",
+        "Medium Risk",
+        "High Risk"
+      ],
+      "business_rules": [
+        "Auto-approve low risk",
+        "OTP verification for medium risk",
+        "Block & notify & escalate high risk"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_007",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_sys_001",
+    "name": "Payment Processing System",
+    "properties": {
+      "system_id": "PPS-001",
+      "purpose": "Process customer payments and inter-bank settlements",
+      "technology_stack": [
+        "Java microservices",
+        "RabbitMQ"
+      ],
+      "deployment": "Cloud (AWS)",
+      "key_functions": [
+        "Transfer initiation and validation",
+        "Standing order processing",
+        "Direct debit processing",
+        "Settlement to other banks",
+        "Reconciliation and reporting"
+      ],
+      "integrations": [
+        "Account Management System",
+        "Fraud Detection Engine",
+        "Bank of England Settlement Systems",
+        "Treasury System"
+      ],
+      "performance": {
+        "FPS_processing": "<15 minutes",
+        "BACS_processing": "Next business day",
+        "Success_rate": "99.95%",
+        "Failed_transactions": "<5 per day"
+      }
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_sys_002",
+    "name": "Account Management System",
+    "properties": {
+      "system_id": "AMS",
+      "purpose": "Account validation",
+      "integrations": [
+        "Payment Processing System"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_sys_003",
+    "name": "Fraud Detection Engine",
+    "properties": {
+      "system_id": "FDE",
+      "purpose": "Fraud check",
+      "integrations": [
+        "Payment Processing System"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_sys_004",
+    "name": "Bank of England Settlement Systems",
+    "properties": {
+      "system_id": "External",
+      "purpose": "Inter-bank settlement",
+      "integrations": [
+        "Payment Processing System"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_sys_005",
+    "name": "Treasury System",
+    "properties": {
+      "purpose": "Reconciliation",
+      "integrations": [
+        "Payment Processing System"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_org_001",
+    "name": "Bank of England",
+    "properties": {
+      "role_in_document": "External settlement system operator",
+      "integration_role": "Inter-bank settlement via PPS"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_bnk_001",
+    "name": "Standing Order",
+    "properties": {
+      "supported_by": [
+        "Payment Processing System"
+      ],
+      "processing_type": "Scheduled transfer"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_bnk_002",
+    "name": "Direct Debit",
+    "properties": {
+      "supported_by": [
+        "Payment Processing System"
+      ],
+      "processing_type": "Scheduled payment collection"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_bnk_003",
+    "name": "Faster Payments Service",
+    "properties": {
+      "definition": "Real-time payment service with a £1M limit",
+      "key_attributes": [
+        "Real-time",
+        "Up to £1M limit"
+      ],
+      "business_rules": [
+        "Processing time target: <15 minutes",
+        "Immediate submission"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_bnk_004",
+    "name": "Bankers Automated Clearing Services",
+    "properties": {
+      "definition": "Overnight, high-volume payment clearing service",
+      "key_attributes": [
+        "Overnight",
+        "High volume"
+      ],
+      "business_rules": [
+        "Submission deadline: 20:00 GMT daily",
+        "Processing time: Next business day"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_bnk_005",
+    "name": "Clearing House Automated Payment System",
+    "properties": {
+      "definition": "High-value, real-time payment system",
+      "key_attributes": [
+        "High-value",
+        "Real-time"
+      ],
+      "business_rules": [
+        "Processing window: During operating hours"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_bnk_006",
+    "name": "Internal Transfer",
+    "properties": {
+      "definition": "Transfers between accounts within the same bank",
+      "key_attributes": [
+        "Same bank",
+        "Internal"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_met_001",
+    "name": "FPS Processing Time SLA",
+    "properties": {
+      "value": "<15 minutes",
+      "unit": "minutes",
+      "what_it_measures": "Time to process Faster Payments Service transactions",
+      "context": "SLA for real-time payment throughput"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_met_002",
+    "name": "BACS Processing Time SLA",
+    "properties": {
+      "value": "Next business day",
+      "unit": "days",
+      "what_it_measures": "Time to process BACS transactions",
+      "context": "SLA for overnight batch clearing"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_met_003",
+    "name": "Payment Success Rate",
+    "properties": {
+      "value": "99.95%",
+      "unit": "percentage",
+      "what_it_measures": "Overall payment transaction success ratio",
+      "context": "Performance target for PPS reliability"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_met_004",
+    "name": "Daily Failed Transaction Limit",
+    "properties": {
+      "value": "<5",
+      "unit": "count",
+      "what_it_measures": "Maximum allowable failed transactions per day",
+      "context": "Quality control threshold for payment processing"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_rul_001",
+    "name": "FPS Transaction Value Limit",
+    "properties": {
+      "rule_statement": "FPS transactions are capped at a maximum value of £1M",
+      "rule_type": "threshold",
+      "applies_to": [
+        "Faster Payments Service",
+        "Payment Processing System"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_rul_002",
+    "name": "BACS Daily Submission Deadline",
+    "properties": {
+      "rule_statement": "BACS batch submissions must be completed by 20:00 GMT each day",
+      "rule_type": "constraint",
+      "applies_to": [
+        "BACS",
+        "Payment Processing System"
+      ],
+      "frequency": "Daily"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_008_rul_003",
+    "name": "CHAPS Real-Time Processing Window",
+    "properties": {
+      "rule_statement": "CHAPS transactions are processed in real-time only during designated operating hours",
+      "rule_type": "constraint",
+      "applies_to": [
+        "CHAPS",
+        "Payment Processing System"
+      ],
+      "frequency": "Daily (operating hours)"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_008",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_001",
+    "name": "Data Warehouse",
+    "properties": {
+      "system_id": "DW-001",
+      "purpose": "Centralized analytics and business intelligence",
+      "technology_stack": [
+        "AWS Redshift",
+        "Apache Spark"
+      ],
+      "deployment": "Cloud (AWS)",
+      "update_frequency": [
+        "Real-time (hot data)",
+        "Nightly batch (historical)"
+      ],
+      "data_model": "Star schema (facts + dimensions)"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_002",
+    "name": "Customer Mart",
+    "properties": {
+      "data_scope": "Customer profiles and attributes",
+      "record_count": 500,
+      "attributes_per_record": 50
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_003",
+    "name": "Account Mart",
+    "properties": {
+      "data_scope": "Account details and attributes",
+      "record_count": 800
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_004",
+    "name": "Transaction Mart",
+    "properties": {
+      "data_scope": "Transaction records",
+      "throughput": "2,000+ monthly transactions"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_005",
+    "name": "Product Mart",
+    "properties": {
+      "data_scope": "Product details and performance metrics",
+      "record_count": 5
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_006",
+    "name": "Compliance Mart",
+    "properties": {
+      "data_scope": [
+        "KYC data",
+        "AML data",
+        "Complaints data"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_007",
+    "name": "Executive Dashboard",
+    "properties": {
+      "purpose": "Daily KPI monitoring and reporting"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_008",
+    "name": "Product Performance Dashboard",
+    "properties": {
+      "purpose": "Monitor product performance metrics"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_009",
+    "name": "Fraud Detection Dashboard",
+    "properties": {
+      "purpose": "Track and detect fraud patterns"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_010",
+    "name": "Compliance & Risk Dashboard",
+    "properties": {
+      "purpose": "Monitor compliance and risk indicators"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_sys_011",
+    "name": "Customer Analytics Dashboard",
+    "properties": {
+      "purpose": "Analyze customer behavior and trends"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_rul_001",
+    "name": "Data Retention Policy",
+    "properties": {
+      "rule_statement": "Hot data retained for 3 months with real-time updates; warm data for 1-3 years with nightly batch; cold data archived to S3 after 3+ years",
+      "applies_to": [
+        "Data Warehouse",
+        "All Data Marts"
+      ],
+      "retention_schedule": {
+        "hot_data": "Real-time (up to 3 months)",
+        "warm_data": "Nightly batch (1-3 years)",
+        "cold_data": "Archive to S3 (3+ years)"
+      }
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_001",
+    "name": "Daily Executive KPI Reporting Frequency",
+    "properties": {
+      "value": 1,
+      "unit": "times per day",
+      "what_it_measures": "Cadence of executive KPI reporting"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_002",
+    "name": "Monthly Transaction Processing Capacity",
+    "properties": {
+      "value": 2000,
+      "unit": "transactions per month",
+      "what_it_measures": "Volume of monthly transactions processed"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_003",
+    "name": "Customer Data Profile Size",
+    "properties": {
+      "value": 500,
+      "unit": "customer records",
+      "what_it_measures": "Number of customer profiles stored"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_004",
+    "name": "Account Data Profile Size",
+    "properties": {
+      "value": 800,
+      "unit": "account records",
+      "what_it_measures": "Number of account profiles stored"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_009_met_005",
+    "name": "Product Performance Data Scope",
+    "properties": {
+      "value": 5,
+      "unit": "product records",
+      "what_it_measures": "Number of products tracked for performance metrics"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_009",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_010_sys_001",
+    "name": "Document Management System",
+    "properties": {
+      "system_id": "DMS-001",
+      "purpose": "Store and manage documents (policies, procedures, templates)",
+      "technology_stack": [
+        "Elasticsearch",
+        "S3"
+      ],
+      "data_stored": [
+        "Policies",
+        "Procedures (SOPs)",
+        "Templates",
+        "Reports",
+        "Audit documents"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_010",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_011_sys_001",
+    "name": "Customer Relationship Management (CRM)",
+    "properties": {
+      "system_id": "CRM-001",
+      "purpose": "Customer interaction and relationship tracking",
+      "technology_stack": [
+        "Salesforce CRM"
+      ],
+      "deployment": "Cloud (Salesforce)",
+      "key_features": [
+        "Customer contact information",
+        "Interaction history (calls, emails)",
+        "Complaint tracking",
+        "Marketing campaign tracking",
+        "Customer feedback"
+      ],
+      "integrations": [
+        "Account Management System",
+        "Email system",
+        "Phone system"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_011",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_011_sys_002",
+    "name": "Account Management System",
+    "properties": {},
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_011",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_011_sys_003",
+    "name": "Email System",
+    "properties": {},
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_011",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_011_sys_004",
+    "name": "Phone System",
+    "properties": {},
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_011",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_012_sys_001",
+    "name": "Reporting & Regulatory System",
+    "properties": {
+      "system_id": "RRS-001",
+      "purpose": "Generate regulatory reports for FCA/PRA",
+      "technology_stack": [
+        "Python",
+        "XBRL toolkit"
+      ],
+      "deployment": "On-premises (secured)",
+      "key_features": [
+        "CASS report generation",
+        "COREP report generation",
+        "FINREP report generation",
+        "AML suspicious activity reporting"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_012",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_012_org_001",
+    "name": "Financial Conduct Authority / Prudential Regulation Authority",
+    "properties": {},
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_012",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_012_bnk_001",
+    "name": "Client Assets Sourcebook Report",
+    "properties": {
+      "definition": "Regulatory report generated for FCA/PRA compliance under the Client Assets Sourcebook",
+      "regulatory_significance": "Mandatory reporting obligation for FCA/PRA oversight"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_012",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_012_bnk_002",
+    "name": "Capital Requirement and Exposure Report",
+    "properties": {
+      "definition": "Regulatory report tracking capital requirements and exposure metrics (COREP)",
+      "regulatory_significance": "Mandatory reporting obligation for FCA/PRA prudential oversight"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_012",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_012_bnk_003",
+    "name": "Financial Report",
+    "properties": {
+      "definition": "Regulatory financial reporting document (FINREP)",
+      "regulatory_significance": "Mandatory reporting obligation for FCA/PRA financial oversight"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_012",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_012_bnk_004",
+    "name": "Anti-Money Laundering Suspicious Activity Report",
+    "properties": {
+      "definition": "Report detailing suspicious activities for anti-money laundering compliance (AML)",
+      "regulatory_significance": "Mandatory reporting obligation for FCA/PRA to mitigate money laundering risks"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_012",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_013_sys_001",
+    "name": "Bank of England Settlement Systems",
+    "properties": {
+      "category": "External System",
+      "integration_scope": "Connects to IBP Portal, Mobile App, and Branch Systems"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_013",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_013_org_001",
+    "name": "Payment Scheme Operators",
+    "properties": {
+      "subtypes": [
+        "FPS",
+        "BACS",
+        "CHAPS"
+      ],
+      "category": "External System/Operator"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_013",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_013_org_002",
+    "name": "Regulatory Authorities",
+    "properties": {
+      "subtypes": [
+        "FCA",
+        "PRA"
+      ],
+      "category": "External Regulatory Body"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_013",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_013_sys_002",
+    "name": "IBP Portal",
+    "properties": {
+      "position_in_architecture": "Customer-facing channel",
+      "connects_to": [
+        "API Gateway"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_013",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_013_sys_003",
+    "name": "Mobile App",
+    "properties": {
+      "position_in_architecture": "Customer-facing mobile channel",
+      "connects_to": [
+        "API Gateway"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_013",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_013_sys_004",
+    "name": "Branch Systems",
+    "properties": {
+      "position_in_architecture": "Customer-facing branch channel",
+      "connects_to": [
+        "API Gateway"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_013",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_013_sys_005",
+    "name": "API Gateway",
+    "properties": {
+      "technology_stack": [
+        "Kong"
+      ],
+      "role": "Central routing and management layer for channels and backend systems",
+      "integrations": [
+        "IBP Portal",
+        "Mobile App",
+        "Branch Systems",
+        "Account Management System",
+        "Fraud Detection Engine",
+        "Payment Processing System",
+        "Data Warehouse"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_013",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_013_sys_006",
+    "name": "Account Management System",
+    "properties": {
+      "position_in_architecture": "Core backend system"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_013",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_013_sys_007",
+    "name": "Fraud Detection Engine",
+    "properties": {
+      "position_in_architecture": "Security and risk management backend system"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_013",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_013_sys_008",
+    "name": "Payment Processing System",
+    "properties": {
+      "position_in_architecture": "Transaction execution backend system"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_013",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_013_sys_009",
+    "name": "Data Warehouse",
+    "properties": {
+      "position_in_architecture": "Centralized data storage and analytics repository"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_013",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_014_sys_001",
+    "name": "Account APIs",
+    "properties": {
+      "system_id": "sys_001",
+      "purpose": "Central interface for managing account creation, details, balances, transactions, standing orders, and direct debits",
+      "key_features": [
+        "Account creation",
+        "Account details retrieval",
+        "Balance inquiry",
+        "Transaction listing & recording",
+        "Standing order management",
+        "Direct debit management"
+      ],
+      "apis_exposed": [
+        "/accounts",
+        "/accounts/{id}",
+        "/accounts/{id}/balance",
+        "/accounts/{id}/transactions",
+        "/accounts/{id}/standing-orders",
+        "/accounts/{id}/direct-debits"
+      ],
+      "security_controls": [
+        "API Key + JWT for account creation",
+        "JWT for read operations",
+        "Internal API Key for transaction recording"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_014",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_014_bnk_001",
+    "name": "account",
+    "properties": {
+      "definition": "A financial entity created and managed through the Account APIs, holding balances and transaction history",
+      "key_attributes": [
+        "id",
+        "balance"
+      ],
+      "business_rules": [
+        "Created via POST /accounts endpoint",
+        "Requires API Key + JWT authentication for creation"
+      ],
+      "relationships_to": [
+        "transaction",
+        "standing-order",
+        "direct-debit"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_014",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_014_bnk_002",
+    "name": "transaction",
+    "properties": {
+      "definition": "A financial event recorded against an account, retrievable via list or POST endpoints",
+      "key_attributes": [
+        "account_id"
+      ],
+      "business_rules": [
+        "Recorded via POST /accounts/{id}/transactions endpoint",
+        "Listed via GET /accounts/{id}/transactions endpoint"
+      ],
+      "relationships_to": [
+        "account"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_014",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_014_bnk_003",
+    "name": "standing-order",
+    "properties": {
+      "definition": "A recurring payment instruction linked to an account, managed via dedicated endpoints",
+      "key_attributes": [
+        "account_id"
+      ],
+      "business_rules": [
+        "Managed via GET/POST /accounts/{id}/standing-orders endpoint",
+        "Requires JWT authentication for access"
+      ],
+      "relationships_to": [
+        "account"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_014",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_014_bnk_004",
+    "name": "direct-debit",
+    "properties": {
+      "definition": "A payment authorization linked to an account, managed via dedicated endpoints",
+      "key_attributes": [
+        "account_id"
+      ],
+      "business_rules": [
+        "Managed via GET/POST /accounts/{id}/direct-debits endpoint",
+        "Requires JWT authentication for access"
+      ],
+      "relationships_to": [
+        "account"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_014",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_014_rul_001",
+    "name": "API Key + JWT Authentication Requirement",
+    "properties": {
+      "rule_statement": "Account creation via POST /accounts requires both an API Key and a JWT",
+      "rule_type": "authority",
+      "applies_to": [
+        "POST /accounts endpoint"
+      ],
+      "enforcement": "Authentication middleware"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_014",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_014_rul_002",
+    "name": "JWT-Only Access Control",
+    "properties": {
+      "rule_statement": "Read operations and standing-order/direct-debit management require only a JWT",
+      "rule_type": "authority",
+      "applies_to": [
+        "GET /accounts/{id}",
+        "GET/POST /accounts/{id}/standing-orders",
+        "GET/POST /accounts/{id}/direct-debits"
+      ],
+      "enforcement": "Authentication middleware"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_014",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_014_rul_003",
+    "name": "Internal-Only Transaction Recording",
+    "properties": {
+      "rule_statement": "Recording transactions via POST /accounts/{id}/transactions is restricted to internal API Keys only",
+      "rule_type": "constraint",
+      "applies_to": [
+        "POST /accounts/{id}/transactions endpoint"
+      ],
+      "enforcement": "API Gateway / Internal network restriction"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_014",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_015_sys_001",
+    "name": "Payment APIs",
+    "properties": {
+      "system_id": "sys_001",
+      "purpose": "Handle FPS transfers, BACS transfers, and payment validation",
+      "key_features": [
+        "FPS transfer processing",
+        "BACS transfer processing",
+        "Payment validation"
+      ],
+      "apis_exposed": [
+        "/payments/fps",
+        "/payments/bacs",
+        "/payments/validate"
+      ],
+      "security_controls": [
+        "JWT authentication"
+      ],
+      "supported_methods": [
+        "POST"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_015",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_016_sys_001",
+    "name": "Customer APIs",
+    "properties": {
+      "purpose": "Manage customer lifecycle and compliance checks including creation, retrieval, KYC, and AML screening",
+      "apis_exposed": [
+        "/customers",
+        "/customers/{id}",
+        "/customers/{id}/kyc",
+        "/customers/{id}/aml-screening"
+      ],
+      "key_features": [
+        "customer creation",
+        "customer detail retrieval",
+        "KYC verification",
+        "AML screening"
+      ],
+      "security_controls": [
+        "API Key + JWT",
+        "JWT",
+        "Internal API Key"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_016",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_016_bnk_001",
+    "name": "customer",
+    "properties": {
+      "definition": "Core banking entity managed through dedicated API endpoints for creation and detail retrieval",
+      "key_attributes": [
+        "id",
+        "details"
+      ],
+      "relationships_to": [
+        "Customer APIs",
+        "KYC verification",
+        "AML screening"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_016",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_016_bnk_002",
+    "name": "KYC verification",
+    "properties": {
+      "definition": "Process to verify customer identity and compliance status",
+      "key_attributes": [
+        "customer_id"
+      ],
+      "business_rules": [
+        "Requires internal API Key authentication for access"
+      ],
+      "relationships_to": [
+        "Customer APIs",
+        "customer"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_016",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_016_bnk_003",
+    "name": "AML screening",
+    "properties": {
+      "definition": "Process to screen customer profiles against anti-money laundering criteria",
+      "key_attributes": [
+        "customer_id"
+      ],
+      "business_rules": [
+        "Requires internal API Key authentication for access"
+      ],
+      "relationships_to": [
+        "Customer APIs",
+        "customer"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_016",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_016_rul_001",
+    "name": "API Access Control Policy",
+    "properties": {
+      "rule_statement": "Public endpoints require API Key + JWT or JWT; internal compliance endpoints require Internal API Key only",
+      "rule_type": "authority",
+      "applies_to": [
+        "Customer APIs",
+        "/customers",
+        "/customers/{id}",
+        "/customers/{id}/kyc",
+        "/customers/{id}/aml-screening"
+      ],
+      "enforcement": "Endpoint-level authentication configuration"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_016",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_017_sys_001",
+    "name": "Card APIs",
+    "properties": {
+      "system_id": "sys_001",
+      "purpose": "Manage card lifecycle operations including locking, unlocking, and replacement",
+      "apis_exposed": [
+        "/cards/{id}/lock",
+        "/cards/{id}/unlock",
+        "/cards/{id}/replace"
+      ],
+      "security_controls": [
+        "JWT authentication"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_017",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_017_bnk_001",
+    "name": "Card",
+    "properties": {
+      "key_attributes": [
+        "id"
+      ],
+      "relationships_to": [
+        "Card APIs system"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_017",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_018_sys_001",
+    "name": "Fraud APIs",
+    "properties": {
+      "system_id": "sys_001",
+      "purpose": "Score transactions and list fraud alerts",
+      "apis_exposed": [
+        "/fraud/score",
+        "/fraud/alerts"
+      ],
+      "key_features": [
+        "transaction scoring",
+        "alert listing"
+      ],
+      "security_controls": [
+        "API Key authentication (internal)"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_018",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_018_bnk_001",
+    "name": "Transaction",
+    "properties": {
+      "definition": "An event or action subject to fraud risk scoring",
+      "relationships_to": [
+        "Fraud APIs"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_018",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_018_bnk_002",
+    "name": "Fraud Alert",
+    "properties": {
+      "definition": "A record or notification generated for flagged transactions",
+      "relationships_to": [
+        "Fraud APIs"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_018",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_018_rul_001",
+    "name": "Internal API Key Authentication Constraint",
+    "properties": {
+      "rule_statement": "All Fraud API endpoints must use internal API key authentication",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Fraud APIs",
+        "/fraud/score",
+        "/fraud/alerts"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_018",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_019_sys_001",
+    "name": "Reporting APIs",
+    "properties": {
+      "system_id": "sys_001",
+      "purpose": "Generate customer, transaction, and compliance reports",
+      "apis_exposed": [
+        "/reports/customers",
+        "/reports/transactions",
+        "/reports/compliance"
+      ],
+      "key_features": [
+        "Customer report generation",
+        "Transaction report generation",
+        "Compliance report generation"
+      ],
+      "security_controls": [
+        "API Key authentication (internal)"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_019",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_019_bnk_001",
+    "name": "Customer",
+    "properties": {
+      "relationships_to": [
+        "Reporting APIs (sys_001)"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_019",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_019_bnk_002",
+    "name": "Transaction",
+    "properties": {
+      "relationships_to": [
+        "Reporting APIs (sys_001)"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_019",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_019_rul_001",
+    "name": "Internal API Key Authentication Constraint",
+    "properties": {
+      "rule_statement": "All Reporting API endpoints must utilize internal API key authentication",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Reporting APIs (sys_001)"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_019",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_020_sys_001",
+    "name": "Apache Kafka",
+    "properties": {
+      "system_id": "KAFKA-001",
+      "purpose": "Central message queue for asynchronous event-driven integration",
+      "integrations": [
+        "Internet Banking Platform",
+        "Payment Processing System",
+        "Fraud Detection Engine",
+        "Account Management System",
+        "Data Warehouse"
+      ],
+      "key_features": [
+        "Topic-based event routing",
+        "Asynchronous messaging"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_020",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_020_sys_002",
+    "name": "Internet Banking Platform",
+    "properties": {
+      "system_id": "IBP-001",
+      "purpose": "Customer-facing interface for initiating transfers",
+      "integrations": [
+        "Payment Processing System"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_020",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_020_sys_003",
+    "name": "Payment Processing System",
+    "properties": {
+      "system_id": "PPS-001",
+      "purpose": "Validates and executes customer transfers",
+      "integrations": [
+        "Internet Banking Platform",
+        "Fraud Detection Engine"
+      ],
+      "key_features": [
+        "Transfer validation",
+        "Payment execution"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_020",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_020_sys_004",
+    "name": "Fraud Detection Engine",
+    "properties": {
+      "system_id": "FDE-001",
+      "purpose": "Checks transactions for fraud and generates risk scores",
+      "integrations": [
+        "Payment Processing System"
+      ],
+      "key_features": [
+        "Fraud checking",
+        "Risk scoring"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_020",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_020_sys_005",
+    "name": "Account Management System",
+    "properties": {
+      "system_id": "AMS-001",
+      "purpose": "Manages account balances and lifecycle status",
+      "integrations": [
+        "Payment Processing System",
+        "Data Warehouse"
+      ],
+      "key_features": [
+        "Balance updating",
+        "Account status management"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_020",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_020_sys_006",
+    "name": "Data Warehouse",
+    "properties": {
+      "system_id": "DW-001",
+      "purpose": "Stores transactional data for analytics reporting",
+      "integrations": [
+        "Account Management System"
+      ],
+      "key_features": [
+        "Data warehousing",
+        "Analytics support"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_020",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_020_bnk_001",
+    "name": "Account",
+    "properties": {
+      "definition": "Financial entity representing a customer's deposit or credit facility",
+      "key_attributes": [
+        "status",
+        "balance"
+      ],
+      "business_rules": [
+        "Creation triggers `account.created` event",
+        "Closure triggers `account.closed` event"
+      ],
+      "relationships_to": [
+        "Transaction",
+        "Fraud Alert"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_020",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_020_bnk_002",
+    "name": "Transaction",
+    "properties": {
+      "definition": "Record of a financial movement between accounts",
+      "key_attributes": [
+        "status",
+        "amount",
+        "timestamp"
+      ],
+      "business_rules": [
+        "Requires validation by Payment Processing System",
+        "Triggers fraud check before completion"
+      ],
+      "relationships_to": [
+        "Account",
+        "Fraud Alert"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_020",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_020_bnk_003",
+    "name": "Fraud Alert",
+    "properties": {
+      "definition": "Notification generated when suspicious activity is detected",
+      "key_attributes": [
+        "score",
+        "status"
+      ],
+      "business_rules": [
+        "Triggered by Fraud Detection Engine",
+        "Must be resolved before transaction completion"
+      ],
+      "relationships_to": [
+        "Transaction",
+        "Fraud Detection Engine"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_020",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_020_bnk_004",
+    "name": "KYC Verification",
+    "properties": {
+      "definition": "Process of verifying customer identity and compliance status",
+      "key_attributes": [
+        "status",
+        "completion_date"
+      ],
+      "business_rules": [
+        "Must be completed before account activation"
+      ],
+      "relationships_to": [
+        "Account"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_020",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_020_bnk_005",
+    "name": "Standing Order",
+    "properties": {
+      "definition": "Pre-authorized recurring payment instruction",
+      "key_attributes": [
+        "frequency",
+        "amount",
+        "status"
+      ],
+      "business_rules": [
+        "Processed asynchronously via event queue"
+      ],
+      "relationships_to": [
+        "Transaction",
+        "Account"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_020",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_020_met_001",
+    "name": "Analytics Data Availability Latency",
+    "properties": {
+      "value": 5,
+      "unit": "minutes",
+      "what_it_measures": "Time elapsed between data update and analytics availability",
+      "context": "Ensures timely reporting for business intelligence"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_020",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_021_sys_001",
+    "name": "Kong",
+    "properties": {
+      "system_id": "Kong",
+      "purpose": "API Gateway management",
+      "key_features": [
+        "authentication",
+        "rate limiting",
+        "monitoring"
+      ],
+      "security_controls": [
+        "manages authentication"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_021",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_021_met_002",
+    "name": "RESTful API Endpoint Count",
+    "properties": {
+      "value": "45+",
+      "unit": "count",
+      "what_it_measures": "Total number of RESTful API endpoints in the synchronous integration layer"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_021",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_021_sys_003",
+    "name": "JWT Authentication",
+    "properties": {
+      "system_id": "JWT",
+      "purpose": "Customer session management and authentication",
+      "key_features": [
+        "session-based authentication"
+      ],
+      "security_controls": [
+        "session-based token validation"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_021",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_021_sys_004",
+    "name": "API Key Authentication",
+    "properties": {
+      "system_id": "API Key",
+      "purpose": "Internal service authentication",
+      "key_features": [
+        "service-to-service authentication"
+      ],
+      "security_controls": [
+        "API key validation"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_021",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_021_sys_005",
+    "name": "OAuth 2.0",
+    "properties": {
+      "system_id": "OAuth 2.0",
+      "purpose": "Third-party integration authentication",
+      "key_features": [
+        "third-party access management"
+      ],
+      "security_controls": [
+        "OAuth 2.0 protocol implementation"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_021",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_sys_001",
+    "name": "FirstUK Production Database",
+    "properties": {
+      "system_id": "firstuk_prod",
+      "technology_stack": [
+        "PostgreSQL"
+      ],
+      "data_stored": [
+        "Account records",
+        "Customer records",
+        "Transaction log",
+        "Joint account holders",
+        "Recurring transfers",
+        "Recurring bill payments",
+        "Debit card records",
+        "KYC verification records",
+        "AML screening records",
+        "Product definitions"
+      ],
+      "integrations": [
+        "Standby Database",
+        "AWS S3"
+      ],
+      "key_features": [
+        "Continuous replication to standby",
+        "Daily encrypted backup",
+        "Indexed lookups for Customer ID, Account ID, Transaction date, Account status"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_sys_002",
+    "name": "Standby Database",
+    "properties": {
+      "system_id": "Standby Database",
+      "purpose": "Disaster recovery and failover target",
+      "integrations": [
+        "FirstUK Production Database"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_001",
+    "name": "Account",
+    "properties": {
+      "key_attributes": [
+        "Account ID",
+        "Account status"
+      ],
+      "relationships_to": [
+        "Customer",
+        "Account Holder",
+        "Transaction"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_002",
+    "name": "Customer",
+    "properties": {
+      "key_attributes": [
+        "Customer ID"
+      ],
+      "relationships_to": [
+        "Account",
+        "Account Holder"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_003",
+    "name": "Transaction",
+    "properties": {
+      "key_attributes": [
+        "Transaction date"
+      ],
+      "business_rules": [
+        "Volume threshold: 2,000+ records/month"
+      ],
+      "relationships_to": [
+        "Account"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_004",
+    "name": "Account Holder",
+    "properties": {
+      "key_attributes": [
+        "Joint account holders"
+      ],
+      "relationships_to": [
+        "Account"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_005",
+    "name": "Standing Order",
+    "properties": {
+      "key_attributes": [
+        "Recurring transfers"
+      ],
+      "relationships_to": [
+        "Account"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_006",
+    "name": "Direct Debit",
+    "properties": {
+      "key_attributes": [
+        "Recurring bill payments"
+      ],
+      "relationships_to": [
+        "Account"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_007",
+    "name": "Card",
+    "properties": {
+      "key_attributes": [
+        "Debit card records"
+      ],
+      "relationships_to": [
+        "Account",
+        "Customer"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_008",
+    "name": "KYC Verification",
+    "properties": {
+      "regulatory_significance": [
+        "Mandatory compliance requirement for customer identity verification"
+      ],
+      "relationships_to": [
+        "Customer"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_009",
+    "name": "AML Screening",
+    "properties": {
+      "regulatory_significance": [
+        "Mandatory compliance requirement for transaction and account monitoring"
+      ],
+      "relationships_to": [
+        "Transaction",
+        "Account"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_bnk_010",
+    "name": "Product",
+    "properties": {
+      "key_attributes": [
+        "Product definitions"
+      ],
+      "relationships_to": [
+        "Account",
+        "Customer"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_met_001",
+    "name": "Recovery Point Objective (RPO)",
+    "properties": {
+      "value": 15,
+      "unit": "minutes",
+      "what_it_measures": "Maximum acceptable data loss window during a disaster recovery event",
+      "context": "Defined in primary database backup strategy"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_022_met_002",
+    "name": "Recovery Time Objective (RTO)",
+    "properties": {
+      "value": 2,
+      "unit": "hours",
+      "what_it_measures": "Maximum acceptable downtime before systems must be restored to operational status",
+      "context": "Defined in primary database backup strategy"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_022",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_023_sys_001",
+    "name": "Caching Layer",
+    "properties": {
+      "system_id": "sys_001",
+      "purpose": [
+        "Reduce database load",
+        "improve response times"
+      ],
+      "technology_stack": [
+        "Redis"
+      ],
+      "data_stored": [
+        "account balance",
+        "customer profile info",
+        "fraud detection rules"
+      ],
+      "key_features": [
+        "cache key management",
+        "TTL-based expiration"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_023",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_023_met_001",
+    "name": "Cache Time-To-Live (TTL) Thresholds",
+    "properties": {
+      "value": [
+        "5-min",
+        "10-min",
+        "1-hour"
+      ],
+      "unit": "time duration",
+      "what_it_measures": "Expiration duration for cached data entries",
+      "context": "Defines validity windows for different cache key types to balance data freshness and system performance"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_023",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_024_sys_001",
+    "name": "Internet Banking",
+    "properties": {
+      "security_controls": [
+        "Username/password authentication",
+        "OTP via email/SMS"
+      ],
+      "user_type": [
+        "Customer"
+      ],
+      "channel": [
+        "Web"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_024",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_024_sys_002",
+    "name": "Mobile App",
+    "properties": {
+      "security_controls": [
+        "Biometric (fingerprint/face)",
+        "Optional PIN"
+      ],
+      "user_type": [
+        "Customer"
+      ],
+      "channel": [
+        "Mobile"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_024",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_024_sys_003",
+    "name": "API Services",
+    "properties": {
+      "security_controls": [
+        "Mutual TLS (mTLS)",
+        "JWT"
+      ],
+      "user_type": [
+        "Service-to-Service"
+      ],
+      "protocol": [
+        "HTTPS/mTLS"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_024",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_024_sys_004",
+    "name": "LDAP/Active Directory",
+    "properties": {
+      "security_controls": [
+        "LDAP/Active Directory"
+      ],
+      "user_type": [
+        "Staff"
+      ],
+      "purpose": [
+        "Centralized identity and authentication management for internal staff"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_024",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_024_bnk_001",
+    "name": "Customer Authentication",
+    "properties": {
+      "definition": "Process of verifying the identity of external banking customers across digital and physical channels",
+      "key_attributes": [
+        "Authentication method",
+        "Channel/Interface"
+      ],
+      "subtypes": [
+        "Internet Banking",
+        "Mobile App",
+        "Branch"
+      ],
+      "business_rules": [
+        "Web requires username/password + OTP",
+        "Mobile requires biometrics + optional PIN",
+        "Branch requires photo ID verification"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_024",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_024_bnk_002",
+    "name": "Internal Authentication",
+    "properties": {
+      "definition": "Process of verifying the identity of bank staff and system services",
+      "key_attributes": [
+        "Authentication method",
+        "Access level"
+      ],
+      "subtypes": [
+        "Staff",
+        "API Services",
+        "Admin Access"
+      ],
+      "business_rules": [
+        "Staff use LDAP/Active Directory",
+        "API Services use mTLS + JWT",
+        "Admin Access requires MFA"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_024",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_024_rul_001",
+    "name": "Role-Based Access Control (RBAC)",
+    "properties": {
+      "rule_statement": "Access permissions are granted based on predefined user roles",
+      "rule_type": [
+        "Authority",
+        "Constraint"
+      ],
+      "applies_to": [
+        "All systems and channels"
+      ],
+      "enforcement": [
+        "System authorization layer"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_024",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_024_rul_002",
+    "name": "Attribute-Based Access Control (ABAC)",
+    "properties": {
+      "rule_statement": "Access permissions are dynamically evaluated based on attributes for sensitive operations",
+      "rule_type": [
+        "Constraint",
+        "Authority"
+      ],
+      "applies_to": [
+        "Sensitive operations"
+      ],
+      "enforcement": [
+        "System authorization layer"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_024",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_024_rul_003",
+    "name": "Audit Logging",
+    "properties": {
+      "rule_statement": "All system access events must be recorded and logged for audit purposes",
+      "rule_type": [
+        "Obligation",
+        "Constraint"
+      ],
+      "applies_to": [
+        "All systems and authentication methods"
+      ],
+      "enforcement": [
+        "System logging mechanisms"
+      ],
+      "regulatory_significance": [
+        "Supports compliance auditing and forensic investigation"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_024",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_025_sys_001",
+    "name": "TLS 1.3 Protocol",
+    "properties": {
+      "purpose": "Secure external connections",
+      "security_controls": [
+        "TLS 1.3 protocol"
+      ],
+      "deployment": "External network boundary"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_025",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_025_sys_002",
+    "name": "Mutual TLS (mTLS)",
+    "properties": {
+      "purpose": "Secure internal service-to-service communication",
+      "security_controls": [
+        "Mutual TLS authentication"
+      ],
+      "deployment": "Internal service mesh/network"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_025",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_025_rul_001",
+    "name": "AES-256 Data Encryption Standard",
+    "properties": {
+      "rule_statement": "Database backups must be encrypted using the AES-256 standard",
+      "rule_type": "constraint",
+      "applies_to": [
+        "database backups"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_025",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_025_sys_003",
+    "name": "S3 Storage Infrastructure",
+    "properties": {
+      "purpose": "Object storage for data at rest",
+      "security_controls": [
+        "Encryption at rest"
+      ],
+      "deployment": "Cloud object storage"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_025",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_025_sys_004",
+    "name": "Database Backup Systems",
+    "properties": {
+      "purpose": "Create and store encrypted database copies",
+      "security_controls": [
+        "AES-256 encryption"
+      ],
+      "deployment": "Backup infrastructure"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_025",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_025_sys_005",
+    "name": "File Storage Systems",
+    "properties": {
+      "purpose": "Store files securely at rest",
+      "security_controls": [
+        "File system encryption"
+      ],
+      "deployment": "Server/Storage infrastructure"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_025",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_026_sys_001",
+    "name": "AWS Secrets Manager",
+    "properties": {
+      "system_id": "sys_001",
+      "purpose": "Centralized management and secure storage of banking secrets and credentials",
+      "key_features": [
+        "Database credential management",
+        "API key management",
+        "TLS certificate management",
+        "Integration password management"
+      ],
+      "data_stored": [
+        "Database credentials",
+        "API keys",
+        "TLS certificates",
+        "Integration passwords"
+      ],
+      "security_controls": [
+        "Automatic rotation"
+      ],
+      "deployment": "Cloud (AWS)"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_026",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_026_met_001",
+    "name": "Credential Rotation SLA",
+    "properties": {
+      "value": 90,
+      "unit": "days",
+      "what_it_measures": "Maximum allowed interval between automatic credential rotations",
+      "frequency": "Automatic / 90-day cycle"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_026",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_027_sys_001",
+    "name": "AWS Shield",
+    "properties": {
+      "system_id": "sys_001",
+      "purpose": "Managed DDoS protection for network infrastructure",
+      "key_features": [
+        "DDoS mitigation",
+        "managed threat protection"
+      ],
+      "deployment": "Cloud (AWS)"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_027",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_027_sys_002",
+    "name": "CloudFlare",
+    "properties": {
+      "system_id": "sys_002",
+      "purpose": "Optional supplementary DDoS protection layer",
+      "key_features": [
+        "DDoS mitigation"
+      ],
+      "deployment": "Cloud/Edge"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_027",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_027_sys_003",
+    "name": "AWS GuardDuty",
+    "properties": {
+      "system_id": "sys_003",
+      "purpose": "Automated threat detection and intrusion monitoring",
+      "key_features": [
+        "Threat detection",
+        "Log analysis",
+        "Alerting"
+      ],
+      "security_controls": [
+        "Intrusion detection",
+        "Continuous log monitoring"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_027",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_027_rul_001",
+    "name": "Network Firewall Access Policy",
+    "properties": {
+      "rule_statement": "Ingress traffic restricted to Port 443 (HTTPS) for public APIs; branch systems require VPN-only access; admin access limited to a restricted IP whitelist.",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Public APIs",
+        "Branch systems",
+        "Admin interfaces"
+      ],
+      "enforcement": "Network Firewall"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_027",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_027_rul_002",
+    "name": "DDoS Mitigation Protocol",
+    "properties": {
+      "rule_statement": "AWS Shield must be enabled for managed DDoS protection; CloudFlare may be deployed as an optional supplementary layer when required.",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Network perimeter",
+        "Public-facing services"
+      ],
+      "enforcement": "Security Operations"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_027",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_027_rul_003",
+    "name": "Intrusion Detection & Alerting Protocol",
+    "properties": {
+      "rule_statement": "AWS GuardDuty must be active for continuous threat detection; log analysis and automated alerting are required upon suspicious activity.",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Network traffic",
+        "System logs"
+      ],
+      "enforcement": "Security Monitoring Team"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_027",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_028_met_001",
+    "name": "Recovery Time Objective",
+    "properties": {
+      "value": "2",
+      "unit": "hours",
+      "what_it_measures": "Maximum acceptable downtime for system recovery after a disruption",
+      "context": "Disaster Recovery & Business Continuity"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_028",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_028_met_002",
+    "name": "Recovery Point Objective",
+    "properties": {
+      "value": "15",
+      "unit": "minutes",
+      "what_it_measures": "Maximum acceptable data loss window measured in time",
+      "context": "Disaster Recovery & Business Continuity"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_028",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_028_met_003",
+    "name": "Backup Frequency",
+    "properties": {
+      "value": "Daily + continuous replication",
+      "what_it_measures": "Frequency of data backup operations",
+      "context": "Disaster Recovery & Business Continuity"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_028",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_029_sys_001",
+    "name": "Amazon S3",
+    "properties": {
+      "purpose": "Store daily encrypted database backups",
+      "deployment": "Cloud (AWS)",
+      "key_features": [
+        "Encrypted storage",
+        "Long-term retention capability"
+      ],
+      "data_stored": [
+        "Daily database backup files"
+      ],
+      "security_controls": [
+        "Encryption at rest"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_029",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_029_sys_002",
+    "name": "Amazon Elastic Container Registry (ECR)",
+    "properties": {
+      "purpose": "Store and manage Docker container images for applications",
+      "deployment": "Cloud (AWS)",
+      "key_features": [
+        "Container image registry",
+        "Versioned image storage"
+      ],
+      "data_stored": [
+        "Docker container images"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_029",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_029_sys_003",
+    "name": "GitHub",
+    "properties": {
+      "purpose": "Manage application source code repositories",
+      "deployment": "Cloud (SaaS)",
+      "key_features": [
+        "Git version control",
+        "Code repository management"
+      ],
+      "data_stored": [
+        "Application source code files"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_029",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_029_sys_004",
+    "name": "Database Standby Replication Target",
+    "properties": {
+      "purpose": "Maintain real-time database replica for failover and disaster recovery",
+      "key_features": [
+        "Continuous replication",
+        "Real-time data synchronization"
+      ],
+      "integrations": [
+        "Primary Database System"
+      ],
+      "performance": {
+        "replication_lag": "Real-time"
+      }
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_029",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_029_met_001",
+    "name": "Daily Database Backup Retention Period",
+    "properties": {
+      "value": 30,
+      "unit": "days",
+      "what_it_measures": "Duration daily encrypted database backups are retained in S3",
+      "frequency": "Daily",
+      "context": "Ensures sufficient recovery points for recent data loss or corruption events"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_029",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_029_met_002",
+    "name": "Weekly Database Backup Retention Period",
+    "properties": {
+      "value": 1,
+      "unit": "years",
+      "what_it_measures": "Duration weekly database backups are retained in cold storage",
+      "frequency": "Weekly",
+      "context": "Ensures long-term data preservation and archival compliance"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_029",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_029_rul_001",
+    "name": "Database Backup & Replication Policy",
+    "properties": {
+      "rule_statement": "Databases must use continuous real-time replication to a standby target, daily encrypted backups retained for 30 days, and weekly cold storage backups retained for 1 year.",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Database Systems",
+        "Backup Infrastructure"
+      ],
+      "enforcement": "IT Operations / Data Protection Team",
+      "consequence": "Inability to recover data or meet regulatory compliance requirements"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_029",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_029_rul_002",
+    "name": "Application Backup & Configuration Rule",
+    "properties": {
+      "rule_statement": "Application source code must be stored in GitHub, Docker images in AWS ECR, and all configurations maintained in version control.",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Application Development",
+        "Infrastructure Configuration"
+      ],
+      "enforcement": "DevOps / Release Management Team",
+      "consequence": "Loss of deployable artifacts and inability to reproduce environments or roll back changes"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_029",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_030_met_001",
+    "name": "Disaster Recovery Test Frequency",
+    "properties": {
+      "value": "Quarterly",
+      "unit": "frequency",
+      "what_it_measures": "How often disaster recovery tests are conducted"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_030",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_030_rul_001",
+    "name": "Disaster Recovery Testing Protocol",
+    "properties": {
+      "rule_statement": "Tests must be conducted quarterly and cover database restoration, application failover, network failure simulation, and data loss scenarios.",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Database System",
+        "Application Platform"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_030",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_030_sys_001",
+    "name": "Database System",
+    "properties": {
+      "key_features": [
+        "backup restoration capability"
+      ],
+      "integrations": [
+        "Application Platform"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_030",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_030_sys_002",
+    "name": "Application Platform",
+    "properties": {
+      "key_features": [
+        "failover capability",
+        "standby region support"
+      ],
+      "deployment": "Multi-region (primary + standby)",
+      "integrations": [
+        "Database System"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_030",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_031_sys_001",
+    "name": "IBP",
+    "properties": {
+      "system_id": "IBP",
+      "performance": {
+        "daily_transactions": "500-700",
+        "peak_qps": 5,
+        "response_time_p95": "<2s"
+      }
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_031",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_031_sys_002",
+    "name": "MBA",
+    "properties": {
+      "system_id": "MBA",
+      "performance": {
+        "daily_transactions": "300-500",
+        "peak_qps": 3,
+        "response_time_p95": "<2s"
+      }
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_031",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_031_sys_003",
+    "name": "AMS",
+    "properties": {
+      "system_id": "AMS",
+      "performance": {
+        "daily_transactions": "2000+",
+        "peak_qps": 10,
+        "response_time_p95": "<100ms"
+      }
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_031",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_031_sys_004",
+    "name": "PPS",
+    "properties": {
+      "system_id": "PPS",
+      "performance": {
+        "daily_transactions": "100-200",
+        "peak_qps": 2,
+        "response_time_p95": "<15min (batch)"
+      }
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_031",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_031_sys_005",
+    "name": "FDE",
+    "properties": {
+      "system_id": "FDE",
+      "performance": {
+        "daily_transactions": "2000+",
+        "peak_qps": 20,
+        "response_time_p95": "<100ms"
+      }
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_031",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_031_met_001",
+    "name": "Daily Transactions Volume",
+    "properties": {
+      "unit": "count",
+      "what_it_measures": "Total number of transactions processed per day",
+      "frequency": "daily",
+      "context": "Used to assess current load and scalability requirements across systems"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_031",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_031_met_002",
+    "name": "Peak Queries Per Second (QPS)",
+    "properties": {
+      "unit": "queries/second",
+      "what_it_measures": "Maximum concurrent query throughput capacity under peak load",
+      "frequency": "peak/load testing",
+      "context": "Used to assess current load and scalability requirements across systems"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_031",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_031_met_003",
+    "name": "Response Time (p95)",
+    "properties": {
+      "unit": "time",
+      "what_it_measures": "95th percentile latency for system responses",
+      "frequency": "continuous monitoring",
+      "context": "Used to assess current load and scalability requirements across systems"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_031",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_032_sys_001",
+    "name": "Microservices Architecture",
+    "properties": {
+      "purpose": "Provide scalable, independently deployable service infrastructure",
+      "key_features": [
+        "Auto-scaling based on CPU metrics"
+      ],
+      "performance": {
+        "scaling_trigger": "CPU utilization"
+      }
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_032",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_032_sys_002",
+    "name": "Primary Database System",
+    "properties": {
+      "purpose": "Store and manage core banking data",
+      "key_features": [
+        "Read replicas for read-heavy operations",
+        "Database indexes on key columns"
+      ],
+      "performance": {
+        "optimization_focus": "read-heavy workloads"
+      }
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_032",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_032_sys_003",
+    "name": "API Gateway",
+    "properties": {
+      "purpose": "Route, manage, and secure API traffic",
+      "integrations": [
+        "Kong API Platform"
+      ],
+      "performance": {
+        "scaling_capacity": "1000+ QPS"
+      }
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_032",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_032_sys_004",
+    "name": "Kong API Platform",
+    "properties": {
+      "system_id": "KONG-001",
+      "purpose": "Manage API gateway infrastructure and routing logic",
+      "performance": {
+        "throughput_capacity": "1000+ QPS"
+      }
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_032",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_032_sys_005",
+    "name": "Redis Caching Layer",
+    "properties": {
+      "system_id": "REDIS-001",
+      "purpose": "Cache frequently accessed data to reduce database load and latency",
+      "key_features": [
+        "In-memory data storage"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_032",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_032_sys_006",
+    "name": "Apache Kafka Message Queue",
+    "properties": {
+      "system_id": "KAFKA-001",
+      "purpose": "Handle asynchronous message processing and queuing",
+      "key_features": [
+        "Non-critical operation decoupling"
+      ],
+      "performance": {
+        "processing_mode": "asynchronous"
+      }
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_032",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_032_met_001",
+    "name": "Microservices CPU Utilization Threshold",
+    "properties": {
+      "value": 70,
+      "unit": "percent",
+      "what_it_measures": "CPU usage level that triggers microservices auto-scaling",
+      "frequency": "continuous",
+      "context": "Ensures infrastructure scales proactively to maintain performance under load"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_032",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_032_met_002",
+    "name": "API Gateway Throughput Capacity",
+    "properties": {
+      "value": 1000,
+      "unit": "QPS",
+      "what_it_measures": "Maximum number of queries per second the API gateway can handle",
+      "context": "Defines scaling limits for the Kong-managed API gateway infrastructure"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_032",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_033_org_001",
+    "name": "Financial Conduct Authority",
+    "properties": {
+      "regulatory_responsibilities": [
+        "Customer communication and fair treatment",
+        "System reliability and business continuity",
+        "Data security and privacy"
+      ],
+      "key_functions": [
+        "Oversees COBS compliance",
+        "Monitors customer treatment standards",
+        "Enforces data security protocols"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_033",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_033_org_002",
+    "name": "Prudential Regulation Authority",
+    "properties": {
+      "regulatory_responsibilities": [
+        "Capital adequacy monitoring",
+        "Operational resilience",
+        "Cyber security (Operational Resilience)"
+      ],
+      "key_functions": [
+        "Monitors capital requirements",
+        "Enforces operational resilience standards",
+        "Oversees cyber security integration"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_033",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_033_rul_001",
+    "name": "General Data Protection Regulation",
+    "properties": {
+      "regulatory_source": [
+        "GDPR"
+      ],
+      "rule_statement": "Comprehensive data protection framework governing privacy, subject rights, and breach reporting.",
+      "applies_to": [
+        "All data processing activities",
+        "Customer information management"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_033",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_033_rul_002",
+    "name": "Customer Communication and Fair Treatment Requirement",
+    "properties": {
+      "regulatory_source": [
+        "FCA",
+        "COBS"
+      ],
+      "rule_statement": "Ensures all customer communications adhere to fair treatment standards.",
+      "applies_to": [
+        "Customer-facing channels",
+        "Advisory and sales processes"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_033",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_033_rul_003",
+    "name": "System Reliability and Business Continuity Requirement",
+    "properties": {
+      "regulatory_source": [
+        "FCA",
+        "COBS"
+      ],
+      "rule_statement": "Maintains system reliability and ensures uninterrupted business operations during disruptions.",
+      "applies_to": [
+        "IT infrastructure",
+        "Operational workflows"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_033",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_033_rul_004",
+    "name": "Data Security and Privacy Requirement",
+    "properties": {
+      "regulatory_source": [
+        "FCA",
+        "COBS"
+      ],
+      "rule_statement": "Enforces strict data security and privacy controls across all systems.",
+      "applies_to": [
+        "Data storage systems",
+        "Network infrastructure"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_033",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_033_rul_005",
+    "name": "Capital Adequacy Monitoring Requirement",
+    "properties": {
+      "regulatory_source": [
+        "PRA"
+      ],
+      "rule_statement": "Monitors capital levels to ensure financial stability and regulatory compliance.",
+      "applies_to": [
+        "Treasury",
+        "Risk management",
+        "Capital planning"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_033",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_033_rul_006",
+    "name": "Operational Resilience Requirement",
+    "properties": {
+      "regulatory_source": [
+        "PRA"
+      ],
+      "rule_statement": "Ensures the organization can withstand, adapt to, and recover from operational disruptions.",
+      "applies_to": [
+        "Core banking operations",
+        "Critical service providers"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_033",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_033_rul_007",
+    "name": "Cyber Security Requirement",
+    "properties": {
+      "regulatory_source": [
+        "PRA"
+      ],
+      "rule_statement": "Implements cyber security measures as a core component of operational resilience.",
+      "applies_to": [
+        "Security operations",
+        "IT infrastructure"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_033",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_033_rul_008",
+    "name": "Data Subject Rights Requirement",
+    "properties": {
+      "regulatory_source": [
+        "GDPR"
+      ],
+      "rule_statement": "Guarantees data subject rights including access and deletion upon request.",
+      "applies_to": [
+        "Data processing activities",
+        "Customer request handling"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_033",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_033_rul_009",
+    "name": "Data Protection by Design Requirement",
+    "properties": {
+      "regulatory_source": [
+        "GDPR"
+      ],
+      "rule_statement": "Integrates data protection measures into the design and architecture of systems from inception.",
+      "applies_to": [
+        "Product development",
+        "System architecture",
+        "Data engineering"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_033",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_033_rul_010",
+    "name": "Breach Notification Requirement",
+    "properties": {
+      "regulatory_source": [
+        "GDPR"
+      ],
+      "rule_statement": "Mandates timely notification of data breaches to relevant authorities.",
+      "applies_to": [
+        "Security incident response",
+        "Compliance reporting"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_033",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_033_met_001",
+    "name": "72-Hour Breach Reporting SLA",
+    "properties": {
+      "value": 72,
+      "unit": "hours",
+      "what_it_measures": "Maximum allowable time to report a data breach after discovery",
+      "frequency": "Per incident / upon detection",
+      "context": "Enforced under GDPR breach notification requirement"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_033",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_034_sys_001",
+    "name": "AWS CloudWatch",
+    "properties": {
+      "system_id": "sys_001",
+      "purpose": "Centralized logging and performance monitoring",
+      "key_features": [
+        "system health dashboards",
+        "performance tracking"
+      ],
+      "deployment": "Cloud-based"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_034",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_034_sys_002",
+    "name": "New Relic",
+    "properties": {
+      "system_id": "sys_002",
+      "purpose": "Performance monitoring",
+      "key_features": [
+        "performance tracking"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_034",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_034_sys_003",
+    "name": "Amazon CloudTrail",
+    "properties": {
+      "system_id": "sys_003",
+      "purpose": "Security and audit logging",
+      "key_features": [
+        "audit log generation",
+        "security monitoring"
+      ],
+      "data_stored": [
+        "transaction audit logs"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_034",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_034_sys_004",
+    "name": "Amazon GuardDuty",
+    "properties": {
+      "system_id": "sys_004",
+      "purpose": "Security monitoring and threat detection",
+      "key_features": [
+        "security monitoring",
+        "threat detection"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_034",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_034_rul_001",
+    "name": "Post-Incident Review (PIR)",
+    "properties": {
+      "rule_statement": "Conduct a post-incident review following incident resolution",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Incident Response process"
+      ],
+      "consequence": "Drives continuous improvement"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_034",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_034_rul_002",
+    "name": "Incident Escalation Procedure",
+    "properties": {
+      "rule_statement": "Execute a defined escalation procedure for incidents",
+      "rule_type": "authority",
+      "applies_to": [
+        "Incident Response process"
+      ],
+      "enforcement": "Relevant departments and management"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_034",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_035_sys_001",
+    "name": "Mobile App v2.0",
+    "properties": {
+      "timeline": "Q2 2026",
+      "development_status": "Planning",
+      "purpose": "Enhanced UX",
+      "key_features": [
+        "Enhanced UX"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_035",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_035_sys_002",
+    "name": "Open Banking (PSD2) API",
+    "properties": {
+      "timeline": "Q3 2026",
+      "development_status": "Design",
+      "purpose": "Third-party integration",
+      "key_features": [
+        "Third-party integration"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_035",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_035_sys_003",
+    "name": "Blockchain Settlement",
+    "properties": {
+      "timeline": "Q4 2026",
+      "development_status": "Research",
+      "purpose": "Faster settlement",
+      "key_features": [
+        "Faster settlement"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_035",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_036_sys_001",
+    "name": "Video Account Opening",
+    "properties": {
+      "system_id": "sys_001",
+      "purpose": "Digital-first onboarding",
+      "timeline": [
+        "Q1 2027"
+      ],
+      "current_phase": "Design"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_036",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_036_sys_002",
+    "name": "AI-Powered Chat Bot",
+    "properties": {
+      "system_id": "sys_002",
+      "purpose": "Customer support automation",
+      "timeline": [
+        "Q2 2027"
+      ],
+      "current_phase": "Scoping"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_036",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_036_sys_003",
+    "name": "Advanced Analytics Platform",
+    "properties": {
+      "system_id": "sys_003",
+      "purpose": "Predictive analytics",
+      "timeline": [
+        "Q3 2027"
+      ],
+      "current_phase": "Research"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_036",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_037_met_001",
+    "name": "Annual Technology Budget",
+    "properties": {
+      "value": "£800k",
+      "unit": "GBP",
+      "what_it_measures": "Total annual financial allocation for technology operations and initiatives",
+      "context": "Encompasses cloud infrastructure, personnel, tools, training, and contingency reserves"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_037",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_037_sys_001",
+    "name": "Cloud Infrastructure (AWS)",
+    "properties": {
+      "deployment": "Cloud (AWS)",
+      "purpose": "Core technology infrastructure hosting and management",
+      "technology_stack": [
+        "AWS"
+      ],
+      "budget_allocation": "£300k"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_037",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_037_met_002",
+    "name": "Staff & Contractors Budget",
+    "properties": {
+      "value": "£300k",
+      "unit": "GBP",
+      "what_it_measures": "Expenditure allocated for internal staff and external contractors",
+      "context": "Represents 37.5% of the total technology budget"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_037",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_037_met_003",
+    "name": "Tools & Licenses Budget",
+    "properties": {
+      "value": "£100k",
+      "unit": "GBP",
+      "what_it_measures": "Expenditure for software tools, platforms, and licensing fees",
+      "context": "Represents 12.5% of the total technology budget"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_037",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_037_met_004",
+    "name": "Training & Development Budget",
+    "properties": {
+      "value": "£50k",
+      "unit": "GBP",
+      "what_it_measures": "Expenditure for employee training programs and professional development",
+      "context": "Represents 6.25% of the total technology budget"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_037",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_037_met_005",
+    "name": "Technology Contingency Reserve",
+    "properties": {
+      "value": "£50k",
+      "unit": "GBP",
+      "what_it_measures": "Reserve funds set aside for unforeseen technology expenses or overruns",
+      "context": "Represents 6.25% of the total technology budget"
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_037",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_038_org_001",
+    "name": "Organisation Model",
+    "properties": {
+      "key_functions": [
+        "Defines technology department structure"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_038",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_038_org_002",
+    "name": "Departments",
+    "properties": {
+      "key_functions": [
+        "Provides details of the technology department"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_038",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_038_bnk_003",
+    "name": "Products",
+    "properties": {
+      "definition": [
+        "Covers product specifications"
+      ],
+      "key_attributes": [
+        "Product specs"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_038",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_038_sys_004",
+    "name": "Application Landscape",
+    "properties": {
+      "system_id": "APP-LAND-001",
+      "purpose": [
+        "Application landscape documentation"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_038",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_038_sys_005",
+    "name": "Logical Data Model",
+    "properties": {
+      "system_id": "LDM-001",
+      "purpose": [
+        "Logical data model documentation"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_038",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_038_sys_006",
+    "name": "Integration Specification",
+    "properties": {
+      "system_id": "INT-SPEC-001",
+      "purpose": [
+        "Integration specification documentation"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_038",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_038_rul_007",
+    "name": "Information Security Policy",
+    "properties": {
+      "rule_statement": "Information Security Policy",
+      "rule_type": [
+        "policy"
+      ],
+      "enforcement": [
+        "Policy compliance"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_038",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_038_sys_008",
+    "name": "Disaster Recovery Plan",
+    "properties": {
+      "system_id": "DRP-001",
+      "purpose": [
+        "Disaster recovery planning documentation"
+      ]
+    },
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_038",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_039_rol_001",
+    "name": "Chief Technology Officer",
+    "properties": {},
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_039",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  },
+  {
+    "id": "c98d3d3d6b9945b1b7e79a809edddbcb_039_rol_002",
+    "name": "Chief Information Security Officer",
+    "properties": {},
+    "chunk_id": "c98d3d3d6b9945b1b7e79a809edddbcb_039",
+    "doc_id": "c98d3d3d6b9945b1b7e79a809edddbcb"
+  }
+]

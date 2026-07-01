@@ -1,0 +1,2471 @@
+{
+  "embedding": [
+    0.0017865266,
+    0.0028569894,
+    -0.19584732,
+    -0.050674815,
+    -0.0050394824,
+    0.016365651,
+    0.094597906,
+    0.04713814,
+    0.031324267,
+    -0.022257743,
+    -0.09124322,
+    0.042809095,
+    0.023527618,
+    0.041156396,
+    0.039522644,
+    0.016308984,
+    0.11219423,
+    -0.02668436,
+    -0.065311134,
+    0.0029174283,
+    -0.09319057,
+    0.0044750893,
+    -0.009340543,
+    -0.045949053,
+    0.015411668,
+    0.025366586,
+    -0.119711906,
+    -0.010532119,
+    -0.009066063,
+    0.025239643,
+    0.016376773,
+    0.025508134,
+    -0.028820323,
+    -0.011787156,
+    -0.033454653,
+    -0.039126832,
+    0.021642411,
+    0.05638265,
+    0.01849632,
+    0.03806012,
+    0.06565986,
+    0.03803702,
+    -0.03926418,
+    -0.053488474,
+    0.052127652,
+    -0.018935507,
+    0.05881643,
+    -0.014766327,
+    0.023488946,
+    -0.022869484,
+    0.036303125,
+    -0.00654455,
+    0.024164261,
+    0.0018719954,
+    0.12711693,
+    0.008803901,
+    0.025796626,
+    -0.036786795,
+    0.07314906,
+    -0.008216717,
+    0.056020852,
+    -0.020359177,
+    -0.0007672051,
+    0.040044427,
+    -0.0077581354,
+    -0.036014378,
+    -0.016129777,
+    0.066720955,
+    -0.025818868,
+    -0.09362449,
+    0.03670895,
+    0.022992391,
+    -0.038648028,
+    0.0037411477,
+    0.01724933,
+    0.029047437,
+    0.017021608,
+    0.005895551,
+    0.03061254,
+    0.01360518,
+    -0.020643422,
+    -0.044421766,
+    0.040989075,
+    0.019394374,
+    0.011998463,
+    0.01740922,
+    0.05909609,
+    -0.009216178,
+    -0.046853848,
+    0.061080124,
+    0.048354797,
+    0.013345347,
+    0.028842859,
+    0.01833295,
+    -0.035502266,
+    -0.00031460746,
+    0.026034005,
+    0.01034467,
+    -0.0603633,
+    0.01796228,
+    -0.04608502,
+    -0.047174986,
+    -0.015480538,
+    0.02950752,
+    0.03727656,
+    0.06592037,
+    -0.014104207,
+    -0.05058551,
+    -0.01610653,
+    -0.019785415,
+    -0.011181398,
+    0.04258315,
+    -0.059398,
+    -0.050413564,
+    0.0030137752,
+    0.033073254,
+    0.021296397,
+    -0.023720061,
+    0.019065147,
+    0.034666017,
+    -0.023201074,
+    0.015595319,
+    -0.038677245,
+    0.023991134,
+    0.054780323,
+    -0.014466979,
+    -0.030957932,
+    0.04598127,
+    -0.02502858,
+    -0.026086785,
+    0.0191291,
+    0.034385134,
+    -0.016749216,
+    0.031378187,
+    0.036293585,
+    0.059692897,
+    0.026030261,
+    -0.030762827,
+    -0.003189611,
+    0.0022531708,
+    0.04404028,
+    0.013957558,
+    -0.026683046,
+    -0.048597507,
+    -0.029213771,
+    -0.041463107,
+    -0.0019254839,
+    -0.053847168,
+    -0.07289809,
+    0.022959597,
+    -0.0021783526,
+    0.002363622,
+    -0.035751812,
+    0.023919752,
+    0.0042720423,
+    -0.014038671,
+    -0.0066662193,
+    0.051542677,
+    -0.0046944316,
+    0.05957229,
+    0.014330987,
+    -0.03431124,
+    -0.014652302,
+    0.04457966,
+    0.03350753,
+    -0.021273097,
+    -0.031333305,
+    0.047982752,
+    -0.010386478,
+    0.031187745,
+    -0.0696418,
+    -0.024549492,
+    -0.0024956777,
+    -0.03715392,
+    3.9684637e-05,
+    -0.01964767,
+    0.009093535,
+    -0.054911252,
+    -0.03502135,
+    -0.07276702,
+    0.07210802,
+    -0.051851325,
+    0.041555285,
+    -0.061085526,
+    -0.004878571,
+    0.013855986,
+    -0.036852222,
+    -0.027736826,
+    -0.051720265,
+    -0.04963552,
+    0.02897964,
+    0.004267474,
+    -0.04213121,
+    -0.013546469,
+    -0.036991388,
+    -0.021503123,
+    0.009650548,
+    -0.0015922532,
+    -0.022515412,
+    -0.018444601,
+    -0.01525929,
+    0.033089746,
+    0.017391792,
+    -0.031210925,
+    -0.055829696,
+    0.10334065,
+    0.03442956,
+    -0.004987841,
+    -0.06258947,
+    0.0024538236,
+    0.08045772,
+    -0.03412717,
+    0.026429089,
+    0.015301088,
+    0.03921256,
+    -0.002444013,
+    0.043001365,
+    -0.010657379,
+    -0.008804733,
+    0.016058141,
+    0.011098306,
+    0.015989915,
+    0.006496771,
+    -0.00662824,
+    0.031058945,
+    0.053794418,
+    -0.017603295,
+    -0.0114184255,
+    -0.010011609,
+    -0.009201767,
+    0.004359835,
+    -0.054896034,
+    0.060134545,
+    -0.0066960603,
+    -0.011619533,
+    0.0015407262,
+    -0.0088285,
+    0.030575205,
+    -0.018141009,
+    -0.00076226617,
+    0.022838708,
+    0.0043970444,
+    -0.009535459,
+    -0.018625546,
+    -0.062543936,
+    0.01721657,
+    -0.007324758,
+    -0.028385345,
+    0.033284828,
+    0.050239585,
+    0.009423565,
+    0.0029300798,
+    0.065721996,
+    0.009693525,
+    0.0063136723,
+    -0.021053394,
+    -0.038432725,
+    0.041390434,
+    -0.049154352,
+    0.015874738,
+    0.019939097,
+    -0.021477167,
+    -0.024497513,
+    -0.008040129,
+    -0.055669576,
+    -0.04873039,
+    -0.027062904,
+    -0.0008258963,
+    0.025880711,
+    -0.031730093,
+    0.03173662,
+    0.060153805,
+    -0.014145194,
+    0.03211095,
+    0.009739457,
+    0.019961277,
+    -0.022544473,
+    -0.025105342,
+    0.012847902,
+    0.032815106,
+    -0.028183855,
+    -0.014593385,
+    -0.02164429,
+    -0.025477262,
+    0.0061406423,
+    -0.028851679,
+    0.0019014137,
+    -0.006510026,
+    0.020124508,
+    -0.053835325,
+    -0.012450745,
+    0.029642463,
+    -0.019480443,
+    0.047992487,
+    0.031917766,
+    0.021427965,
+    0.04534433,
+    -0.0029639595,
+    -0.03295168,
+    -0.023858303,
+    0.034145523,
+    0.0100074755,
+    -0.01267383,
+    0.06601836,
+    -0.031032914,
+    -0.009924998,
+    0.0025394447,
+    0.005345589,
+    0.044051137,
+    -0.021758271,
+    -0.07313542,
+    -0.025533838,
+    -0.0067552496,
+    -0.019402534,
+    -0.029057112,
+    -0.0034904142,
+    0.040574357,
+    0.019830601,
+    0.05140119,
+    0.035572976,
+    -0.019222757,
+    0.015939359,
+    -0.02254593,
+    -0.07635681,
+    0.022922391,
+    0.05147878,
+    0.013398055,
+    0.03469405,
+    -0.032173075,
+    -0.047591988,
+    -0.02728293,
+    0.024789646,
+    0.030397002,
+    -0.06191039,
+    -0.014896211,
+    0.021373399,
+    0.025788715,
+    0.021387678,
+    -0.020391535,
+    -0.013674155,
+    0.072903626,
+    -0.0063153915,
+    -0.01346206,
+    -0.026260836,
+    -0.018311314,
+    -0.017009944,
+    -0.04273855,
+    0.016865073,
+    0.046400372,
+    0.02111899,
+    -0.008159514,
+    -0.022301374,
+    -0.00691002,
+    -0.034065865,
+    0.012974596,
+    0.0005449933,
+    -0.0013395402,
+    0.054184623,
+    -0.029525891,
+    -0.026354667,
+    0.036583997,
+    -0.00074651197,
+    -0.009632476,
+    -0.07176,
+    0.0028787544,
+    0.038257204,
+    0.11155282,
+    0.009527517,
+    0.014021616,
+    0.017070733,
+    -0.043985013,
+    -0.028217053,
+    -0.008561018,
+    0.013754655,
+    -0.026572553,
+    -0.0014407183,
+    -0.039711554,
+    -0.03523349,
+    -0.01801594,
+    0.032442976,
+    -0.025098074,
+    0.029646482,
+    0.01651045,
+    0.018265238,
+    0.03598869,
+    -0.022749018,
+    0.016335988,
+    -0.05557735,
+    -0.040493954,
+    -0.048474267,
+    -0.019138433,
+    0.013155952,
+    -0.02306152,
+    -0.04184979,
+    0.06829602,
+    -0.035380412,
+    0.0016413626,
+    -0.02976169,
+    0.0015280646,
+    0.008187748,
+    -0.01929651,
+    -0.050463352,
+    -0.016787633,
+    0.052185517,
+    -0.05120168,
+    0.012544005,
+    0.0058955736,
+    -0.0151195675,
+    0.01543332,
+    -0.0233398,
+    -0.013481225,
+    0.058977988,
+    -0.05443046,
+    -0.033335153,
+    -0.03882693,
+    0.057754606,
+    0.058695316,
+    -0.015073183,
+    -0.017528404,
+    -0.043040287,
+    0.021119246,
+    0.046193246,
+    0.003441176,
+    0.025349269,
+    0.047621015,
+    0.0018549946,
+    0.011894621,
+    -0.020713791,
+    -0.041376393,
+    -0.051384833,
+    0.018209392,
+    -0.009977935,
+    0.022486169,
+    0.0037356738,
+    0.00687004,
+    0.01909069,
+    0.045586597,
+    0.012594831,
+    0.035950113,
+    0.08842621,
+    0.037516907,
+    -0.026741076,
+    0.01074336,
+    -0.014737579,
+    0.014309239,
+    -0.03555516,
+    0.041079484,
+    -0.02677867,
+    -0.0613585,
+    0.016764004,
+    -0.049477085,
+    -0.005764266,
+    0.017736023,
+    0.01221307,
+    0.081679486,
+    -0.047064498,
+    0.0064813285,
+    -0.0037114557,
+    0.008721483,
+    0.010530812,
+    0.02483778,
+    0.008287468,
+    -0.054474935,
+    0.029412463,
+    -0.005712458,
+    0.018306488,
+    -0.03927102,
+    -0.02495237,
+    0.038922854,
+    0.016880427,
+    -0.05064766,
+    0.02761248,
+    0.007694448,
+    0.0033959935,
+    0.037419308,
+    -0.046719383,
+    -0.043646466,
+    0.0035814184,
+    -0.03050254,
+    0.1529652,
+    0.022745786,
+    -0.022599313,
+    0.040246475,
+    -0.046573438,
+    0.0290264,
+    -0.018597709,
+    -0.0023003013,
+    -0.013973116,
+    0.009561367,
+    -0.018730674,
+    -0.0041002077,
+    -0.043426834,
+    -0.011269119,
+    -0.029855438,
+    -0.05147633,
+    0.00062185497,
+    0.022292256,
+    0.040162727,
+    0.0008001269,
+    0.023859845,
+    0.0035831525,
+    0.07976745,
+    -0.0015863342,
+    0.028053287,
+    0.038005468,
+    0.007438009,
+    -0.026696617,
+    -0.042079963,
+    -0.04753605,
+    0.050738726,
+    -0.011778421,
+    0.029516948,
+    -0.05084495,
+    -0.011295808,
+    0.06469721,
+    -0.033395153,
+    -0.006794411,
+    0.002449792,
+    -0.02132912,
+    -0.013048124,
+    0.0036383849,
+    -0.05258195,
+    -0.0029586984,
+    -0.051377777,
+    -0.05727111,
+    0.034009546,
+    -0.019603424,
+    -0.07439642,
+    0.027475826,
+    -0.0015043203,
+    -0.005152252,
+    0.046463232,
+    -0.044308018,
+    -0.032798458,
+    -0.0068390626,
+    0.02369836,
+    -0.0022797708,
+    0.023593014,
+    0.026254917,
+    0.05370868,
+    -0.040385947,
+    -0.015971195,
+    0.00073062663,
+    0.014643536,
+    -0.0063565583,
+    0.008823272,
+    0.0010737226,
+    0.015561473,
+    0.03132013,
+    0.0034471292,
+    0.05358074,
+    -0.011001749,
+    -0.033945944,
+    9.8662495e-05,
+    -0.0058201165,
+    0.008496731,
+    -0.0003107969,
+    -0.021392535,
+    -0.06241335,
+    -0.0456771,
+    0.014132245,
+    0.014176314,
+    0.059243944,
+    -0.0018919043,
+    -0.02898513,
+    0.0076505146,
+    -0.005421292,
+    0.012037618,
+    -0.021362351,
+    0.03520909,
+    0.018968944,
+    -0.06265549,
+    -0.030422444,
+    0.0062186695,
+    -0.04079541,
+    0.02501479,
+    0.01934694,
+    0.0046203267,
+    -0.082589425,
+    -0.04413881,
+    -0.00079158787,
+    -0.014705323,
+    0.042112015,
+    0.08409983,
+    -0.031727087,
+    0.0016457437,
+    -0.039120756,
+    -0.022071298,
+    0.06344312,
+    -0.051769212,
+    -0.050101206,
+    0.0013612291,
+    0.03667984,
+    2.7414528e-05,
+    0.038782842,
+    -0.025955766,
+    0.009567357,
+    -0.014200338,
+    -0.037671775,
+    -0.041275825,
+    0.0029811359,
+    0.011157811,
+    0.056127977,
+    -0.03096629,
+    0.035762213,
+    0.009657446,
+    0.025783991,
+    -0.008868747,
+    0.045570888,
+    -0.012775967,
+    0.06431214,
+    0.017828789,
+    0.031195909,
+    0.00408451,
+    -0.01075959,
+    -0.008278753,
+    0.08052319,
+    0.029983524,
+    0.027483754,
+    -0.0058821463,
+    -0.01694709,
+    -0.05428691,
+    0.06073318,
+    -0.050728798,
+    0.024783393,
+    -0.014233888,
+    -0.04993443,
+    -0.051600344,
+    -0.0061405697,
+    0.005183925,
+    -0.050141342,
+    -0.022112574,
+    -0.054717984,
+    0.018387713,
+    -0.032178476,
+    0.013079465,
+    -0.012087304,
+    0.013201711,
+    -0.017266972,
+    0.04721522,
+    0.01977232,
+    -0.017235087,
+    -0.049193233,
+    0.022866828,
+    0.051536553,
+    -0.013753782,
+    0.015618189,
+    0.0415906,
+    0.037927154,
+    -0.017363835,
+    0.05029929,
+    0.069204256,
+    0.05151772,
+    0.030568032,
+    0.013171425,
+    0.019264793,
+    0.032038193,
+    -0.010540022,
+    -0.04227814,
+    -0.023042042,
+    0.05233735,
+    0.02881752,
+    -0.03954546,
+    -0.013135664,
+    0.0047483975,
+    -0.007213845,
+    0.004576559,
+    -0.021567125,
+    -0.059823457,
+    0.01734616,
+    0.042623077,
+    0.038094264,
+    -0.0060760775,
+    -0.035880234,
+    0.037495133,
+    0.0013736645,
+    0.07091756,
+    0.0827287,
+    0.042025488,
+    0.005494241,
+    -0.034466147,
+    -0.010565875,
+    0.04711972,
+    -0.013599991,
+    -0.04434346,
+    -0.052644156,
+    0.028180245,
+    0.0012784322,
+    -0.031130996,
+    -0.037133086,
+    -0.024638802,
+    -0.040323924,
+    0.007764397,
+    -0.012101815,
+    -0.0017944216,
+    0.005152138,
+    0.008179541,
+    -0.022823969,
+    -0.017955476,
+    0.0043351697,
+    0.0028005121,
+    0.020410536,
+    -0.03325076,
+    -0.0014663382,
+    -0.032296777,
+    0.004928447,
+    0.041409235,
+    0.008753209,
+    0.0062837764,
+    0.022973258,
+    0.030258898,
+    0.039604753,
+    -0.037517272,
+    0.03936193,
+    0.05132445,
+    -0.005825671,
+    -0.01257768,
+    -0.045190897,
+    -0.001568124,
+    0.042608533,
+    0.064797476,
+    -0.009527677,
+    -0.054660354,
+    -0.04119466,
+    0.020439064,
+    0.024767058,
+    0.0365012,
+    -0.02764217,
+    -0.022447428,
+    -0.005643558,
+    0.027811674,
+    -0.0021836073,
+    -0.035967823,
+    -0.0030045009,
+    -0.04762041,
+    0.0011077977,
+    -0.0274038,
+    -0.034197494,
+    -0.022770071,
+    -0.060293693,
+    -0.04234303,
+    -0.0322407,
+    0.03527504,
+    0.030596904,
+    0.00012706273,
+    -0.057071507,
+    -0.0128849875,
+    -0.024471125,
+    -0.040365152,
+    -0.02773272,
+    0.041227102,
+    -0.0034812607,
+    -0.05490035,
+    0.049153596,
+    0.014183373,
+    -0.00806842,
+    0.03400086,
+    0.045985244,
+    0.08518799,
+    0.042498853,
+    0.024142629,
+    -0.012142698,
+    0.013150249,
+    -0.010834761,
+    -0.040391453,
+    -0.043183595,
+    0.04257665,
+    -0.018573431
+  ],
+  "chunk_seq": 5,
+  "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+  "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+  "text": "'Two days later this same performance was gone through under exactly similar circumstances. Again I changed my dress, again I sat in the window, and again I laughed very heartily at the funny stories of which my employer had an immense r´ epertoire, and which he told inimitably. Then he handed me a yellow-backed novel, and moving my chair a little sideways, that my own shadow might not fall upon the page, he begged me to read aloud to him. I read for about ten minutes, beginning in the heart of a chapter, and then suddenly, in the middle of a sentence, he ordered me to cease and to change my dress.  \n'You can easily imagine, Mr. Holmes, how curious I became as to what the meaning of this extraordinary performance could possibly be. They were always very careful, I observed, to turn my face away from the window, so that I became consumed with the desire to see what was going on behind my back. At first it seemed to be impossible, but I soon devised a means. My hand-mirror had been broken, so a happy thought seized me, and I concealed a piece of the glass in my handkerchief. On the next occasion, in the midst of my laughter, I put my handkerchief up to my eyes, and was able with a little management to see all that there was behind me. I confess that I was disappointed. There was nothing. At least that was my first impression. At the second glance, however, I perceived that there was a man standing in the Southampton Road, a small bearded man in a grey suit, who seemed to be looking in my direction. The road is an important highway, and there are usually people there. This man, however, was leaning against the railings which bordered our field and was looking earnestly up. I lowered my handkerchief and glanced at Mrs. Rucastle to find her eyes fixed upon me with a most searching gaze. She said nothing, but I am convinced that she had divined that I had a mirror in my hand and had seen what was behind me. She rose at once.  \n' 'Jephro,' said she, 'there is an impertinent fellow upon the road there who stares up at Miss Hunter.'  \n- ' 'No friend of yours, Miss Hunter?' he asked.\n- ' 'No, I know no one in these parts.'\n- ''Dear me! How very impertinent! Kindly turn round and motion to him to go away.'\n- ' 'Surely it would be better to take no notice.'\n- ''No, no, we should have him loitering here always. Kindly turn round and wave him away like that.'  \n'I did as I was told, and at the same instant Mrs. Rucastle drew down the blind. That was a week ago, and from that time I have not sat again in the window, nor have I worn the blue dress, nor seen the man in the road.'  \n'Pray continue,' said Holmes. 'Your narrative promises to be a most interesting one.'  \n'You will find it rather disconnected, I fear, and there may prove to be little relation between the different incidents of which I speak. On the very first day that I was at the Copper Beeches, Mr. Rucastle took me to a small outhouse which stands near the kitchen door. As we approached it I heard the sharp rattling of a chain, and the sound as of a large animal moving about.  \n' 'Look in here!' said Mr. Rucastle, showing me a slit between two planks. 'Is he not a beauty?'  \n'I looked through and was conscious of two glowing eyes, and of a vague figure huddled up in the darkness.  \n''Don't be frightened,' said my employer, laughing at the start which I had given. 'It's only Carlo, my mastiff. I call him mine, but really old Toller, my groom, is the only man who can do anything with him. We feed him once a day, and not too much then, so that he is always as keen as mustard. Toller lets him loose every night, and God help the trespasser whom he lays his fangs upon. For goodness' sake don't you ever on any pretext set your foot over the threshold at night, for it's as much as your life is worth.'  \n'The warning was no idle one, for two nights later I happened to look out of my bedroom window about two o'clock in the morning. It was a beautiful moonlight night, and the lawn in front of the house was silvered over and almost as bright as day. I was standing, rapt in the peaceful beauty of the scene, when I was aware that something was moving under the shadow of the copper beeches. As it emerged into the moonshine I saw what it was. It was a giant dog, as large as a calf, tawny tinted, with hanging jowl, black muzzle, and huge projecting bones. It walked slowly across the lawn and vanished into the shadow upon the other side. That dreadful sentinel sent a chill to my heart which I do not think that any burglar could have done.  \n'And now I have a very strange experience to tell you. I had, as you know, cut off my hair in London, and I had placed it in a great coil at the bottom of my trunk. One evening, after the child was in bed, I began to amuse myself by examining the furniture of my room and by rearranging my own little things. There was an old chest of drawers in the room, the two upper ones empty and open, the lower one locked. I had filled the first two with my linen, and as I had still much to pack away I was naturally annoyed at not having the use of the third drawer. It struck me that it might have been fastened by a mere oversight, so I took out my bunch of keys and tried to open it. The very first key fitted to perfection, and I drew the drawer open. There was only one thing in it, but I am sure that you would never guess what it was. It was my coil of hair.  \n'I took it up and examined it. It was of the same peculiar tint, and the same thickness. But then the impossibility of the thing obtruded itself upon me. How could my hair have been locked in the drawer? With trembling hands I undid my trunk, turned out the contents, and drew from the bottom my own hair. I laid the two tresses together, and I assure you that they were identical. Was it not extraordinary? Puzzle as I would, I could make nothing at all of what it meant. I returned the strange hair to the drawer, and I said nothing of the matter to the Rucastles as I felt that I had put myself in the wrong by opening a drawer which they had locked.  \n'I am naturally observant, as you may have remarked, Mr. Holmes, and I soon had a pretty good plan of the whole house in my head. There was one wing, however, which appeared not to be inhabited at all. A door which faced that which led into the quarters of the Tollers opened into this suite, but it was invariably locked. One day, however, as I ascended the stair, I met Mr. Rucastle coming out through this door, his keys in his hand, and a look on his face which made him a very different person to the round, jovial man to whom I was accustomed. His cheeks were red, his brow was all crinkled with anger, and the veins stood out at his temples with passion. He locked the door and hurried past me without a word or a look.  \n'This aroused my curiosity, so when I went out for a walk in the grounds with my charge, I strolled round to the side from which I could see the windows of this part of the house. There were four of them in a row, three of which were simply dirty, while the fourth was shuttered up. They were evidently all deserted. As I strolled up and down, glancing at them occasionally, Mr. Rucastle came out to me, looking as merry and jovial as ever.  \n''Ah!' said he, 'you must not think me rude if I passed you without a word, my dear young lady. I was preoccupied with business matters.'",
+  "name": "Chunk 5/8",
+  "domain": "fiction",
+  "prev_chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_004",
+  "next_chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_006",
+  "raw_entities": [
+    {
+      "id": "char_001",
+      "name": "Miss Hunter",
+      "aliases": [
+        "Violet Hunter",
+        "I",
+        "my employer's assistant"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "protagonist",
+      "description": "The narrator and central figure of the account, employed by Mr. Rucastle. She is highly observant and curious, devising a plan to spy on her employers using a broken hand-mirror. Her experiences at the Copper Beeches drive the narrative's central mysteries and reveal the household's hidden tensions.",
+      "context": [
+        "Again I changed my dress, again I sat in the window, and again I laughed very heartily at the funny stories of which my employer had an immense r´ epertoire",
+        "I am naturally observant, as you may have remarked, Mr. Holmes, and I soon had a pretty good plan of the whole house in my head."
+      ]
+    },
+    {
+      "id": "char_002",
+      "name": "Jephro Rucastle",
+      "aliases": [
+        "Mr. Rucastle",
+        "my employer",
+        "he"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "antagonist",
+      "description": "The employer of Miss Hunter, portrayed as initially jovial but harboring a dark, secretive nature. He enforces a strange daily ritual involving the window and the blue dress, and becomes visibly enraged when discovered investigating the locked wing of the house, suggesting he is guarding a critical secret.",
+      "context": [
+        "Then he handed me a yellow-backed novel, and moving my chair a little sideways, that my own shadow might not fall upon the page, he begged me to read aloud to him.",
+        "His cheeks were red, his brow was all crinkled with anger, and the veins stood out at his temples with passion."
+      ]
+    },
+    {
+      "id": "char_003",
+      "name": "Mrs. Rucastle",
+      "aliases": [
+        "she",
+        "my employer's wife"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "The wife of the employer, who actively participates in the strange window ritual. She is highly suspicious and perceptive, quickly deducing that Miss Hunter has a mirror and has seen the man in the road, prompting her to order the ritual's immediate cessation.",
+      "context": [
+        "She said nothing, but I am convinced that she had divined that I had a mirror in my hand and had seen what was behind me.",
+        "She rose at once. 'Jephro,' said she, 'there is an impertinent fellow upon the road there who stares up at Miss Hunter.'"
+      ]
+    },
+    {
+      "id": "char_004",
+      "name": "Old Toller",
+      "aliases": [
+        "Toller",
+        "my groom"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "The Rucastle family's groom, identified as the only person capable of handling the dangerous mastiff, Carlo. He is mentioned in relation to the feeding and releasing of the dog, serving as a minor but necessary link to the household's security arrangements.",
+      "context": [
+        "It's only Carlo, my mastiff. I call him mine, but really old Toller, my groom, is the only man who can do anything with him.",
+        "Toller lets him loose every night, and God help the trespasser whom he lays his fangs upon."
+      ]
+    },
+    {
+      "id": "char_005",
+      "name": "The Man in the Road",
+      "aliases": [
+        "an impertinent fellow",
+        "a small bearded man in a grey suit",
+        "he"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "A mysterious figure observed by Miss Hunter through a hidden mirror. He stands by the railings of the Southampton Road, staring earnestly up at the house. His presence triggers Mrs. Rucastle's intervention and marks the abrupt end of the window ritual.",
+      "context": [
+        "I perceived that there was a man standing in the Southampton Road, a small bearded man in a grey suit, who seemed to be looking in my direction.",
+        "This man, however, was leaning against the railings which bordered our field and was looking earnestly up."
+      ]
+    },
+    {
+      "id": "char_006",
+      "name": "The Child",
+      "aliases": [
+        "the child",
+        "my charge"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "The young girl under Miss Hunter's care, who lives at the Copper Beeches. Her presence is noted in passing, particularly when Miss Hunter is left alone in her room to examine the furniture, highlighting the domestic but constrained nature of her employment.",
+      "context": [
+        "One evening, after the child was in bed, I began to amuse myself by examining the furniture of my room and by rearranging my own little things.",
+        "I strolled round to the side from which I could see the windows of this part of the house."
+      ]
+    },
+    {
+      "id": "loc_001",
+      "name": "Copper Beeches",
+      "aliases": [
+        "the house",
+        "our field",
+        "the grounds"
+      ],
+      "entity_class": "LOCATION",
+      "type": "residence",
+      "description": "The estate where Miss Hunter is employed. It features a distinctive window ritual, a locked wing, a small outhouse housing a mastiff, and grounds bordering the Southampton Road. The house itself seems to conceal significant secrets and exerts a controlling influence over its inhabitants.",
+      "context": [
+        "On the very first day that I was at the Copper Beeches, Mr. Rucastle took me to a small outhouse which stands near the kitchen door.",
+        "As I strolled up and down, glancing at them occasionally, Mr. Rucastle came out to me, looking as merry and jovial as ever."
+      ]
+    },
+    {
+      "id": "loc_002",
+      "name": "The Window",
+      "aliases": [
+        "the window",
+        "my window"
+      ],
+      "entity_class": "LOCATION",
+      "type": "room",
+      "description": "A specific window in the house where Miss Hunter is forced to sit daily, wearing a blue dress and reading aloud. It serves as the focal point for the strange performance and the observation of the man in the road, acting as a stage for the household's hidden dynamics.",
+      "context": [
+        "Again I changed my dress, again I sat in the window, and again I laughed very heartily at the funny stories of which my employer had an immense r´ epertoire",
+        "That was a week ago, and from that time I have not sat again in the window, nor have I worn the blue dress, nor seen the man in the road."
+      ]
+    },
+    {
+      "id": "loc_003",
+      "name": "The Locked Wing",
+      "aliases": [
+        "one wing",
+        "this suite",
+        "this part of the house",
+        "the windows of this part of the house"
+      ],
+      "entity_class": "LOCATION",
+      "type": "room",
+      "description": "An uninhabited section of the Copper Beeches estate, accessible through a door that is invariably locked. Mr. Rucastle is caught emerging from it with keys, displaying uncharacteristic anger, suggesting it holds a critical secret or hidden occupant that deeply unsettles Miss Hunter.",
+      "context": [
+        "There was one wing, however, which appeared not to be inhabited at all. A door which faced that which led into the quarters of the Tollers opened into this suite, but it was invariably locked.",
+        "He locked the door and hurried past me without a word or a look."
+      ]
+    },
+    {
+      "id": "loc_004",
+      "name": "The Southampton Road",
+      "aliases": [
+        "the road",
+        "an important highway"
+      ],
+      "entity_class": "LOCATION",
+      "type": "region",
+      "description": "A busy highway bordering the Copper Beeches estate. It serves as the vantage point for the mysterious man in the grey suit, whose presence triggers the cessation of the window ritual and hints at external connections to the household's secrets.",
+      "context": [
+        "I perceived that there was a man standing in the Southampton Road, a small bearded man in a grey suit, who seemed to be looking in my direction.",
+        "The road is an important highway, and there are usually people there."
+      ]
+    },
+    {
+      "id": "obj_001",
+      "name": "The Blue Dress",
+      "aliases": [
+        "my dress",
+        "the blue dress"
+      ],
+      "entity_class": "OBJECT",
+      "type": "clothing",
+      "description": "A specific garment Miss Hunter is required to wear during the daily window ritual. Its sudden discontinuation marks a turning point in the narrative, coinciding with the disappearance of the man in the road and signaling a shift in the household's secretive activities.",
+      "context": [
+        "Then he handed me a yellow-backed novel, and moving my chair a little sideways, that my own shadow might not fall upon the page, he begged me to read aloud to him. I read for about ten minutes, beginning in the heart of a chapter, and then suddenly, in the middle of a sentence, he ordered me to cease and to change my dress.",
+        "That was a week ago, and from that time I have not sat again in the window, nor have I worn the blue dress, nor seen the man in the road."
+      ]
+    },
+    {
+      "id": "obj_002",
+      "name": "Carlo",
+      "aliases": [
+        "my mastiff",
+        "a large animal",
+        "a giant dog",
+        "that dreadful sentinel"
+      ],
+      "entity_class": "OBJECT",
+      "type": "animal",
+      "description": "A massive, tawny mastiff kept chained in a small outhouse near the kitchen. Fed sparingly to keep it aggressive, it is released nightly to guard the property, instilling deep fear in Miss Hunter and serving as a physical manifestation of the household's oppressive atmosphere.",
+      "context": [
+        "I looked through and was conscious of two glowing eyes, and of a vague figure huddled up in the darkness.",
+        "It was a giant dog, as large as a calf, tawny tinted, with hanging jowl, black muzzle, and huge projecting bones. It walked slowly across the lawn and vanished into the shadow upon the other side."
+      ]
+    },
+    {
+      "id": "obj_003",
+      "name": "The Coil of Hair",
+      "aliases": [
+        "my coil of hair",
+        "the strange hair",
+        "two tresses"
+      ],
+      "entity_class": "OBJECT",
+      "type": "symbolic",
+      "description": "A coil of hair found locked in the third drawer of an old chest of drawers. It is identical in tint and thickness to Miss Hunter's own hair, which she had previously cut and stored in her trunk, creating a profound mystery that defies logical explanation and hints at a hidden identity.",
+      "context": [
+        "There was only one thing in it, but I am sure that you would never guess what it was. It was my coil of hair.",
+        "I took it up and examined it. It was of the same peculiar tint, and the same thickness. But then the impossibility of the thing obtruded itself upon me."
+      ]
+    },
+    {
+      "id": "obj_004",
+      "name": "The Trunk",
+      "aliases": [
+        "my trunk",
+        "the bottom of my trunk"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "Miss Hunter's personal storage chest, originally containing her cut coil of hair. It is used to verify the impossibility of the duplicate hair found in the chest of drawers, serving as a physical benchmark for the mystery.",
+      "context": [
+        "I had placed it in a great coil at the bottom of my trunk.",
+        "With trembling hands I undid my trunk, turned out the contents, and drew from the bottom my own hair."
+      ]
+    },
+    {
+      "id": "obj_005",
+      "name": "The Old Chest of Drawers",
+      "aliases": [
+        "an old chest of drawers",
+        "the furniture of my room"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "A piece of furniture in Miss Hunter's bedroom, featuring two open upper drawers and a locked lower drawer. The locked drawer contains the mysterious duplicate coil of hair, acting as a physical barrier to the household's secrets.",
+      "context": [
+        "There was an old chest of drawers in the room, the two upper ones empty and open, the lower one locked.",
+        "It struck me that it might have been fastened by a mere oversight, so I took out my bunch of keys and tried to open it."
+      ]
+    },
+    {
+      "id": "obj_006",
+      "name": "The Hand-Mirror",
+      "aliases": [
+        "My hand-mirror",
+        "a piece of the glass",
+        "a mirror"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "A broken hand-mirror that Miss Hunter repurposes by concealing a shard in her handkerchief. It allows her to secretly observe what is happening behind her back during the window ritual, serving as the tool that uncovers the man in the road.",
+      "context": [
+        "My hand-mirror had been broken, so a happy thought seized me, and I concealed a piece of the glass in my handkerchief.",
+        "I am convinced that she had divined that I had a mirror in my hand and had seen what was behind me."
+      ]
+    },
+    {
+      "id": "obj_007",
+      "name": "The Yellow-Backed Novel",
+      "aliases": [
+        "a yellow-backed novel",
+        "the page"
+      ],
+      "entity_class": "OBJECT",
+      "type": "document",
+      "description": "A book used by Mr. Rucastle during the window ritual. He carefully positions Miss Hunter's chair so her shadow does not fall upon its pages while she reads aloud, adding to the ritual's strangeness and suggesting a need to control light or visibility.",
+      "context": [
+        "Then he handed me a yellow-backed novel, and moving my chair a little sideways, that my own shadow might not fall upon the page, he begged me to read aloud to him.",
+        "I read for about ten minutes, beginning in the heart of a chapter, and then suddenly, in the middle of a sentence, he ordered me to cease and to change my dress."
+      ]
+    },
+    {
+      "id": "evt_001",
+      "name": "The Performance",
+      "aliases": [
+        "this performance",
+        "the window ritual",
+        "extraordinary performance"
+      ],
+      "entity_class": "EVENT",
+      "type": "episode",
+      "description": "A recurring, bizarre daily routine enforced by Mr. Rucastle, requiring Miss Hunter to change into a blue dress, sit in a specific window, laugh at his stories, and read aloud while carefully avoiding casting a shadow on the page. The ritual is abruptly halted after the man in the road is spotted, marking a pivotal shift in the narrative.",
+      "context": [
+        "Two days later this same performance was gone through under exactly similar circumstances.",
+        "You can easily imagine, Mr. Holmes, how curious I became as to what the meaning of this extraordinary performance could possibly be."
+      ]
+    },
+    {
+      "id": "con_001",
+      "name": "The Mystery of the Hair",
+      "aliases": [
+        "the impossibility of the thing",
+        "what it meant"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "mystery",
+      "description": "The central enigma surrounding the duplicate coil of hair found in the locked drawer. Its identical nature to Miss Hunter's own cut hair defies logical explanation and hints at a hidden identity, substitution, or deception within the household that drives the narrative's suspense.",
+      "context": [
+        "Puzzle as I would, I could make nothing at all of what it meant.",
+        "Was it not extraordinary?"
+      ]
+    },
+    {
+      "id": "con_002",
+      "name": "The Locked Wing Mystery",
+      "aliases": [
+        "the suite",
+        "this part of the house",
+        "the secret of the locked wing"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "mystery",
+      "description": "The enigma surrounding the uninhabited wing of the Copper Beeches. Mr. Rucastle's sudden anger and the presence of keys suggest a hidden occupant or activity concealed behind the locked door, deeply unsettling Miss Hunter and pointing to a concealed truth within the estate.",
+      "context": [
+        "There was one wing, however, which appeared not to be inhabited at all. A door which faced that which led into the quarters of the Tollers opened into this suite, but it was invariably locked.",
+        "He locked the door and hurried past me without a word or a look."
+      ]
+    }
+  ],
+  "id_map": {
+    "char_001": "843f020a05ad4ab6a40f48fe19f0918e_005_char_001",
+    "char_002": "843f020a05ad4ab6a40f48fe19f0918e_005_char_002",
+    "char_003": "843f020a05ad4ab6a40f48fe19f0918e_005_char_003",
+    "char_004": "843f020a05ad4ab6a40f48fe19f0918e_005_char_004",
+    "char_005": "843f020a05ad4ab6a40f48fe19f0918e_005_char_005",
+    "char_006": "843f020a05ad4ab6a40f48fe19f0918e_005_char_006",
+    "loc_001": "843f020a05ad4ab6a40f48fe19f0918e_005_loc_001",
+    "loc_002": "843f020a05ad4ab6a40f48fe19f0918e_005_loc_002",
+    "loc_003": "843f020a05ad4ab6a40f48fe19f0918e_005_loc_003",
+    "loc_004": "843f020a05ad4ab6a40f48fe19f0918e_005_loc_004",
+    "obj_001": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_001",
+    "obj_002": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_002",
+    "obj_003": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_003",
+    "obj_004": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_004",
+    "obj_005": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_005",
+    "obj_006": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_006",
+    "obj_007": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_007",
+    "evt_001": "843f020a05ad4ab6a40f48fe19f0918e_005_evt_001",
+    "con_001": "843f020a05ad4ab6a40f48fe19f0918e_005_con_001",
+    "con_002": "843f020a05ad4ab6a40f48fe19f0918e_005_con_002"
+  },
+  "entities": [
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_001",
+      "name": "Miss Hunter",
+      "aliases": [
+        "Violet Hunter",
+        "I",
+        "my employer's assistant"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "protagonist",
+      "description": "The narrator and central figure of the account, employed by Mr. Rucastle. She is highly observant and curious, devising a plan to spy on her employers using a broken hand-mirror. Her experiences at the Copper Beeches drive the narrative's central mysteries and reveal the household's hidden tensions.",
+      "context": [
+        "Again I changed my dress, again I sat in the window, and again I laughed very heartily at the funny stories of which my employer had an immense r´ epertoire",
+        "I am naturally observant, as you may have remarked, Mr. Holmes, and I soon had a pretty good plan of the whole house in my head."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_002",
+      "name": "Jephro Rucastle",
+      "aliases": [
+        "Mr. Rucastle",
+        "my employer",
+        "he"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "antagonist",
+      "description": "The employer of Miss Hunter, portrayed as initially jovial but harboring a dark, secretive nature. He enforces a strange daily ritual involving the window and the blue dress, and becomes visibly enraged when discovered investigating the locked wing of the house, suggesting he is guarding a critical secret.",
+      "context": [
+        "Then he handed me a yellow-backed novel, and moving my chair a little sideways, that my own shadow might not fall upon the page, he begged me to read aloud to him.",
+        "His cheeks were red, his brow was all crinkled with anger, and the veins stood out at his temples with passion."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_003",
+      "name": "Mrs. Rucastle",
+      "aliases": [
+        "she",
+        "my employer's wife"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "The wife of the employer, who actively participates in the strange window ritual. She is highly suspicious and perceptive, quickly deducing that Miss Hunter has a mirror and has seen the man in the road, prompting her to order the ritual's immediate cessation.",
+      "context": [
+        "She said nothing, but I am convinced that she had divined that I had a mirror in my hand and had seen what was behind me.",
+        "She rose at once. 'Jephro,' said she, 'there is an impertinent fellow upon the road there who stares up at Miss Hunter.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_004",
+      "name": "Old Toller",
+      "aliases": [
+        "Toller",
+        "my groom"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "The Rucastle family's groom, identified as the only person capable of handling the dangerous mastiff, Carlo. He is mentioned in relation to the feeding and releasing of the dog, serving as a minor but necessary link to the household's security arrangements.",
+      "context": [
+        "It's only Carlo, my mastiff. I call him mine, but really old Toller, my groom, is the only man who can do anything with him.",
+        "Toller lets him loose every night, and God help the trespasser whom he lays his fangs upon."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_005",
+      "name": "The Man in the Road",
+      "aliases": [
+        "an impertinent fellow",
+        "a small bearded man in a grey suit",
+        "he"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "A mysterious figure observed by Miss Hunter through a hidden mirror. He stands by the railings of the Southampton Road, staring earnestly up at the house. His presence triggers Mrs. Rucastle's intervention and marks the abrupt end of the window ritual.",
+      "context": [
+        "I perceived that there was a man standing in the Southampton Road, a small bearded man in a grey suit, who seemed to be looking in my direction.",
+        "This man, however, was leaning against the railings which bordered our field and was looking earnestly up."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_006",
+      "name": "The Child",
+      "aliases": [
+        "the child",
+        "my charge"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "The young girl under Miss Hunter's care, who lives at the Copper Beeches. Her presence is noted in passing, particularly when Miss Hunter is left alone in her room to examine the furniture, highlighting the domestic but constrained nature of her employment.",
+      "context": [
+        "One evening, after the child was in bed, I began to amuse myself by examining the furniture of my room and by rearranging my own little things.",
+        "I strolled round to the side from which I could see the windows of this part of the house."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_loc_001",
+      "name": "Copper Beeches",
+      "aliases": [
+        "the house",
+        "our field",
+        "the grounds"
+      ],
+      "entity_class": "LOCATION",
+      "type": "residence",
+      "description": "The estate where Miss Hunter is employed. It features a distinctive window ritual, a locked wing, a small outhouse housing a mastiff, and grounds bordering the Southampton Road. The house itself seems to conceal significant secrets and exerts a controlling influence over its inhabitants.",
+      "context": [
+        "On the very first day that I was at the Copper Beeches, Mr. Rucastle took me to a small outhouse which stands near the kitchen door.",
+        "As I strolled up and down, glancing at them occasionally, Mr. Rucastle came out to me, looking as merry and jovial as ever."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_loc_002",
+      "name": "The Window",
+      "aliases": [
+        "the window",
+        "my window"
+      ],
+      "entity_class": "LOCATION",
+      "type": "room",
+      "description": "A specific window in the house where Miss Hunter is forced to sit daily, wearing a blue dress and reading aloud. It serves as the focal point for the strange performance and the observation of the man in the road, acting as a stage for the household's hidden dynamics.",
+      "context": [
+        "Again I changed my dress, again I sat in the window, and again I laughed very heartily at the funny stories of which my employer had an immense r´ epertoire",
+        "That was a week ago, and from that time I have not sat again in the window, nor have I worn the blue dress, nor seen the man in the road."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_loc_003",
+      "name": "The Locked Wing",
+      "aliases": [
+        "one wing",
+        "this suite",
+        "this part of the house",
+        "the windows of this part of the house"
+      ],
+      "entity_class": "LOCATION",
+      "type": "room",
+      "description": "An uninhabited section of the Copper Beeches estate, accessible through a door that is invariably locked. Mr. Rucastle is caught emerging from it with keys, displaying uncharacteristic anger, suggesting it holds a critical secret or hidden occupant that deeply unsettles Miss Hunter.",
+      "context": [
+        "There was one wing, however, which appeared not to be inhabited at all. A door which faced that which led into the quarters of the Tollers opened into this suite, but it was invariably locked.",
+        "He locked the door and hurried past me without a word or a look."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_loc_004",
+      "name": "The Southampton Road",
+      "aliases": [
+        "the road",
+        "an important highway"
+      ],
+      "entity_class": "LOCATION",
+      "type": "region",
+      "description": "A busy highway bordering the Copper Beeches estate. It serves as the vantage point for the mysterious man in the grey suit, whose presence triggers the cessation of the window ritual and hints at external connections to the household's secrets.",
+      "context": [
+        "I perceived that there was a man standing in the Southampton Road, a small bearded man in a grey suit, who seemed to be looking in my direction.",
+        "The road is an important highway, and there are usually people there."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_001",
+      "name": "The Blue Dress",
+      "aliases": [
+        "my dress",
+        "the blue dress"
+      ],
+      "entity_class": "OBJECT",
+      "type": "clothing",
+      "description": "A specific garment Miss Hunter is required to wear during the daily window ritual. Its sudden discontinuation marks a turning point in the narrative, coinciding with the disappearance of the man in the road and signaling a shift in the household's secretive activities.",
+      "context": [
+        "Then he handed me a yellow-backed novel, and moving my chair a little sideways, that my own shadow might not fall upon the page, he begged me to read aloud to him. I read for about ten minutes, beginning in the heart of a chapter, and then suddenly, in the middle of a sentence, he ordered me to cease and to change my dress.",
+        "That was a week ago, and from that time I have not sat again in the window, nor have I worn the blue dress, nor seen the man in the road."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_002",
+      "name": "Carlo",
+      "aliases": [
+        "my mastiff",
+        "a large animal",
+        "a giant dog",
+        "that dreadful sentinel"
+      ],
+      "entity_class": "OBJECT",
+      "type": "animal",
+      "description": "A massive, tawny mastiff kept chained in a small outhouse near the kitchen. Fed sparingly to keep it aggressive, it is released nightly to guard the property, instilling deep fear in Miss Hunter and serving as a physical manifestation of the household's oppressive atmosphere.",
+      "context": [
+        "I looked through and was conscious of two glowing eyes, and of a vague figure huddled up in the darkness.",
+        "It was a giant dog, as large as a calf, tawny tinted, with hanging jowl, black muzzle, and huge projecting bones. It walked slowly across the lawn and vanished into the shadow upon the other side."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_003",
+      "name": "The Coil of Hair",
+      "aliases": [
+        "my coil of hair",
+        "the strange hair",
+        "two tresses"
+      ],
+      "entity_class": "OBJECT",
+      "type": "symbolic",
+      "description": "A coil of hair found locked in the third drawer of an old chest of drawers. It is identical in tint and thickness to Miss Hunter's own hair, which she had previously cut and stored in her trunk, creating a profound mystery that defies logical explanation and hints at a hidden identity.",
+      "context": [
+        "There was only one thing in it, but I am sure that you would never guess what it was. It was my coil of hair.",
+        "I took it up and examined it. It was of the same peculiar tint, and the same thickness. But then the impossibility of the thing obtruded itself upon me."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_004",
+      "name": "The Trunk",
+      "aliases": [
+        "my trunk",
+        "the bottom of my trunk"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "Miss Hunter's personal storage chest, originally containing her cut coil of hair. It is used to verify the impossibility of the duplicate hair found in the chest of drawers, serving as a physical benchmark for the mystery.",
+      "context": [
+        "I had placed it in a great coil at the bottom of my trunk.",
+        "With trembling hands I undid my trunk, turned out the contents, and drew from the bottom my own hair."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_005",
+      "name": "The Old Chest of Drawers",
+      "aliases": [
+        "an old chest of drawers",
+        "the furniture of my room"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "A piece of furniture in Miss Hunter's bedroom, featuring two open upper drawers and a locked lower drawer. The locked drawer contains the mysterious duplicate coil of hair, acting as a physical barrier to the household's secrets.",
+      "context": [
+        "There was an old chest of drawers in the room, the two upper ones empty and open, the lower one locked.",
+        "It struck me that it might have been fastened by a mere oversight, so I took out my bunch of keys and tried to open it."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_006",
+      "name": "The Hand-Mirror",
+      "aliases": [
+        "My hand-mirror",
+        "a piece of the glass",
+        "a mirror"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "A broken hand-mirror that Miss Hunter repurposes by concealing a shard in her handkerchief. It allows her to secretly observe what is happening behind her back during the window ritual, serving as the tool that uncovers the man in the road.",
+      "context": [
+        "My hand-mirror had been broken, so a happy thought seized me, and I concealed a piece of the glass in my handkerchief.",
+        "I am convinced that she had divined that I had a mirror in my hand and had seen what was behind me."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_007",
+      "name": "The Yellow-Backed Novel",
+      "aliases": [
+        "a yellow-backed novel",
+        "the page"
+      ],
+      "entity_class": "OBJECT",
+      "type": "document",
+      "description": "A book used by Mr. Rucastle during the window ritual. He carefully positions Miss Hunter's chair so her shadow does not fall upon its pages while she reads aloud, adding to the ritual's strangeness and suggesting a need to control light or visibility.",
+      "context": [
+        "Then he handed me a yellow-backed novel, and moving my chair a little sideways, that my own shadow might not fall upon the page, he begged me to read aloud to him.",
+        "I read for about ten minutes, beginning in the heart of a chapter, and then suddenly, in the middle of a sentence, he ordered me to cease and to change my dress."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_evt_001",
+      "name": "The Performance",
+      "aliases": [
+        "this performance",
+        "the window ritual",
+        "extraordinary performance"
+      ],
+      "entity_class": "EVENT",
+      "type": "episode",
+      "description": "A recurring, bizarre daily routine enforced by Mr. Rucastle, requiring Miss Hunter to change into a blue dress, sit in a specific window, laugh at his stories, and read aloud while carefully avoiding casting a shadow on the page. The ritual is abruptly halted after the man in the road is spotted, marking a pivotal shift in the narrative.",
+      "context": [
+        "Two days later this same performance was gone through under exactly similar circumstances.",
+        "You can easily imagine, Mr. Holmes, how curious I became as to what the meaning of this extraordinary performance could possibly be."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_con_001",
+      "name": "The Mystery of the Hair",
+      "aliases": [
+        "the impossibility of the thing",
+        "what it meant"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "mystery",
+      "description": "The central enigma surrounding the duplicate coil of hair found in the locked drawer. Its identical nature to Miss Hunter's own cut hair defies logical explanation and hints at a hidden identity, substitution, or deception within the household that drives the narrative's suspense.",
+      "context": [
+        "Puzzle as I would, I could make nothing at all of what it meant.",
+        "Was it not extraordinary?"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_con_002",
+      "name": "The Locked Wing Mystery",
+      "aliases": [
+        "the suite",
+        "this part of the house",
+        "the secret of the locked wing"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "mystery",
+      "description": "The enigma surrounding the uninhabited wing of the Copper Beeches. Mr. Rucastle's sudden anger and the presence of keys suggest a hidden occupant or activity concealed behind the locked door, deeply unsettling Miss Hunter and pointing to a concealed truth within the estate.",
+      "context": [
+        "There was one wing, however, which appeared not to be inhabited at all. A door which faced that which led into the quarters of the Tollers opened into this suite, but it was invariably locked.",
+        "He locked the door and hurried past me without a word or a look."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    }
+  ],
+  "properties": [
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_001",
+      "name": "Miss Hunter",
+      "properties": {
+        "role": "governess/employee",
+        "personality_traits": [
+          "observant",
+          "curious",
+          "methodical",
+          "suspicious"
+        ],
+        "motivations": [
+          "solve the strange routine",
+          "discover what is behind her",
+          "uncover the house's secrets"
+        ],
+        "signature_behaviours": [
+          "devising a mirror trick to see behind her",
+          "keeping a mental map of the house",
+          "carefully observing household routines"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_002",
+      "name": "Jephro Rucastle",
+      "properties": {
+        "role": "employer/master of the house",
+        "personality_traits": [
+          "jovial",
+          "controlling",
+          "secretive",
+          "quick-tempered",
+          "storyteller"
+        ],
+        "motivations": [
+          "maintain a strict routine",
+          "hide what lies behind the locked wing",
+          "control Miss Hunter's movements"
+        ],
+        "signature_behaviours": [
+          "telling inimitable funny stories",
+          "moving Miss Hunter's chair to avoid his shadow",
+          "abruptly ordering her to change dress",
+          "locking the wing door and hurrying past"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_003",
+      "name": "Mrs. Rucastle",
+      "properties": {
+        "role": "mistress of the house",
+        "personality_traits": [
+          "perceptive",
+          "controlling",
+          "suspicious",
+          "authoritative"
+        ],
+        "motivations": [
+          "enforce the window routine",
+          "prevent Miss Hunter from seeing behind her"
+        ],
+        "signature_behaviours": [
+          "drawing down the blind immediately",
+          "watching Miss Hunter with a searching gaze",
+          "suspecting the hidden mirror"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_004",
+      "name": "Old Toller",
+      "properties": {
+        "role": "groom",
+        "responsibilities": [
+          "feeding Carlo once daily",
+          "restraining the mastiff",
+          "letting Carlo loose at night"
+        ],
+        "narrative_function": "keeper of the dangerous dog",
+        "status": "subservient to Rucastle"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_005",
+      "name": "The Man in the Road",
+      "properties": {
+        "physical_description": [
+          "small",
+          "bearded",
+          "wears a grey suit"
+        ],
+        "actions": [
+          "leaning against railings",
+          "looking earnestly up at the window"
+        ],
+        "narrative_function": "catalyst for routine escalation",
+        "status": "unidentified observer"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_006",
+      "name": "The Child",
+      "properties": {
+        "role": "charge/dependent",
+        "context": [
+          "put to bed early each evening",
+          "subject of Miss Hunter's walk with Mr. Rucastle"
+        ],
+        "narrative_function": "part of the household routine",
+        "status": "unseen but present"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_loc_001",
+      "name": "Copper Beeches",
+      "properties": {
+        "physical_description": [
+          "estate with grounds and lawn",
+          "kitchen door with outhouse",
+          "locked wing with four windows",
+          "shuttered windows"
+        ],
+        "atmosphere": [
+          "seemingly peaceful but secretive",
+          "controlled and monitored"
+        ],
+        "narrative_function": "primary setting for the mystery",
+        "symbolic_meaning": "symbol of confinement and hidden secrets"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_loc_002",
+      "name": "The Window",
+      "properties": {
+        "physical_description": [
+          "window in Miss Hunter's room/quarters"
+        ],
+        "narrative_function": "stage for the daily routine",
+        "symbolic_meaning": "focal point of surveillance",
+        "isolation_level": "private but monitored"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_loc_003",
+      "name": "The Locked Wing",
+      "properties": {
+        "physical_description": [
+          "suite of rooms",
+          "four windows in a row",
+          "three dirty windows",
+          "one shuttered window",
+          "deserted"
+        ],
+        "narrative_function": "restricted area hiding a secret",
+        "symbolic_meaning": "implies a concealed person or secret",
+        "who_controls": "Jephro Rucastle"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_loc_004",
+      "name": "The Southampton Road",
+      "properties": {
+        "physical_description": [
+          "important highway",
+          "borders the field with railings"
+        ],
+        "narrative_function": "vantage point for the observer",
+        "real_world_vs_fictional": "real-world location bordering the estate"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_001",
+      "name": "The Blue Dress",
+      "properties": {
+        "physical_description": [
+          "dress worn by Miss Hunter"
+        ],
+        "narrative_role": "part of the daily routine",
+        "significance": "discontinued after the man in the road appeared"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_002",
+      "name": "Carlo",
+      "properties": {
+        "physical_description": [
+          "giant mastiff",
+          "large as a calf",
+          "tawny",
+          "hanging jowl",
+          "black muzzle",
+          "huge projecting bones"
+        ],
+        "owner": "Jephro Rucastle (claimed)",
+        "narrative_role": "sentinel/guard dog",
+        "significance": "enforcer of isolation, fed once daily to keep it hungry"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_003",
+      "name": "The Coil of Hair",
+      "properties": {
+        "physical_description": [
+          "coil of hair",
+          "same peculiar tint and thickness as Miss Hunter's"
+        ],
+        "narrative_role": "central mystery object",
+        "significance": "identical to Miss Hunter's hair, found locked in the lower drawer"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_004",
+      "name": "The Trunk",
+      "properties": {
+        "physical_description": [
+          "storage trunk for Miss Hunter's belongings"
+        ],
+        "narrative_role": "container for her coil of hair",
+        "significance": "opened to reveal the identical hair"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_005",
+      "name": "The Old Chest of Drawers",
+      "properties": {
+        "physical_description": [
+          "old chest",
+          "two upper drawers empty and open",
+          "lower drawer locked"
+        ],
+        "narrative_role": "container for the coil of hair",
+        "significance": "locked drawer symbolizes hidden secret"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_006",
+      "name": "The Hand-Mirror",
+      "properties": {
+        "physical_description": [
+          "broken"
+        ],
+        "narrative_role": "tool for covert observation",
+        "significance": "piece used in a handkerchief to see behind Miss Hunter"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_007",
+      "name": "The Yellow-Backed Novel",
+      "properties": {
+        "physical_description": [
+          "novel with a yellow back"
+        ],
+        "narrative_role": "prop for the daily reading routine",
+        "significance": "used to keep Miss Hunter seated and facing away"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_evt_001",
+      "name": "The Performance",
+      "properties": {
+        "sequence_number": "daily recurring event",
+        "what_changed": "Miss Hunter's curiosity escalates to active investigation",
+        "who_was_involved": [
+          "Miss Hunter",
+          "Jephro Rucastle",
+          "Mrs. Rucastle"
+        ],
+        "emotions": [
+          "curiosity",
+          "amusement",
+          "control",
+          "suspicion"
+        ],
+        "cause": "Rucastle's need to keep Miss Hunter facing away from the window",
+        "immediate_consequence": "Miss Hunter spots the man in the road, routine is abruptly stopped",
+        "is_turning_point": true,
+        "why_it_matters": "central mechanism of the mystery, reveals surveillance and hidden motives"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_con_001",
+      "name": "The Mystery of the Hair",
+      "properties": {
+        "puzzle": "How did Miss Hunter's identical coil of hair end up locked in the chest of drawers?",
+        "status": "unresolved",
+        "manifestation": "identical hair found in locked drawer",
+        "significance": "suggests duplication, hidden identity, or secret room"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_005_con_002",
+      "name": "The Locked Wing Mystery",
+      "properties": {
+        "puzzle": "What is hidden behind the locked wing door and why is it deserted?",
+        "status": "unresolved",
+        "manifestation": "locked door, shuttered windows, Rucastle's secretive and angry demeanor",
+        "significance": "implies a concealed person or secret"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_001",
+      "source_name": "Miss Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005_evt_001",
+      "target_name": "The Performance",
+      "rel_type": "participates_in",
+      "description": "Miss Hunter is the primary subject of the daily ritual performance, following strict instructions to change dress and sit in the window.",
+      "properties": {
+        "role": "witness",
+        "contribution": "follows routine, reads aloud"
+      },
+      "context": "Two days later this same performance was gone through under exactly similar circumstances. Again I changed my dress, again I sat in the window, and again I laughed very heartily at the funny stories of which my employer had an immense repertoire, and which he told inimitably.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_002",
+      "source_name": "Jephro Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_001",
+      "target_name": "Miss Hunter",
+      "rel_type": "employs",
+      "description": "Jephro Rucastle is Miss Hunter's employer, dictating her daily routine and reading preferences.",
+      "properties": {
+        "role": "employer",
+        "conditions": "strict routine, supervised reading"
+      },
+      "context": "the funny stories of which my employer had an immense repertoire, and which he told inimitably.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_003",
+      "source_name": "Mrs. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_002",
+      "target_name": "Jephro Rucastle",
+      "rel_type": "informs",
+      "description": "Mrs. Rucastle alerts Jephro to the presence of the man in the road staring at Miss Hunter.",
+      "properties": {
+        "sentiment": "concerned",
+        "nature": "alert"
+      },
+      "context": "'Jephro,' said she, 'there is an impertinent fellow upon the road there who stares up at Miss Hunter.'",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_003",
+      "source_name": "Mrs. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_001",
+      "target_name": "Miss Hunter",
+      "rel_type": "knows",
+      "description": "Mrs. Rucastle suspects Miss Hunter of hiding a mirror and observing what is behind her.",
+      "properties": {
+        "sentiment": "suspicious",
+        "nature": "professional"
+      },
+      "context": "I am convinced that she had divined that I had a mirror in my hand and had seen what was behind me.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_003",
+      "source_name": "Mrs. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_005",
+      "target_name": "The Man in the Road",
+      "rel_type": "knows",
+      "description": "Mrs. Rucastle is aware of the man's presence and his intent to stare at the window.",
+      "properties": {
+        "sentiment": "hostile",
+        "nature": "external"
+      },
+      "context": "there is an impertinent fellow upon the road there who stares up at Miss Hunter.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_004",
+      "source_name": "Old Toller",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_002",
+      "target_name": "Jephro Rucastle",
+      "rel_type": "employed_by",
+      "description": "Old Toller works as the groom for Jephro Rucastle.",
+      "properties": {
+        "role": "groom",
+        "conditions": "exclusive control over dog"
+      },
+      "context": "old Toller, my groom, is the only man who can do anything with him.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_004",
+      "source_name": "Old Toller",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_002",
+      "target_name": "Carlo",
+      "rel_type": "controls",
+      "description": "Old Toller is the only person capable of handling or controlling the mastiff, Carlo.",
+      "properties": {
+        "sentiment": "authoritative",
+        "nature": "exclusive"
+      },
+      "context": "old Toller, my groom, is the only man who can do anything with him.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_005",
+      "source_name": "The Man in the Road",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_001",
+      "target_name": "Miss Hunter",
+      "rel_type": "surveils",
+      "description": "The man in the road is observed staring earnestly in Miss Hunter's direction from the road.",
+      "properties": {
+        "sentiment": "hostile",
+        "nature": "external"
+      },
+      "context": "a small bearded man in a grey suit, who seemed to be looking in my direction.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_006",
+      "source_name": "The Child",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_001",
+      "target_name": "Miss Hunter",
+      "rel_type": "knows",
+      "description": "The child is Miss Hunter's charge, indicating a supervisory or guardian relationship.",
+      "properties": {
+        "sentiment": "dependent",
+        "nature": "professional"
+      },
+      "context": "I went out for a walk in the grounds with my charge",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_001",
+      "source_name": "Miss Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005_loc_001",
+      "target_name": "Copper Beeches",
+      "rel_type": "resides_at",
+      "description": "Miss Hunter lives at the Copper Beeches estate, where the strange events take place.",
+      "properties": {
+        "sentiment": "neutral",
+        "nature": "domicile"
+      },
+      "context": "On the very first day that I was at the Copper Beeches",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_001",
+      "source_name": "Miss Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_001",
+      "target_name": "The Blue Dress",
+      "rel_type": "wears",
+      "description": "Miss Hunter is required to wear the blue dress as part of the daily performance.",
+      "properties": {
+        "sentiment": "reluctant",
+        "nature": "uniform"
+      },
+      "context": "nor have I worn the blue dress",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_002",
+      "source_name": "Jephro Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_002",
+      "target_name": "Carlo",
+      "rel_type": "owns",
+      "description": "Jephro Rucastle claims ownership of the mastiff, Carlo, though he admits Toller handles him.",
+      "properties": {
+        "sentiment": "possessive",
+        "nature": "pet"
+      },
+      "context": "It's only Carlo, my mastiff.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_001",
+      "source_name": "Miss Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_003",
+      "target_name": "The Coil of Hair",
+      "rel_type": "discovers",
+      "description": "Miss Hunter discovers a coil of hair identical to her own locked inside a drawer.",
+      "properties": {
+        "sentiment": "shocked",
+        "nature": "unexpected"
+      },
+      "context": "It was my coil of hair.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_001",
+      "source_name": "Miss Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_003",
+      "target_name": "The Coil of Hair",
+      "rel_type": "conceals",
+      "description": "Miss Hunter hides her own coil of hair at the bottom of her trunk.",
+      "properties": {
+        "sentiment": "protective",
+        "nature": "secret"
+      },
+      "context": "I had placed it in a great coil at the bottom of my trunk.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_001",
+      "source_name": "Miss Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_004",
+      "target_name": "The Trunk",
+      "rel_type": "conceals",
+      "description": "Miss Hunter uses the trunk to hide her coil of hair.",
+      "properties": {
+        "sentiment": "protective",
+        "nature": "container"
+      },
+      "context": "I had placed it in a great coil at the bottom of my trunk.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_001",
+      "source_name": "Miss Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_005",
+      "target_name": "The Old Chest of Drawers",
+      "rel_type": "conceals",
+      "description": "Miss Hunter returns the strange hair to the locked drawer of the chest of drawers.",
+      "properties": {
+        "sentiment": "protective",
+        "nature": "container"
+      },
+      "context": "I returned the strange hair to the drawer",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_001",
+      "source_name": "Miss Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_006",
+      "target_name": "The Hand-Mirror",
+      "rel_type": "uses",
+      "description": "Miss Hunter uses a broken piece of her hand-mirror to secretly observe behind her.",
+      "properties": {
+        "sentiment": "practical",
+        "nature": "tool"
+      },
+      "context": "My hand-mirror had been broken, so a happy thought seized me, and I concealed a piece of the glass in my handkerchief.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_002",
+      "source_name": "Jephro Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_007",
+      "target_name": "The Yellow-Backed Novel",
+      "rel_type": "uses",
+      "description": "Jephro Rucastle uses the yellow-backed novel to direct Miss Hunter's reading and control her shadow.",
+      "properties": {
+        "sentiment": "manipulative",
+        "nature": "prop"
+      },
+      "context": "Then he handed me a yellow-backed novel, and moving my chair a little sideways, that my own shadow might not fall upon the page, he begged me to read aloud to him.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_002",
+      "source_name": "Jephro Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005_loc_003",
+      "target_name": "The Locked Wing",
+      "rel_type": "owns_property",
+      "description": "Jephro Rucastle maintains strict control over the locked wing, locking it and showing anger when discovered.",
+      "properties": {
+        "sentiment": "possessive",
+        "nature": "restricted"
+      },
+      "context": "He locked the door and hurried past me without a word or a look.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_001",
+      "source_name": "Miss Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005_loc_003",
+      "target_name": "The Locked Wing",
+      "rel_type": "investigates",
+      "description": "Miss Hunter investigates the locked wing by strolling around the grounds to observe its windows.",
+      "properties": {
+        "sentiment": "curious",
+        "nature": "active"
+      },
+      "context": "This aroused my curiosity, so when I went out for a walk in the grounds with my charge, I strolled round to the side from which I could see the windows of this part of the house.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_005",
+      "source_name": "The Man in the Road",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005_loc_004",
+      "target_name": "The Southampton Road",
+      "rel_type": "resides_at",
+      "description": "The man in the road is located on the Southampton Road, leaning against the railings.",
+      "properties": {
+        "sentiment": "neutral",
+        "nature": "location"
+      },
+      "context": "a man standing in the Southampton Road",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_evt_001",
+      "source_name": "The Performance",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005_loc_002",
+      "target_name": "The Window",
+      "rel_type": "occurs_at",
+      "description": "The daily performance ritual takes place with Miss Hunter sitting in the window.",
+      "properties": {
+        "sentiment": "neutral",
+        "nature": "setting"
+      },
+      "context": "again I sat in the window",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_con_001",
+      "source_name": "The Mystery of the Hair",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_001",
+      "target_name": "Miss Hunter",
+      "rel_type": "involves",
+      "description": "The mystery of the hair directly involves Miss Hunter, who is puzzled by the identical coil found in the drawer.",
+      "properties": {
+        "sentiment": "mysterious",
+        "nature": "central"
+      },
+      "context": "Was it not extraordinary? Puzzle as I would, I could make nothing at all of what it meant.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_con_001",
+      "source_name": "The Mystery of the Hair",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_003",
+      "target_name": "The Coil of Hair",
+      "rel_type": "involves",
+      "description": "The coil of hair is the central physical object around which the mystery revolves.",
+      "properties": {
+        "sentiment": "mysterious",
+        "nature": "artifact"
+      },
+      "context": "It was my coil of hair.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_con_002",
+      "source_name": "The Locked Wing Mystery",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_002",
+      "target_name": "Jephro Rucastle",
+      "rel_type": "involves",
+      "description": "Jephro Rucastle is the primary figure associated with the locked wing, guarding it and reacting with anger when discovered.",
+      "properties": {
+        "sentiment": "mysterious",
+        "nature": "guardian"
+      },
+      "context": "He locked the door and hurried past me without a word or a look.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_con_002",
+      "source_name": "The Locked Wing Mystery",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005_loc_003",
+      "target_name": "The Locked Wing",
+      "rel_type": "involves",
+      "description": "The locked wing itself is the focal point of the mystery, appearing uninhabited but strictly controlled.",
+      "properties": {
+        "sentiment": "mysterious",
+        "nature": "location"
+      },
+      "context": "There was one wing, however, which appeared not to be inhabited at all. A door which faced that which led into the quarters of the Tollers opened into this suite, but it was invariably locked.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_001",
+      "source_name": "Miss Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_002",
+      "source_name": "Jephro Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_003",
+      "source_name": "Mrs. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_004",
+      "source_name": "Old Toller",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_005",
+      "source_name": "The Man in the Road",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_char_006",
+      "source_name": "The Child",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_loc_001",
+      "source_name": "Copper Beeches",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_loc_002",
+      "source_name": "The Window",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_loc_003",
+      "source_name": "The Locked Wing",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_loc_004",
+      "source_name": "The Southampton Road",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_001",
+      "source_name": "The Blue Dress",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_002",
+      "source_name": "Carlo",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_003",
+      "source_name": "The Coil of Hair",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_004",
+      "source_name": "The Trunk",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_005",
+      "source_name": "The Old Chest of Drawers",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_006",
+      "source_name": "The Hand-Mirror",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_obj_007",
+      "source_name": "The Yellow-Backed Novel",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_evt_001",
+      "source_name": "The Performance",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_con_001",
+      "source_name": "The Mystery of the Hair",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_005_con_002",
+      "source_name": "The Locked Wing Mystery",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_005",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    }
+  ]
+}

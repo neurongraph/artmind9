@@ -1,0 +1,3849 @@
+[
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_001_org_001",
+    "name": "FirstUK Bank",
+    "properties": {},
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_001",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_001_org_002",
+    "name": "Retail Banking",
+    "properties": {},
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_001",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_001_rol_001",
+    "name": "Director of Retail Banking",
+    "properties": {
+      "department_or_unit": [
+        "Retail Banking"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_001",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_002_org_001",
+    "name": "FirstUK Bank",
+    "properties": {
+      "key_functions": [
+        "operate branches",
+        "provide full banking services including account opening, customer service, and cash handling"
+      ],
+      "location": [
+        "United Kingdom"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_002",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_002_org_002",
+    "name": "Head Office London",
+    "properties": {
+      "location": [
+        "London"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_002",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_002_met_003",
+    "name": "Total Branches",
+    "properties": {
+      "value": 12,
+      "unit": "count",
+      "what_it_measures": "Number of operational branches",
+      "context": "Strategically located to serve customer bases in major metropolitan areas and regional centers."
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_002",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_002_met_004",
+    "name": "Total Branch Staff",
+    "properties": {
+      "value": 12,
+      "unit": "count",
+      "what_it_measures": "Total number of staff employed across all branches",
+      "context": "Staffing ratio is maintained at 1–2 employees per branch."
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_002",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_002_met_005",
+    "name": "Service Hours",
+    "properties": {
+      "value": "Monday–Friday 09:00–17:00, Saturday 09:00–13:00",
+      "unit": "hours",
+      "what_it_measures": "Standard branch operating schedule for customer service"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_002",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_org_001",
+    "name": "London Head Office",
+    "properties": {
+      "location": "London",
+      "region": "Greater London",
+      "headcount": 3,
+      "chair_or_head": "Sarah Williams",
+      "key_functions": [
+        "branch operations",
+        "customer service"
+      ],
+      "estimated_customers": "N/A"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_rol_001",
+    "name": "Sarah Williams",
+    "properties": {
+      "department_or_unit": "London Head Office",
+      "appointment_type": "manager",
+      "key_responsibilities": [
+        "oversee branch operations",
+        "manage staff",
+        "deliver customer service"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_org_002",
+    "name": "London Canary Wharf",
+    "properties": {
+      "location": "London",
+      "region": "Greater London",
+      "headcount": 2,
+      "chair_or_head": "James Chen",
+      "key_functions": [
+        "branch operations",
+        "customer service"
+      ],
+      "estimated_customers": 85
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_rol_002",
+    "name": "James Chen",
+    "properties": {
+      "department_or_unit": "London Canary Wharf",
+      "appointment_type": "manager",
+      "key_responsibilities": [
+        "oversee branch operations",
+        "manage staff",
+        "deliver customer service"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_org_003",
+    "name": "Manchester Central",
+    "properties": {
+      "location": "Manchester",
+      "region": "North West",
+      "headcount": 1,
+      "chair_or_head": "Emma Thompson",
+      "key_functions": [
+        "branch operations",
+        "customer service"
+      ],
+      "estimated_customers": 68
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_rol_003",
+    "name": "Emma Thompson",
+    "properties": {
+      "department_or_unit": "Manchester Central",
+      "appointment_type": "manager",
+      "key_responsibilities": [
+        "oversee branch operations",
+        "manage staff",
+        "deliver customer service"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_org_004",
+    "name": "Birmingham Business",
+    "properties": {
+      "location": "Birmingham",
+      "region": "Midlands",
+      "headcount": 1,
+      "chair_or_head": "Michael O'Brien",
+      "key_functions": [
+        "branch operations",
+        "customer service"
+      ],
+      "estimated_customers": 62
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_rol_004",
+    "name": "Michael O'Brien",
+    "properties": {
+      "department_or_unit": "Birmingham Business",
+      "appointment_type": "manager",
+      "key_responsibilities": [
+        "oversee branch operations",
+        "manage staff",
+        "deliver customer service"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_org_005",
+    "name": "Leeds Financial",
+    "properties": {
+      "location": "Leeds",
+      "region": "Yorkshire",
+      "headcount": 1,
+      "chair_or_head": "Rachel Murphy",
+      "key_functions": [
+        "branch operations",
+        "customer service"
+      ],
+      "estimated_customers": 55
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_rol_005",
+    "name": "Rachel Murphy",
+    "properties": {
+      "department_or_unit": "Leeds Financial",
+      "appointment_type": "manager",
+      "key_responsibilities": [
+        "oversee branch operations",
+        "manage staff",
+        "deliver customer service"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_org_006",
+    "name": "Bristol South",
+    "properties": {
+      "location": "Bristol",
+      "region": "South West",
+      "headcount": 1,
+      "chair_or_head": "David Kumar",
+      "key_functions": [
+        "branch operations",
+        "customer service"
+      ],
+      "estimated_customers": 51
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_rol_006",
+    "name": "David Kumar",
+    "properties": {
+      "department_or_unit": "Bristol South",
+      "appointment_type": "manager",
+      "key_responsibilities": [
+        "oversee branch operations",
+        "manage staff",
+        "deliver customer service"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_org_007",
+    "name": "Edinburgh Royal",
+    "properties": {
+      "location": "Edinburgh",
+      "region": "Scotland",
+      "headcount": 1,
+      "chair_or_head": "Fiona MacLeod",
+      "key_functions": [
+        "branch operations",
+        "customer service"
+      ],
+      "estimated_customers": 48
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_rol_007",
+    "name": "Fiona MacLeod",
+    "properties": {
+      "department_or_unit": "Edinburgh Royal",
+      "appointment_type": "manager",
+      "key_responsibilities": [
+        "oversee branch operations",
+        "manage staff",
+        "deliver customer service"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_org_008",
+    "name": "Glasgow Merchant",
+    "properties": {
+      "location": "Glasgow",
+      "region": "Scotland",
+      "headcount": 1,
+      "chair_or_head": "Andrew Stewart",
+      "key_functions": [
+        "branch operations",
+        "customer service"
+      ],
+      "estimated_customers": 42
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_rol_008",
+    "name": "Andrew Stewart",
+    "properties": {
+      "department_or_unit": "Glasgow Merchant",
+      "appointment_type": "manager",
+      "key_responsibilities": [
+        "oversee branch operations",
+        "manage staff",
+        "deliver customer service"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_org_009",
+    "name": "Liverpool Pier",
+    "properties": {
+      "location": "Liverpool",
+      "region": "North West",
+      "headcount": 1,
+      "chair_or_head": "Catherine Brown",
+      "key_functions": [
+        "branch operations",
+        "customer service"
+      ],
+      "estimated_customers": 38
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_rol_009",
+    "name": "Catherine Brown",
+    "properties": {
+      "department_or_unit": "Liverpool Pier",
+      "appointment_type": "manager",
+      "key_responsibilities": [
+        "oversee branch operations",
+        "manage staff",
+        "deliver customer service"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_org_010",
+    "name": "Norwich Market",
+    "properties": {
+      "location": "Norwich",
+      "region": "East Anglia",
+      "headcount": 1,
+      "chair_or_head": "Peter Newton",
+      "key_functions": [
+        "branch operations",
+        "customer service"
+      ],
+      "estimated_customers": 35
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_rol_010",
+    "name": "Peter Newton",
+    "properties": {
+      "department_or_unit": "Norwich Market",
+      "appointment_type": "manager",
+      "key_responsibilities": [
+        "oversee branch operations",
+        "manage staff",
+        "deliver customer service"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_org_011",
+    "name": "Southampton Water",
+    "properties": {
+      "location": "Southampton",
+      "region": "South",
+      "headcount": 1,
+      "chair_or_head": "Jennifer Adams",
+      "key_functions": [
+        "branch operations",
+        "customer service"
+      ],
+      "estimated_customers": 32
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_rol_011",
+    "name": "Jennifer Adams",
+    "properties": {
+      "department_or_unit": "Southampton Water",
+      "appointment_type": "manager",
+      "key_responsibilities": [
+        "oversee branch operations",
+        "manage staff",
+        "deliver customer service"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_org_012",
+    "name": "Belfast Central",
+    "properties": {
+      "location": "Belfast",
+      "region": "Northern Ireland",
+      "headcount": 1,
+      "chair_or_head": "Thomas O'Donnell",
+      "key_functions": [
+        "branch operations",
+        "customer service"
+      ],
+      "estimated_customers": 28
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_003_rol_012",
+    "name": "Thomas O'Donnell",
+    "properties": {
+      "department_or_unit": "Belfast Central",
+      "appointment_type": "manager",
+      "key_responsibilities": [
+        "oversee branch operations",
+        "manage staff",
+        "deliver customer service"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_003",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_004_org_001",
+    "name": "London Head Office",
+    "properties": {
+      "location": "125 Threadneedle Street, London, EC2R 8AH",
+      "headcount": 3,
+      "key_functions": [
+        "Headquarters",
+        "executive offices",
+        "main operations center"
+      ],
+      "facilities": [
+        "Main office",
+        "customer meeting rooms",
+        "cash vault"
+      ],
+      "operating_hours": "Monday–Friday 08:00–18:00"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_004",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_004_org_002",
+    "name": "London Canary Wharf",
+    "properties": {
+      "location": "10 Churchill Place, London, E14 5AB",
+      "headcount": 2,
+      "key_functions": [
+        "Customer service",
+        "account opening",
+        "teller services"
+      ],
+      "operating_hours": "Monday–Friday 09:00–17:00, Saturday 09:00–13:00"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_004",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_004_rol_001",
+    "name": "Branch Manager - Sarah Williams",
+    "properties": {
+      "department_or_unit": "London Head Office",
+      "role_title": "Branch Manager"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_004",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_004_rol_002",
+    "name": "Branch Manager - James Chen",
+    "properties": {
+      "department_or_unit": "London Canary Wharf",
+      "role_title": "Branch Manager"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_004",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_004_met_001",
+    "name": "Head Office Staffing Level",
+    "properties": {
+      "value": 3,
+      "unit": "staff members",
+      "what_it_measures": "Total headcount at the London Head Office branch",
+      "composition": [
+        "Manager",
+        "Senior Officer",
+        "Officer"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_004",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_004_met_002",
+    "name": "Canary Wharf Branch Staffing Level",
+    "properties": {
+      "value": 2,
+      "unit": "staff members",
+      "what_it_measures": "Total headcount at the London Canary Wharf branch",
+      "composition": [
+        "Manager",
+        "Officer"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_004",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_004_met_003",
+    "name": "Canary Wharf Estimated Customer Base",
+    "properties": {
+      "value": 85,
+      "unit": "customers",
+      "what_it_measures": "Estimated customer base for the London Canary Wharf branch"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_004",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_005_org_001",
+    "name": "North West Region",
+    "properties": {
+      "key_functions": [
+        "Regional oversight of Manchester Central and Liverpool Pier branches"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_005",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_005_org_002",
+    "name": "Manchester Central Branch",
+    "properties": {
+      "location": "Deansgate House, Manchester, M3 2BA",
+      "headcount": 1,
+      "key_functions": [
+        "Customer service counter operations",
+        "Account opening desk management",
+        "Cash handling"
+      ],
+      "chair_or_head": "Emma Thompson"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_005",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_005_org_003",
+    "name": "Liverpool Pier Branch",
+    "properties": {
+      "location": "Pier Head, Liverpool, L3 1TY",
+      "headcount": 1,
+      "key_functions": [
+        "Customer service delivery",
+        "Account opening"
+      ],
+      "chair_or_head": "Catherine Brown"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_005",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_005_rol_001",
+    "name": "Emma Thompson",
+    "properties": {
+      "department_or_unit": "Manchester Central Branch",
+      "key_responsibilities": [
+        "Branch management",
+        "Overseeing customer service and account opening operations"
+      ],
+      "appointment_type": "manager"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_005",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_005_rol_002",
+    "name": "Catherine Brown",
+    "properties": {
+      "department_or_unit": "Liverpool Pier Branch",
+      "key_responsibilities": [
+        "Branch management",
+        "Overseeing customer service and account opening operations"
+      ],
+      "appointment_type": "manager"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_005",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_005_met_001",
+    "name": "Manchester Central Branch Staffing Level",
+    "properties": {
+      "value": 1,
+      "unit": "count",
+      "what_it_measures": "Total number of staff assigned to the branch",
+      "owner": "Emma Thompson"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_005",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_005_met_002",
+    "name": "Manchester Central Branch Customer Base Estimate",
+    "properties": {
+      "value": 68,
+      "unit": "count",
+      "what_it_measures": "Estimated number of customers served by the branch",
+      "owner": "Emma Thompson"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_005",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_005_met_003",
+    "name": "Liverpool Pier Branch Customer Base Estimate",
+    "properties": {
+      "value": 38,
+      "unit": "count",
+      "what_it_measures": "Estimated number of customers served by the branch",
+      "owner": "Catherine Brown"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_005",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_005_bnk_001",
+    "name": "Account Opening Service",
+    "properties": {
+      "key_attributes": [
+        "Requires dedicated desk/facility"
+      ],
+      "business_rules": [
+        "Available at both Manchester Central and Liverpool Pier branches"
+      ],
+      "relationships_to": [
+        "Customer Service Delivery",
+        "Cash Handling Service"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_005",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_005_bnk_002",
+    "name": "Customer Service Delivery",
+    "properties": {
+      "key_attributes": [
+        "Operated via customer service counter"
+      ],
+      "business_rules": [
+        "Available at both branches during operating hours"
+      ],
+      "relationships_to": [
+        "Account Opening Service",
+        "Cash Handling Service"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_005",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_005_bnk_003",
+    "name": "Cash Handling Service",
+    "properties": {
+      "key_attributes": [
+        "Requires dedicated cash handling capability"
+      ],
+      "business_rules": [
+        "Only offered at Manchester Central Branch"
+      ],
+      "relationships_to": [
+        "Account Opening Service",
+        "Customer Service Delivery"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_005",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_005_rul_001",
+    "name": "Branch Operating Hours Schedule",
+    "properties": {
+      "rule_statement": "Operate Monday–Friday 09:00–17:00 and Saturday 09:00–13:00",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Manchester Central Branch",
+        "Liverpool Pier Branch"
+      ],
+      "enforcement": "Branch Managers"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_005",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_006_org_001",
+    "name": "Midlands Region",
+    "properties": {
+      "location": "Midlands",
+      "key_functions": [
+        "Regional branch oversight"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_006",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_006_org_002",
+    "name": "Birmingham Business Branch",
+    "properties": {
+      "location": "Colmore Row, Birmingham, B3 2EE",
+      "headcount": 1,
+      "key_functions": [
+        "Customer service",
+        "Account opening"
+      ],
+      "cross_functional_interfaces": [
+        "Business Banking",
+        "Personal Banking"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_006",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_006_rol_001",
+    "name": "Branch Manager",
+    "properties": {
+      "department_or_unit": "Birmingham Business Branch",
+      "key_responsibilities": [
+        "Oversee branch staff and daily operations"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_006",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_006_rol_002",
+    "name": "Michael O'Brien",
+    "properties": {
+      "department_or_unit": "Birmingham Business Branch",
+      "reports_to": "Midlands Region",
+      "appointment_type": "manager"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_006",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_006_met_001",
+    "name": "Branch Staff Headcount",
+    "properties": {
+      "value": 1,
+      "unit": "count",
+      "what_it_measures": "Number of employees at the branch",
+      "owner": "Branch Manager"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_006",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_006_met_002",
+    "name": "Branch Customer Base Estimate",
+    "properties": {
+      "value": 62,
+      "unit": "count",
+      "what_it_measures": "Estimated number of customers served by the branch",
+      "owner": "Branch Manager"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_006",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_006_bnk_001",
+    "name": "Account Opening Service",
+    "properties": {
+      "key_attributes": [
+        "Listed as a primary branch facility",
+        "Available across business and personal banking"
+      ],
+      "business_rules": [
+        "Must be accessible during branch operating hours"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_006",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_006_bnk_002",
+    "name": "Business Banking",
+    "properties": {
+      "key_attributes": [
+        "Offered at Birmingham Business Branch",
+        "Paired with personal banking"
+      ],
+      "ontology_domain": "Commercial Banking"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_006",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_006_bnk_003",
+    "name": "Personal Banking",
+    "properties": {
+      "key_attributes": [
+        "Offered at Birmingham Business Branch",
+        "Paired with business banking"
+      ],
+      "ontology_domain": "Retail Banking"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_006",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_006_bnk_004",
+    "name": "Customer Service Facility",
+    "properties": {
+      "key_attributes": [
+        "Listed alongside account opening",
+        "Operates during branch hours"
+      ],
+      "business_rules": [
+        "Must be staffed and accessible to all customers"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_006",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_007_org_001",
+    "name": "Leeds Financial Branch",
+    "properties": {
+      "location": "City Square, Leeds, LS1 1ER",
+      "headcount": 1,
+      "key_functions": [
+        "Customer service",
+        "Account opening"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_007",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_007_rol_001",
+    "name": "Rachel Murphy",
+    "properties": {
+      "department_or_unit": "Leeds Financial Branch",
+      "appointment_type": "manager"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_007",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_007_met_001",
+    "name": "Branch Staff Headcount",
+    "properties": {
+      "value": 1,
+      "unit": "count",
+      "what_it_measures": "Total number of staff employed at the branch"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_007",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_007_met_002",
+    "name": "Estimated Customer Base",
+    "properties": {
+      "value": 55,
+      "unit": "count",
+      "what_it_measures": "Total number of customers served by the branch"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_007",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_007_bnk_001",
+    "name": "Mortgage Advisory Service",
+    "properties": {
+      "definition": "Service handling customer inquiries related to mortgage products",
+      "key_attributes": [
+        "inquiry type",
+        "customer eligibility"
+      ],
+      "relationships_to": [
+        "Leeds Financial Branch"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_007",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_008_org_001",
+    "name": "South West Region",
+    "properties": {},
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_008",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_008_org_002",
+    "name": "Bristol South Branch",
+    "properties": {
+      "location": "Waterfront, Bristol, BS1 4SB",
+      "headcount": 1,
+      "key_functions": [
+        "Customer service",
+        "Account opening"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_008",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_008_rol_001",
+    "name": "David Kumar",
+    "properties": {
+      "department_or_unit": "Bristol South Branch",
+      "appointment_type": "Branch Manager"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_008",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_008_bnk_001",
+    "name": "Account Opening Process",
+    "properties": {
+      "ontology_domain": "Retail Banking Services",
+      "relationships_to": [
+        "Bristol South Branch"
+      ],
+      "definition": "A core service and facility provided at the branch"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_008",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_008_met_001",
+    "name": "Branch Staffing Headcount",
+    "properties": {
+      "value": 1,
+      "unit": "staff",
+      "what_it_measures": "Number of employees assigned to the branch",
+      "actual_value": 1
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_008",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_008_met_002",
+    "name": "Estimated Customer Footfall",
+    "properties": {
+      "value": 51,
+      "unit": "customers",
+      "what_it_measures": "Estimated number of customers visiting the branch",
+      "actual_value": 51
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_008",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_009_org_001",
+    "name": "Edinburgh Royal Branch",
+    "properties": {
+      "location": "St Andrew Square, Edinburgh, EH2 2YB",
+      "headcount": 1,
+      "key_functions": [
+        "Customer service",
+        "Account opening"
+      ],
+      "services_focus": [
+        "Scottish market focus"
+      ],
+      "operating_hours": [
+        "Monday–Friday 09:00–17:00",
+        "Saturday 09:00–13:00"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_009",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_009_org_002",
+    "name": "Glasgow Merchant Branch",
+    "properties": {
+      "location": "Merchant City, Glasgow, G1 1QT",
+      "headcount": 1,
+      "key_functions": [
+        "Customer service",
+        "Account opening"
+      ],
+      "operating_hours": [
+        "Monday–Friday 09:00–17:00",
+        "Saturday 09:00–13:00"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_009",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_009_rol_001",
+    "name": "Fiona MacLeod",
+    "properties": {
+      "department_or_unit": "Edinburgh Royal Branch",
+      "key_responsibilities": [
+        "Branch management"
+      ],
+      "appointment_type": "Manager"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_009",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_009_rol_002",
+    "name": "Andrew Stewart",
+    "properties": {
+      "department_or_unit": "Glasgow Merchant Branch",
+      "key_responsibilities": [
+        "Branch management"
+      ],
+      "appointment_type": "Manager"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_009",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_009_met_001",
+    "name": "Edinburgh Royal Branch Staffing Level",
+    "properties": {
+      "value": 1,
+      "unit": "count",
+      "what_it_measures": "Number of staff employed at the branch",
+      "owner": "Fiona MacLeod"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_009",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_009_met_002",
+    "name": "Glasgow Merchant Branch Staffing Level",
+    "properties": {
+      "value": 1,
+      "unit": "count",
+      "what_it_measures": "Number of staff employed at the branch",
+      "owner": "Andrew Stewart"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_009",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_009_met_003",
+    "name": "Edinburgh Royal Branch Estimated Customer Count",
+    "properties": {
+      "value": 48,
+      "unit": "count",
+      "what_it_measures": "Estimated number of customers served by the branch",
+      "owner": "Fiona MacLeod"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_009",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_009_met_004",
+    "name": "Glasgow Merchant Branch Estimated Customer Count",
+    "properties": {
+      "value": 42,
+      "unit": "count",
+      "what_it_measures": "Estimated number of customers served by the branch",
+      "owner": "Andrew Stewart"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_009",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_010_org_001",
+    "name": "East Anglia Regional Unit",
+    "properties": {
+      "branches_managed": [
+        "Norwich Market Branch"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_010",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_010_org_002",
+    "name": "Norwich Market Branch",
+    "properties": {
+      "location": "Market Hill, Norwich, NR2 1NF",
+      "headcount": 1,
+      "key_functions": [
+        "Customer service",
+        "Account opening"
+      ],
+      "chair_or_head": "Peter Newton"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_010",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_010_rol_001",
+    "name": "Peter Newton",
+    "properties": {
+      "department_or_unit": "Norwich Market Branch",
+      "appointment_type": "manager"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_010",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_010_met_001",
+    "name": "Branch Operational Staff Count",
+    "properties": {
+      "value": 1,
+      "unit": "count",
+      "what_it_measures": "Number of operational staff at the branch"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_010",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_010_met_002",
+    "name": "Branch Estimated Customer Base",
+    "properties": {
+      "value": 35,
+      "unit": "count",
+      "what_it_measures": "Estimated number of customers served by the branch"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_010",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_010_bnk_001",
+    "name": "Account Opening Process",
+    "properties": {
+      "relationships_to": [
+        "Norwich Market Branch"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_010",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_011_org_001",
+    "name": "South Region",
+    "properties": {},
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_011",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_011_org_002",
+    "name": "Southampton Water Branch",
+    "properties": {
+      "location": [
+        "Above Bar, Southampton, SO14 2DN"
+      ],
+      "headcount": [
+        1
+      ],
+      "key_functions": [
+        "Customer service",
+        "Account opening"
+      ],
+      "operating_hours": [
+        "Monday–Friday 09:00–17:00",
+        "Saturday 09:00–13:00"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_011",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_011_rol_001",
+    "name": "Branch Manager",
+    "properties": {
+      "department_or_unit": [
+        "Southampton Water Branch"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_011",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_011_rol_002",
+    "name": "Jennifer Adams",
+    "properties": {
+      "department_or_unit": [
+        "Southampton Water Branch"
+      ],
+      "role_title": [
+        "Branch Manager"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_011",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_011_bnk_001",
+    "name": "Customer Service",
+    "properties": {
+      "key_attributes": [
+        "In-branch facility",
+        "Customer-facing service"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_011",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_011_bnk_002",
+    "name": "Account Opening",
+    "properties": {
+      "key_attributes": [
+        "Core banking process",
+        "Facility-based service"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_011",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_011_met_001",
+    "name": "Branch Staff Headcount",
+    "properties": {
+      "value": 1,
+      "unit": "count",
+      "what_it_measures": "Total number of staff employed at the branch"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_011",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_011_met_002",
+    "name": "Estimated Customer Footfall",
+    "properties": {
+      "value": 32,
+      "unit": "count",
+      "what_it_measures": "Estimated number of customers visiting the branch"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_011",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_012_org_001",
+    "name": "Belfast Central Branch",
+    "properties": {
+      "location": "Donegall Place, Belfast, BT1 3AA",
+      "headcount": 1,
+      "reporting_to": "Northern Ireland Regional Network",
+      "key_functions": [
+        "Customer service",
+        "Account opening"
+      ],
+      "chair_or_head": "Thomas O'Donnell"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_012",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_012_org_002",
+    "name": "Northern Ireland Regional Network",
+    "properties": {
+      "location": "Northern Ireland",
+      "key_functions": [
+        "Regional branch oversight"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_012",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_012_rol_001",
+    "name": "Thomas O'Donnell",
+    "properties": {
+      "department_or_unit": "Belfast Central Branch",
+      "key_responsibilities": [
+        "Branch management"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_012",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_012_met_001",
+    "name": "Branch Staffing Level",
+    "properties": {
+      "value": 1,
+      "unit": "count",
+      "what_it_measures": "Number of staff assigned to the branch",
+      "actual_value": 1
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_012",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_012_met_002",
+    "name": "Belfast Central Customer Footfall",
+    "properties": {
+      "value": 28,
+      "unit": "count",
+      "what_it_measures": "Estimated customer volume for the branch",
+      "actual_value": 28
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_012",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_012_bnk_001",
+    "name": "Customer Service",
+    "properties": {
+      "definition": "Primary customer-facing service and facility offered at the branch",
+      "key_attributes": [
+        "In-person support",
+        "Client assistance"
+      ],
+      "relationships_to": [
+        "Belfast Central Branch"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_012",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_012_bnk_002",
+    "name": "Account Opening",
+    "properties": {
+      "definition": "Core banking service for establishing new client accounts",
+      "key_attributes": [
+        "Account setup",
+        "Customer onboarding"
+      ],
+      "relationships_to": [
+        "Belfast Central Branch"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_012",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_013_org_001",
+    "name": "FirstUK Bank Branch Network",
+    "properties": {
+      "key_functions": [
+        "Account Opening",
+        "Account Queries",
+        "Cash Services",
+        "Card Services",
+        "Standing Orders & Direct Debits management",
+        "Complaint Resolution",
+        "Mortgage Inquiries"
+      ],
+      "location": "All Branches"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_013",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_013_bnk_001",
+    "name": "SmartSaver",
+    "properties": {
+      "definition": "Savings account product available for opening at branches",
+      "relationships_to": [
+        "Account Opening",
+        "Branch Services"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_013",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_013_bnk_002",
+    "name": "Current Account",
+    "properties": {
+      "definition": "Standard transactional account product available for opening at branches",
+      "relationships_to": [
+        "Account Opening",
+        "Branch Services"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_013",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_013_bnk_003",
+    "name": "Standing Order",
+    "properties": {
+      "definition": "Recurring payment instruction managed through branch services",
+      "key_attributes": [
+        "setup",
+        "modification",
+        "cancellation"
+      ],
+      "relationships_to": [
+        "Standing Orders & Direct Debits",
+        "Branch Services"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_013",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_013_bnk_004",
+    "name": "Direct Debit",
+    "properties": {
+      "definition": "Payment authorization method managed through branch services",
+      "key_attributes": [
+        "setup",
+        "modification",
+        "cancellation"
+      ],
+      "relationships_to": [
+        "Standing Orders & Direct Debits",
+        "Branch Services"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_013",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_013_bnk_005",
+    "name": "Debit Card",
+    "properties": {
+      "definition": "Payment card issued to customers, managed through branch services",
+      "key_attributes": [
+        "replacement",
+        "blocking",
+        "PIN reset"
+      ],
+      "relationships_to": [
+        "Card Services",
+        "Branch Services"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_013",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_014_org_001",
+    "name": "Head Office",
+    "properties": {
+      "key_functions": [
+        "Mortgage Underwriting",
+        "Escalated Complaints",
+        "Product Training",
+        "Fraud Investigation"
+      ],
+      "location": [
+        "Head Office"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_014",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_014_org_002",
+    "name": "Manchester Branch",
+    "properties": {
+      "key_functions": [
+        "Mortgage Underwriting",
+        "Escalated Complaints"
+      ],
+      "location": [
+        "Manchester"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_014",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_014_org_003",
+    "name": "Leeds Branch",
+    "properties": {
+      "key_functions": [
+        "Mortgage Underwriting"
+      ],
+      "location": [
+        "Leeds"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_014",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_014_org_004",
+    "name": "Fraud Investigation Central Team",
+    "properties": {
+      "key_functions": [
+        "Fraud Investigation"
+      ],
+      "reporting_to": [
+        "Head Office"
+      ],
+      "location": [
+        "Head Office"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_014",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_015_org_001",
+    "name": "Branch Operations",
+    "properties": {
+      "key_functions": [
+        "Cash vault verification",
+        "ATM stocking and balance",
+        "System connectivity test",
+        "Security alarm test",
+        "Staff briefing",
+        "Cash reconciliation",
+        "ATM cash count",
+        "System shutdown",
+        "Security alarm activation",
+        "End-of-day report"
+      ],
+      "operational_cycle": [
+        "Opening",
+        "Closing"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_015",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_015_sys_001",
+    "name": "Daily Operations Checklist",
+    "properties": {
+      "system_id": "DOC-001",
+      "purpose": "Tracks and verifies daily opening and closing operational tasks for branch staff"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_015",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_015_bnk_001",
+    "name": "Automated Teller Machine",
+    "properties": {
+      "key_attributes": [
+        "stocking level",
+        "cash balance",
+        "physical cash count"
+      ],
+      "business_rules": [
+        "Must be stocked and balanced during opening operations",
+        "Requires physical cash count verification during closing"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_015",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_015_bnk_002",
+    "name": "Cash Reconciliation",
+    "properties": {
+      "key_attributes": [
+        "physical cash count",
+        "recorded balance"
+      ],
+      "business_rules": [
+        "Mandatory closing checklist item"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_015",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_015_sys_002",
+    "name": "Security Alarm System",
+    "properties": {
+      "purpose": "Ensures branch physical security through daily testing and activation protocols",
+      "key_features": [
+        "alarm test",
+        "alarm activation"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_015",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_015_bnk_003",
+    "name": "End-of-Day Report",
+    "properties": {
+      "key_attributes": [
+        "daily operational summary"
+      ],
+      "business_rules": [
+        "Mandatory closing checklist item"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_015",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_015_bnk_004",
+    "name": "Staff Briefing",
+    "properties": {
+      "key_attributes": [
+        "opening procedures review"
+      ],
+      "business_rules": [
+        "Mandatory opening checklist item"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_015",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_015_bnk_005",
+    "name": "Cash Vault",
+    "properties": {
+      "key_attributes": [
+        "physical security status"
+      ],
+      "business_rules": [
+        "Mandatory opening checklist item"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_015",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_016_org_001",
+    "name": "Brinks",
+    "properties": {
+      "key_functions": [
+        "Armored transport"
+      ],
+      "contractor_status": [
+        "External"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_016",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_016_rol_001",
+    "name": "Branch Manager",
+    "properties": {
+      "key_responsibilities": [
+        "Vault dual custody",
+        "Approve dispute resolutions"
+      ],
+      "decision_authority": [
+        "Approve disputes under £1,000"
+      ],
+      "department_or_unit": [
+        "Branch Operations"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_016",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_016_rol_002",
+    "name": "Officer",
+    "properties": {
+      "key_responsibilities": [
+        "Vault dual custody"
+      ],
+      "department_or_unit": [
+        "Branch Operations"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_016",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_016_met_001",
+    "name": "Daily Cash Limit",
+    "properties": {
+      "value": 20000,
+      "unit": "GBP",
+      "what_it_measures": "Maximum allowable cash holding per branch daily",
+      "frequency": "Daily"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_016",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_016_met_002",
+    "name": "Dispute Resolution Threshold",
+    "properties": {
+      "value": 1000,
+      "unit": "GBP",
+      "what_it_measures": "Maximum dispute amount requiring branch manager approval",
+      "owner": [
+        "Branch Manager"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_016",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_016_rul_001",
+    "name": "Cash Handling Procedures",
+    "properties": {
+      "rule_statement": "Establishes the overarching policy framework for all cash handling operations",
+      "rule_type": "policy",
+      "applies_to": [
+        "All branches",
+        "Cash handling staff"
+      ],
+      "enforcement": [
+        "Branch Manager",
+        "Officer"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_016",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_016_rul_002",
+    "name": "Vault Dual Custody Control",
+    "properties": {
+      "rule_statement": "Vault security requires simultaneous presence of both manager and officer",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Branch vaults",
+        "Cash storage areas"
+      ],
+      "enforcement": [
+        "Branch Manager",
+        "Officer"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_016",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_016_rul_003",
+    "name": "Daily Reconciliation Requirement",
+    "properties": {
+      "rule_statement": "Cash reconciliation must be completed at the end of each business day",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Branch cash operations",
+        "Finance personnel"
+      ],
+      "frequency": "Daily (EOD)"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_016",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_016_rul_004",
+    "name": "Cash Collection Schedule",
+    "properties": {
+      "rule_statement": "Cash must be collected from branches three times per week on Monday, Wednesday, and Friday",
+      "rule_type": "schedule",
+      "applies_to": [
+        "Branch cash logistics",
+        "Armored transport contractor"
+      ],
+      "frequency": "3x weekly (Mon, Wed, Fri)"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_016",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_017_sys_001",
+    "name": "CCTV Surveillance System",
+    "properties": {
+      "purpose": "Continuous branch surveillance and video recording",
+      "availability_sla": "24/7 continuous operation",
+      "data_retention_policy": "30 days"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_017",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_017_met_001",
+    "name": "CCTV Recording and Retention SLA",
+    "properties": {
+      "value": "30",
+      "unit": "days",
+      "what_it_measures": "Duration video footage is stored before deletion",
+      "frequency": "Continuous"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_017",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_017_sys_002",
+    "name": "Branch Alarm Monitoring System",
+    "properties": {
+      "purpose": "Real-time branch intrusion detection and alerting",
+      "integrations": [
+        "External Security Monitoring Provider"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_017",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_017_org_001",
+    "name": "External Security Monitoring Provider",
+    "properties": {
+      "key_functions": [
+        "Branch alarm monitoring",
+        "Security incident response"
+      ],
+      "cross_functional_interfaces": [
+        "Branch Operations"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_017",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_017_bnk_001",
+    "name": "Branch Safe and Vault",
+    "properties": {
+      "definition": "Secure physical storage facility for high-value branch assets",
+      "key_attributes": [
+        "Physical vault structure",
+        "Dual access control"
+      ],
+      "business_rules": [
+        "Requires dual custody for entry"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_017",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_017_rul_001",
+    "name": "Dual Custody Access Constraint",
+    "properties": {
+      "rule_statement": "Access to the safe/vault requires two authorized individuals present simultaneously",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Branch Safe and Vault"
+      ],
+      "enforcement": "Physical key/card segregation and audit trails"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_017",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_017_bnk_002",
+    "name": "Employee Identification Badge",
+    "properties": {
+      "definition": "Physical credential issued to staff for identification and branch access control",
+      "key_attributes": [
+        "Staff photo",
+        "Employee ID number",
+        "Access permissions"
+      ],
+      "subtypes": [
+        "Standard staff badge"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_017",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_017_bnk_003",
+    "name": "Customer Identity Verification Process",
+    "properties": {
+      "definition": "Process of verifying customer identity before granting account access",
+      "key_attributes": [
+        "Government-issued ID",
+        "Photo match",
+        "Account linkage"
+      ],
+      "business_rules": [
+        "Mandatory completion prior to account access"
+      ],
+      "regulatory_significance": "KYC and AML compliance"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_017",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_017_rul_002",
+    "name": "Branch Security Policy",
+    "properties": {
+      "rule_statement": "Mandates comprehensive security measures including CCTV, alarm monitoring, dual custody, ID badges, and customer verification",
+      "rule_type": "obligation",
+      "applies_to": [
+        "All Branch Locations",
+        "Security Operations"
+      ],
+      "regulatory_source": "Internal Policy (SEC-POL-001)"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_017",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_018_org_001",
+    "name": "London Head Office",
+    "properties": {
+      "location": [
+        "London"
+      ],
+      "operating_hours": {
+        "standard_customer": "Monday–Friday 09:00–17:00, Saturday 09:00–13:00",
+        "extended_staff_only": "Monday–Friday 08:00–18:00",
+        "closed_days": [
+          "Sunday",
+          "Public Holidays"
+        ]
+      }
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_018",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_018_rul_001",
+    "name": "Branch Operating Hours Schedule",
+    "properties": {
+      "rule_statement": "Standard branches operate Monday–Friday 09:00–17:00 and Saturday 09:00–13:00; closed on Sunday/Public Holidays. London Head Office operates extended staff hours Monday–Friday 08:00–18:00.",
+      "rule_type": [
+        "operational_constraint"
+      ],
+      "applies_to": [
+        "All Branches",
+        "London Head Office"
+      ],
+      "frequency": [
+        "Weekly"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_018",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_019_org_001",
+    "name": "Customer Facilities",
+    "properties": {
+      "key_functions": [
+        "oversees branch layout and customer amenities"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_019",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_019_org_002",
+    "name": "Branch",
+    "properties": {
+      "location": "Typical/Standard",
+      "key_functions": [
+        "provides physical banking environment"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_019",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_019_org_003",
+    "name": "Teller Counter",
+    "properties": {
+      "key_functions": [
+        "cash services"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_019",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_019_org_004",
+    "name": "Account Opening Desk",
+    "properties": {
+      "key_functions": [
+        "account opening"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_019",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_019_org_005",
+    "name": "Waiting Area",
+    "properties": {
+      "key_functions": [
+        "customer waiting",
+        "seating provision"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_019",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_019_sys_001",
+    "name": "ATM",
+    "properties": {
+      "deployment": "External",
+      "purpose": "Automated self-service banking",
+      "key_features": [
+        "self-service transactions"
+      ],
+      "integrations": [
+        "Branch infrastructure"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_019",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_019_org_006",
+    "name": "Customer Restroom",
+    "properties": {
+      "key_functions": [
+        "customer amenities"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_019",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_019_org_007",
+    "name": "Meeting Room",
+    "properties": {
+      "key_functions": [
+        "private interviews"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_019",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_org_001",
+    "name": "London Canary Wharf Branch",
+    "properties": {
+      "location": "Canary Wharf, London"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_001",
+    "name": "London Canary Wharf Customer Count",
+    "properties": {
+      "value": 85,
+      "unit": "count",
+      "what_it_measures": "Total number of customers at the branch"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_002",
+    "name": "London Canary Wharf Active Accounts",
+    "properties": {
+      "value": 142,
+      "unit": "count",
+      "what_it_measures": "Number of active accounts held by customers"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_003",
+    "name": "London Canary Wharf Average Balance",
+    "properties": {
+      "value": 4521,
+      "unit": "GBP",
+      "what_it_measures": "Mean account balance per customer"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_004",
+    "name": "London Canary Wharf Satisfaction Score",
+    "properties": {
+      "value": 74,
+      "unit": "score",
+      "what_it_measures": "Customer satisfaction rating"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_org_002",
+    "name": "Manchester Central Branch",
+    "properties": {
+      "location": "Central, Manchester"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_005",
+    "name": "Manchester Central Customer Count",
+    "properties": {
+      "value": 68,
+      "unit": "count",
+      "what_it_measures": "Total number of customers at the branch"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_006",
+    "name": "Manchester Central Active Accounts",
+    "properties": {
+      "value": 108,
+      "unit": "count",
+      "what_it_measures": "Number of active accounts held by customers"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_007",
+    "name": "Manchester Central Average Balance",
+    "properties": {
+      "value": 4195,
+      "unit": "GBP",
+      "what_it_measures": "Mean account balance per customer"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_008",
+    "name": "Manchester Central Satisfaction Score",
+    "properties": {
+      "value": 71,
+      "unit": "score",
+      "what_it_measures": "Customer satisfaction rating"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_org_003",
+    "name": "Leeds Financial Branch",
+    "properties": {
+      "location": "Financial District, Leeds"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_009",
+    "name": "Leeds Financial Customer Count",
+    "properties": {
+      "value": 55,
+      "unit": "count",
+      "what_it_measures": "Total number of customers at the branch"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_010",
+    "name": "Leeds Financial Active Accounts",
+    "properties": {
+      "value": 92,
+      "unit": "count",
+      "what_it_measures": "Number of active accounts held by customers"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_011",
+    "name": "Leeds Financial Average Balance",
+    "properties": {
+      "value": 3987,
+      "unit": "GBP",
+      "what_it_measures": "Mean account balance per customer"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_012",
+    "name": "Leeds Financial Satisfaction Score",
+    "properties": {
+      "value": 70,
+      "unit": "score",
+      "what_it_measures": "Customer satisfaction rating"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_org_004",
+    "name": "Birmingham Business Branch",
+    "properties": {
+      "location": "Business District, Birmingham"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_013",
+    "name": "Birmingham Business Customer Count",
+    "properties": {
+      "value": 62,
+      "unit": "count",
+      "what_it_measures": "Total number of customers at the branch"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_014",
+    "name": "Birmingham Business Active Accounts",
+    "properties": {
+      "value": 105,
+      "unit": "count",
+      "what_it_measures": "Number of active accounts held by customers"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_015",
+    "name": "Birmingham Business Average Balance",
+    "properties": {
+      "value": 4287,
+      "unit": "GBP",
+      "what_it_measures": "Mean account balance per customer"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_016",
+    "name": "Birmingham Business Satisfaction Score",
+    "properties": {
+      "value": 69,
+      "unit": "score",
+      "what_it_measures": "Customer satisfaction rating"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_org_005",
+    "name": "Bristol South Branch",
+    "properties": {
+      "location": "South, Bristol"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_017",
+    "name": "Bristol South Customer Count",
+    "properties": {
+      "value": 51,
+      "unit": "count",
+      "what_it_measures": "Total number of customers at the branch"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_018",
+    "name": "Bristol South Active Accounts",
+    "properties": {
+      "value": 87,
+      "unit": "count",
+      "what_it_measures": "Number of active accounts held by customers"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_019",
+    "name": "Bristol South Average Balance",
+    "properties": {
+      "value": 3842,
+      "unit": "GBP",
+      "what_it_measures": "Mean account balance per customer"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_020",
+    "name": "Bristol South Satisfaction Score",
+    "properties": {
+      "value": 72,
+      "unit": "score",
+      "what_it_measures": "Customer satisfaction rating"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_org_006",
+    "name": "Edinburgh Royal Branch",
+    "properties": {
+      "location": "Royal Mile, Edinburgh"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_021",
+    "name": "Edinburgh Royal Customer Count",
+    "properties": {
+      "value": 48,
+      "unit": "count",
+      "what_it_measures": "Total number of customers at the branch"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_022",
+    "name": "Edinburgh Royal Active Accounts",
+    "properties": {
+      "value": 82,
+      "unit": "count",
+      "what_it_measures": "Number of active accounts held by customers"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_023",
+    "name": "Edinburgh Royal Average Balance",
+    "properties": {
+      "value": 4012,
+      "unit": "GBP",
+      "what_it_measures": "Mean account balance per customer"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_024",
+    "name": "Edinburgh Royal Satisfaction Score",
+    "properties": {
+      "value": 73,
+      "unit": "score",
+      "what_it_measures": "Customer satisfaction rating"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_org_007",
+    "name": "Glasgow Merchant Branch",
+    "properties": {
+      "location": "Merchant City, Glasgow"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_025",
+    "name": "Glasgow Merchant Customer Count",
+    "properties": {
+      "value": 42,
+      "unit": "count",
+      "what_it_measures": "Total number of customers at the branch"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_026",
+    "name": "Glasgow Merchant Active Accounts",
+    "properties": {
+      "value": 68,
+      "unit": "count",
+      "what_it_measures": "Number of active accounts held by customers"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_027",
+    "name": "Glasgow Merchant Average Balance",
+    "properties": {
+      "value": 3756,
+      "unit": "GBP",
+      "what_it_measures": "Mean account balance per customer"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_028",
+    "name": "Glasgow Merchant Satisfaction Score",
+    "properties": {
+      "value": 71,
+      "unit": "score",
+      "what_it_measures": "Customer satisfaction rating"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_org_008",
+    "name": "Liverpool Pier Branch",
+    "properties": {
+      "location": "Pier District, Liverpool"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_029",
+    "name": "Liverpool Pier Customer Count",
+    "properties": {
+      "value": 38,
+      "unit": "count",
+      "what_it_measures": "Total number of customers at the branch"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_030",
+    "name": "Liverpool Pier Active Accounts",
+    "properties": {
+      "value": 61,
+      "unit": "count",
+      "what_it_measures": "Number of active accounts held by customers"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_031",
+    "name": "Liverpool Pier Average Balance",
+    "properties": {
+      "value": 3521,
+      "unit": "GBP",
+      "what_it_measures": "Mean account balance per customer"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_032",
+    "name": "Liverpool Pier Satisfaction Score",
+    "properties": {
+      "value": 68,
+      "unit": "score",
+      "what_it_measures": "Customer satisfaction rating"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_org_009",
+    "name": "Norwich Market Branch",
+    "properties": {
+      "location": "Market District, Norwich"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_033",
+    "name": "Norwich Market Customer Count",
+    "properties": {
+      "value": 35,
+      "unit": "count",
+      "what_it_measures": "Total number of customers at the branch"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_034",
+    "name": "Norwich Market Active Accounts",
+    "properties": {
+      "value": 58,
+      "unit": "count",
+      "what_it_measures": "Number of active accounts held by customers"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_035",
+    "name": "Norwich Market Average Balance",
+    "properties": {
+      "value": 3214,
+      "unit": "GBP",
+      "what_it_measures": "Mean account balance per customer"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_036",
+    "name": "Norwich Market Satisfaction Score",
+    "properties": {
+      "value": 70,
+      "unit": "score",
+      "what_it_measures": "Customer satisfaction rating"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_org_010",
+    "name": "Southampton Water Branch",
+    "properties": {
+      "location": "Waterfront, Southampton"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_037",
+    "name": "Southampton Water Customer Count",
+    "properties": {
+      "value": 32,
+      "unit": "count",
+      "what_it_measures": "Total number of customers at the branch"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_038",
+    "name": "Southampton Water Active Accounts",
+    "properties": {
+      "value": 52,
+      "unit": "count",
+      "what_it_measures": "Number of active accounts held by customers"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_039",
+    "name": "Southampton Water Average Balance",
+    "properties": {
+      "value": 3087,
+      "unit": "GBP",
+      "what_it_measures": "Mean account balance per customer"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_040",
+    "name": "Southampton Water Satisfaction Score",
+    "properties": {
+      "value": 69,
+      "unit": "score",
+      "what_it_measures": "Customer satisfaction rating"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_org_011",
+    "name": "Belfast Central Branch",
+    "properties": {
+      "location": "Central, Belfast"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_041",
+    "name": "Belfast Central Customer Count",
+    "properties": {
+      "value": 28,
+      "unit": "count",
+      "what_it_measures": "Total number of customers at the branch"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_042",
+    "name": "Belfast Central Active Accounts",
+    "properties": {
+      "value": 45,
+      "unit": "count",
+      "what_it_measures": "Number of active accounts held by customers"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_043",
+    "name": "Belfast Central Average Balance",
+    "properties": {
+      "value": 2954,
+      "unit": "GBP",
+      "what_it_measures": "Mean account balance per customer"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_020_met_044",
+    "name": "Belfast Central Satisfaction Score",
+    "properties": {
+      "value": 67,
+      "unit": "score",
+      "what_it_measures": "Customer satisfaction rating"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_020",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_021_met_001",
+    "name": "Account Opening Time (in-branch)",
+    "properties": {
+      "value": "<30 min",
+      "unit": "minutes",
+      "what_it_measures": "Time taken to complete account opening procedures in a physical branch",
+      "actual_value": "28 min avg"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_021",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_021_met_002",
+    "name": "System Availability",
+    "properties": {
+      "value": "99.9%",
+      "unit": "percentage",
+      "what_it_measures": "Percentage of time digital and core banking systems are operational and accessible",
+      "actual_value": "99.87%"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_021",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_021_met_003",
+    "name": "Branch Availability",
+    "properties": {
+      "value": "99.5%",
+      "unit": "percentage",
+      "what_it_measures": "Percentage of time physical branch locations are open and operational for customers",
+      "actual_value": "99.68%"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_021",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_021_met_004",
+    "name": "Customer Wait Time",
+    "properties": {
+      "value": "<15 min",
+      "unit": "minutes",
+      "what_it_measures": "Average time customers spend waiting for service in-branch",
+      "actual_value": "12 min avg"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_021",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_021_met_005",
+    "name": "Cash Reconciliation Accuracy",
+    "properties": {
+      "value": "100%",
+      "unit": "percentage",
+      "what_it_measures": "Accuracy of cash handling, counting, and accounting records against physical stock",
+      "actual_value": "99.98%"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_021",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_022_rol_001",
+    "name": "Branch Manager",
+    "properties": {
+      "reports_to": [
+        "Director of Retail Banking"
+      ],
+      "key_responsibilities": [
+        "Branch operations oversight",
+        "Customer service escalation",
+        "Complaint management",
+        "Cash handling supervision",
+        "Staff scheduling",
+        "Local marketing"
+      ],
+      "qualifications": [
+        "Banking experience",
+        "Customer service",
+        "Compliance knowledge"
+      ],
+      "staffing_model": "1 per branch"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_022",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_022_rol_002",
+    "name": "Director of Retail Banking",
+    "properties": {
+      "department_or_unit": [
+        "Retail Banking"
+      ],
+      "supervises_role": [
+        "Branch Manager"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_022",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_022_met_001",
+    "name": "Branch Manager Staffing Ratio",
+    "properties": {
+      "value": 1,
+      "unit": "per branch",
+      "what_it_measures": "Standard allocation of Branch Managers to individual branches",
+      "context": "Defines the baseline staffing model for branch operations"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_022",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_023_rol_001",
+    "name": "Branch Officer",
+    "properties": {
+      "reports_to": [
+        "Branch Manager"
+      ],
+      "key_responsibilities": [
+        "Customer service (counter, phone)",
+        "Account opening support",
+        "Cash handling",
+        "Customer inquiries",
+        "Branch administration"
+      ],
+      "department_or_unit": [
+        "Branch"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_023",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_023_rol_002",
+    "name": "Branch Manager",
+    "properties": {
+      "department_or_unit": [
+        "Branch"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_023",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_023_met_001",
+    "name": "Branch Officer Headcount Allocation",
+    "properties": {
+      "value": "0-1",
+      "unit": "count",
+      "what_it_measures": "Number of Branch Officers allocated per branch location",
+      "context": "Defines staffing limits for branch-level customer service and administrative roles"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_023",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_023_rul_001",
+    "name": "Branch Officer Reporting Structure",
+    "properties": {
+      "rule_statement": "Branch Officers must report directly to the Branch Manager",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Branch Officer"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_023",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_024_org_001",
+    "name": "Head Office Staff",
+    "properties": {
+      "headcount": 3,
+      "location": "Head Office"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_024",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_024_rol_002",
+    "name": "Senior Officer",
+    "properties": {
+      "key_responsibilities": [
+        "Operations coordination",
+        "compliance liaison"
+      ],
+      "department_or_unit": "Head Office Staff"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_024",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_024_rol_003",
+    "name": "Officer 1",
+    "properties": {
+      "key_responsibilities": [
+        "Customer service",
+        "account opening"
+      ],
+      "department_or_unit": "Head Office Staff"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_024",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_024_rol_004",
+    "name": "Officer 2",
+    "properties": {
+      "key_responsibilities": [
+        "Back-office support",
+        "reconciliation"
+      ],
+      "department_or_unit": "Head Office Staff"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_024",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_025_bnk_001",
+    "name": "AML Screening",
+    "properties": {
+      "definition": "Anti-money laundering compliance process integrated into staff training curriculum",
+      "key_attributes": [
+        "compliance",
+        "screening"
+      ],
+      "business_rules": [
+        "Mandatory 1-day session for new branch staff",
+        "Annual refresher training required"
+      ],
+      "relationships_to": [
+        "Branch Operations Training Program",
+        "Compliance Department"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_025",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_025_rul_003",
+    "name": "Mandatory Compliance Training",
+    "properties": {
+      "rule_statement": "All branch staff must complete compliance training on an annual basis",
+      "rule_type": [
+        "obligation"
+      ],
+      "applies_to": [
+        "New Branch Staff",
+        "Ongoing Staff"
+      ],
+      "enforcement": [
+        "Branch Operations Training Program"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_025",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_025_sys_004",
+    "name": "Product Training Manual",
+    "properties": {
+      "system_id": "PTM-001",
+      "purpose": "Deliver product knowledge and track quarterly updates for branch staff",
+      "key_features": [
+        "Product specification documentation",
+        "Quarterly update management"
+      ],
+      "data_stored": [
+        "Product guides",
+        "Training materials"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_025",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_025_org_005",
+    "name": "Branch Operations Training Program",
+    "properties": {
+      "mission": "Deliver structured onboarding and continuous development for branch staff",
+      "key_functions": [
+        "Banking fundamentals training",
+        "Product knowledge delivery",
+        "Customer service coaching",
+        "Compliance & AML training",
+        "Cash handling & security training",
+        "Systems training"
+      ],
+      "reporting_to": [
+        "Training & Development"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_025",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_025_bnk_006",
+    "name": "Customer Service",
+    "properties": {
+      "definition": "Core banking service delivery capability focused on client interaction and support",
+      "key_attributes": [
+        "client_interaction",
+        "service_delivery",
+        "coaching"
+      ],
+      "business_rules": [
+        "Requires 1-day foundational training for new staff",
+        "Mandates monthly coaching sessions for ongoing staff"
+      ],
+      "relationships_to": [
+        "Branch Operations Training Program",
+        "Product Knowledge"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_025",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_025_sys_007",
+    "name": "Core Banking Systems",
+    "properties": {
+      "purpose": "Support daily branch operations and customer transaction processing",
+      "key_features": [
+        "Branch operational support",
+        "Transaction processing"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_025",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_026_org_001",
+    "name": "Branch",
+    "properties": {
+      "key_functions": [
+        "Regulatory compliance",
+        "KYC/CDD",
+        "AML screening",
+        "Complaint handling",
+        "Customer privacy management",
+        "Data handling"
+      ],
+      "regulatory_responsibilities": [
+        "Annual compliance certification for staff",
+        "Annual audit of branch controls"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_026_rol_001",
+    "name": "Branch Manager",
+    "properties": {
+      "department_or_unit": "Branch",
+      "key_responsibilities": [
+        "Ensure regulatory compliance across branch operations"
+      ],
+      "accountable_for": [
+        "Annual compliance certification"
+      ],
+      "appointment_type": "manager"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_026_bnk_001",
+    "name": "KYC/CDD Process",
+    "properties": {
+      "business_rules": [
+        "Governed by SOP KYC-SOP-001"
+      ],
+      "relationships_to": [
+        "[[business_ontology]]"
+      ],
+      "regulatory_significance": "Core regulatory compliance area for branch operations"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_026_bnk_002",
+    "name": "AML Screening",
+    "properties": {
+      "business_rules": [
+        "Governed by policy AML-POL-002"
+      ],
+      "regulatory_significance": "Key regulatory compliance area for branch operations"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_026_bnk_003",
+    "name": "Complaint Handling",
+    "properties": {
+      "business_rules": [
+        "Governed by policy COM-POL-006"
+      ],
+      "regulatory_significance": "Key regulatory compliance area for branch operations"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_026_bnk_004",
+    "name": "Customer Privacy",
+    "properties": {
+      "business_rules": [
+        "Governed by GDPR and policy PRI-POL-004"
+      ],
+      "regulatory_significance": "Key regulatory compliance area for branch operations"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_026_bnk_005",
+    "name": "Data Handling",
+    "properties": {
+      "business_rules": [
+        "Governed by DPA"
+      ],
+      "regulatory_significance": "Key regulatory compliance area for branch operations"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_026_met_001",
+    "name": "Annual Compliance Certification",
+    "properties": {
+      "frequency": "annually",
+      "owner": [
+        "Branch Manager"
+      ],
+      "what_it_measures": "Certification status of branch management against regulatory standards"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_026_met_002",
+    "name": "Annual Branch Audit",
+    "properties": {
+      "frequency": "annually",
+      "what_it_measures": "Effectiveness and compliance of branch controls",
+      "context": "Part of regulatory compliance schedule"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_026_rul_001",
+    "name": "KYC/CDD Compliance Requirement",
+    "properties": {
+      "rule_statement": "Branch must adhere to KYC/CDD standards as defined in the business ontology",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Branch operations"
+      ],
+      "regulatory_source": [
+        "KYC-SOP-001"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_026_rul_002",
+    "name": "AML Screening Policy Constraint",
+    "properties": {
+      "rule_statement": "Branch must conduct AML screening per established policy",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Branch operations"
+      ],
+      "regulatory_source": [
+        "AML-POL-002"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_026_rul_003",
+    "name": "Complaint Handling Policy",
+    "properties": {
+      "rule_statement": "Branch must manage complaints according to specified policy",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Branch operations"
+      ],
+      "regulatory_source": [
+        "COM-POL-006"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_026_rul_004",
+    "name": "Customer Privacy Policy",
+    "properties": {
+      "rule_statement": "Branch must protect customer privacy in line with GDPR and internal policy",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Branch operations"
+      ],
+      "regulatory_source": [
+        "GDPR",
+        "PRI-POL-004"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_026_rul_005",
+    "name": "Data Protection Compliance Rule",
+    "properties": {
+      "rule_statement": "Branch must handle data in compliance with Data Protection Act",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Branch operations"
+      ],
+      "regulatory_source": [
+        "DPA"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_026_rul_006",
+    "name": "Branch Control Audit Schedule",
+    "properties": {
+      "rule_statement": "Branch controls must undergo an annual audit",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Branch controls"
+      ],
+      "frequency": "annually"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_026",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_027_rul_001",
+    "name": "Document Retention Policy",
+    "properties": {
+      "policy_code": "RET-POL-005",
+      "rule_statement": "All specified record types must be retained for a period of 6 years.",
+      "applies_to": [
+        "Customer Records",
+        "Transaction Records",
+        "Complaint Records",
+        "AML Records"
+      ],
+      "retention_trigger_customer_records": "post-account closure"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_027",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_027_bnk_001",
+    "name": "Customer Records",
+    "properties": {
+      "retention_period": "6 years post-account closure",
+      "governed_by_policy": "RET-POL-005"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_027",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_027_bnk_002",
+    "name": "Transaction Records",
+    "properties": {
+      "retention_period": "6 years",
+      "governed_by_policy": "RET-POL-005"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_027",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_027_bnk_003",
+    "name": "Complaint Records",
+    "properties": {
+      "retention_period": "6 years",
+      "governed_by_policy": "RET-POL-005"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_027",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_027_bnk_004",
+    "name": "AML Records",
+    "properties": {
+      "retention_period": "6 years",
+      "governed_by_policy": "RET-POL-005"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_027",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_027_met_001",
+    "name": "Customer Record Retention Period",
+    "properties": {
+      "value": 6,
+      "unit": "years",
+      "what_it_measures": "Duration to retain customer records after account closure",
+      "trigger_condition": "post-account closure"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_027",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_027_met_002",
+    "name": "Transaction Record Retention Period",
+    "properties": {
+      "value": 6,
+      "unit": "years",
+      "what_it_measures": "Duration to retain transaction records"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_027",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_027_met_003",
+    "name": "Complaint Record Retention Period",
+    "properties": {
+      "value": 6,
+      "unit": "years",
+      "what_it_measures": "Duration to retain complaint records"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_027",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_027_met_004",
+    "name": "AML Record Retention Period",
+    "properties": {
+      "value": 6,
+      "unit": "years",
+      "what_it_measures": "Duration to retain AML records"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_027",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_028_bnk_001",
+    "name": "Customer Data",
+    "properties": {
+      "key_attributes": [
+        "encrypted",
+        "access-controlled",
+        "audit-logged"
+      ],
+      "business_rules": [
+        "Data must be encrypted",
+        "Access must be strictly controlled",
+        "All access events must be audit-logged"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_028",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_028_org_001",
+    "name": "Head Office",
+    "properties": {
+      "key_functions": [
+        "receives daily encrypted backups",
+        "manages incident response escalations"
+      ],
+      "cross_functional_interfaces": [
+        "Data Security",
+        "Incident Response"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_028",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_028_met_001",
+    "name": "Incident Response Escalation Timeframe",
+    "properties": {
+      "value": 2,
+      "unit": "hours",
+      "what_it_measures": "Maximum time allowed to escalate an incident to Head Office"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_028",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_028_rul_001",
+    "name": "Information Security Policy (SEC-POL-002)",
+    "properties": {
+      "rule_statement": "Mandates encryption, access controls, and audit logging for customer data; requires daily encrypted backups and 2-hour escalation to Head Office for incidents.",
+      "applies_to": [
+        "Customer Data",
+        "Backup processes",
+        "Incident Response"
+      ],
+      "rule_type": "obligation"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_028",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_029_org_001",
+    "name": "Manchester Branch",
+    "properties": {
+      "key_functions": [
+        "Extended Hours Trial"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_029",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_029_org_002",
+    "name": "Leeds Branch",
+    "properties": {
+      "key_functions": [
+        "Mortgage Specialist"
+      ],
+      "headcount": "1 FTE"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_029",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_029_rol_003",
+    "name": "Mortgage Specialist",
+    "properties": {
+      "department_or_unit": [
+        "Leeds Branch"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_029",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_029_met_004",
+    "name": "1 FTE Headcount Target",
+    "properties": {
+      "value": "1",
+      "unit": "FTE",
+      "what_it_measures": [
+        "Mortgage Specialist Headcount"
+      ],
+      "context": [
+        "Leeds Branch"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_029",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_030_org_001",
+    "name": "Branches",
+    "properties": {
+      "key_functions": [
+        "Contactless payments",
+        "Digital account opening with wet signature",
+        "QR code for app download",
+        "Online appointment booking"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_030",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_030_bnk_001",
+    "name": "Contactless Payments",
+    "properties": {
+      "relationships_to": [
+        "Branches"
+      ],
+      "context": "Currently supported service at physical branches"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_030",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_030_sys_001",
+    "name": "Digital Account Opening Platform",
+    "properties": {
+      "purpose": "Facilitate digital account opening",
+      "key_features": [
+        "Wet signature capture"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_030",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_030_sys_002",
+    "name": "Mobile App Download QR System",
+    "properties": {
+      "purpose": "Enable mobile app downloads via QR codes",
+      "key_features": [
+        "QR code generation and scanning"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_030",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_030_sys_003",
+    "name": "Online Appointment Booking System",
+    "properties": {
+      "purpose": "Allow customers to book appointments online",
+      "key_features": [
+        "Online scheduling"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_030",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_030_sys_004",
+    "name": "Video Account Opening Service",
+    "properties": {
+      "purpose": "Enable account opening via video interaction",
+      "deployment_status": "Planned for 2027"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_030",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_030_sys_005",
+    "name": "Mobile Payment Demonstration Platform",
+    "properties": {
+      "purpose": "Demonstrate mobile payment capabilities",
+      "deployment_status": "Planned for 2027"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_030",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_030_bnk_002",
+    "name": "Digital Check Deposit",
+    "properties": {
+      "status": "Planned for 2027",
+      "relationships_to": [
+        "Products"
+      ],
+      "context": "Listed as a future digital integration capability"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_030",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_030_met_001",
+    "name": "2027 Digital Rollout Target",
+    "properties": {
+      "value": "2027",
+      "unit": "year",
+      "what_it_measures": "Completion target for new digital branch and service integrations",
+      "context": "Encompasses video account opening, mobile payment demos, and digital check deposit"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_030",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_031_bnk_001",
+    "name": "Wheelchair Access",
+    "properties": {
+      "definition": "Physical infrastructure ensuring branch premises are navigable for wheelchair users",
+      "business_rules": [
+        "Available at all branches"
+      ],
+      "key_attributes": [
+        "physical_accessibility",
+        "branch_infrastructure"
+      ],
+      "ontology_domain": [
+        "Physical Accessibility"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_031",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_031_bnk_002",
+    "name": "Accessible Customer Restrooms",
+    "properties": {
+      "definition": "On-site restroom facilities designed to accommodate customers with mobility impairments",
+      "business_rules": [
+        "Must be provided at branch locations"
+      ],
+      "key_attributes": [
+        "mobility_compliant",
+        "customer_facing"
+      ],
+      "ontology_domain": [
+        "Physical Accessibility"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_031",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_031_bnk_003",
+    "name": "Large-Print Materials",
+    "properties": {
+      "definition": "Printed documentation produced with enlarged typography to improve readability for visually impaired customers",
+      "business_rules": [
+        "Must be made available upon request or at point of service"
+      ],
+      "key_attributes": [
+        "print_format",
+        "visual_accessibility"
+      ],
+      "ontology_domain": [
+        "Physical Accessibility"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_031",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_031_bnk_004",
+    "name": "Hearing Loop Systems",
+    "properties": {
+      "definition": "Audio assistance technology that transmits sound directly to hearing aids to reduce background noise in branches",
+      "business_rules": [
+        "Deployed only where needed"
+      ],
+      "key_attributes": [
+        "audio_assistance",
+        "branch_infrastructure"
+      ],
+      "ontology_domain": [
+        "Physical Accessibility"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_031",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_031_sys_001",
+    "name": "Digital Banking Channels",
+    "properties": {
+      "purpose": "Deliver online and mobile banking services with built-in accessibility features",
+      "key_features": [
+        "accessible_online_banking",
+        "mobile_banking_accessibility"
+      ],
+      "deployment": [
+        "Online",
+        "Mobile"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_031",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_031_org_001",
+    "name": "Accessibility Support Team",
+    "properties": {
+      "mission": "Provide dedicated customer support to address and resolve accessibility-related banking needs",
+      "key_functions": [
+        "accessibility_needs_support",
+        "customer_assistance"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_031",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_031_bnk_006",
+    "name": "Interpreter Services",
+    "properties": {
+      "definition": "Professional language translation assistance provided to customers requiring communication support beyond standard languages",
+      "business_rules": [
+        "Available strictly on customer request"
+      ],
+      "key_attributes": [
+        "language_support",
+        "service_accessibility"
+      ],
+      "ontology_domain": [
+        "Service Accessibility"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_031",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_032_rul_001",
+    "name": "30-Day Customer Notice Requirement",
+    "properties": {
+      "rule_statement": "30-day customer notice required",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Branch Closure Procedures"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_032",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_032_bnk_001",
+    "name": "Disaster Recovery Process",
+    "properties": {
+      "key_attributes": [
+        "Banking services rerouted to nearest branch",
+        "Customer data secured in off-site backup",
+        "Communication plan activation"
+      ],
+      "relationships_to": [
+        "Branch Closure Procedures",
+        "Business Continuity Plan (BCP-001)"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_032",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_032_met_001",
+    "name": "BCP Testing Frequency Target",
+    "properties": {
+      "value": "Annual",
+      "unit": "Frequency",
+      "what_it_measures": "Business Continuity Plan testing frequency",
+      "frequency": "Annual"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_032",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_032_rul_002",
+    "name": "Business Continuity Plan (BCP-001)",
+    "properties": {
+      "rule_statement": "Mandatory reference to BCP-001 for comprehensive procedures",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Disaster Recovery Process",
+        "Branch Closure Procedures"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_032",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_032_bnk_002",
+    "name": "Branch Closure Procedures",
+    "properties": {
+      "key_attributes": [
+        "30-day customer notice required",
+        "Customer data transfer support",
+        "Alternative branch assignment",
+        "Digital services promotion"
+      ],
+      "relationships_to": [
+        "Disaster Recovery Process",
+        "Business Continuity Plan (BCP-001)"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_032",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_032_rul_003",
+    "name": "Off-Site Data Backup Control",
+    "properties": {
+      "rule_statement": "Customer data must be secured in off-site backup",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Disaster Recovery Process"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_032",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_033_org_001",
+    "name": "Retail Banking Department",
+    "properties": {
+      "reference_link": "[[departments]]"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_033",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_033_bnk_001",
+    "name": "Product Offerings",
+    "properties": {
+      "reference_link": "[[products]]"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_033",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_033_rul_001",
+    "name": "Daily Operations Checklist",
+    "properties": {
+      "rule_statement": "Daily Operations Checklist",
+      "document_id": "DOC-001",
+      "rule_type": "checklist"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_033",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_033_rul_002",
+    "name": "Escalation Matrix",
+    "properties": {
+      "rule_statement": "Escalation Matrix",
+      "document_id": "ESC-001",
+      "rule_type": "matrix"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_033",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_033_rul_003",
+    "name": "Branch Security Policy",
+    "properties": {
+      "rule_statement": "Branch Security Policy",
+      "document_id": "SEC-POL-001",
+      "rule_type": "policy"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_033",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_033_rul_004",
+    "name": "Cash Handling Procedures",
+    "properties": {
+      "rule_statement": "Cash Handling Procedures",
+      "document_id": "CHP-001",
+      "rule_type": "procedure"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_033",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_033_rul_005",
+    "name": "Compliance Bulletins",
+    "properties": {
+      "rule_statement": "Compliance Bulletins",
+      "document_id": "COMP-BULL-2026",
+      "rule_type": "bulletin"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_033",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_033_org_002",
+    "name": "Organisation Model",
+    "properties": {
+      "reference_link": "[[organisation_model]]",
+      "description": "Organizational structure"
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_033",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_034_rol_001",
+    "name": "Director of Retail Banking",
+    "properties": {
+      "department_or_unit": [
+        "Retail Banking"
+      ],
+      "appointment_type": [
+        "Director/Executive"
+      ],
+      "decision_authority": [
+        "Document sign-off and approval"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_034",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  },
+  {
+    "id": "c89f41859fb44925be5b4ed628d31814_034_rol_002",
+    "name": "Chief Operating Officer",
+    "properties": {
+      "department_or_unit": [
+        "Operations / Executive Leadership"
+      ],
+      "appointment_type": [
+        "C-Suite/Executive"
+      ],
+      "decision_authority": [
+        "Document sign-off and approval"
+      ]
+    },
+    "chunk_id": "c89f41859fb44925be5b4ed628d31814_034",
+    "doc_id": "c89f41859fb44925be5b4ed628d31814"
+  }
+]

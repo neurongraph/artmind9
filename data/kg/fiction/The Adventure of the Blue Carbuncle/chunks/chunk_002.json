@@ -1,0 +1,2300 @@
+{
+  "embedding": [
+    0.041719753,
+    0.033991084,
+    -0.14043696,
+    -0.070710346,
+    0.03945619,
+    0.018511476,
+    0.036145166,
+    0.025346566,
+    0.06394488,
+    -0.03574925,
+    -0.065433085,
+    0.0019592145,
+    0.04067678,
+    0.02798114,
+    0.037248597,
+    0.021014119,
+    0.026612159,
+    -0.06576432,
+    -0.018194778,
+    0.037140884,
+    -0.07282719,
+    -0.026890947,
+    -0.02085146,
+    -0.042595603,
+    0.01733278,
+    -0.04716603,
+    -0.090980954,
+    0.004884497,
+    0.04334254,
+    -0.00171672,
+    0.044133153,
+    -0.006960215,
+    -0.10106627,
+    0.025260841,
+    -0.09852445,
+    -0.04565097,
+    0.06540623,
+    0.050571464,
+    0.06258555,
+    0.014952408,
+    0.07042881,
+    0.0023349607,
+    -0.030764783,
+    -0.0628648,
+    0.04858524,
+    0.05853425,
+    0.01428078,
+    0.018055491,
+    0.028463807,
+    -0.058881547,
+    0.04142786,
+    -0.009527607,
+    0.046502754,
+    -0.011024907,
+    0.09442319,
+    0.035093646,
+    -0.0050368356,
+    -0.006842782,
+    0.04275662,
+    -0.004361166,
+    0.03526497,
+    -0.008104335,
+    -0.015773628,
+    0.08160108,
+    0.00019878613,
+    -0.045986786,
+    -0.027127085,
+    0.051454313,
+    -0.012024035,
+    -0.044631224,
+    0.05587404,
+    -0.05788675,
+    -0.010297061,
+    0.053569917,
+    0.0020057654,
+    0.05875087,
+    0.021469347,
+    0.022512143,
+    0.02261699,
+    0.0005756493,
+    -0.00035064708,
+    -0.031045472,
+    0.03622678,
+    -0.016807092,
+    -0.02495251,
+    -0.03469654,
+    0.021259245,
+    -0.02744628,
+    -0.040372916,
+    0.067441635,
+    0.007814169,
+    0.043135718,
+    0.020099226,
+    0.05888898,
+    -0.018681785,
+    -0.007739888,
+    0.002355368,
+    -0.046468835,
+    -0.06854,
+    0.018611725,
+    -0.06689087,
+    -0.037990592,
+    -0.036223944,
+    0.030431718,
+    0.015614047,
+    0.07066789,
+    -0.02807702,
+    -0.016025819,
+    -0.005359417,
+    0.0029321837,
+    -0.017933648,
+    0.021277484,
+    -0.05004381,
+    -0.03292969,
+    -0.020785373,
+    -0.021662652,
+    0.01504591,
+    -0.016473938,
+    0.0050156945,
+    0.03444665,
+    -0.05260576,
+    0.03913287,
+    -0.0129478,
+    0.07037382,
+    0.01200069,
+    0.021226998,
+    -0.034379836,
+    -0.0010475995,
+    0.004315127,
+    0.007080088,
+    0.000439271,
+    0.010081235,
+    0.011976745,
+    0.017281612,
+    0.04803017,
+    0.039778996,
+    -0.004442414,
+    -1.1566948e-05,
+    0.002628687,
+    -0.023857025,
+    0.07781929,
+    0.014111853,
+    0.026956553,
+    -0.029494341,
+    -0.015497058,
+    -0.047467023,
+    0.0018209654,
+    -0.062136605,
+    -0.06527288,
+    0.018229626,
+    -0.02139162,
+    -0.008460548,
+    0.013443572,
+    0.04124925,
+    0.059880894,
+    -0.019706171,
+    -0.02166534,
+    0.033765163,
+    0.025619796,
+    0.05427117,
+    -0.012970817,
+    -0.015014977,
+    0.009427114,
+    0.07963226,
+    0.031566903,
+    0.0070059076,
+    -0.011319915,
+    0.042609703,
+    -0.03352018,
+    0.030833663,
+    -0.04053813,
+    -0.0036398612,
+    -0.02962272,
+    -0.02917288,
+    0.059201706,
+    -0.05528689,
+    0.060879912,
+    -0.041498087,
+    -0.07098634,
+    -0.05717908,
+    0.05490705,
+    -8.810161e-05,
+    0.038755484,
+    0.010562097,
+    0.011055326,
+    0.025494713,
+    0.019472497,
+    -0.009768397,
+    -0.06182125,
+    -0.033325817,
+    0.02300544,
+    0.025561163,
+    -0.05048044,
+    -0.007985969,
+    0.048810847,
+    -0.031397108,
+    0.026116895,
+    0.03369792,
+    -0.017160732,
+    0.027914356,
+    -0.050485138,
+    -0.0035385417,
+    0.009045972,
+    0.00061820744,
+    -0.05679177,
+    0.05014158,
+    0.0016180492,
+    -0.0111654205,
+    -0.016569475,
+    0.015714608,
+    0.06303457,
+    -0.035831813,
+    0.0070741843,
+    -0.006009563,
+    0.0008628635,
+    0.022124613,
+    0.024003383,
+    0.0025117875,
+    -0.03913801,
+    -0.024358787,
+    0.015591428,
+    0.019522414,
+    -0.015555069,
+    -0.009856742,
+    0.087521635,
+    0.057103407,
+    -0.033241056,
+    -0.03877712,
+    -0.053337082,
+    -0.009881081,
+    0.018376177,
+    -0.107318304,
+    0.07173277,
+    -0.005150174,
+    -0.008775461,
+    0.0070038172,
+    -0.010207743,
+    0.006904679,
+    0.017472016,
+    0.04992118,
+    -0.029931417,
+    0.04952229,
+    -0.052052986,
+    -0.019874595,
+    -0.04324815,
+    0.017062167,
+    -0.0026788772,
+    -0.04104948,
+    -0.020284703,
+    0.032416895,
+    0.01801157,
+    0.04558192,
+    0.036475845,
+    -0.011760519,
+    0.03840326,
+    -0.005981108,
+    -0.07026166,
+    0.04107043,
+    -0.017552156,
+    0.0030732856,
+    -0.007953809,
+    -0.04123117,
+    -0.0018717404,
+    -0.031188585,
+    -0.06540285,
+    -0.048965614,
+    -0.05959711,
+    -0.024792297,
+    0.022598792,
+    -0.04127933,
+    0.020942738,
+    0.07029707,
+    0.029182509,
+    0.054888647,
+    -0.017335372,
+    8.183844e-05,
+    -0.012928713,
+    -0.025106166,
+    -0.005558684,
+    0.028454235,
+    -0.037349414,
+    0.042366505,
+    -0.022327771,
+    0.008218447,
+    0.014149328,
+    -0.013646018,
+    0.009088541,
+    1.3569015e-05,
+    0.058708563,
+    -0.0017954906,
+    0.015698887,
+    0.009789852,
+    -0.03205876,
+    0.06417492,
+    0.0008946791,
+    0.014303616,
+    0.03404215,
+    -0.034954257,
+    0.012639587,
+    -0.020601384,
+    0.035498273,
+    0.0142735895,
+    -0.0056670494,
+    0.05544916,
+    0.020997472,
+    0.0010480875,
+    -0.024283558,
+    -0.046853006,
+    0.015292401,
+    -0.030528145,
+    -0.06864687,
+    -0.0023872445,
+    0.009243632,
+    0.0056230663,
+    -0.004142357,
+    0.006615449,
+    0.017458193,
+    0.025105672,
+    0.059922546,
+    0.015769526,
+    -0.012954461,
+    -0.010794998,
+    -0.039590556,
+    -0.04897096,
+    0.019163555,
+    0.031195326,
+    -0.0094662765,
+    -0.0022640256,
+    0.004101564,
+    -0.02215569,
+    0.011703044,
+    -0.0018954363,
+    0.0140613085,
+    -0.06024193,
+    -0.040715944,
+    -0.020095536,
+    0.0012381991,
+    0.039434843,
+    -0.03233001,
+    -0.014113353,
+    0.03335431,
+    0.0011368346,
+    0.018725425,
+    -0.052099276,
+    -0.0073686666,
+    0.02279787,
+    -0.10995344,
+    0.035522144,
+    0.021459345,
+    -0.009407101,
+    0.02744449,
+    -0.00948603,
+    -0.0022789272,
+    0.008501489,
+    0.014102781,
+    0.004278902,
+    0.017339375,
+    0.053889725,
+    0.013081344,
+    -0.029842107,
+    0.021548653,
+    0.0059859944,
+    0.027474735,
+    -0.036076248,
+    0.004285433,
+    0.027752604,
+    0.015442054,
+    0.006786406,
+    0.019345218,
+    0.03874503,
+    -0.061839312,
+    -0.033101495,
+    -0.010972618,
+    0.0577066,
+    -0.030154733,
+    0.016294079,
+    -0.025388414,
+    -0.07185466,
+    -0.03303925,
+    0.045679007,
+    -0.011019891,
+    0.008829492,
+    -0.031696554,
+    0.0013884337,
+    0.018240923,
+    0.018788435,
+    0.026604367,
+    -0.094349094,
+    0.032376166,
+    -0.0018177853,
+    0.020409439,
+    0.035027392,
+    -0.032486625,
+    -0.050914597,
+    0.024245413,
+    -0.047225833,
+    0.011792405,
+    -0.01590493,
+    -0.00923779,
+    0.034800246,
+    -0.03294915,
+    -0.05831433,
+    0.028770184,
+    0.054148115,
+    -0.020399876,
+    0.022371233,
+    0.009374089,
+    -0.03848968,
+    0.03843338,
+    -0.05802482,
+    0.017515212,
+    0.0743126,
+    -0.055189393,
+    -0.037112538,
+    -0.0144304205,
+    0.008822004,
+    0.059947107,
+    -0.029427407,
+    -0.04078861,
+    -0.016118072,
+    0.020919163,
+    0.001533878,
+    -0.020168304,
+    -0.009891886,
+    0.029649276,
+    0.0114331,
+    0.024931006,
+    0.035626374,
+    -0.056061417,
+    -0.0035401345,
+    0.03533342,
+    -0.022984968,
+    0.0007098918,
+    -0.029998839,
+    0.05481442,
+    0.03243878,
+    0.03414783,
+    0.04471794,
+    0.025591947,
+    0.053376153,
+    0.037736833,
+    0.0047859224,
+    -0.001661384,
+    -0.04632618,
+    0.017198676,
+    -0.03744276,
+    0.01170463,
+    -0.0011988798,
+    -0.037487593,
+    0.040095754,
+    -0.042602472,
+    -0.03138907,
+    0.010166299,
+    -0.004604483,
+    0.05234618,
+    -0.054957356,
+    -0.012692512,
+    -0.016291324,
+    -0.002881217,
+    0.0131974835,
+    -9.959904e-05,
+    -0.006366063,
+    -0.06659675,
+    0.057674803,
+    0.0068753427,
+    0.0033089083,
+    -0.01971599,
+    -0.022916442,
+    0.023918172,
+    0.014991769,
+    -0.069217004,
+    0.014155233,
+    0.031190442,
+    0.008991637,
+    -0.024064442,
+    -0.015969343,
+    -0.0068048006,
+    -0.0038032308,
+    -0.02568633,
+    0.13782448,
+    0.0556231,
+    0.011514961,
+    -0.007891687,
+    -0.027930116,
+    0.019317674,
+    0.014713835,
+    -0.023843829,
+    -0.053138193,
+    -0.009732943,
+    -0.023250999,
+    0.027688673,
+    -0.014323973,
+    -0.00789055,
+    -0.041542422,
+    -0.046386905,
+    -0.016135491,
+    -0.0467997,
+    0.03542491,
+    0.016266853,
+    0.06113673,
+    -0.0052534784,
+    0.08706078,
+    -0.014501686,
+    0.0072077545,
+    0.032881454,
+    -0.033414524,
+    0.030747574,
+    -0.06033745,
+    -0.04741775,
+    0.031108303,
+    -0.0022996324,
+    0.03891292,
+    0.0035451225,
+    0.014341371,
+    0.07801159,
+    -0.026587738,
+    0.010959865,
+    0.014825821,
+    -0.014154259,
+    0.0048894486,
+    0.024448201,
+    -0.064694814,
+    -0.0019848621,
+    -0.053409293,
+    -0.027721915,
+    0.03991957,
+    -0.03348157,
+    -0.09678086,
+    0.03956602,
+    0.05742918,
+    0.0018888087,
+    0.03040691,
+    -0.0035714982,
+    -0.03940993,
+    0.011044288,
+    0.030428562,
+    -0.046129253,
+    0.014312784,
+    0.059265647,
+    0.036500547,
+    -0.013345786,
+    0.014152764,
+    0.002063643,
+    0.018231329,
+    0.006641108,
+    0.033161733,
+    -0.0052760644,
+    0.058179457,
+    0.029625751,
+    -0.03646566,
+    0.025421262,
+    -0.019290628,
+    -0.025486272,
+    -0.031760413,
+    0.032306883,
+    -0.008246232,
+    -0.025137205,
+    -0.01603011,
+    -0.0296933,
+    -0.044278976,
+    -0.016624494,
+    0.030782301,
+    0.054723673,
+    0.0039237705,
+    -0.05282867,
+    0.020500928,
+    0.011976566,
+    -0.03074475,
+    -0.027089765,
+    0.035077386,
+    0.0021916865,
+    -0.0322459,
+    0.0016639414,
+    0.015425438,
+    0.014079691,
+    -0.006447977,
+    -0.0017232464,
+    -0.0032944626,
+    -0.08024553,
+    -0.0772686,
+    -0.008172405,
+    -0.022592822,
+    0.058370017,
+    0.030982375,
+    -0.0030091216,
+    0.00051280315,
+    -0.07962078,
+    -0.012675229,
+    0.036477838,
+    -0.01882939,
+    4.3247852e-05,
+    0.020985544,
+    0.0070470185,
+    -0.045914013,
+    -0.0075361724,
+    -0.042979747,
+    -0.004542078,
+    -0.02984913,
+    -0.040424705,
+    -0.07248921,
+    -0.028713511,
+    0.019461503,
+    0.062264793,
+    -0.014305722,
+    0.014735666,
+    0.051220797,
+    0.025082279,
+    0.03502908,
+    0.0077125365,
+    -0.0131063005,
+    0.042169545,
+    0.0038553493,
+    0.051992476,
+    -0.025293149,
+    0.019803049,
+    0.013006228,
+    0.05225526,
+    0.03736816,
+    -0.017098349,
+    -0.028206162,
+    0.00557927,
+    -0.032449387,
+    0.055452947,
+    -0.07417348,
+    0.015710017,
+    -0.057228517,
+    0.026376704,
+    -0.018248074,
+    -0.019041566,
+    0.016733218,
+    -0.074207716,
+    0.007102256,
+    -0.015490717,
+    0.014409458,
+    -0.007862042,
+    0.016867556,
+    -0.014073084,
+    0.002056178,
+    -0.009531021,
+    0.021539647,
+    0.019454172,
+    -0.027573308,
+    -0.03432114,
+    0.03780051,
+    0.0034918925,
+    -0.019298732,
+    0.02379467,
+    0.031196142,
+    0.017050298,
+    -0.0092514,
+    0.07065886,
+    0.07664093,
+    0.03857896,
+    0.0040211137,
+    0.00683206,
+    0.012239413,
+    0.021917066,
+    -0.000839531,
+    -0.010568654,
+    -0.060049083,
+    0.036302857,
+    0.0053245137,
+    -0.020795204,
+    -0.054692812,
+    -0.022155585,
+    -0.012755551,
+    -0.028546691,
+    -0.05326054,
+    -0.07421142,
+    -0.024728881,
+    0.035062067,
+    0.0135548925,
+    -0.03708237,
+    0.0037659565,
+    0.031683724,
+    0.012577767,
+    0.033512753,
+    0.0478502,
+    0.02076638,
+    0.00028014297,
+    -0.017235253,
+    0.01884427,
+    0.04545312,
+    -0.028443497,
+    -0.065326944,
+    -0.050805856,
+    0.019434202,
+    0.01117363,
+    -0.016121408,
+    -0.0150611065,
+    -0.0060782507,
+    -0.040616684,
+    0.058986213,
+    0.029101197,
+    -0.006145695,
+    0.020319868,
+    0.0034121554,
+    -0.037934754,
+    -0.014103414,
+    0.0017594087,
+    0.0023814854,
+    0.026972774,
+    0.007959171,
+    0.035182558,
+    -0.0048969416,
+    -0.005803756,
+    0.061218284,
+    0.030773383,
+    -0.03671407,
+    0.023932891,
+    0.041256618,
+    0.010129798,
+    -0.04522151,
+    0.012446065,
+    0.040691525,
+    0.0039890963,
+    -0.033409387,
+    -0.033049807,
+    -0.022525601,
+    -0.0019804807,
+    0.043552127,
+    0.0014938297,
+    -0.065117605,
+    -0.048393365,
+    0.0020314322,
+    0.01909789,
+    0.029811405,
+    0.0048721526,
+    -0.0018999322,
+    0.01781516,
+    0.01032016,
+    0.022501972,
+    -0.052712075,
+    0.003785866,
+    -0.009632573,
+    0.0060419273,
+    -0.017270492,
+    -0.031908497,
+    -0.05604526,
+    -0.044103786,
+    -0.067673765,
+    -0.028902046,
+    0.061313543,
+    0.02353904,
+    -0.008330983,
+    -0.055195052,
+    -0.058947552,
+    0.01847598,
+    -0.004855054,
+    -0.00685425,
+    0.06807681,
+    -0.038755156,
+    -0.027715681,
+    0.03632031,
+    -0.040763196,
+    -0.015240694,
+    0.011078789,
+    0.0594859,
+    0.0993451,
+    0.021606991,
+    -0.0117493905,
+    -0.010879306,
+    0.028728375,
+    -0.007865889,
+    -0.0357607,
+    -0.03583535,
+    0.024422001,
+    -0.036796417
+  ],
+  "chunk_seq": 2,
+  "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+  "doc_id": "54fe739d5f764020ad4396c72af29729",
+  "text": "'He has, however, retained some degree of selfrespect,' he continued, disregarding my remonstrance. 'He is a man who leads a sedentary life, goes out little, is out of training entirely, is middleaged, has grizzled hair which he has had cut within the last few days, and which he anoints with limecream. These are the more patent facts which are to be deduced from his hat. Also, by the way, that it is extremely improbable that he has gas laid on in his house.'  \n'You are certainly joking, Holmes.'  \n'Not in the least. Is it possible that even now, when I give you these results, you are unable to see how they are attained?'  \n'I have no doubt that I am very stupid, but I must confess that I am unable to follow you. For example, how did you deduce that this man was intellectual?'  \nFor answer Holmes clapped the hat upon his head. It came right over the forehead and settled upon the bridge of his nose. 'It is a question of cubic capacity,' said he; 'a man with so large a brain must have something in it.'  \n'The decline of his fortunes, then?'  \n'This hat is three years old. These flat brims curled at the edge came in then. It is a hat of the very best quality. Look at the band of ribbed silk and the excellent lining. If this man could afford to buy so expensive a hat three years ago, and has had no hat since, then he has assuredly gone down in the world.'  \n'Well, that is clear enough, certainly. But how about the foresight and the moral retrogression?'  \nSherlock Holmes laughed. 'Here is the foresight,' said he putting his finger upon the little disc and loop of the hat-securer. 'They are never sold upon hats. If this man ordered one, it is a sign of a certain amount of foresight, since he went out of his way to take this precaution against the wind. But since we see that he has broken the elastic and has not troubled to replace it, it is obvious that he has less foresight now than formerly, which is a distinct proof of a weakening nature. On the other hand, he has endeavoured to conceal some of these stains upon the felt by daubing them with ink, which is a sign that he has not entirely lost his self-respect.'  \n'Your reasoning is certainly plausible.'  \n'The further points, that he is middle-aged, that his hair is grizzled, that it has been recently cut, and that he uses lime-cream, are all to be gathered from a close examination of the lower part of the lining. The lens discloses a large number of hair-ends, clean cut by the scissors of the barber. They all appear to be adhesive, and there is a distinct odour of lime-cream. This dust, you will observe, is not the gritty, grey dust of the street but the fluffy brown dust of the house, showing that it has been hung up indoors most of the time, while the marks of moisture upon the inside are proof positive that the wearer perspired very freely, and could therefore, hardly be in the best of training.'  \n'But his wife-you said that she had ceased to love him.'  \n'This hat has not been brushed for weeks. When I see you, my dear Watson, with a week's accumulation of dust upon your hat, and when your wife allows you to go out in such a state, I shall fear that you also have been unfortunate enough to lose your wife's affection.'  \n'But he might be a bachelor.'  \n'Nay, he was bringing home the goose as a peaceoffering to his wife. Remember the card upon the bird's leg.'  \n'You have an answer to everything. But how on earth do you deduce that the gas is not laid on in his house?'  \n'One tallow stain, or even two, might come by chance; but when I see no less than five, I think that there can be little doubt that the individual must be brought into frequent contact with burning tallow-walks upstairs at night probably with his hat in one hand and a guttering candle in the other. Anyhow, he never got tallow-stains from a gas-jet. Are you satisfied?'  \n'Well, it is very ingenious,' said I, laughing; 'but since, as you said just now, there has been no crime committed, and no harm done save the loss of a goose, all this seems to be rather a waste of energy.'  \nSherlock Holmes had opened his mouth to reply, when the door flew open, and Peterson, the commissionaire, rushed into the apartment with flushed cheeks and the face of a man who is dazed with astonishment.  \n'The goose, Mr. Holmes! The goose, sir!' he gasped.  \n'Eh? What of it, then? Has it returned to life and flapped off through the kitchen window?' Holmes twisted himself round upon the sofa to get a fairer view of the man's excited face.  \n'See here, sir! See what my wife found in its crop!' He held out his hand and displayed upon the centre of the palm a brilliantly scintillating blue stone, rather smaller than a bean in size, but of such purity and radiance that it twinkled like an electric point in the dark hollow of his hand.  \nSherlock Holmes sat up with a whistle. 'By Jove, Peterson!' said he, 'this is treasure trove indeed. I suppose you know what you have got?'  \n'A diamond, sir? A precious stone. It cuts into glass as though it were putty.'  \n'It's more than a precious stone. It is the precious stone.'  \n'Not the Countess of Morcar's blue carbuncle!' I ejaculated.  \n'Precisely so. I ought to know its size and shape, seeing that I have read the advertisement about it in The Times every day lately. It is absolutely unique, and its value can only be conjectured, but the reward offered of £ 1000 is certainly not within a twentieth part of the market price.'  \n'A thousand pounds! Great Lord of mercy!' The commissionaire plumped down into a chair and stared from one to the other of us.  \n'That is the reward, and I have reason to know that there are sentimental considerations in the background which would induce the Countess to part with half her fortune if she could but recover the gem.'  \n'It was lost, if I remember aright, at the Hotel Cosmopolitan,' I remarked.  \n'Precisely so, on December 22 nd, just five days ago. John Horner, a plumber, was accused of having abstracted it from the lady's jewel-case. The evidence against him was so strong that the case has been referred to the Assizes. I have some account of the matter here, I believe.' He rummaged amid his newspapers, glancing over the dates, until at last he smoothed one out, doubled it over, and read the following paragraph:",
+  "name": "Chunk 2/7",
+  "domain": "fiction",
+  "prev_chunk_id": "54fe739d5f764020ad4396c72af29729_001",
+  "next_chunk_id": "54fe739d5f764020ad4396c72af29729_003",
+  "raw_entities": [
+    {
+      "id": "char_001",
+      "name": "Sherlock Holmes",
+      "aliases": [
+        "Holmes",
+        "Mr. Holmes"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "protagonist",
+      "description": "A consulting detective renowned for his extraordinary powers of observation and logical deduction. In this passage, he demonstrates his method by analyzing a discarded hat to reconstruct the life and habits of its owner, while also reacting to the sudden discovery of a valuable gem.",
+      "context": [
+        "'You are certainly joking, Holmes.'",
+        "'Sherlock Holmes laughed.'",
+        "'Sherlock Holmes sat up with a whistle.'"
+      ]
+    },
+    {
+      "id": "char_002",
+      "name": "Dr. Watson",
+      "aliases": [
+        "Watson",
+        "my dear Watson",
+        "I"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "The narrator and chronicler of Holmes's cases, serving as an inquisitive foil who questions the detective's deductions and provides a grounded perspective. He expresses skepticism about the hat analysis and later remarks on the location where the gem was lost.",
+      "context": [
+        "'I have no doubt that I am very stupid, but I must confess that I am unable to follow you.'",
+        "'It was lost, if I remember aright, at the Hotel Cosmopolitan,' I remarked.",
+        "'Well, it is very ingenious,' said I, laughing, 'but since, as you said just now, there has been no crime committed, and no harm done save the loss of a goose, all this seems to be rather a waste of energy.'"
+      ]
+    },
+    {
+      "id": "char_003",
+      "name": "Peterson",
+      "aliases": [
+        "the commissionaire",
+        "Peterson"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "A commissionaire who delivers the goose to Holmes and discovers a valuable diamond hidden in the bird's crop. His excited entrance and detailed account of the find drive the narrative forward from deduction to discovery.",
+      "context": [
+        "Peterson, the commissionaire, rushed into the apartment with flushed cheeks and the face of a man who is dazed with astonishment.",
+        "'The goose, Mr. Holmes! The goose, sir!' he gasped.",
+        "'See here, sir! See what my wife found in its crop!'"
+      ]
+    },
+    {
+      "id": "char_004",
+      "name": "The Hat Owner",
+      "aliases": [
+        "he",
+        "this man",
+        "the man"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "The owner of the discarded hat, whose physical appearance, financial decline, marital strife, and domestic habits are meticulously reconstructed by Holmes through forensic observation of the hat's condition and markings.",
+      "context": [
+        "'He is a man who leads a sedentary life, goes out little, is out of training entirely, is middleaged, has grizzled hair which he has had cut within the last few days, and which he anoints with limecream.'",
+        "'If this man ordered one, it is a sign of a certain amount of foresight, since he went out of his way to take this precaution against the wind.'",
+        "'Nay, he was bringing home the goose as a peaceoffering to his wife.'"
+      ]
+    },
+    {
+      "id": "char_005",
+      "name": "Countess of Morcar",
+      "aliases": [
+        "the Countess"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "A noblewoman whose prized blue carbuncle was stolen and lost. Holmes notes that sentimental considerations would compel her to pay a massive sum to recover the gem, highlighting the stone's personal significance beyond its monetary value.",
+      "context": [
+        "'Not the Countess of Morcar's blue carbuncle!' I ejaculated.",
+        "'It's more than a precious stone. It is the precious stone.'",
+        "'I have reason to know that there are sentimental considerations in the background which would induce the Countess to part with half her fortune if she could but recover the gem.'"
+      ]
+    },
+    {
+      "id": "char_006",
+      "name": "John Horner",
+      "aliases": [
+        "a plumber",
+        "Horner"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "A plumber accused of stealing the Countess's jewel-case and the blue carbuncle. The strong evidence against him has escalated the matter to the Assizes, establishing the criminal backdrop for the goose's recovery.",
+      "context": [
+        "'John Horner, a plumber, was accused of having abstracted it from the lady's jewel-case.'",
+        "'The evidence against him was so strong that the case has been referred to the Assizes.'"
+      ]
+    },
+    {
+      "id": "obj_001",
+      "name": "The Hat",
+      "aliases": [
+        "this hat",
+        "the hat"
+      ],
+      "entity_class": "OBJECT",
+      "type": "symbolic",
+      "description": "A three-year-old, high-quality hat that serves as the primary forensic tool in the passage. Holmes uses its physical condition, including dust, hair clippings, stains, and a broken elastic, to deduce the owner's age, habits, financial status, and marital troubles.",
+      "context": [
+        "'These are the more patent facts which are to be deduced from his hat.'",
+        "'This hat is three years old. These flat brims curled at the edge came in then.'",
+        "'This hat has not been brushed for weeks.'"
+      ]
+    },
+    {
+      "id": "obj_002",
+      "name": "The Blue Carbuncle",
+      "aliases": [
+        "blue stone",
+        "diamond",
+        "precious stone",
+        "treasure trove"
+      ],
+      "entity_class": "OBJECT",
+      "type": "symbolic",
+      "description": "An absolutely unique, brilliantly scintillating blue diamond hidden inside the goose's crop. Its discovery shifts the narrative focus from a theoretical deduction to a concrete criminal investigation involving a priceless gem.",
+      "context": [
+        "He held out his hand and displayed upon the centre of his palm a brilliantly scintillating blue stone, rather smaller than a bean in size, but of such purity and radiance that it twinkled like an electric point in the dark hollow of his hand.",
+        "'It is absolutely unique, and its value can only be conjectured, but the reward offered of £ 1000 is certainly not within a twentieth part of the market price.'",
+        "'A diamond, sir? A precious stone. It cuts into glass as though it were putty.'"
+      ]
+    },
+    {
+      "id": "obj_003",
+      "name": "The Goose",
+      "aliases": [
+        "the bird",
+        "the goose"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "A goose brought home by the hat owner as a peace offering to his wife. It serves as the accidental vessel for the stolen blue carbuncle, bridging the gap between the domestic deduction and the criminal mystery.",
+      "context": [
+        "'Nay, he was bringing home the goose as a peaceoffering to his wife.'",
+        "'The goose, Mr. Holmes! The goose, sir!' he gasped.",
+        "'See what my wife found in its crop!'"
+      ]
+    },
+    {
+      "id": "obj_004",
+      "name": "The Lens",
+      "aliases": [
+        "the lens"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "A magnifying instrument used by Holmes to examine the interior lining of the hat. It reveals microscopic details like clean-cut hair ends, adhesive lime-cream residue, and house dust, enabling the precise deductions about the owner's grooming and lifestyle.",
+      "context": [
+        "'The lens discloses a large number of hair-ends, clean cut by the scissors of the barber.'",
+        "'This dust, you will observe, is not the gritty, grey dust of the street but the fluffy brown dust of the house, showing that it has been hung up indoors most of the time'"
+      ]
+    },
+    {
+      "id": "evt_001",
+      "name": "Hat Deduction",
+      "aliases": [
+        "deduction",
+        "reasoning"
+      ],
+      "entity_class": "EVENT",
+      "type": "investigation",
+      "description": "Holmes's systematic analysis of the discarded hat, where he verbally walks Watson through the logical steps used to deduce the owner's physical traits, financial decline, and marital strife from minute physical evidence.",
+      "context": [
+        "'These are the more patent facts which are to be deduced from his hat.'",
+        "'Your reasoning is certainly plausible.'",
+        "'Well, it is very ingenious,' said I, laughing, 'but since, as you said just now, there has been no crime committed, and no harm done save the loss of a goose, all this seems to be rather a waste of energy.'"
+      ]
+    },
+    {
+      "id": "evt_002",
+      "name": "Discovery of the Diamond",
+      "aliases": [
+        "finding the stone",
+        "crop discovery"
+      ],
+      "entity_class": "EVENT",
+      "type": "discovery",
+      "description": "The moment Peterson reveals that his wife found a valuable blue diamond hidden in the goose's crop. This event abruptly shifts the narrative focus from a theoretical deduction to a concrete criminal investigation involving a priceless gem.",
+      "context": [
+        "'See here, sir! See what my wife found in its crop!'",
+        "'Sherlock Holmes sat up with a whistle. By Jove, Peterson! said he, this is treasure trove indeed.'",
+        "'It's more than a precious stone. It is the precious stone.'"
+      ]
+    },
+    {
+      "id": "evt_003",
+      "name": "Theft of the Blue Carbuncle",
+      "aliases": [
+        "loss of the gem",
+        "abstracting the jewel"
+      ],
+      "entity_class": "EVENT",
+      "type": "crime",
+      "description": "The theft and subsequent loss of the Countess's blue carbuncle at the Hotel Cosmopolitan. This past event establishes the criminal context and motivates the high reward offered for the gem's recovery.",
+      "context": [
+        "'It was lost, if I remember aright, at the Hotel Cosmopolitan,' I remarked.",
+        "'Precisely so, on December 22 nd, just five days ago.'",
+        "'John Horner, a plumber, was accused of having abstracted it from the lady's jewel-case.'"
+      ]
+    },
+    {
+      "id": "org_001",
+      "name": "The Assizes",
+      "aliases": [
+        "the court",
+        "Assizes"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "government",
+      "description": "The higher criminal court to which the theft case has been referred due to the strong evidence against John Horner. It represents the looming legal consequences and formal judicial process surrounding the stolen gem.",
+      "context": [
+        "'The evidence against him was so strong that the case has been referred to the Assizes.'"
+      ]
+    },
+    {
+      "id": "org_002",
+      "name": "The Times",
+      "aliases": [
+        "The Times",
+        "newspaper"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "corporation",
+      "description": "A prominent newspaper that published daily advertisements regarding the stolen blue carbuncle. Holmes relies on its reports to know the gem's exact size, shape, and the reward amount.",
+      "context": [
+        "'I ought to know its size and shape, seeing that I have read the advertisement about it in The Times every day lately.'"
+      ]
+    },
+    {
+      "id": "con_001",
+      "name": "Self-Respect",
+      "aliases": [
+        "selfrespect",
+        "self-respect"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "theme",
+      "description": "A psychological trait Holmes identifies in the hat owner, evidenced by his attempt to conceal ink stains on the felt. It represents a lingering sense of dignity and personal pride despite his declining fortunes and marital neglect.",
+      "context": [
+        "'He has, however, retained some degree of selfrespect,' he continued, disregarding my remonstrance.",
+        "'On the other hand, he has endeavoured to conceal some of these stains upon the felt by daubing them with ink, which is a sign that he has not entirely lost his self-respect.'"
+      ]
+    },
+    {
+      "id": "con_002",
+      "name": "Foresight",
+      "aliases": [
+        "foresight",
+        "foresight and moral retrogression"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "deduction",
+      "description": "A mental faculty Holmes attributes to the hat owner based on the custom hat-securer he ordered. Holmes contrasts this past foresight with the owner's current negligence, marking a moral and intellectual decline.",
+      "context": [
+        "'But how about the foresight and the moral retrogression?'",
+        "'Here is the foresight,' said he putting his finger upon the little disc and loop of the hat-securer.",
+        "'But since we see that he has broken the elastic and has not troubled to replace it, it is obvious that he has less foresight now than formerly'"
+      ]
+    },
+    {
+      "id": "con_003",
+      "name": "Treasure Trove",
+      "aliases": [
+        "treasure trove",
+        "treasure"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "mystery",
+      "description": "The legal and narrative classification of the discovered diamond. Holmes's exclamation frames the stone not merely as a physical object but as a legally significant find that transforms the goose from a mundane peace offering into a pivotal piece of evidence.",
+      "context": [
+        "'this is treasure trove indeed. I suppose you know what you have got?'",
+        "'A diamond, sir? A precious stone. It cuts into glass as though it were putty.'"
+      ]
+    }
+  ],
+  "id_map": {
+    "char_001": "54fe739d5f764020ad4396c72af29729_002_char_001",
+    "char_002": "54fe739d5f764020ad4396c72af29729_002_char_002",
+    "char_003": "54fe739d5f764020ad4396c72af29729_002_char_003",
+    "char_004": "54fe739d5f764020ad4396c72af29729_002_char_004",
+    "char_005": "54fe739d5f764020ad4396c72af29729_002_char_005",
+    "char_006": "54fe739d5f764020ad4396c72af29729_002_char_006",
+    "obj_001": "54fe739d5f764020ad4396c72af29729_002_obj_001",
+    "obj_002": "54fe739d5f764020ad4396c72af29729_002_obj_002",
+    "obj_003": "54fe739d5f764020ad4396c72af29729_002_obj_003",
+    "obj_004": "54fe739d5f764020ad4396c72af29729_002_obj_004",
+    "evt_001": "54fe739d5f764020ad4396c72af29729_002_evt_001",
+    "evt_002": "54fe739d5f764020ad4396c72af29729_002_evt_002",
+    "evt_003": "54fe739d5f764020ad4396c72af29729_002_evt_003",
+    "org_001": "54fe739d5f764020ad4396c72af29729_002_org_001",
+    "org_002": "54fe739d5f764020ad4396c72af29729_002_org_002",
+    "con_001": "54fe739d5f764020ad4396c72af29729_002_con_001",
+    "con_002": "54fe739d5f764020ad4396c72af29729_002_con_002",
+    "con_003": "54fe739d5f764020ad4396c72af29729_002_con_003"
+  },
+  "entities": [
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_char_001",
+      "name": "Sherlock Holmes",
+      "aliases": [
+        "Holmes",
+        "Mr. Holmes"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "protagonist",
+      "description": "A consulting detective renowned for his extraordinary powers of observation and logical deduction. In this passage, he demonstrates his method by analyzing a discarded hat to reconstruct the life and habits of its owner, while also reacting to the sudden discovery of a valuable gem.",
+      "context": [
+        "'You are certainly joking, Holmes.'",
+        "'Sherlock Holmes laughed.'",
+        "'Sherlock Holmes sat up with a whistle.'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_char_002",
+      "name": "Dr. Watson",
+      "aliases": [
+        "Watson",
+        "my dear Watson",
+        "I"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "The narrator and chronicler of Holmes's cases, serving as an inquisitive foil who questions the detective's deductions and provides a grounded perspective. He expresses skepticism about the hat analysis and later remarks on the location where the gem was lost.",
+      "context": [
+        "'I have no doubt that I am very stupid, but I must confess that I am unable to follow you.'",
+        "'It was lost, if I remember aright, at the Hotel Cosmopolitan,' I remarked.",
+        "'Well, it is very ingenious,' said I, laughing, 'but since, as you said just now, there has been no crime committed, and no harm done save the loss of a goose, all this seems to be rather a waste of energy.'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_char_003",
+      "name": "Peterson",
+      "aliases": [
+        "the commissionaire",
+        "Peterson"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "A commissionaire who delivers the goose to Holmes and discovers a valuable diamond hidden in the bird's crop. His excited entrance and detailed account of the find drive the narrative forward from deduction to discovery.",
+      "context": [
+        "Peterson, the commissionaire, rushed into the apartment with flushed cheeks and the face of a man who is dazed with astonishment.",
+        "'The goose, Mr. Holmes! The goose, sir!' he gasped.",
+        "'See here, sir! See what my wife found in its crop!'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_char_004",
+      "name": "The Hat Owner",
+      "aliases": [
+        "he",
+        "this man",
+        "the man"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "The owner of the discarded hat, whose physical appearance, financial decline, marital strife, and domestic habits are meticulously reconstructed by Holmes through forensic observation of the hat's condition and markings.",
+      "context": [
+        "'He is a man who leads a sedentary life, goes out little, is out of training entirely, is middleaged, has grizzled hair which he has had cut within the last few days, and which he anoints with limecream.'",
+        "'If this man ordered one, it is a sign of a certain amount of foresight, since he went out of his way to take this precaution against the wind.'",
+        "'Nay, he was bringing home the goose as a peaceoffering to his wife.'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_char_005",
+      "name": "Countess of Morcar",
+      "aliases": [
+        "the Countess"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "A noblewoman whose prized blue carbuncle was stolen and lost. Holmes notes that sentimental considerations would compel her to pay a massive sum to recover the gem, highlighting the stone's personal significance beyond its monetary value.",
+      "context": [
+        "'Not the Countess of Morcar's blue carbuncle!' I ejaculated.",
+        "'It's more than a precious stone. It is the precious stone.'",
+        "'I have reason to know that there are sentimental considerations in the background which would induce the Countess to part with half her fortune if she could but recover the gem.'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_char_006",
+      "name": "John Horner",
+      "aliases": [
+        "a plumber",
+        "Horner"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "A plumber accused of stealing the Countess's jewel-case and the blue carbuncle. The strong evidence against him has escalated the matter to the Assizes, establishing the criminal backdrop for the goose's recovery.",
+      "context": [
+        "'John Horner, a plumber, was accused of having abstracted it from the lady's jewel-case.'",
+        "'The evidence against him was so strong that the case has been referred to the Assizes.'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_obj_001",
+      "name": "The Hat",
+      "aliases": [
+        "this hat",
+        "the hat"
+      ],
+      "entity_class": "OBJECT",
+      "type": "symbolic",
+      "description": "A three-year-old, high-quality hat that serves as the primary forensic tool in the passage. Holmes uses its physical condition, including dust, hair clippings, stains, and a broken elastic, to deduce the owner's age, habits, financial status, and marital troubles.",
+      "context": [
+        "'These are the more patent facts which are to be deduced from his hat.'",
+        "'This hat is three years old. These flat brims curled at the edge came in then.'",
+        "'This hat has not been brushed for weeks.'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_obj_002",
+      "name": "The Blue Carbuncle",
+      "aliases": [
+        "blue stone",
+        "diamond",
+        "precious stone",
+        "treasure trove"
+      ],
+      "entity_class": "OBJECT",
+      "type": "symbolic",
+      "description": "An absolutely unique, brilliantly scintillating blue diamond hidden inside the goose's crop. Its discovery shifts the narrative focus from a theoretical deduction to a concrete criminal investigation involving a priceless gem.",
+      "context": [
+        "He held out his hand and displayed upon the centre of his palm a brilliantly scintillating blue stone, rather smaller than a bean in size, but of such purity and radiance that it twinkled like an electric point in the dark hollow of his hand.",
+        "'It is absolutely unique, and its value can only be conjectured, but the reward offered of £ 1000 is certainly not within a twentieth part of the market price.'",
+        "'A diamond, sir? A precious stone. It cuts into glass as though it were putty.'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_obj_003",
+      "name": "The Goose",
+      "aliases": [
+        "the bird",
+        "the goose"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "A goose brought home by the hat owner as a peace offering to his wife. It serves as the accidental vessel for the stolen blue carbuncle, bridging the gap between the domestic deduction and the criminal mystery.",
+      "context": [
+        "'Nay, he was bringing home the goose as a peaceoffering to his wife.'",
+        "'The goose, Mr. Holmes! The goose, sir!' he gasped.",
+        "'See what my wife found in its crop!'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_obj_004",
+      "name": "The Lens",
+      "aliases": [
+        "the lens"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "A magnifying instrument used by Holmes to examine the interior lining of the hat. It reveals microscopic details like clean-cut hair ends, adhesive lime-cream residue, and house dust, enabling the precise deductions about the owner's grooming and lifestyle.",
+      "context": [
+        "'The lens discloses a large number of hair-ends, clean cut by the scissors of the barber.'",
+        "'This dust, you will observe, is not the gritty, grey dust of the street but the fluffy brown dust of the house, showing that it has been hung up indoors most of the time'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_evt_001",
+      "name": "Hat Deduction",
+      "aliases": [
+        "deduction",
+        "reasoning"
+      ],
+      "entity_class": "EVENT",
+      "type": "investigation",
+      "description": "Holmes's systematic analysis of the discarded hat, where he verbally walks Watson through the logical steps used to deduce the owner's physical traits, financial decline, and marital strife from minute physical evidence.",
+      "context": [
+        "'These are the more patent facts which are to be deduced from his hat.'",
+        "'Your reasoning is certainly plausible.'",
+        "'Well, it is very ingenious,' said I, laughing, 'but since, as you said just now, there has been no crime committed, and no harm done save the loss of a goose, all this seems to be rather a waste of energy.'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_evt_002",
+      "name": "Discovery of the Diamond",
+      "aliases": [
+        "finding the stone",
+        "crop discovery"
+      ],
+      "entity_class": "EVENT",
+      "type": "discovery",
+      "description": "The moment Peterson reveals that his wife found a valuable blue diamond hidden in the goose's crop. This event abruptly shifts the narrative focus from a theoretical deduction to a concrete criminal investigation involving a priceless gem.",
+      "context": [
+        "'See here, sir! See what my wife found in its crop!'",
+        "'Sherlock Holmes sat up with a whistle. By Jove, Peterson! said he, this is treasure trove indeed.'",
+        "'It's more than a precious stone. It is the precious stone.'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_evt_003",
+      "name": "Theft of the Blue Carbuncle",
+      "aliases": [
+        "loss of the gem",
+        "abstracting the jewel"
+      ],
+      "entity_class": "EVENT",
+      "type": "crime",
+      "description": "The theft and subsequent loss of the Countess's blue carbuncle at the Hotel Cosmopolitan. This past event establishes the criminal context and motivates the high reward offered for the gem's recovery.",
+      "context": [
+        "'It was lost, if I remember aright, at the Hotel Cosmopolitan,' I remarked.",
+        "'Precisely so, on December 22 nd, just five days ago.'",
+        "'John Horner, a plumber, was accused of having abstracted it from the lady's jewel-case.'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_org_001",
+      "name": "The Assizes",
+      "aliases": [
+        "the court",
+        "Assizes"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "government",
+      "description": "The higher criminal court to which the theft case has been referred due to the strong evidence against John Horner. It represents the looming legal consequences and formal judicial process surrounding the stolen gem.",
+      "context": [
+        "'The evidence against him was so strong that the case has been referred to the Assizes.'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_org_002",
+      "name": "The Times",
+      "aliases": [
+        "The Times",
+        "newspaper"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "corporation",
+      "description": "A prominent newspaper that published daily advertisements regarding the stolen blue carbuncle. Holmes relies on its reports to know the gem's exact size, shape, and the reward amount.",
+      "context": [
+        "'I ought to know its size and shape, seeing that I have read the advertisement about it in The Times every day lately.'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_con_001",
+      "name": "Self-Respect",
+      "aliases": [
+        "selfrespect",
+        "self-respect"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "theme",
+      "description": "A psychological trait Holmes identifies in the hat owner, evidenced by his attempt to conceal ink stains on the felt. It represents a lingering sense of dignity and personal pride despite his declining fortunes and marital neglect.",
+      "context": [
+        "'He has, however, retained some degree of selfrespect,' he continued, disregarding my remonstrance.",
+        "'On the other hand, he has endeavoured to conceal some of these stains upon the felt by daubing them with ink, which is a sign that he has not entirely lost his self-respect.'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_con_002",
+      "name": "Foresight",
+      "aliases": [
+        "foresight",
+        "foresight and moral retrogression"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "deduction",
+      "description": "A mental faculty Holmes attributes to the hat owner based on the custom hat-securer he ordered. Holmes contrasts this past foresight with the owner's current negligence, marking a moral and intellectual decline.",
+      "context": [
+        "'But how about the foresight and the moral retrogression?'",
+        "'Here is the foresight,' said he putting his finger upon the little disc and loop of the hat-securer.",
+        "'But since we see that he has broken the elastic and has not troubled to replace it, it is obvious that he has less foresight now than formerly'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_con_003",
+      "name": "Treasure Trove",
+      "aliases": [
+        "treasure trove",
+        "treasure"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "mystery",
+      "description": "The legal and narrative classification of the discovered diamond. Holmes's exclamation frames the stone not merely as a physical object but as a legally significant find that transforms the goose from a mundane peace offering into a pivotal piece of evidence.",
+      "context": [
+        "'this is treasure trove indeed. I suppose you know what you have got?'",
+        "'A diamond, sir? A precious stone. It cuts into glass as though it were putty.'"
+      ],
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    }
+  ],
+  "properties": [
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_char_001",
+      "name": "Sherlock Holmes",
+      "properties": {
+        "role": "consulting detective",
+        "personality_traits": [
+          "logical",
+          "observant",
+          "methodical",
+          "confident",
+          "slightly arrogant"
+        ],
+        "signature_behaviours": [
+          "deducing from physical evidence",
+          "using a lens for close examination",
+          "reading newspapers for clues"
+        ],
+        "occupation": "consulting detective",
+        "archetype": "master deducer"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_char_002",
+      "name": "Dr. Watson",
+      "properties": {
+        "role": "narrator and companion",
+        "personality_traits": [
+          "skeptical",
+          "inquisitive",
+          "loyal",
+          "self-deprecating"
+        ],
+        "signature_behaviours": [
+          "questioning Holmes' deductions",
+          "expressing astonishment",
+          "narrating events"
+        ]
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_char_003",
+      "name": "Peterson",
+      "properties": {
+        "role": "commissionaire",
+        "personality_traits": [
+          "excited",
+          "astonished",
+          "diligent"
+        ],
+        "signature_behaviours": [
+          "rushing in with flushed cheeks",
+          "discovering the diamond in the goose's crop",
+          "delivering news to Holmes"
+        ]
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_char_004",
+      "name": "The Hat Owner",
+      "properties": {
+        "role": "middle-aged man",
+        "personality_traits": [
+          "intellectual",
+          "foresighted",
+          "retains self-respect",
+          "neglectful of appearance"
+        ],
+        "physical_description": [
+          "middle-aged",
+          "grizzled hair recently cut",
+          "uses lime-cream",
+          "perspires freely"
+        ],
+        "motivations": [
+          "maintaining self-respect",
+          "making peace with his wife"
+        ]
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_char_005",
+      "name": "Countess of Morcar",
+      "properties": {
+        "role": "noblewoman and victim",
+        "motivations": [
+          "recovering the blue carbuncle gem"
+        ]
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_char_006",
+      "name": "John Horner",
+      "properties": {
+        "role": "plumber and accused thief",
+        "motivations": [
+          "accused of stealing the blue carbuncle"
+        ]
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_obj_001",
+      "name": "The Hat",
+      "properties": {
+        "physical_description": [
+          "three years old",
+          "flat brims curled at the edge",
+          "ribbed silk band",
+          "excellent lining",
+          "lime-cream and ink stains",
+          "tallow stains",
+          "hat-securer disc and loop"
+        ],
+        "owner": "The Hat Owner",
+        "narrative_role": "central clue",
+        "symbolic_meaning": "represents the owner's life, fortunes, habits, and character",
+        "significance": "resolved"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_obj_002",
+      "name": "The Blue Carbuncle",
+      "properties": {
+        "physical_description": [
+          "brilliantly scintillating blue stone",
+          "smaller than a bean",
+          "pure and radiant",
+          "cuts into glass"
+        ],
+        "owner": "Countess of Morcar",
+        "narrative_role": "central mystery and treasure",
+        "symbolic_meaning": "immense wealth and sentimental value",
+        "significance": "unresolved"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_obj_003",
+      "name": "The Goose",
+      "properties": {
+        "physical_description": [
+          "bird with a card on its leg",
+          "contains a diamond in its crop"
+        ],
+        "owner": "The Hat Owner",
+        "narrative_role": "vessel for the diamond",
+        "symbolic_meaning": "peace-offering and unexpected discovery",
+        "significance": "resolved"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_obj_004",
+      "name": "The Lens",
+      "properties": {
+        "physical_description": [
+          "magnifying tool for close examination"
+        ],
+        "owner": "Sherlock Holmes",
+        "narrative_role": "deduction tool",
+        "symbolic_meaning": "scientific method and close observation",
+        "significance": "resolved"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_evt_001",
+      "name": "Hat Deduction",
+      "properties": {
+        "sequence_number": 1,
+        "what_changed": "Holmes reveals a detailed profile of the hat owner",
+        "who_involved": [
+          "Sherlock Holmes",
+          "Dr. Watson"
+        ],
+        "emotions": [
+          "confusion",
+          "admiration",
+          "confidence"
+        ],
+        "is_turning_point": true,
+        "cause": "examination of the hat and its physical evidence",
+        "immediate_consequence": "Watson questions the deductions, prompting further explanation",
+        "why_it_matters": "demonstrates the power of forensic deduction"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_evt_002",
+      "name": "Discovery of the Diamond",
+      "properties": {
+        "sequence_number": 2,
+        "what_changed": "Peterson reveals a blue stone found in the goose's crop",
+        "who_involved": [
+          "Peterson",
+          "Sherlock Holmes",
+          "Dr. Watson"
+        ],
+        "emotions": [
+          "astonishment",
+          "excitement",
+          "shock"
+        ],
+        "is_turning_point": true,
+        "cause": "Peterson's wife examining the goose's crop",
+        "immediate_consequence": "Holmes identifies it as the Blue Carbuncle and links it to the Countess",
+        "why_it_matters": "elevates the stakes and links the hat owner to the jewel theft"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_evt_003",
+      "name": "Theft of the Blue Carbuncle",
+      "properties": {
+        "date": "December 22nd",
+        "sequence_number": 3,
+        "what_changed": "The gem was stolen from the Countess's jewel-case",
+        "who_involved": [
+          "John Horner",
+          "Countess of Morcar"
+        ],
+        "emotions": [
+          "scandal",
+          "legal tension"
+        ],
+        "is_turning_point": false,
+        "cause": "alleged theft by John Horner",
+        "immediate_consequence": "Horner accused and case referred to the Assizes",
+        "why_it_matters": "provides the central mystery and motive for the investigation"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_org_001",
+      "name": "The Assizes",
+      "properties": {
+        "structure": "judicial court system",
+        "purpose": "adjudicate serious criminal cases",
+        "status": "active",
+        "plot_impact": "receives the case against John Horner for trial"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_org_002",
+      "name": "The Times",
+      "properties": {
+        "structure": "daily newspaper",
+        "purpose": "publish news and advertisements",
+        "status": "active",
+        "plot_impact": "Holmes reads daily advertisements about the missing gem, providing crucial information"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_con_001",
+      "name": "Self-Respect",
+      "properties": {
+        "manifestation": "The hat owner daubed stains with ink to conceal them, proving he hasn't entirely lost his self-respect",
+        "characters": [
+          "The Hat Owner"
+        ]
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_con_002",
+      "name": "Foresight",
+      "properties": {
+        "manifestation": "The hat-securer indicates past foresight, while the broken elastic and lack of replacement show a weakening of it",
+        "characters": [
+          "The Hat Owner"
+        ]
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "id": "54fe739d5f764020ad4396c72af29729_002_con_003",
+      "name": "Treasure Trove",
+      "properties": {
+        "puzzle": "How did a valuable diamond end up in a goose's crop?",
+        "resolution": "Identified as the Blue Carbuncle, a unique gem belonging to the Countess",
+        "significance": "Transforms a simple theft case into a major jewel mystery"
+      },
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002_char_004",
+      "target_name": "The Hat Owner",
+      "rel_type": "evaluates",
+      "description": "Deduces the hat owner's physical traits, financial decline, and marital strife from the hat's condition and markings.",
+      "properties": {
+        "deductions": [
+          "middle-aged",
+          "grizzled hair",
+          "lime-cream user",
+          "financial decline",
+          "marital strife",
+          "no gas in house"
+        ]
+      },
+      "context": "He has, however, retained some degree of selfrespect,' he continued, disregarding my remonstrance. 'He is a man who leads a sedentary life, goes out little, is out of training entirely, is middleaged, has grizzled hair which he has had cut within the last few days, and which he anoints with limecream. These are the more patent facts which are to be deduced from his hat.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002_obj_001",
+      "target_name": "The Hat",
+      "rel_type": "uses",
+      "description": "Analyzes the hat's physical characteristics to extract clues about its owner's lifestyle and habits.",
+      "properties": {
+        "method": "deductive reasoning",
+        "tools": [
+          "visual inspection",
+          "lens"
+        ]
+      },
+      "context": "For answer Holmes clapped the hat upon his head. It came right over the forehead and settled upon the bridge of his nose. 'It is a question of cubic capacity,' said he; 'a man with so large a brain must have something in it.'",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002_con_001",
+      "target_name": "Self-Respect",
+      "rel_type": "expressed_through",
+      "description": "Identifies self-respect as evidenced by the owner's attempt to conceal stains with ink rather than discarding the hat.",
+      "properties": {
+        "evidence": "ink daubing on felt",
+        "sentiment": "positive"
+      },
+      "context": "he has endeavoured to conceal some of these stains upon the felt by daubing them with ink, which is a sign that he has not entirely lost his self-respect.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002_con_002",
+      "target_name": "Foresight",
+      "rel_type": "expressed_through",
+      "description": "Notes a decline in foresight, indicated by a broken hat-securer elastic that was never replaced.",
+      "properties": {
+        "evidence": "broken elastic",
+        "trend": "declining"
+      },
+      "context": "he has broken the elastic and has not troubled to replace it, it is obvious that he has less foresight now than formerly, which is a distinct proof of a weakening nature.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002_obj_004",
+      "target_name": "The Lens",
+      "rel_type": "uses",
+      "description": "Employs a lens to examine hair ends, dust, and moisture on the hat's lining to confirm physical traits.",
+      "properties": {
+        "observations": [
+          "clean cut hair-ends",
+          "lime-cream odour",
+          "house dust",
+          "moisture marks"
+        ]
+      },
+      "context": "The lens discloses a large number of hair-ends, clean cut by the scissors of the barber. They all appear to be adhesive, and there is a distinct odour of lime-cream. This dust, you will observe, is not the gritty, grey dust of the street but the fluffy brown dust of the house",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_char_004",
+      "source_name": "The Hat Owner",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002_obj_003",
+      "target_name": "The Goose",
+      "rel_type": "owns",
+      "description": "Carries the goose home as a peace-offering to his wife.",
+      "properties": {
+        "purpose": "peace-offering",
+        "location": "carrying it home"
+      },
+      "context": "Nay, he was bringing home the goose as a peaceoffering to his wife. Remember the card upon the bird's leg.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_char_003",
+      "source_name": "Peterson",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002_char_001",
+      "target_name": "Sherlock Holmes",
+      "rel_type": "visits",
+      "description": "Rushes into Holmes's apartment to report a significant discovery regarding the goose.",
+      "properties": {
+        "emotion": "astonishment",
+        "role": "commissionaire"
+      },
+      "context": "Peterson, the commissionaire, rushed into the apartment with flushed cheeks and the face of a man who is dazed with astonishment.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_char_003",
+      "source_name": "Peterson",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002_obj_003",
+      "target_name": "The Goose",
+      "rel_type": "discovers",
+      "description": "Finds a blue stone inside the crop of the goose brought by his wife.",
+      "properties": {
+        "location": "goose's crop",
+        "finder": "Peterson's wife"
+      },
+      "context": "See here, sir! See what my wife found in its crop! He held out his hand and displayed upon the centre of his palm a brilliantly scintillating blue stone",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_char_003",
+      "source_name": "Peterson",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002_obj_002",
+      "target_name": "The Blue Carbuncle",
+      "rel_type": "discovers",
+      "description": "Discovers the Blue Carbuncle diamond hidden within the goose and presents it to Holmes.",
+      "properties": {
+        "location": "goose's crop",
+        "condition": "brilliantly scintillating"
+      },
+      "context": "displayed upon the centre of his palm a brilliantly scintillating blue stone, rather smaller than a bean in size, but of such purity and radiance that it twinkled like an electric point in the dark hollow of his hand.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002_obj_002",
+      "target_name": "The Blue Carbuncle",
+      "rel_type": "knows",
+      "description": "Recognizes the stone as the unique Blue Carbuncle and knows its market value and the offered reward.",
+      "properties": {
+        "identification": "Blue Carbuncle",
+        "value": "unconjectured market price",
+        "reward": "£1000"
+      },
+      "context": "It's more than a precious stone. It is the precious stone... I ought to know its size and shape, seeing that I have read the advertisement about it in The Times every day lately.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002_org_002",
+      "target_name": "The Times",
+      "rel_type": "knows",
+      "description": "Regularly reads advertisements about the Blue Carbuncle in The Times to track the gem.",
+      "properties": {
+        "frequency": "every day lately",
+        "purpose": "tracking the gem"
+      },
+      "context": "I ought to know its size and shape, seeing that I have read the advertisement about it in The Times every day lately.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_char_005",
+      "source_name": "Countess of Morcar",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002_obj_002",
+      "target_name": "The Blue Carbuncle",
+      "rel_type": "owns",
+      "description": "Is the rightful owner of the Blue Carbuncle diamond, which was lost at the Hotel Cosmopolitan.",
+      "properties": {
+        "location_lost": "Hotel Cosmopolitan",
+        "date_lost": "December 22nd"
+      },
+      "context": "Not the Countess of Morcar's blue carbuncle!' I ejaculated. 'Precisely so. I ought to know its size and shape, seeing that I have read the advertisement about it in The Times every day lately.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002_char_005",
+      "target_name": "Countess of Morcar",
+      "rel_type": "knows",
+      "description": "Understands the Countess's sentimental motivations and willingness to pay a high reward to recover the gem.",
+      "properties": {
+        "motivation": "sentimental considerations",
+        "willingness": "part with half her fortune"
+      },
+      "context": "I have reason to know that there are sentimental considerations in the background which would induce the Countess to part with half her fortune if she could but recover the gem.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002_con_003",
+      "target_name": "Treasure Trove",
+      "rel_type": "involves",
+      "description": "Classifies the discovery of the diamond as a classic case of treasure trove.",
+      "properties": {
+        "classification": "treasure trove",
+        "reaction": "whistle of surprise"
+      },
+      "context": "this is treasure trove indeed. I suppose you know what you have got?",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_char_006",
+      "source_name": "John Horner",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002_obj_002",
+      "target_name": "The Blue Carbuncle",
+      "rel_type": "deceives",
+      "description": "Is accused of stealing the Blue Carbuncle from the Countess's jewel-case.",
+      "properties": {
+        "accusation": "abstracted it",
+        "evidence_strength": "strong"
+      },
+      "context": "John Horner, a plumber, was accused of having abstracted it from the lady's jewel-case. The evidence against him was so strong that the case has been referred to the Assizes.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_org_001",
+      "source_name": "The Assizes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002_char_006",
+      "target_name": "John Horner",
+      "rel_type": "investigates",
+      "description": "The Assizes are handling the case against John Horner due to strong evidence of theft.",
+      "properties": {
+        "status": "referred for trial",
+        "evidence": "strong"
+      },
+      "context": "The evidence against him was so strong that the case has been referred to the Assizes.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002_evt_001",
+      "target_name": "Hat Deduction",
+      "rel_type": "participates_in",
+      "description": "Conducts the deductive analysis of the hat to determine the owner's characteristics.",
+      "properties": {
+        "role": "investigator",
+        "contribution": "deduces physical and behavioral traits"
+      },
+      "context": "These are the more patent facts which are to be deduced from his hat. Also, by the way, that it is extremely improbable that he has gas laid on in his house.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_char_003",
+      "source_name": "Peterson",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002_evt_002",
+      "target_name": "Discovery of the Diamond",
+      "rel_type": "participates_in",
+      "description": "Discovers the diamond in the goose and brings it to Holmes for identification.",
+      "properties": {
+        "role": "witness",
+        "contribution": "finds and presents the gem"
+      },
+      "context": "See here, sir! See what my wife found in its crop! He held out his hand and displayed upon the centre of his palm a brilliantly scintillating blue stone",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002_evt_002",
+      "target_name": "Discovery of the Diamond",
+      "rel_type": "participates_in",
+      "description": "Identifies the discovered stone as the Blue Carbuncle and explains its significance and value.",
+      "properties": {
+        "role": "investigator",
+        "contribution": "identifies gem and explains its significance"
+      },
+      "context": "It's more than a precious stone. It is the precious stone... I ought to know its size and shape, seeing that I have read the advertisement about it in The Times every day lately.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002_evt_003",
+      "target_name": "Theft of the Blue Carbuncle",
+      "rel_type": "participates_in",
+      "description": "Investigates the theft of the Blue Carbuncle and reviews newspaper accounts of the case.",
+      "properties": {
+        "role": "investigator",
+        "contribution": "reviews case details and newspaper reports"
+      },
+      "context": "John Horner, a plumber, was accused of having abstracted it from the lady's jewel-case. The evidence against him was so strong that the case has been referred to the Assizes. I have some account of the matter here, I believe.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_org_001",
+      "source_name": "The Assizes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002_evt_003",
+      "target_name": "Theft of the Blue Carbuncle",
+      "rel_type": "investigates",
+      "description": "The Assizes are adjudicating the case regarding the theft of the Blue Carbuncle due to strong evidence.",
+      "properties": {
+        "status": "referred for trial",
+        "evidence": "strong"
+      },
+      "context": "The evidence against him was so strong that the case has been referred to the Assizes.",
+      "bidirectional": false,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002_char_002",
+      "target_name": "Dr. Watson",
+      "rel_type": "knows",
+      "description": "Engages in a dialogue with Watson, explaining deductions and responding to his skepticism and confusion.",
+      "properties": {
+        "sentiment": "patient",
+        "dynamic": "teacher-student"
+      },
+      "context": "You are certainly joking, Holmes.' 'Not in the least. Is it possible that even now, when I give you these results, you are unable to see how they are attained?' 'I have no doubt that I am very stupid, but I must confess that I am unable to follow you.",
+      "bidirectional": true,
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002",
+      "target_name": "54fe739d5f764020ad4396c72af29729_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_char_002",
+      "source_name": "Dr. Watson",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002",
+      "target_name": "54fe739d5f764020ad4396c72af29729_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_char_003",
+      "source_name": "Peterson",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002",
+      "target_name": "54fe739d5f764020ad4396c72af29729_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_char_004",
+      "source_name": "The Hat Owner",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002",
+      "target_name": "54fe739d5f764020ad4396c72af29729_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_char_005",
+      "source_name": "Countess of Morcar",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002",
+      "target_name": "54fe739d5f764020ad4396c72af29729_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_char_006",
+      "source_name": "John Horner",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002",
+      "target_name": "54fe739d5f764020ad4396c72af29729_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_obj_001",
+      "source_name": "The Hat",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002",
+      "target_name": "54fe739d5f764020ad4396c72af29729_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_obj_002",
+      "source_name": "The Blue Carbuncle",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002",
+      "target_name": "54fe739d5f764020ad4396c72af29729_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_obj_003",
+      "source_name": "The Goose",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002",
+      "target_name": "54fe739d5f764020ad4396c72af29729_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_obj_004",
+      "source_name": "The Lens",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002",
+      "target_name": "54fe739d5f764020ad4396c72af29729_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_evt_001",
+      "source_name": "Hat Deduction",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002",
+      "target_name": "54fe739d5f764020ad4396c72af29729_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_evt_002",
+      "source_name": "Discovery of the Diamond",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002",
+      "target_name": "54fe739d5f764020ad4396c72af29729_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_evt_003",
+      "source_name": "Theft of the Blue Carbuncle",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002",
+      "target_name": "54fe739d5f764020ad4396c72af29729_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_org_001",
+      "source_name": "The Assizes",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002",
+      "target_name": "54fe739d5f764020ad4396c72af29729_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_org_002",
+      "source_name": "The Times",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002",
+      "target_name": "54fe739d5f764020ad4396c72af29729_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_con_001",
+      "source_name": "Self-Respect",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002",
+      "target_name": "54fe739d5f764020ad4396c72af29729_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_con_002",
+      "source_name": "Foresight",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002",
+      "target_name": "54fe739d5f764020ad4396c72af29729_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "54fe739d5f764020ad4396c72af29729_002_con_003",
+      "source_name": "Treasure Trove",
+      "target_id": "54fe739d5f764020ad4396c72af29729_002",
+      "target_name": "54fe739d5f764020ad4396c72af29729_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "54fe739d5f764020ad4396c72af29729_002",
+      "doc_id": "54fe739d5f764020ad4396c72af29729",
+      "domain": "fiction"
+    }
+  ]
+}

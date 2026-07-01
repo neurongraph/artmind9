@@ -1,0 +1,2581 @@
+{
+  "embedding": [
+    0.037861936,
+    0.07997666,
+    -0.15239812,
+    -0.07430856,
+    0.020831045,
+    -0.012742364,
+    0.03935921,
+    0.01621908,
+    0.021698937,
+    -0.043514628,
+    -0.04410635,
+    0.011860696,
+    0.05977679,
+    0.014083384,
+    0.027813029,
+    -0.015988065,
+    0.047906354,
+    -0.031416718,
+    -0.058801673,
+    0.08384594,
+    -0.07552458,
+    -0.04117747,
+    -0.052231777,
+    -0.04048435,
+    0.037844945,
+    -0.0045332685,
+    -0.052424766,
+    -0.0469584,
+    -0.01987133,
+    0.022115104,
+    0.0059204814,
+    -0.016977325,
+    -0.054965656,
+    0.020156005,
+    -0.022674862,
+    -0.00038205518,
+    0.04825931,
+    0.07278852,
+    0.03962002,
+    0.037042294,
+    0.068496294,
+    0.015312065,
+    -0.0061277626,
+    -0.041585512,
+    0.008208139,
+    -0.02018961,
+    -0.00086835097,
+    0.020134974,
+    0.016082423,
+    -0.026953632,
+    0.03225575,
+    -0.020269198,
+    0.047413073,
+    -0.009059419,
+    0.09181922,
+    0.064177886,
+    -0.0055337055,
+    -0.027232306,
+    0.020685038,
+    -0.018319543,
+    0.03827154,
+    0.015463364,
+    0.004693246,
+    0.083367124,
+    0.018251015,
+    -0.05750872,
+    0.0035261898,
+    0.055101484,
+    0.03570216,
+    -0.07887201,
+    0.02115296,
+    -0.0016772317,
+    -0.02129723,
+    0.04557186,
+    -0.033003047,
+    0.032842692,
+    0.017928602,
+    0.0064285127,
+    0.038803443,
+    0.015100186,
+    0.022766637,
+    -0.063116916,
+    0.056570437,
+    -0.007519889,
+    -0.025432268,
+    0.013374832,
+    0.04693631,
+    -0.015208244,
+    -0.061775587,
+    0.03950978,
+    0.049527556,
+    -0.00076280226,
+    0.007992042,
+    0.0072686174,
+    0.0025824066,
+    0.007257719,
+    0.018642949,
+    -0.015171014,
+    -0.048491266,
+    0.047097854,
+    -0.0756233,
+    -0.049204625,
+    0.003739691,
+    0.007114337,
+    0.040472556,
+    0.0591653,
+    0.01707935,
+    0.012076074,
+    0.001049619,
+    -0.011494744,
+    0.019814264,
+    -0.017129507,
+    -0.06935834,
+    -0.041961186,
+    -0.0245819,
+    -0.016534992,
+    0.005570305,
+    -0.012285284,
+    -0.007662956,
+    0.05053333,
+    -0.05877808,
+    0.010143434,
+    0.016614508,
+    0.05874983,
+    0.008506743,
+    0.019209757,
+    -0.018036883,
+    -0.020756766,
+    -0.036353923,
+    -0.022769254,
+    -0.040052,
+    0.0056605833,
+    0.0051904856,
+    7.273611e-05,
+    0.041952394,
+    0.06277619,
+    -0.017623542,
+    -0.055016134,
+    -0.014408749,
+    -0.010538007,
+    0.041399736,
+    0.036199257,
+    -0.005876471,
+    -0.0211875,
+    -0.08648276,
+    -0.04386532,
+    0.005608934,
+    -0.05483538,
+    -0.05850549,
+    0.047353778,
+    -0.039361116,
+    -0.025015265,
+    0.02708043,
+    0.049698833,
+    0.024599774,
+    -0.020194877,
+    -0.014977967,
+    0.038380504,
+    -0.010930625,
+    0.008989861,
+    -0.00067443843,
+    -0.011458491,
+    -0.012057312,
+    0.04379229,
+    -0.0014454939,
+    0.0033259387,
+    0.0026234584,
+    0.062214788,
+    0.004172268,
+    0.020208355,
+    -0.015460867,
+    -0.003382241,
+    -0.043086015,
+    -0.011835053,
+    0.047602683,
+    -0.06833598,
+    0.055131394,
+    -0.01640745,
+    -0.03400056,
+    -0.0668108,
+    0.034992225,
+    -0.059013497,
+    0.000997777,
+    -0.043003887,
+    0.011458698,
+    -0.007655212,
+    0.026223702,
+    -0.02129743,
+    -0.007756516,
+    -0.010192857,
+    0.048506342,
+    0.013134531,
+    -0.052311208,
+    -0.00519785,
+    -0.046168745,
+    -0.02785801,
+    0.022057164,
+    0.0328711,
+    -0.048343062,
+    -0.005244023,
+    -0.019992337,
+    0.004735476,
+    0.011095668,
+    0.008471239,
+    -0.043249328,
+    0.05020963,
+    -0.0042125634,
+    0.032963164,
+    -0.01367159,
+    -0.01889563,
+    0.056325343,
+    -0.019794017,
+    -0.025681525,
+    0.063112356,
+    -0.011270583,
+    0.038704272,
+    0.041755896,
+    -0.015169485,
+    -0.030886265,
+    -0.010233383,
+    0.036211625,
+    0.056851495,
+    -0.040814187,
+    0.011267659,
+    0.027221922,
+    0.029299822,
+    -0.0019362044,
+    -0.022091096,
+    -0.042651925,
+    -0.003462764,
+    -0.0034706874,
+    -0.063956335,
+    0.088434614,
+    0.020868331,
+    -0.055778913,
+    0.02259252,
+    -0.015322735,
+    0.034001622,
+    0.0016636077,
+    0.013636764,
+    -0.028410055,
+    0.02134991,
+    -0.03241082,
+    -0.030286344,
+    -0.043101136,
+    0.033394575,
+    0.006743276,
+    -0.060065757,
+    0.024027923,
+    0.04618304,
+    0.02676422,
+    0.05307888,
+    0.046273332,
+    -0.015101396,
+    0.034007277,
+    -0.027771534,
+    -0.07655273,
+    0.04449209,
+    -0.00538814,
+    -0.0058018174,
+    0.044060167,
+    -0.026158527,
+    -0.005176148,
+    -0.011475642,
+    -0.047936242,
+    -0.021797305,
+    -0.0699188,
+    -0.010171138,
+    0.040312476,
+    -0.011022025,
+    0.01995315,
+    0.06346328,
+    -0.022896025,
+    0.042000186,
+    -0.001453005,
+    0.017725367,
+    -0.030410653,
+    0.0010127084,
+    -0.032478347,
+    0.020775523,
+    -0.016339535,
+    0.025351414,
+    0.007209474,
+    -0.022962261,
+    -0.045187037,
+    -0.013483008,
+    -0.015035991,
+    0.0223972,
+    0.039618727,
+    -0.037581407,
+    0.02242619,
+    0.014720538,
+    -0.03059416,
+    0.039320778,
+    -0.01501533,
+    0.023217857,
+    0.03499683,
+    -0.018362142,
+    -0.006113322,
+    -0.015649933,
+    0.06847999,
+    0.012575984,
+    0.009004086,
+    0.08438969,
+    -0.017393041,
+    -0.0030743112,
+    -0.020087902,
+    0.010717254,
+    0.009424512,
+    -0.030287925,
+    -0.05887836,
+    -0.024265759,
+    -0.01201333,
+    0.024546394,
+    -0.03503086,
+    0.029016746,
+    0.026973274,
+    0.016041646,
+    0.004697386,
+    0.008785209,
+    -0.006567812,
+    0.012398463,
+    -0.016472967,
+    -0.04219143,
+    -0.014971161,
+    0.017917471,
+    -0.021898406,
+    0.027383382,
+    0.03149667,
+    0.00308851,
+    -0.006764125,
+    0.02745907,
+    0.013726906,
+    -0.030041568,
+    -0.042729042,
+    0.051577244,
+    0.017312111,
+    0.041288808,
+    -0.038891505,
+    0.03353435,
+    0.030023232,
+    0.007042703,
+    0.024340613,
+    -0.059003294,
+    0.00035939226,
+    0.026528755,
+    -0.073785,
+    0.035016913,
+    0.026334852,
+    -0.017405458,
+    -0.0009520171,
+    0.005658972,
+    0.01332572,
+    0.0007711359,
+    0.031897712,
+    0.0017060642,
+    -0.022458885,
+    0.044022936,
+    -0.038716845,
+    -0.013899701,
+    0.05366192,
+    0.01369383,
+    0.0004955607,
+    -0.0352155,
+    0.004202055,
+    0.023974227,
+    0.026874859,
+    -0.0027789879,
+    -0.0057821507,
+    0.013403297,
+    -0.03754873,
+    -0.0036664559,
+    0.024181698,
+    0.06875356,
+    0.0016032368,
+    0.0020510014,
+    -0.052450914,
+    -0.013597889,
+    -0.018643916,
+    0.05650361,
+    -0.0484704,
+    0.014540721,
+    -0.044222213,
+    0.00621664,
+    0.031895764,
+    0.034957394,
+    -0.005944136,
+    -0.050042458,
+    0.028704224,
+    -0.030099029,
+    0.014515339,
+    0.030955259,
+    -0.040487196,
+    -0.013354794,
+    0.026582785,
+    -0.09657167,
+    0.004833435,
+    -0.023593778,
+    0.027421633,
+    0.0010380486,
+    -0.0419306,
+    -0.06426377,
+    0.027189588,
+    0.0072701974,
+    -0.02082183,
+    0.030498164,
+    -0.05689286,
+    -0.01367264,
+    0.050538126,
+    -0.051820938,
+    0.035709918,
+    0.056233484,
+    -0.022227677,
+    -0.018033214,
+    -0.048773445,
+    0.02585936,
+    0.061963737,
+    0.009621742,
+    0.003925145,
+    0.013264637,
+    0.023399517,
+    0.028298756,
+    -0.011960916,
+    0.004156457,
+    0.032144044,
+    0.039076503,
+    0.027981691,
+    0.012896531,
+    -0.046133727,
+    -0.017888878,
+    -0.007657539,
+    -0.0039934353,
+    0.017751753,
+    -0.037656635,
+    0.025840633,
+    0.022891993,
+    0.027440777,
+    0.05984183,
+    0.05351982,
+    0.08959661,
+    0.07816354,
+    -0.03574714,
+    -0.02893928,
+    -0.017213592,
+    -0.0033931066,
+    -0.0052110865,
+    0.053604305,
+    0.02318555,
+    -0.04432382,
+    0.0131453015,
+    -0.019997915,
+    -0.050592158,
+    0.005661447,
+    0.004308041,
+    0.08007592,
+    -0.048677646,
+    -0.008017995,
+    -0.014260164,
+    0.019076882,
+    -0.0055654277,
+    0.032001004,
+    0.050999757,
+    -0.07464344,
+    0.057909567,
+    0.025861558,
+    -0.0167218,
+    -0.024134299,
+    -0.012676879,
+    0.040774543,
+    0.0037833303,
+    -0.038321074,
+    0.015098573,
+    0.020536996,
+    -0.03978168,
+    0.023349032,
+    -0.010668654,
+    -0.03443619,
+    -0.014390486,
+    -0.04552494,
+    0.12501189,
+    0.041535217,
+    -0.0025747,
+    -0.013285627,
+    -0.05615692,
+    0.021690622,
+    0.01725539,
+    0.0047587478,
+    -0.039990455,
+    0.011293108,
+    -0.048220936,
+    0.011206086,
+    -0.016867023,
+    -0.009382218,
+    -0.02332133,
+    0.0043625156,
+    -0.017051332,
+    -0.011134998,
+    0.071388975,
+    0.008899158,
+    0.0099424925,
+    0.023778072,
+    0.091832116,
+    -0.032533925,
+    0.012620268,
+    0.0031815649,
+    -0.016356494,
+    0.022816343,
+    -0.07362861,
+    -0.049461614,
+    0.03622138,
+    -0.012378067,
+    0.0279982,
+    0.014437804,
+    0.0096253725,
+    0.057238016,
+    -0.030119134,
+    -0.05983932,
+    0.039491363,
+    0.01054573,
+    0.0061499416,
+    0.03528197,
+    -0.07776554,
+    0.003714655,
+    -0.09441935,
+    -0.05168233,
+    0.035560593,
+    -0.014334399,
+    -0.0851433,
+    0.060063034,
+    0.010855039,
+    -0.01177786,
+    0.011655269,
+    -0.0074693398,
+    -0.0029424154,
+    0.0045236493,
+    0.00049336004,
+    -0.031332176,
+    0.008440399,
+    0.016654234,
+    0.0621939,
+    -0.011416284,
+    0.009271579,
+    0.015363894,
+    -0.0029305427,
+    -0.0006599268,
+    0.005350291,
+    -0.007592469,
+    0.037827007,
+    0.0044154488,
+    -0.04402281,
+    0.017753653,
+    -0.043263506,
+    -0.030717844,
+    0.012975048,
+    -0.016664615,
+    -0.017933542,
+    -0.03368352,
+    -0.002834924,
+    -0.023457149,
+    -0.04404137,
+    -0.022353895,
+    0.023139222,
+    0.041843288,
+    0.028704222,
+    -0.028121838,
+    0.001760442,
+    0.018147193,
+    -0.008888412,
+    0.0005489043,
+    0.002389717,
+    0.012491841,
+    -0.031402975,
+    -0.023534533,
+    0.00028070767,
+    0.013387784,
+    0.016195504,
+    0.018808575,
+    0.001994599,
+    -0.07394458,
+    -0.08623497,
+    -0.019951114,
+    -0.061323334,
+    0.021745415,
+    0.010845688,
+    -0.03133141,
+    -0.021042656,
+    -0.05039141,
+    -0.05249358,
+    0.06584384,
+    -0.04583937,
+    -0.03319141,
+    -0.0053585814,
+    0.029478366,
+    -0.011233564,
+    0.02130492,
+    -0.048174933,
+    0.03282755,
+    -0.041239377,
+    -0.020939117,
+    -0.024459118,
+    0.0092422385,
+    0.06937572,
+    0.070005454,
+    -0.020121811,
+    0.0059160506,
+    -0.020820042,
+    0.004919231,
+    0.040359408,
+    0.023121053,
+    -0.0065648877,
+    0.058168847,
+    0.051236164,
+    0.025672175,
+    -0.0130844675,
+    0.02039503,
+    -0.014068377,
+    0.07491536,
+    -0.0011132208,
+    -0.04539206,
+    -0.023334272,
+    -0.0052387835,
+    -0.022777809,
+    0.057814922,
+    -0.041827146,
+    -0.0053961463,
+    -0.024261907,
+    -0.025871534,
+    -0.037902102,
+    -0.03267738,
+    0.01905377,
+    -0.050673153,
+    -0.023831824,
+    -0.0713805,
+    0.008893845,
+    -0.06965535,
+    0.03215624,
+    0.00970608,
+    0.060438138,
+    -0.008932053,
+    0.0040549845,
+    -0.0028336789,
+    -0.0068379696,
+    -0.0029748492,
+    0.038476713,
+    0.027082162,
+    -0.037647717,
+    0.029353714,
+    0.05727037,
+    0.051398,
+    -0.04220864,
+    0.088523105,
+    0.06718758,
+    0.0463189,
+    -0.010127477,
+    -0.04256625,
+    0.016275013,
+    0.034942657,
+    -0.050015282,
+    -0.046174794,
+    -0.06872629,
+    0.021780109,
+    0.02758736,
+    -0.05417851,
+    -0.04628637,
+    -0.00734284,
+    -0.028134177,
+    -0.037974022,
+    -0.031847578,
+    -0.052004997,
+    0.016610617,
+    0.051076546,
+    0.015889121,
+    -0.016719887,
+    -0.031725254,
+    0.0066726105,
+    0.027043842,
+    0.034569826,
+    0.054498088,
+    0.047151923,
+    0.004970371,
+    -0.011480434,
+    0.016363116,
+    0.019564427,
+    -0.022255823,
+    -0.03285238,
+    -0.07359746,
+    0.016095083,
+    -0.008224899,
+    -0.015402689,
+    -0.002795015,
+    -0.044446904,
+    -0.047771256,
+    0.028602755,
+    0.02182499,
+    0.04176855,
+    0.018421095,
+    -0.03170727,
+    0.010602583,
+    -0.017571166,
+    0.0074600424,
+    -0.004015297,
+    0.0007773655,
+    -0.023492377,
+    0.04926186,
+    -0.023571331,
+    -0.043647602,
+    0.06375366,
+    0.0030480116,
+    -0.00035401803,
+    0.0029421553,
+    0.0042430456,
+    -0.003951954,
+    -0.05230288,
+    -0.014379998,
+    0.06865907,
+    0.047050916,
+    -0.043448254,
+    0.009827747,
+    -0.016283749,
+    0.04580859,
+    0.053937577,
+    -0.030277263,
+    -0.054714497,
+    -0.07339269,
+    0.026699737,
+    0.023270618,
+    0.050935134,
+    -0.03155247,
+    -0.009998328,
+    0.014397001,
+    0.044903986,
+    0.008392495,
+    -0.021257019,
+    0.015852995,
+    -0.071159,
+    0.017668676,
+    -0.010069059,
+    -0.05240999,
+    -0.031243162,
+    -0.033633538,
+    -0.062744804,
+    0.020254811,
+    0.009113939,
+    0.06393131,
+    -0.0006076629,
+    -0.036633946,
+    -0.031686496,
+    0.007365977,
+    0.002568181,
+    -0.0016529855,
+    0.05357041,
+    -0.029325554,
+    -0.044002663,
+    0.0080853235,
+    -0.024855997,
+    -0.017642403,
+    0.021183327,
+    0.038979217,
+    0.082243964,
+    0.027465317,
+    0.037759475,
+    -0.0125412615,
+    0.044084076,
+    -0.016359882,
+    -0.023687797,
+    -0.04395161,
+    0.026071157,
+    -0.04028177
+  ],
+  "chunk_seq": 1,
+  "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+  "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+  "text": "icon  \no the man who loves art for its own sake,' remarked Sherlock Holmes, tossing aside the advertisement sheet of the Daily Telegraph , 'it is frequently in its least important  \nand lowliest manifestations that the keenest pleasure is to be derived. It is pleasant to me to observe, Watson, that you have so far grasped this truth that in these little records of our cases which you have been good enough to draw up, and, I am bound to say, occasionally to embellish, you have given prominence not so much to the many causes c´ el` ebres and sensational trials in which I have figured but rather to those incidents which may have been trivial in themselves, but which have given room for those faculties of deduction and of logical synthesis which I have made my special province.'  \n'And yet,' said I, smiling, 'I cannot quite hold myself absolved from the charge of sensationalism which has been urged against my records.'  \n'You have erred, perhaps,' he observed, taking up a glowing cinder with the tongs and lighting with it the long cherry-wood pipe which was wont to replace his clay when he was in a disputatious rather than a meditative mood-'you have erred perhaps in attempting to put colour and life into each of your statements instead of confining yourself to the task of placing upon record that severe reasoning from cause to effect which is really the only notable feature about the thing.'  \n'It seems to me that I have done you full justice in the matter,' I remarked with some coldness, for I was repelled by the egotism which I had more than once observed to be a strong factor in my friend's singular character.  \n'No, it is not selfishness or conceit,' said he, answering, as was his wont, my thoughts rather than my words. 'If I claim full justice for my art, it is because it is an impersonal thing-a thing beyond myself. Crime is common. Logic is rare. Therefore it is upon the logic rather than upon the crime that you should dwell. You have degraded what should have been a course of lectures into a series of tales.'  \nIt was a cold morning of the early spring, and we sat after breakfast on either side of a cheery fire in the old room at Baker Street. A thick fog rolled down between the lines of dun-coloured houses, and the opposing windows loomed like dark, shapeless blurs through the heavy yellow wreaths. Our gas was lit and shone on the white cloth and glimmer of china and metal, for the table had not been cleared yet. Sherlock Holmes had been silent all the morning, dipping continuously into the advertisement columns of a succession of papers until at last, having apparently given up his search, he had emerged in no very sweet temper to lecture me upon my literary shortcomings.  \n'At the same time,' he remarked after a pause, during which he had sat puffing at his long pipe and gazing down into the fire, 'you can hardly be open to a charge of sensationalism, for out of these cases which you have been so kind as to interest yourself in, a fair proportion do not treat of crime, in its legal sense, at all. The small matter in which I endeavoured to help the King of Bohemia, the singular experience of Miss Mary Sutherland, the problem connected with the man with the twisted lip, and the incident of the noble bachelor, were all matters which are outside the pale of the law. But in avoiding the sensational, I fear that you may have bordered on the trivial.'  \n'The end may have been so,' I answered, 'but the methods I hold to have been novel and of interest.'  \n'Pshaw, my dear fellow, what do the public, the great unobservant public, who could hardly tell a weaver by his tooth or a compositor by his left thumb, care about the finer shades of analysis and deduction! But, indeed, if you are trivial, I cannot blame you, for the days of the great cases are past. Man, or at least criminal man, has lost all enterprise and originality. As to my own little practice, it seems to be degenerating into an agency for recovering lost lead pencils and giving advice to young ladies from boarding-schools. I think that I have touched bottom at last, however. This note I had this morning marks my zero-point, I fancy. Read it!' He tossed a crumpled letter across to me.  \nIt was dated from Montague Place upon the preceding evening, and ran thus:  \nD ear M r . H olmes :  \nI am very anxious to consult you as to whether I should or should not accept a situation which has been offered to me as governess. I shall call at half-past ten to-morrow if I do not inconvenience you.  \n-Yours faithfully,  \nV iolet H unter .  \n'Do you know the young lady?' I asked.  \n'Not I.'  \n'It is half-past ten now.'  \n'Yes, and I have no doubt that is her ring.'  \n'It may turn out to be of more interest than you think. You remember that the affair of the blue carbuncle, which appeared to be a mere whim at first, developed into a serious investigation. It may be so in this case, also.'  \n'Well, let us hope so. But our doubts will very soon be solved, for here, unless I am much mistaken, is the person in question.'  \nAs he spoke the door opened and a young lady entered the room. She was plainly but neatly dressed, with a bright, quick face, freckled like a plover's egg, and with the brisk manner of a woman who has had her own way to make in the world.  \n'You will excuse my troubling you, I am sure,' said she, as my companion rose to greet her, 'but I have had a very strange experience, and as I have no parents or relations of any sort from whom I could ask advice, I thought that perhaps you would be kind enough to tell me what I should do.'  \n'Pray take a seat, Miss Hunter. I shall be happy to do anything that I can to serve you.'  \nI could see that Holmes was favourably impressed by the manner and speech of his new client. He looked her over in his searching fashion, and then composed himself, with his lids drooping and his finger-tips together, to listen to her story.  \n'I have been a governess for five years,' said she, 'in the family of Colonel Spence Munro, but two months ago the colonel received an appointment at Halifax, in Nova Scotia, and took his children over to America with him, so that I found myself without a situation. I advertised, and I answered advertisements, but without success. At last the little money which I had saved began to run short, and I was at my wit's end as to what I should do.  \n'There is a well-known agency for governesses in the West End called Westaway's, and there I used to call about once a week in order to see whether anything had turned up which might suit me. Westaway was the name of the founder of the business, but it is really managed by Miss Stoper. She sits in her own little office, and the ladies who are seeking employment wait in an anteroom, and are then shown in one by one, when she consults her ledgers and sees whether she has anything which would suit them.  \n'Well, when I called last week I was shown into the little office as usual, but I found that Miss Stoper was not alone. A prodigiously stout man with a very smiling face and a great heavy chin which rolled down in fold upon fold over his throat sat at her elbow with a pair of glasses on his nose, looking very earnestly at the ladies who entered. As I came in he gave quite a jump in his chair and turned quickly to Miss Stoper.",
+  "name": "Chunk 1/8",
+  "domain": "fiction",
+  "next_chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_002",
+  "raw_entities": [
+    {
+      "id": "char_001",
+      "name": "Sherlock Holmes",
+      "aliases": [
+        "Holmes",
+        "Mr. Holmes"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "protagonist",
+      "description": "A consulting detective who values logical deduction and impersonal logic over sensational crime narratives. He engages in a philosophical debate with Watson about the nature of his work and his client records, ultimately demonstrating his deductive prowess by anticipating the arrival of his next client.",
+      "context": [
+        "'o the man who loves art for its own sake,' remarked Sherlock Holmes, tossing aside the advertisement sheet of the Daily Telegraph , 'it is frequently in its least important and lowliest manifestations that the keenest pleasure is to be derived.'",
+        "'Crime is common. Logic is rare. Therefore it is upon the logic rather than upon the crime that you should dwell.'",
+        "'You remember that the affair of the blue carbuncle, which appeared to be a mere whim at first, developed into a serious investigation.'"
+      ]
+    },
+    {
+      "id": "char_002",
+      "name": "Dr. Watson",
+      "aliases": [
+        "Watson",
+        "my dear fellow",
+        "I"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "The narrator and chronicler of Holmes's cases, who defends his literary style against Holmes's criticism of sensationalism. He serves as a foil to Holmes's cold logic, occasionally feeling repelled by his friend's egotism while ultimately deferring to his deductive methods.",
+      "context": [
+        "'I cannot quite hold myself absolved from the charge of sensationalism which has been urged against my records.'",
+        "'It seems to me that I have done you full justice in the matter,' I remarked with some coldness, for I was repelled by the egotism which I had more than once observed to be a strong factor in my friend's singular character.",
+        "'Well, let us hope so. But our doubts will very soon be solved, for here, unless I am much mistaken, is the person in question.'"
+      ]
+    },
+    {
+      "id": "char_003",
+      "name": "Violet Hunter",
+      "aliases": [
+        "Miss Hunter",
+        "Violet"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "A young governess seeking Holmes's advice on whether to accept a new employment situation. Her arrival marks the transition from philosophical debate to active investigation, introducing a new case that Holmes anticipates with keen interest.",
+      "context": [
+        "'I am very anxious to consult you as to whether I should or should not accept a situation which has been offered to me as governess.'",
+        "'You will excuse my troubling you, I am sure,' said she, as my companion rose to greet her, 'but I have had a very strange experience, and as I have no parents or relations of any sort from whom I could ask advice, I thought that perhaps you would be kind enough to tell me what I should do.'",
+        "'I have been a governess for five years,' said she, 'in the family of Colonel Spence Munro, but two months ago the colonel received an appointment at Halifax, in Nova Scotia, and took his children over to America with him, so that I found myself without a situation.'"
+      ]
+    },
+    {
+      "id": "char_004",
+      "name": "Colonel Spence Munro",
+      "aliases": [
+        "Colonel Munro"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "A former employer of Violet Hunter who recently received a military appointment in Nova Scotia, prompting his family's relocation to America and leaving Hunter unemployed. He serves as the initial catalyst for Hunter's consultation with Holmes.",
+      "context": [
+        "'I have been a governess for five years,' said she, 'in the family of Colonel Spence Munro, but two months ago the colonel received an appointment at Halifax, in Nova Scotia, and took his children over to America with him, so that I found myself without a situation.'"
+      ]
+    },
+    {
+      "id": "char_005",
+      "name": "Miss Stoper",
+      "aliases": [
+        "Stoper"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "The manager of Westaway's governess agency, who oversees the placement of employment for women seeking work. She is briefly mentioned as the operational head of the agency where Hunter seeks employment.",
+      "context": [
+        "'Westaway was the name of the founder of the business, but it is really managed by Miss Stoper.'",
+        "'She sits in her own little office, and the ladies who are seeking employment wait in an anteroom, and are then shown in one by one, when she consults her ledgers and sees whether she has anything which would suit them.'"
+      ]
+    },
+    {
+      "id": "char_006",
+      "name": "King of Bohemia",
+      "aliases": [
+        "King of Bohemia"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "A historical client referenced by Holmes to illustrate a case outside the pale of the law. His mention serves as an example of the non-criminal, singular experiences that Holmes considers worthy of documentation.",
+      "context": [
+        "'The small matter in which I endeavoured to help the King of Bohemia, the singular experience of Miss Mary Sutherland, the problem connected with the man with the twisted lip, and the incident of the noble bachelor, were all matters which are outside the pale of the law.'"
+      ]
+    },
+    {
+      "id": "char_007",
+      "name": "Miss Mary Sutherland",
+      "aliases": [
+        "Mary Sutherland"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "A former client whose singular experience Holmes cites alongside the King of Bohemia. She represents one of the non-legal, personal cases that Holmes believes demonstrate the value of his methods.",
+      "context": [
+        "'The small matter in which I endeavoured to help the King of Bohemia, the singular experience of Miss Mary Sutherland, the problem connected with the man with the twisted lip, and the incident of the noble bachelor, were all matters which are outside the pale of the law.'"
+      ]
+    },
+    {
+      "id": "loc_001",
+      "name": "Baker Street",
+      "aliases": [
+        "Baker Street",
+        "old room at Baker Street"
+      ],
+      "entity_class": "LOCATION",
+      "type": "residence",
+      "description": "The shared residence of Holmes and Watson, depicted as a foggy, gas-lit room where they sit by a fire after breakfast. It serves as the primary setting for their philosophical debate and the subsequent arrival of their client.",
+      "context": [
+        "It was a cold morning of the early spring, and we sat after breakfast on either side of a cheery fire in the old room at Baker Street.",
+        "A thick fog rolled down between the lines of dun-coloured houses, and the opposing windows loomed like dark, shapeless blurs through the heavy yellow wreaths."
+      ]
+    },
+    {
+      "id": "loc_002",
+      "name": "Montague Place",
+      "aliases": [
+        "Montague Place"
+      ],
+      "entity_class": "LOCATION",
+      "type": "region",
+      "description": "The location from which Violet Hunter's consultation letter was sent. It establishes the geographical origin of her request for Holmes's expertise.",
+      "context": [
+        "It was dated from Montague Place upon the preceding evening, and ran thus:"
+      ]
+    },
+    {
+      "id": "loc_003",
+      "name": "Halifax, Nova Scotia",
+      "aliases": [
+        "Halifax",
+        "Nova Scotia"
+      ],
+      "entity_class": "LOCATION",
+      "type": "region",
+      "description": "A distant location in America where Colonel Munro has been appointed, causing the displacement of his household and the subsequent unemployment of his governess. It functions as a geographical backdrop to the client's predicament.",
+      "context": [
+        "'I have been a governess for five years,' said she, 'in the family of Colonel Spence Munro, but two months ago the colonel received an appointment at Halifax, in Nova Scotia, and took his children over to America with him, so that I found myself without a situation.'"
+      ]
+    },
+    {
+      "id": "loc_004",
+      "name": "West End",
+      "aliases": [
+        "West End"
+      ],
+      "entity_class": "LOCATION",
+      "type": "city",
+      "description": "A district in London known for housing Westaway's governess agency. It provides the urban setting where Hunter seeks employment and encounters the agency's management.",
+      "context": [
+        "'There is a well-known agency for governesses in the West End called Westaway's, and there I used to call about once a week in order to see whether anything had turned up which might suit them.'"
+      ]
+    },
+    {
+      "id": "obj_001",
+      "name": "Daily Telegraph",
+      "aliases": [
+        "Daily Telegraph"
+      ],
+      "entity_class": "OBJECT",
+      "type": "document",
+      "description": "A newspaper whose advertisement sheet Holmes discards while discussing the nature of art and deduction. It symbolizes the mundane, lowliest manifestations of information that Holmes typically sifts through.",
+      "context": [
+        "'o the man who loves art for its own sake,' remarked Sherlock Holmes, tossing aside the advertisement sheet of the Daily Telegraph , 'it is frequently in its least important and lowliest manifestations that the keenest pleasure is to be derived.'"
+      ]
+    },
+    {
+      "id": "obj_002",
+      "name": "Long cherry-wood pipe",
+      "aliases": [
+        "cherry-wood pipe",
+        "pipe"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "Holmes's preferred smoking implement, which he lights using a glowing cinder. It serves as a physical prop that accompanies his shift from a meditative to a disputatious mood during his conversation with Watson.",
+      "context": [
+        "'At the same time,' he remarked after a pause, during which he had sat puffing at his long pipe and gazing down into the fire, 'you can hardly be open to a charge of sensationalism...'",
+        "'You have erred perhaps in attempting to put colour and life into each of your statements instead of confining yourself to the task of placing upon record that severe reasoning from cause to effect which is really the only notable feature about the thing.'"
+      ]
+    },
+    {
+      "id": "obj_003",
+      "name": "Crumpled letter",
+      "aliases": [
+        "letter",
+        "note"
+      ],
+      "entity_class": "OBJECT",
+      "type": "document",
+      "description": "A consultation request from Violet Hunter that Holmes receives that morning. It marks his perceived zero-point of trivial cases but ultimately proves to be the catalyst for a potentially significant investigation.",
+      "context": [
+        "'I think that I have touched bottom at last, however. This note I had this morning marks my zero-point, I fancy. Read it!' He tossed a crumpled letter across to me.",
+        "It was dated from Montague Place upon the preceding evening, and ran thus:"
+      ]
+    },
+    {
+      "id": "obj_004",
+      "name": "Blue carbuncle",
+      "aliases": [
+        "blue carbuncle"
+      ],
+      "entity_class": "OBJECT",
+      "type": "symbolic",
+      "description": "A previously investigated case that initially appeared trivial but evolved into a serious investigation. Holmes cites it as a precedent to suggest that Hunter's seemingly minor consultation may similarly yield deeper significance.",
+      "context": [
+        "'It may turn out to be of more interest than you think. You remember that the affair of the blue carbuncle, which appeared to be a mere whim at first, developed into a serious investigation. It may be so in this case, also.'"
+      ]
+    },
+    {
+      "id": "evt_001",
+      "name": "Philosophical Debate on Sensationalism",
+      "aliases": [
+        "Debate on sensationalism",
+        "Holmes-Watson debate"
+      ],
+      "entity_class": "EVENT",
+      "type": "conversation",
+      "description": "A lengthy exchange between Holmes and Watson regarding the literary merits of Watson's case records. Holmes criticizes Watson for focusing on sensationalism rather than pure logic, while Watson defends his methods, establishing the thematic tension between art, crime, and deduction.",
+      "context": [
+        "'You have erred perhaps in attempting to put colour and life into each of your statements instead of confining yourself to the task of placing upon record that severe reasoning from cause to effect which is really the only notable feature about the thing.'",
+        "'It seems to me that I have done you full justice in the matter,' I remarked with some coldness, for I was repelled by the egotism which I had more than once observed to be a strong factor in my friend's singular character.",
+        "'No, it is not selfishness or conceit,' said he, answering, as was was his wont, my thoughts rather than my words. 'If I claim full justice for my art, it is because it is an impersonal thing-a thing beyond myself.'"
+      ]
+    },
+    {
+      "id": "evt_002",
+      "name": "Arrival of Violet Hunter",
+      "aliases": [
+        "Hunter's arrival",
+        "Client consultation"
+      ],
+      "entity_class": "EVENT",
+      "type": "meeting",
+      "description": "The entrance of Violet Hunter into Holmes's residence to seek advice on a new governess position. Her arrival abruptly shifts the narrative from abstract philosophical discussion to concrete case preparation, demonstrating Holmes's predictive accuracy.",
+      "context": [
+        "'It may turn out to be of more interest than you think. You remember that the affair of the blue carbuncle, which appeared to be a mere whim at first, developed into a serious investigation. It may be so in this case, also.'",
+        "'Well, let us hope so. But our doubts will very soon be solved, for here, unless I am much mistaken, is the person in question.'",
+        "As he spoke the door opened and a young lady entered the room. She was plainly but neatly dressed, with a bright, quick face, freckled like a plover's egg, and with the brisk manner of a woman who has had her own way to make in the world."
+      ]
+    },
+    {
+      "id": "org_001",
+      "name": "Westaway's",
+      "aliases": [
+        "Westaway's",
+        "Westaway's agency"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "club",
+      "description": "A well-known employment agency for governesses located in the West End, managed by Miss Stoper. It serves as the institutional backdrop for Hunter's unemployment and the setting where she encounters the agency's staff and a mysterious stout man.",
+      "context": [
+        "'There is a well-known agency for governesses in the West End called Westaway's, and there I used to call about once a week in order to see whether anything had turned up which might suit them.'",
+        "'Westaway was the name of the founder of the business, but it is really managed by Miss Stoper.'"
+      ]
+    },
+    {
+      "id": "org_002",
+      "name": "Boarding-schools",
+      "aliases": [
+        "boarding-schools"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "institution",
+      "description": "Educational institutions referenced by Holmes as a source of young ladies seeking advice. They represent the declining quality of his clientele, whom he feels his practice is degenerating into serving.",
+      "context": [
+        "'As to my own little practice, it seems to be degenerating into an agency for recovering lost lead pencils and giving advice to young ladies from boarding-schools.'"
+      ]
+    },
+    {
+      "id": "con_001",
+      "name": "Logic / Deduction",
+      "aliases": [
+        "logic",
+        "deduction",
+        "logical synthesis",
+        "severe reasoning"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "theme",
+      "description": "The core intellectual pursuit that Holmes elevates above crime and sensationalism. He argues that logic is rare and impersonal, representing the true value of his work and the proper focus for Watson's case records.",
+      "context": [
+        "'Crime is common. Logic is rare. Therefore it is upon the logic rather than upon the crime that you should dwell.'",
+        "'placing upon record that severe reasoning from cause to effect which is really the only notable feature about the thing.'",
+        "'Pshaw, my dear fellow, what do the public, the great unobservant public, who could hardly tell a weaver by his tooth or a compositor by his left thumb, care about the finer shades of analysis and deduction!'"
+      ]
+    },
+    {
+      "id": "con_002",
+      "name": "Sensationalism",
+      "aliases": [
+        "sensationalism",
+        "sensational trials",
+        "colour and life"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "theme",
+      "description": "A literary and narrative quality that Holmes criticizes Watson for emphasizing. It represents the focus on dramatic, legalistic crime over the subtle, underlying logical processes that Holmes believes constitute true intellectual art.",
+      "context": [
+        "'I cannot quite hold myself absolved from the charge of sensationalism which has been urged against my records.'",
+        "'At the same time,' he remarked after a pause... 'you can hardly be open to a charge of sensationalism, for out of these cases which you have been so kind as to interest yourself in, a fair proportion do not treat of crime, in its legal sense, at all.'",
+        "'Pshaw, my dear fellow, what do the public, the great unobservant public, who could hardly tell a weaver by his tooth or a compositor by his left thumb, care about the finer shades of analysis and deduction!'"
+      ]
+    },
+    {
+      "id": "con_003",
+      "name": "Art for its own sake",
+      "aliases": [
+        "art for its own sake",
+        "my art"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "theme",
+      "description": "A philosophical stance introduced by Holmes to frame his approach to deduction. He equates his logical methods with an aesthetic pursuit, suggesting that true pleasure and value are found in the least important manifestations rather than grand spectacles.",
+      "context": [
+        "'o the man who loves art for its own sake,' remarked Sherlock Holmes, tossing aside the advertisement sheet of the Daily Telegraph , 'it is frequently in its least important and lowliest manifestations that the keenest pleasure is to be derived.'",
+        "'If I claim full justice for my art, it is because it is an impersonal thing-a thing beyond myself.'"
+      ]
+    },
+    {
+      "id": "con_004",
+      "name": "Zero-point",
+      "aliases": [
+        "zero-point",
+        "marks my zero-point"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "concept",
+      "description": "Holmes's metaphorical designation for the absolute bottom of his professional decline, marked by the receipt of Violet Hunter's trivial consultation. It ironically precedes the discovery that the case may hold unexpected depth, subverting his own pessimistic assessment.",
+      "context": [
+        "'I think that I have touched bottom at last, however. This note I had this morning marks my zero-point, I fancy. Read it!'"
+      ]
+    }
+  ],
+  "id_map": {
+    "char_001": "843f020a05ad4ab6a40f48fe19f0918e_001_char_001",
+    "char_002": "843f020a05ad4ab6a40f48fe19f0918e_001_char_002",
+    "char_003": "843f020a05ad4ab6a40f48fe19f0918e_001_char_003",
+    "char_004": "843f020a05ad4ab6a40f48fe19f0918e_001_char_004",
+    "char_005": "843f020a05ad4ab6a40f48fe19f0918e_001_char_005",
+    "char_006": "843f020a05ad4ab6a40f48fe19f0918e_001_char_006",
+    "char_007": "843f020a05ad4ab6a40f48fe19f0918e_001_char_007",
+    "loc_001": "843f020a05ad4ab6a40f48fe19f0918e_001_loc_001",
+    "loc_002": "843f020a05ad4ab6a40f48fe19f0918e_001_loc_002",
+    "loc_003": "843f020a05ad4ab6a40f48fe19f0918e_001_loc_003",
+    "loc_004": "843f020a05ad4ab6a40f48fe19f0918e_001_loc_004",
+    "obj_001": "843f020a05ad4ab6a40f48fe19f0918e_001_obj_001",
+    "obj_002": "843f020a05ad4ab6a40f48fe19f0918e_001_obj_002",
+    "obj_003": "843f020a05ad4ab6a40f48fe19f0918e_001_obj_003",
+    "obj_004": "843f020a05ad4ab6a40f48fe19f0918e_001_obj_004",
+    "evt_001": "843f020a05ad4ab6a40f48fe19f0918e_001_evt_001",
+    "evt_002": "843f020a05ad4ab6a40f48fe19f0918e_001_evt_002",
+    "org_001": "843f020a05ad4ab6a40f48fe19f0918e_001_org_001",
+    "org_002": "843f020a05ad4ab6a40f48fe19f0918e_001_org_002",
+    "con_001": "843f020a05ad4ab6a40f48fe19f0918e_001_con_001",
+    "con_002": "843f020a05ad4ab6a40f48fe19f0918e_001_con_002",
+    "con_003": "843f020a05ad4ab6a40f48fe19f0918e_001_con_003",
+    "con_004": "843f020a05ad4ab6a40f48fe19f0918e_001_con_004"
+  },
+  "entities": [
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_001",
+      "name": "Sherlock Holmes",
+      "aliases": [
+        "Holmes",
+        "Mr. Holmes"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "protagonist",
+      "description": "A consulting detective who values logical deduction and impersonal logic over sensational crime narratives. He engages in a philosophical debate with Watson about the nature of his work and his client records, ultimately demonstrating his deductive prowess by anticipating the arrival of his next client.",
+      "context": [
+        "'o the man who loves art for its own sake,' remarked Sherlock Holmes, tossing aside the advertisement sheet of the Daily Telegraph , 'it is frequently in its least important and lowliest manifestations that the keenest pleasure is to be derived.'",
+        "'Crime is common. Logic is rare. Therefore it is upon the logic rather than upon the crime that you should dwell.'",
+        "'You remember that the affair of the blue carbuncle, which appeared to be a mere whim at first, developed into a serious investigation.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_002",
+      "name": "Dr. Watson",
+      "aliases": [
+        "Watson",
+        "my dear fellow",
+        "I"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "The narrator and chronicler of Holmes's cases, who defends his literary style against Holmes's criticism of sensationalism. He serves as a foil to Holmes's cold logic, occasionally feeling repelled by his friend's egotism while ultimately deferring to his deductive methods.",
+      "context": [
+        "'I cannot quite hold myself absolved from the charge of sensationalism which has been urged against my records.'",
+        "'It seems to me that I have done you full justice in the matter,' I remarked with some coldness, for I was repelled by the egotism which I had more than once observed to be a strong factor in my friend's singular character.",
+        "'Well, let us hope so. But our doubts will very soon be solved, for here, unless I am much mistaken, is the person in question.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_003",
+      "name": "Violet Hunter",
+      "aliases": [
+        "Miss Hunter",
+        "Violet"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "A young governess seeking Holmes's advice on whether to accept a new employment situation. Her arrival marks the transition from philosophical debate to active investigation, introducing a new case that Holmes anticipates with keen interest.",
+      "context": [
+        "'I am very anxious to consult you as to whether I should or should not accept a situation which has been offered to me as governess.'",
+        "'You will excuse my troubling you, I am sure,' said she, as my companion rose to greet her, 'but I have had a very strange experience, and as I have no parents or relations of any sort from whom I could ask advice, I thought that perhaps you would be kind enough to tell me what I should do.'",
+        "'I have been a governess for five years,' said she, 'in the family of Colonel Spence Munro, but two months ago the colonel received an appointment at Halifax, in Nova Scotia, and took his children over to America with him, so that I found myself without a situation.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_004",
+      "name": "Colonel Spence Munro",
+      "aliases": [
+        "Colonel Munro"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "A former employer of Violet Hunter who recently received a military appointment in Nova Scotia, prompting his family's relocation to America and leaving Hunter unemployed. He serves as the initial catalyst for Hunter's consultation with Holmes.",
+      "context": [
+        "'I have been a governess for five years,' said she, 'in the family of Colonel Spence Munro, but two months ago the colonel received an appointment at Halifax, in Nova Scotia, and took his children over to America with him, so that I found myself without a situation.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_005",
+      "name": "Miss Stoper",
+      "aliases": [
+        "Stoper"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "The manager of Westaway's governess agency, who oversees the placement of employment for women seeking work. She is briefly mentioned as the operational head of the agency where Hunter seeks employment.",
+      "context": [
+        "'Westaway was the name of the founder of the business, but it is really managed by Miss Stoper.'",
+        "'She sits in her own little office, and the ladies who are seeking employment wait in an anteroom, and are then shown in one by one, when she consults her ledgers and sees whether she has anything which would suit them.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_006",
+      "name": "King of Bohemia",
+      "aliases": [
+        "King of Bohemia"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "A historical client referenced by Holmes to illustrate a case outside the pale of the law. His mention serves as an example of the non-criminal, singular experiences that Holmes considers worthy of documentation.",
+      "context": [
+        "'The small matter in which I endeavoured to help the King of Bohemia, the singular experience of Miss Mary Sutherland, the problem connected with the man with the twisted lip, and the incident of the noble bachelor, were all matters which are outside the pale of the law.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_007",
+      "name": "Miss Mary Sutherland",
+      "aliases": [
+        "Mary Sutherland"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "minor",
+      "description": "A former client whose singular experience Holmes cites alongside the King of Bohemia. She represents one of the non-legal, personal cases that Holmes believes demonstrate the value of his methods.",
+      "context": [
+        "'The small matter in which I endeavoured to help the King of Bohemia, the singular experience of Miss Mary Sutherland, the problem connected with the man with the twisted lip, and the incident of the noble bachelor, were all matters which are outside the pale of the law.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_loc_001",
+      "name": "Baker Street",
+      "aliases": [
+        "Baker Street",
+        "old room at Baker Street"
+      ],
+      "entity_class": "LOCATION",
+      "type": "residence",
+      "description": "The shared residence of Holmes and Watson, depicted as a foggy, gas-lit room where they sit by a fire after breakfast. It serves as the primary setting for their philosophical debate and the subsequent arrival of their client.",
+      "context": [
+        "It was a cold morning of the early spring, and we sat after breakfast on either side of a cheery fire in the old room at Baker Street.",
+        "A thick fog rolled down between the lines of dun-coloured houses, and the opposing windows loomed like dark, shapeless blurs through the heavy yellow wreaths."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_loc_002",
+      "name": "Montague Place",
+      "aliases": [
+        "Montague Place"
+      ],
+      "entity_class": "LOCATION",
+      "type": "region",
+      "description": "The location from which Violet Hunter's consultation letter was sent. It establishes the geographical origin of her request for Holmes's expertise.",
+      "context": [
+        "It was dated from Montague Place upon the preceding evening, and ran thus:"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_loc_003",
+      "name": "Halifax, Nova Scotia",
+      "aliases": [
+        "Halifax",
+        "Nova Scotia"
+      ],
+      "entity_class": "LOCATION",
+      "type": "region",
+      "description": "A distant location in America where Colonel Munro has been appointed, causing the displacement of his household and the subsequent unemployment of his governess. It functions as a geographical backdrop to the client's predicament.",
+      "context": [
+        "'I have been a governess for five years,' said she, 'in the family of Colonel Spence Munro, but two months ago the colonel received an appointment at Halifax, in Nova Scotia, and took his children over to America with him, so that I found myself without a situation.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_loc_004",
+      "name": "West End",
+      "aliases": [
+        "West End"
+      ],
+      "entity_class": "LOCATION",
+      "type": "city",
+      "description": "A district in London known for housing Westaway's governess agency. It provides the urban setting where Hunter seeks employment and encounters the agency's management.",
+      "context": [
+        "'There is a well-known agency for governesses in the West End called Westaway's, and there I used to call about once a week in order to see whether anything had turned up which might suit them.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_obj_001",
+      "name": "Daily Telegraph",
+      "aliases": [
+        "Daily Telegraph"
+      ],
+      "entity_class": "OBJECT",
+      "type": "document",
+      "description": "A newspaper whose advertisement sheet Holmes discards while discussing the nature of art and deduction. It symbolizes the mundane, lowliest manifestations of information that Holmes typically sifts through.",
+      "context": [
+        "'o the man who loves art for its own sake,' remarked Sherlock Holmes, tossing aside the advertisement sheet of the Daily Telegraph , 'it is frequently in its least important and lowliest manifestations that the keenest pleasure is to be derived.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_obj_002",
+      "name": "Long cherry-wood pipe",
+      "aliases": [
+        "cherry-wood pipe",
+        "pipe"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "Holmes's preferred smoking implement, which he lights using a glowing cinder. It serves as a physical prop that accompanies his shift from a meditative to a disputatious mood during his conversation with Watson.",
+      "context": [
+        "'At the same time,' he remarked after a pause, during which he had sat puffing at his long pipe and gazing down into the fire, 'you can hardly be open to a charge of sensationalism...'",
+        "'You have erred perhaps in attempting to put colour and life into each of your statements instead of confining yourself to the task of placing upon record that severe reasoning from cause to effect which is really the only notable feature about the thing.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_obj_003",
+      "name": "Crumpled letter",
+      "aliases": [
+        "letter",
+        "note"
+      ],
+      "entity_class": "OBJECT",
+      "type": "document",
+      "description": "A consultation request from Violet Hunter that Holmes receives that morning. It marks his perceived zero-point of trivial cases but ultimately proves to be the catalyst for a potentially significant investigation.",
+      "context": [
+        "'I think that I have touched bottom at last, however. This note I had this morning marks my zero-point, I fancy. Read it!' He tossed a crumpled letter across to me.",
+        "It was dated from Montague Place upon the preceding evening, and ran thus:"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_obj_004",
+      "name": "Blue carbuncle",
+      "aliases": [
+        "blue carbuncle"
+      ],
+      "entity_class": "OBJECT",
+      "type": "symbolic",
+      "description": "A previously investigated case that initially appeared trivial but evolved into a serious investigation. Holmes cites it as a precedent to suggest that Hunter's seemingly minor consultation may similarly yield deeper significance.",
+      "context": [
+        "'It may turn out to be of more interest than you think. You remember that the affair of the blue carbuncle, which appeared to be a mere whim at first, developed into a serious investigation. It may be so in this case, also.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_evt_001",
+      "name": "Philosophical Debate on Sensationalism",
+      "aliases": [
+        "Debate on sensationalism",
+        "Holmes-Watson debate"
+      ],
+      "entity_class": "EVENT",
+      "type": "conversation",
+      "description": "A lengthy exchange between Holmes and Watson regarding the literary merits of Watson's case records. Holmes criticizes Watson for focusing on sensationalism rather than pure logic, while Watson defends his methods, establishing the thematic tension between art, crime, and deduction.",
+      "context": [
+        "'You have erred perhaps in attempting to put colour and life into each of your statements instead of confining yourself to the task of placing upon record that severe reasoning from cause to effect which is really the only notable feature about the thing.'",
+        "'It seems to me that I have done you full justice in the matter,' I remarked with some coldness, for I was repelled by the egotism which I had more than once observed to be a strong factor in my friend's singular character.",
+        "'No, it is not selfishness or conceit,' said he, answering, as was was his wont, my thoughts rather than my words. 'If I claim full justice for my art, it is because it is an impersonal thing-a thing beyond myself.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_evt_002",
+      "name": "Arrival of Violet Hunter",
+      "aliases": [
+        "Hunter's arrival",
+        "Client consultation"
+      ],
+      "entity_class": "EVENT",
+      "type": "meeting",
+      "description": "The entrance of Violet Hunter into Holmes's residence to seek advice on a new governess position. Her arrival abruptly shifts the narrative from abstract philosophical discussion to concrete case preparation, demonstrating Holmes's predictive accuracy.",
+      "context": [
+        "'It may turn out to be of more interest than you think. You remember that the affair of the blue carbuncle, which appeared to be a mere whim at first, developed into a serious investigation. It may be so in this case, also.'",
+        "'Well, let us hope so. But our doubts will very soon be solved, for here, unless I am much mistaken, is the person in question.'",
+        "As he spoke the door opened and a young lady entered the room. She was plainly but neatly dressed, with a bright, quick face, freckled like a plover's egg, and with the brisk manner of a woman who has had her own way to make in the world."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_org_001",
+      "name": "Westaway's",
+      "aliases": [
+        "Westaway's",
+        "Westaway's agency"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "club",
+      "description": "A well-known employment agency for governesses located in the West End, managed by Miss Stoper. It serves as the institutional backdrop for Hunter's unemployment and the setting where she encounters the agency's staff and a mysterious stout man.",
+      "context": [
+        "'There is a well-known agency for governesses in the West End called Westaway's, and there I used to call about once a week in order to see whether anything had turned up which might suit them.'",
+        "'Westaway was the name of the founder of the business, but it is really managed by Miss Stoper.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_org_002",
+      "name": "Boarding-schools",
+      "aliases": [
+        "boarding-schools"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "institution",
+      "description": "Educational institutions referenced by Holmes as a source of young ladies seeking advice. They represent the declining quality of his clientele, whom he feels his practice is degenerating into serving.",
+      "context": [
+        "'As to my own little practice, it seems to be degenerating into an agency for recovering lost lead pencils and giving advice to young ladies from boarding-schools.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_con_001",
+      "name": "Logic / Deduction",
+      "aliases": [
+        "logic",
+        "deduction",
+        "logical synthesis",
+        "severe reasoning"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "theme",
+      "description": "The core intellectual pursuit that Holmes elevates above crime and sensationalism. He argues that logic is rare and impersonal, representing the true value of his work and the proper focus for Watson's case records.",
+      "context": [
+        "'Crime is common. Logic is rare. Therefore it is upon the logic rather than upon the crime that you should dwell.'",
+        "'placing upon record that severe reasoning from cause to effect which is really the only notable feature about the thing.'",
+        "'Pshaw, my dear fellow, what do the public, the great unobservant public, who could hardly tell a weaver by his tooth or a compositor by his left thumb, care about the finer shades of analysis and deduction!'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_con_002",
+      "name": "Sensationalism",
+      "aliases": [
+        "sensationalism",
+        "sensational trials",
+        "colour and life"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "theme",
+      "description": "A literary and narrative quality that Holmes criticizes Watson for emphasizing. It represents the focus on dramatic, legalistic crime over the subtle, underlying logical processes that Holmes believes constitute true intellectual art.",
+      "context": [
+        "'I cannot quite hold myself absolved from the charge of sensationalism which has been urged against my records.'",
+        "'At the same time,' he remarked after a pause... 'you can hardly be open to a charge of sensationalism, for out of these cases which you have been so kind as to interest yourself in, a fair proportion do not treat of crime, in its legal sense, at all.'",
+        "'Pshaw, my dear fellow, what do the public, the great unobservant public, who could hardly tell a weaver by his tooth or a compositor by his left thumb, care about the finer shades of analysis and deduction!'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_con_003",
+      "name": "Art for its own sake",
+      "aliases": [
+        "art for its own sake",
+        "my art"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "theme",
+      "description": "A philosophical stance introduced by Holmes to frame his approach to deduction. He equates his logical methods with an aesthetic pursuit, suggesting that true pleasure and value are found in the least important manifestations rather than grand spectacles.",
+      "context": [
+        "'o the man who loves art for its own sake,' remarked Sherlock Holmes, tossing aside the advertisement sheet of the Daily Telegraph , 'it is frequently in its least important and lowliest manifestations that the keenest pleasure is to be derived.'",
+        "'If I claim full justice for my art, it is because it is an impersonal thing-a thing beyond myself.'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_con_004",
+      "name": "Zero-point",
+      "aliases": [
+        "zero-point",
+        "marks my zero-point"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "concept",
+      "description": "Holmes's metaphorical designation for the absolute bottom of his professional decline, marked by the receipt of Violet Hunter's trivial consultation. It ironically precedes the discovery that the case may hold unexpected depth, subverting his own pessimistic assessment.",
+      "context": [
+        "'I think that I have touched bottom at last, however. This note I had this morning marks my zero-point, I fancy. Read it!'"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    }
+  ],
+  "properties": [
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_001",
+      "name": "Sherlock Holmes",
+      "properties": {
+        "role": "consulting detective",
+        "personality_traits": [
+          "logical",
+          "observant",
+          "egotistical",
+          "methodical",
+          "impersonal"
+        ],
+        "signature_behaviours": [
+          "puffing on a cherry-wood pipe",
+          "reading advertisement columns",
+          "deducing from minimal data",
+          "answering thoughts rather than words"
+        ],
+        "occupation": "consulting detective",
+        "narrative_arc": "feels his practice has degenerated to trivial matters, marking a 'zero-point' before Violet Hunter's arrival"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_002",
+      "name": "Dr. Watson",
+      "properties": {
+        "role": "narrator and companion",
+        "personality_traits": [
+          "reflective",
+          "defensive",
+          "loyal",
+          "literary"
+        ],
+        "signature_behaviours": [
+          "writing case records",
+          "smiling during debates",
+          "noting Holmes's thoughts"
+        ],
+        "occupation": "writer and companion"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_003",
+      "name": "Violet Hunter",
+      "properties": {
+        "role": "client and governess",
+        "personality_traits": [
+          "anxious",
+          "independent",
+          "well-mannered",
+          "brisk"
+        ],
+        "physical_description": "plainly but neatly dressed, bright quick face, freckled like a plover's egg",
+        "motivations": [
+          "seeking advice on accepting a governess position",
+          "financially strained after losing previous employment"
+        ],
+        "signature_behaviours": [
+          "advertising for work",
+          "visiting Westaway's agency weekly"
+        ],
+        "occupation": "governess"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_004",
+      "name": "Colonel Spence Munro",
+      "properties": {
+        "role": "former employer",
+        "occupation": "Colonel",
+        "narrative_arc": "received an appointment at Halifax, Nova Scotia, and relocated his family to America"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_005",
+      "name": "Miss Stoper",
+      "properties": {
+        "role": "manager",
+        "occupation": "manager of Westaway's agency",
+        "narrative_function": "oversees the placement of governesses, sits in her own office with ledgers"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_006",
+      "name": "King of Bohemia",
+      "properties": {
+        "role": "past client",
+        "narrative_function": "cited as an example of a trivial matter that Holmes helped with, outside the pale of the law"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_007",
+      "name": "Miss Mary Sutherland",
+      "properties": {
+        "role": "past client",
+        "narrative_function": "cited as an example of a singular experience outside the pale of the law"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_loc_001",
+      "name": "Baker Street",
+      "properties": {
+        "physical_description": "old room with a cheery fire, gas lit, white cloth and china on table",
+        "atmosphere": "cold spring morning, foggy, cozy interior",
+        "narrative_function": "primary setting for detective work and client consultations"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_loc_002",
+      "name": "Montague Place",
+      "properties": {
+        "narrative_function": "residential address of Violet Hunter, source of the consultation letter"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_loc_003",
+      "name": "Halifax, Nova Scotia",
+      "properties": {
+        "narrative_function": "new posting for Colonel Munro, catalyst for Violet Hunter's job search"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_loc_004",
+      "name": "West End",
+      "properties": {
+        "narrative_function": "London district housing Westaway's agency, center for governess employment"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_obj_001",
+      "name": "Daily Telegraph",
+      "properties": {
+        "physical_description": "advertisement sheet",
+        "narrative_role": "reading material discarded by Holmes during philosophical debate"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_obj_002",
+      "name": "Long cherry-wood pipe",
+      "properties": {
+        "physical_description": "long cherry-wood pipe",
+        "narrative_role": "Holmes's smoking pipe, lit with a glowing cinder",
+        "symbolic_meaning": "associated with Holmes's disputatious and meditative moods"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_obj_003",
+      "name": "Crumpled letter",
+      "properties": {
+        "physical_description": "crumpled letter",
+        "narrative_role": "consultation request from Violet Hunter, marks the beginning of a new case",
+        "symbolic_meaning": "catalyst for the current investigation"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_obj_004",
+      "name": "Blue carbuncle",
+      "properties": {
+        "narrative_role": "referenced past case, cited as an example of a seemingly trivial matter that developed into a serious investigation",
+        "symbolic_meaning": "symbol of Holmes's deductive depth"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_evt_001",
+      "name": "Philosophical Debate on Sensationalism",
+      "properties": {
+        "date": "early spring morning",
+        "sequence_number": 1,
+        "what_changed": "establishes thematic conflict between logical deduction and sensationalism",
+        "who_was_involved": [
+          "Sherlock Holmes",
+          "Dr. Watson"
+        ],
+        "emotions": [
+          "Holmes: dismissive, egotistical",
+          "Watson: defensive, repelled"
+        ],
+        "cause": "Holmes critiquing Watson's literary style and reading newspapers",
+        "immediate_consequence": "Holmes receives Violet Hunter's consultation letter",
+        "why_it_matters": "frames the narrative's thematic focus and introduces the inciting incident"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_evt_002",
+      "name": "Arrival of Violet Hunter",
+      "properties": {
+        "date": "half-past ten",
+        "sequence_number": 2,
+        "what_changed": "introduces the client and shifts narrative from theory to practice",
+        "who_was_involved": [
+          "Violet Hunter",
+          "Sherlock Holmes",
+          "Dr. Watson"
+        ],
+        "emotions": [
+          "Violet: anxious",
+          "Holmes: favourably impressed"
+        ],
+        "is_turning_point": true,
+        "cause": "scheduled appointment for consultation",
+        "immediate_consequence": "Holmes prepares to hear Violet Hunter's story",
+        "why_it_matters": "transitions the story from philosophical debate to active case investigation"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_org_001",
+      "name": "Westaway's",
+      "properties": {
+        "structure": "governess employment agency",
+        "leadership": "Miss Stoper (manager)",
+        "purpose": "match governesses with employment",
+        "resources": "ledgers, office, anteroom",
+        "status": "active, well-known",
+        "plot_impact": "provides Violet Hunter's current employment context and sets up the mystery"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_org_002",
+      "name": "Boarding-schools",
+      "properties": {
+        "plot_impact": "cited as a source of clients for Holmes's degenerating practice, highlighting his professional decline"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_con_001",
+      "name": "Logic / Deduction",
+      "properties": {
+        "theme": "Holmes's special province and the core of his art",
+        "manifestation": "severe reasoning from cause to effect, valued over crime itself",
+        "embodiment": "Sherlock Holmes",
+        "significance": "central theme contrasting with sensationalism and triviality"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_con_002",
+      "name": "Sensationalism",
+      "properties": {
+        "theme": "Watson's perceived literary flaw and the public's preference",
+        "manifestation": "putting colour and life into statements, focusing on sensational trials",
+        "embodiment": "Dr. Watson, the 'great unobservant public'",
+        "significance": "contrasts with Holmes's ideal of pure logic and deduction"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_con_003",
+      "name": "Art for its own sake",
+      "properties": {
+        "theme": "Holmes's professional philosophy",
+        "manifestation": "treating deduction as an impersonal art, valuing the process over the crime",
+        "embodiment": "Sherlock Holmes",
+        "significance": "justifies Holmes's focus on logic and his dismissal of sensationalism"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_001_con_004",
+      "name": "Zero-point",
+      "properties": {
+        "theme": "Holmes's metaphor for professional nadir",
+        "manifestation": "practice degenerating into trivial matters like finding pencils and advising boarding-school girls",
+        "embodiment": "Sherlock Holmes",
+        "significance": "catalyst for the new case, marking a potential shift from decline to renewed interest"
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_002",
+      "target_name": "Dr. Watson",
+      "rel_type": "works_with",
+      "description": "Holmes and Watson collaborate as consulting detectives and share a residence, with Watson chronicling their cases.",
+      "properties": {
+        "nature": "professional|personal",
+        "sentiment": "positive"
+      },
+      "context": "I am bound to say, occasionally to embellish, you have given prominence not so much to the many causes c´ el` ebres and sensational trials in which I have figured but rather to those incidents which may have been trivial in themselves, but which have given room for those faculties of deduction and of logical synthesis which I have made my special province.",
+      "bidirectional": true,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_002",
+      "target_name": "Dr. Watson",
+      "rel_type": "evaluates",
+      "description": "Holmes critiques Watson's literary style, arguing it prioritizes sensationalism over strict logical reasoning.",
+      "properties": {
+        "sentiment": "critical",
+        "quote": "You have erred perhaps in attempting to put colour and life into each of your statements instead of confining yourself to the task of placing upon record that severe reasoning from cause to effect"
+      },
+      "context": "You have erred perhaps in attempting to put colour and life into each of your statements instead of confining yourself to the task of placing upon record that severe reasoning from cause to effect which is really the only notable feature about the thing.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_003",
+      "target_name": "Violet Hunter",
+      "rel_type": "knows",
+      "description": "Holmes meets Violet Hunter as a new client seeking professional advice on an employment offer.",
+      "properties": {
+        "sentiment": "neutral",
+        "nature": "professional"
+      },
+      "context": "I could see that Holmes was favourably impressed by the manner and speech of his new client.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_003",
+      "target_name": "Violet Hunter",
+      "rel_type": "assists",
+      "description": "Holmes offers to consult with Violet Hunter regarding her dilemma about accepting a governess position.",
+      "properties": {
+        "role": "consultant",
+        "sentiment": "helpful"
+      },
+      "context": "I shall be happy to do anything that I can to serve you.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_003",
+      "target_name": "Violet Hunter",
+      "rel_type": "evaluates",
+      "description": "Holmes forms a positive impression of Violet Hunter's character, manner, and speech upon meeting her.",
+      "properties": {
+        "sentiment": "positive",
+        "quote": "favourably impressed by the manner and speech of his new client"
+      },
+      "context": "I could see that Holmes was favourably impressed by the manner and speech of his new client.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_006",
+      "target_name": "King of Bohemia",
+      "rel_type": "assists",
+      "description": "Holmes previously helped the King of Bohemia with a delicate matter that fell outside legal boundaries.",
+      "properties": {
+        "role": "investigator",
+        "sentiment": "professional"
+      },
+      "context": "The small matter in which I endeavoured to help the King of Bohemia...",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_007",
+      "target_name": "Miss Mary Sutherland",
+      "rel_type": "investigates",
+      "description": "Holmes investigated the singular and unusual experience involving Miss Mary Sutherland.",
+      "properties": {
+        "role": "investigator",
+        "sentiment": "professional"
+      },
+      "context": "the singular experience of Miss Mary Sutherland...",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001_evt_002",
+      "target_name": "Arrival of Violet Hunter",
+      "rel_type": "participates_in",
+      "description": "Holmes observes and prepares to interrogate Violet Hunter upon her arrival at his residence.",
+      "properties": {
+        "role": "investigator",
+        "contribution": "greets her and prepares to listen to her story"
+      },
+      "context": "As he spoke the door opened and a young lady entered the room.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_003",
+      "source_name": "Violet Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001_evt_002",
+      "target_name": "Arrival of Violet Hunter",
+      "rel_type": "participates_in",
+      "description": "Violet Hunter arrives at Baker Street to seek Holmes's professional advice.",
+      "properties": {
+        "role": "client",
+        "contribution": "enters the room to seek advice"
+      },
+      "context": "As he spoke the door opened and a young lady entered the room.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001_evt_001",
+      "target_name": "Philosophical Debate on Sensationalism",
+      "rel_type": "participates_in",
+      "description": "Holmes leads the discussion, arguing that logic should be prioritized over sensationalism in case records.",
+      "properties": {
+        "role": "speaker",
+        "contribution": "argues for logic over sensationalism"
+      },
+      "context": "'At the same time,' he remarked after a pause... 'you can hardly be open to a charge of sensationalism...'",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_002",
+      "source_name": "Dr. Watson",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001_evt_001",
+      "target_name": "Philosophical Debate on Sensationalism",
+      "rel_type": "participates_in",
+      "description": "Watson defends his writing style against accusations of sensationalism while acknowledging the charge.",
+      "properties": {
+        "role": "speaker",
+        "contribution": "defends his records and acknowledges the charge"
+      },
+      "context": "'And yet,' said I, smiling, 'I cannot quite hold myself absolved from the charge of sensationalism which has been urged against my records.'",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_003",
+      "source_name": "Violet Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001_loc_001",
+      "target_name": "Baker Street",
+      "rel_type": "visits",
+      "description": "Violet Hunter visits Baker Street to consult Holmes regarding her employment dilemma.",
+      "properties": {
+        "purpose": "consultation",
+        "sentiment": "anxious"
+      },
+      "context": "I shall call at half-past ten to-morrow if I do not inconvenience you.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001_loc_001",
+      "target_name": "Baker Street",
+      "rel_type": "resides_at",
+      "description": "Holmes lives and works in Baker Street, where he conducts his investigations and receives clients.",
+      "properties": {
+        "status": "resident",
+        "sentiment": "comfortable"
+      },
+      "context": "we sat after breakfast on either side of a cheery fire in the old room at Baker Street.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_002",
+      "source_name": "Dr. Watson",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001_loc_001",
+      "target_name": "Baker Street",
+      "rel_type": "resides_at",
+      "description": "Watson lives and works alongside Holmes in Baker Street, sharing the residence.",
+      "properties": {
+        "status": "resident",
+        "sentiment": "comfortable"
+      },
+      "context": "we sat after breakfast on either side of a cheery fire in the old room at Baker Street.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_003",
+      "source_name": "Violet Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001_loc_002",
+      "target_name": "Montague Place",
+      "rel_type": "resides_at",
+      "description": "Violet Hunter resides at Montague Place, as indicated by the address on her letter to Holmes.",
+      "properties": {
+        "status": "resident",
+        "sentiment": "anxious"
+      },
+      "context": "It was dated from Montague Place upon the preceding evening, and ran thus:",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_004",
+      "source_name": "Colonel Spence Munro",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001_loc_003",
+      "target_name": "Halifax, Nova Scotia",
+      "rel_type": "resides_at",
+      "description": "Colonel Munro received an appointment in Halifax, Nova Scotia, and relocated there with his children.",
+      "properties": {
+        "status": "resident",
+        "sentiment": "professional"
+      },
+      "context": "the colonel received an appointment at Halifax, in Nova Scotia, and took his children over to America with him",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_003",
+      "source_name": "Violet Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001_loc_004",
+      "target_name": "West End",
+      "rel_type": "visits",
+      "description": "Violet Hunter frequently visits the West End to check for governess positions at Westaway's agency.",
+      "properties": {
+        "frequency": "weekly",
+        "purpose": "employment"
+      },
+      "context": "There is a well-known agency for governesses in the West End called Westaway's, and there I used to call about once a week",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_003",
+      "source_name": "Violet Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001_org_001",
+      "target_name": "Westaway's",
+      "rel_type": "visits",
+      "description": "Violet Hunter regularly visits Westaway's agency to seek employment as a governess.",
+      "properties": {
+        "frequency": "weekly",
+        "purpose": "employment"
+      },
+      "context": "There is a well-known agency for governesses in the West End called Westaway's, and there I used to call about once a week",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_005",
+      "source_name": "Miss Stoper",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001_org_001",
+      "target_name": "Westaway's",
+      "rel_type": "leads",
+      "description": "Miss Stoper manages Westaway's agency, handling client consultations and employment ledgers.",
+      "properties": {
+        "role": "manager",
+        "sentiment": "professional"
+      },
+      "context": "Westaway was the name of the founder of the business, but it is really managed by Miss Stoper.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001_obj_001",
+      "target_name": "Daily Telegraph",
+      "rel_type": "uses",
+      "description": "Holmes reads the Daily Telegraph to scan advertisement columns for potential cases.",
+      "properties": {
+        "purpose": "research",
+        "sentiment": "neutral"
+      },
+      "context": "tossing aside the advertisement sheet of the Daily Telegraph",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001_obj_002",
+      "target_name": "Long cherry-wood pipe",
+      "rel_type": "uses",
+      "description": "Holmes smokes a long cherry-wood pipe during disputatious or argumentative moods.",
+      "properties": {
+        "purpose": "comfort",
+        "sentiment": "habitual"
+      },
+      "context": "lighting with it the long cherry-wood pipe which was wont to replace his clay when he was in a disputatious rather than a meditative mood",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001_obj_003",
+      "target_name": "Crumpled letter",
+      "rel_type": "discovers",
+      "description": "Holmes receives and examines a crumpled letter from Violet Hunter regarding her employment dilemma.",
+      "properties": {
+        "purpose": "consultation",
+        "sentiment": "curious"
+      },
+      "context": "He tossed a crumpled letter across to me.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001_obj_004",
+      "target_name": "Blue carbuncle",
+      "rel_type": "investigates",
+      "description": "Holmes previously investigated the Blue Carbuncle, which evolved from a trivial whim into a serious case.",
+      "properties": {
+        "role": "investigator",
+        "sentiment": "professional"
+      },
+      "context": "You remember that the affair of the blue carbuncle, which appeared to be a mere whim at first, developed into a serious investigation.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001_org_002",
+      "target_name": "Boarding-schools",
+      "rel_type": "represents",
+      "description": "Holmes gives advice to young ladies from boarding-schools, representing their interests in his declining practice.",
+      "properties": {
+        "role": "advisor",
+        "sentiment": "professional"
+      },
+      "context": "As to my own little practice, it seems to be degenerating into an agency for recovering lost lead pencils and giving advice to young ladies from boarding-schools.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001_con_001",
+      "target_name": "Logic / Deduction",
+      "rel_type": "expressed_through",
+      "description": "Holmes considers logic and deduction his special province and the core of his professional art.",
+      "properties": {
+        "nature": "professional",
+        "sentiment": "proud"
+      },
+      "context": "those faculties of deduction and of logical synthesis which I have made my special province.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001_con_003",
+      "target_name": "Art for its own sake",
+      "rel_type": "involves",
+      "description": "Holmes loves art for its own sake, finding pleasure in its least important and lowliest manifestations.",
+      "properties": {
+        "nature": "personal",
+        "sentiment": "appreciative"
+      },
+      "context": "to the man who loves art for its own sake,' remarked Sherlock Holmes",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_002",
+      "source_name": "Dr. Watson",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001_con_002",
+      "target_name": "Sensationalism",
+      "rel_type": "expresses_through",
+      "description": "Watson's case records are accused of expressing sensationalism rather than strict logical reasoning.",
+      "properties": {
+        "nature": "literary",
+        "sentiment": "defensive"
+      },
+      "context": "I cannot quite hold myself absolved from the charge of sensationalism which has been urged against my records.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001_con_002",
+      "target_name": "Sensationalism",
+      "rel_type": "opposes",
+      "description": "Holmes actively avoids sensationalism in his cases, preferring logical deduction over trivial or sensational outcomes.",
+      "properties": {
+        "nature": "professional",
+        "sentiment": "critical"
+      },
+      "context": "But in avoiding the sensational, I fear that you may have bordered on the trivial.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001_con_004",
+      "target_name": "Zero-point",
+      "rel_type": "triggers",
+      "description": "Holmes considers his current state of work to be at a 'zero-point', marking a perceived low in his career.",
+      "properties": {
+        "nature": "professional",
+        "sentiment": "pessimistic"
+      },
+      "context": "This note I had this morning marks my zero-point, I fancy.",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_001",
+      "source_name": "Sherlock Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_002",
+      "source_name": "Dr. Watson",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_003",
+      "source_name": "Violet Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_004",
+      "source_name": "Colonel Spence Munro",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_005",
+      "source_name": "Miss Stoper",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_006",
+      "source_name": "King of Bohemia",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_char_007",
+      "source_name": "Miss Mary Sutherland",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_loc_001",
+      "source_name": "Baker Street",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_loc_002",
+      "source_name": "Montague Place",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_loc_003",
+      "source_name": "Halifax, Nova Scotia",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_loc_004",
+      "source_name": "West End",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_obj_001",
+      "source_name": "Daily Telegraph",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_obj_002",
+      "source_name": "Long cherry-wood pipe",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_obj_003",
+      "source_name": "Crumpled letter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_obj_004",
+      "source_name": "Blue carbuncle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_evt_001",
+      "source_name": "Philosophical Debate on Sensationalism",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_evt_002",
+      "source_name": "Arrival of Violet Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_org_001",
+      "source_name": "Westaway's",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_org_002",
+      "source_name": "Boarding-schools",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_con_001",
+      "source_name": "Logic / Deduction",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_con_002",
+      "source_name": "Sensationalism",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_con_003",
+      "source_name": "Art for its own sake",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_001_con_004",
+      "source_name": "Zero-point",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_001",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    }
+  ]
+}

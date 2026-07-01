@@ -1,0 +1,3841 @@
+[
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_001_org_001",
+    "name": "Product Management",
+    "properties": {
+      "key_functions": [
+        "Owns and maintains Product Catalogue"
+      ],
+      "cross_functional_interfaces": [
+        "Sales Staff",
+        "Customer Service",
+        "Risk",
+        "Compliance",
+        "Technology"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_001",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_001_rol_001",
+    "name": "Director of Product Management",
+    "properties": {
+      "department_or_unit": [
+        "Product Management"
+      ],
+      "accountable_for": [
+        "Product Catalogue (PRD-2026-001)"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_001",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_001_org_002",
+    "name": "Customer Service",
+    "properties": {
+      "cross_functional_interfaces": [
+        "Product Management"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_001",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_001_org_003",
+    "name": "Risk",
+    "properties": {
+      "cross_functional_interfaces": [
+        "Product Management"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_001",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_001_org_004",
+    "name": "Compliance",
+    "properties": {
+      "cross_functional_interfaces": [
+        "Product Management"
+      ],
+      "regulatory_responsibilities": [
+        "FCA Handbook (COBS)"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_001",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_001_org_005",
+    "name": "Technology",
+    "properties": {
+      "cross_functional_interfaces": [
+        "Product Management"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_001",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_001_rol_002",
+    "name": "Sales Staff",
+    "properties": {
+      "department_or_unit": [
+        "Customer Service"
+      ],
+      "key_responsibilities": [
+        "Product catalogue utilisation"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_001",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_001_org_006",
+    "name": "Financial Conduct Authority",
+    "properties": {
+      "regulatory_responsibilities": [
+        "FCA Handbook (COBS)"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_001",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_001_org_007",
+    "name": "Prudential Regulation Authority",
+    "properties": {
+      "regulatory_responsibilities": [
+        "PRA Rulebook"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_001",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_002_org_001",
+    "name": "FirstUK Bank",
+    "properties": {
+      "mission": "Provide a focused suite of retail banking products for UK consumer customers",
+      "location": [
+        "United Kingdom"
+      ],
+      "key_functions": [
+        "Retail banking",
+        "Product development",
+        "Digital onboarding"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_002",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_002_bnk_001",
+    "name": "SmartSaver Account",
+    "properties": {
+      "definition": "Flexible, easy-access savings product",
+      "key_attributes": [
+        "flexible access",
+        "streamlined digital onboarding",
+        "attractive features"
+      ],
+      "relationships_to": [
+        "FirstUK Bank (primary product)"
+      ],
+      "ontology_domain": [
+        "Retail Banking Products"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_002",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_002_met_001",
+    "name": "Total Active Accounts",
+    "properties": {
+      "value": 800,
+      "unit": "count",
+      "what_it_measures": "Number of currently active savings accounts"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_002",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_002_met_002",
+    "name": "Total Customers",
+    "properties": {
+      "value": 500,
+      "unit": "count",
+      "what_it_measures": "Total number of customers"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_002",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_002_met_003",
+    "name": "Average Account Balance",
+    "properties": {
+      "value": 4250,
+      "unit": "GBP",
+      "what_it_measures": "Mean balance across active accounts"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_002",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_002_met_004",
+    "name": "Product Portfolio Value",
+    "properties": {
+      "value": 3400000,
+      "unit": "GBP",
+      "what_it_measures": "Total monetary value of the product portfolio"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_002",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_003_bnk_001",
+    "name": "SmartSaver Account",
+    "properties": {
+      "product_type": "Savings",
+      "launch_date": "2018",
+      "status": "Active",
+      "customer_count": 480,
+      "account_count": 650
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_003",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_003_bnk_002",
+    "name": "SmartSaver Plus",
+    "properties": {
+      "product_type": "Premium Savings",
+      "launch_date": "2021",
+      "status": "Active",
+      "customer_count": 120,
+      "account_count": 150
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_003",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_003_bnk_003",
+    "name": "Current Account",
+    "properties": {
+      "product_type": "Transactional",
+      "launch_date": "2020",
+      "status": "Active",
+      "customer_count": 320,
+      "account_count": 450
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_003",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_003_bnk_004",
+    "name": "Mortgage",
+    "properties": {
+      "product_type": "Lending",
+      "launch_date": "2022",
+      "status": "Active",
+      "customer_count": 45,
+      "account_count": 45
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_003",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_003_bnk_005",
+    "name": "Debit Card",
+    "properties": {
+      "product_type": "Payment",
+      "launch_date": "2018",
+      "status": "Active",
+      "customer_count": 750,
+      "account_count": 800
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_003",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_004_bnk_001",
+    "name": "SmartSaver Account",
+    "properties": {
+      "definition": "A deposit product launched for general consumers aged 18 and over.",
+      "key_attributes": [
+        "Product ID: SAV-001",
+        "Launch Date: 2026-01-15",
+        "Status: Active"
+      ],
+      "regulatory_significance": "Classified as a deposit product under FCA COBS regulations.",
+      "relationships_to": [
+        "Deposit Product"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_004",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_004_bnk_002",
+    "name": "Deposit Product",
+    "properties": {
+      "definition": "A regulatory classification for savings offerings subject to FCA oversight.",
+      "regulatory_significance": "Subject to FCA COBS compliance requirements.",
+      "relationships_to": [
+        "SmartSaver Account"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_004",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_004_rul_001",
+    "name": "FCA COBS Regulatory Framework",
+    "properties": {
+      "rule_statement": "Deposit products must comply with the Financial Conduct Authority's Consumer Rights in Business Standards framework.",
+      "regulatory_source": [
+        "FCA COBS"
+      ],
+      "applies_to": [
+        "SmartSaver Account",
+        "Deposit Product offerings"
+      ],
+      "rule_type": "constraint"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_004",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_004_rul_002",
+    "name": "Age Eligibility Constraint",
+    "properties": {
+      "rule_statement": "Customers must be at least 18 years of age to qualify for the account.",
+      "applies_to": [
+        "SmartSaver Account"
+      ],
+      "rule_type": "threshold",
+      "key_attributes": [
+        "Minimum age: 18"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_004",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_005_bnk_001",
+    "name": "Savings Account",
+    "properties": {
+      "definition": "A flexible, easy-access account designed for straightforward savings with easy access to funds",
+      "key_attributes": [
+        "flexible",
+        "easy-access",
+        "no monthly fees",
+        "digital-first onboarding"
+      ],
+      "business_rules": [
+        "No monthly fees apply"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_005",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_005_bnk_002",
+    "name": "Interest Rates",
+    "properties": {
+      "definition": "Rates applied to the savings account, characterized as competitive",
+      "key_attributes": [
+        "competitive"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_005",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_005_bnk_003",
+    "name": "Customers",
+    "properties": {
+      "definition": "Target users seeking straightforward savings and easy access to funds",
+      "key_attributes": [
+        "value straightforward savings",
+        "require easy access to funds"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_005",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_006_org_001",
+    "name": "FirstUK Branch Network",
+    "properties": {
+      "key_functions": [
+        "Account opening",
+        "Customer query handling"
+      ],
+      "location": [
+        "Any FirstUK branch"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_006",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_006_sys_001",
+    "name": "Online Banking Platform",
+    "properties": {
+      "system_id": "sys_001",
+      "purpose": "Provide full digital account access for customers",
+      "technology_stack": [
+        "Web"
+      ],
+      "key_features": [
+        "Full digital access",
+        "Mobile and web interface"
+      ],
+      "integrations": [
+        "FirstUK Branch Network"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_006",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_006_sys_002",
+    "name": "Mobile Banking Application",
+    "properties": {
+      "system_id": "sys_002",
+      "purpose": "Provide dedicated mobile banking access",
+      "technology_stack": [
+        "Mobile App"
+      ],
+      "key_features": [
+        "Dedicated mobile app"
+      ],
+      "security_controls": [
+        "Biometric authentication"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_006",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_006_bnk_001",
+    "name": "Joint Account",
+    "properties": {
+      "definition": "Account supporting multiple joint account holders",
+      "key_attributes": [
+        "Joint account holder support"
+      ],
+      "relationships_to": [
+        "Business Ontology"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_006",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_006_bnk_002",
+    "name": "Standing Order",
+    "properties": {
+      "definition": "Regular scheduled transfers between accounts",
+      "key_attributes": [
+        "Regular transfers",
+        "Destination account specification"
+      ],
+      "business_rules": [
+        "Requires setup for recurring payments"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_006",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_006_bnk_003",
+    "name": "Direct Debit",
+    "properties": {
+      "definition": "Automated payment mechanism for recurring bills and subscriptions",
+      "key_attributes": [
+        "Automatic payment",
+        "Bill/subscription focus"
+      ],
+      "business_rules": [
+        "Setup required for automated collection"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_006",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_006_bnk_004",
+    "name": "Debit Card",
+    "properties": {
+      "definition": "Payment instrument linked to account for cash and online transactions",
+      "key_attributes": [
+        "Linked to account",
+        "ATM withdrawal capability",
+        "Online purchase capability"
+      ],
+      "business_rules": [
+        "Used for ATM withdrawals and online purchases"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_006",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_006_bnk_005",
+    "name": "Variable Interest Rate",
+    "properties": {
+      "definition": "Interest rate that fluctuates rather than remaining fixed",
+      "key_attributes": [
+        "Variable",
+        "Paid monthly"
+      ],
+      "business_rules": [
+        "Interest is calculated and paid on a monthly basis"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_006",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_007_bnk_001",
+    "name": "Account",
+    "properties": {
+      "key_attributes": [
+        "Minimum Opening Balance",
+        "Maximum Balance",
+        "Account Currency",
+        "Opening Method",
+        "Account Tenure",
+        "Interest Payment Frequency",
+        "Interest Rate",
+        "Debit Card Linked"
+      ],
+      "business_rules": [
+        "Minimum Opening Balance must be £1",
+        "Maximum Balance is Unlimited",
+        "Interest Payment Frequency is Monthly",
+        "Account Opening Method allows Online, Branch, or Postal",
+        "Account Tenure is Indefinite until closure"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_007",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_007_rul_001",
+    "name": "Minimum Opening Balance",
+    "properties": {
+      "rule_statement": "Account must maintain a minimum opening balance of £1",
+      "rule_type": "threshold",
+      "applies_to": [
+        "Account"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_007",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_007_rul_002",
+    "name": "Maximum Balance",
+    "properties": {
+      "rule_statement": "No maximum balance limit applies to the account",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Account"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_007",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_007_bnk_002",
+    "name": "Interest Rate",
+    "properties": {
+      "key_attributes": [
+        "Variable",
+        "Referenced in IRS-2026-001"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_007",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_007_bnk_003",
+    "name": "Debit Card",
+    "properties": {
+      "key_attributes": [
+        "Linked"
+      ],
+      "subtypes": [
+        "Visa Debit"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_007",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_007_rul_003",
+    "name": "Account Opening Method",
+    "properties": {
+      "rule_statement": "Accounts may be opened via Online, Branch, or Postal channels",
+      "rule_type": "authority",
+      "applies_to": [
+        "Account"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_007",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_007_rul_004",
+    "name": "Interest Payment Frequency",
+    "properties": {
+      "rule_statement": "Interest must be paid to the account on a monthly basis",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Account"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_007",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_007_bnk_004",
+    "name": "Account Currency",
+    "properties": {
+      "key_attributes": [
+        "GBP"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_007",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_007_bnk_005",
+    "name": "Account Tenure",
+    "properties": {
+      "key_attributes": [
+        "Indefinite",
+        "Until closure"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_007",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_008_bnk_001",
+    "name": "Interest Rate Structure",
+    "properties": {
+      "definition": "Framework defining how deposit interest rates are calculated, segmented, and adjusted over time",
+      "key_attributes": [
+        "Base Rate",
+        "Variation Policy",
+        "Rate Tiers"
+      ],
+      "business_rules": [
+        "Rates reviewed monthly",
+        "Linked to Bank of England base rate"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_008",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_008_bnk_002",
+    "name": "Base Rate",
+    "properties": {
+      "definition": "Foundational interest rate applied to deposit accounts before tier adjustments",
+      "key_attributes": [
+        "4.5% AER"
+      ],
+      "relationships_to": [
+        "Annual Equivalent Rate",
+        "Bank of England"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_008",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_008_bnk_003",
+    "name": "Annual Equivalent Rate",
+    "properties": {
+      "definition": "Standardized annual interest rate metric accounting for compounding",
+      "key_attributes": [
+        "AER"
+      ],
+      "business_rules": [
+        "Used as the standard unit for quoting all deposit rates in this structure"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_008",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_008_bnk_004",
+    "name": "Rate Tiers",
+    "properties": {
+      "definition": "Segmented interest rate brackets applied based on customer deposit balances",
+      "key_attributes": [
+        "£0–£10,000 @ 4.5% AER",
+        "£10,001–£50,000 @ 4.7% AER",
+        "£50,001+ @ 4.8% AER"
+      ],
+      "business_rules": [
+        "Interest rate increases progressively with higher deposit balances"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_008",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_008_org_001",
+    "name": "Bank of England",
+    "properties": {
+      "regulatory_responsibilities": [
+        "Sets official monetary policy and base rate"
+      ],
+      "cross_functional_interfaces": [
+        "Interest Rate Structure",
+        "Rate Tiers"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_008",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_008_rul_001",
+    "name": "Interest Rate Variation Policy",
+    "properties": {
+      "rule_statement": "Deposit interest rates are reviewed monthly and adjusted in line with the Bank of England base rate",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Interest Rate Structure",
+        "Rate Tiers"
+      ],
+      "frequency": "monthly"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_008",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_008_met_001",
+    "name": "Deposit Balance Threshold Tier 1",
+    "properties": {
+      "value": 10000,
+      "unit": "GBP",
+      "what_it_measures": "Upper balance limit for the first deposit bracket",
+      "context": "Determines eligibility for the base 4.5% AER rate"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_008",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_008_met_002",
+    "name": "Deposit Balance Threshold Tier 2",
+    "properties": {
+      "value": 50000,
+      "unit": "GBP",
+      "what_it_measures": "Upper balance limit for the second deposit bracket",
+      "context": "Triggers interest rate uplift to 4.7% AER"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_008",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_008_met_003",
+    "name": "Deposit Balance Threshold Tier 3",
+    "properties": {
+      "value": 50001,
+      "unit": "GBP",
+      "what_it_measures": "Lower balance threshold for the highest deposit bracket",
+      "context": "Applies to all balances exceeding £50,000, yielding 4.8% AER"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_008",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_008_sys_001",
+    "name": "Interest Rate Schedule",
+    "properties": {
+      "system_id": "IRS-2026-001",
+      "purpose": "Documents and maintains the current interest rate structure, tiers, and variation policy for deposit products"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_008",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_009_bnk_001",
+    "name": "SmartSaver",
+    "properties": {
+      "definition": "Banking product supporting joint accounts with up to two account holders",
+      "key_attributes": [
+        "joint_account_support",
+        "maximum_of_two_holders"
+      ],
+      "relationships_to": [
+        "Joint Account concept"
+      ],
+      "ontology_domain": "business_ontology"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_009",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_009_bnk_002",
+    "name": "Joint Account",
+    "properties": {
+      "definition": "Account structure supporting up to two signatories with shared access and liability",
+      "key_attributes": [
+        "max_holders: 2",
+        "shared_signatory_access",
+        "interest_on_combined_balance"
+      ],
+      "business_rules": [
+        "Joint and Several Liability",
+        "Full Balance Withdrawal Authority",
+        "Total Balance Interest Calculation"
+      ],
+      "regulatory_significance": "Both holders are jointly and severally liable"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_009",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_009_bnk_003",
+    "name": "Account Holder",
+    "properties": {
+      "definition": "Signatory with ownership rights, withdrawal authority, and shared liability on a joint account",
+      "key_attributes": [
+        "signatory_role",
+        "full_withdrawal_rights",
+        "joint_several_liability"
+      ],
+      "business_rules": [
+        "Joint and Several Liability",
+        "Full Balance Withdrawal Authority",
+        "Dual Signatory Onboarding Requirement"
+      ],
+      "relationships_to": [
+        "Joint Account",
+        "SmartSaver product"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_009",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_009_rul_001",
+    "name": "Joint and Several Liability",
+    "properties": {
+      "rule_statement": "Both account holders are jointly and severally liable for the account",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Joint Account",
+        "Account Holder"
+      ],
+      "regulatory_source": "Banking regulatory treatment"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_009",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_009_rul_002",
+    "name": "Full Balance Withdrawal Authority",
+    "properties": {
+      "rule_statement": "Either signatory can withdraw the full account balance",
+      "rule_type": "authority",
+      "applies_to": [
+        "Joint Account",
+        "Account Holder"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_009",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_009_rul_003",
+    "name": "Complaints Policy Dispute Resolution",
+    "properties": {
+      "rule_statement": "Disputes must be resolved per the standard Complaints Policy",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Joint Account",
+        "Account Holder"
+      ],
+      "regulatory_source": "COM-POL-006"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_009",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_009_rul_004",
+    "name": "Total Balance Interest Calculation",
+    "properties": {
+      "rule_statement": "Interest is calculated on the total combined balance of the account",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Joint Account"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_009",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_009_rul_005",
+    "name": "Dual Signatory Onboarding Requirement",
+    "properties": {
+      "rule_statement": "Both signatories are required to be registered at account opening",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Joint Account",
+        "Account Holder"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_009",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_010_bnk_001",
+    "name": "KYC Verification",
+    "properties": {
+      "definition": "Process of verifying customer identity, address, beneficial ownership, and source of funds during account opening",
+      "key_attributes": [
+        "Identity verification",
+        "Address verification",
+        "Beneficial ownership verification",
+        "Source of funds verification"
+      ],
+      "business_rules": [
+        "Mandatory compliance with KYC Verification SOP (KYC-SOP-001)"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_010",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_010_bnk_002",
+    "name": "AML Screening",
+    "properties": {
+      "definition": "Process of screening customers against sanctions lists, PEP databases, and adverse media",
+      "key_attributes": [
+        "Customer name screening",
+        "PEP screening",
+        "Adverse media screening"
+      ],
+      "business_rules": [
+        "Mandatory compliance with AML Policy (AML-POL-002)"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_010",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_010_bnk_003",
+    "name": "Customer",
+    "properties": {
+      "definition": "Individual or business entity subject to identity, address, and AML checks during account opening",
+      "key_attributes": [
+        "Name",
+        "Business status (individual vs business)",
+        "Beneficial ownership details"
+      ],
+      "relationships_to": [
+        "KYC Verification",
+        "AML Screening",
+        "Account"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_010",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_010_bnk_004",
+    "name": "Account",
+    "properties": {
+      "definition": "Financial record or product subject to opening requirements and deposit thresholds",
+      "key_attributes": [
+        "Account type (individual/business)",
+        "Deposit amount"
+      ],
+      "relationships_to": [
+        "Customer",
+        "KYC Verification",
+        "AML Screening"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_010",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_010_bnk_005",
+    "name": "Identification Document",
+    "properties": {
+      "definition": "Official documents used to verify customer identity and residential address",
+      "key_attributes": [
+        "UK Passport",
+        "Driving License",
+        "Utility bill",
+        "Council tax",
+        "Bank statement"
+      ],
+      "subtypes": [
+        "Identity Document",
+        "Address Proof"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_010",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_010_met_001",
+    "name": "Deposit Threshold >£10,000",
+    "properties": {
+      "value": 10000,
+      "unit": "GBP",
+      "what_it_measures": "Minimum deposit amount triggering mandatory source of funds verification",
+      "context": "Triggers enhanced due diligence during the account opening process"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_010",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_010_rul_001",
+    "name": "KYC Verification SOP Requirement",
+    "properties": {
+      "rule_statement": "All KYC verification steps must be executed in accordance with KYC Verification SOP (KYC-SOP-001)",
+      "rule_type": "obligation",
+      "applies_to": [
+        "KYC Verification process",
+        "Account opening"
+      ],
+      "enforcement": "Operations staff and compliance officers following documented procedures"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_010",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_010_rul_002",
+    "name": "AML Screening Policy Requirement",
+    "properties": {
+      "rule_statement": "All customer screening activities must be conducted per AML Policy (AML-POL-002)",
+      "rule_type": "obligation",
+      "applies_to": [
+        "AML Screening process",
+        "Customer onboarding"
+      ],
+      "enforcement": "Compliance and risk management teams following policy guidelines"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_010",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_011_bnk_001",
+    "name": "Account Opening Process",
+    "properties": {
+      "definition": "Process for opening new accounts across multiple delivery channels",
+      "key_attributes": [
+        "Channel",
+        "Processing Time",
+        "Documentation"
+      ],
+      "subtypes": [
+        "Online Channel",
+        "Branch Channel",
+        "Postal Channel"
+      ],
+      "business_rules": [
+        "Processing time must be 1–2 business days for online/branch, 5–7 days for postal"
+      ],
+      "relationships_to": [
+        "Terms & Conditions",
+        "Product Information Document",
+        "Account Opening SOP"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_011",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_011_sys_001",
+    "name": "Online Channel",
+    "properties": {
+      "performance": {
+        "target_processing_time": "1–2 business days"
+      }
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_011",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_011_sys_002",
+    "name": "Branch Channel",
+    "properties": {
+      "performance": {
+        "target_processing_time": "1–2 business days"
+      }
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_011",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_011_sys_003",
+    "name": "Postal Channel",
+    "properties": {
+      "performance": {
+        "target_processing_time": "5–7 days"
+      }
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_011",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_011_met_001",
+    "name": "Account Opening Processing Time SLA",
+    "properties": {
+      "what_it_measures": "Time required to complete account opening",
+      "value": [
+        "1–2 business days",
+        "5–7 days"
+      ],
+      "unit": [
+        "business days"
+      ],
+      "context": "Applies to online/branch channels (1-2 days) and postal channel (5-7 days)"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_011",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_011_bnk_002",
+    "name": "Terms & Conditions",
+    "properties": {
+      "definition": "Required documentation outlining account terms and conditions",
+      "key_attributes": [
+        "Document ID"
+      ],
+      "relationships_to": [
+        "Account Opening Process"
+      ],
+      "example": "SAV-001-TC"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_011",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_011_bnk_003",
+    "name": "Product Information Document",
+    "properties": {
+      "definition": "Required documentation providing product details",
+      "key_attributes": [
+        "Document ID"
+      ],
+      "relationships_to": [
+        "Account Opening Process"
+      ],
+      "example": "SAV-001-PID"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_011",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_011_rul_001",
+    "name": "Account Opening SOP",
+    "properties": {
+      "rule_statement": "Account opening must follow the standard operating procedure",
+      "rule_type": [
+        "obligation"
+      ],
+      "applies_to": [
+        "Account Opening Process"
+      ],
+      "regulatory_source": "Internal SOP (ACCT-OPEN-SOP-001)"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_011",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_012_sys_001",
+    "name": "Online Banking",
+    "properties": {
+      "system_id": "sys_001",
+      "purpose": "Digital channel enabling customers to manage account features, view balances, and configure payments",
+      "key_features": [
+        "Real-time balance view",
+        "Transaction history (24 months)",
+        "Beneficiary management",
+        "Standing order setup",
+        "Direct debit management",
+        "E-statements"
+      ],
+      "data_stored": [
+        "Account balances",
+        "Transaction records",
+        "Beneficiary details",
+        "Payment mandates"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_012",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_012_bnk_001",
+    "name": "Real-time Balance View",
+    "properties": {
+      "definition": "Instantaneous display of current account funds accessible via digital channels",
+      "key_attributes": [
+        "Current balance",
+        "Available balance",
+        "Last updated timestamp"
+      ],
+      "relationships_to": [
+        "Online Banking System",
+        "Account Management Core"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_012",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_012_bnk_002",
+    "name": "Transaction History",
+    "properties": {
+      "definition": "Chronological record of past account activities and payment executions",
+      "key_attributes": [
+        "Transaction date",
+        "Amount",
+        "Counterparty",
+        "Reference",
+        "Status"
+      ],
+      "business_rules": [
+        "Data must be retained and queryable for a rolling 24-month period"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_012",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_012_bnk_003",
+    "name": "Standing Order Setup",
+    "properties": {
+      "definition": "Instruction to execute regular, fixed-amount payments to a pre-approved beneficiary",
+      "key_attributes": [
+        "Payment amount",
+        "Frequency",
+        "Start date",
+        "End date",
+        "Beneficiary account details"
+      ],
+      "business_rules": [
+        "Requires verified beneficiary details",
+        "Fixed amount must remain constant per instruction"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_012",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_012_bnk_004",
+    "name": "Direct Debit Management",
+    "properties": {
+      "definition": "Control and oversight of variable payment authorizations granted to third-party payees",
+      "key_attributes": [
+        "Mandate ID",
+        "Authorised amount range",
+        "Collection date",
+        "Status"
+      ],
+      "business_rules": [
+        "Requires explicit customer authorization",
+        "Must comply with Direct Debit Guarantee rules"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_012",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_012_bnk_005",
+    "name": "Electronic Statements",
+    "properties": {
+      "definition": "Digital delivery of periodic account summaries and transaction records",
+      "key_attributes": [
+        "Statement period",
+        "Opening balance",
+        "Closing balance",
+        "Total credits/debits",
+        "Delivery date"
+      ],
+      "business_rules": [
+        "Opt-in required for paperless delivery",
+        "Must be accessible via secure online channel"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_012",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_013_sys_001",
+    "name": "Mobile App",
+    "properties": {
+      "system_id": "sys_001",
+      "key_features": [
+        "Biometric login (fingerprint, face recognition)",
+        "Push notifications for transactions",
+        "Mobile cheque deposit",
+        "Card management (blocking, replacement)",
+        "Account alerts (balance thresholds)"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_013",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_013_bnk_001",
+    "name": "Biometric Login",
+    "properties": {
+      "key_attributes": [
+        "fingerprint",
+        "face recognition"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_013",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_013_bnk_002",
+    "name": "Push Notifications",
+    "properties": {
+      "key_attributes": [
+        "transaction updates"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_013",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_013_bnk_003",
+    "name": "Mobile Cheque Deposit",
+    "properties": {
+      "key_attributes": [
+        "cheque deposit"
+      ],
+      "availability_status": [
+        "future feature"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_013",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_013_bnk_004",
+    "name": "Card Management",
+    "properties": {
+      "key_attributes": [
+        "blocking",
+        "replacement"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_013",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_013_bnk_005",
+    "name": "Account Alerts",
+    "properties": {
+      "key_attributes": [
+        "balance thresholds"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_013",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_014_org_001",
+    "name": "Branch Services",
+    "properties": {
+      "key_functions": [
+        "Teller access for deposits/withdrawals",
+        "Account enquiries",
+        "Card replacement",
+        "Dispute resolution",
+        "Complex transaction queries"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_014",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_014_sys_002",
+    "name": "Teller Access System",
+    "properties": {
+      "purpose": "Enables teller access for processing customer deposits and withdrawals",
+      "integrations": [
+        "Branch Services"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_014",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_014_bnk_003",
+    "name": "Account Enquiries Service",
+    "properties": {
+      "definition": "Service handling account information requests within branch operations",
+      "relationships_to": [
+        "Branch Services"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_014",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_014_bnk_004",
+    "name": "Card Replacement Service",
+    "properties": {
+      "definition": "Service managing card replacement requests",
+      "relationships_to": [
+        "Branch Services"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_014",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_014_bnk_005",
+    "name": "Dispute Resolution Process",
+    "properties": {
+      "definition": "Process for resolving customer disputes",
+      "relationships_to": [
+        "Branch Services"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_014",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_014_bnk_006",
+    "name": "Complex Transaction Query Support",
+    "properties": {
+      "definition": "Support function for handling complex transaction queries",
+      "relationships_to": [
+        "Branch Services"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_014",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_015_bnk_001",
+    "name": "Monthly Maintenance Fee",
+    "properties": {
+      "definition": "Recurring monthly charge for account maintenance",
+      "business_rules": [
+        "Fee is set to £0"
+      ],
+      "key_attributes": [
+        "billing_cycle",
+        "cost"
+      ],
+      "example": "£0 per month"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_015",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_015_bnk_002",
+    "name": "Overdraft Facility",
+    "properties": {
+      "definition": "Short-term credit facility allowing withdrawals beyond available balance",
+      "business_rules": [
+        "Facility is currently unavailable (£0 limit)"
+      ],
+      "key_attributes": [
+        "credit_limit",
+        "availability_status"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_015",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_015_bnk_003",
+    "name": "ATM Withdrawals",
+    "properties": {
+      "definition": "Cash withdrawal transactions conducted at Automated Teller Machines",
+      "business_rules": [
+        "Unlimited number of withdrawals permitted",
+        "No transaction fees applied"
+      ],
+      "key_attributes": [
+        "transaction_count",
+        "fee_structure"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_015",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_015_bnk_004",
+    "name": "International Transfers",
+    "properties": {
+      "definition": "Cross-border payment transfers between accounts in different countries",
+      "business_rules": [
+        "Fixed fee of £5 applies per transfer"
+      ],
+      "key_attributes": [
+        "destination_region",
+        "cost_per_transaction"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_015",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_015_bnk_005",
+    "name": "Card Replacement Service",
+    "properties": {
+      "definition": "Service to issue a physical payment card to replace a lost, stolen, or expired card",
+      "business_rules": [
+        "First card issuance is free (£0)",
+        "Subsequent replacements incur a £15 fee"
+      ],
+      "key_attributes": [
+        "issuance_type",
+        "replacement_cost"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_015",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_015_bnk_006",
+    "name": "Debit Card",
+    "properties": {
+      "definition": "Physical payment card linked directly to the account holder's deposit balance",
+      "business_rules": [
+        "No issuance or annual fees apply"
+      ],
+      "key_attributes": [
+        "card_type",
+        "cost_status"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_015",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_015_sys_001",
+    "name": "Pricing Guide",
+    "properties": {
+      "system_id": "PRC-GUIDE-2026",
+      "purpose": "Central reference document outlining fee structures, pricing tiers, and service costs for banking products",
+      "data_stored": [
+        "Fee schedules",
+        "Pricing policies",
+        "Service charge rules"
+      ],
+      "key_features": [
+        "Dynamic fee lookup",
+        "Product-specific pricing matrix"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_015",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_016_bnk_001",
+    "name": "Account",
+    "properties": {
+      "definition": "A financial holding subject to activity and contact monitoring for dormancy classification",
+      "key_attributes": [
+        "transaction_activity",
+        "customer_contact_status",
+        "dormancy_flag"
+      ],
+      "business_rules": [
+        "Dormancy Classification Rule (rul_001)",
+        "Dormancy Operational Procedures (rul_002)"
+      ],
+      "relationships_to": [
+        "Transaction",
+        "Interest"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_016",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_016_bnk_002",
+    "name": "Transaction",
+    "properties": {
+      "subtypes": [
+        "deposits",
+        "withdrawals"
+      ],
+      "business_rules": [
+        "Dormancy Classification Rule (rul_001)"
+      ],
+      "relationships_to": [
+        "Account",
+        "Interest"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_016",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_016_bnk_003",
+    "name": "Interest",
+    "properties": {
+      "business_rules": [
+        "Dormancy Operational Procedures (rul_002)"
+      ],
+      "relationships_to": [
+        "Account",
+        "Transaction"
+      ],
+      "key_attributes": [
+        "accrual_status"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_016",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_016_met_001",
+    "name": "12-Month Inactivity Threshold",
+    "properties": {
+      "value": 12,
+      "unit": "months",
+      "what_it_measures": "Period of zero transaction activity and zero customer contact",
+      "context": "Triggers dormant account status and initiates dormancy procedures"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_016",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_016_rul_001",
+    "name": "Dormancy Classification Rule",
+    "properties": {
+      "rule_statement": "An account is classified as dormant if it experiences zero transactions and zero customer contact for 12 consecutive months",
+      "rule_type": "threshold",
+      "applies_to": [
+        "Account"
+      ],
+      "consequence": "Triggers dormancy flagging, correspondence to last known address, and operational procedures"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_016",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_016_rul_002",
+    "name": "Dormancy Operational Procedures",
+    "properties": {
+      "rule_statement": "Upon dormancy classification, send a letter to the last known address, flag the account in the system, continue accruing interest, and enable full reactivation upon customer request",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Dormant Account"
+      ],
+      "enforcement": "Dormancy SOP (DORM-SOP-001)"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_016",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_017_sys_001",
+    "name": "Online Banking",
+    "properties": {
+      "purpose": "Channel for submitting customer-initiated account closure requests",
+      "key_features": [
+        "request submission interface",
+        "balance transfer coordination"
+      ],
+      "integrations": [
+        "Account Closure SOP",
+        "Branch Operations"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_017",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_017_org_001",
+    "name": "Branch Office",
+    "properties": {
+      "location": [
+        "Physical branch premises"
+      ],
+      "key_functions": [
+        "accepting physical account closure submissions",
+        "facilitating final balance transfers"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_017",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_017_bnk_001",
+    "name": "Standing Order",
+    "properties": {
+      "definition": "Recurring payment mandate automatically terminated upon account closure",
+      "business_rules": [
+        "Must be cancelled when the source account is closed"
+      ],
+      "relationships_to": [
+        "Direct Debit",
+        "Account Closure Process"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_017",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_017_bnk_002",
+    "name": "Direct Debit",
+    "properties": {
+      "definition": "Authorized payment mandate cancelled upon account closure",
+      "business_rules": [
+        "Automatically terminated when the linked account is closed"
+      ],
+      "relationships_to": [
+        "Standing Order",
+        "Account Closure Process"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_017",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_017_bnk_003",
+    "name": "Fraud Alert",
+    "properties": {
+      "definition": "Security trigger for bank-initiated account closure",
+      "business_rules": [
+        "Triggers closure for regulatory reasons or policy violations"
+      ],
+      "regulatory_significance": [
+        "Mandates immediate action to mitigate fraud or compliance risk"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_017",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_017_rul_001",
+    "name": "Account Closure Policy",
+    "properties": {
+      "rule_statement": "Accounts may be closed by customers or the bank, with specific processing times and notice periods depending on initiation method",
+      "rule_type": [
+        "obligation",
+        "threshold"
+      ],
+      "applies_to": [
+        "Customer accounts",
+        "Bank operations"
+      ],
+      "enforcement": [
+        "Operations staff",
+        "Compliance team"
+      ],
+      "consequence": [
+        "Final balance transferred or cheque sent; all standing orders/direct debits cancelled"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_017",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_017_met_001",
+    "name": "Account Closure Processing Time",
+    "properties": {
+      "value": "3-5",
+      "unit": "business days",
+      "what_it_measures": "Duration to complete customer-initiated account closure",
+      "owner": [
+        "Operations team"
+      ],
+      "frequency": [
+        "Per transaction"
+      ],
+      "context": "Ensures timely processing and final balance settlement"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_017",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_017_met_002",
+    "name": "Bank-Initiated Closure Notice Period",
+    "properties": {
+      "value": "30",
+      "unit": "days",
+      "what_it_measures": "Advance notice period required for bank-initiated account closures",
+      "owner": [
+        "Compliance/Risk management"
+      ],
+      "frequency": [
+        "Per closure event"
+      ],
+      "context": "Ensures regulatory compliance and customer notification before forced closure"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_017",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_017_sys_002",
+    "name": "Account Closure Standard Operating Procedure",
+    "properties": {
+      "system_id": "ACCT-CLOSE-SOP-001",
+      "purpose": "Documented workflow governing account closure processes",
+      "key_features": [
+        "Customer-initiated closure steps",
+        "Bank-initiated closure steps",
+        "Balance transfer protocols"
+      ],
+      "integrations": [
+        "Online Banking",
+        "Branch Operations",
+        "Compliance Systems"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_017",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_018_org_001",
+    "name": "Product Support",
+    "properties": {
+      "key_functions": [
+        "Multi-channel customer service delivery",
+        "Support via phone, chat, email, and branch"
+      ],
+      "contact_methods": [
+        "Phone",
+        "Online Chat",
+        "Email",
+        "Branch"
+      ],
+      "reference_documents": [
+        "Call Centre Script (CSC-001)",
+        "Email Templates (ETML-001)"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_018",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_018_met_001",
+    "name": "Customer Service Hours",
+    "properties": {
+      "value": "Monday–Friday 08:00–20:00, Saturday 09:00–17:00",
+      "unit": "operational hours",
+      "what_it_measures": "Daily availability window for customer service interactions",
+      "frequency": "Daily (Monday through Saturday)"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_018",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_018_sys_001",
+    "name": "Online Chat",
+    "properties": {
+      "purpose": "Real-time text-based customer support",
+      "availability_sla": "Monday–Friday 08:00–20:00, Saturday 09:00–17:00",
+      "integrations": [
+        "Product Support team",
+        "Call Centre Script (CSC-001)"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_018",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_018_org_002",
+    "name": "FirstUK branch",
+    "properties": {
+      "key_functions": [
+        "In-person customer service",
+        "Physical location support"
+      ],
+      "location_type": "Physical retail locations",
+      "reference_document": "[[branches]]"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_018",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_019_met_001",
+    "name": "Active Accounts",
+    "properties": {
+      "value": 650,
+      "unit": "count",
+      "what_it_measures": "Number of currently active accounts"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_019",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_019_met_002",
+    "name": "Total Customers",
+    "properties": {
+      "value": 480,
+      "unit": "count",
+      "what_it_measures": "Total number of customers"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_019",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_019_met_003",
+    "name": "Total Balance",
+    "properties": {
+      "value": 2800000,
+      "unit": "GBP",
+      "what_it_measures": "Combined balance across all accounts"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_019",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_019_met_004",
+    "name": "Average Account Balance",
+    "properties": {
+      "value": 4308,
+      "unit": "GBP",
+      "what_it_measures": "Mean balance per account"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_019",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_019_met_005",
+    "name": "Monthly New Accounts",
+    "properties": {
+      "value": 12,
+      "unit": "count",
+      "frequency": "monthly",
+      "what_it_measures": "Number of new accounts opened each month"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_019",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_019_met_006",
+    "name": "Account Closure Rate",
+    "properties": {
+      "value": 0.8,
+      "unit": "percentage",
+      "what_it_measures": "Proportion of accounts closed relative to total"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_019",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_019_met_007",
+    "name": "Customer Satisfaction (NPS)",
+    "properties": {
+      "value": 72,
+      "unit": "score",
+      "what_it_measures": "Net Promoter Score reflecting customer satisfaction"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_019",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_019_met_008",
+    "name": "Regulatory Complaints",
+    "properties": {
+      "value": 2,
+      "unit": "count",
+      "frequency": "quarterly",
+      "what_it_measures": "Number of complaints received from regulatory bodies"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_019",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_020_bnk_001",
+    "name": "Current Account",
+    "properties": {
+      "relationships_to": [
+        "Debit Card",
+        "Mortgage"
+      ],
+      "cross_sell_context": "Primary linkage target in customer product bundles",
+      "status": "active",
+      "internal_reference": "CURR-001"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_020",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_020_bnk_002",
+    "name": "Debit Card",
+    "properties": {
+      "relationships_to": [
+        "Current Account",
+        "Mortgage"
+      ],
+      "cross_sell_context": "Frequently linked with current accounts and mortgages",
+      "status": "active",
+      "internal_reference": "CARD-001"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_020",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_020_bnk_003",
+    "name": "Mortgage",
+    "properties": {
+      "relationships_to": [
+        "Current Account",
+        "Debit Card"
+      ],
+      "cross_sell_context": "Linked in customer product bundles",
+      "status": "active",
+      "internal_reference": "MORT-001"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_020",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_020_bnk_004",
+    "name": "Insurance Products",
+    "properties": {
+      "relationships_to": [
+        "Current Account",
+        "Debit Card",
+        "Mortgage"
+      ],
+      "cross_sell_context": "Planned future linkage target",
+      "status": "future"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_020",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_021_bnk_001",
+    "name": "SmartSaver Plus",
+    "properties": {
+      "definition": "Premium tier banking product for high-net-worth customers",
+      "key_attributes": [
+        "Product ID",
+        "Launch Date",
+        "Status"
+      ],
+      "business_rules": [
+        "Requires account balance greater than £50,000 for eligibility"
+      ],
+      "relationships_to": [
+        "High-net-worth Customer"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_021",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_021_bnk_002",
+    "name": "High-net-worth Customer",
+    "properties": {
+      "definition": "Customer segment eligible for premium banking tiers",
+      "key_attributes": [
+        "Balance threshold"
+      ],
+      "business_rules": [
+        "Must maintain account balance exceeding £50,000"
+      ],
+      "relationships_to": [
+        "SmartSaver Plus"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_021",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_021_met_001",
+    "name": "£50,000 Balance Threshold",
+    "properties": {
+      "value": 50000,
+      "unit": "GBP",
+      "what_it_measures": "Minimum account balance required to qualify for premium tier status",
+      "context": "Defines the high-net-worth customer segment for the SmartSaver Plus product"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_021",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_022_bnk_001",
+    "name": "Base Interest Rate",
+    "properties": {
+      "definition": "The baseline rate applied to customer deposits or accounts",
+      "key_attributes": [
+        "AER (Annual Equivalent Rate)",
+        "base rate"
+      ],
+      "example": "5.2% AER",
+      "business_rules": [
+        "Positioned as a key differentiator with higher rates than standard market offerings"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_022",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_022_rol_001",
+    "name": "Dedicated Relationship Manager",
+    "properties": {
+      "key_responsibilities": [
+        "Provide dedicated client support",
+        "Manage customer relationships"
+      ],
+      "accountable_for": [
+        "Priority customer service delivery",
+        "Client relationship management"
+      ],
+      "appointment_type": "Manager"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_022",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_022_sys_001",
+    "name": "Exclusive Financial Planning Platform",
+    "properties": {
+      "purpose": "Deliver exclusive financial planning tools to customers",
+      "key_features": [
+        "Financial planning tools",
+        "Exclusive advisory capabilities"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_022",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_022_met_001",
+    "name": "Customer Headcount",
+    "properties": {
+      "value": 120,
+      "unit": "count",
+      "what_it_measures": "Total number of active customers",
+      "actual_value": 120,
+      "context": "Tracked as a key differentiator metric for customer base size"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_022",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_022_met_002",
+    "name": "Account Volume Metric",
+    "properties": {
+      "value": 150,
+      "unit": "count",
+      "what_it_measures": "Total number of customer accounts",
+      "actual_value": 150,
+      "context": "Monitored to assess product penetration and account activity"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_022",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_022_met_003",
+    "name": "Portfolio Average Balance",
+    "properties": {
+      "value": 87500,
+      "unit": "GBP",
+      "what_it_measures": "Average balance across customer portfolios/accounts",
+      "actual_value": 87500,
+      "context": "Used to gauge portfolio depth and revenue potential"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_022",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_023_bnk_001",
+    "name": "Current Account",
+    "properties": {
+      "key_attributes": [
+        "Product ID: CURR-001",
+        "Launch Date: 2020-03-15",
+        "Status: Active",
+        "Target Audience: General consumers, salary earners"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_023",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_024_sys_001",
+    "name": "Online Banking System",
+    "properties": {
+      "purpose": "Digital channel for managing current account services and transfers",
+      "key_features": [
+        "unlimited domestic transfers",
+        "standing order management",
+        "direct debit management"
+      ],
+      "deployment": "Cloud-based digital platform"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_024",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_024_sys_002",
+    "name": "Mobile Banking Application",
+    "properties": {
+      "purpose": "Mobile channel for accessing current account services and transfers",
+      "key_features": [
+        "unlimited domestic transfers",
+        "standing order management",
+        "direct debit management"
+      ],
+      "deployment": "Mobile OS native application"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_024",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_024_bnk_001",
+    "name": "Standing Order",
+    "properties": {
+      "key_attributes": [
+        "recurring_payment",
+        "fixed_amount"
+      ],
+      "business_rules": [
+        "Optional feature available for current account product"
+      ],
+      "relationships_to": [
+        "Current Account Product"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_024",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_024_bnk_002",
+    "name": "Direct Debit",
+    "properties": {
+      "key_attributes": [
+        "recurring_payment",
+        "variable_amount_authorization"
+      ],
+      "business_rules": [
+        "Optional feature available for current account product"
+      ],
+      "relationships_to": [
+        "Current Account Product"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_024",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_024_bnk_003",
+    "name": "Overdraft Facility",
+    "properties": {
+      "key_attributes": [
+        "credit_limit_range",
+        "optional_status"
+      ],
+      "business_rules": [
+        "Available as optional feature",
+        "Credit limit range: £500–£5,000"
+      ],
+      "relationships_to": [
+        "Current Account Product"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_024",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_024_bnk_004",
+    "name": "Current Account Product",
+    "properties": {
+      "key_attributes": [
+        "monthly_fee: £0",
+        "transfer_limit: unlimited"
+      ],
+      "business_rules": [
+        "No monthly fee charged",
+        "Supports unlimited domestic transfers"
+      ],
+      "relationships_to": [
+        "Standing Order",
+        "Direct Debit",
+        "Overdraft Facility",
+        "Cheque Book"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_024",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_024_bnk_005",
+    "name": "Cheque Book",
+    "properties": {
+      "key_attributes": [
+        "physical_payment_instrument",
+        "availability_status: available"
+      ],
+      "business_rules": [
+        "Provided as standard feature for current account product"
+      ],
+      "relationships_to": [
+        "Current Account Product"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_024",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_024_met_001",
+    "name": "Total Customer Headcount (320)",
+    "properties": {
+      "value": 320,
+      "unit": "count",
+      "what_it_measures": "Total number of active customers for the current account product",
+      "actual_value": 320,
+      "context": "Indicates customer adoption scale"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_024",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_024_met_002",
+    "name": "Total Account Capacity (450)",
+    "properties": {
+      "value": 450,
+      "unit": "count",
+      "what_it_measures": "Total number of accounts issued/active under the product",
+      "actual_value": 450,
+      "context": "Reflects account issuance volume and capacity"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_024",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_025_bnk_001",
+    "name": "Overdraft Facility",
+    "properties": {
+      "definition": "A credit facility allowing customers to withdraw funds beyond their available account balance",
+      "subtypes": [
+        "Arranged Overdraft",
+        "Unarranged Overdraft"
+      ],
+      "key_attributes": [
+        "account_tenure",
+        "regular_income",
+        "credit_check_status",
+        "overdraft_limit"
+      ],
+      "business_rules": [
+        "Requires minimum 6+ months account tenure",
+        "Requires £1,500+ monthly regular income",
+        "Credit check must be passed",
+        "Limit is customer-selectable between £500 and £5,000"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_025",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_025_bnk_002",
+    "name": "Arranged Overdraft",
+    "properties": {
+      "definition": "Pre-approved overdraft facility with a fixed interest rate structure",
+      "business_rules": [
+        "Interest rate is fixed at 15% AER"
+      ],
+      "key_attributes": [
+        "interest_rate",
+        "approval_status"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_025",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_025_bnk_003",
+    "name": "Unarranged Overdraft",
+    "properties": {
+      "definition": "Overdraft usage occurring without prior bank approval or agreed limit",
+      "business_rules": [
+        "Interest rate set at 25% AER",
+        "Incurs a £5 daily fee for usage"
+      ],
+      "key_attributes": [
+        "interest_rate",
+        "daily_fee",
+        "approval_status"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_025",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_025_rul_001",
+    "name": "Overdraft Eligibility Constraints",
+    "properties": {
+      "rule_statement": "Customers must maintain 6+ months account tenure, earn £1,500+ monthly income, and pass a credit check to qualify",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Overdraft Facility applications",
+        "All new overdraft applicants"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_025",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_025_met_001",
+    "name": "Overdraft Limit Range",
+    "properties": {
+      "value": "500-5000",
+      "unit": "GBP",
+      "what_it_measures": "Maximum borrowing capacity available to the customer",
+      "context": "Defines the selectable credit range based on customer preference"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_025",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_025_met_002",
+    "name": "Arranged Overdraft Interest Rate",
+    "properties": {
+      "value": "15",
+      "unit": "percentage",
+      "what_it_measures": "Annual Equivalent Rate charged on pre-approved overdraft balances",
+      "context": "Fixed pricing structure for arranged credit usage"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_025",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_025_met_003",
+    "name": "Unarranged Overdraft Interest Rate",
+    "properties": {
+      "value": "25",
+      "unit": "percentage",
+      "what_it_measures": "Annual Equivalent Rate charged on unapproved overdraft balances",
+      "context": "Higher penalty rate applied to unauthorized credit usage"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_025",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_025_met_004",
+    "name": "Daily Unarranged Fee",
+    "properties": {
+      "value": "5",
+      "unit": "GBP",
+      "what_it_measures": "Daily charge applied when account is overdrawn without prior approval",
+      "context": "Penalty fee structure for unarranged overdraft usage"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_025",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_026_bnk_001",
+    "name": "Mortgage Product",
+    "properties": {
+      "key_attributes": [
+        "Product ID",
+        "Launch Date",
+        "Status",
+        "Target Audience"
+      ],
+      "relationships_to": [
+        "Property Purchasers",
+        "Existing Homeowners"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_026",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_026_bnk_002",
+    "name": "Property Purchasers",
+    "properties": {
+      "relationships_to": [
+        "Mortgage Product"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_026",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_026_bnk_003",
+    "name": "Existing Homeowners",
+    "properties": {
+      "relationships_to": [
+        "Mortgage Product"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_026",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_027_bnk_001",
+    "name": "Mortgage Product",
+    "properties": {
+      "key_attributes": [
+        "loan_amount_range",
+        "term_length",
+        "interest_rate_type",
+        "rate_pricing_factors"
+      ],
+      "subtypes": [
+        "Fixed Rate (2 or 5 years)",
+        "Variable Rate"
+      ],
+      "business_rules": [
+        "Loan amounts must fall between £50,000 and £500,000",
+        "Repayment terms are restricted to 2–25 years",
+        "Interest rates range from 3.5% to 6.5%",
+        "Rate determination requires assessment of LTV and credit score"
+      ],
+      "relationships_to": [
+        "Mortgage Loan Amount Range",
+        "Mortgage Repayment Term Range",
+        "Mortgage Interest Rate Spectrum",
+        "Total Active Mortgages",
+        "Total Mortgage Portfolio Balance",
+        "Average Mortgage Facility Size"
+      ],
+      "ontology_domain": "Retail Lending"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_027",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_027_met_001",
+    "name": "Mortgage Loan Amount Range",
+    "properties": {
+      "value": "£50,000–£500,000",
+      "unit": "GBP",
+      "what_it_measures": "The minimum and maximum principal borrowing limits for the mortgage product",
+      "context": "Defines eligible loan sizing parameters for customer applications"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_027",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_027_met_002",
+    "name": "Mortgage Repayment Term Range",
+    "properties": {
+      "value": "2–25 years",
+      "unit": "years",
+      "what_it_measures": "The allowable duration range for mortgage repayment schedules",
+      "context": "Sets the structural timeframe for loan amortization"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_027",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_027_met_003",
+    "name": "Mortgage Interest Rate Spectrum",
+    "properties": {
+      "value": "3.5%–6.5%",
+      "unit": "percentage",
+      "what_it_measures": "The range of applicable interest rates across fixed and variable product options",
+      "context": "Rate pricing is dynamically adjusted based on LTV and credit score"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_027",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_027_met_004",
+    "name": "Total Active Mortgages",
+    "properties": {
+      "value": "45",
+      "unit": "count",
+      "what_it_measures": "The total number of currently active mortgage accounts in the portfolio",
+      "context": "Indicates current product uptake and active lending volume"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_027",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_027_met_005",
+    "name": "Total Mortgage Portfolio Balance",
+    "properties": {
+      "value": "£15,200,000",
+      "unit": "GBP",
+      "what_it_measures": "The aggregate outstanding principal balance across all active mortgages",
+      "context": "Represents the total capital exposure and asset size of the mortgage book"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_027",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_027_met_006",
+    "name": "Average Mortgage Facility Size",
+    "properties": {
+      "value": "£337,000",
+      "unit": "GBP",
+      "what_it_measures": "The mean principal amount across all active mortgage facilities",
+      "context": "Reflects typical customer borrowing levels and portfolio concentration"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_027",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_028_bnk_001",
+    "name": "Underwriting Process",
+    "properties": {
+      "definition": "Process for evaluating mortgage applications against required documentation standards",
+      "key_attributes": [
+        "Proof of income",
+        "Property valuation",
+        "Proof of deposit",
+        "Credit check",
+        "Affordability assessment"
+      ],
+      "relationships_to": [
+        "Mortgage Underwriting SOP (MORT-UW-SOP-001)"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_028",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_028_bnk_002",
+    "name": "Proof of Income",
+    "properties": {
+      "definition": "Verification of borrower earnings history",
+      "key_attributes": [
+        "last 3 years accounts",
+        "3 months payslips"
+      ],
+      "business_rules": [
+        "Required documentation item for underwriting approval"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_028",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_028_bnk_003",
+    "name": "Property Valuation",
+    "properties": {
+      "definition": "Assessment of collateral property value",
+      "key_attributes": [
+        "Required documentation item"
+      ],
+      "business_rules": [
+        "Mandatory submission requirement"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_028",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_028_bnk_004",
+    "name": "Proof of Deposit",
+    "properties": {
+      "definition": "Verification of borrower deposit funds",
+      "key_attributes": [
+        "Required documentation item"
+      ],
+      "business_rules": [
+        "Mandatory submission requirement"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_028",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_028_bnk_005",
+    "name": "Credit Check",
+    "properties": {
+      "definition": "Evaluation of borrower credit history and score",
+      "key_attributes": [
+        "Required documentation item"
+      ],
+      "business_rules": [
+        "Mandatory submission requirement"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_028",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_028_bnk_006",
+    "name": "Affordability Assessment",
+    "properties": {
+      "definition": "Analysis of borrower income versus expenditure",
+      "key_attributes": [
+        "Required documentation item"
+      ],
+      "business_rules": [
+        "Mandatory submission requirement"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_028",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_028_rul_001",
+    "name": "Mortgage Underwriting Standard Operating Procedure",
+    "properties": {
+      "rule_statement": "All underwriting activities must strictly follow the documented standard operating procedure",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Underwriting process",
+        "Mortgage applications"
+      ],
+      "enforcement": [
+        "Internal compliance and audit teams"
+      ],
+      "regulatory_source": "Internal policy framework"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_028",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_028_rul_002",
+    "name": "Mortgage Underwriting Documentation Requirement",
+    "properties": {
+      "rule_statement": "Mortgage applications must be accompanied by proof of income, property valuation, proof of deposit, credit check, and affordability assessment",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Underwriting documentation package",
+        "Loan application submissions"
+      ],
+      "enforcement": [
+        "Underwriting staff and compliance officers"
+      ],
+      "consequence": "Application processing halted or rejected if documentation is incomplete"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_028",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_029_bnk_001",
+    "name": "Debit Card",
+    "properties": {
+      "product_id": "CARD-001",
+      "launch_date": "2018-06-01",
+      "status": "Active",
+      "card_type": "Visa Debit"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_029",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_030_bnk_001",
+    "name": "Visa Debit Card",
+    "properties": {
+      "definition": "Debit card product operating on the Visa payment network",
+      "key_attributes": [
+        "Recycled plastic material",
+        "4-digit PIN",
+        "£100 contactless limit",
+        "£500 daily ATM withdrawal limit",
+        "3-year validity",
+        "£15 replacement fee",
+        "International usage enabled"
+      ],
+      "business_rules": [
+        "Contactless Transaction Limit",
+        "Daily ATM Withdrawal Limit",
+        "Card Replacement Fee Policy",
+        "PIN Length Requirement"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_030",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_030_rul_001",
+    "name": "Contactless Transaction Limit",
+    "properties": {
+      "rule_statement": "Contactless transactions are capped at £100 per transaction",
+      "rule_type": "threshold",
+      "applies_to": [
+        "Visa Debit Card"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_030",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_030_rul_002",
+    "name": "Daily ATM Withdrawal Limit",
+    "properties": {
+      "rule_statement": "ATM withdrawals are limited to £500 per day",
+      "rule_type": "threshold",
+      "applies_to": [
+        "Visa Debit Card"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_030",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_030_bnk_002",
+    "name": "Card Validity Period",
+    "properties": {
+      "definition": "Duration a physical card remains active before requiring renewal",
+      "key_attributes": [
+        "3 years"
+      ],
+      "business_rules": [
+        "Card Replacement Fee Policy"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_030",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_030_rul_003",
+    "name": "Card Replacement Fee Policy",
+    "properties": {
+      "rule_statement": "Replacement cards cost £15, with the first replacement card provided free of charge",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Visa Debit Card"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_030",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_030_bnk_003",
+    "name": "International Usage Authorization",
+    "properties": {
+      "definition": "Authorization allowing card transactions outside the domestic market",
+      "key_attributes": [
+        "Enabled",
+        "Visa network"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_030",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_030_bnk_004",
+    "name": "Card Material Specification",
+    "properties": {
+      "definition": "Physical composition standard for issued cards",
+      "key_attributes": [
+        "Recycled plastic"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_030",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_030_rul_004",
+    "name": "PIN Length Requirement",
+    "properties": {
+      "rule_statement": "Card PINs must be exactly 4 digits long",
+      "rule_type": "constraint",
+      "applies_to": [
+        "Visa Debit Card"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_030",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_031_bnk_001",
+    "name": "Card",
+    "properties": {
+      "definition": "Primary payment instrument encompassing multiple digital and physical features",
+      "key_attributes": [
+        "biometric authentication",
+        "transaction notifications",
+        "contactless payment",
+        "ATM withdrawals",
+        "online shopping",
+        "virtual card number",
+        "card lock/unlock",
+        "real-time fraud detection"
+      ],
+      "relationships_to": [
+        "Biometric Authentication",
+        "Transaction Notifications",
+        "Contactless Payment",
+        "ATM Withdrawals",
+        "Online Shopping",
+        "Virtual Card Number",
+        "Card Lock/Unlock",
+        "Real-Time Fraud Detection"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_031",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_031_bnk_002",
+    "name": "Biometric Authentication",
+    "properties": {
+      "definition": "Authentication method secured via mobile application",
+      "key_attributes": [
+        "app-based verification"
+      ],
+      "relationships_to": [
+        "Card"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_031",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_031_bnk_003",
+    "name": "Transaction Notifications",
+    "properties": {
+      "definition": "Alerts delivered to inform cardholders of account activity",
+      "key_attributes": [
+        "push notifications",
+        "SMS alerts"
+      ],
+      "relationships_to": [
+        "Card"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_031",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_031_bnk_004",
+    "name": "Contactless Payment",
+    "properties": {
+      "definition": "Tap-to-pay functionality for quick transactions",
+      "key_attributes": [
+        "contactless capability"
+      ],
+      "relationships_to": [
+        "Card"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_031",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_031_bnk_005",
+    "name": "ATM Withdrawals",
+    "properties": {
+      "definition": "Cash withdrawal service available at domestic and global ATMs",
+      "key_attributes": [
+        "UK access",
+        "international access"
+      ],
+      "relationships_to": [
+        "Card"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_031",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_031_bnk_006",
+    "name": "Online Shopping",
+    "properties": {
+      "definition": "Payment capability for e-commerce transactions",
+      "key_attributes": [
+        "online purchase support"
+      ],
+      "relationships_to": [
+        "Card"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_031",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_031_bnk_007",
+    "name": "Virtual Card Number",
+    "properties": {
+      "definition": "Secondary card number generated specifically for digital transactions",
+      "key_attributes": [
+        "online payment use case"
+      ],
+      "relationships_to": [
+        "Card",
+        "Online Shopping"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_031",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_031_bnk_008",
+    "name": "Card Lock/Unlock",
+    "properties": {
+      "definition": "Control mechanism to temporarily disable or re-enable card functionality",
+      "key_attributes": [
+        "app-based control",
+        "temporary suspension capability"
+      ],
+      "relationships_to": [
+        "Card"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_031",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_031_bnk_009",
+    "name": "Real-Time Fraud Detection",
+    "properties": {
+      "definition": "Automated monitoring system that identifies and flags suspicious activity instantly",
+      "key_attributes": [
+        "real-time processing",
+        "fraud prevention"
+      ],
+      "relationships_to": [
+        "Card"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_031",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_032_rul_001",
+    "name": "Customer Liability Threshold",
+    "properties": {
+      "rule_statement": "Customer liability is £0 if fraud is reported within 24 hours",
+      "rule_type": "threshold",
+      "applies_to": [
+        "Fraud Protection",
+        "Cardholders"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_032",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_032_rul_002",
+    "name": "Bank Liability Coverage",
+    "properties": {
+      "rule_statement": "Bank assumes 100% liability for unauthorized transactions",
+      "rule_type": "obligation",
+      "applies_to": [
+        "Fraud Protection",
+        "Unauthorized Transactions"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_032",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_032_rul_003",
+    "name": "Fraud Reimbursement Timeframe",
+    "properties": {
+      "rule_statement": "Fraud claims must be reimbursed within 10 business days of submission",
+      "rule_type": "threshold",
+      "applies_to": [
+        "Claims Processing",
+        "Customer Service"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_032",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_032_met_001",
+    "name": "Total Cards Issued",
+    "properties": {
+      "value": 800,
+      "unit": "count",
+      "what_it_measures": "Total number of cards issued by the bank",
+      "actual_value": 800
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_032",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_032_met_002",
+    "name": "Active Cards",
+    "properties": {
+      "value": 780,
+      "unit": "count",
+      "what_it_measures": "Number of currently active cards in circulation",
+      "actual_value": 780
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_032",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_032_met_003",
+    "name": "Monthly Fraud Claims",
+    "properties": {
+      "value": "2-3",
+      "unit": "count",
+      "what_it_measures": "Average number of fraud claims received per month",
+      "frequency": "monthly",
+      "actual_value": "2-3"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_032",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_032_bnk_001",
+    "name": "Card",
+    "properties": {
+      "definition": "Payment instrument issued to customers, subject to fraud protection and liability rules",
+      "key_attributes": [
+        "issuance_status",
+        "active_status"
+      ],
+      "business_rules": [
+        "Customer liability is £0 if reported within 24 hours",
+        "Bank covers 100% of unauthorized transactions"
+      ],
+      "relationships_to": [
+        "Unauthorized Transaction",
+        "Fraud Claim"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_032",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_032_bnk_002",
+    "name": "Unauthorized Transaction",
+    "properties": {
+      "definition": "A transaction executed without the cardholder's consent, triggering bank liability coverage",
+      "key_attributes": [
+        "liability_coverage",
+        "reporting_timeframe"
+      ],
+      "business_rules": [
+        "Bank assumes 100% liability",
+        "Must be reported within 24 hours for £0 customer liability"
+      ],
+      "relationships_to": [
+        "Card",
+        "Fraud Claim"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_032",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_032_bnk_003",
+    "name": "Fraud Claim",
+    "properties": {
+      "definition": "Formal request submitted by a customer to report fraudulent activity and seek reimbursement",
+      "key_attributes": [
+        "reimbursement_timeframe",
+        "monthly_volume"
+      ],
+      "business_rules": [
+        "Reimbursement must occur within 10 business days of submission"
+      ],
+      "relationships_to": [
+        "Unauthorized Transaction",
+        "Card"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_032",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_033_bnk_001",
+    "name": "Investment Account",
+    "properties": {
+      "definition": "Product for managing stocks, ETFs, and ISAs",
+      "key_attributes": [
+        "Stocks",
+        "ETFs",
+        "ISA"
+      ],
+      "development_status": "Design",
+      "target_launch_date": "Q3 2026"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_033",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_033_bnk_002",
+    "name": "Travel Money Card",
+    "properties": {
+      "definition": "Multi-currency prepaid card product",
+      "key_attributes": [
+        "Multi-currency",
+        "Prepaid"
+      ],
+      "development_status": "Development",
+      "target_launch_date": "Q4 2026"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_033",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_033_bnk_003",
+    "name": "Savings Bonds",
+    "properties": {
+      "definition": "Fixed-term savings instrument",
+      "key_attributes": [
+        "Fixed-term",
+        "Savings"
+      ],
+      "development_status": "Research",
+      "target_launch_date": "Q1 2027"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_033",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_033_bnk_004",
+    "name": "Small Business Account",
+    "properties": {
+      "definition": "Transactional account for small businesses",
+      "key_attributes": [
+        "Business",
+        "Transactional"
+      ],
+      "development_status": "Scoping",
+      "target_launch_date": "Q2 2027"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_033",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_033_met_001",
+    "name": "Investment Account Target Launch Date",
+    "properties": {
+      "value": "Q3 2026",
+      "unit": "Quarter/Year",
+      "what_it_measures": "Target launch date for the Investment Account product",
+      "context": "Part of the 2026-2027 Product Development Pipeline under development phase"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_033",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_033_met_002",
+    "name": "Travel Money Card Target Launch Date",
+    "properties": {
+      "value": "Q4 2026",
+      "unit": "Quarter/Year",
+      "what_it_measures": "Target launch date for the Travel Money Card product"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_033",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_033_met_003",
+    "name": "Savings Bonds Target Launch Date",
+    "properties": {
+      "value": "Q1 2027",
+      "unit": "Quarter/Year",
+      "what_it_measures": "Target launch date for the Savings Bonds product"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_033",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_033_met_004",
+    "name": "Small Business Account Target Launch Date",
+    "properties": {
+      "value": "Q2 2027",
+      "unit": "Quarter/Year",
+      "what_it_measures": "Target launch date for the Small Business Account product"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_033",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_034_org_001",
+    "name": "Product Committee",
+    "properties": {
+      "meeting_frequency": [
+        "Bi-weekly"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_034",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_034_org_002",
+    "name": "Board Risk Committee",
+    "properties": {
+      "key_functions": [
+        "Product approval authority"
+      ],
+      "decision_thresholds": [
+        "Products >£1M potential"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_034",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_034_rul_003",
+    "name": "Product Approval Threshold",
+    "properties": {
+      "rule_statement": "Products with potential value exceeding £1M require Board Risk Committee approval",
+      "rule_type": [
+        "threshold",
+        "authority"
+      ],
+      "applies_to": [
+        "Product approvals"
+      ],
+      "enforcement": [
+        "Board Risk Committee"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_034",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_034_bnk_004",
+    "name": "Risk Appetite",
+    "properties": {
+      "key_attributes": [
+        "Risk tolerance stance"
+      ],
+      "relationships_to": [
+        "Pillar 1 capital adequacy ratio"
+      ],
+      "example": [
+        "Conservative"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_034",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_034_met_005",
+    "name": "Pillar 1 Capital Adequacy Ratio",
+    "properties": {
+      "value": "15%",
+      "unit": "percentage",
+      "what_it_measures": [
+        "Capital adequacy level relative to regulatory requirements"
+      ],
+      "context": [
+        "Established to support the bank's conservative risk appetite"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_034",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_035_org_001",
+    "name": "Financial Conduct Authority",
+    "properties": {
+      "regulatory_responsibilities": [
+        "FCA COBS / Conduct of Business sourcebook"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_035",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_035_org_002",
+    "name": "Prudential Regulation Authority",
+    "properties": {
+      "regulatory_responsibilities": [
+        "PRA Rulebook"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_035",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_035_rul_001",
+    "name": "FCA Conduct of Business Sourcebook",
+    "properties": {
+      "rule_statement": "FCA COBS (Conduct of Business sourcebook)",
+      "regulatory_source": [
+        "Financial Conduct Authority"
+      ],
+      "rule_type": [
+        "conduct",
+        "business standards"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_035",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_035_rul_002",
+    "name": "PRA Prudential Rulebook",
+    "properties": {
+      "rule_statement": "PRA Rulebook",
+      "regulatory_source": [
+        "Prudential Regulation Authority"
+      ],
+      "rule_type": [
+        "prudential",
+        "regulatory"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_035",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_035_rul_003",
+    "name": "General Data Protection Regulation",
+    "properties": {
+      "rule_statement": "GDPR (Data protection)",
+      "regulatory_source": [
+        "General Data Protection Regulation"
+      ],
+      "rule_type": [
+        "data protection",
+        "privacy"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_035",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_035_rul_004",
+    "name": "Open Banking Regulatory Framework",
+    "properties": {
+      "rule_statement": "Open Banking regulations (PSD2, Open Banking Standard)",
+      "regulatory_source": [
+        "Open Banking regulations"
+      ],
+      "rule_type": [
+        "open banking",
+        "psd2",
+        "standard"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_035",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_036_sys_001",
+    "name": "Product Information Document System",
+    "properties": {
+      "purpose": "Maintains standardized Product Information Documents (PIDs) for all bank products",
+      "data_stored": [
+        "SAV-001-PID",
+        "SAV-002-PID",
+        "CURR-001-PID",
+        "MORT-001-PID",
+        "CARD-001-PID"
+      ],
+      "integrations": [
+        "Product FAQ Repository"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_036",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_036_bnk_001",
+    "name": "SmartSaver Account",
+    "properties": {
+      "definition": "Standardized banking product requiring mandatory PID documentation",
+      "key_attributes": [
+        "PID code: SAV-001-PID"
+      ],
+      "relationships_to": [
+        "Mandatory PID Documentation Rule",
+        "Product FAQ Repository"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_036",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_036_bnk_002",
+    "name": "SmartSaver Plus",
+    "properties": {
+      "definition": "Standardized banking product requiring mandatory PID documentation",
+      "key_attributes": [
+        "PID code: SAV-002-PID"
+      ],
+      "relationships_to": [
+        "Mandatory PID Documentation Rule",
+        "Product FAQ Repository"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_036",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_036_bnk_003",
+    "name": "Current Account",
+    "properties": {
+      "definition": "Standardized banking product requiring mandatory PID documentation",
+      "key_attributes": [
+        "PID code: CURR-001-PID"
+      ],
+      "relationships_to": [
+        "Mandatory PID Documentation Rule",
+        "Product FAQ Repository"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_036",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_036_bnk_004",
+    "name": "Mortgage",
+    "properties": {
+      "definition": "Standardized banking product requiring mandatory PID documentation",
+      "key_attributes": [
+        "PID code: MORT-001-PID"
+      ],
+      "relationships_to": [
+        "Mandatory PID Documentation Rule",
+        "Product FAQ Repository"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_036",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_036_bnk_005",
+    "name": "Debit Card",
+    "properties": {
+      "definition": "Standardized banking product requiring mandatory PID documentation",
+      "key_attributes": [
+        "PID code: CARD-001-PID"
+      ],
+      "relationships_to": [
+        "Mandatory PID Documentation Rule",
+        "Product FAQ Repository"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_036",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_036_sys_002",
+    "name": "Product FAQ Repository",
+    "properties": {
+      "system_id": "PROD-FAQ-001",
+      "purpose": "Centralized repository for product frequently asked questions",
+      "integrations": [
+        "Product Information Document System"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_036",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_036_rul_001",
+    "name": "Mandatory PID Documentation Rule",
+    "properties": {
+      "rule_statement": "Each bank product must have a standardized Product Information Document (PID)",
+      "rule_type": "obligation",
+      "applies_to": [
+        "SmartSaver Account",
+        "SmartSaver Plus",
+        "Current Account",
+        "Mortgage",
+        "Debit Card"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_036",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_037_bnk_001",
+    "name": "SmartSaver Account",
+    "properties": {
+      "relationships_to": [
+        "SAV-001-TC (Terms & Conditions Document)"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_037",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_037_bnk_002",
+    "name": "Current Account",
+    "properties": {
+      "relationships_to": [
+        "CURR-001-TC (Terms & Conditions Document)"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_037",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_037_bnk_003",
+    "name": "Mortgage",
+    "properties": {
+      "relationships_to": [
+        "MORT-001-TC (Terms & Conditions Document)"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_037",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_037_rul_001",
+    "name": "Product Terms Review Policy",
+    "properties": {
+      "rule_statement": [
+        "Review Terms & Conditions annually or when product changes"
+      ],
+      "applies_to": [
+        "SmartSaver Account",
+        "Current Account",
+        "Mortgage"
+      ],
+      "rule_type": [
+        "obligation"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_037",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_037_met_001",
+    "name": "Terms & Conditions Last Review Date",
+    "properties": {
+      "value": "2026-01-15",
+      "unit": "date",
+      "what_it_measures": [
+        "Date of last Terms & Conditions review"
+      ],
+      "context": [
+        "Tracks adherence to annual review frequency requirement"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_037",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_038_rol_001",
+    "name": "Product Head",
+    "properties": {
+      "key_responsibilities": [
+        "managing product version history",
+        "updating interest rates",
+        "introducing new product tiers"
+      ],
+      "accountable_for": [
+        "product catalogue maintenance",
+        "rate updates",
+        "new product rollouts"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_038",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_038_bnk_001",
+    "name": "Joint Account",
+    "properties": {
+      "definition": "Account type whose details were added to the product catalogue in version 3.2",
+      "key_attributes": [
+        "account details"
+      ],
+      "relationships_to": [
+        "Product Catalogue",
+        "Interest Rate"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_038",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_038_bnk_002",
+    "name": "SmartSaver Plus",
+    "properties": {
+      "definition": "A savings tier introduced in version 3.1",
+      "subtypes": [
+        "tier"
+      ],
+      "relationships_to": [
+        "Product Catalogue"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_038",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_038_bnk_003",
+    "name": "Mortgage",
+    "properties": {
+      "definition": "Lending product added to the catalogue in version 2.0",
+      "relationships_to": [
+        "Product Catalogue"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_038",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_038_bnk_004",
+    "name": "Investment Roadmap",
+    "properties": {
+      "definition": "Investment planning product added to the catalogue in version 2.0",
+      "relationships_to": [
+        "Product Catalogue"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_038",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_038_bnk_005",
+    "name": "Interest Rate",
+    "properties": {
+      "definition": "Pricing metric subject to periodic updates across product versions",
+      "key_attributes": [
+        "rates"
+      ],
+      "business_rules": [
+        "subject to annual review and version-based updates"
+      ],
+      "relationships_to": [
+        "Product Catalogue",
+        "Joint Account",
+        "SmartSaver Plus"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_038",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_038_bnk_006",
+    "name": "Product Catalogue",
+    "properties": {
+      "definition": "Version-controlled repository tracking all bank products, rates, and catalogue changes",
+      "key_attributes": [
+        "version history",
+        "product details",
+        "rate updates"
+      ],
+      "business_rules": [
+        "maintained through structured version updates overseen by Product Head"
+      ],
+      "relationships_to": [
+        "Joint Account",
+        "SmartSaver Plus",
+        "Mortgage",
+        "Investment Roadmap",
+        "Interest Rate"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_038",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_039_org_001",
+    "name": "Product Management Department",
+    "properties": {},
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_039",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_039_org_002",
+    "name": "Departments Reference Catalog",
+    "properties": {
+      "key_functions": [
+        "Reference catalog for organizational departments"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_039",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_039_bnk_001",
+    "name": "Business Ontology",
+    "properties": {
+      "definition": "Framework covering product concepts and account types",
+      "key_attributes": [
+        "product concepts",
+        "account types"
+      ]
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_039",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_039_bnk_002",
+    "name": "Interest Rate Schedule",
+    "properties": {
+      "document_reference_id": "IRS-2026-001"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_039",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_039_rul_001",
+    "name": "Account Opening Standard Operating Procedure",
+    "properties": {
+      "document_reference_id": "ACCT-OPEN-SOP-001"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_039",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_039_rul_002",
+    "name": "KYC Verification Standard Operating Procedure",
+    "properties": {
+      "document_reference_id": "KYC-SOP-001"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_039",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_039_rul_003",
+    "name": "Anti-Money Laundering Policy",
+    "properties": {
+      "document_reference_id": "AML-POL-002"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_039",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_039_rul_004",
+    "name": "Pricing Guide",
+    "properties": {
+      "document_reference_id": "PRC-GUIDE-2026"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_039",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_039_rul_005",
+    "name": "Complaint Handling Policy",
+    "properties": {
+      "document_reference_id": "COM-POL-006"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_039",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_039_rul_006",
+    "name": "Fraud Prevention and Detection Policy",
+    "properties": {
+      "document_reference_id": "FRAUD-POL-007"
+    },
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_039",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_040_rol_001",
+    "name": "Director of Product Management",
+    "properties": {},
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_040",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_040_rol_002",
+    "name": "Chief Risk Officer",
+    "properties": {},
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_040",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  },
+  {
+    "id": "c5602d414fdb4997b877112e4717fc08_040_rol_003",
+    "name": "Compliance Head",
+    "properties": {},
+    "chunk_id": "c5602d414fdb4997b877112e4717fc08_040",
+    "doc_id": "c5602d414fdb4997b877112e4717fc08"
+  }
+]

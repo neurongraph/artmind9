@@ -1,0 +1,254 @@
+[
+  {
+    "id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_001",
+    "name": "Elara",
+    "properties": {
+      "role": "antique bookstore owner",
+      "age": 74,
+      "physical_description": "spotted, wrinkled, and shaky hands; aching knees; initially stands with a heavy posture, later stands taller",
+      "personality_traits": [
+        "meticulous",
+        "emotionally guarded",
+        "lonely",
+        "initially focused on the present",
+        "later reflective and open"
+      ],
+      "motivations": [
+        "to maintain order and control",
+        "to reconnect with her past and feel alive"
+      ],
+      "narrative_arc": "transitions from emotional stagnation and grayness to reawakening and active engagement with her memories",
+      "occupation": "antique bookstore owner",
+      "signature_behaviours": [
+        "keeps meticulous records and inventory",
+        "initially avoids looking back",
+        "later actively engages customers and writes in her journal"
+      ]
+    },
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_002",
+    "name": "Younger Elara",
+    "properties": {
+      "role": "manifestation of Elara's past self",
+      "age": "thirty-two (appears around forty)",
+      "physical_description": "kind eyes, familiar tilt to her head, smooth hands",
+      "personality_traits": [
+        "kind",
+        "patient",
+        "perceptive",
+        "adventurous",
+        "encouraging"
+      ],
+      "motivations": [
+        "to help Elara reclaim her past memories and courage"
+      ],
+      "narrative_function": "catalyst for the protagonist's emotional transformation",
+      "signature_behaviours": [
+        "speaks directly to Elara's emotional state",
+        "hands over the golden apple",
+        "references past adventures and feelings"
+      ]
+    },
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_char_003",
+    "name": "Young Man",
+    "properties": {
+      "role": "antique bookstore customer",
+      "physical_description": "wears a backpack, appears lost",
+      "personality_traits": [
+        "curious",
+        "open-minded",
+        "seeking adventure"
+      ],
+      "motivations": [
+        "finding a book on local history or adventure"
+      ],
+      "narrative_function": "catalyst for Elara's shift from detached manager to engaged storyteller",
+      "signature_behaviours": [
+        "asks for adventurous reading material",
+        "eyes light up at the recommendation",
+        "leaves the store after receiving the book"
+      ]
+    },
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_loc_001",
+    "name": "The Memory Orchard",
+    "properties": {
+      "physical_description": "stone archway covered in wisteria, trees bearing deep crimson apples, cold stone bench beneath the largest tree",
+      "atmosphere": "heavy and sweet air, smelling of apple blossoms and ozone",
+      "narrative_function": "magical repository for forgotten moments; site of protagonist's emotional confrontation",
+      "isolation_level": "hidden behind an antique bookstore, appears only when needed",
+      "symbolic_meaning": "represents the subconscious mind and the emotional weight of past experiences",
+      "status": "disappears after the encounter"
+    },
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_loc_002",
+    "name": "Antique Bookstore",
+    "properties": {
+      "physical_description": "contains a desk, filing cabinets, high shelves, and inventory reports; smells of dust and old paper",
+      "atmosphere": "initially cold and sterile, later becomes welcoming and alive",
+      "narrative_function": "Elara's daily domain representing her structured, guarded life",
+      "who_controls": "Elara",
+      "symbolic_meaning": "represents order, routine, and emotional detachment"
+    },
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_loc_003",
+    "name": "Main Street",
+    "properties": {
+      "physical_description": "features a setting sun casting long, dramatic shadows",
+      "atmosphere": "calm, transitional, slightly melancholic but hopeful",
+      "narrative_function": "transition space marking Elara's return to reality after the orchard encounter"
+    },
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_loc_004",
+    "name": "The Pier",
+    "properties": {
+      "physical_description": "overlooks a grey ocean",
+      "atmosphere": "contemplative, expansive, initially somber but ultimately liberating",
+      "narrative_function": "site of Elara's first moment of genuine emotional relief and self-reclamation"
+    },
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_obj_001",
+    "name": "Golden Apple",
+    "properties": {
+      "physical_description": "golden, sunny yellow, incredibly light, sweet, crisp, and shockingly cold",
+      "who_owns_or_uses": "Younger Elara",
+      "narrative_role": "magical catalyst for memory retrieval",
+      "symbolic_meaning": "represents courage, past adventures, and the tangible taste of lived experience",
+      "significance": "resolved; Elara eats it and gains a profound sense of lightness and memory"
+    },
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_obj_002",
+    "name": "Photographs",
+    "properties": {
+      "who_owns_or_uses": "Elara",
+      "narrative_role": "symbol of emotional detachment and passive memory",
+      "symbolic_meaning": "represent the gap between recording life and actually living or feeling it",
+      "significance": "thematic; Elara resolves to stop relying on them to live her life"
+    },
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_obj_003",
+    "name": "Blue-covered Book",
+    "properties": {
+      "physical_description": "thin, blue-covered, found on a high shelf",
+      "who_owns_or_uses": "Elara",
+      "narrative_role": "catalyst for human connection and storytelling",
+      "symbolic_meaning": "represents adventure, risk, and the beauty of uncomfortable experiences",
+      "significance": "resolved; successfully recommended to the young man, marking Elara's new approach to life"
+    },
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_obj_004",
+    "name": "Old Journals and Letters",
+    "properties": {
+      "physical_description": "stored in a drawer Elara hadn't opened since her husband's funeral",
+      "who_owns_or_uses": "Elara",
+      "narrative_role": "repository of buried grief and past emotions",
+      "symbolic_meaning": "represents the potential for emotional reawakening and self-expression",
+      "significance": "resolved; Elara opens it to write about her experiences, marking her shift to active living"
+    },
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_evt_001",
+    "name": "The Orchard Encounter",
+    "properties": {
+      "sequence_number": 1,
+      "what_changed": "Elara confronts her past self, consumes the golden apple, and experiences a surge of memory and emotional lightness",
+      "who_was_involved": [
+        "Elara",
+        "Younger Elara"
+      ],
+      "emotions": [
+        "loneliness",
+        "defensiveness",
+        "fear",
+        "lightness",
+        "relief",
+        "self-reclamation"
+      ],
+      "is_turning_point": true,
+      "cause": "Elara's decade-long emotional stagnation and refusal to look back",
+      "immediate_consequence": "Elara returns to reality standing taller, breathing easier, and feeling entirely herself",
+      "why_it_matters": "breaks her emotional grayness and initiates her journey back to feeling"
+    },
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_evt_002",
+    "name": "The Morning After",
+    "properties": {
+      "sequence_number": 2,
+      "what_changed": "Elara wakes with energy, warmly engages a customer, and begins journaling about her experiences",
+      "who_was_involved": [
+        "Elara",
+        "Young Man"
+      ],
+      "emotions": [
+        "energy",
+        "amusement",
+        "fulfillment",
+        "determination"
+      ],
+      "is_turning_point": true,
+      "cause": "The orchard encounter and the lingering effect of the golden apple",
+      "immediate_consequence": "Elara shifts from a detached manager to an engaged storyteller and decides to live inside her memories",
+      "why_it_matters": "demonstrates the lasting impact of the encounter and her active choice to embrace life"
+    },
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_con_001",
+    "name": "Forgotten Moments",
+    "properties": {
+      "manifestation": "A hidden space (the orchard) where lost memories reside; represents the emotional cost of moving forward without looking back",
+      "embodiment": "Elara's decade-long emotional stagnation and the golden apple",
+      "resolution": "Reclaimed through active remembrance and the willingness to feel again"
+    },
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  },
+  {
+    "id": "6d2a5dabc2f64edba6e4740d0b8022f1_001_con_002",
+    "name": "Emotional Grayness",
+    "properties": {
+      "manifestation": "A decade-long state of emotional numbness and heavy guard, where life loses its color",
+      "embodiment": "Elara's meticulous routine, reliance on photographs, and initial loneliness",
+      "resolution": "Dissolved through active remembrance and the decision to stop looking at photographs and start living inside memories"
+    },
+    "chunk_id": "6d2a5dabc2f64edba6e4740d0b8022f1_001",
+    "doc_id": "6d2a5dabc2f64edba6e4740d0b8022f1"
+  }
+]

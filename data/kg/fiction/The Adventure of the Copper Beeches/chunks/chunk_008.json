@@ -1,0 +1,2873 @@
+{
+  "embedding": [
+    0.08799765,
+    0.00039681213,
+    -0.14649096,
+    -0.04732607,
+    0.045439743,
+    0.029723266,
+    -0.024631733,
+    0.0048712255,
+    0.03337551,
+    -0.025741998,
+    -0.12844872,
+    0.026587129,
+    0.0635063,
+    -0.014389018,
+    -0.004335299,
+    0.0045981524,
+    0.09130251,
+    0.0115544,
+    -0.04655037,
+    0.025142096,
+    -0.052651655,
+    0.0033970764,
+    -0.04075713,
+    -0.017783917,
+    0.050637085,
+    0.03571719,
+    -0.052212346,
+    0.009328442,
+    -0.030396204,
+    0.029262258,
+    0.018563556,
+    -0.0080063315,
+    -0.021752866,
+    -0.028081588,
+    -0.080849625,
+    -0.013804929,
+    -0.008693914,
+    0.06301258,
+    0.040764548,
+    -0.023945648,
+    0.099233285,
+    -0.002717774,
+    -0.04686178,
+    -0.06362008,
+    0.041460525,
+    -0.050354596,
+    0.03253713,
+    -0.020028915,
+    0.015050537,
+    0.0061769155,
+    0.008337348,
+    -0.029678464,
+    0.036089577,
+    -0.016124543,
+    0.09662672,
+    0.07315004,
+    0.010478898,
+    0.0154108945,
+    -0.0058615506,
+    -0.036872383,
+    0.04186745,
+    -0.022598322,
+    -0.05637496,
+    0.09253005,
+    0.016688999,
+    -0.029123254,
+    -0.036226146,
+    0.062554255,
+    0.015764328,
+    -0.032520793,
+    0.028239502,
+    -0.002740826,
+    -0.064051636,
+    0.0059975698,
+    -0.009759198,
+    0.0023245239,
+    0.013399226,
+    -0.0041483412,
+    0.021663062,
+    -0.019347271,
+    -0.0033752727,
+    -0.04361648,
+    0.054501437,
+    -0.019248962,
+    -0.0023159515,
+    0.027044544,
+    0.035145335,
+    -0.009193292,
+    -0.058160927,
+    0.043264892,
+    0.028126545,
+    0.047890816,
+    -0.010040022,
+    -0.007912083,
+    -0.007864271,
+    -0.021508722,
+    0.007406103,
+    0.000383763,
+    -0.050249085,
+    0.020323472,
+    -0.049177244,
+    -0.085249394,
+    0.04361687,
+    0.047462728,
+    0.027816538,
+    0.07422907,
+    0.03749563,
+    0.027419122,
+    0.011103879,
+    -0.0007483177,
+    -0.031887088,
+    0.016099675,
+    -0.05183137,
+    -0.051208444,
+    0.006660502,
+    -0.04227072,
+    0.02529389,
+    -0.038962442,
+    0.023640139,
+    0.035316348,
+    -0.04321536,
+    0.0565203,
+    -0.04448435,
+    0.07267548,
+    0.049390614,
+    0.051563676,
+    -0.066061296,
+    0.018141314,
+    0.019812653,
+    -0.04375987,
+    -0.024110844,
+    0.00920635,
+    -0.0036806397,
+    0.05094315,
+    0.03614063,
+    0.034025162,
+    -0.003000351,
+    -0.036714822,
+    -0.026298178,
+    0.0030640226,
+    0.04172578,
+    0.020316971,
+    0.0049634282,
+    -0.019037182,
+    -0.034643017,
+    -0.017309537,
+    0.035867114,
+    -0.03361997,
+    -0.063870534,
+    0.05160588,
+    0.021531159,
+    -0.031953253,
+    0.003298966,
+    0.04978339,
+    -0.020933693,
+    -0.008761857,
+    0.019029984,
+    0.049678598,
+    -0.0012262526,
+    0.03577585,
+    0.0010316314,
+    0.012057321,
+    -0.008050609,
+    0.06855105,
+    -0.011921622,
+    0.0335168,
+    -0.01840906,
+    0.041453835,
+    -0.021439392,
+    0.037094217,
+    -0.052877128,
+    -0.056150753,
+    -0.015406735,
+    -0.0138059305,
+    0.03599746,
+    -0.033866998,
+    0.012012687,
+    -0.04029295,
+    -0.03502189,
+    -0.035431907,
+    0.025949873,
+    -0.029600542,
+    0.053900607,
+    -0.034584384,
+    -0.019807864,
+    0.004614855,
+    0.027797729,
+    -0.040197108,
+    -0.028014895,
+    -0.05462817,
+    0.020238267,
+    -0.004240367,
+    -0.06891231,
+    0.03697366,
+    -0.015348335,
+    -0.016994927,
+    0.034009714,
+    0.0014584095,
+    -0.016405184,
+    -0.002524877,
+    -0.018351037,
+    0.015738834,
+    0.025568109,
+    0.0127560105,
+    -0.02788161,
+    0.033941705,
+    0.010961015,
+    0.0041762656,
+    0.0057421476,
+    0.008495569,
+    0.017002707,
+    -0.022079285,
+    -0.042870786,
+    0.035120487,
+    -0.009357267,
+    -0.02186006,
+    0.05908122,
+    -0.0037990096,
+    -0.047276475,
+    -0.009997544,
+    0.03979552,
+    0.02324349,
+    -0.018122803,
+    -0.0065757236,
+    0.05520597,
+    0.05340111,
+    -0.023993388,
+    -0.03111929,
+    -0.04561879,
+    -0.036324978,
+    0.01180523,
+    -0.11598697,
+    0.062303834,
+    0.012115817,
+    -0.07534913,
+    0.013063549,
+    -0.025911465,
+    0.019827485,
+    -0.014225071,
+    0.03344635,
+    -0.052845247,
+    0.0023687934,
+    -0.031954296,
+    -0.03806499,
+    -0.014706343,
+    0.034159347,
+    0.024054203,
+    -0.01272474,
+    -0.016772736,
+    0.04246847,
+    0.033476975,
+    0.01892628,
+    0.048024494,
+    0.021421786,
+    0.008827441,
+    -0.03170962,
+    -0.02435371,
+    0.013216414,
+    -0.03659116,
+    0.010055546,
+    0.055902436,
+    -0.009212726,
+    -0.00035185376,
+    -0.011248039,
+    -0.07899114,
+    -0.035256986,
+    0.004246456,
+    -0.010008472,
+    0.036990784,
+    0.016871698,
+    0.00075796957,
+    0.069065265,
+    0.0154451225,
+    0.03328319,
+    0.0019675712,
+    -0.016819749,
+    -0.027342632,
+    -0.009765148,
+    -0.02124934,
+    0.050977357,
+    -0.038315684,
+    0.029004894,
+    -0.01962727,
+    -0.027758777,
+    -0.0058309366,
+    -0.022349343,
+    0.0030712779,
+    0.008803479,
+    0.066348545,
+    0.006548794,
+    0.04131588,
+    0.0043589887,
+    0.010193988,
+    0.027161341,
+    0.022872364,
+    0.08494219,
+    0.011778643,
+    -0.048114292,
+    -0.057655767,
+    -0.00030843812,
+    0.042308383,
+    0.04513654,
+    0.0019512611,
+    0.06641142,
+    -0.023527607,
+    0.004640041,
+    -0.021843115,
+    -0.01553685,
+    0.026373532,
+    -0.06455562,
+    -0.079683,
+    -0.03145497,
+    -0.022092674,
+    -0.02352342,
+    -0.06424056,
+    0.020628534,
+    0.01963872,
+    0.0187388,
+    0.015522723,
+    0.036284845,
+    -0.0007852373,
+    -0.0093292305,
+    0.011347193,
+    -0.08240631,
+    0.041623507,
+    0.04694091,
+    -0.029605886,
+    0.054359425,
+    -0.037842095,
+    0.023382727,
+    0.017551249,
+    0.025269775,
+    0.08053058,
+    -0.0056548286,
+    -0.0577981,
+    0.037871044,
+    -0.027178317,
+    0.031077923,
+    -0.04903107,
+    0.044157047,
+    0.023010189,
+    -0.016196446,
+    -0.021576436,
+    -0.03656195,
+    -0.048675742,
+    0.049867235,
+    -0.06658332,
+    -0.023840053,
+    -0.0043759695,
+    0.03837915,
+    -0.050819356,
+    -0.020496633,
+    -0.037986487,
+    0.026882278,
+    0.011287546,
+    0.017964536,
+    -0.021688392,
+    0.033337135,
+    -0.03307997,
+    -0.016787497,
+    0.04212594,
+    0.026228279,
+    0.031496756,
+    -0.017967794,
+    -0.018801466,
+    0.051157344,
+    0.06557628,
+    0.00034707342,
+    0.02043932,
+    -0.004120377,
+    -0.047701545,
+    0.006399782,
+    0.017735042,
+    0.03722619,
+    0.008110025,
+    0.019974306,
+    -0.060918998,
+    -0.017659388,
+    -0.040002763,
+    0.015695466,
+    0.024806404,
+    -0.013227467,
+    -0.042812888,
+    0.025136746,
+    0.013970751,
+    0.0017541158,
+    0.01777227,
+    0.0005268771,
+    0.014094776,
+    0.003216138,
+    -0.02192026,
+    -0.0366072,
+    -0.013744088,
+    -0.013020211,
+    0.043090787,
+    -0.03447265,
+    0.01996596,
+    0.022969851,
+    0.00531223,
+    0.014647708,
+    -0.041952323,
+    -0.04771223,
+    -0.010277699,
+    0.03224216,
+    0.0024603892,
+    0.03337347,
+    -0.0035437203,
+    -0.03653227,
+    0.01364877,
+    -0.013026016,
+    0.0022958901,
+    0.07386287,
+    -0.02496288,
+    -0.058084328,
+    -0.055387206,
+    0.033939138,
+    0.050800066,
+    -0.020905998,
+    0.0056453818,
+    -0.01523107,
+    0.012388714,
+    0.024465514,
+    0.0035359564,
+    -0.0038768824,
+    0.03759326,
+    0.03325451,
+    0.012331161,
+    0.0032872185,
+    -0.026724188,
+    -0.027210273,
+    0.016245225,
+    0.02003961,
+    0.0063099563,
+    -0.03300898,
+    0.030625312,
+    -0.023825245,
+    0.042019185,
+    0.0153436,
+    -0.015635021,
+    0.08014463,
+    0.06906885,
+    0.034507386,
+    -0.0045557925,
+    -0.0364659,
+    0.014733315,
+    -0.02956088,
+    0.0630525,
+    -0.03164417,
+    -0.040525474,
+    0.0068345577,
+    0.00186415,
+    -0.01162683,
+    -0.010342791,
+    0.013050167,
+    0.028144142,
+    -0.04406424,
+    -0.045766335,
+    -0.013327022,
+    0.008988095,
+    0.0394994,
+    0.064678825,
+    0.0062667057,
+    -0.05886256,
+    0.0351239,
+    -0.014013813,
+    -0.032810107,
+    -0.044343624,
+    -0.017320352,
+    0.008741519,
+    0.060911357,
+    -0.0682386,
+    0.011600056,
+    0.014535528,
+    -0.010735577,
+    0.01995694,
+    -0.00013267335,
+    -0.054573454,
+    -0.008882122,
+    -0.060108185,
+    0.104358934,
+    0.045072973,
+    -0.023646483,
+    -0.004140513,
+    -0.05222652,
+    0.0020717417,
+    0.008497056,
+    0.01021485,
+    0.0015540661,
+    0.034054533,
+    -0.030173574,
+    0.0086032525,
+    0.024314202,
+    0.023682246,
+    -0.008916859,
+    0.013207358,
+    -0.024525842,
+    -0.03926926,
+    0.036954515,
+    0.0054720826,
+    0.05134381,
+    0.019335454,
+    0.053340808,
+    -0.02944765,
+    0.026694946,
+    -0.0003731238,
+    -0.0125819,
+    -0.0102584595,
+    -0.060360502,
+    -0.024560204,
+    -0.016603839,
+    -0.011995756,
+    0.01795193,
+    0.008019889,
+    0.021327756,
+    0.081225045,
+    -0.03400718,
+    -0.03997132,
+    0.043849196,
+    -0.014304061,
+    0.049966585,
+    0.01507407,
+    -0.07234819,
+    0.0016493463,
+    -0.07383874,
+    -0.015777571,
+    0.018021459,
+    -0.012809744,
+    -0.10978841,
+    0.027936326,
+    0.007472655,
+    -0.034541097,
+    0.024423743,
+    -0.03747914,
+    -0.0119838435,
+    -0.0010856751,
+    -0.017735707,
+    -0.049540956,
+    0.0654655,
+    0.03645567,
+    0.04639949,
+    -0.022708718,
+    0.0028595948,
+    -0.0040992484,
+    0.010231327,
+    -0.018698124,
+    0.024732027,
+    -0.0029189496,
+    0.016606258,
+    0.007886547,
+    0.009919053,
+    -0.00917238,
+    -0.05088505,
+    -0.063590795,
+    -0.018609416,
+    -0.0025999334,
+    -0.009709868,
+    0.01651196,
+    -0.01511,
+    -0.044401087,
+    -0.037594076,
+    -0.0008747609,
+    0.042734046,
+    0.030553153,
+    0.02795759,
+    0.0022916154,
+    -0.028471967,
+    -0.021183614,
+    0.0016505808,
+    0.014673734,
+    0.0045064096,
+    0.027422324,
+    -0.043440063,
+    -0.037334166,
+    -0.0047654626,
+    -0.0007970681,
+    0.009292145,
+    -0.04245832,
+    0.0017092747,
+    -0.063926645,
+    -0.0555323,
+    -0.022736415,
+    0.0072694067,
+    0.007868057,
+    0.03509422,
+    -0.020386353,
+    0.005079015,
+    -0.052369244,
+    -0.030660642,
+    0.08074379,
+    -0.026107002,
+    0.002367087,
+    0.022005241,
+    -0.0040650903,
+    0.016437,
+    0.061042167,
+    -0.009979812,
+    0.025631888,
+    -0.0069963555,
+    -0.029422162,
+    -0.016091933,
+    -0.0049392814,
+    -0.008619877,
+    0.08094391,
+    -0.016738683,
+    0.007224813,
+    0.006352444,
+    0.036052074,
+    -0.008477135,
+    0.024377316,
+    -0.008508242,
+    0.04383582,
+    0.04897881,
+    0.015782652,
+    -0.0056993286,
+    -0.004653225,
+    -0.0352122,
+    0.07765516,
+    0.037492365,
+    -0.071826145,
+    -0.004384352,
+    0.0008275143,
+    -0.034783546,
+    0.0402984,
+    -0.012831725,
+    0.05485566,
+    0.013761102,
+    -0.031393286,
+    -0.0076113753,
+    -0.02977363,
+    0.013821169,
+    -0.06486386,
+    0.0014904186,
+    -0.03440715,
+    -0.06725005,
+    -0.02386085,
+    0.007524483,
+    0.017599806,
+    0.023953788,
+    -0.009144668,
+    0.027153289,
+    0.019816943,
+    0.00080061925,
+    -0.029320545,
+    0.042492352,
+    0.010979033,
+    -0.009670512,
+    0.027764628,
+    0.029536812,
+    0.011641957,
+    0.0033112986,
+    0.06435899,
+    0.057162337,
+    0.0051133037,
+    0.04014481,
+    -0.013118311,
+    -0.049324587,
+    0.037052948,
+    -0.059762996,
+    -0.09272155,
+    -0.02085429,
+    0.059724104,
+    0.018609792,
+    -0.017060611,
+    -0.039894905,
+    0.036998577,
+    0.019834891,
+    0.005792018,
+    -0.033896673,
+    -0.040702906,
+    0.005999271,
+    0.057359494,
+    0.017034568,
+    0.011237641,
+    0.0029384294,
+    0.008036719,
+    -0.0041627013,
+    0.053558156,
+    0.008506125,
+    0.023912389,
+    -0.018765016,
+    0.014569279,
+    -0.02566441,
+    0.044261467,
+    -0.015401446,
+    0.015033762,
+    -0.043439034,
+    0.035935983,
+    -0.014108949,
+    -0.037211128,
+    0.0038724486,
+    -0.07301866,
+    -0.016628752,
+    0.011510429,
+    -0.02037282,
+    0.002102903,
+    0.0069992654,
+    0.023231043,
+    0.060664576,
+    -0.020982996,
+    -0.001931137,
+    0.012587926,
+    -0.019185921,
+    -0.006262467,
+    0.0002323753,
+    -0.043720726,
+    -0.034745157,
+    0.0034481557,
+    0.014625949,
+    -0.009874361,
+    0.04099719,
+    0.035602584,
+    0.016275644,
+    -0.034357015,
+    -0.008631644,
+    0.06325982,
+    -0.015288056,
+    -0.006807876,
+    -0.02036305,
+    -0.069513805,
+    0.0018514567,
+    0.06930075,
+    -0.033825573,
+    -0.021342898,
+    -0.04408316,
+    0.02290251,
+    0.027640108,
+    0.05179352,
+    0.017730754,
+    -0.011426812,
+    -0.05912597,
+    0.014863336,
+    -0.0006460448,
+    -0.043480255,
+    0.042005192,
+    -0.01060289,
+    0.0010409986,
+    -0.07028502,
+    -0.04761206,
+    -0.08174771,
+    -0.056468964,
+    -0.049121685,
+    0.040816646,
+    0.032332305,
+    0.031562805,
+    0.016832478,
+    -0.031289104,
+    -0.019835737,
+    0.04499836,
+    0.00823199,
+    -0.017075503,
+    0.042299982,
+    -0.0045333626,
+    -0.08469411,
+    0.027493302,
+    0.0040486357,
+    -0.01511177,
+    0.0314056,
+    0.049729947,
+    0.08613197,
+    -0.0076046623,
+    0.0038021742,
+    -0.0199775,
+    0.003856407,
+    0.040502153,
+    -0.025918419,
+    -0.018144427,
+    0.051689167,
+    -0.06695015
+  ],
+  "chunk_seq": 8,
+  "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+  "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+  "text": "'She was never happy at home, Miss Alice wasn't, from the time that her father married again. She was slighted like and had no say in anything, but it never really became bad for her until after she met Mr. Fowler at a friend's house. As well as I could learn, Miss Alice had rights of her own by will, but she was so quiet and patient, she was, that she never said a word about them but just left everything in Mr. Rucastle's hands. He knew he was safe with her; but when there was a chance of a husband coming forward, who would ask for all that the law would give him, then her father thought it time to put a stop on it. He wanted her to sign a paper, so that whether she married or not, he could use her money. When she wouldn't do it, he kept on worrying her until she got brain-fever, and for six weeks was at death's door. Then she got better at last, all worn to a shadow, and with her beautiful hair cut off; but that didn't make no change in her young man, and he stuck to her as true as man could be.'  \n'Ah,' said Holmes, 'I think that what you have been good enough to tell us makes the matter fairly clear, and that I can deduce all that remains. Mr. Rucastle then, I presume, took to this system of imprisonment?'  \n'Yes, sir.'  \n'And brought Miss Hunter down from London in order to get rid of the disagreeable persistence of Mr. Fowler.'  \n'That was it, sir.'  \n'But Mr. Fowler being a persevering man, as a good seaman should be, blockaded the house, and having met you succeeded by certain arguments, metallic or otherwise, in convincing you that your interests were the same as his.'  \n'Mr. Fowler was a very kind-spoken, free-handed gentleman,' said Mrs. Toller serenely.  \n'And in this way he managed that your good man should have no want of drink, and that a ladder should be ready at the moment when your master had gone out.'  \n'You have it, sir, just as it happened.'  \n'I am sure we owe you an apology, Mrs. Toller,' said Holmes, 'for you have certainly cleared up everything which puzzled us. And here comes the country surgeon and Mrs. Rucastle, so I think, Watson, that we had best escort Miss Hunter back to Winchester, as it seems to me that our locus standi now is rather a questionable one.'  \nAnd thus was solved the mystery of the sinister house with the copper beeches in front of the door. Mr. Rucastle survived, but was always a broken man, kept alive solely through the care of his devoted wife. They still live with their old servants, who probably know so much of Rucastle's past life that he finds it difficult to part from them. Mr. Fowler and Miss Rucastle were married, by special license, in Southampton the day after their flight, and he is now the holder of a government appointment in the island of Mauritius. As to Miss Violet Hunter, my friend Holmes, rather to my disappointment, manifested no further interest in her when once she had ceased to be the centre of one of his problems, and she is now the head of a private school at Walsall, where I believe that she has met with considerable success.",
+  "name": "Chunk 8/8",
+  "domain": "fiction",
+  "prev_chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_007",
+  "raw_entities": [
+    {
+      "id": "char_001",
+      "name": "Alice Rucastle",
+      "aliases": [
+        "Miss Alice",
+        "Miss Rucastle"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "protagonist",
+      "description": "The central victim of the narrative, subjected to financial coercion and psychological abuse by her stepfather. She suffers a severe illness and physical alteration but remains steadfast in her devotion to her suitor, ultimately escaping to secure her legal rights and marry.",
+      "context": [
+        "She was never happy at home, Miss Alice wasn't",
+        "Mr. Rucastle then, I presume, took to this system of imprisonment?",
+        "Mr. Fowler and Miss Rucastle were married, by special license, in Southampton the day after their flight"
+      ]
+    },
+    {
+      "id": "char_002",
+      "name": "Mr. Rucastle",
+      "aliases": [
+        "Her father",
+        "Rucastle"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "antagonist",
+      "description": "Alice's stepfather who seizes control of her inherited wealth and employs a system of imprisonment to prevent her marriage. He survives the events but is left a broken man entirely dependent on his wife's care.",
+      "context": [
+        "left everything in Mr. Rucastle's hands",
+        "Mr. Rucastle then, I presume, took to this system of imprisonment?",
+        "Mr. Rucastle survived, but was always a broken man, kept alive solely through the care of his devoted wife."
+      ]
+    },
+    {
+      "id": "char_003",
+      "name": "Mr. Fowler",
+      "aliases": [
+        "Her young man",
+        "a good seaman"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "A persevering sailor and Alice's suitor who orchestrates her rescue by bribing household staff and arranging an escape route. He successfully marries Alice and secures a government post in Mauritius following their flight.",
+      "context": [
+        "met Mr. Fowler at a friend's house",
+        "Mr. Fowler being a persevering man, as a good seaman should be, blockaded the house",
+        "Mr. Fowler was a very kind-spoken, free-handed gentleman"
+      ]
+    },
+    {
+      "id": "char_004",
+      "name": "Miss Violet Hunter",
+      "aliases": [
+        "Miss Hunter"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "A woman connected to the case who is brought from London to help resolve the mystery. After the case concludes, Holmes loses interest in her, and she establishes herself as a successful headmistress of a private school.",
+      "context": [
+        "brought Miss Hunter down from London in order to get rid of the disagreeable persistence of Mr. Fowler.",
+        "As to Miss Violet Hunter, my friend Holmes, rather to my disappointment, manifested no further interest in her when once she had ceased to be the centre of one of his problems"
+      ]
+    },
+    {
+      "id": "char_005",
+      "name": "Mrs. Toller",
+      "aliases": [],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "A household servant who collaborates with Mr. Fowler to facilitate Alice's escape. She is motivated by financial gain and alcohol, and her testimony provides the crucial details that clear up the mystery for Holmes.",
+      "context": [
+        "said Mrs. Toller serenely.",
+        "I am sure we owe you an apology, Mrs. Toller,"
+      ]
+    },
+    {
+      "id": "char_006",
+      "name": "Holmes",
+      "aliases": [
+        "My friend Holmes"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "The detective who deduces the plot of imprisonment and financial coercion from Mrs. Toller's account. He resolves the mystery, apologizes to the household staff, and departs with Watson once their legal standing becomes questionable.",
+      "context": [
+        "Ah,\" said Holmes, \"I think that what you have been good enough to tell us makes the matter fairly clear",
+        "I am sure we owe you an apology, Mrs. Toller,\" said Holmes"
+      ]
+    },
+    {
+      "id": "char_007",
+      "name": "Watson",
+      "aliases": [],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "The narrator and companion to Holmes, who assists in escorting Miss Hunter back to Winchester after the case is solved and the investigators' presence becomes legally questionable.",
+      "context": [
+        "so I think, Watson, that we had best escort Miss Hunter back to Winchester"
+      ]
+    },
+    {
+      "id": "char_008",
+      "name": "Mrs. Rucastle",
+      "aliases": [
+        "Her devoted wife"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "Mr. Rucastle's wife, who is present when Holmes and Watson conclude their investigation. She remains devoted to her husband, providing the care that keeps him alive after he is left a broken man.",
+      "context": [
+        "And here comes the country surgeon and Mrs. Rucastle",
+        "kept alive solely through the care of his devoted wife."
+      ]
+    },
+    {
+      "id": "loc_001",
+      "name": "The Sinister House",
+      "aliases": [
+        "The house",
+        "home"
+      ],
+      "entity_class": "LOCATION",
+      "type": "residence",
+      "description": "The primary setting where Alice is imprisoned and where the conspiracy to control her wealth unfolds. Characterized by copper beeches at the entrance, it serves as the physical locus of the mystery and the site of the blockade and escape.",
+      "context": [
+        "She was never happy at home",
+        "blockaded the house",
+        "mystery of the sinister house with the copper beeches in front of the door."
+      ]
+    },
+    {
+      "id": "loc_002",
+      "name": "London",
+      "aliases": [],
+      "entity_class": "LOCATION",
+      "type": "city",
+      "description": "A major city from which Miss Hunter was brought, indicating a connection to the broader network of the case's events and the geographical scope of the investigation.",
+      "context": [
+        "brought Miss Hunter down from London in order to get rid of the disagreeable persistence of Mr. Fowler."
+      ]
+    },
+    {
+      "id": "loc_003",
+      "name": "Winchester",
+      "aliases": [],
+      "entity_class": "LOCATION",
+      "type": "city",
+      "description": "A city where Holmes and Watson plan to escort Miss Hunter after resolving the case, indicating the geographical setting of the investigation and the destination for the characters' departure.",
+      "context": [
+        "escort Miss Hunter back to Winchester"
+      ]
+    },
+    {
+      "id": "loc_004",
+      "name": "Southampton",
+      "aliases": [],
+      "entity_class": "LOCATION",
+      "type": "city",
+      "description": "The city where Mr. Fowler and Miss Rucastle are married by special license immediately after their escape, marking the formalization of their union and the resolution of the central conflict.",
+      "context": [
+        "Mr. Fowler and Miss Rucastle were married, by special license, in Southampton the day after their flight"
+      ]
+    },
+    {
+      "id": "loc_005",
+      "name": "Island of Mauritius",
+      "aliases": [],
+      "entity_class": "LOCATION",
+      "type": "region",
+      "description": "A distant island where Mr. Fowler holds a government appointment following his marriage to Alice, representing his successful resolution of the conflict and the establishment of a new life abroad.",
+      "context": [
+        "he is now the holder of a government appointment in the island of Mauritius."
+      ]
+    },
+    {
+      "id": "loc_006",
+      "name": "Walsall",
+      "aliases": [],
+      "entity_class": "LOCATION",
+      "type": "city",
+      "description": "A town where Miss Violet Hunter eventually becomes the head of a private school, marking her independent career and post-case life after the mystery is resolved.",
+      "context": [
+        "she is now the head of a private school at Walsall"
+      ]
+    },
+    {
+      "id": "obj_001",
+      "name": "The Ladder",
+      "aliases": [],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "A crucial tool provided by Mr. Fowler to facilitate Alice's escape from the house. It represents the physical means of liberation and is strategically positioned for use when the master leaves.",
+      "context": [
+        "and that a ladder should be ready at the moment when your master had gone out."
+      ]
+    },
+    {
+      "id": "obj_002",
+      "name": "The Paper",
+      "aliases": [],
+      "entity_class": "OBJECT",
+      "type": "document",
+      "description": "A legal document Mr. Rucastle forces Alice to sign to secure control over her inherited wealth. It serves as the central instrument of financial coercion and the primary motive for the imprisonment.",
+      "context": [
+        "He wanted her to sign a paper, so that whether she married or not, he could use her money."
+      ]
+    },
+    {
+      "id": "evt_001",
+      "name": "The Imprisonment System",
+      "aliases": [
+        "System of imprisonment"
+      ],
+      "entity_class": "EVENT",
+      "type": "crime",
+      "description": "The method employed by Mr. Rucastle to confine Alice and prevent her from claiming her legal rights or marrying. It forms the core conflict of the narrative and is the primary subject of Holmes's deduction.",
+      "context": [
+        "Mr. Rucastle then, I presume, took to this system of imprisonment?",
+        "And thus was solved the mystery of the sinister house"
+      ]
+    },
+    {
+      "id": "evt_002",
+      "name": "The Blockade",
+      "aliases": [
+        "Blockaded the house"
+      ],
+      "entity_class": "EVENT",
+      "type": "confrontation",
+      "description": "Mr. Fowler's strategic action of surrounding the house to pressure the household staff and facilitate Alice's escape. It represents the active intervention that breaks the stepfather's control.",
+      "context": [
+        "blockaded the house, and having met you succeeded by certain arguments"
+      ]
+    },
+    {
+      "id": "evt_003",
+      "name": "Brain-fever",
+      "aliases": [],
+      "entity_class": "EVENT",
+      "type": "episode",
+      "description": "A severe illness Alice contracts after prolonged psychological and physical abuse by her stepfather. It leaves her physically weakened, bald, and at death's door, marking a turning point in her suffering.",
+      "context": [
+        "he kept on worrying her until she got brain-fever, and for six weeks was at death's door."
+      ]
+    },
+    {
+      "id": "org_001",
+      "name": "Government Appointment",
+      "aliases": [],
+      "entity_class": "ORGANIZATION",
+      "type": "government",
+      "description": "An official position held by Mr. Fowler in Mauritius, representing the institutional framework that secures his new life and financial independence following the resolution of the case.",
+      "context": [
+        "he is now the holder of a government appointment in the island of Mauritius."
+      ]
+    },
+    {
+      "id": "org_002",
+      "name": "Private School",
+      "aliases": [],
+      "entity_class": "ORGANIZATION",
+      "type": "institution",
+      "description": "An educational institution in Walsall where Miss Violet Hunter becomes headmistress, marking her independent career and post-case life after the mystery is resolved.",
+      "context": [
+        "she is now the head of a private school at Walsall"
+      ]
+    },
+    {
+      "id": "con_001",
+      "name": "Locus Standi",
+      "aliases": [],
+      "entity_class": "CONCEPT",
+      "type": "deduction",
+      "description": "A legal term referring to the right to bring an action or take part in a lawsuit, which Holmes questions regarding their continued presence at the house after the mystery is solved, prompting their departure.",
+      "context": [
+        "as it seems to me that our locus standi now is rather a questionable one."
+      ]
+    },
+    {
+      "id": "con_002",
+      "name": "Rights by Will",
+      "aliases": [
+        "Inherited wealth",
+        "Rights of her own"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "motive",
+      "description": "The legal financial entitlements Alice possesses, which her stepfather seeks to control through coercion and a signed paper. The struggle over these rights drives the central conflict and imprisonment.",
+      "context": [
+        "Miss Alice had rights of her own by will, but she was so quiet and patient"
+      ]
+    }
+  ],
+  "id_map": {
+    "char_001": "843f020a05ad4ab6a40f48fe19f0918e_008_char_001",
+    "char_002": "843f020a05ad4ab6a40f48fe19f0918e_008_char_002",
+    "char_003": "843f020a05ad4ab6a40f48fe19f0918e_008_char_003",
+    "char_004": "843f020a05ad4ab6a40f48fe19f0918e_008_char_004",
+    "char_005": "843f020a05ad4ab6a40f48fe19f0918e_008_char_005",
+    "char_006": "843f020a05ad4ab6a40f48fe19f0918e_008_char_006",
+    "char_007": "843f020a05ad4ab6a40f48fe19f0918e_008_char_007",
+    "char_008": "843f020a05ad4ab6a40f48fe19f0918e_008_char_008",
+    "loc_001": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_001",
+    "loc_002": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_002",
+    "loc_003": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_003",
+    "loc_004": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_004",
+    "loc_005": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_005",
+    "loc_006": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_006",
+    "obj_001": "843f020a05ad4ab6a40f48fe19f0918e_008_obj_001",
+    "obj_002": "843f020a05ad4ab6a40f48fe19f0918e_008_obj_002",
+    "evt_001": "843f020a05ad4ab6a40f48fe19f0918e_008_evt_001",
+    "evt_002": "843f020a05ad4ab6a40f48fe19f0918e_008_evt_002",
+    "evt_003": "843f020a05ad4ab6a40f48fe19f0918e_008_evt_003",
+    "org_001": "843f020a05ad4ab6a40f48fe19f0918e_008_org_001",
+    "org_002": "843f020a05ad4ab6a40f48fe19f0918e_008_org_002",
+    "con_001": "843f020a05ad4ab6a40f48fe19f0918e_008_con_001",
+    "con_002": "843f020a05ad4ab6a40f48fe19f0918e_008_con_002"
+  },
+  "entities": [
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_001",
+      "name": "Alice Rucastle",
+      "aliases": [
+        "Miss Alice",
+        "Miss Rucastle"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "protagonist",
+      "description": "The central victim of the narrative, subjected to financial coercion and psychological abuse by her stepfather. She suffers a severe illness and physical alteration but remains steadfast in her devotion to her suitor, ultimately escaping to secure her legal rights and marry.",
+      "context": [
+        "She was never happy at home, Miss Alice wasn't",
+        "Mr. Rucastle then, I presume, took to this system of imprisonment?",
+        "Mr. Fowler and Miss Rucastle were married, by special license, in Southampton the day after their flight"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_002",
+      "name": "Mr. Rucastle",
+      "aliases": [
+        "Her father",
+        "Rucastle"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "antagonist",
+      "description": "Alice's stepfather who seizes control of her inherited wealth and employs a system of imprisonment to prevent her marriage. He survives the events but is left a broken man entirely dependent on his wife's care.",
+      "context": [
+        "left everything in Mr. Rucastle's hands",
+        "Mr. Rucastle then, I presume, took to this system of imprisonment?",
+        "Mr. Rucastle survived, but was always a broken man, kept alive solely through the care of his devoted wife."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_003",
+      "name": "Mr. Fowler",
+      "aliases": [
+        "Her young man",
+        "a good seaman"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "A persevering sailor and Alice's suitor who orchestrates her rescue by bribing household staff and arranging an escape route. He successfully marries Alice and secures a government post in Mauritius following their flight.",
+      "context": [
+        "met Mr. Fowler at a friend's house",
+        "Mr. Fowler being a persevering man, as a good seaman should be, blockaded the house",
+        "Mr. Fowler was a very kind-spoken, free-handed gentleman"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_004",
+      "name": "Miss Violet Hunter",
+      "aliases": [
+        "Miss Hunter"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "A woman connected to the case who is brought from London to help resolve the mystery. After the case concludes, Holmes loses interest in her, and she establishes herself as a successful headmistress of a private school.",
+      "context": [
+        "brought Miss Hunter down from London in order to get rid of the disagreeable persistence of Mr. Fowler.",
+        "As to Miss Violet Hunter, my friend Holmes, rather to my disappointment, manifested no further interest in her when once she had ceased to be the centre of one of his problems"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_005",
+      "name": "Mrs. Toller",
+      "aliases": [],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "A household servant who collaborates with Mr. Fowler to facilitate Alice's escape. She is motivated by financial gain and alcohol, and her testimony provides the crucial details that clear up the mystery for Holmes.",
+      "context": [
+        "said Mrs. Toller serenely.",
+        "I am sure we owe you an apology, Mrs. Toller,"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_006",
+      "name": "Holmes",
+      "aliases": [
+        "My friend Holmes"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "The detective who deduces the plot of imprisonment and financial coercion from Mrs. Toller's account. He resolves the mystery, apologizes to the household staff, and departs with Watson once their legal standing becomes questionable.",
+      "context": [
+        "Ah,\" said Holmes, \"I think that what you have been good enough to tell us makes the matter fairly clear",
+        "I am sure we owe you an apology, Mrs. Toller,\" said Holmes"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_007",
+      "name": "Watson",
+      "aliases": [],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "The narrator and companion to Holmes, who assists in escorting Miss Hunter back to Winchester after the case is solved and the investigators' presence becomes legally questionable.",
+      "context": [
+        "so I think, Watson, that we had best escort Miss Hunter back to Winchester"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_008",
+      "name": "Mrs. Rucastle",
+      "aliases": [
+        "Her devoted wife"
+      ],
+      "entity_class": "CHARACTER",
+      "type": "supporting",
+      "description": "Mr. Rucastle's wife, who is present when Holmes and Watson conclude their investigation. She remains devoted to her husband, providing the care that keeps him alive after he is left a broken man.",
+      "context": [
+        "And here comes the country surgeon and Mrs. Rucastle",
+        "kept alive solely through the care of his devoted wife."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_001",
+      "name": "The Sinister House",
+      "aliases": [
+        "The house",
+        "home"
+      ],
+      "entity_class": "LOCATION",
+      "type": "residence",
+      "description": "The primary setting where Alice is imprisoned and where the conspiracy to control her wealth unfolds. Characterized by copper beeches at the entrance, it serves as the physical locus of the mystery and the site of the blockade and escape.",
+      "context": [
+        "She was never happy at home",
+        "blockaded the house",
+        "mystery of the sinister house with the copper beeches in front of the door."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_002",
+      "name": "London",
+      "aliases": [],
+      "entity_class": "LOCATION",
+      "type": "city",
+      "description": "A major city from which Miss Hunter was brought, indicating a connection to the broader network of the case's events and the geographical scope of the investigation.",
+      "context": [
+        "brought Miss Hunter down from London in order to get rid of the disagreeable persistence of Mr. Fowler."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_003",
+      "name": "Winchester",
+      "aliases": [],
+      "entity_class": "LOCATION",
+      "type": "city",
+      "description": "A city where Holmes and Watson plan to escort Miss Hunter after resolving the case, indicating the geographical setting of the investigation and the destination for the characters' departure.",
+      "context": [
+        "escort Miss Hunter back to Winchester"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_004",
+      "name": "Southampton",
+      "aliases": [],
+      "entity_class": "LOCATION",
+      "type": "city",
+      "description": "The city where Mr. Fowler and Miss Rucastle are married by special license immediately after their escape, marking the formalization of their union and the resolution of the central conflict.",
+      "context": [
+        "Mr. Fowler and Miss Rucastle were married, by special license, in Southampton the day after their flight"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_005",
+      "name": "Island of Mauritius",
+      "aliases": [],
+      "entity_class": "LOCATION",
+      "type": "region",
+      "description": "A distant island where Mr. Fowler holds a government appointment following his marriage to Alice, representing his successful resolution of the conflict and the establishment of a new life abroad.",
+      "context": [
+        "he is now the holder of a government appointment in the island of Mauritius."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_006",
+      "name": "Walsall",
+      "aliases": [],
+      "entity_class": "LOCATION",
+      "type": "city",
+      "description": "A town where Miss Violet Hunter eventually becomes the head of a private school, marking her independent career and post-case life after the mystery is resolved.",
+      "context": [
+        "she is now the head of a private school at Walsall"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_obj_001",
+      "name": "The Ladder",
+      "aliases": [],
+      "entity_class": "OBJECT",
+      "type": "physical",
+      "description": "A crucial tool provided by Mr. Fowler to facilitate Alice's escape from the house. It represents the physical means of liberation and is strategically positioned for use when the master leaves.",
+      "context": [
+        "and that a ladder should be ready at the moment when your master had gone out."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_obj_002",
+      "name": "The Paper",
+      "aliases": [],
+      "entity_class": "OBJECT",
+      "type": "document",
+      "description": "A legal document Mr. Rucastle forces Alice to sign to secure control over her inherited wealth. It serves as the central instrument of financial coercion and the primary motive for the imprisonment.",
+      "context": [
+        "He wanted her to sign a paper, so that whether she married or not, he could use her money."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_evt_001",
+      "name": "The Imprisonment System",
+      "aliases": [
+        "System of imprisonment"
+      ],
+      "entity_class": "EVENT",
+      "type": "crime",
+      "description": "The method employed by Mr. Rucastle to confine Alice and prevent her from claiming her legal rights or marrying. It forms the core conflict of the narrative and is the primary subject of Holmes's deduction.",
+      "context": [
+        "Mr. Rucastle then, I presume, took to this system of imprisonment?",
+        "And thus was solved the mystery of the sinister house"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_evt_002",
+      "name": "The Blockade",
+      "aliases": [
+        "Blockaded the house"
+      ],
+      "entity_class": "EVENT",
+      "type": "confrontation",
+      "description": "Mr. Fowler's strategic action of surrounding the house to pressure the household staff and facilitate Alice's escape. It represents the active intervention that breaks the stepfather's control.",
+      "context": [
+        "blockaded the house, and having met you succeeded by certain arguments"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_evt_003",
+      "name": "Brain-fever",
+      "aliases": [],
+      "entity_class": "EVENT",
+      "type": "episode",
+      "description": "A severe illness Alice contracts after prolonged psychological and physical abuse by her stepfather. It leaves her physically weakened, bald, and at death's door, marking a turning point in her suffering.",
+      "context": [
+        "he kept on worrying her until she got brain-fever, and for six weeks was at death's door."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_org_001",
+      "name": "Government Appointment",
+      "aliases": [],
+      "entity_class": "ORGANIZATION",
+      "type": "government",
+      "description": "An official position held by Mr. Fowler in Mauritius, representing the institutional framework that secures his new life and financial independence following the resolution of the case.",
+      "context": [
+        "he is now the holder of a government appointment in the island of Mauritius."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_org_002",
+      "name": "Private School",
+      "aliases": [],
+      "entity_class": "ORGANIZATION",
+      "type": "institution",
+      "description": "An educational institution in Walsall where Miss Violet Hunter becomes headmistress, marking her independent career and post-case life after the mystery is resolved.",
+      "context": [
+        "she is now the head of a private school at Walsall"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_con_001",
+      "name": "Locus Standi",
+      "aliases": [],
+      "entity_class": "CONCEPT",
+      "type": "deduction",
+      "description": "A legal term referring to the right to bring an action or take part in a lawsuit, which Holmes questions regarding their continued presence at the house after the mystery is solved, prompting their departure.",
+      "context": [
+        "as it seems to me that our locus standi now is rather a questionable one."
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_con_002",
+      "name": "Rights by Will",
+      "aliases": [
+        "Inherited wealth",
+        "Rights of her own"
+      ],
+      "entity_class": "CONCEPT",
+      "type": "motive",
+      "description": "The legal financial entitlements Alice possesses, which her stepfather seeks to control through coercion and a signed paper. The struggle over these rights drives the central conflict and imprisonment.",
+      "context": [
+        "Miss Alice had rights of her own by will, but she was so quiet and patient"
+      ],
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    }
+  ],
+  "properties": [
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_001",
+      "name": "Alice Rucastle",
+      "properties": {
+        "role": "imprisoned daughter",
+        "personality_traits": [
+          "quiet",
+          "patient",
+          "slighted"
+        ],
+        "physical_description": [
+          "worn to a shadow",
+          "beautiful hair cut off"
+        ],
+        "motivations": [
+          "protect inherited money",
+          "escape imprisonment"
+        ],
+        "narrative_arc": "endures father's control and illness, escapes with Fowler, marries him",
+        "signature_behaviours": [
+          "silently leaves finances to father",
+          "endures hardship without complaint"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_002",
+      "name": "Mr. Rucastle",
+      "properties": {
+        "role": "controlling father",
+        "personality_traits": [
+          "greedy",
+          "persistent",
+          "broken"
+        ],
+        "physical_description": [
+          "broken man"
+        ],
+        "motivations": [
+          "control daughter's money",
+          "prevent her marriage"
+        ],
+        "narrative_arc": "imprisons daughter to secure wealth, survives but becomes physically and mentally broken",
+        "signature_behaviours": [
+          "worrying/pressuring daughter",
+          "maintaining imprisonment system"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_003",
+      "name": "Mr. Fowler",
+      "properties": {
+        "role": "persevering seaman suitor",
+        "personality_traits": [
+          "true",
+          "kind-spoken",
+          "free-handed",
+          "persevering"
+        ],
+        "physical_description": [
+          "seaman"
+        ],
+        "motivations": [
+          "marry Alice",
+          "secure her financial interests"
+        ],
+        "narrative_arc": "persists in courtship, blockades house, marries Alice, obtains government job",
+        "signature_behaviours": [
+          "blockading the house",
+          "using arguments and money to win over servants"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_004",
+      "name": "Miss Violet Hunter",
+      "properties": {
+        "role": "governess",
+        "physical_description": [
+          "from London"
+        ],
+        "narrative_arc": "assists in escape, returns to Winchester, becomes head of private school",
+        "occupation": [
+          "governess",
+          "head of private school"
+        ],
+        "signature_behaviours": [
+          "transporting escape ladder",
+          "cooperating with Fowler"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_005",
+      "name": "Mrs. Toller",
+      "properties": {
+        "role": "servant",
+        "personality_traits": [
+          "serene",
+          "kind-spoken",
+          "free-handed"
+        ],
+        "narrative_arc": "cooperates with Fowler, helps clear up mystery for Holmes",
+        "signature_behaviours": [
+          "providing drinks",
+          "keeping ladder ready",
+          "allying with Fowler"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_006",
+      "name": "Holmes",
+      "properties": {
+        "role": "detective",
+        "personality_traits": [
+          "deductive",
+          "observant",
+          "apologetic",
+          "disappointed by lack of romance"
+        ],
+        "signature_behaviours": [
+          "deducing remaining facts from testimony",
+          "apologizing to Mrs. Toller",
+          "questioning legal standing to stay"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_007",
+      "name": "Watson",
+      "properties": {
+        "role": "narrator and companion",
+        "personality_traits": [
+          "observant",
+          "disappointed by Holmes's romantic indifference"
+        ],
+        "signature_behaviours": [
+          "accompanying Holmes",
+          "narrating events and outcomes"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_008",
+      "name": "Mrs. Rucastle",
+      "properties": {
+        "role": "stepmother and devoted wife",
+        "personality_traits": [
+          "devoted",
+          "caring"
+        ],
+        "narrative_arc": "cares for broken husband, lives with old servants",
+        "signature_behaviours": [
+          "providing care to husband",
+          "maintaining household with servants"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_001",
+      "name": "The Sinister House",
+      "properties": {
+        "atmosphere": [
+          "sinister",
+          "oppressive",
+          "mysterious"
+        ],
+        "physical_description": [
+          "copper beeches in front of the door"
+        ],
+        "narrative_function": [
+          "site of imprisonment",
+          "central mystery location"
+        ],
+        "isolation_level": [
+          "high",
+          "blockaded"
+        ],
+        "symbolic_meaning": [
+          "patriarchal control",
+          "hidden secrets"
+        ],
+        "real_world_vs_fictional": [
+          "fictional setting in real-world geography"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_002",
+      "name": "London",
+      "properties": {
+        "narrative_function": [
+          "origin point for Miss Hunter"
+        ],
+        "real_world_vs_fictional": [
+          "real-world"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_003",
+      "name": "Winchester",
+      "properties": {
+        "narrative_function": [
+          "destination for Miss Hunter's return"
+        ],
+        "real_world_vs_fictional": [
+          "real-world"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_004",
+      "name": "Southampton",
+      "properties": {
+        "narrative_function": [
+          "location of Alice and Fowler's marriage"
+        ],
+        "real_world_vs_fictional": [
+          "real-world"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_005",
+      "name": "Island of Mauritius",
+      "properties": {
+        "narrative_function": [
+          "location of Fowler's government appointment"
+        ],
+        "real_world_vs_fictional": [
+          "real-world"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_006",
+      "name": "Walsall",
+      "properties": {
+        "narrative_function": [
+          "location of Miss Hunter's private school"
+        ],
+        "real_world_vs_fictional": [
+          "real-world"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_obj_001",
+      "name": "The Ladder",
+      "properties": {
+        "physical_description": [
+          "escape tool"
+        ],
+        "who_owns_or_uses_it": [
+          "Mrs. Toller",
+          "Mr. Fowler",
+          "Miss Hunter"
+        ],
+        "narrative_role": [
+          "key to breaking imprisonment",
+          "escape mechanism"
+        ],
+        "symbolic_meaning": [
+          "freedom",
+          "escape from confinement"
+        ],
+        "how_it_connects_to_plot_or_mystery": [
+          "enables the physical escape from the house"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_obj_002",
+      "name": "The Paper",
+      "properties": {
+        "physical_description": [
+          "legal document"
+        ],
+        "who_owns_or_uses_it": [
+          "Mr. Rucastle"
+        ],
+        "narrative_role": [
+          "instrument of financial control",
+          "legal trap"
+        ],
+        "symbolic_meaning": [
+          "loss of autonomy",
+          "patriarchal greed"
+        ],
+        "how_it_connects_to_plot_or_mystery": [
+          "drives the conflict as Rucastle forces Alice to sign it to secure her money"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_evt_001",
+      "name": "The Imprisonment System",
+      "properties": {
+        "sequence_number": [
+          "central conflict"
+        ],
+        "what_changed": [
+          "Alice confined",
+          "house isolated",
+          "servants controlled"
+        ],
+        "who_was_involved": [
+          "Mr. Rucastle",
+          "Alice Rucastle",
+          "Mrs. Toller",
+          "Miss Hunter"
+        ],
+        "emotions": [
+          "fear",
+          "worry",
+          "oppression"
+        ],
+        "is_turning_point": [
+          "yes"
+        ],
+        "cause": [
+          "Mr. Rucastle's desire to control money and prevent marriage"
+        ],
+        "immediate_consequence": [
+          "Alice's illness",
+          "house blockade",
+          "escape planning"
+        ],
+        "why_it_matters": [
+          "establishes the central mystery and victim's plight"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_evt_002",
+      "name": "The Blockade",
+      "properties": {
+        "sequence_number": [
+          "climax/escape phase"
+        ],
+        "what_changed": [
+          "house isolated",
+          "servants turned",
+          "escape facilitated"
+        ],
+        "who_was_involved": [
+          "Mr. Fowler",
+          "Mrs. Toller",
+          "Mr. Rucastle"
+        ],
+        "emotions": [
+          "determination",
+          "secrecy"
+        ],
+        "is_turning_point": [
+          "yes"
+        ],
+        "cause": [
+          "Fowler's persistence to marry Alice"
+        ],
+        "immediate_consequence": [
+          "ladder provided",
+          "escape executed"
+        ],
+        "why_it_matters": [
+          "shifts power dynamics and enables the resolution"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_evt_003",
+      "name": "Brain-fever",
+      "properties": {
+        "sequence_number": [
+          "mid-story crisis"
+        ],
+        "what_changed": [
+          "Alice's health severely damaged",
+          "hair cut",
+          "weakened"
+        ],
+        "who_was_involved": [
+          "Alice Rucastle",
+          "Mr. Rucastle"
+        ],
+        "emotions": [
+          "despair",
+          "physical suffering"
+        ],
+        "is_turning_point": [
+          "yes"
+        ],
+        "cause": [
+          "Mr. Rucastle's persistent worrying/pressure"
+        ],
+        "immediate_consequence": [
+          "Alice's physical decline",
+          "temporary vulnerability"
+        ],
+        "why_it_matters": [
+          "tests Alice's resolve and highlights the severity of the imprisonment"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_org_001",
+      "name": "Government Appointment",
+      "properties": {
+        "purpose/goal": [
+          "colonial administration"
+        ],
+        "status": [
+          "active"
+        ],
+        "plot_impact": [
+          "provides Fowler's new life and status post-escape"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_org_002",
+      "name": "Private School",
+      "properties": {
+        "purpose/goal": [
+          "education"
+        ],
+        "status": [
+          "active"
+        ],
+        "plot_impact": [
+          "provides Miss Hunter's successful future career"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_con_001",
+      "name": "Locus Standi",
+      "properties": {
+        "definition": [
+          "legal right or standing to act or intervene"
+        ],
+        "manifestation": [
+          "Holmes questions their right to remain after solving the case"
+        ],
+        "resolution": [
+          "acknowledged as questionable, prompting immediate departure"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "id": "843f020a05ad4ab6a40f48fe19f0918e_008_con_002",
+      "name": "Rights by Will",
+      "properties": {
+        "definition": [
+          "legal entitlement to property/wealth via inheritance"
+        ],
+        "manifestation": [
+          "Alice's quiet patience vs. father's greed"
+        ],
+        "resolution": [
+          "father attempts to force signature, but escape/marriage secures them"
+        ],
+        "mystery_aspect": [
+          "central legal conflict driving the imprisonment"
+        ]
+      },
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_002",
+      "source_name": "Mr. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_001",
+      "target_name": "Alice Rucastle",
+      "rel_type": "parent_of",
+      "description": "Mr. Rucastle is Alice's father, having remarried and assumed control over her life and finances.",
+      "properties": {
+        "relationship_type": "biological",
+        "dynamic": "authoritarian"
+      },
+      "context": "from the time that her father married again",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_002",
+      "source_name": "Mr. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_008",
+      "target_name": "Mrs. Rucastle",
+      "rel_type": "married_to",
+      "description": "Mr. Rucastle is married to Mrs. Rucastle, who remains devoted to him despite his broken state.",
+      "properties": {
+        "status": "married",
+        "dynamic": "devoted"
+      },
+      "context": "kept alive solely through the care of his devoted wife",
+      "bidirectional": true,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_001",
+      "source_name": "Alice Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_003",
+      "target_name": "Mr. Fowler",
+      "rel_type": "knows",
+      "description": "Alice met Mr. Fowler at a friend's house, initiating their relationship.",
+      "properties": {
+        "sentiment": "positive",
+        "nature": "personal",
+        "origin": "friend's house"
+      },
+      "context": "until after she met Mr. Fowler at a friend's house",
+      "bidirectional": true,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_001",
+      "source_name": "Alice Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_003",
+      "target_name": "Mr. Fowler",
+      "rel_type": "emotions_felt",
+      "description": "Alice shares a deep romantic bond with Mr. Fowler, who remains steadfast despite her illness.",
+      "properties": {
+        "sentiment": "love",
+        "nature": "romantic",
+        "duration": "persistent"
+      },
+      "context": "he stuck to her as true as man could be",
+      "bidirectional": true,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_001",
+      "source_name": "Alice Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_003",
+      "target_name": "Mr. Fowler",
+      "rel_type": "married_to",
+      "description": "Alice and Mr. Fowler are married by special license after their escape.",
+      "properties": {
+        "status": "married",
+        "method": "special license",
+        "location": "Southampton"
+      },
+      "context": "Mr. Fowler and Miss Rucastle were married, by special license, in Southampton the day after their flight",
+      "bidirectional": true,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_003",
+      "source_name": "Mr. Fowler",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_004",
+      "target_name": "Miss Violet Hunter",
+      "rel_type": "assists",
+      "description": "Mr. Fowler works with Miss Violet Hunter to secure his interests and escape.",
+      "properties": {
+        "sentiment": "positive",
+        "nature": "collaborative",
+        "goal": "escape and financial security"
+      },
+      "context": "having met you succeeded by certain arguments, metallic or otherwise, in convincing you that your interests were the same as his",
+      "bidirectional": true,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_004",
+      "source_name": "Miss Violet Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_003",
+      "target_name": "Mr. Fowler",
+      "rel_type": "assists",
+      "description": "Miss Violet Hunter cooperates with Mr. Fowler, recognizing their shared interests.",
+      "properties": {
+        "sentiment": "neutral",
+        "nature": "transactional",
+        "motivation": "shared interests"
+      },
+      "context": "convincing you that your interests were the same as his",
+      "bidirectional": true,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_004",
+      "source_name": "Miss Violet Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_001",
+      "target_name": "The Sinister House",
+      "rel_type": "resides_at",
+      "description": "Miss Violet Hunter lives at the Sinister House after being brought down from London.",
+      "properties": {
+        "status": "resident",
+        "duration": "temporary",
+        "origin": "London"
+      },
+      "context": "brought Miss Hunter down from London in order to get rid of the disagreeable persistence of Mr. Fowler",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_004",
+      "source_name": "Miss Violet Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_002",
+      "target_name": "London",
+      "rel_type": "resides_at",
+      "description": "Miss Violet Hunter originally resided in London before being brought to the Rucastle house.",
+      "properties": {
+        "status": "former resident",
+        "context": "origin location"
+      },
+      "context": "brought Miss Hunter down from London",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_004",
+      "source_name": "Miss Violet Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_006",
+      "target_name": "Walsall",
+      "rel_type": "works_at",
+      "description": "Miss Violet Hunter works and resides in Walsall, where she runs a private school.",
+      "properties": {
+        "status": "headmistress",
+        "success": "considerable"
+      },
+      "context": "she is now the head of a private school at Walsall, where I believe that she has met with considerable success",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_003",
+      "source_name": "Mr. Fowler",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_005",
+      "target_name": "Island of Mauritius",
+      "rel_type": "resides_at",
+      "description": "Mr. Fowler resides on the Island of Mauritius after obtaining a government appointment.",
+      "properties": {
+        "status": "resident",
+        "context": "post-escape relocation"
+      },
+      "context": "he is now the holder of a government appointment in the island of Mauritius",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_003",
+      "source_name": "Mr. Fowler",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_004",
+      "target_name": "Southampton",
+      "rel_type": "resides_at",
+      "description": "Mr. Fowler was married in Southampton, marking a key location in his life.",
+      "properties": {
+        "status": "visitor",
+        "context": "marriage location"
+      },
+      "context": "Mr. Fowler and Miss Rucastle were married, by special license, in Southampton the day after their flight",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_001",
+      "source_name": "Alice Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_001",
+      "target_name": "The Sinister House",
+      "rel_type": "resides_at",
+      "description": "Alice Rucastle lives at the Sinister House under the control of her father.",
+      "properties": {
+        "status": "imprisoned resident",
+        "context": "controlled environment"
+      },
+      "context": "She was never happy at home, Miss Alice wasn't, from the time that her father married again",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_002",
+      "source_name": "Mr. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_001",
+      "target_name": "The Sinister House",
+      "rel_type": "resides_at",
+      "description": "Mr. Rucastle resides at the Sinister House, which serves as the base for his operations.",
+      "properties": {
+        "status": "owner",
+        "context": "primary residence"
+      },
+      "context": "Mr. Rucastle survived, but was always a broken man, kept alive solely through the care of his devoted wife. They still live with their old servants",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_008",
+      "source_name": "Mrs. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_001",
+      "target_name": "The Sinister House",
+      "rel_type": "resides_at",
+      "description": "Mrs. Rucastle resides at the Sinister House alongside her husband and servants.",
+      "properties": {
+        "status": "resident",
+        "context": "family home"
+      },
+      "context": "They still live with their old servants, who probably know so much of Rucastle's past life",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_006",
+      "source_name": "Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_004",
+      "target_name": "Miss Violet Hunter",
+      "rel_type": "investigates",
+      "description": "Holmes investigates Miss Violet Hunter's case to uncover the truth behind the Rucastle household.",
+      "properties": {
+        "sentiment": "professional",
+        "nature": "detective",
+        "outcome": "cleared up everything"
+      },
+      "context": "I am sure we owe you an apology, Mrs. Toller,' said Holmes, 'for you have certainly cleared up everything which puzzled us",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_006",
+      "source_name": "Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_007",
+      "target_name": "Watson",
+      "rel_type": "works_with",
+      "description": "Holmes and Watson collaborate closely, with Watson assisting in the investigation and escort.",
+      "properties": {
+        "sentiment": "positive",
+        "nature": "professional",
+        "dynamic": "partners"
+      },
+      "context": "so I think, Watson, that we had best escort Miss Hunter back to Winchester",
+      "bidirectional": true,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_007",
+      "source_name": "Watson",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_006",
+      "target_name": "Holmes",
+      "rel_type": "works_with",
+      "description": "Watson works alongside Holmes, participating in the escort and investigation.",
+      "properties": {
+        "sentiment": "positive",
+        "nature": "professional",
+        "dynamic": "assistant"
+      },
+      "context": "so I think, Watson, that we had best escort Miss Hunter back to Winchester",
+      "bidirectional": true,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_004",
+      "source_name": "Miss Violet Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_003",
+      "target_name": "Winchester",
+      "rel_type": "resides_at",
+      "description": "Miss Violet Hunter is escorted back to Winchester, indicating it as her destination.",
+      "properties": {
+        "status": "destination",
+        "context": "post-investigation relocation"
+      },
+      "context": "we had best escort Miss Hunter back to Winchester",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_006",
+      "source_name": "Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_003",
+      "target_name": "Winchester",
+      "rel_type": "resides_at",
+      "description": "Holmes is escorted back to Winchester alongside Miss Hunter.",
+      "properties": {
+        "status": "destination",
+        "context": "post-investigation relocation"
+      },
+      "context": "we had best escort Miss Hunter back to Winchester",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_001",
+      "source_name": "Alice Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_evt_003",
+      "target_name": "Brain-fever",
+      "rel_type": "participates_in",
+      "description": "Alice suffers from brain-fever as a direct result of her father's psychological pressure.",
+      "properties": {
+        "role": "victim",
+        "contribution": "suffered severe illness for six weeks",
+        "outcome": "near death"
+      },
+      "context": "he kept on worrying her until she got brain-fever, and for six weeks was at death's door",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_002",
+      "source_name": "Mr. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_evt_003",
+      "target_name": "Brain-fever",
+      "rel_type": "causes",
+      "description": "Mr. Rucastle causes Alice's brain-fever through persistent psychological worry.",
+      "properties": {
+        "method": "psychological pressure",
+        "outcome": "severe illness",
+        "duration": "six weeks"
+      },
+      "context": "he kept on worrying her until she got brain-fever",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_003",
+      "source_name": "Mr. Fowler",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_evt_002",
+      "target_name": "The Blockade",
+      "rel_type": "participates_in",
+      "description": "Mr. Fowler organizes and executes the blockade of the house to pressure the occupants.",
+      "properties": {
+        "role": "perpetrator",
+        "contribution": "organized the blockade",
+        "method": "persistent pressure"
+      },
+      "context": "Mr. Fowler being a persevering man, as a good seaman should be, blockaded the house",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_004",
+      "source_name": "Miss Violet Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_evt_002",
+      "target_name": "The Blockade",
+      "rel_type": "participates_in",
+      "description": "Miss Violet Hunter participates in the blockade by cooperating with Mr. Fowler.",
+      "properties": {
+        "role": "helper",
+        "contribution": "cooperated with the blockade",
+        "motivation": "shared interests"
+      },
+      "context": "having met you succeeded by certain arguments, metallic or otherwise, in convincing you that your interests were the same as his",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_005",
+      "source_name": "Mrs. Toller",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_003",
+      "target_name": "Mr. Fowler",
+      "rel_type": "assists",
+      "description": "Mrs. Toller assists Mr. Fowler, providing him with resources and support.",
+      "properties": {
+        "sentiment": "positive",
+        "nature": "collaborative",
+        "support": "financial and logistical"
+      },
+      "context": "Mr. Fowler was a very kind-spoken, free-handed gentleman,' said Mrs. Toller serenely",
+      "bidirectional": true,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_005",
+      "source_name": "Mrs. Toller",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_obj_001",
+      "target_name": "The Ladder",
+      "rel_type": "controls",
+      "description": "Mrs. Toller controls the ladder, keeping it ready for the escape plan.",
+      "properties": {
+        "action": "provided/kept ready",
+        "context": "escape tool"
+      },
+      "context": "a ladder should be ready at the moment when your master had gone out",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_002",
+      "source_name": "Mr. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_obj_002",
+      "target_name": "The Paper",
+      "rel_type": "controls",
+      "description": "Mr. Rucastle seeks to control The Paper to secure Alice's money regardless of her marital status.",
+      "properties": {
+        "action": "demanded signature",
+        "goal": "financial control"
+      },
+      "context": "He wanted her to sign a paper, so that whether she married or not, he could use her money",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_001",
+      "source_name": "Alice Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_obj_002",
+      "target_name": "The Paper",
+      "rel_type": "controls",
+      "description": "Alice Rucastle refuses to sign The Paper, resisting her father's financial control.",
+      "properties": {
+        "action": "refused to sign",
+        "motivation": "autonomy"
+      },
+      "context": "When she wouldn't do it, he kept on worrying her",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_002",
+      "source_name": "Mr. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_evt_001",
+      "target_name": "The Imprisonment System",
+      "rel_type": "participates_in",
+      "description": "Mr. Rucastle employs the imprisonment system to keep Alice isolated and controlled.",
+      "properties": {
+        "role": "perpetrator",
+        "contribution": "established and maintained the system",
+        "method": "isolation and control"
+      },
+      "context": "Mr. Rucastle then, I presume, took to this system of imprisonment?",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_evt_001",
+      "source_name": "The Imprisonment System",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_001",
+      "target_name": "The Sinister House",
+      "rel_type": "occurs_at",
+      "description": "The imprisonment system is carried out at the Sinister House.",
+      "properties": {
+        "context": "primary location of confinement",
+        "duration": "ongoing"
+      },
+      "context": "Mr. Rucastle then, I presume, took to this system of imprisonment?",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_evt_002",
+      "source_name": "The Blockade",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_001",
+      "target_name": "The Sinister House",
+      "rel_type": "occurs_at",
+      "description": "The blockade takes place at the Sinister House to pressure the occupants.",
+      "properties": {
+        "context": "external pressure location",
+        "duration": "temporary"
+      },
+      "context": "blockaded the house, and having met you succeeded by certain arguments",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_org_001",
+      "source_name": "Government Appointment",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_003",
+      "target_name": "Mr. Fowler",
+      "rel_type": "belongs_to",
+      "description": "Mr. Fowler holds a government appointment, which secures his future on the Island of Mauritius.",
+      "properties": {
+        "status": "holder",
+        "context": "post-escape career"
+      },
+      "context": "he is now the holder of a government appointment in the island of Mauritius",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_org_002",
+      "source_name": "Private School",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_004",
+      "target_name": "Miss Violet Hunter",
+      "rel_type": "belongs_to",
+      "description": "Miss Violet Hunter heads a private school in Walsall, marking her successful post-case life.",
+      "properties": {
+        "status": "head",
+        "context": "career establishment"
+      },
+      "context": "she is now the head of a private school at Walsall, where I believe that she has met with considerable success",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_con_002",
+      "source_name": "Rights by Will",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_001",
+      "target_name": "Alice Rucastle",
+      "rel_type": "involves",
+      "description": "Alice possesses rights by will, which she initially keeps quiet about.",
+      "properties": {
+        "context": "legal entitlement",
+        "action": "kept quiet"
+      },
+      "context": "Miss Alice had rights of her own by will, but she was so quiet and patient, she was, that she never said a word about them",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_con_002",
+      "source_name": "Rights by Will",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_002",
+      "target_name": "Mr. Rucastle",
+      "rel_type": "involves",
+      "description": "Mr. Rucastle seeks to control the rights by will to secure Alice's money.",
+      "properties": {
+        "context": "legal entitlement",
+        "action": "attempted control"
+      },
+      "context": "left everything in Mr. Rucastle's hands. He knew he was safe with her",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_con_001",
+      "source_name": "Locus Standi",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_006",
+      "target_name": "Holmes",
+      "rel_type": "involves",
+      "description": "Holmes questions the legal standing (locus standi) of their continued presence at the house.",
+      "properties": {
+        "context": "legal justification",
+        "action": "evaluated as questionable"
+      },
+      "context": "our locus standi now is rather a questionable one",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_con_001",
+      "source_name": "Locus Standi",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_007",
+      "target_name": "Watson",
+      "rel_type": "involves",
+      "description": "Watson is involved in the questionable locus standi alongside Holmes.",
+      "properties": {
+        "context": "legal justification",
+        "action": "shared evaluation"
+      },
+      "context": "our locus standi now is rather a questionable one",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_004",
+      "source_name": "Miss Violet Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_evt_001",
+      "target_name": "The Imprisonment System",
+      "rel_type": "solves",
+      "description": "Miss Violet Hunter's cooperation and testimony help solve the mystery of the imprisonment system.",
+      "properties": {
+        "role": "investigator",
+        "contribution": "provided key information",
+        "outcome": "cleared up everything"
+      },
+      "context": "you have certainly cleared up everything which puzzled us",
+      "bidirectional": false,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_008",
+      "source_name": "Mrs. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_002",
+      "target_name": "Mr. Rucastle",
+      "rel_type": "assists",
+      "description": "Mrs. Rucastle assists her husband by providing care and keeping him alive.",
+      "properties": {
+        "sentiment": "positive",
+        "nature": "personal",
+        "action": "caregiving"
+      },
+      "context": "kept alive solely through the care of his devoted wife",
+      "bidirectional": true,
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_001",
+      "source_name": "Alice Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_002",
+      "source_name": "Mr. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_003",
+      "source_name": "Mr. Fowler",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_004",
+      "source_name": "Miss Violet Hunter",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_005",
+      "source_name": "Mrs. Toller",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_006",
+      "source_name": "Holmes",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_007",
+      "source_name": "Watson",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_char_008",
+      "source_name": "Mrs. Rucastle",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_001",
+      "source_name": "The Sinister House",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_002",
+      "source_name": "London",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_003",
+      "source_name": "Winchester",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_004",
+      "source_name": "Southampton",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_005",
+      "source_name": "Island of Mauritius",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_loc_006",
+      "source_name": "Walsall",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_obj_001",
+      "source_name": "The Ladder",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_obj_002",
+      "source_name": "The Paper",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_evt_001",
+      "source_name": "The Imprisonment System",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_evt_002",
+      "source_name": "The Blockade",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_evt_003",
+      "source_name": "Brain-fever",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_org_001",
+      "source_name": "Government Appointment",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_org_002",
+      "source_name": "Private School",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_con_001",
+      "source_name": "Locus Standi",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    },
+    {
+      "source_id": "843f020a05ad4ab6a40f48fe19f0918e_008_con_002",
+      "source_name": "Rights by Will",
+      "target_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "target_name": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "843f020a05ad4ab6a40f48fe19f0918e_008",
+      "doc_id": "843f020a05ad4ab6a40f48fe19f0918e",
+      "domain": "fiction"
+    }
+  ]
+}
