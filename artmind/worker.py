@@ -67,7 +67,7 @@ def _final_file_statuses(job_id: str) -> list[str]:
         conn.close()
 
 
-def _process_job(job_id: str, domain: str, env: dict) -> None:
+def _process_job(job_id: str, domain: str, env: dict, force: bool = False) -> None:
     image_model = env.get("ARTMIND_IMAGE_MODEL", "gemma4:e4b")
     text_model = env.get("ARTMIND_KG_LLM_MODEL", "ministral-3:14b")
     embed_model = env.get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest")
@@ -85,7 +85,7 @@ def _process_job(job_id: str, domain: str, env: dict) -> None:
 
         try:
             result = ingest_file(
-                file_path, image_model, domain, job_id=job_id, chunk_size=chunk_size
+                file_path, image_model, domain, job_id=job_id, chunk_size=chunk_size, force=force
             )
             if result.get("status") == "ok":
                 _update_job_file_status(
@@ -141,14 +141,14 @@ def _worker_loop(env: dict) -> None:
         conn = _get_db()
         try:
             row = conn.execute(
-                "SELECT job_id, domain FROM ingestion_jobs"
+                "SELECT job_id, domain, force FROM ingestion_jobs"
                 " WHERE status = 'queued' ORDER BY queued_at ASC LIMIT 1"
             ).fetchone()
         finally:
             conn.close()
 
         if row:
-            _process_job(row[0], row[1] or "general", env)
+            _process_job(row[0], row[1] or "general", env, force=bool(row[2]))
         else:
             logger.info("Queue empty, worker exiting")
             return

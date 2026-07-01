@@ -34,6 +34,42 @@ entities_prompt: |
     A specific compliance requirement, duty, or prohibition explained in training — something staff MUST do, MUST NOT do, MUST report, or MUST document. These are the actionable obligations extracted from training content, distinct from warning signs (which are inputs) and actions (which are responses).
     example type values: reporting_obligation | mandatory_action | prohibition | escalation_duty | documentation_requirement | confidentiality_obligation | training_completion | consent_requirement | data_handling_rule
 
+  CUSTOMER
+    A bank customer referenced in a communication template (as recipient or subject) or in training content (as the person being served or protected). Extract when templates are addressed to customers or training content governs customer-facing interactions.
+    example type values: individual_customer | new_customer | existing_customer | joint_account_holder | at_risk_customer
+
+  ACCOUNT
+    A customer account referenced in communication templates (account confirmation, statement, alert) or in training content (account opening, account management). Extract when account details are central to the communication or the training objective.
+    example type values: savings_account | current_account | joint_account | new_account | dormant_account
+
+  TRANSACTION
+    A financial event referenced in a communication template (transaction alert, account statement) or training module (suspicious transaction patterns, fraud scenarios). Extract when transactions are the trigger or subject of a communication or a warning sign taught in training.
+    example type values: transaction_alert | suspicious_transaction | large_transaction | disputed_transaction | statement_entry
+
+  CARD
+    A payment card referenced in communication templates (fraud alert, card issuance confirmation) or training content (card fraud detection, card security). Extract when card events trigger communications or are the subject of security training.
+    example type values: debit_card | card_fraud_alert | lost_stolen_card | contactless | card_security
+
+  KYC_VERIFICATION
+    The KYC process referenced in training modules or as a compliance obligation taught to staff. Extract when KYC is a named topic in a training module, a learning objective, or a compliance duty explained in the document.
+    example type values: identity_check | address_verification | document_collection | edd_process | kyc_refresh
+
+  AML_SCREENING
+    AML screening as taught in training content — the process, the red flags, the reporting obligations. Extract when AML screening is a named topic in a training module or a compliance obligation.
+    example type values: sanctions_screening | pep_check | transaction_monitoring | aml_red_flag | screening_process
+
+  SAR
+    A Suspicious Activity Report as taught in training — the obligation to file, when to file, how to file, and the confidentiality requirement. Extract when SAR filing is a compliance obligation or learning objective in training content.
+    example type values: sar_filing_obligation | internal_reporting | sar_deadline | confidentiality_rule | nca_reporting
+
+  FRAUD_ALERT
+    A fraud alert referenced in communication templates (security alert to customer) or training content (fraud detection, fraud response). Extract when fraud alerts trigger customer communications or are the subject of fraud awareness training.
+    example type values: security_alert_template | fraud_detection_training | account_takeover_signal | card_fraud_alert | velocity_check_training
+
+  PRODUCT
+    A banking product referenced in a product training module or customer communication template. Extract when the product is the primary subject of training content or the context for a communication template.
+    example type values: smartsaver_account | current_account | mortgage | debit_card | savings_product
+
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -174,6 +210,57 @@ properties_prompt: |
     - verification_method (how the bank checks compliance)
     - exceptions (any stated exemptions)
 
+  For CUSTOMER, consider:
+    - communication_context (what type of communication targets this customer)
+    - training_context (how customers are described in training content)
+    - customer_type (new, existing, joint holder, at-risk)
+    - protection_taught (what customer protection training covers)
+
+  For ACCOUNT, consider:
+    - account_type (savings | current | joint)
+    - communication_context (account confirmation, dormancy notice, statement)
+    - training_context (account opening training, account management guidance)
+
+  For TRANSACTION, consider:
+    - transaction_context (what type of transaction triggers a communication or is taught)
+    - alert_threshold (amount or pattern that triggers a transaction alert)
+    - warning_sign_link (whether this transaction type is a trained warning sign)
+
+  For CARD, consider:
+    - card_event (issuance, fraud alert, lost/stolen, replacement)
+    - communication_trigger (what card event sends which template)
+    - training_context (card security, card fraud awareness)
+
+  For KYC_VERIFICATION, consider:
+    - training_module (which module covers KYC)
+    - learning_objectives (what staff must be able to do after KYC training)
+    - common_errors_taught (mistakes staff are trained to avoid)
+    - regulatory_basis (which regulation is explained in the training)
+
+  For AML_SCREENING, consider:
+    - training_module (which module covers AML)
+    - red_flags_taught (specific AML indicators taught to staff)
+    - reporting_process_taught (how to report suspicions as taught)
+    - regulatory_basis (MLR 2017, POCA 2002, etc. as referenced in training)
+
+  For SAR, consider:
+    - training_module (which module covers SAR filing)
+    - filing_steps_taught (steps staff are taught for internal SAR reporting)
+    - confidentiality_emphasis (how tipping-off prohibition is taught)
+    - consequence_of_non_filing (what training says about regulatory risk)
+
+  For FRAUD_ALERT, consider:
+    - template_context (which communication template involves a fraud alert)
+    - training_module (which module covers fraud detection)
+    - fraud_patterns_taught (specific fraud patterns staff are trained to spot)
+    - customer_communication_trigger (what fraud event sends a customer alert)
+
+  For PRODUCT, consider:
+    - training_module (which training module covers this product)
+    - communication_template (which templates are associated with this product)
+    - key_features_taught (product features covered in training)
+    - customer_facing_messaging (tone and key points of customer communications)
+
   KEY RULES FOR PROPERTIES:
     1. Use clear, readable key names (e.g., "trigger_event" not "trigger")
     2. Use arrays for multiple values
@@ -285,6 +372,69 @@ relationships_prompt: |
 
   TEMPLATE_VARIABLE ↔ TEMPLATE_VARIABLE:
     used_together_with, part_of_group
+
+  COMMUNICATION_TEMPLATE ↔ CUSTOMER:
+    addressed_to, sent_to, personalised_for
+
+  COMMUNICATION_TEMPLATE ↔ ACCOUNT:
+    references, confirms, alerts_about
+
+  COMMUNICATION_TEMPLATE ↔ TRANSACTION:
+    triggered_by, notifies_about, confirms
+
+  COMMUNICATION_TEMPLATE ↔ CARD:
+    triggered_by_card_event, alerts_about, confirms_issuance_of
+
+  COMMUNICATION_TEMPLATE ↔ FRAUD_ALERT:
+    triggered_by, notifies_customer_of, confirms_action_on
+
+  COMMUNICATION_TEMPLATE ↔ PRODUCT:
+    promotes, confirms_opening_of, provides_information_about
+
+  TRAINING_MODULE ↔ KYC_VERIFICATION:
+    teaches_process_of, trains_execution_of, assesses_knowledge_of
+
+  TRAINING_MODULE ↔ AML_SCREENING:
+    teaches_process_of, trains_recognition_of_red_flags_in, assesses_knowledge_of
+
+  TRAINING_MODULE ↔ SAR:
+    teaches_filing_of, trains_obligation_to_report, covers_confidentiality_of
+
+  TRAINING_MODULE ↔ FRAUD_ALERT:
+    trains_detection_of, teaches_response_to, covers_escalation_of
+
+  TRAINING_MODULE ↔ CUSTOMER:
+    teaches_how_to_serve, trains_protection_of, covers_obligations_toward
+
+  TRAINING_MODULE ↔ PRODUCT:
+    covers_features_of, trains_staff_on
+
+  WARNING_SIGN ↔ TRANSACTION:
+    identified_in, pattern_observed_in, triggered_by
+
+  WARNING_SIGN ↔ CUSTOMER:
+    exhibited_by, associated_with_behaviour_of
+
+  WARNING_SIGN ↔ ACCOUNT:
+    observed_on, pattern_seen_in
+
+  WARNING_SIGN ↔ FRAUD_ALERT:
+    triggers, leads_to_generation_of
+
+  WARNING_SIGN ↔ AML_SCREENING:
+    triggers_review_in, escalates_to
+
+  COMPLIANCE_OBLIGATION ↔ KYC_VERIFICATION:
+    requires_completion_of, mandates
+
+  COMPLIANCE_OBLIGATION ↔ AML_SCREENING:
+    requires_completion_of, mandates
+
+  COMPLIANCE_OBLIGATION ↔ SAR:
+    mandates_filing_of, defines_deadline_for
+
+  COMPLIANCE_OBLIGATION ↔ FRAUD_ALERT:
+    requires_response_to, mandates_reporting_of
 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:

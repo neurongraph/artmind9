@@ -1,0 +1,1839 @@
+[
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_001_prd_001",
+    "name": "SmartSaver Account",
+    "properties": {
+      "product_id": "SAV-001",
+      "effective_date": "2026-01-15"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_001",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_002_prd_001",
+    "name": "SmartSaver Account",
+    "properties": {
+      "product_type": "savings"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_002",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_002_cls_001",
+    "name": "SmartSaver Binding Contract Clause",
+    "properties": {
+      "clause_summary": "Terms & Conditions form a binding contract between the customer and FirstUK Bank PLC",
+      "bank_obligations": "Adherence to the Terms & Conditions",
+      "customer_obligations": "Adherence to the Terms & Conditions",
+      "applies_to_products": [
+        "SmartSaver Account"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_002",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_003_prd_001",
+    "name": "SmartSaver Account",
+    "properties": {
+      "product_type": "savings"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_003",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_003_cust_001",
+    "name": "Customer",
+    "properties": {
+      "customer_type": "individual"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_003",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_003_acc_001",
+    "name": "SmartSaver Account Arrangement",
+    "properties": {
+      "account_type": "savings",
+      "linked_product_id": "prd_001"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_003",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_003_trn_001",
+    "name": "Deposit",
+    "properties": {
+      "transaction_types": [
+        "Deposit"
+      ],
+      "description": "Money you place into the account"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_003",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_003_trn_002",
+    "name": "Withdrawal",
+    "properties": {
+      "transaction_types": [
+        "Withdrawal"
+      ],
+      "description": "Money you remove from the account"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_003",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_003_ftr_001",
+    "name": "Variable Interest Payment",
+    "properties": {
+      "feature_description": "Money paid to the customer based on account balance at a variable rate",
+      "available_in_products": [
+        "SmartSaver Account"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_003",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_003_ah_001",
+    "name": "Account Holder",
+    "properties": {
+      "holder_type": "primary"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_003",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_004_elig_001",
+    "name": "Minimum Age Requirement",
+    "properties": {
+      "rule_description": "Applicant must be at least 18 years old",
+      "rule_type": "mandatory",
+      "consequence_of_failure": "Ineligible to open account"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_004",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_004_elig_002",
+    "name": "UK Residency Requirement",
+    "properties": {
+      "rule_description": "Applicant must be a UK resident",
+      "rule_type": "mandatory",
+      "consequence_of_failure": "Ineligible to open account"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_004",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_004_elig_003",
+    "name": "Identity Verification Requirement",
+    "properties": {
+      "rule_description": "Applicant must be able to provide proof of identity",
+      "rule_type": "mandatory",
+      "verification_method": "UK Passport or Driving License"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_004",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_004_elig_004",
+    "name": "Address Verification Requirement",
+    "properties": {
+      "rule_description": "Applicant must be able to provide proof of address",
+      "rule_type": "mandatory"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_004",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_004_kyc_001",
+    "name": "Account Opening Identity and Address Verification",
+    "properties": {
+      "required_documents": [
+        "UK Passport",
+        "Driving License",
+        "Proof of address"
+      ],
+      "mandatory": "yes",
+      "verification_method": "document"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_004",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_004_cust_001",
+    "name": "Eligible Applicant",
+    "properties": {
+      "eligibility_criteria": [
+        "Minimum age 18",
+        "UK residency",
+        "Identity verification",
+        "Address verification"
+      ],
+      "customer_type": "individual"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_004",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_005_kyc_001",
+    "name": "Identity Verification (KYC)",
+    "properties": {
+      "mandatory": "yes",
+      "verification_method": "document",
+      "consequence_of_failure": "Application cannot proceed to confirmation"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_005",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_005_elig_001",
+    "name": "AML Screening Requirement",
+    "properties": {
+      "rule_description": "Applicant must pass Anti-Money Laundering (AML) screening",
+      "rule_type": "mandatory",
+      "consequence_of_failure": "Account will not be opened"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_005",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_005_cls_001",
+    "name": "Account Activation Timeline",
+    "properties": {
+      "clause_summary": "Account activation occurs after the application process is completed",
+      "time_limits": "1–2 business days",
+      "bank_obligations": "Activate account within the specified timeframe following successful screening and verification"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_005",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_005_ftr_001",
+    "name": "Omnichannel Application Access",
+    "properties": {
+      "feature_description": "Ability to complete the application form through multiple entry points",
+      "channel": [
+        "online",
+        "branch",
+        "postal"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_005",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_006_prd_001",
+    "name": "SmartSaver Account",
+    "properties": {
+      "product_type": "savings"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_006",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_006_ja_001",
+    "name": "SmartSaver Joint Account Arrangement",
+    "properties": {
+      "withdrawal_rights": "either can withdraw full balance unilaterally",
+      "linked_product_id": "prd_001"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_006",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_006_elig_001",
+    "name": "Joint Identity Verification Requirement",
+    "properties": {
+      "rule_description": "Both customers must complete separate identity verification",
+      "rule_type": "mandatory",
+      "applies_to_products": [
+        "prd_001"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_006",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_006_elig_002",
+    "name": "Separate AML Screening Requirement",
+    "properties": {
+      "rule_description": "Both customers must pass AML screening separately",
+      "rule_type": "mandatory",
+      "applies_to_products": [
+        "prd_001"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_006",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_006_cls_001",
+    "name": "Joint Liability Clause",
+    "properties": {
+      "clause_summary": "Both account holders are responsible for the account",
+      "customer_obligations": "agree to joint liability",
+      "applies_to_products": [
+        "prd_001"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_006",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_006_cls_002",
+    "name": "Equal Withdrawal Rights Provision",
+    "properties": {
+      "clause_summary": "Either joint holder can withdraw the full balance",
+      "customer_rights": "unilateral withdrawal of full balance",
+      "applies_to_products": [
+        "prd_001"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_006",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_006_cust_001",
+    "name": "Joint Applicant",
+    "properties": {
+      "customer_type": "joint applicant",
+      "applicable_products": [
+        "prd_001"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_006",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_006_kyc_001",
+    "name": "Joint Identity and AML Verification",
+    "properties": {
+      "verification_method": "separate identity verification and separate AML screening",
+      "mandatory": "yes",
+      "applies_to_products": [
+        "prd_001"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_006",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_007_ftr_001",
+    "name": "Bank Transfer Deposit",
+    "properties": {
+      "feature_description": "Ability to fund account via bank transfer",
+      "channel": "online",
+      "conditions": [
+        "FPS",
+        "BACS"
+      ],
+      "cost": "free"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_007",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_007_ftr_002",
+    "name": "Cash Deposit",
+    "properties": {
+      "feature_description": "Ability to fund account using cash",
+      "channel": "branch"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_007",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_007_ftr_003",
+    "name": "Check Deposit",
+    "properties": {
+      "feature_description": "Ability to fund account via check",
+      "conditions": "future feature"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_007",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_007_elig_001",
+    "name": "Minimum Opening Balance Requirement — £1.00",
+    "properties": {
+      "rule_description": "A minimum deposit of £1.00 is required to open the account",
+      "rule_type": "mandatory"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_007",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_007_cls_001",
+    "name": "Maximum Balance Limit",
+    "properties": {
+      "clause_summary": "There is no upper limit on the total balance that can be held in the account",
+      "customer_rights": "Unlimited balance capacity"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_007",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_007_cls_002",
+    "name": "Deposit Availability Policy",
+    "properties": {
+      "clause_summary": "Deposits are credited to the account and available for use without a waiting period",
+      "time_limits": "immediately"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_007",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_008_ftr_001",
+    "name": "ATM Withdrawal",
+    "properties": {
+      "feature_description": "Cash withdrawal via ATM",
+      "channel": "ATM",
+      "limits": "£500/day",
+      "processing_speed": "Immediate"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_008",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_008_ftr_002",
+    "name": "Bank Transfer",
+    "properties": {
+      "feature_description": "Transfer of funds to another account",
+      "limits": "no limit",
+      "processing_speed": "1–2 business days",
+      "processing_notes": [
+        "FPS immediate",
+        "BACS next day"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_008",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_008_ftr_003",
+    "name": "Teller Withdrawal",
+    "properties": {
+      "feature_description": "Cash withdrawal at a branch",
+      "channel": "branch",
+      "limits": "no limit",
+      "processing_speed": "Immediate",
+      "conditions": "Subject to cash availability at branch"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_008",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_008_cls_001",
+    "name": "Withdrawal Restrictions Policy",
+    "properties": {
+      "clause_summary": "Customers have easy access to funds at any time with no restrictions",
+      "customer_rights": "Easy access to funds at any time"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_008",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_008_trn_001",
+    "name": "Withdrawal",
+    "properties": {
+      "transaction_types": [
+        "ATM withdrawal",
+        "Bank transfer",
+        "Teller withdrawal"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_008",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_009_acc_001",
+    "name": "Dormant Account",
+    "properties": {
+      "account_type": "dormant",
+      "dormancy_threshold": "12 months of no activity and no customer contact",
+      "balance_rules": "continues accruing interest"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_009",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_009_cls_001",
+    "name": "Dormancy Policy",
+    "properties": {
+      "clause_summary": "Conditions and processes for an account becoming dormant",
+      "bank_obligations": [
+        "Send letter to last known address",
+        "Mark account as dormant",
+        "Continue accruing interest",
+        "Maintain full access for deposits and withdrawals"
+      ],
+      "customer_rights": "Maintain full access to deposit or withdraw funds"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_009",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_009_elig_001",
+    "name": "Dormancy Trigger Requirement",
+    "properties": {
+      "rule_description": "Account must have no activity (deposits/withdrawals) and no customer contact for 12 months",
+      "rule_type": "mandatory",
+      "consequence_of_failure": "Account is marked as dormant"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_009",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_009_ftr_001",
+    "name": "Dormant Account Access and Interest",
+    "properties": {
+      "feature_description": "Dormant accounts continue to earn interest and allow full deposit/withdrawal access",
+      "conditions": "Account must be marked as dormant",
+      "cost": "free"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_009",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_009_trn_001",
+    "name": "Dormancy Activity Transaction",
+    "properties": {
+      "transaction_types": [
+        "deposits",
+        "withdrawals"
+      ],
+      "fee_triggers": "none stated"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_009",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_010_rat_001",
+    "name": "SmartSaver Tier 1 Rate — 4.50% AER (£0–£10,000)",
+    "properties": {
+      "rate_value": 4.5,
+      "rate_format": "AER",
+      "balance_min": "£0",
+      "balance_max": "£10,000",
+      "rate_type": "variable"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_010",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_010_rat_002",
+    "name": "SmartSaver Tier 2 Rate — 4.70% AER (£10,001–£50,000)",
+    "properties": {
+      "rate_value": 4.7,
+      "rate_format": "AER",
+      "balance_min": "£10,001",
+      "balance_max": "£50,000",
+      "rate_type": "variable"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_010",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_010_rat_003",
+    "name": "SmartSaver Tier 3 Rate — 4.80% AER (£50,001+)",
+    "properties": {
+      "rate_value": 4.8,
+      "rate_format": "AER",
+      "balance_min": "£50,001",
+      "balance_max": "unlimited",
+      "rate_type": "variable"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_010",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_010_cls_001",
+    "name": "AER Definition Clause",
+    "properties": {
+      "clause_summary": "Defines AER as the Annual Equivalent Rate, which demonstrates the yearly interest earned."
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_010",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_011_cls_001",
+    "name": "Interest Calculation Rule",
+    "properties": {
+      "clause_summary": "Interest is calculated on a daily basis and paid monthly on the last business day of each month.",
+      "bank_obligations": "Calculate interest daily and execute payment on the last business day of the month",
+      "time_limits": "Last business day of each month",
+      "calculation_method": "Daily accrual"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_011",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_011_rat_001",
+    "name": "Tier 1 Interest Rate — 4.50%",
+    "properties": {
+      "rate_value": 4.5,
+      "rate_format": "AER",
+      "example_calculation": "£10,000 × 4.50% ÷ 365 days × 30 days = £36.99"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_011",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_011_ftr_001",
+    "name": "Tiered Interest Application",
+    "properties": {
+      "feature_description": "Interest rates are applied based on the account balance as of the payment date.",
+      "conditions": "Tiered rates apply to the balance as of the payment date"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_011",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_012_cls_001",
+    "name": "Rate Change Review Policy",
+    "properties": {
+      "clause_summary": "Policy governing the frequency and timing of interest rate adjustments",
+      "review_frequency": "Monthly",
+      "time_limits": "Changes effective 1st of following month",
+      "bank_obligations": [
+        "Review rates monthly",
+        "Provide email notification of changes"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_012",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_012_rat_001",
+    "name": "Variable Rate — Bank of England Base Rate + 2.5% margin",
+    "properties": {
+      "rate_basis": "Bank of England Base Rate + 2.5% margin",
+      "rate_type": "variable",
+      "review_frequency": "Monthly"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_012",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_012_ftr_001",
+    "name": "Rate Change Notification Service",
+    "properties": {
+      "feature_description": "Automatic notification of interest rate changes",
+      "channel": "email"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_012",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_012_cls_002",
+    "name": "Product Switching Right",
+    "properties": {
+      "clause_summary": "Right for customers to move to an alternative product following a rate change",
+      "customer_rights": "Switch to different product if unhappy with rate"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_012",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_013_prd_001",
+    "name": "SmartSaver Account",
+    "properties": {
+      "product_type": "savings",
+      "monthly_fee": "£0"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_013",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_013_fee_001",
+    "name": "Monthly Maintenance Fee — £0",
+    "properties": {
+      "fee_amount": "£0",
+      "trigger_event": "Monthly account maintenance",
+      "frequency": "monthly",
+      "applies_to_products": [
+        "SmartSaver Account"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_013",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_014_fee_001",
+    "name": "Domestic Transfer Fee",
+    "properties": {
+      "fee_amount": "£0",
+      "trigger_event": "Domestic Transfer",
+      "frequency": "per_transaction"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_014",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_014_fee_002",
+    "name": "ATM Withdrawal (UK) Fee",
+    "properties": {
+      "fee_amount": "£0",
+      "trigger_event": "ATM Withdrawal (UK)",
+      "frequency": "per_transaction"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_014",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_014_fee_003",
+    "name": "ATM Withdrawal (International) Fee",
+    "properties": {
+      "fee_amount": "£2.50",
+      "trigger_event": "ATM Withdrawal (International)",
+      "frequency": "per_transaction"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_014",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_014_fee_004",
+    "name": "International Transfer Fee",
+    "properties": {
+      "fee_amount": "£5.00",
+      "trigger_event": "International Transfer",
+      "frequency": "per_transaction"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_014",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_014_fee_005",
+    "name": "Standing Order Setup Fee",
+    "properties": {
+      "fee_amount": "£0",
+      "trigger_event": "Standing Order Setup",
+      "frequency": "one-time"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_014",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_014_fee_006",
+    "name": "Direct Debit Setup Fee",
+    "properties": {
+      "fee_amount": "£0",
+      "trigger_event": "Direct Debit Setup",
+      "frequency": "one-time"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_014",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_015_fee_001",
+    "name": "Initial Debit Card Fee",
+    "properties": {
+      "fee_amount": "£0",
+      "trigger_event": "Issuance of initial debit card",
+      "frequency": "one-time",
+      "applies_to_products": [
+        "Debit Card"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_015",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_015_fee_002",
+    "name": "Replacement Debit Card Fee",
+    "properties": {
+      "fee_amount": "£15",
+      "trigger_event": "Standard replacement of debit card",
+      "frequency": "per_transaction",
+      "applies_to_products": [
+        "Debit Card"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_015",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_015_fee_003",
+    "name": "Expedited Replacement Debit Card Fee",
+    "properties": {
+      "fee_amount": "£25",
+      "trigger_event": "Expedited delivery of replacement debit card",
+      "frequency": "per_transaction",
+      "applies_to_products": [
+        "Debit Card"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_015",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_015_crd_001",
+    "name": "Debit Card",
+    "properties": {
+      "card_type": "debit",
+      "replacement_fee": "£15 (standard) / £25 (expedited)"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_015",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_016_trn_001",
+    "name": "Standing Order",
+    "properties": {
+      "transaction_types": [
+        "regular",
+        "fixed transfer"
+      ],
+      "execution_trigger": "scheduled date"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_016",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_016_ftr_001",
+    "name": "Standing Order Setup",
+    "properties": {
+      "feature_description": "Set up a regular, fixed transfer to a payee",
+      "required_inputs": [
+        "payee",
+        "amount",
+        "frequency",
+        "receiving account details"
+      ],
+      "frequency_options": [
+        "weekly",
+        "monthly"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_016",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_016_cls_001",
+    "name": "Standing Order Cancellation Rule",
+    "properties": {
+      "clause_summary": "Standing orders can be cancelled at any time with immediate effect",
+      "customer_rights": "Cancel without notice period",
+      "time_limits": "immediate",
+      "consequence": "Future payments blocked"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_016",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_016_trn_002",
+    "name": "Direct Debit",
+    "properties": {},
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_016",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_017_trs_001",
+    "name": "Direct Debit",
+    "properties": {
+      "transaction_types": [
+        "authorization_withdrawal"
+      ],
+      "fee_triggers": [],
+      "reversal_rules": "Refund within 10 business days if unauthorized"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_017",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_017_cls_001",
+    "name": "Direct Debit Guarantee",
+    "properties": {
+      "clause_summary": "Provides full protection and refunds for unauthorized direct debit withdrawals",
+      "customer_rights": [
+        "Refund within 10 business days if unauthorized",
+        "No questions asked refund"
+      ],
+      "time_limits": "within 10 business days"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_017",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_017_cls_002",
+    "name": "Direct Debit Cancellation Procedure",
+    "properties": {
+      "clause_summary": "Process for terminating a direct debit authorization",
+      "customer_obligations": "Request from bank or contact biller directly",
+      "time_limits": "5 days notice usually"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_017",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_018_jnt_001",
+    "name": "Joint Account Arrangement",
+    "properties": {
+      "withdrawal_rights": "Either holder can withdraw full balance unilaterally",
+      "closure_consent_required": "Both holders must agree to account closure",
+      "interest_distribution": "Shared equally unless specified otherwise"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_018",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_018_cls_001",
+    "name": "Joint & Several Liability Clause",
+    "properties": {
+      "clause_summary": "Both signatories are liable for the account",
+      "customer_rights": "Either account holder can withdraw the full balance"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_018",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_018_cls_002",
+    "name": "Joint Interest Split Rule",
+    "properties": {
+      "clause_summary": "Interest is shared equally between holders",
+      "exception_or_caveat": "Holders can specify a different split"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_018",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_018_cls_003",
+    "name": "Joint Account Closure Dispute Clause",
+    "properties": {
+      "clause_summary": "Account closure requires mutual agreement",
+      "customer_obligations": "Both holders must agree to close the account"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_018",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_018_acc_001",
+    "name": "Joint Account",
+    "properties": {
+      "account_type": "joint",
+      "closure_conditions": "Requires agreement from both signatories"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_018",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_018_hol_001",
+    "name": "Joint Account Holder",
+    "properties": {
+      "holder_type": "joint",
+      "withdrawal_authority": "Can act alone to withdraw full balance",
+      "liability_scope": "Joint and several liability"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_018",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_019_acc_001",
+    "name": "Joint Account",
+    "properties": {
+      "account_type": "joint",
+      "balance_rules": "Estate of deceased entitled to 50% share upon death of one holder"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_019",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_019_hld_001",
+    "name": "Joint Account Holder",
+    "properties": {
+      "holder_type": "joint",
+      "withdrawal_authority": "Surviving holder retains full account access"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_019",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_019_cls_001",
+    "name": "Joint Account Death Provision",
+    "properties": {
+      "clause_summary": "Provisions for account access and fund distribution following the death of a joint holder",
+      "customer_rights": "Surviving holder maintains full access to the account",
+      "bank_obligations": "Recognize the estate of the deceased as entitled to 50% of the account share"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_019",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_019_elig_001",
+    "name": "Death Notification Documentation Requirement",
+    "properties": {
+      "rule_description": "Bank requires a death certificate and supporting documentation to process the death of an account holder",
+      "rule_type": "mandatory",
+      "verification_method": "death certificate"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_019",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_020_jnt_001",
+    "name": "Joint Account Separation Provisions",
+    "properties": {
+      "dispute_resolution": "Civil matter; customers recommended to seek legal advice",
+      "liability_type": "Joint legal rights to full balance"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_020",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_020_cls_001",
+    "name": "Joint Account Balance Right Clause",
+    "properties": {
+      "clause_summary": "Both account holders retain legal rights to the full account balance upon separation",
+      "customer_rights": "Access to full account balance regardless of individual contribution",
+      "applies_to_products": [
+        "Joint Accounts"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_020",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_020_cls_002",
+    "name": "Joint Account Freeze and Closure Rule",
+    "properties": {
+      "clause_summary": "Either holder can freeze or close the account during separation",
+      "customer_rights": "Ability to unilaterally freeze or close account",
+      "exception_or_caveat": "May require a court order",
+      "applies_to_products": [
+        "Joint Accounts"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_020",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_020_cls_003",
+    "name": "Bank Neutrality on Ownership Clause",
+    "properties": {
+      "clause_summary": "The bank does not determine individual ownership of funds in a joint account during separation",
+      "bank_obligations": "Remain neutral on fund ownership",
+      "regulatory_basis": "Civil matter",
+      "applies_to_products": [
+        "Joint Accounts"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_020",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_020_ach_001",
+    "name": "Joint Account Holders",
+    "properties": {
+      "holder_type": "joint",
+      "withdrawal_authority": "Either holder can freeze or close the account",
+      "liability_scope": "Both retain legal rights to full account balance"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_020",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_021_cls_001",
+    "name": "Personal Data Collection and Usage Policy",
+    "properties": {
+      "clause_summary": "Outlines the purposes for which the bank collects and uses personal customer data",
+      "bank_obligations": [
+        "Collect data for account management",
+        "Comply with legal/regulatory requirements",
+        "Prevent fraud"
+      ],
+      "customer_rights": [
+        "Control over marketing usage via consent"
+      ],
+      "regulatory_basis": [
+        "KYC",
+        "AML"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_021",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_021_kyc_001",
+    "name": "KYC and AML Regulatory Compliance",
+    "properties": {
+      "mandatory": "yes",
+      "verification_method": "not specified",
+      "purpose": [
+        "Legal/regulatory compliance",
+        "Account opening and management",
+        "Fraud prevention"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_021",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_022_cls_001",
+    "name": "Right of Access",
+    "properties": {
+      "clause_summary": "The customer has the right to request a copy of their personal data.",
+      "customer_rights": [
+        "Request copy of personal data"
+      ],
+      "regulatory_basis": "GDPR"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_022",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_022_cls_002",
+    "name": "Right of Correction",
+    "properties": {
+      "clause_summary": "The customer has the right to correct inaccurate personal data.",
+      "customer_rights": [
+        "Correct inaccurate data"
+      ],
+      "regulatory_basis": "GDPR"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_022",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_022_cls_003",
+    "name": "Right of Erasure",
+    "properties": {
+      "clause_summary": "The customer has the right to request the deletion of their personal data.",
+      "customer_rights": [
+        "Request deletion"
+      ],
+      "exception_or_caveat": "Exceptions apply for legal holds",
+      "regulatory_basis": "GDPR"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_022",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_022_cls_004",
+    "name": "Right of Portability",
+    "properties": {
+      "clause_summary": "The customer has the right to receive their data in a portable format.",
+      "customer_rights": [
+        "Get data in portable format"
+      ],
+      "regulatory_basis": "GDPR"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_022",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_022_cls_005",
+    "name": "GDPR Rights Clause",
+    "properties": {
+      "clause_summary": "Overview of customer data protection rights under GDPR.",
+      "bank_obligations": [
+        "Provide access to data",
+        "Correct inaccuracies",
+        "Delete data where applicable",
+        "Provide data in portable format"
+      ],
+      "regulatory_basis": "GDPR",
+      "contact_point": "dpo@firstuk.bank (Data Protection Officer)"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_022",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_022_cust_001",
+    "name": "Eligible Customer",
+    "properties": {
+      "customer_type": "individual",
+      "eligibility_criteria": [
+        "Subject to GDPR data protection rights"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_022",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_023_cls_001",
+    "name": "Third-Party Data Sharing Provision",
+    "properties": {
+      "clause_summary": "Outlines the conditions and entities with whom FirstUK Bank shares customer data.",
+      "bank_obligations": [
+        "Share data with credit reference agencies for credit assessment",
+        "Share data with regulatory authorities (FCA, PRA) if required",
+        "Share data with law enforcement if court-ordered"
+      ],
+      "exception_or_caveat": "The bank does not sell customer data to marketers"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_023",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_024_cls_001",
+    "name": "Customer-Initiated Account Closure Clause",
+    "properties": {
+      "clause_summary": "Customers may close their account at any time using specific approved channels.",
+      "customer_rights": "Right to close account at any time",
+      "customer_obligations": "Must use one of the three specified closure methods",
+      "available_channels": [
+        "branch",
+        "telephone (0800-555-2265)",
+        "online form"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_024",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_024_acc_001",
+    "name": "Closed Account",
+    "properties": {
+      "account_type": "customer-initiated closure"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_024",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_024_cus_001",
+    "name": "Individual Customer",
+    "properties": {
+      "customer_type": "individual"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_024",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_025_cls_001",
+    "name": "Account Closure Process",
+    "properties": {
+      "clause_summary": "The step-by-step sequence for closing an account, involving identity verification, balance calculation, mandate cancellation, and final disbursement.",
+      "bank_obligations": [
+        "Verify customer identity",
+        "Calculate final balance including pending interest",
+        "Cancel Standing Orders and Direct Debits",
+        "Transfer final balance",
+        "Send closure confirmation letter"
+      ],
+      "customer_obligations": [
+        "Submit closure request"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_025",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_025_kyc_001",
+    "name": "Closure Identity Verification",
+    "properties": {
+      "verification_method": "Identity verification process",
+      "mandatory": "yes",
+      "trigger_event": "Receipt of account closure request"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_025",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_025_trn_001",
+    "name": "Final Balance Payment",
+    "properties": {
+      "transaction_types": [
+        "bank transfer",
+        "check",
+        "cash"
+      ],
+      "balance_rules": "Includes any pending interest"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_025",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_025_cls_002",
+    "name": "Regulatory Record Retention Policy",
+    "properties": {
+      "clause_summary": "Documents related to closed accounts are archived for a set period.",
+      "time_limits": "6 years",
+      "regulatory_basis": "regulatory requirement",
+      "bank_obligations": [
+        "Keep records for 6 years"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_025",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_025_trn_002",
+    "name": "Standing Order and Direct Debit Cancellation",
+    "properties": {
+      "transaction_types": [
+        "Standing Order",
+        "Direct Debit"
+      ],
+      "reversal_rules": "Cancelled effective immediately upon account closure process"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_025",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_026_acc_001",
+    "name": "Customer Account",
+    "properties": {
+      "closure_conditions": "Can be closed by the bank for T&C breaches, suspected fraud/unauthorized use, regulatory orders, or AML requirement breaches"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_026",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_026_cls_001",
+    "name": "Bank-Initiated Closure Provision",
+    "properties": {
+      "clause_summary": "The bank reserves the right to close the account under specific conditions",
+      "bank_obligations": "Provide 30 days notice except in emergencies",
+      "customer_obligations": "Adhere to terms & conditions and AML requirements",
+      "exception_or_caveat": "Notice period is waived in emergency situations",
+      "applies_to_products": [
+        "Customer Account"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_026",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_026_cls_002",
+    "name": "Account Closure Notice Period",
+    "properties": {
+      "clause_summary": "The time frame the bank provides before closing an account",
+      "time_limits": "30 days",
+      "exception_or_caveat": "Not applicable in emergencies"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_026",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_026_elig_001",
+    "name": "AML Compliance Requirement",
+    "properties": {
+      "rule_description": "The customer must comply with Anti-Money Laundering requirements",
+      "rule_type": "mandatory",
+      "consequence_of_failure": "Bank-initiated account closure"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_026",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_027_cls_001",
+    "name": "Complaint Procedure",
+    "properties": {
+      "clause_summary": "Process for customers to report dissatisfaction with service and the bank's timeline for responding.",
+      "bank_obligations": [
+        "Respond within 8 calendar days for standard complaints",
+        "Respond within 8 weeks for complex complaints",
+        "Explain the decision and provide next steps"
+      ],
+      "customer_obligations": [
+        "Contact the bank via phone, email, or post"
+      ],
+      "time_limits": [
+        "8 calendar days (standard response)",
+        "8 weeks (complex cases)"
+      ],
+      "available_channels": [
+        "Phone (0800-555-2265)",
+        "Email (support@firstuk.bank)",
+        "Postal mail"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_027",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_027_faq_001",
+    "name": "Complaint Procedure Inquiry",
+    "properties": {
+      "question": "What is the process if I am unhappy with the service?",
+      "answer_summary": "Customers should contact the bank via phone, email, or mail; the bank will respond within 8 days (or 8 weeks for complex issues) with a decision and next steps.",
+      "customer_action": "Contact the bank via 0800-555-2265 or support@firstuk.bank",
+      "urgency": "routine"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_027",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_028_cls_001",
+    "name": "Unresolved Complaints Escalation Process",
+    "properties": {
+      "clause_summary": "Process for escalating complaints to the Financial Ombudsman Service (FOS) if the customer is unhappy with the bank's resolution",
+      "customer_rights": [
+        "Escalate complaint to FOS",
+        "Potential compensation up to £385,000 if the bank is at fault"
+      ],
+      "bank_obligations": [
+        "Provide access to independent dispute resolution via FOS"
+      ],
+      "regulatory_basis": "Financial Ombudsman Service (FOS)",
+      "available_channels": [
+        "Phone: 0800 023 4567",
+        "Website: www.financialombudsman.org.uk"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_028",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_028_faq_001",
+    "name": "Complaint Escalation to Financial Ombudsman Service",
+    "properties": {
+      "question": "What happens if I am unhappy with the resolution of my complaint?",
+      "answer_summary": "Customers can escalate their complaint to the Financial Ombudsman Service (FOS), which is a free and independent service capable of awarding compensation up to £385,000.",
+      "customer_action": "Contact FOS via phone (0800 023 4567) or website (www.financialombudsman.org.uk)",
+      "urgency": "routine"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_028",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_029_cls_001",
+    "name": "Bank Liability Provisions",
+    "properties": {
+      "clause_summary": "Definition of the bank's responsibilities and liability areas",
+      "bank_obligations": [
+        "Correct processing of transactions",
+        "Protection against unauthorized transactions",
+        "Maintenance of confidentiality",
+        "Ensuring system availability"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_029",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_029_cls_002",
+    "name": "Fraud Protection Liability",
+    "properties": {
+      "clause_summary": "The bank's liability for unauthorized transactions",
+      "bank_obligations": [
+        "Responsibility for fraud and unauthorized transactions"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_029",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_029_cls_003",
+    "name": "Confidentiality Breach Liability",
+    "properties": {
+      "clause_summary": "The bank's liability regarding breaches of customer confidentiality",
+      "bank_obligations": [
+        "Responsibility for breach of confidentiality"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_029",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_029_cls_004",
+    "name": "System Availability Liability",
+    "properties": {
+      "clause_summary": "The bank's liability for technical failures and system downtime",
+      "bank_obligations": [
+        "Responsibility for system failures and outages"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_029",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_030_cls_001",
+    "name": "External Systems Delay Liability Clause",
+    "properties": {
+      "clause_summary": "The bank is not responsible for delays occurring within external payment schemes/systems.",
+      "bank_obligations": "None for external system delays",
+      "customer_rights": "No recourse for delays caused by third-party payment schemes"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_030",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_030_cls_002",
+    "name": "PIN and Password Disclosure Liability Clause",
+    "properties": {
+      "clause_summary": "The bank is not liable for financial losses resulting from the customer disclosing their PIN or password.",
+      "customer_obligations": "Maintain confidentiality of PIN and password",
+      "exception_or_caveat": "Liability shifts to customer upon disclosure"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_030",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_030_cls_003",
+    "name": "Customer Negligence Fraud Liability Clause",
+    "properties": {
+      "clause_summary": "The bank is not responsible for fraud if the customer was negligent, such as leaving a card visible.",
+      "customer_obligations": "Exercise reasonable care in securing cards and account details",
+      "exception_or_caveat": "Bank liability is voided by customer negligence"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_030",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_030_cls_004",
+    "name": "Variable Interest Rate Change Liability Clause",
+    "properties": {
+      "clause_summary": "The bank is not liable for losses or dissatisfaction resulting from changes to interest rates on variable products.",
+      "applies_to_products": [
+        "variable product"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_030",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_030_cls_005",
+    "name": "Authorized Third-Party Action Liability Clause",
+    "properties": {
+      "clause_summary": "The bank is not responsible for actions taken by third parties that the customer has authorized.",
+      "customer_obligations": "Responsible for the actions of parties they authorize to act on their behalf"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_030",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_031_cls_001",
+    "name": "Customer Security Responsibility Clause",
+    "properties": {
+      "clause_summary": "Outlines the security obligations of the customer to prevent fraud and unauthorized access.",
+      "customer_obligations": [
+        "Protect PIN and password",
+        "Report fraud or suspicious activity immediately",
+        "Use ATMs in safe locations",
+        "Do not share security details"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_031",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_031_cust_001",
+    "name": "Account Customer",
+    "properties": {
+      "customer_obligations": [
+        "Maintain security of access credentials",
+        "Promptly notify the bank of suspicious activity"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_031",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_031_txn_001",
+    "name": "Unauthorized Transaction",
+    "properties": {
+      "transaction_types": [
+        "fraudulent activity",
+        "unauthorized access"
+      ],
+      "fee_triggers": [
+        "suspicious activity"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_031",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_032_cls_001",
+    "name": "Fraud Reimbursement Policy",
+    "properties": {
+      "clause_summary": "Process for refunding customers in the event of fraud following an investigation",
+      "bank_obligations": "Investigate reports and provide full refunds for unauthorized transactions",
+      "customer_obligations": "Report fraud immediately via 0800-555-FRAUD",
+      "time_limits": {
+        "investigation_period": "typically 10 business days",
+        "refund_deadline": "within 10 days"
+      }
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_032",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_032_cls_002",
+    "name": "Unauthorized Transaction Liability Rule",
+    "properties": {
+      "clause_summary": "Liability determination for transactions not authorized by the customer",
+      "customer_rights": "Full refund with no customer liability",
+      "bank_obligations": "Full reimbursement of unauthorized funds"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_032",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_032_cls_003",
+    "name": "Customer Negligence Liability Clause",
+    "properties": {
+      "clause_summary": "Determination of liability when customer negligence contributes to fraud",
+      "exception_or_caveat": "Liability may be shared between bank and customer on a case-by-case basis"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_032",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_032_trn_001",
+    "name": "Disputed Fraudulent Transaction",
+    "properties": {
+      "transaction_types": [
+        "unauthorized",
+        "negligent"
+      ],
+      "dispute_window": "Report immediately",
+      "reversal_rules": "Full refund if unauthorized; shared liability if customer negligent"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_032",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_033_cls_001",
+    "name": "Right to Change Terms Clause",
+    "properties": {
+      "clause_summary": "The bank reserves the right to modify the terms and conditions of the agreement under specific circumstances.",
+      "bank_obligations": [
+        "Provide 30 days written notice before implementing changes"
+      ],
+      "conditions": [
+        "Change must be in the bank's or customer's legitimate interest",
+        "Change may be required to reflect regulatory updates"
+      ],
+      "time_limits": "30 days written notice"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_033",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_034_cls_001",
+    "name": "Change of Terms Dispute Provision",
+    "properties": {
+      "clause_summary": "Right to close account if the customer disagrees with changes to terms",
+      "customer_rights": [
+        "Close account without penalty",
+        "Transfer final balance without charge"
+      ],
+      "time_limits": "60 days to close account",
+      "exception_or_caveat": "Applies specifically if the customer disagrees with changes"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_034",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_034_elig_001",
+    "name": "Account Closure Notice Period",
+    "properties": {
+      "rule_description": "Customer must close the account within 60 days if disagreeing with terms changes",
+      "rule_type": "conditional",
+      "time_limits": "60 days"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_034",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_034_fee_001",
+    "name": "Early Closure Fee — £0",
+    "properties": {
+      "fee_amount": "£0",
+      "trigger_event": "Closing the account due to disagreement with changes in terms",
+      "conditions": "Waived specifically for customers exercising their right to close due to term changes"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_034",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_034_fee_002",
+    "name": "Final Balance Transfer Fee — £0",
+    "properties": {
+      "fee_amount": "£0",
+      "trigger_event": "Transferring the final balance upon account closure",
+      "conditions": "Free if closed due to disagreement with changes in terms"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_034",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_034_acc_001",
+    "name": "Customer Account",
+    "properties": {
+      "closure_conditions": "Can be closed within 60 days if customer disagrees with terms changes"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_034",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_034_txn_001",
+    "name": "Final Balance Transfer",
+    "properties": {
+      "transaction_types": [
+        "Balance Transfer"
+      ],
+      "fee_triggers": "Typically chargeable, but free under Change of Terms Dispute Provision"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_034",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_035_cls_001",
+    "name": "Entire Agreement Clause",
+    "properties": {
+      "clause_summary": "The Terms & Conditions constitute the complete agreement between the bank and the customer, superseding all previous agreements or representations.",
+      "bank_obligations": "The bank is only bound by the terms stated in this document rather than prior representations.",
+      "customer_obligations": "The customer acknowledges that prior agreements are superseded by these terms.",
+      "regulatory_basis": "Contractual primacy"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_035",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_036_cls_001",
+    "name": "Severability Clause",
+    "properties": {
+      "clause_summary": "If any specific term of the agreement is found to be invalid, the rest of the agreement remains legally binding and in effect.",
+      "bank_obligations": "The bank continues to operate under the remaining valid terms of the agreement.",
+      "customer_obligations": "The customer remains bound by all other valid terms of the agreement.",
+      "exception_or_caveat": "Applies only to the specific term found invalid."
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_036",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_037_cls_001",
+    "name": "Governing Law and Jurisdiction Clause",
+    "properties": {
+      "clause_summary": "The agreement is governed by English Law and falls under the jurisdiction of the Courts of England & Wales.",
+      "regulatory_basis": "English Law",
+      "bank_obligations": "Adherence to the legal framework of England & Wales",
+      "customer_obligations": "Submission to the jurisdiction of the Courts of England & Wales"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_037",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_038_ftr_001",
+    "name": "Customer Service Access",
+    "properties": {
+      "feature_description": "Access to bank support via telephone, email, and physical branches",
+      "available_channels": [
+        "phone",
+        "email",
+        "branch"
+      ],
+      "contact_details": {
+        "phone": "0800-555-2265",
+        "email": "support@firstuk.bank"
+      },
+      "operating_hours": {
+        "weekday": "Mon–Fri 08:00–20:00",
+        "weekend": "Sat 09:00–17:00"
+      }
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_038",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_039_cls_001",
+    "name": "Financial Services Compensation Scheme (FSCS) Protection",
+    "properties": {
+      "clause_summary": "Protection provided by the FSCS for account funds",
+      "customer_rights": "Up to £85,000 per customer",
+      "regulatory_basis": "Financial Services Compensation Scheme (FSCS)"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_039",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_039_cls_002",
+    "name": "Direct Debit Guarantee",
+    "properties": {
+      "clause_summary": "Guarantee ensuring refunds for unauthorized Direct Debits",
+      "customer_rights": "Full refund if unauthorized"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_039",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_039_cls_003",
+    "name": "FCA Complaints Handling Procedure",
+    "properties": {
+      "clause_summary": "Standard procedure for handling customer complaints under FCA guidelines",
+      "bank_obligations": "Investigate complaints within a specific timeframe",
+      "time_limits": "8-week investigation",
+      "regulatory_basis": "Financial Conduct Authority (FCA)"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_039",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_040_prd_001",
+    "name": "SmartSaver Account",
+    "properties": {
+      "product_type": "savings",
+      "interest_rate_type": "variable"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_040",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_040_elig_001",
+    "name": "Minimum Age Requirement (18+)",
+    "properties": {
+      "rule_description": "Customer must be 18 years of age or older",
+      "rule_type": "mandatory",
+      "applies_to_products": [
+        "SmartSaver Account"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_040",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_040_cls_001",
+    "name": "Joint Account Liability Provision",
+    "properties": {
+      "clause_summary": "Customers must accept liability for joint accounts where applicable",
+      "customer_obligations": "Acceptance of liability for joint account holdings",
+      "applies_to_products": [
+        "SmartSaver Account"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_040",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_040_cust_001",
+    "name": "Individual Customer",
+    "properties": {
+      "eligibility_criteria": {
+        "minimum_age": "18+",
+        "information_requirement": "Must provide accurate information"
+      },
+      "applicable_products": [
+        "SmartSaver Account"
+      ]
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_040",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_040_hld_001",
+    "name": "Joint Holder",
+    "properties": {
+      "holder_type": "joint",
+      "withdrawal_authority": "Requires signature on account opening documentation"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_040",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_040_jnt_001",
+    "name": "Joint Account Arrangement",
+    "properties": {
+      "liability_type": "joint_and_several",
+      "closure_consent_required": "Requires signatures from both primary and joint holders"
+    },
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_040",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b"
+  }
+]

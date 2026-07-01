@@ -27,12 +27,60 @@ entities_prompt: |
     example type values: money_laundering | terrorist_financing | sanctions_violation | fraud | data_breach | operational_risk | credit_risk | reputational_risk | information_security_risk | compliance_risk | unauthorized_access
 
   CONTROL_MEASURE
-    A specific operational safeguard, check, screening process, monitoring activity, or protective mechanism required by the policy. Controls are the "how" of the policy — the mechanisms through which obligations are met. Each named control is a separate entity.
-    example type values: sanctions_screening | transaction_monitoring | identity_verification | access_control | authentication | record_keeping | staff_training | audit_logging | incident_reporting | approval_gate | data_encryption | penetration_testing
+    A specific operational safeguard, monitoring mechanism, or protective tool required by the policy — the "how" through which compliance obligations are implemented. Note: KYC_VERIFICATION and AML_SCREENING are first-class entities covering those processes; use CONTROL_MEASURE for the operational mechanisms and technical tools that implement them (e.g., transaction monitoring systems, access controls, encryption, dual authorisation gates).
+    example type values: transaction_monitoring | access_control | authentication | record_keeping | staff_training | audit_logging | incident_reporting | approval_gate | data_encryption | penetration_testing | dual_authorisation | data_masking
 
   ROLE_RESPONSIBILITY
-    A named role, team, department, or committee with explicitly defined accountability, obligations, or authority under this policy. Extract both the role name and the specific responsibilities assigned to it. Named individuals are also captured here when specifically named with defined policy responsibilities.
-    example type values: policy_owner | accountable_executive | responsible_team | all_staff | committee | external_authority | data_subject | regulator | third_party_processor
+    An abstract role, committee, or staff collective with explicitly defined accountability, obligations, or authority under this policy. Extract the role title and the specific responsibilities assigned to it. Note: named individual employees (e.g., "Head of Financial Crime") are extracted as EMPLOYEE entities. Named organisational departments (e.g., "Financial Crime Department") are extracted as DEPARTMENT entities. Use ROLE_RESPONSIBILITY for abstract roles (MLRO, Data Protection Officer), staff collectives (all staff, customer-facing staff), regulatory bodies, and cross-functional committees.
+    example type values: policy_owner | mlro | data_protection_officer | all_staff | board_committee | risk_committee | external_regulator | third_party_processor | data_subject
+
+  CUSTOMER
+    A bank customer referenced as the subject of a policy obligation, restriction, or protection. Extract when the policy defines duties, rights, or controls that apply to customers directly.
+    example type values: individual_customer | high_risk_customer | pep_customer | joint_account_holder | prospective_customer
+
+  ACCOUNT
+    A customer account referenced in policy obligations — account opening requirements, account freezing conditions, or closure procedures. Extract when the policy mandates controls over accounts.
+    example type values: savings_account | current_account | joint_account | frozen_account | closed_account | new_account
+
+  TRANSACTION
+    A financial event referenced in a policy obligation — transactions requiring monitoring, reporting thresholds, or suspicious activity triggers. Extract when the policy defines transaction-level controls or reporting requirements.
+    example type values: suspicious_transaction | high_value_transaction | cash_transaction | monitored_transaction | reported_transaction
+
+  PRODUCT
+    A banking product referenced as being subject to policy requirements — AML obligations, KYC requirements, or fraud controls that apply to specific products.
+    example type values: savings_account_product | current_account_product | joint_account_product | card_product
+
+  CARD
+    A payment card referenced in fraud policy — card fraud scenarios, card blocking procedures, or dispute obligations.
+    example type values: debit_card | card_fraud_scenario | contactless | card_block | replacement_procedure
+
+  KYC_VERIFICATION
+    The Know Your Customer verification process as mandated by policy — the specific verification requirements, timing, and consequences of failure. Extract when the policy defines or mandates KYC controls.
+    example type values: identity_verification | address_verification | enhanced_due_diligence | periodic_refresh | document_collection
+
+  AML_SCREENING
+    Anti-Money Laundering screening as mandated by policy — the specific screening requirements, lists to be checked, thresholds, and escalation obligations. Extract when the policy defines AML screening controls.
+    example type values: sanctions_screening | pep_screening | adverse_media_check | ongoing_monitoring | transaction_monitoring
+
+  SAR
+    A Suspicious Activity Report as mandated by policy — the obligation to file, the filing deadline, the confidentiality requirement, and the consequence of failure. Extract when the policy defines SAR obligations.
+    example type values: sar_obligation | sar_filing_deadline | sar_confidentiality | internal_sar | external_sar
+
+  FRAUD_ALERT
+    A fraud detection alert or fraud response as defined by policy — the obligation to generate, investigate, or respond to fraud alerts. Extract when the policy mandates fraud detection or response controls.
+    example type values: fraud_detection_obligation | fraud_investigation | customer_reimbursement | card_block | account_freeze
+
+  IDENTIFICATION_DOCUMENT
+    An official identity document required by policy for KYC purposes — the types accepted, validity requirements, and verification obligations. Extract when the policy specifies acceptable document types or document-handling obligations.
+    example type values: passport | driving_licence | national_id | proof_of_address | utility_bill | document_retention
+
+  ACCOUNT_HOLDER
+    A person with legal rights over an account as referenced in policy — joint account holders, secondary holders, or beneficial owners requiring due diligence. Extract when the policy defines obligations that apply to account holders specifically.
+    example type values: primary_holder | joint_holder | beneficial_owner | signatory | power_of_attorney
+
+  JOINT_ACCOUNT
+    A joint account arrangement referenced in policy — the specific due diligence, liability, and disclosure obligations that apply when an account has multiple holders.
+    example type values: joint_and_several | joint_aml_obligation | joint_disclosure | joint_kyc_requirement | joint_closure
 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:
@@ -172,6 +220,85 @@ properties_prompt: |
     - reporting_to (who they report to under this policy)
     - training_required (any stated training obligations)
 
+  For CUSTOMER, consider:
+    - eligibility_status (prospective | existing | high_risk | pep | sanctioned)
+    - obligations_under_policy (what the policy requires of or about customers)
+    - rights_under_policy (protections the policy affords to customers)
+    - risk_treatment (how the policy classifies or treats this customer type)
+
+  For ACCOUNT, consider:
+    - account_type (savings | current | joint)
+    - policy_controls (what the policy mandates about this account type)
+    - freeze_conditions (circumstances under which the account must be frozen)
+    - closure_conditions (policy-mandated closure triggers)
+
+  For TRANSACTION, consider:
+    - reporting_threshold (monetary value that triggers a reporting obligation)
+    - monitoring_obligation (what the policy requires be monitored)
+    - suspicious_indicators (patterns defined as suspicious in the policy)
+    - required_response (what must be done when a flagged transaction is identified)
+
+  For PRODUCT, consider:
+    - applicable_policy (which policy or obligation applies to this product)
+    - kyc_requirement (whether KYC is mandatory for this product)
+    - aml_requirement (AML screening obligation for this product)
+    - risk_classification (product's risk level under the policy)
+
+  For CARD, consider:
+    - fraud_scenario (types of card fraud the policy addresses)
+    - block_conditions (when the policy requires a card to be blocked)
+    - dispute_obligation (customer rights or bank obligations in card disputes)
+    - reimbursement_timeframe (how quickly fraud reimbursements must be made)
+
+  For KYC_VERIFICATION, consider:
+    - mandatory (yes — always required at account opening)
+    - timing (when KYC must be completed relative to account opening)
+    - refresh_frequency (how often KYC must be refreshed)
+    - edd_trigger (conditions requiring Enhanced Due Diligence)
+    - consequence_of_failure (what happens if KYC cannot be completed)
+    - document_retention (how long KYC records must be kept)
+
+  For AML_SCREENING, consider:
+    - mandatory (yes — required at account opening and ongoing)
+    - screening_lists (which lists must be checked per the policy)
+    - ongoing_monitoring (whether continuous monitoring is required)
+    - hit_response (what must be done if a screening match is found)
+    - regulatory_basis (which regulation mandates this screening)
+
+  For SAR, consider:
+    - filing_obligation (mandatory — when suspicion arises)
+    - filing_deadline (time limit from date of suspicion)
+    - recipient (NCA or internal MLRO first)
+    - confidentiality_rule (customer must not be tipped off)
+    - consequence_of_non_filing (regulatory breach, criminal liability)
+
+  For FRAUD_ALERT, consider:
+    - generation_trigger (what must trigger a fraud alert)
+    - investigation_obligation (how quickly investigation must begin)
+    - customer_notification (whether and when customer must be told)
+    - reimbursement_obligation (bank liability for unauthorised fraud)
+    - reimbursement_timeframe (deadline for reimbursement)
+
+  For IDENTIFICATION_DOCUMENT, consider:
+    - accepted_types (list of documents the policy accepts for KYC)
+    - validity_requirements (expiry, condition, issuing country)
+    - verification_method (physical inspection, digital check, database)
+    - retention_period (how long the document or record must be kept)
+    - exception_handling (what to do if a customer cannot provide standard documents)
+
+  For ACCOUNT_HOLDER, consider:
+    - due_diligence_requirement (KYC/AML obligations for each holder)
+    - liability_under_policy (individual or joint liability stated in policy)
+    - beneficial_owner_disclosure (whether beneficial ownership must be declared)
+    - power_of_attorney_rules (any policy provisions for authorised representatives)
+
+  For JOINT_ACCOUNT, consider:
+    - dual_kyc_requirement (both holders must pass KYC individually)
+    - dual_aml_requirement (both holders must pass AML screening)
+    - liability_type (joint and several — both liable for all obligations)
+    - closure_consent (both holders must consent to closure)
+    - disclosure_obligation (both holders entitled to account information)
+
   KEY RULES FOR PROPERTIES:
     1. Use clear, readable key names (e.g., "regulatory_source" not "reg_src")
     2. Use arrays for multiple values
@@ -295,6 +422,114 @@ relationships_prompt: |
 
   ROLE_RESPONSIBILITY ↔ ROLE_RESPONSIBILITY:
     reports_to, escalates_to, oversees, advises
+
+  POLICY ↔ CUSTOMER:
+    governs_treatment_of, assigns_obligations_toward, protects
+
+  POLICY ↔ ACCOUNT:
+    governs_opening_of, mandates_controls_on, governs_closure_of
+
+  POLICY ↔ TRANSACTION:
+    mandates_monitoring_of, requires_reporting_of, governs
+
+  POLICY ↔ PRODUCT:
+    applies_to, governs_risk_of
+
+  POLICY ↔ KYC_VERIFICATION:
+    mandates, defines_requirements_for, governs
+
+  POLICY ↔ AML_SCREENING:
+    mandates, defines_requirements_for, governs
+
+  POLICY ↔ SAR:
+    mandates_filing_of, defines_obligations_for
+
+  POLICY ↔ FRAUD_ALERT:
+    mandates_generation_of, defines_response_to
+
+  POLICY_PROVISION ↔ CUSTOMER:
+    applies_to, governs_treatment_of, protects
+
+  POLICY_PROVISION ↔ ACCOUNT:
+    applies_to, mandates_control_on
+
+  POLICY_PROVISION ↔ TRANSACTION:
+    governs, requires_monitoring_of, triggers_reporting_for
+
+  POLICY_PROVISION ↔ KYC_VERIFICATION:
+    implements, mandates, defines_requirement_for
+
+  POLICY_PROVISION ↔ AML_SCREENING:
+    implements, mandates, defines_requirement_for
+
+  POLICY_PROVISION ↔ SAR:
+    mandates_filing_of, defines_deadline_for
+
+  POLICY_PROVISION ↔ FRAUD_ALERT:
+    mandates_response_to, defines_reimbursement_for
+
+  POLICY_PROVISION ↔ IDENTIFICATION_DOCUMENT:
+    specifies_acceptable, mandates_retention_of
+
+  POLICY_PROVISION ↔ ACCOUNT_HOLDER:
+    applies_to, defines_obligations_for
+
+  POLICY_PROVISION ↔ JOINT_ACCOUNT:
+    governs, applies_to, defines_due_diligence_for
+
+  KYC_VERIFICATION ↔ CUSTOMER:
+    required_for, applied_to, verifies
+
+  KYC_VERIFICATION ↔ IDENTIFICATION_DOCUMENT:
+    requires, verified_using, relies_on
+
+  KYC_VERIFICATION ↔ ACCOUNT:
+    gate_for_opening, required_before_activating
+
+  KYC_VERIFICATION ↔ JOINT_ACCOUNT:
+    required_for_both_holders_of, applied_to
+
+  AML_SCREENING ↔ CUSTOMER:
+    screens, applied_to, required_for
+
+  AML_SCREENING ↔ TRANSACTION:
+    monitors, screens_for_patterns_in
+
+  AML_SCREENING ↔ SAR:
+    triggers, leads_to_filing_of
+
+  AML_SCREENING ↔ ACCOUNT:
+    required_before_opening, ongoing_monitoring_of
+
+  SAR ↔ CUSTOMER:
+    filed_about, concerns
+
+  SAR ↔ TRANSACTION:
+    triggered_by, based_on_evidence_from
+
+  SAR ↔ ROLE_RESPONSIBILITY:
+    filed_by, reviewed_by
+
+  FRAUD_ALERT ↔ ACCOUNT:
+    raised_on, protects
+
+  FRAUD_ALERT ↔ TRANSACTION:
+    triggered_by, raised_on
+
+  FRAUD_ALERT ↔ CARD:
+    raised_for, protects
+
+  IDENTIFICATION_DOCUMENT ↔ CUSTOMER:
+    proves_identity_of, belongs_to
+
+  ACCOUNT_HOLDER ↔ ACCOUNT:
+    holds, liable_for
+
+  ACCOUNT_HOLDER ↔ JOINT_ACCOUNT:
+    party_to, has_rights_in
+
+  JOINT_ACCOUNT ↔ CUSTOMER:
+    held_by (both), requires_dual_compliance_for
 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:

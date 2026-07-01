@@ -131,6 +131,36 @@ def _delete_from_registry(domain: str, document_name: str) -> int:
         conn.close()
 
 
+def _delete_chunk_status(doc_sha256: str) -> int:
+    if not DB_PATH.exists():
+        return 0
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    try:
+        cursor.execute("DELETE FROM kg_chunk_status WHERE doc_sha256 = ?", (doc_sha256,))
+        deleted = cursor.rowcount
+        conn.commit()
+        return deleted
+    finally:
+        conn.close()
+
+
+def _delete_chunk_status_by_doc_id(doc_id: str) -> int:
+    """Delete kg_chunk_status rows by doc_id — needed for force-ingested duplicates,
+    whose extraction key differs from the registry's real sha256."""
+    if not DB_PATH.exists():
+        return 0
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    try:
+        cursor.execute("DELETE FROM kg_chunk_status WHERE doc_id = ?", (doc_id,))
+        deleted = cursor.rowcount
+        conn.commit()
+        return deleted
+    finally:
+        conn.close()
+
+
 def _path_is_under(path: Path, parent: Path) -> bool:
     try:
         path.resolve().relative_to(parent.resolve())
@@ -345,6 +375,7 @@ def ingest_file(
     domain: str = "general",
     job_id: str | None = None,
     chunk_size: int = 6000,
+    force: bool = False,
 ):
     file_size_kb = source.stat().st_size / 1024
     logger.info(
@@ -355,7 +386,8 @@ def ingest_file(
 
     file_sha256 = _compute_sha256(source)
     logger.debug("SHA256: {}", file_sha256)
-    if _sha256_in_registry(file_sha256):
+    is_duplicate = _sha256_in_registry(file_sha256)
+    if is_duplicate and not force:
         logger.warning(
             "Skipping duplicate — SHA256 already registered: {}", source.name
         )
@@ -368,6 +400,17 @@ def ingest_file(
                 error_message="Duplicate SHA256 already registered",
             )
         return file_result
+
+    # A forced duplicate gets its own extraction identity (chunk cache, doc_id,
+    # Neo4j document node) so it doesn't collide/merge with the original document
+    # that shares this content hash. The registry still records the real sha256.
+    extraction_sha256 = file_sha256
+    if is_duplicate and force:
+        extraction_sha256 = f"{file_sha256}-{uuid.uuid4().hex[:8]}"
+        logger.info(
+            "Forcing duplicate ingestion of {} — using independent extraction key",
+            source.name,
+        )
 
     dest_filename = source.name
     if _filename_in_registry(dest_filename):
@@ -487,7 +530,7 @@ def ingest_file(
 
         file_result["status"] = "ok"
         file_result["domain"] = domain
-        file_result["sha256"] = file_sha256
+        file_result["sha256"] = extraction_sha256
         file_result["registered_path"] = str(registered_path)
         file_result["chunks_dir"] = str(chunks_dir)
         file_result["chunk_count"] = len(chunks)
@@ -1001,6 +1044,7 @@ def clean_document(domain: str, document_name: str, delete_neo4j: bool = True) -
         "markdowns": 0,
         "markdown_artifacts": 0,
         "kg_dirs": 0,
+        "chunk_status_rows": 0,
         "neo4j_documents": 0,
         "neo4j_chunks": 0,
         "neo4j_orphan_entities": 0,
@@ -1017,8 +1061,24 @@ def clean_document(domain: str, document_name: str, delete_neo4j: bool = True) -
             result["markdowns"] += 1
         if _delete_path(MARKDOWNS_DIR / f"{stem}_artifacts", MARKDOWNS_DIR):
             result["markdown_artifacts"] += 1
-        if _delete_path(KG_DIR / domain / stem, KG_DIR):
+
+        # Read doc_id before deleting the KG dir — needed to find chunk-status rows
+        # for force-ingested duplicates, whose extraction key differs from sha256.
+        doc_kg_dir = KG_DIR / domain / stem
+        doc_json = doc_kg_dir / "document.json"
+        if doc_json.exists():
+            try:
+                doc_id = json.loads(doc_json.read_text(encoding="utf-8")).get("id")
+            except Exception:
+                doc_id = None
+            if doc_id:
+                result["chunk_status_rows"] += _delete_chunk_status_by_doc_id(doc_id)
+
+        if _delete_path(doc_kg_dir, KG_DIR):
             result["kg_dirs"] += 1
+
+        if row.get("sha256"):
+            result["chunk_status_rows"] += _delete_chunk_status(row["sha256"])
 
     result["registry_rows"] = _delete_from_registry(domain, document_name)
 

@@ -1,0 +1,2359 @@
+[
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_001_prc_001",
+    "name": "Customer Complaint Resolution Process",
+    "aliases": [
+      "COMPLAINT-GUIDE-001"
+    ],
+    "entity_class": "PROCESS",
+    "type": "complaint_resolution",
+    "description": "The end-to-end operational workflow for managing and resolving customer complaints at FirstUK Bank. This process is owned by the Head of Customer Service and involves both Customer Service and Compliance departments.",
+    "context": [
+      "FirstUK Bank — Customer Complaint Resolution Guide",
+      "Document ID | COMPLAINT-GUIDE-001"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_001",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_001_rol_001",
+    "name": "Head of Customer Service",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The designated owner of the Customer Complaint Resolution Guide, responsible for the overall governance of the complaint process.",
+    "context": [
+      "Owner | Head of Customer Service"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_001",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_001_rol_002",
+    "name": "Customer Service Department",
+    "aliases": [
+      "Customer Service"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer_service",
+    "description": "The primary department responsible for the execution and management of customer complaint resolutions.",
+    "context": [
+      "Department | Customer Service, Compliance"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_001",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_001_rol_003",
+    "name": "Compliance Department",
+    "aliases": [
+      "Compliance"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "The department providing regulatory oversight and support for the complaint resolution process to ensure adherence to banking standards.",
+    "context": [
+      "Department | Customer Service, Compliance"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_001",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_001_rol_004",
+    "name": "Support Staff",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer_service",
+    "description": "The frontline personnel who are the intended audience for the guide and responsible for interacting with customers regarding complaints.",
+    "context": [
+      "Audience | Customers, Support Staff"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_001",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_001_cus_001",
+    "name": "Complaining Customer",
+    "aliases": [
+      "Customers"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "complaining_customer",
+    "description": "The bank customer who initiates a complaint and is the primary subject of the resolution process.",
+    "context": [
+      "Audience | Customers, Support Staff"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_001",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_002_prc_001",
+    "name": "Customer Complaint Resolution Process",
+    "aliases": [
+      "complaint process"
+    ],
+    "entity_class": "PROCESS",
+    "type": "complaint_resolution",
+    "description": "An end-to-end procedure designed to help customers understand how to raise complaints, what to expect during the process, and the available paths for escalation if they remain unsatisfied.",
+    "context": [
+      "Help customers understand the complaint process and their rights",
+      "how to raise complaints, what to expect, and how to escalate if unsatisfied"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_002",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_002_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "complaining_customer",
+    "description": "The individual who initiates the complaint process to exercise their rights and seek resolution for an issue.",
+    "context": [
+      "Help customers understand the complaint process",
+      "how to raise complaints"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_002",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_003_prc_001",
+    "name": "Complaint Resolution Process",
+    "aliases": [
+      "Complaint Handling"
+    ],
+    "entity_class": "PROCESS",
+    "type": "complaint_resolution",
+    "description": "The end-to-end procedure for managing expressions of dissatisfaction regarding FirstUK Bank services, products, or actions that require a formal response.",
+    "context": [
+      "A complaint is any expression of dissatisfaction about our service, products, or actions that requires a response."
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_003",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_003_cus_001",
+    "name": "Complaining Customer",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "complaining_customer",
+    "description": "The bank customer who expresses dissatisfaction regarding a service, product, or action, such as failed transfers or poor branch treatment.",
+    "context": [
+      "\"My transfer failed and wasn't refunded\"",
+      "\"I wasn't informed about a rate change\"",
+      "\"I was treated poorly in a branch\"",
+      "\"Your website is difficult to use\""
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_003",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_003_tra_001",
+    "name": "Failed Transfer Transaction",
+    "aliases": [
+      "failed transfer"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "failed_transaction",
+    "description": "A financial transfer that did not complete successfully and has not been refunded, triggering a customer complaint.",
+    "context": [
+      "\"My transfer failed and wasn't refunded\""
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_003",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_003_dd_001",
+    "name": "Unauthorized Direct Debit",
+    "aliases": [
+      "Direct Debit"
+    ],
+    "entity_class": "DIRECT_DEBIT",
+    "type": "dd_dispute_handling",
+    "description": "A Direct Debit transaction taken from a customer account without the required authorization, cited as a reason for a complaint.",
+    "context": [
+      "\"A Direct Debit was taken without authorization\""
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_003",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_004_prc_001",
+    "name": "Complaint Resolution Process",
+    "aliases": [
+      "Your Rights"
+    ],
+    "entity_class": "PROCESS",
+    "type": "complaint_resolution",
+    "description": "The end-to-end procedure for handling customer complaints, featuring an 8-day response guarantee and a path to external escalation via the Financial Ombudsman Service.",
+    "context": [
+      "We will respond to your complaint within 8 calendar days of receipt.",
+      "If you're unhappy with our response, you can escalate to the Financial Ombudsman Service"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_004",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_004_stp_001",
+    "name": "Complaint Investigation",
+    "aliases": [
+      "Full Investigation"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "A thorough investigation of the customer's complaint to provide a clear explanation of the findings.",
+    "context": [
+      "We will thoroughly investigate your complaint and provide a clear explanation."
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_004",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_004_stp_002",
+    "name": "Complaint Response",
+    "aliases": [
+      "8-Day Response Guarantee"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The act of responding to the customer's complaint within a strict timeline of 8 calendar days from the date of receipt.",
+    "context": [
+      "We will respond to your complaint within 8 calendar days of receipt."
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_004",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_004_dec_001",
+    "name": "Response Satisfaction Check",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "escalate_or_resolve",
+    "description": "A decision point where the customer determines if they are satisfied with the bank's response; if unhappy, the process moves to external escalation.",
+    "context": [
+      "If you're unhappy with our response, you can escalate to the Financial Ombudsman Service"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_004",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_004_esc_001",
+    "name": "External Escalation — Financial Ombudsman Service",
+    "aliases": [
+      "Free Ombudsman Escalation"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "financial_ombudsman",
+    "description": "The final escalation tier involving a free and independent external body for customers unhappy with the bank's internal resolution.",
+    "context": [
+      "you can escalate to the Financial Ombudsman Service (free and independent)."
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_004",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_004_rol_001",
+    "name": "Financial Ombudsman Service",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "A free and independent external body responsible for reviewing complaints escalated by customers.",
+    "context": [
+      "escalate to the Financial Ombudsman Service (free and independent)."
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_004",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_004_cus_001",
+    "name": "Complaining Customer",
+    "aliases": [
+      "you"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "complaining_customer",
+    "description": "The bank customer who has submitted a complaint and is entitled to a response within 8 days and protection from retaliation.",
+    "context": [
+      "We will respond to your complaint",
+      "We will not penalize you for making a complaint."
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_004",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_005_prc_001",
+    "name": "Complaint Raising Process",
+    "aliases": [
+      "How to Raise a Complaint"
+    ],
+    "entity_class": "PROCESS",
+    "type": "complaint_resolution",
+    "description": "The end-to-end procedure for customers to initiate a complaint with FirstUK Bank. This specific section covers the telephone channel for reporting issues.",
+    "context": [
+      "How to Raise a Complaint",
+      "Option 1: Call Us"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_005",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_005_stp_001",
+    "name": "Telephone Complaint Initiation",
+    "aliases": [
+      "Call Us"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial step where a customer contacts the bank via phone (0800-555-2265) during specified operating hours to explain their issue.",
+    "context": [
+      "Option 1: Call Us",
+      "Phone: 0800-555-2265",
+      "Explain your issue clearly"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_005",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_005_rol_001",
+    "name": "Customer",
+    "aliases": [
+      "You"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "complaining_customer",
+    "description": "The individual initiating the complaint process by calling the bank and explaining their issue.",
+    "context": [
+      "Call Us",
+      "Explain your issue clearly"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_005",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_005_rol_002",
+    "name": "Supervisor",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "supervisor",
+    "description": "A higher-level staff member who can be requested by the customer to handle the complaint if the initial interaction is insufficient.",
+    "context": [
+      "ask to speak with a supervisor if needed"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_005",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_005_dec_001",
+    "name": "Supervisor Escalation Trigger",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "escalate_or_resolve",
+    "description": "A decision point where the customer determines if the current level of service is sufficient or if they need to escalate the matter to a supervisor.",
+    "context": [
+      "ask to speak with a supervisor if needed"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_005",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_006_prc_001",
+    "name": "Formal Complaint Lodgement Process (Email Channel)",
+    "aliases": [
+      "Option 2: Email"
+    ],
+    "entity_class": "PROCESS",
+    "type": "complaint_resolution",
+    "description": "The procedure for customers to lodge a formal complaint via email to the bank's support address. It specifies the required subject line and the mandatory information the customer must provide to initiate the resolution process.",
+    "context": [
+      "Option 2: Email",
+      "I want to lodge a formal complaint"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_006",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_006_rol_001",
+    "name": "Customer",
+    "aliases": [
+      "Your"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "complaining_customer",
+    "description": "The individual initiating the formal complaint process by sending an email to the bank's support address with their account details and issue description.",
+    "context": [
+      "Your name and account number",
+      "How you'd like it resolved"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_006",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_006_rol_002",
+    "name": "Bank Support Team",
+    "aliases": [
+      "support@firstuk.bank"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer_service",
+    "description": "The recipient of the formal complaint email, responsible for receiving the customer's submission at the designated support email address.",
+    "context": [
+      "Email: support@firstuk.bank"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_006",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_006_stp_001",
+    "name": "Complaint Email Submission",
+    "aliases": [
+      "What to Include"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The action where the customer sends an email to support@firstuk.bank with the subject 'I want to lodge a formal complaint', including their name, account number, date of issue, description of events, perceived error, and desired resolution.",
+    "context": [
+      "Email: support@firstuk.bank",
+      "Subject: \"I want to lodge a formal complaint\"",
+      "Your name and account number",
+      "Date of the issue",
+      "Clear description of what happened",
+      "What you think went wrong",
+      "How you'd like it resolved"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_006",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_006_acc_001",
+    "name": "Customer Account",
+    "aliases": [
+      "account number"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "active_account",
+    "description": "The specific bank account associated with the customer lodging the complaint, identified by the account number provided in the email.",
+    "context": [
+      "Your name and account number"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_006",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_007_prc_001",
+    "name": "Branch-Based Complaint Resolution Process",
+    "aliases": [
+      "Option 3: Visit a Branch"
+    ],
+    "entity_class": "PROCESS",
+    "type": "complaint_resolution",
+    "description": "A process allowing customers to lodge complaints by visiting any of the 12 UK bank branches. The process involves interacting with management or utilizing formal documentation.",
+    "context": [
+      "Option 3: Visit a Branch",
+      "Locations: Any of our 12 UK branches",
+      "What to Do: Ask to speak with a manager or use the complaint form."
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_007",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_007_stp_001",
+    "name": "Request Manager Consultation",
+    "aliases": [
+      "Ask to speak with a manager"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The action where a customer requests a direct conversation with a branch manager to address their complaint.",
+    "context": [
+      "Ask to speak with a manager"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_007",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_007_stp_002",
+    "name": "Complaint Form Submission",
+    "aliases": [
+      "use the complaint form"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The action where a customer utilizes a formal complaint form to document their grievance at a branch location.",
+    "context": [
+      "use the complaint form"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_007",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_007_rol_001",
+    "name": "Branch Manager",
+    "aliases": [
+      "manager"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_manager",
+    "description": "The staff member at the branch responsible for speaking with customers regarding their complaints.",
+    "context": [
+      "Ask to speak with a manager"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_007",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_007_rol_002",
+    "name": "Complaining Customer",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "complaining_customer",
+    "description": "The individual visiting a UK branch to initiate a complaint via a manager or a form.",
+    "context": [
+      "Visit a Branch",
+      "Ask to speak with a manager or use the complaint form"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_007",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_008_prc_001",
+    "name": "Online Complaint Submission Process",
+    "aliases": [
+      "Option 4: Online Complaint Form"
+    ],
+    "entity_class": "PROCESS",
+    "type": "complaint_resolution",
+    "description": "A digital channel process allowing customers to lodge complaints via a secure online form hosted on the bank's official website.",
+    "context": [
+      "Option 4: Online Complaint Form",
+      "Process: Fill out form and submit securely."
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_008",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_008_stp_001",
+    "name": "Online Complaint Form Completion and Submission",
+    "aliases": [
+      "Fill out form"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The action where the user populates the required fields in the online complaint form and submits the data securely through the website.",
+    "context": [
+      "Fill out form and submit securely."
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_008",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_008_rol_001",
+    "name": "Customer",
+    "aliases": [
+      "User"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The individual initiating the complaint process by accessing the website and submitting the online form.",
+    "context": [
+      "Fill out form and submit securely."
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_008",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_009_prc_001",
+    "name": "Complaint Handling Process",
+    "aliases": [
+      "The 4-Step Process"
+    ],
+    "entity_class": "PROCESS",
+    "type": "complaint_resolution",
+    "description": "A four-step operational workflow for managing customer complaints, beginning with an immediate acknowledgment phase to provide the customer with tracking details and investigator information.",
+    "context": [
+      "What Happens Next: The 4-Step Process",
+      "Within 1 business day of receipt, you'll receive"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_009",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_009_stp_001",
+    "name": "Complaint Acknowledgment Step",
+    "aliases": [
+      "Step 1",
+      "Acknowledgment"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The initial stage of the complaint process where the bank acknowledges receipt of the complaint within 1 business day. This step involves issuing a reference number and providing the name of the assigned investigator.",
+    "context": [
+      "Step 1: Acknowledgment (Immediate)",
+      "Within 1 business day of receipt, you'll receive: Complaint Reference Number",
+      "Acknowledgment Email/Letter confirming we've received your complaint"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_009",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_009_rol_001",
+    "name": "Complaint Investigator",
+    "aliases": [
+      "Investigator"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer_service",
+    "description": "The individual responsible for investigating the customer's complaint, whose name is provided to the customer during the acknowledgment phase.",
+    "context": [
+      "Name of Your Investigator (if available)"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_009",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_009_cus_001",
+    "name": "Complaining Customer",
+    "aliases": [
+      "you"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "complaining_customer",
+    "description": "The bank customer who has submitted a complaint and is the recipient of the acknowledgment and reference number.",
+    "context": [
+      "you'll receive: Complaint Reference Number",
+      "confirming we've received your complaint",
+      "Keep your reference number safe"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_009",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_010_stp_001",
+    "name": "Investigation Stage",
+    "aliases": [
+      "Step 2",
+      "Investigation (Days 1–7)"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "A discrete stage occurring between Day 1 and Day 7 where the investigation team reviews records, interviews staff, and contacts third parties to determine the cause of an issue and the necessity of compensation.",
+    "context": [
+      "Step 2: Investigation (Days 1–7)",
+      "Our investigation team will: Review all relevant documents and records"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_010",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_010_rol_001",
+    "name": "Investigation Team",
+    "aliases": [
+      "investigation team"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The internal team responsible for reviewing documents, interviewing staff, contacting third parties, and assessing the need for compensation during the investigation stage.",
+    "context": [
+      "Our investigation team will:",
+      "Review all relevant documents and records"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_010",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_010_rol_002",
+    "name": "Involved Staff",
+    "aliases": [
+      "staff involved"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_staff",
+    "description": "Bank personnel who were involved in the event under investigation and may be interviewed by the investigation team.",
+    "context": [
+      "Interview staff involved (if necessary)"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_010",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_010_rol_003",
+    "name": "Third Parties",
+    "aliases": [
+      "merchant",
+      "other bank"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "External entities, such as merchants or other banking institutions, that may be contacted by the investigation team for information.",
+    "context": [
+      "Contact third parties (if needed, e.g., merchant, other bank)"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_010",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_010_rol_004",
+    "name": "Customer",
+    "aliases": [
+      "You"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The subject of the process who may be contacted for additional information during the investigation period.",
+    "context": [
+      "You may be contacted for additional information if needed."
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_010",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_010_dec_001",
+    "name": "Compensation Warranted Decision",
+    "aliases": [
+      "Determine if compensation is warranted"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "approve_reject",
+    "description": "A decision point at the end of the investigation to determine whether the findings justify providing compensation to the customer.",
+    "context": [
+      "Determine if compensation is warranted"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_010",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_011_prc_001",
+    "name": "Complaint Resolution Process",
+    "aliases": [],
+    "entity_class": "PROCESS",
+    "type": "complaint_resolution",
+    "description": "An operational workflow for handling customer complaints, including an investigation phase and a formal decision phase. The process involves issuing a response letter to the customer by Day 8 of the specific stage.",
+    "context": [
+      "Step 3: Decision (By Day 8)",
+      "You'll receive a response letter explaining"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_011",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_011_stp_001",
+    "name": "Complaint Decision and Notification Step",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "approval_decision",
+    "description": "The final stage of the current process phase where the bank communicates its findings, the decision on the complaint, the resulting action, and any awarded compensation to the customer via a response letter. This must be completed by Day 8.",
+    "context": [
+      "Step 3: Decision (By Day 8)",
+      "You'll receive a response letter explaining: - Our findings (what we discovered) - Our decision (upheld, partially upheld, or rejected) - Our action (refund, explanation, other resolution) - Compensation (if awarded)"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_011",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_011_dec_001",
+    "name": "Complaint Outcome Decision",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "approve_reject",
+    "description": "A branching point where the bank determines if a complaint is upheld, partially upheld, or rejected. This decision dictates the subsequent action, such as a refund or a detailed explanation.",
+    "context": [
+      "Our decision (upheld, partially upheld, or rejected)",
+      "Our action (refund, explanation, other resolution)"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_011",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_011_rol_001",
+    "name": "Complaint Handling Officer",
+    "aliases": [
+      "Our"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer_service",
+    "description": "The internal bank actor or team responsible for conducting findings, making the final decision on the complaint, and issuing the response letter to the customer.",
+    "context": [
+      "Our findings (what we discovered)",
+      "Our decision (upheld, partially upheld, or rejected)",
+      "Our action (refund, explanation, other resolution)"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_011",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_011_cus_001",
+    "name": "Complaining Customer",
+    "aliases": [
+      "You"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "complaining_customer",
+    "description": "The bank customer who has submitted a complaint and is the recipient of the response letter detailing the bank's findings and decision.",
+    "context": [
+      "You'll receive a response letter explaining"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_011",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_012_prc_001",
+    "name": "Complaint Resolution and Escalation Process",
+    "aliases": [
+      "Resolution & Escalation"
+    ],
+    "entity_class": "PROCESS",
+    "type": "complaint_resolution",
+    "description": "The final stage of the complaint handling workflow focusing on the resolution of the issue and the customer's options for escalation if the bank's decision is not accepted.",
+    "context": [
+      "Step 4: Resolution & Escalation (If Needed)",
+      "If you accept our decision",
+      "If you disagree with our decision"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_012",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_012_stp_001",
+    "name": "Complaint Closure and Refund Processing",
+    "aliases": [
+      "Complaint closed",
+      "Refund processed"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The action taken when a customer accepts the bank's decision, resulting in the formal closure of the complaint and the processing of any applicable refunds.",
+    "context": [
+      "Complaint closed",
+      "Refund processed (if applicable)",
+      "No further action"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_012",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_012_stp_002",
+    "name": "External Escalation to Financial Ombudsman",
+    "aliases": [
+      "escalate to Financial Ombudsman"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The process where a customer who disagrees with the bank's decision refers the matter to the Financial Ombudsman, which can be done within 6 months.",
+    "context": [
+      "You have 6 months to escalate to Financial Ombudsman",
+      "You can escalate anytime without further correspondence with us"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_012",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_012_rol_001",
+    "name": "Customer",
+    "aliases": [
+      "You"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "complaining_customer",
+    "description": "The individual who has raised a complaint and must decide whether to accept the bank's resolution or escalate the matter externally.",
+    "context": [
+      "If you accept our decision",
+      "If you disagree with our decision",
+      "You have 6 months to escalate"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_012",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_012_rol_002",
+    "name": "Financial Ombudsman",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "The external regulatory body responsible for reviewing complaints that have not been resolved to the customer's satisfaction by the bank.",
+    "context": [
+      "escalate to Financial Ombudsman"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_012",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_012_dec_001",
+    "name": "Decision Acceptance Gate",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "escalate_or_resolve",
+    "description": "A branching point based on whether the customer accepts or disagrees with the bank's decision, leading either to complaint closure or external escalation.",
+    "context": [
+      "If you accept our decision",
+      "If you disagree with our decision"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_012",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_012_esc_001",
+    "name": "External Tier — Financial Ombudsman",
+    "aliases": [],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "financial_ombudsman",
+    "description": "The final escalation tier outside of the bank's internal structure, accessible to the customer within a 6-month window.",
+    "context": [
+      "escalate to Financial Ombudsman"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_012",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_013_prc_001",
+    "name": "Failed Transfer Complaint Resolution Process",
+    "aliases": [
+      "Scenario 1: Failed Transfer (Not Refunded)"
+    ],
+    "entity_class": "PROCESS",
+    "type": "complaint_resolution",
+    "description": "An operational workflow to investigate and resolve customer complaints regarding failed fund transfers where money was debited from the account. The process aims to determine the cause of failure and provide a resolution within 2–3 business days.",
+    "context": [
+      "Scenario 1: Failed Transfer (Not Refunded)",
+      "Typical Resolution Time: 2–3 business days"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_013",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_013_stp_001",
+    "name": "Transfer Status Investigation",
+    "aliases": [
+      "What We Investigate"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "A diagnostic step to determine if the transfer completed or failed, whether funds were debited, and the root cause of the failure.",
+    "context": [
+      "Did the transfer actually complete or fail?",
+      "If failed, was the money debited or not?",
+      "Why did it fail?"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_013",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_013_dec_001",
+    "name": "Transfer Failure Root Cause Decision",
+    "aliases": [
+      "Possible Outcomes"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "escalate_or_resolve",
+    "description": "A branching point based on the investigation outcome to determine the resolution path: system error (Authorized), Insufficient funds, or Invalid recipient.",
+    "context": [
+      "Possible Outcomes:",
+      "Authorized: No fee charged (system error); refund + interest",
+      "Insufficient funds: Explain why it failed; no refund",
+      "Invalid recipient: Explain error; refund if our fault"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_013",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_013_cus_001",
+    "name": "Complaining Customer",
+    "aliases": [
+      "I"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "complaining_customer",
+    "description": "The bank customer who has experienced a failed transfer and is seeking a refund of debited funds.",
+    "context": [
+      "\"I tried to transfer £500 but it failed. Money was taken from my account.\""
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_013",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_013_tra_001",
+    "name": "Failed Transfer Transaction",
+    "aliases": [
+      "transfer"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "failed_transaction",
+    "description": "The specific financial event involving a £500 transfer that failed to complete but resulted in funds being debited from the customer's account.",
+    "context": [
+      "I tried to transfer £500 but it failed.",
+      "Money was taken from my account."
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_013",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_013_acc_001",
+    "name": "Customer Account",
+    "aliases": [
+      "my account"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "active_account",
+    "description": "The customer account from which the failed transfer funds were debited.",
+    "context": [
+      "Money was taken from my account."
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_013",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_014_prc_001",
+    "name": "Wrong Interest Charged Investigation Process",
+    "aliases": [
+      "Scenario 2: Wrong Interest Charged"
+    ],
+    "entity_class": "PROCESS",
+    "type": "complaint_resolution",
+    "description": "An operational workflow to investigate and resolve customer complaints regarding incorrect interest rates. The process involves comparing expected versus actual rates and determining the cause of the error, with a typical resolution timeline of 3–5 business days.",
+    "context": [
+      "Scenario 2: Wrong Interest Charged",
+      "Typical Resolution Time: 3–5 business days"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_014",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_014_stp_001",
+    "name": "Interest Rate Discrepancy Investigation",
+    "aliases": [
+      "What We Investigate"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The analytical phase of the process where the bank determines the correct rate, the actual rate charged, the duration of the discrepancy, and the financial impact on the customer.",
+    "context": [
+      "What rate were you supposed to receive?",
+      "What rate were you actually charged?",
+      "For how long?",
+      "Did this benefit or harm you?"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_014",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_014_dec_001",
+    "name": "Interest Error Root Cause Determination",
+    "aliases": [
+      "Possible Outcomes"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "approve_reject",
+    "description": "A decision gate to categorize the investigation outcome into one of three paths: bank error, policy error, or no error, which dictates the subsequent resolution action.",
+    "context": [
+      "Our error: Recalculate interest; refund difference + additional interest for inconvenience",
+      "Policy error: Explain policy; refund if error caused loss",
+      "No error: Explain the rate and why it's correct"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_014",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_014_stp_002",
+    "name": "Bank Error Remediation",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The action taken when a bank error is identified, involving the recalculation of interest and the issuance of a refund including compensation for inconvenience.",
+    "context": [
+      "Our error: Recalculate interest; refund difference + additional interest for inconvenience"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_014",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_014_stp_003",
+    "name": "Policy Error Resolution",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The action taken when a policy error is identified, involving an explanation of the policy to the customer and a refund if the error resulted in a financial loss.",
+    "context": [
+      "Policy error: Explain policy; refund if error caused loss"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_014",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_014_stp_004",
+    "name": "No Error Clarification",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The action taken when no error is found, requiring the bank to explain the applied rate and justify why it is correct.",
+    "context": [
+      "No error: Explain the rate and why it's correct"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_014",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_014_cus_001",
+    "name": "Complaining Customer",
+    "aliases": [
+      "You"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "complaining_customer",
+    "description": "The bank customer who has raised an issue regarding being charged the wrong interest rate.",
+    "context": [
+      "Your Issue: \"I was charged the wrong interest rate.\"",
+      "What rate were you supposed to receive?"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_014",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_015_prc_001",
+    "name": "Unauthorized Direct Debit Investigation Process",
+    "aliases": [
+      "Scenario 3",
+      "Unauthorized Direct Debit"
+    ],
+    "entity_class": "PROCESS",
+    "type": "direct_debit_setup",
+    "description": "An operational workflow to investigate customer claims of unauthorized Direct Debit withdrawals. The process involves verifying mandates and authorization, with a typical resolution timeline of 5–10 business days.",
+    "context": [
+      "Scenario 3: Unauthorized Direct Debit",
+      "Typical Resolution Time: 5–10 business days"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_015",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_015_stp_001",
+    "name": "Direct Debit Mandate and Authorization Investigation",
+    "aliases": [
+      "What We Investigate"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "A review stage where the bank investigates the existence of a signed mandate, the fact of authorization, the timing of authorization, and the accuracy of the amount taken.",
+    "context": [
+      "Is there a signed mandate?",
+      "Did you actually authorize it?",
+      "When was it authorized?",
+      "Is the amount correct per mandate?"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_015",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_015_dec_001",
+    "name": "Direct Debit Authorization Outcome Decision",
+    "aliases": [
+      "Possible Outcomes"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "approve_reject",
+    "description": "A branching point based on the investigation results to determine if the transaction was genuinely unauthorized, authorized but forgotten, or an amount error.",
+    "context": [
+      "Genuinely unauthorized: Refund £150 + interest within 10 days",
+      "You authorized but forgot: Explanation; option to cancel going forward",
+      "Amount error: Refund overage only"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_015",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_015_rol_001",
+    "name": "Bank Investigator",
+    "aliases": [
+      "We"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The internal bank entity responsible for investigating the Direct Debit mandate and determining the outcome of the claim.",
+    "context": [
+      "What We Investigate"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_015",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_015_cus_001",
+    "name": "Complaining Customer",
+    "aliases": [
+      "You"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "complaining_customer",
+    "description": "The bank customer who has reported an unauthorized Direct Debit withdrawal and is seeking a refund.",
+    "context": [
+      "I didn't authorize this Direct Debit, and £150 was taken.",
+      "Did you actually authorize it?"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_015",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_015_tra_001",
+    "name": "Disputed Direct Debit Transaction",
+    "aliases": [
+      "£150 withdrawal"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "suspicious_transaction",
+    "description": "The specific financial event of £150 being taken via Direct Debit which is the subject of the investigation.",
+    "context": [
+      "£150 was taken",
+      "Refund £150 + interest"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_015",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_015_dd_001",
+    "name": "Direct Debit Mandate",
+    "aliases": [
+      "signed mandate"
+    ],
+    "entity_class": "DIRECT_DEBIT",
+    "type": "dd_mandate_setup",
+    "description": "The authorization agreement used to verify if the customer permitted the Direct Debit withdrawal.",
+    "context": [
+      "Is there a signed mandate?",
+      "Is the amount correct per mandate?"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_015",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_016_prc_001",
+    "name": "Poor Customer Service Complaint Process",
+    "aliases": [
+      "Scenario 4",
+      "Poor Customer Service"
+    ],
+    "entity_class": "PROCESS",
+    "type": "complaint_resolution",
+    "description": "An operational workflow to investigate and resolve complaints regarding rude staff behavior in branches. The process involves investigating the incident details and concludes with a resolution within 5–7 business days.",
+    "context": [
+      "Scenario 4: Poor Customer Service",
+      "Typical Resolution Time: 5–7 business days"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_016",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_016_stp_001",
+    "name": "Complaint Investigation",
+    "aliases": [
+      "What We Investigate"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The stage where the bank gathers specific details regarding the incident, including the timing, the staff member involved, the nature of the interaction, and the impact on the customer.",
+    "context": [
+      "What We Investigate:",
+      "When did this occur?",
+      "Who was the staff member?",
+      "What was said/done?",
+      "How did it impact you?"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_016",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_016_dec_001",
+    "name": "Complaint Outcome Determination",
+    "aliases": [
+      "Possible Outcomes"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "escalate_or_resolve",
+    "description": "A decision gate where the investigation results are categorized into one of three paths: service failure confirmed, misunderstanding, or not substantiated, each leading to a different resolution action.",
+    "context": [
+      "Possible Outcomes:",
+      "Service failure confirmed",
+      "Misunderstanding",
+      "Not substantiated"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_016",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_016_stp_002",
+    "name": "Service Failure Resolution",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The action taken when a service failure is confirmed, consisting of an apology, staff retraining, and a compensation payment between £20 and £100 based on severity.",
+    "context": [
+      "Service failure confirmed: Apology; staff retraining; compensation (£20–£100 depending on severity)"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_016",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_016_stp_003",
+    "name": "Misunderstanding Clarification",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The action taken when the investigation determines the issue was a misunderstanding, involving an explanation of the staff member's actions and a clarification.",
+    "context": [
+      "Misunderstanding: Explanation of staff's actions; clarification"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_016",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_016_stp_004",
+    "name": "Unsubstantiated Finding Notification",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The action taken when the complaint is not substantiated, resulting in an explanation of the bank's findings to the customer.",
+    "context": [
+      "Not substantiated: Explanation of our findings"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_016",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_016_rol_001",
+    "name": "Branch Staff Member",
+    "aliases": [
+      "staff member"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_staff",
+    "description": "The employee in the branch who is the subject of the customer's complaint regarding rude behavior.",
+    "context": [
+      "Staff member was rude to me in the branch.",
+      "Who was the staff member?"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_016",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_016_cus_001",
+    "name": "Complaining Customer",
+    "aliases": [
+      "you"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "complaining_customer",
+    "description": "The bank customer who has experienced poor service in a branch and is the subject of the investigation.",
+    "context": [
+      "Staff member was rude to me in the branch.",
+      "How did it impact you?"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_016",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_017_prc_001",
+    "name": "Account Restrictions Investigation Process",
+    "aliases": [
+      "Scenario 5: Account Restrictions"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "An operational workflow to investigate and resolve customer complaints regarding frozen accounts. The process determines the justification for the freeze and defines outcomes based on whether the action was regulatory, fraud-related, or a process error, with a typical resolution time of 3–5 business days.",
+    "context": [
+      "Scenario 5: Account Restrictions",
+      "Typical Resolution Time: 3–5 business days"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_017",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_017_stp_001",
+    "name": "Freeze Justification Investigation",
+    "aliases": [
+      "What We Investigate"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The initial investigative stage where the bank determines the reason for the account freeze, checks if proper notice was provided to the customer, and evaluates if the freeze was justified.",
+    "context": [
+      "Why was it frozen? (Regulatory reason? Fraud hold? Other?)",
+      "Was proper notice given?",
+      "Was the freeze justified?"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_017",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_017_dec_001",
+    "name": "Freeze Justification Decision",
+    "aliases": [
+      "Possible Outcomes"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "approve_reject",
+    "description": "A branching point based on the investigation outcome. Paths lead to 'Justified' (explain reason and timeline), 'Unjustified' (immediate unfreeze and compensation), or 'Process error' (unfreeze and process improvement).",
+    "context": [
+      "Justified: Explain reason (e.g., KYC compliance, fraud investigation); timeline for resolution",
+      "Unjustified: Unfreeze immediately; apologize; compensation",
+      "Process error: Unfreeze; improve process"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_017",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_017_cust_001",
+    "name": "Complaining Customer",
+    "aliases": [
+      "My account"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "complaining_customer",
+    "description": "The bank customer who has experienced an account freeze without explanation and is seeking resolution.",
+    "context": [
+      "\"My account was frozen without explanation.\""
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_017",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_017_acc_001",
+    "name": "Frozen Account",
+    "aliases": [
+      "account"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "frozen_account",
+    "description": "The specific customer account that has been restricted or frozen, which is the subject of the investigation.",
+    "context": [
+      "My account was frozen without explanation.",
+      "Why was it frozen?"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_017",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_017_chk_001",
+    "name": "KYC Compliance Check",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "risk_classification",
+    "description": "A regulatory gate used as a potential justification for freezing an account to ensure compliance with Know Your Customer requirements.",
+    "context": [
+      "Explain reason (e.g., KYC compliance, fraud investigation)"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_017",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_017_fra_001",
+    "name": "Fraud Hold Investigation",
+    "aliases": [
+      "Fraud hold"
+    ],
+    "entity_class": "FRAUD_ALERT",
+    "type": "fraud_investigation_step",
+    "description": "The process of investigating a fraud-related hold placed on an account to determine if the restriction is justified.",
+    "context": [
+      "Fraud hold?",
+      "Explain reason (e.g., KYC compliance, fraud investigation)"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_017",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_018_prc_001",
+    "name": "Escalation to Financial Ombudsman Service",
+    "aliases": [
+      "Ombudsman Escalation"
+    ],
+    "entity_class": "PROCESS",
+    "type": "escalation_procedure",
+    "description": "The operational workflow for escalating a customer dispute to the Financial Ombudsman Service. This process is triggered when a customer is dissatisfied with a decision or the bank fails to meet communication timelines.",
+    "context": [
+      "Escalation to Financial Ombudsman Service",
+      "You can escalate if:"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_018",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_018_dec_001",
+    "name": "Ombudsman Escalation Trigger Check",
+    "aliases": [
+      "When Can You Escalate?"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A decision gate to determine if a case qualifies for escalation to the Financial Ombudsman. Qualification is based on customer dissatisfaction, a lack of response within 8 days, or failure to acknowledge receipt.",
+    "context": [
+      "You can escalate if:",
+      "You're unhappy with our decision",
+      "We didn't respond within 8 days",
+      "We never acknowledged receipt"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_018",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_018_esc_001",
+    "name": "External Regulator — Financial Ombudsman Service",
+    "aliases": [
+      "FOS"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "regulator",
+    "description": "The final external escalation tier where disputes are referred for independent resolution after internal bank processes have failed or timelines have been breached.",
+    "context": [
+      "Escalation to Financial Ombudsman Service"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_018",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_018_rol_001",
+    "name": "Complaining Customer",
+    "aliases": [
+      "You"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The bank customer who initiates the escalation process to the Financial Ombudsman Service due to dissatisfaction or service failure.",
+    "context": [
+      "You can escalate if:",
+      "You're unhappy with our decision"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_018",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_019_prc_001",
+    "name": "Complaint Escalation to Financial Ombudsman Service",
+    "aliases": [
+      "How to Escalate"
+    ],
+    "entity_class": "PROCESS",
+    "type": "escalation_procedure",
+    "description": "The end-to-end procedure for a customer to escalate a dispute to the Financial Ombudsman Service after receiving a decision from FirstUK. It involves providing specific documentation and contact details for the external regulator.",
+    "context": [
+      "How to Escalate",
+      "Financial Ombudsman Service"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_019",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_019_rol_001",
+    "name": "Financial Ombudsman Service",
+    "aliases": [
+      "FOS"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "The external regulatory body responsible for reviewing complaints escalated by customers who disagree with FirstUK's decision.",
+    "context": [
+      "Financial Ombudsman Service:",
+      "www.financialombudsman.org.uk"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_019",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_019_esc_001",
+    "name": "External Escalation — Financial Ombudsman Service",
+    "aliases": [
+      "Ombudsman Level"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "financial_ombudsman",
+    "description": "The final tier of escalation outside of the bank's internal processes, where the Financial Ombudsman Service reviews the case based on the bank's decision letter and customer evidence.",
+    "context": [
+      "Financial Ombudsman Service:",
+      "Clear explanation of why you disagree"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_019",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_019_rol_002",
+    "name": "Complaining Customer",
+    "aliases": [
+      "You"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "complaining_customer",
+    "description": "The bank customer who is initiating the escalation process by providing their reference number and decision letter to the Ombudsman.",
+    "context": [
+      "What You Need:",
+      "Your FirstUK complaint reference number"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_019",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_020_prc_001",
+    "name": "Financial Ombudsman Complaint Resolution Process",
+    "aliases": [
+      "Ombudsman review"
+    ],
+    "entity_class": "PROCESS",
+    "type": "complaint_resolution",
+    "description": "An independent external review process conducted by the Ombudsman to resolve customer complaints. The process typically takes 3–6 months and can result in a binding decision or compensation award.",
+    "context": [
+      "The Ombudsman will: Review your complaint independently",
+      "Timeline: Typically 3–6 months"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_020",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_020_rol_001",
+    "name": "Financial Ombudsman",
+    "aliases": [
+      "The Ombudsman"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "financial_ombudsman",
+    "description": "An independent external body responsible for reviewing complaints, contacting the bank for information, and issuing decisions or compensation awards.",
+    "context": [
+      "The Ombudsman will: Review your complaint independently",
+      "Contact FirstUK for additional information",
+      "Issue a decision"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_020",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_020_rol_002",
+    "name": "FirstUK Bank",
+    "aliases": [
+      "FirstUK",
+      "us"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The banking institution subject to the Ombudsman's review and bound by the final decision issued by the Ombudsman.",
+    "context": [
+      "Contact FirstUK for additional information",
+      "Issue a decision (binding on us, non-binding on you)"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_020",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_020_rol_003",
+    "name": "Complaining Customer",
+    "aliases": [
+      "you"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "complaining_customer",
+    "description": "The bank customer who has submitted a complaint for independent review and for whom the Ombudsman's decision is non-binding.",
+    "context": [
+      "Review your complaint independently",
+      "non-binding on you",
+      "if they agree with you"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_020",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_020_stp_001",
+    "name": "Independent Complaint Review",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The initial stage where the Ombudsman independently reviews the details of the customer's complaint.",
+    "context": [
+      "Review your complaint independently"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_020",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_020_stp_002",
+    "name": "Information Request from Bank",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The step where the Ombudsman contacts FirstUK to gather additional information necessary for the case review.",
+    "context": [
+      "Contact FirstUK for additional information"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_020",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_020_stp_003",
+    "name": "Decision Issuance",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "approval_decision",
+    "description": "The formal issuance of a decision by the Ombudsman, which is binding on FirstUK but non-binding on the customer.",
+    "context": [
+      "Issue a decision (binding on us, non-binding on you)"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_020",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_020_stp_004",
+    "name": "Compensation Award",
+    "aliases": [
+      "Make an award"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The final action of granting compensation to the customer if the Ombudsman agrees with the complaint.",
+    "context": [
+      "Make an award (compensation) if they agree with you"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_020",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_020_dec_001",
+    "name": "Ombudsman Agreement Gate",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "approve_reject",
+    "description": "A decision point where the Ombudsman determines if they agree with the customer's complaint, triggering a compensation award if successful.",
+    "context": [
+      "Make an award (compensation) if they agree with you"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_020",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_021_prc_001",
+    "name": "Complaint Compensation Process",
+    "aliases": [
+      "Complaint Compensation"
+    ],
+    "entity_class": "PROCESS",
+    "type": "complaint_resolution",
+    "description": "The operational procedure for determining and offering remedies to customers following a complaint. It encompasses both financial compensation and non-financial remedies.",
+    "context": [
+      "Complaint Compensation",
+      "What We Can Offer"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_021",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_021_rol_001",
+    "name": "FirstUK Bank Compensation Officer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer_service",
+    "description": "The implicit actor responsible for offering financial compensation and non-financial remedies to the complaining customer.",
+    "context": [
+      "What We Can Offer"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_021",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_021_cus_001",
+    "name": "Complaining Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "complaining_customer",
+    "description": "The bank customer who has raised a complaint and is eligible to receive financial or non-financial remedies.",
+    "context": [
+      "What We Can Offer"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_021",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_021_stp_001",
+    "name": "Financial Compensation Provision",
+    "aliases": [
+      "Financial Compensation"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "approval_decision",
+    "description": "The stage of the process where financial remedies are determined, including refunds for loss, interest for delays, and goodwill payments ranging from £20 to £100+.",
+    "context": [
+      "Financial Compensation:",
+      "Refunds (for financial loss)",
+      "Interest (for delayed refunds)",
+      "Goodwill payments (£20–£100+)"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_021",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_021_stp_002",
+    "name": "Non-Financial Remedy Provision",
+    "aliases": [
+      "Non-Financial Remedies"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The stage of the process where non-monetary resolutions are provided, such as apologies, explanations, and commitments to service or policy improvements.",
+    "context": [
+      "Non-Financial Remedies:",
+      "Apology",
+      "Explanation",
+      "Service improvements",
+      "Policy changes"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_021",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_022_prc_001",
+    "name": "Customer Compensation Process",
+    "aliases": [
+      "Compensation Guidelines"
+    ],
+    "entity_class": "PROCESS",
+    "type": "complaint_resolution",
+    "description": "A procedure for determining the appropriate financial compensation range for customers based on the severity of the issue, ranging from minor inconveniences to major service failures.",
+    "context": [
+      "Compensation Guidelines"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_022",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_022_dec_001",
+    "name": "Issue Severity Assessment",
+    "aliases": [
+      "Issue Severity"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "risk_level_gate",
+    "description": "A decision point where the severity of a customer issue is categorized as Minor, Moderate, Significant, or Major to determine the corresponding compensation range.",
+    "context": [
+      "Issue Severity",
+      "Minor (inconvenience, slow response)",
+      "Moderate (financial loss <£100, service failure)",
+      "Significant (financial loss £100–£500, multiple failures)",
+      "Major (financial loss >£500, serious service failure)"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_022",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_022_rol_001",
+    "name": "Financial Ombudsman Service",
+    "aliases": [
+      "FOS"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "An external regulatory body whose guidance is used to determine compensation amounts for Major severity issues.",
+    "context": [
+      "per FOS guidance"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_022",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_023_prc_001",
+    "name": "Complaint Resolution Process",
+    "aliases": [
+      "Complaint Rights Summary"
+    ],
+    "entity_class": "PROCESS",
+    "type": "complaint_resolution",
+    "description": "The end-to-end procedure for handling customer complaints, ensuring a free lodgement process, a response within 8 calendar days, and a thorough investigation leading to a detailed explanation and potential compensation.",
+    "context": [
+      "Your Complaint Rights Summary",
+      "No charge to lodge or escalate",
+      "We respond within 8 calendar days",
+      "Thorough review of your issue"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_023",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_023_stp_001",
+    "name": "Complaint Lodgement",
+    "aliases": [
+      "lodge"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial stage where a customer submits a complaint. This action is provided free of charge.",
+    "context": [
+      "No charge to lodge or escalate"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_023",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_023_stp_002",
+    "name": "Full Investigation",
+    "aliases": [
+      "Thorough review"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "A comprehensive review of the customer's issue to determine the facts and findings of the complaint.",
+    "context": [
+      "Full Investigation",
+      "Thorough review of your issue"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_023",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_023_stp_003",
+    "name": "Findings Explanation",
+    "aliases": [
+      "Clear Explanation"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The step where the bank provides a detailed explanation of the investigation findings to the customer.",
+    "context": [
+      "Clear Explanation",
+      "We explain our findings in detail"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_023",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_023_stp_004",
+    "name": "Compensation Payment",
+    "aliases": [
+      "Compensation"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "approval_decision",
+    "description": "The action of providing financial compensation to the customer if the bank is found to be in error.",
+    "context": [
+      "Compensation",
+      "If we're wrong, we compensate you"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_023",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_023_rol_001",
+    "name": "Customer",
+    "aliases": [
+      "You"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "complaining_customer",
+    "description": "The individual lodging the complaint who is entitled to a free process, a response within 8 days, and the right to appeal to the Ombudsman.",
+    "context": [
+      "Your Complaint Rights Summary",
+      "You have 6 months to escalate to Ombudsman",
+      "We won't penalize you for complaining"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_023",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_023_rol_002",
+    "name": "FirstUK Bank",
+    "aliases": [
+      "We"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer_service",
+    "description": "The entity responsible for responding to complaints within 8 days, conducting investigations, and providing explanations or compensation.",
+    "context": [
+      "We respond within 8 calendar days",
+      "We explain our findings in detail",
+      "If we're wrong, we compensate you"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_023",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_023_rol_003",
+    "name": "Financial Ombudsman",
+    "aliases": [
+      "Ombudsman"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "The external body to which a customer can escalate their complaint if they are unhappy with the bank's resolution.",
+    "context": [
+      "Escalate to Financial Ombudsman if unhappy",
+      "You have 6 months to escalate to Ombudsman"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_023",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_023_dec_001",
+    "name": "Resolution Satisfaction Gate",
+    "aliases": [
+      "Ombudsman Appeal"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "escalate_or_resolve",
+    "description": "A decision point where the customer determines if they are satisfied with the bank's findings; if unhappy, the process escalates to the Financial Ombudsman.",
+    "context": [
+      "Escalate to Financial Ombudsman if unhappy"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_023",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_023_esc_001",
+    "name": "External Escalation — Financial Ombudsman",
+    "aliases": [
+      "Ombudsman Appeal"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "financial_ombudsman",
+    "description": "The final tier of escalation outside the bank, accessible within a 6-month window following the bank's response.",
+    "context": [
+      "Escalate to Financial Ombudsman if unhappy",
+      "You have 6 months to escalate to Ombudsman"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_023",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_024_prc_001",
+    "name": "Complaint Prevention Procedure",
+    "aliases": [
+      "Complaint Prevention Tips",
+      "To Avoid Issues"
+    ],
+    "entity_class": "PROCESS",
+    "type": "complaint_resolution",
+    "description": "A set of preventative guidelines and best practices designed to help customers avoid operational issues that lead to formal complaints. It focuses on data verification, monitoring, and security hygiene.",
+    "context": [
+      "Complaint Prevention Tips",
+      "To Avoid Issues"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_024",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_024_stp_001",
+    "name": "Transfer Detail Verification",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The action of verifying account numbers and sort codes prior to initiating financial transfers to ensure accuracy.",
+    "context": [
+      "Verify details before making transfers (account number, sort code)"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_024",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_024_stp_002",
+    "name": "Communication Record Keeping",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The practice of maintaining a comprehensive history of all interactions and communications with the bank.",
+    "context": [
+      "Keep records of all communications"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_024",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_024_stp_003",
+    "name": "Account Activity Monitoring",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "The regular review of account statements and transactions to identify and flag unauthorized activity.",
+    "context": [
+      "Monitor your account regularly for unauthorized activity"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_024",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_024_stp_004",
+    "name": "Rapid Issue Reporting",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The prompt notification of the bank regarding any identified issues to prevent delays in resolution.",
+    "context": [
+      "Report issues quickly — don't wait weeks"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_024",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_024_stp_005",
+    "name": "Security Credential Management",
+    "aliases": [
+      "Step 5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "identity_check",
+    "description": "The implementation of secure passwords and the activation of Two-Factor Authentication (2FA) to protect account access.",
+    "context": [
+      "Use secure passwords and enable 2FA"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_024",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_024_stp_006",
+    "name": "Proactive Inquiry",
+    "aliases": [
+      "Step 6"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The act of questioning anomalies or suspicious elements in banking services before they escalate into complaints.",
+    "context": [
+      "Ask questions if something seems wrong"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_024",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_024_rol_001",
+    "name": "Customer",
+    "aliases": [
+      "You"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The primary actor responsible for following the prevention tips, monitoring their own account, and reporting issues to the bank.",
+    "context": [
+      "Verify details before making transfers",
+      "Monitor your account regularly",
+      "Report issues quickly"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_024",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_025_prc_001",
+    "name": "Complaint Process",
+    "aliases": [
+      "Complaint Process"
+    ],
+    "entity_class": "PROCESS",
+    "type": "complaint_resolution",
+    "description": "The end-to-end procedure for handling customer complaints at FirstUK Bank, including support channels for inquiries and a path for escalation to the Financial Ombudsman.",
+    "context": [
+      "For Questions About the Complaint Process",
+      "To Escalate to Ombudsman"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_025",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_025_rol_001",
+    "name": "Financial Ombudsman",
+    "aliases": [
+      "Ombudsman"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "financial_ombudsman",
+    "description": "An external regulatory body to which complaints can be escalated for independent resolution.",
+    "context": [
+      "To Escalate to Ombudsman",
+      "www.financialombudsman.org.uk"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_025",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_025_esc_001",
+    "name": "External Escalation — Financial Ombudsman",
+    "aliases": [
+      "Ombudsman Escalation"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "financial_ombudsman",
+    "description": "The final tier of escalation for complaints that have not been resolved internally, involving the Financial Ombudsman Service.",
+    "context": [
+      "To Escalate to Ombudsman",
+      "Phone: 0800 023 4567"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_025",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_027_prc_001",
+    "name": "Complaint Resolution Process",
+    "aliases": [
+      "complaint resolution guide"
+    ],
+    "entity_class": "PROCESS",
+    "type": "complaint_resolution",
+    "description": "An operational workflow designed to handle and fix customer issues to ensure satisfaction and drive service improvement.",
+    "context": [
+      "Initial complaint resolution guide"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_027",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_027_rol_001",
+    "name": "Head of Customer Service",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The individual responsible for authoring the initial version of the complaint resolution guide.",
+    "context": [
+      "Author | Head of Customer Service"
+    ],
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_027",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6",
+    "domain": "banking_sop_guides"
+  }
+]

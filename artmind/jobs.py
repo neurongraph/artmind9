@@ -5,16 +5,16 @@ from pathlib import Path
 from artmind.db import _get_db
 
 
-def _create_job(batch_files: list[str], domain: str = "general") -> str:
+def _create_job(batch_files: list[str], domain: str = "general", force: bool = False) -> str:
     """Create a new ingestion job with per-file rows; return job_id."""
     job_id = str(uuid.uuid4())
     conn = _get_db()
     cursor = conn.cursor()
     try:
         cursor.execute(
-            "INSERT INTO ingestion_jobs (job_id, status, file_count, queued_at, domain)"
-            " VALUES (?, ?, ?, ?, ?)",
-            (job_id, "queued", len(batch_files), datetime.now().isoformat(), domain),
+            "INSERT INTO ingestion_jobs (job_id, status, file_count, queued_at, domain, force)"
+            " VALUES (?, ?, ?, ?, ?, ?)",
+            (job_id, "queued", len(batch_files), datetime.now().isoformat(), domain, int(force)),
         )
         cursor.executemany(
             "INSERT INTO ingestion_job_files (job_id, status, filename) VALUES (?, ?, ?)",

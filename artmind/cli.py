@@ -270,7 +270,8 @@ def ingest():
 @ingest.command("sync")
 @click.argument("file_path", type=click.Path(exists=True))
 @click.option("--domain", default=None, help="Domain to assign (prompted if omitted)")
-def ingest_sync(file_path: str, domain: str | None):
+@click.option("--force", is_flag=True, help="Ingest even if identical content is already registered")
+def ingest_sync(file_path: str, domain: str | None, force: bool):
     """Ingest a file or directory synchronously (blocking)."""
     _setup_logger()
     env = load_env()
@@ -302,7 +303,7 @@ def ingest_sync(file_path: str, domain: str | None):
     ok_count, fail_count = 0, 0
     for f in files:
         try:
-            result = ingest_file(f, image_model, domain, chunk_size=chunk_size)
+            result = ingest_file(f, image_model, domain, chunk_size=chunk_size, force=force)
             if result.get("status") == "ok":
                 ok_count += 1
                 ingest_to_kg(result, domain, text_model, embed_model, chunk_size)
@@ -323,7 +324,8 @@ def ingest_sync(file_path: str, domain: str | None):
 @ingest.command("async")
 @click.argument("file_path", type=click.Path(exists=True))
 @click.option("--domain", default=None, help="Domain to assign (prompted if omitted)")
-def ingest_async(file_path: str, domain: str | None):
+@click.option("--force", is_flag=True, help="Ingest even if identical content is already registered")
+def ingest_async(file_path: str, domain: str | None, force: bool):
     """Submit a file or directory for background ingestion; returns job_id immediately."""
     _setup_logger()
     if domain is None:
@@ -342,7 +344,7 @@ def ingest_async(file_path: str, domain: str | None):
         raise click.ClickException(f"No files found in {path}")
 
     batch_files = [str(f.resolve()) for f in files]
-    job_id = _create_job(batch_files, domain=domain)
+    job_id = _create_job(batch_files, domain=domain, force=force)
     _ensure_worker_running()
 
     _echo_json({
@@ -988,6 +990,7 @@ def docs_clean(domain: str, document_name: str):
     click.echo(f"  markdowns: {result['markdowns']}")
     click.echo(f"  markdown artifacts: {result['markdown_artifacts']}")
     click.echo(f"  kg dirs: {result['kg_dirs']}")
+    click.echo(f"  chunk status rows: {result['chunk_status_rows']}")
     click.echo(f"  neo4j documents: {result['neo4j_documents']}")
     click.echo(f"  neo4j chunks: {result['neo4j_chunks']}")
     click.echo(f"  neo4j orphan entities: {result['neo4j_orphan_entities']}")

@@ -16,8 +16,7 @@ def _init_db() -> None:
             sha256       TEXT NOT NULL,
             original_path TEXT NOT NULL,
             added_at     TEXT NOT NULL,
-            UNIQUE(filename),
-            UNIQUE(sha256)
+            UNIQUE(filename)
         )
     """)
     cursor.execute("""
@@ -31,7 +30,8 @@ def _init_db() -> None:
             completed_at     TEXT,
             error_message    TEXT,
             results_json     TEXT,
-            domain           TEXT DEFAULT 'general'
+            domain           TEXT DEFAULT 'general',
+            force            INTEGER DEFAULT 0
         )
     """)
     cursor.execute("""
@@ -85,6 +85,35 @@ def _init_db() -> None:
     existing = {row[1] for row in cursor.execute("PRAGMA table_info(ingestion_job_files)")}
     if "doc_sha256" not in existing:
         cursor.execute("ALTER TABLE ingestion_job_files ADD COLUMN doc_sha256 TEXT")
+
+    existing = {row[1] for row in cursor.execute("PRAGMA table_info(ingestion_jobs)")}
+    if "force" not in existing:
+        cursor.execute("ALTER TABLE ingestion_jobs ADD COLUMN force INTEGER DEFAULT 0")
+
+    # Drop the legacy UNIQUE(sha256) constraint on documents so the same content
+    # can be force-ingested as an independent document (see --force).
+    documents_sql = cursor.execute(
+        "SELECT sql FROM sqlite_master WHERE type='table' AND name='documents'"
+    ).fetchone()
+    if documents_sql and "UNIQUE(sha256)" in documents_sql[0]:
+        cursor.execute("ALTER TABLE documents RENAME TO documents_pre_force_migration")
+        cursor.execute("""
+            CREATE TABLE documents (
+                id           INTEGER PRIMARY KEY,
+                domain       TEXT NOT NULL,
+                filename     TEXT NOT NULL,
+                sha256       TEXT NOT NULL,
+                original_path TEXT NOT NULL,
+                added_at     TEXT NOT NULL,
+                UNIQUE(filename)
+            )
+        """)
+        cursor.execute(
+            "INSERT INTO documents (id, domain, filename, sha256, original_path, added_at)"
+            " SELECT id, domain, filename, sha256, original_path, added_at"
+            " FROM documents_pre_force_migration"
+        )
+        cursor.execute("DROP TABLE documents_pre_force_migration")
 
     conn.commit()
     conn.close()

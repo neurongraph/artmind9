@@ -1,0 +1,3161 @@
+[
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_001_prd_001",
+    "source_name": "Product Pricing Guide 2026",
+    "target_id": "doc_interest_rate_schedule_2026",
+    "target_name": "interest_rate_schedule_2026",
+    "rel_type": "relates_to",
+    "description": "The Product Pricing Guide 2026 is linked to the interest rate schedule for 2026",
+    "properties": {
+      "relationship_type": "related_document"
+    },
+    "context": "Related Documents | [[products]], [[interest_rate_schedule_2026]], [[business_ontology]]",
+    "bidirectional": true,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_001",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_001_prd_001",
+    "source_name": "Product Pricing Guide 2026",
+    "target_id": "doc_products",
+    "target_name": "products",
+    "rel_type": "relates_to",
+    "description": "The Product Pricing Guide 2026 is linked to the general products document",
+    "properties": {
+      "relationship_type": "related_document"
+    },
+    "context": "Related Documents | [[products]], [[interest_rate_schedule_2026]], [[business_ontology]]",
+    "bidirectional": true,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_001",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_001_prd_001",
+    "source_name": "Product Pricing Guide 2026",
+    "target_id": "doc_business_ontology",
+    "target_name": "business_ontology",
+    "rel_type": "relates_to",
+    "description": "The Product Pricing Guide 2026 is linked to the business ontology document",
+    "properties": {
+      "relationship_type": "related_document"
+    },
+    "context": "Related Documents | [[products]], [[interest_rate_schedule_2026]], [[business_ontology]]",
+    "bidirectional": true,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_001",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_001_prd_001",
+    "source_name": "Product Pricing Guide 2026",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_001",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_001",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_002_cls_001",
+    "source_name": "Price Review Policy",
+    "target_id": "prod_all_retail",
+    "target_name": "Retail Banking Products",
+    "rel_type": "governs_via",
+    "description": "The Price Review Policy governs the frequency and update mechanism for all retail banking product pricing.",
+    "properties": {
+      "review_frequency": "quarterly",
+      "effective_date": "2026-01-15"
+    },
+    "context": "FirstUK Bank maintains competitive, transparent pricing across all retail banking products. This guide shows all fees, charges, and interest rates effective January 15, 2026. Prices reviewed quarterly and updated as needed.",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_002",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_002_cls_001",
+    "source_name": "Price Review Policy",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_002",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_002",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_003_prd_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_003_rat_001",
+    "target_name": "SmartSaver Variable Rate — Bank of England Base Rate + 2.5% Margin",
+    "rel_type": "has_rate_tier",
+    "description": "The SmartSaver Account earns interest based on the Bank of England Base Rate plus a 2.5% margin.",
+    "properties": {
+      "effective_date": "2026-01-15",
+      "rate_basis": "Variable (Bank of England Base Rate + 2.5% Margin)"
+    },
+    "context": "SMARTSAVER ACCOUNT (SAV-001) Interest Rates Effective: 2026-01-15 Rate Type: Variable (reviewed monthly) Base Calculation: Bank of England Base Rate + 2.5% Margin",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_003",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_003_rat_001",
+    "source_name": "SmartSaver Variable Rate — Bank of England Base Rate + 2.5% Margin",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_003_cls_001",
+    "target_name": "SmartSaver Interest Rate Review Policy",
+    "rel_type": "governed_by",
+    "description": "The variable interest rate is subject to a monthly review policy.",
+    "properties": {
+      "review_frequency": "monthly"
+    },
+    "context": "Rate Type: Variable (reviewed monthly)",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_003",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_003_prd_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_003_cls_001",
+    "target_name": "SmartSaver Interest Rate Review Policy",
+    "rel_type": "governed_by",
+    "description": "The SmartSaver Account is subject to the interest rate review policy regarding variable rate adjustments.",
+    "properties": {
+      "clause_scope": "Interest Rate Review"
+    },
+    "context": "SMARTSAVER ACCOUNT (SAV-001) ... Rate Type: Variable (reviewed monthly)",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_003",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_003_prd_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_003",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_003",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_003_rat_001",
+    "source_name": "SmartSaver Variable Rate — Bank of England Base Rate + 2.5% Margin",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_003",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_003",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_003_cls_001",
+    "source_name": "SmartSaver Interest Rate Review Policy",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_003",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_003",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_004_rat_001",
+    "source_name": "Interest Rate Tier 1 — 4.50% AER/Gross (£0–£10,000)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_004_rat_002",
+    "target_name": "Interest Rate Tier 2 — 4.70% AER/Gross (£10,001–£50,000)",
+    "rel_type": "adjacent_tier_to",
+    "description": "Tier 1 is the immediate preceding balance bracket to Tier 2",
+    "properties": {
+      "transition_threshold": "£10,000"
+    },
+    "context": "£0–£10,000 | 4.50% ... £10,001–£50,000 | 4.70%",
+    "bidirectional": true,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_004",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_004_rat_002",
+    "source_name": "Interest Rate Tier 2 — 4.70% AER/Gross (£10,001–£50,000)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_004_rat_003",
+    "target_name": "Interest Rate Tier 3 — 4.80% AER/Gross (£50,001+)",
+    "rel_type": "adjacent_tier_to",
+    "description": "Tier 2 is the immediate preceding balance bracket to Tier 3",
+    "properties": {
+      "transition_threshold": "£50,000"
+    },
+    "context": "£10,001–£50,000 | 4.70% ... £50,001+ | 4.80%",
+    "bidirectional": true,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_004",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_004_rat_001",
+    "source_name": "Interest Rate Tier 1 — 4.50% AER/Gross (£0–£10,000)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_004_cls_001",
+    "target_name": "Interest Accrual Rule",
+    "rel_type": "governed_by",
+    "description": "Interest for Tier 1 is calculated daily and paid monthly as per the accrual rule",
+    "properties": {
+      "calculation_frequency": "daily",
+      "payment_frequency": "monthly"
+    },
+    "context": "Interest Accrual: Monthly (calculated daily, paid on last business day of month)",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_004",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_004_rat_002",
+    "source_name": "Interest Rate Tier 2 — 4.70% AER/Gross (£10,001–£50,000)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_004_cls_001",
+    "target_name": "Interest Accrual Rule",
+    "rel_type": "governed_by",
+    "description": "Interest for Tier 2 is calculated daily and paid monthly as per the accrual rule",
+    "properties": {
+      "calculation_frequency": "daily",
+      "payment_frequency": "monthly"
+    },
+    "context": "Interest Accrual: Monthly (calculated daily, paid on last business day of month)",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_004",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_004_rat_003",
+    "source_name": "Interest Rate Tier 3 — 4.80% AER/Gross (£50,001+)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_004_cls_001",
+    "target_name": "Interest Accrual Rule",
+    "rel_type": "governed_by",
+    "description": "Interest for Tier 3 is calculated daily and paid monthly as per the accrual rule",
+    "properties": {
+      "calculation_frequency": "daily",
+      "payment_frequency": "monthly"
+    },
+    "context": "Interest Accrual: Monthly (calculated daily, paid on last business day of month)",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_004",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_004_rat_001",
+    "source_name": "Interest Rate Tier 1 — 4.50% AER/Gross (£0–£10,000)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_004",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_004",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_004_rat_002",
+    "source_name": "Interest Rate Tier 2 — 4.70% AER/Gross (£10,001–£50,000)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_004",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_004",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_004_rat_003",
+    "source_name": "Interest Rate Tier 3 — 4.80% AER/Gross (£50,001+)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_004",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_004",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_004_cls_001",
+    "source_name": "Interest Accrual Rule",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_004",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_004",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_005_rat_001",
+    "source_name": "Variable Rate — BoE Base Rate + 2.5% Margin",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_005_cls_001",
+    "target_name": "Interest Rate Variation Basis",
+    "rel_type": "governed_by",
+    "description": "The variable rate is determined by the Interest Rate Variation Basis based on the BoE Base Rate plus a 2.5% margin",
+    "properties": {
+      "review_frequency": "Monthly",
+      "trigger": "Bank of England Base Rate changes",
+      "margin": "2.5%"
+    },
+    "context": "Basis: BoE Base Rate + 2.5% Margin (fixed margin)",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_005",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_005_rat_001",
+    "source_name": "Variable Rate — BoE Base Rate + 2.5% Margin",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_005_cls_002",
+    "target_name": "Rate Change Effective Date Clause",
+    "rel_type": "governed_by",
+    "description": "Changes to the variable rate are subject to the effective date clause",
+    "properties": {
+      "effective_date": "1st of following month"
+    },
+    "context": "Effective Date: Rate change effective 1st of following month",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_005",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_005_ftr_001",
+    "source_name": "Rate Change Email Notifications",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_005_rat_001",
+    "target_name": "Variable Rate — BoE Base Rate + 2.5% Margin",
+    "rel_type": "references",
+    "description": "Email notifications are sent to inform customers of changes to the variable rate",
+    "properties": {
+      "opt_in_required": true,
+      "channel": "Email"
+    },
+    "context": "Notification: Email alert when rate changes (customer can opt-in)",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_005",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_005_ftr_001",
+    "source_name": "Rate Change Email Notifications",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_005_cls_001",
+    "target_name": "Interest Rate Variation Basis",
+    "rel_type": "relates_to",
+    "description": "Email notifications are the delivery mechanism for the variation basis updates",
+    "properties": {},
+    "context": "Notification: Email alert when rate changes (customer can opt-in)",
+    "bidirectional": true,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_005",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_005_cls_001",
+    "source_name": "Interest Rate Variation Basis",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_005",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_005",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_005_ftr_001",
+    "source_name": "Rate Change Email Notifications",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_005",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_005",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_005_cls_002",
+    "source_name": "Rate Change Effective Date Clause",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_005",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_005",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_005_rat_001",
+    "source_name": "Variable Rate — BoE Base Rate + 2.5% Margin",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_005",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_005",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "prod_001",
+    "source_name": "FirstUK Bank Product",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_007_fee_001",
+    "target_name": "Monthly Maintenance Fee — £0.00",
+    "rel_type": "charges_fee",
+    "description": "The product charges a monthly maintenance fee of £0.00",
+    "properties": {
+      "trigger": "Monthly",
+      "amount": "£0.00",
+      "waiver_condition": "N/A"
+    },
+    "context": "Monthly Maintenance Fee: £0.00",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_007",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "prod_001",
+    "source_name": "FirstUK Bank Product",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_007_elig_001",
+    "target_name": "Minimum Opening Balance Requirement — £1.00",
+    "rel_type": "requires",
+    "description": "The product requires a minimum opening balance of £1.00",
+    "properties": {
+      "min_amount": "£1.00",
+      "verification_method": "Deposit check"
+    },
+    "context": "Minimum Opening Balance: £1.00",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_007",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "prod_001",
+    "source_name": "FirstUK Bank Product",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_007_cls_001",
+    "target_name": "Maximum Balance Limit Provision",
+    "rel_type": "governed_by",
+    "description": "The product's maximum balance is governed by a provision stating it is unlimited",
+    "properties": {
+      "limit_value": "Unlimited"
+    },
+    "context": "Maximum Balance: Unlimited",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_007",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "prod_001",
+    "source_name": "FirstUK Bank Product",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_007_ftr_001",
+    "target_name": "Overdraft Facility Availability",
+    "rel_type": "excludes_feature",
+    "description": "The product explicitly excludes the overdraft facility",
+    "properties": {
+      "availability": "Not available"
+    },
+    "context": "Overdraft Facility: Not available",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_007",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_007_fee_001",
+    "source_name": "Monthly Maintenance Fee — £0.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_007",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_007",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_007_elig_001",
+    "source_name": "Minimum Opening Balance Requirement — £1.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_007",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_007",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_007_cls_001",
+    "source_name": "Maximum Balance Limit Provision",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_007",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_007",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_007_ftr_001",
+    "source_name": "Overdraft Facility Availability",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_007",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_007",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "prod_001",
+    "source_name": "FirstUK Bank Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_008_fee_001",
+    "target_name": "ATM Withdrawal (UK) Fee — £0.00",
+    "rel_type": "charges_fee",
+    "description": "The account charges a fee for ATM withdrawals made within the UK.",
+    "properties": {
+      "trigger": "ATM Withdrawal (UK)",
+      "amount": "£0.00",
+      "waiver_condition": "Not applicable"
+    },
+    "context": "ATM Withdrawal (UK) | £0.00",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_008",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "prod_001",
+    "source_name": "FirstUK Bank Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_008_fee_002",
+    "target_name": "ATM Withdrawal (International) Fee — £2.50",
+    "rel_type": "charges_fee",
+    "description": "The account charges a fee for ATM withdrawals made internationally.",
+    "properties": {
+      "trigger": "ATM Withdrawal (International)",
+      "amount": "£2.50",
+      "waiver_condition": "Not applicable"
+    },
+    "context": "ATM Withdrawal (International) | £2.50",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_008",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "prod_001",
+    "source_name": "FirstUK Bank Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_008_fee_003",
+    "target_name": "International Transfer Fee — £5.00",
+    "rel_type": "charges_fee",
+    "description": "The account charges a fee for processing international transfers.",
+    "properties": {
+      "trigger": "International Transfer",
+      "amount": "£5.00",
+      "waiver_condition": "Not applicable"
+    },
+    "context": "International Transfer | £5.00",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_008",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "prod_001",
+    "source_name": "FirstUK Bank Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_008_fee_004",
+    "target_name": "Domestic Transfer Fee — £0.00",
+    "rel_type": "charges_fee",
+    "description": "The account charges a fee for processing domestic transfers.",
+    "properties": {
+      "trigger": "Domestic Transfer",
+      "amount": "£0.00",
+      "waiver_condition": "Not applicable"
+    },
+    "context": "Domestic Transfer | £0.00",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_008",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "prod_001",
+    "source_name": "FirstUK Bank Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_008_fee_005",
+    "target_name": "Standing Order Fee — £0.00",
+    "rel_type": "charges_fee",
+    "description": "The account charges a fee for setting up or maintaining standing orders.",
+    "properties": {
+      "trigger": "Standing Order",
+      "amount": "£0.00",
+      "waiver_condition": "Not applicable"
+    },
+    "context": "Standing Order | £0.00",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_008",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "prod_001",
+    "source_name": "FirstUK Bank Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_008_fee_006",
+    "target_name": "Direct Debit Fee — £0.00",
+    "rel_type": "charges_fee",
+    "description": "The account charges a fee for direct debit transactions.",
+    "properties": {
+      "trigger": "Direct Debit",
+      "amount": "£0.00",
+      "waiver_condition": "Not applicable"
+    },
+    "context": "Direct Debit | £0.00",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_008",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_008_fee_001",
+    "source_name": "ATM Withdrawal (UK) Fee — £0.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_008",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_008",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_008_fee_002",
+    "source_name": "ATM Withdrawal (International) Fee — £2.50",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_008",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_008",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_008_fee_003",
+    "source_name": "International Transfer Fee — £5.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_008",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_008",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_008_fee_004",
+    "source_name": "Domestic Transfer Fee — £0.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_008",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_008",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_008_fee_005",
+    "source_name": "Standing Order Fee — £0.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_008",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_008",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_008_fee_006",
+    "source_name": "Direct Debit Fee — £0.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_008",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_008",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_009_crd_001",
+    "source_name": "Debit Card",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_009_fee_001",
+    "target_name": "Debit Card (Initial) — £0.00",
+    "rel_type": "incurs_fee_for",
+    "description": "The initial issuance of the Debit Card is free of charge.",
+    "properties": {
+      "amount": "£0.00",
+      "trigger": "initial issuance"
+    },
+    "context": "Debit Card (Initial) | £0.00",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_009",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_009_crd_001",
+    "source_name": "Debit Card",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_009_fee_002",
+    "target_name": "Card Replacement — £15.00",
+    "rel_type": "incurs_fee_for",
+    "description": "Standard replacement of the Debit Card incurs a fee of £15.00.",
+    "properties": {
+      "amount": "£15.00",
+      "trigger": "standard replacement"
+    },
+    "context": "Card Replacement | £15.00",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_009",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_009_crd_001",
+    "source_name": "Debit Card",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_009_fee_003",
+    "target_name": "Expedited Card Replacement (1–2 days) — £25.00",
+    "rel_type": "incurs_fee_for",
+    "description": "Expedited replacement of the Debit Card (1-2 days) incurs a fee of £25.00.",
+    "properties": {
+      "amount": "£25.00",
+      "trigger": "expedited replacement",
+      "delivery_time": "1-2 days"
+    },
+    "context": "Expedited Card Replacement (1–2 days) | £25.00",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_009",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_009_crd_002",
+    "source_name": "Virtual Card Number",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_009_fee_004",
+    "target_name": "Virtual Card Number (for online shopping) — £0.00",
+    "rel_type": "incurs_fee_for",
+    "description": "The issuance of a Virtual Card Number for online shopping is free of charge.",
+    "properties": {
+      "amount": "£0.00",
+      "trigger": "issuance"
+    },
+    "context": "Virtual Card Number (for online shopping) | £0.00",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_009",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_009_fee_001",
+    "source_name": "Debit Card (Initial) — £0.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_009",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_009",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_009_fee_002",
+    "source_name": "Card Replacement — £15.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_009",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_009",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_009_fee_003",
+    "source_name": "Expedited Card Replacement (1–2 days) — £25.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_009",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_009",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_009_fee_004",
+    "source_name": "Virtual Card Number (for online shopping) — £0.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_009",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_009",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_009_crd_001",
+    "source_name": "Debit Card",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_009",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_009",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_009_crd_002",
+    "source_name": "Virtual Card Number",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_009",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_009",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "prod_001",
+    "source_name": "FirstUK Bank Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_010_fee_001",
+    "target_name": "Account Closure Fee — £0.00",
+    "rel_type": "charges_fee",
+    "description": "The account charges a fee for closure, which is currently set to £0.00.",
+    "properties": {
+      "amount": "£0.00",
+      "trigger": "Account Closure"
+    },
+    "context": "Account Closure | £0.00",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_010",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "prod_001",
+    "source_name": "FirstUK Bank Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_010_fee_002",
+    "target_name": "Statement Reprint Fee — £0.00",
+    "rel_type": "charges_fee",
+    "description": "The account charges a fee for reprinting statements, which is currently set to £0.00.",
+    "properties": {
+      "amount": "£0.00",
+      "trigger": "Statement Reprint"
+    },
+    "context": "Statement Reprint | £0.00",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_010",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "prod_001",
+    "source_name": "FirstUK Bank Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_010_fee_003",
+    "target_name": "Dormancy Letter Fee — £0.00",
+    "rel_type": "charges_fee",
+    "description": "The account charges a fee for dormancy letters, which is currently set to £0.00.",
+    "properties": {
+      "amount": "£0.00",
+      "trigger": "Dormancy Letter"
+    },
+    "context": "Dormancy Letter | £0.00",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_010",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "prod_001",
+    "source_name": "FirstUK Bank Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_010_fee_004",
+    "target_name": "Chequebook Fee — £0.00",
+    "rel_type": "charges_fee",
+    "description": "The account charges a fee for chequebooks (if offered), which is currently set to £0.00.",
+    "properties": {
+      "amount": "£0.00",
+      "trigger": "Chequebook request",
+      "condition": "if offered"
+    },
+    "context": "Chequebook (if offered) | £0.00",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_010",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "prod_001",
+    "source_name": "FirstUK Bank Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_010_fee_005",
+    "target_name": "Total Annual Cost (Typical Customer) — £0.00",
+    "rel_type": "applies_fee_for",
+    "description": "The total estimated annual cost for a typical customer is £0.00.",
+    "properties": {
+      "amount": "£0.00",
+      "customer_segment": "Typical Customer"
+    },
+    "context": "Total Annual Cost (Typical Customer): £0.00 (no fees)",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_010",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_010_fee_001",
+    "source_name": "Account Closure Fee — £0.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_010",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_010",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_010_fee_002",
+    "source_name": "Statement Reprint Fee — £0.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_010",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_010",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_010_fee_003",
+    "source_name": "Dormancy Letter Fee — £0.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_010",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_010",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_010_fee_004",
+    "source_name": "Chequebook Fee — £0.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_010",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_010",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_010_fee_005",
+    "source_name": "Total Annual Cost (Typical Customer) — £0.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_010",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_010",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_011_prd_001",
+    "source_name": "SmartSaver Plus Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_011_rat_001",
+    "target_name": "SmartSaver Plus Variable Rate — BoE Base Rate + 2.75% Margin (£50,001+)",
+    "rel_type": "has_rate_tier",
+    "description": "SmartSaver Plus Account offers a variable interest rate for balances exceeding £50,000",
+    "properties": {
+      "effective_date": "2026-01-15",
+      "rate_basis": "BoE Base Rate + 2.75% Margin",
+      "review_frequency": "monthly"
+    },
+    "context": "SMARTSAVER PLUS ACCOUNT (SAV-002) ... Base Calculation: Bank of England Base Rate + 2.75% Margin ... Minimum Balance for this Rate: £50,001",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_011",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_011_prd_001",
+    "source_name": "SmartSaver Plus Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_011_elig_001",
+    "target_name": "SmartSaver Plus Minimum Balance Requirement",
+    "rel_type": "requires",
+    "description": "SmartSaver Plus Account requires a minimum balance to qualify for the specified interest rate",
+    "properties": {
+      "minimum_threshold": "£50,001",
+      "verification_method": "Balance check"
+    },
+    "context": "Minimum Balance for this Rate: £50,001",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_011",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_011_elig_001",
+    "source_name": "SmartSaver Plus Minimum Balance Requirement",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_011_rat_001",
+    "target_name": "SmartSaver Plus Variable Rate — BoE Base Rate + 2.75% Margin (£50,001+)",
+    "rel_type": "gates_access_to",
+    "description": "The minimum balance requirement must be met to access the SmartSaver Plus Variable Rate",
+    "properties": {
+      "threshold": "£50,001"
+    },
+    "context": "Minimum Balance for this Rate: £50,001",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_011",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_011_prd_001",
+    "source_name": "SmartSaver Plus Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_011",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_011",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_011_rat_001",
+    "source_name": "SmartSaver Plus Variable Rate — BoE Base Rate + 2.75% Margin (£50,001+)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_011",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_011",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_011_elig_001",
+    "source_name": "SmartSaver Plus Minimum Balance Requirement",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_011",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_011",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_012_rat_001",
+    "source_name": "Universal Savings Rate — 5.25% AER (All balances)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_012_cls_001",
+    "target_name": "Interest Calculation and Accrual Rule",
+    "rel_type": "calculated_per",
+    "description": "The Universal Savings Rate is calculated and accrued on a monthly basis as per the specified accrual rule.",
+    "properties": {
+      "frequency": "Monthly",
+      "calculation_method": "Balance * Rate / 12"
+    },
+    "context": "Interest Accrual: Monthly",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_012",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_012_rat_001",
+    "source_name": "Universal Savings Rate — 5.25% AER (All balances)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_012",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_012",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_012_cls_001",
+    "source_name": "Interest Calculation and Accrual Rule",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_012",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_012",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_013_prd_001",
+    "source_name": "Premium Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_013_fee_001",
+    "target_name": "Premium Account Fee — £0.00",
+    "rel_type": "charges_fee",
+    "description": "Premium Account charges a monthly fee of £0.00",
+    "properties": {
+      "amount": "£0.00",
+      "trigger": "monthly",
+      "waiver_condition": "offset by higher rates"
+    },
+    "context": "Premium Account Fee: £0.00 (offset by higher rates)",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_013",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_013_prd_001",
+    "source_name": "Premium Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_013_prd_002",
+    "target_name": "SmartSaver Account",
+    "rel_type": "shares_pricing_with",
+    "description": "Premium Account shares the same fee structure as the SmartSaver Account for all fees other than the primary account fee",
+    "properties": {
+      "scope": "All Other Fees"
+    },
+    "context": "All Other Fees: Same as SmartSaver Account",
+    "bidirectional": true,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_013",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_013_fee_001",
+    "source_name": "Premium Account Fee — £0.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_013",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_013",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_013_prd_001",
+    "source_name": "Premium Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_013",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_013",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_013_prd_002",
+    "source_name": "SmartSaver Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_013",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_013",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "prod_001",
+    "source_name": "FirstUK Bank Product",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_014_ftr_001",
+    "target_name": "Dedicated Relationship Manager",
+    "rel_type": "has_feature",
+    "description": "The product includes a dedicated relationship manager for phone support.",
+    "properties": {
+      "channel": "phone support",
+      "cost": "included"
+    },
+    "context": "Dedicated relationship manager (phone support)",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_014",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "prod_001",
+    "source_name": "FirstUK Bank Product",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_014_ftr_002",
+    "target_name": "Priority Customer Service",
+    "rel_type": "has_feature",
+    "description": "The product provides priority customer service with a 24-hour response time.",
+    "properties": {
+      "limits": "24-hour response",
+      "cost": "included"
+    },
+    "context": "Priority customer service (24-hour response)",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_014",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "prod_001",
+    "source_name": "FirstUK Bank Product",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_014_ftr_003",
+    "target_name": "Annual Financial Planning Review",
+    "rel_type": "has_feature",
+    "description": "The product includes an annual financial planning review.",
+    "properties": {
+      "frequency": "annual",
+      "cost": "included"
+    },
+    "context": "Annual financial planning review",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_014",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "prod_001",
+    "source_name": "FirstUK Bank Product",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_014_fee_001",
+    "target_name": "Waived International Transfer Fee (£0)",
+    "rel_type": "waives_fee",
+    "description": "The product waives fees for international transfers.",
+    "properties": {
+      "amount": "£0",
+      "trigger": "international transfer"
+    },
+    "context": "Waived international transfer fees",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_014",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_014_ftr_001",
+    "source_name": "Dedicated Relationship Manager",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_014",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_014",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_014_ftr_002",
+    "source_name": "Priority Customer Service",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_014",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_014",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_014_ftr_003",
+    "source_name": "Annual Financial Planning Review",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_014",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_014",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_014_fee_001",
+    "source_name": "Waived International Transfer Fee (£0)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_014",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_014",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_015_prd_001",
+    "source_name": "Current Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_015_rat_001",
+    "target_name": "Current Account Savings Interest — £0.00",
+    "rel_type": "earns_at_rate",
+    "description": "The Current Account earns no interest on its balance.",
+    "properties": {
+      "rate": "0.00%",
+      "rate_basis": "Annual"
+    },
+    "context": "Savings Interest: £0.00 (no interest on current account)",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_015",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_015_prd_001",
+    "source_name": "Current Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_015_rat_002",
+    "target_name": "Arranged Overdraft Interest Rate — 15.00% AER",
+    "rel_type": "charges_rate",
+    "description": "The Current Account charges a specific interest rate for arranged overdrafts.",
+    "properties": {
+      "rate": "15.00%",
+      "rate_basis": "AER",
+      "applicability": "Arranged Overdraft"
+    },
+    "context": "Overdraft Interest Rate (if Arranged): 15.00% AER",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_015",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_015_prd_001",
+    "source_name": "Current Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_015",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_015",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_015_rat_001",
+    "source_name": "Current Account Savings Interest — £0.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_015",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_015",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_015_rat_002",
+    "source_name": "Arranged Overdraft Interest Rate — 15.00% AER",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_015",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_015",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "prod_overdraft",
+    "source_name": "Overdraft Facility",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_016_rat_001",
+    "target_name": "Arranged Overdraft Rate — 15%",
+    "rel_type": "charges_rate",
+    "description": "The product applies a 15% interest rate for arranged overdrafts",
+    "properties": {
+      "rate_value": "15%",
+      "calculation_type": "Daily/Monthly/Annual"
+    },
+    "context": "Arranged Overdraft of £1,000 at 15%",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_016",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "prod_overdraft",
+    "source_name": "Overdraft Facility",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_016_rat_002",
+    "target_name": "Unarranged Overdraft Rate — 25.00% AER",
+    "rel_type": "charges_rate",
+    "description": "The product applies a 25.00% AER interest rate for unarranged overdrafts",
+    "properties": {
+      "rate_value": "25.00% AER"
+    },
+    "context": "Unarranged Overdraft: 25.00% AER",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_016",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "prod_overdraft",
+    "source_name": "Overdraft Facility",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_016_fee_001",
+    "target_name": "Unarranged Overdraft Daily Fee — £5",
+    "rel_type": "charges_fee",
+    "description": "The product charges a £5 daily fee for unarranged overdrafts",
+    "properties": {
+      "amount": "£5",
+      "trigger": "Daily unarranged overdraft"
+    },
+    "context": "Unarranged Overdraft: 25.00% AER + £5 daily fee",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_016",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_016_rat_002",
+    "source_name": "Unarranged Overdraft Rate — 25.00% AER",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_016_rat_001",
+    "target_name": "Arranged Overdraft Rate — 15%",
+    "rel_type": "higher_balance_than",
+    "description": "Unarranged overdraft rates are higher than arranged overdraft rates",
+    "properties": {
+      "comparison": "premium/penalty rate"
+    },
+    "context": "Arranged Overdraft of £1,000 at 15%... Unarranged Overdraft: 25.00% AER",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_016",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_016_rat_001",
+    "source_name": "Arranged Overdraft Rate — 15%",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_016",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_016",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_016",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_016_rat_002",
+    "source_name": "Unarranged Overdraft Rate — 25.00% AER",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_016",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_016",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_016",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_016_fee_001",
+    "source_name": "Unarranged Overdraft Daily Fee — £5",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_016",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_016",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_016",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "prod_001",
+    "source_name": "FirstUK Bank Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_017_fee_001",
+    "target_name": "Monthly Account Fee — £0.00",
+    "rel_type": "charges_fee",
+    "description": "The product charges a monthly account fee of £0.00.",
+    "properties": {
+      "amount": "£0.00",
+      "frequency": "monthly",
+      "trigger": "account maintenance"
+    },
+    "context": "Monthly Account Fee: £0.00",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_017",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "prod_001",
+    "source_name": "FirstUK Bank Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_017_fee_002",
+    "target_name": "Overdraft Arrangement Fee — £0.00 (first time)",
+    "rel_type": "charges_fee",
+    "description": "The product charges an overdraft arrangement fee of £0.00 for the first instance.",
+    "properties": {
+      "amount": "£0.00",
+      "trigger": "overdraft arrangement",
+      "waiver_condition": "first time"
+    },
+    "context": "Overdraft Arrangement Fee: £0.00 (first time)",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_017",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_017_fee_001",
+    "source_name": "Monthly Account Fee — £0.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_017",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_017",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_017_fee_002",
+    "source_name": "Overdraft Arrangement Fee — £0.00 (first time)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_017",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_017",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "prod_001",
+    "source_name": "FirstUK Bank Product",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_018_fee_001",
+    "target_name": "Domestic Transfer Fee — £0.00",
+    "rel_type": "charges_fee",
+    "description": "The product charges a fee for domestic transfers.",
+    "properties": {
+      "trigger": "Domestic Transfer",
+      "amount": "£0.00",
+      "waiver_condition": "N/A"
+    },
+    "context": "Domestic Transfer | £0.00",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_018",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "prod_001",
+    "source_name": "FirstUK Bank Product",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_018_fee_002",
+    "target_name": "International Transfer Fee — £8.00",
+    "rel_type": "charges_fee",
+    "description": "The product charges a fee for international transfers.",
+    "properties": {
+      "trigger": "International Transfer",
+      "amount": "£8.00",
+      "waiver_condition": "N/A"
+    },
+    "context": "International Transfer | £8.00",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_018",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "prod_001",
+    "source_name": "FirstUK Bank Product",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_018_fee_003",
+    "target_name": "UK ATM Withdrawal Fee — £0.00",
+    "rel_type": "charges_fee",
+    "description": "The product charges a fee for ATM withdrawals within the UK.",
+    "properties": {
+      "trigger": "ATM Withdrawal (UK)",
+      "amount": "£0.00",
+      "waiver_condition": "N/A"
+    },
+    "context": "ATM Withdrawal (UK) | £0.00",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_018",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "prod_001",
+    "source_name": "FirstUK Bank Product",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_018_fee_004",
+    "target_name": "International ATM Withdrawal Fee — £3.00",
+    "rel_type": "charges_fee",
+    "description": "The product charges a fee for ATM withdrawals made internationally.",
+    "properties": {
+      "trigger": "ATM Withdrawal (International)",
+      "amount": "£3.00",
+      "waiver_condition": "N/A"
+    },
+    "context": "ATM Withdrawal (International) | £3.00",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_018",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "prod_001",
+    "source_name": "FirstUK Bank Product",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_018_rat_001",
+    "target_name": "Overdraft Interest Rate — 15.00% AER",
+    "rel_type": "charges_rate",
+    "description": "The product applies an interest rate for overdrafts.",
+    "properties": {
+      "rate_basis": "AER",
+      "rate_value": "15.00%"
+    },
+    "context": "Overdraft Interest (see above) | 15.00% AER",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_018",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "prod_001",
+    "source_name": "FirstUK Bank Product",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_018_fee_005",
+    "target_name": "Unarranged Overdraft Fee — 25.00% AER + £5/day",
+    "rel_type": "charges_fee",
+    "description": "The product charges a fee and interest for unarranged overdrafts.",
+    "properties": {
+      "trigger": "Unarranged Overdraft",
+      "amount": "25.00% AER + £5/day",
+      "waiver_condition": "N/A"
+    },
+    "context": "Unarranged Overdraft | 25.00% AER + £5/day",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_018",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_018_fee_001",
+    "source_name": "Domestic Transfer Fee — £0.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_018",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_018",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_018_fee_002",
+    "source_name": "International Transfer Fee — £8.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_018",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_018",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_018_fee_003",
+    "source_name": "UK ATM Withdrawal Fee — £0.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_018",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_018",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_018_fee_004",
+    "source_name": "International ATM Withdrawal Fee — £3.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_018",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_018",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_018_rat_001",
+    "source_name": "Overdraft Interest Rate — 15.00% AER",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_018",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_018",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_018_fee_005",
+    "source_name": "Unarranged Overdraft Fee — 25.00% AER + £5/day",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_018",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_018",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_019_prd_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_019_fee_001",
+    "target_name": "Annual Card Fee — £0.00 (No Overdraft Use)",
+    "rel_type": "charges_fee",
+    "description": "The SmartSaver Account has no annual card fee when no overdraft is used.",
+    "properties": {
+      "trigger": "Annual card maintenance",
+      "amount": "£0.00",
+      "waiver_condition": "No overdraft use"
+    },
+    "context": "Total Annual Cost (No Overdraft Use): £0.00",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_019",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_019_prd_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_019_fee_002",
+    "target_name": "Annual Overdraft Interest Cost — ~£300 (£2,000 Usage)",
+    "rel_type": "charges_fee",
+    "description": "The SmartSaver Account incurs interest costs when the overdraft facility is used.",
+    "properties": {
+      "trigger": "Overdraft usage",
+      "amount": "~£300",
+      "usage_basis": "£2,000 usage"
+    },
+    "context": "Total Annual Cost (With £2,000 Overdraft Usage): ~£300 (interest only)",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_019",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_019_prd_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_019",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_019",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_019_fee_001",
+    "source_name": "Annual Card Fee — £0.00 (No Overdraft Use)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_019",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_019",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_019_fee_002",
+    "source_name": "Annual Overdraft Interest Cost — ~£300 (£2,000 Usage)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_019",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_019",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_020_prd_001",
+    "source_name": "Mortgage Product",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_020_rat_001",
+    "target_name": "Fixed Rate 2 Year",
+    "rel_type": "has_rate_tier",
+    "description": "The Mortgage Product offers a 2-year fixed interest rate option.",
+    "properties": {
+      "rate_basis": "Fixed"
+    },
+    "context": "Fixed Rate 2 Year",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_020",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_020_prd_001",
+    "source_name": "Mortgage Product",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_020_rat_002",
+    "target_name": "Fixed Rate 5 Year",
+    "rel_type": "has_rate_tier",
+    "description": "The Mortgage Product offers a 5-year fixed interest rate option.",
+    "properties": {
+      "rate_basis": "Fixed"
+    },
+    "context": "Fixed Rate 5 Year",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_020",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_020_prd_001",
+    "source_name": "Mortgage Product",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_020_rat_003",
+    "target_name": "Variable Rate (tracker)",
+    "rel_type": "has_rate_tier",
+    "description": "The Mortgage Product offers a variable tracker interest rate option.",
+    "properties": {
+      "rate_basis": "Variable"
+    },
+    "context": "Variable Rate (tracker)",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_020",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_020_prd_001",
+    "source_name": "Mortgage Product",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_020",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_020",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_020",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_020_rat_001",
+    "source_name": "Fixed Rate 2 Year",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_020",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_020",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_020",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_020_rat_002",
+    "source_name": "Fixed Rate 5 Year",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_020",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_020",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_020",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_020_rat_003",
+    "source_name": "Variable Rate (tracker)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_020",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_020",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_020",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_021_prd_001",
+    "source_name": "Residential Mortgage",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_001",
+    "target_name": "Residential Mortgage Fixed 2-Yr Rate — 4.50% (<60% LTV)",
+    "rel_type": "has_rate_tier",
+    "description": "Residential Mortgage offers a 2-year fixed rate of 4.50% for LTV under 60%",
+    "properties": {
+      "effective_date": "2026-01-15",
+      "rate_basis": "Fixed",
+      "ltv_bracket": "<60%"
+    },
+    "context": "Residential Mortgage | <60% LTV | 4.50%",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_021_prd_001",
+    "source_name": "Residential Mortgage",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_002",
+    "target_name": "Residential Mortgage Fixed 5-Yr Rate — 5.00% (<60% LTV)",
+    "rel_type": "has_rate_tier",
+    "description": "Residential Mortgage offers a 5-year fixed rate of 5.00% for LTV under 60%",
+    "properties": {
+      "effective_date": "2026-01-15",
+      "rate_basis": "Fixed",
+      "ltv_bracket": "<60%"
+    },
+    "context": "Residential Mortgage | <60% LTV | 5.00%",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_021_prd_001",
+    "source_name": "Residential Mortgage",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_003",
+    "target_name": "Residential Mortgage Variable Rate — Base + 1.5% (<60% LTV)",
+    "rel_type": "has_rate_tier",
+    "description": "Residential Mortgage offers a variable rate of Base + 1.5% for LTV under 60%",
+    "properties": {
+      "effective_date": "2026-01-15",
+      "rate_basis": "Variable",
+      "ltv_bracket": "<60%"
+    },
+    "context": "Residential Mortgage | <60% LTV | Base + 1.5%",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_021_prd_001",
+    "source_name": "Residential Mortgage",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_004",
+    "target_name": "Residential Mortgage Fixed 2-Yr Rate — 4.75% (60–80% LTV)",
+    "rel_type": "has_rate_tier",
+    "description": "Residential Mortgage offers a 2-year fixed rate of 4.75% for LTV between 60% and 80%",
+    "properties": {
+      "effective_date": "2026-01-15",
+      "rate_basis": "Fixed",
+      "ltv_bracket": "60-80%"
+    },
+    "context": "Residential Mortgage | 60–80% LTV | 4.75%",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_021_prd_001",
+    "source_name": "Residential Mortgage",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_005",
+    "target_name": "Residential Mortgage Fixed 5-Yr Rate — 5.25% (60–80% LTV)",
+    "rel_type": "has_rate_tier",
+    "description": "Residential Mortgage offers a 5-year fixed rate of 5.25% for LTV between 60% and 80%",
+    "properties": {
+      "effective_date": "2026-01-15",
+      "rate_basis": "Fixed",
+      "ltv_bracket": "60-80%"
+    },
+    "context": "Residential Mortgage | 60–80% LTV | 5.25%",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_021_prd_001",
+    "source_name": "Residential Mortgage",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_006",
+    "target_name": "Residential Mortgage Variable Rate — Base + 1.75% (60–80% LTV)",
+    "rel_type": "has_rate_tier",
+    "description": "Residential Mortgage offers a variable rate of Base + 1.75% for LTV between 60% and 80%",
+    "properties": {
+      "effective_date": "2026-01-15",
+      "rate_basis": "Variable",
+      "ltv_bracket": "60-80%"
+    },
+    "context": "Residential Mortgage | 60–80% LTV | Base + 1.75%",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_021_prd_001",
+    "source_name": "Residential Mortgage",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_007",
+    "target_name": "Residential Mortgage Fixed 2-Yr Rate — 5.25% (80%+ LTV)",
+    "rel_type": "has_rate_tier",
+    "description": "Residential Mortgage offers a 2-year fixed rate of 5.25% for LTV 80% or higher",
+    "properties": {
+      "effective_date": "2026-01-15",
+      "rate_basis": "Fixed",
+      "ltv_bracket": "80%+"
+    },
+    "context": "Residential Mortgage | 80%+ LTV | 5.25%",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_021_prd_001",
+    "source_name": "Residential Mortgage",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_008",
+    "target_name": "Residential Mortgage Fixed 5-Yr Rate — 5.75% (80%+ LTV)",
+    "rel_type": "has_rate_tier",
+    "description": "Residential Mortgage offers a 5-year fixed rate of 5.75% for LTV 80% or higher",
+    "properties": {
+      "effective_date": "2026-01-15",
+      "rate_basis": "Fixed",
+      "ltv_bracket": "80%+"
+    },
+    "context": "Residential Mortgage | 80%+ LTV | 5.75%",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_021_prd_001",
+    "source_name": "Residential Mortgage",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_009",
+    "target_name": "Residential Mortgage Variable Rate — Base + 2.25% (80%+ LTV)",
+    "rel_type": "has_rate_tier",
+    "description": "Residential Mortgage offers a variable rate of Base + 2.25% for LTV 80% or higher",
+    "properties": {
+      "effective_date": "2026-01-15",
+      "rate_basis": "Variable",
+      "ltv_bracket": "80%+"
+    },
+    "context": "Residential Mortgage | 80%+ LTV | Base + 2.25%",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_021_prd_001",
+    "source_name": "Residential Mortgage",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_021_elig_001",
+    "target_name": "Loan-to-Value (LTV) Requirements",
+    "rel_type": "requires",
+    "description": "The Residential Mortgage product rates are determined by Loan-to-Value (LTV) requirements",
+    "properties": {
+      "verification_method": "Property Valuation",
+      "impact": "Determines interest rate tier"
+    },
+    "context": "Loan-to-Value (LTV) | <60% LTV | 60–80% LTV | 80%+ LTV",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_001",
+    "source_name": "Residential Mortgage Fixed 2-Yr Rate — 4.50% (<60% LTV)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_004",
+    "target_name": "Residential Mortgage Fixed 2-Yr Rate — 4.75% (60–80% LTV)",
+    "rel_type": "adjacent_tier_to",
+    "description": "Tier for <60% LTV is adjacent to the 60-80% LTV tier for the 2-year fixed product",
+    "properties": {
+      "comparison_basis": "LTV increase"
+    },
+    "context": "Residential Mortgage | <60% LTV | 4.50% ... Residential Mortgage | 60–80% LTV | 4.75%",
+    "bidirectional": true,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_004",
+    "source_name": "Residential Mortgage Fixed 2-Yr Rate — 4.75% (60–80% LTV)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_007",
+    "target_name": "Residential Mortgage Fixed 2-Yr Rate — 5.25% (80%+ LTV)",
+    "rel_type": "adjacent_tier_to",
+    "description": "Tier for 60-80% LTV is adjacent to the 80%+ LTV tier for the 2-year fixed product",
+    "properties": {
+      "comparison_basis": "LTV increase"
+    },
+    "context": "Residential Mortgage | 60–80% LTV | 4.75% ... Residential Mortgage | 80%+ LTV | 5.25%",
+    "bidirectional": true,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_021_prd_001",
+    "source_name": "Residential Mortgage",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_001",
+    "source_name": "Residential Mortgage Fixed 2-Yr Rate — 4.50% (<60% LTV)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_002",
+    "source_name": "Residential Mortgage Fixed 5-Yr Rate — 5.00% (<60% LTV)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_003",
+    "source_name": "Residential Mortgage Variable Rate — Base + 1.5% (<60% LTV)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_004",
+    "source_name": "Residential Mortgage Fixed 2-Yr Rate — 4.75% (60–80% LTV)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_005",
+    "source_name": "Residential Mortgage Fixed 5-Yr Rate — 5.25% (60–80% LTV)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_006",
+    "source_name": "Residential Mortgage Variable Rate — Base + 1.75% (60–80% LTV)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_007",
+    "source_name": "Residential Mortgage Fixed 2-Yr Rate — 5.25% (80%+ LTV)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_008",
+    "source_name": "Residential Mortgage Fixed 5-Yr Rate — 5.75% (80%+ LTV)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_009",
+    "source_name": "Residential Mortgage Variable Rate — Base + 2.25% (80%+ LTV)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_021_elig_001",
+    "source_name": "Loan-to-Value (LTV) Requirements",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_022_prd_001",
+    "source_name": "Fixed Rate 2-Year Mortgage",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_022_fee_001",
+    "target_name": "Early Repayment Fee (Fixed Rate) — 1–3% of outstanding balance",
+    "rel_type": "charges_fee",
+    "description": "Charges an early repayment fee if the loan is repaid during the 2-year fixed period.",
+    "properties": {
+      "trigger": "early repayment during fixed period",
+      "amount": "1–3% of outstanding balance"
+    },
+    "context": "Fixed Rate 2-Year: Fixed for 2 years, then re-fixed... Early Repayment Fee (Fixed Rate): Typically 1–3% of outstanding balance (if early repayment during fixed period)",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_022",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_022_prd_002",
+    "source_name": "Fixed Rate 5-Year Mortgage",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_022_fee_001",
+    "target_name": "Early Repayment Fee (Fixed Rate) — 1–3% of outstanding balance",
+    "rel_type": "charges_fee",
+    "description": "Charges an early repayment fee if the loan is repaid during the 5-year fixed period.",
+    "properties": {
+      "trigger": "early repayment during fixed period",
+      "amount": "1–3% of outstanding balance"
+    },
+    "context": "Fixed Rate 5-Year: Fixed for 5 years, then re-fixed... Early Repayment Fee (Fixed Rate): Typically 1–3% of outstanding balance (if early repayment during fixed period)",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_022",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_022_prd_001",
+    "source_name": "Fixed Rate 2-Year Mortgage",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_022_prd_002",
+    "target_name": "Fixed Rate 5-Year Mortgage",
+    "rel_type": "shares_pricing_with",
+    "description": "Both products share the same Early Repayment Fee structure.",
+    "properties": {
+      "shared_component": "Early Repayment Fee"
+    },
+    "context": "Fixed Rate 2-Year... Fixed Rate 5-Year... Early Repayment Fee (Fixed Rate): Typically 1–3% of outstanding balance",
+    "bidirectional": true,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_022",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_022_prd_001",
+    "source_name": "Fixed Rate 2-Year Mortgage",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_022",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_022",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_022",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_022_prd_002",
+    "source_name": "Fixed Rate 5-Year Mortgage",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_022",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_022",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_022",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_022_fee_001",
+    "source_name": "Early Repayment Fee (Fixed Rate) — 1–3% of outstanding balance",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_022",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_022",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_022",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "prod_mortgage_generic",
+    "source_name": "FirstUK Mortgage Product",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_023_fee_001",
+    "target_name": "Arrangement Fee",
+    "rel_type": "waives_fee",
+    "description": "The product includes the arrangement fee at no separate cost to the customer.",
+    "properties": {
+      "amount": "0.00",
+      "waiver_condition": "Included in product"
+    },
+    "context": "Arrangement Fee | Included (no separate fee)",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_023",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "prod_mortgage_generic",
+    "source_name": "FirstUK Mortgage Product",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_023_fee_002",
+    "target_name": "Valuation Fee",
+    "rel_type": "waives_fee",
+    "description": "FirstUK Bank covers the cost of the valuation fee.",
+    "properties": {
+      "amount": "0.00",
+      "waiver_condition": "Covered by FirstUK Bank"
+    },
+    "context": "Valuation Fee | Included (FirstUK Bank covers)",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_023",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "prod_mortgage_generic",
+    "source_name": "FirstUK Mortgage Product",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_023_fee_003",
+    "target_name": "Legal Fees (Conveyancing)",
+    "rel_type": "applies_fee_for",
+    "description": "Legal fees for conveyancing are the responsibility of the customer.",
+    "properties": {
+      "amount": "£1,200–£2,000",
+      "trigger": "Conveyancing process",
+      "payer": "Customer"
+    },
+    "context": "Legal Fees (Conveyancing) | Customer's cost (~£1,200–£2,000)",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_023",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "prod_mortgage_generic",
+    "source_name": "FirstUK Mortgage Product",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_023_fee_004",
+    "target_name": "Mortgage Protection Insurance",
+    "rel_type": "charges_fee",
+    "description": "Mortgage Protection Insurance is an optional cost that varies by provider.",
+    "properties": {
+      "amount": "Variable",
+      "trigger": "Optional enrollment",
+      "waiver_condition": "None"
+    },
+    "context": "Mortgage Protection Insurance | Optional, varies by provider",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_023",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "prod_mortgage_generic",
+    "source_name": "FirstUK Mortgage Product",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_023_fee_005",
+    "target_name": "Booking Fee",
+    "rel_type": "waives_fee",
+    "description": "There is no charge to book the rate.",
+    "properties": {
+      "amount": "£0.00",
+      "trigger": "Locking the rate"
+    },
+    "context": "Booking Fee (to lock rate) | £0.00",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_023",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_023_fee_001",
+    "source_name": "Arrangement Fee — Included (no separate fee)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_023",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_023",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_023",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_023_fee_002",
+    "source_name": "Valuation Fee — Included (FirstUK Bank covers)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_023",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_023",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_023",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_023_fee_003",
+    "source_name": "Legal Fees (Conveyancing) — Customer's cost (~£1,200–£2,000)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_023",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_023",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_023",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_023_fee_004",
+    "source_name": "Mortgage Protection Insurance — Optional (varies by provider)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_023",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_023",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_023",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_023_fee_005",
+    "source_name": "Booking Fee — £0.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_023",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_023",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_023",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_024_prd_001",
+    "source_name": "Fixed Rate Mortgage",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_024_rat_001",
+    "target_name": "Fixed Mortgage Rate — 5.00% (£200,000 balance)",
+    "rel_type": "has_rate_tier",
+    "description": "Fixed Rate Mortgage applies a 5.00% rate for the initial term on a £200,000 balance",
+    "properties": {
+      "rate_basis": "fixed",
+      "balance_example": "£200,000",
+      "effective_period": "First 2 years"
+    },
+    "context": "Mortgage: £200,000 at 5.00% Fixed, 25-year term",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_024",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_024_prd_001",
+    "source_name": "Fixed Rate Mortgage",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_024_rat_002",
+    "target_name": "Re-fixed Mortgage Rate — 5.50% (Year 3+)",
+    "rel_type": "has_rate_tier",
+    "description": "Fixed Rate Mortgage may be re-fixed at a rate of 5.50% from Year 3 onwards",
+    "properties": {
+      "rate_basis": "re-fixed",
+      "effective_period": "Year 3+"
+    },
+    "context": "Year 3+ (if re-fixed at 5.50%)",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_024",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_024_prd_001",
+    "source_name": "Fixed Rate Mortgage",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_024_ftr_001",
+    "target_name": "Rate Rise Protection",
+    "rel_type": "has_feature",
+    "description": "Fixed Rate Mortgage provides protection against interest rate increases during the fixed term",
+    "properties": {
+      "benefit": "stability of monthly payments"
+    },
+    "context": "Fixed rate protects against rate rises during term",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_024",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_024_rat_001",
+    "source_name": "Fixed Mortgage Rate — 5.00% (£200,000 balance)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_024_rat_002",
+    "target_name": "Re-fixed Mortgage Rate — 5.50% (Year 3+)",
+    "rel_type": "adjacent_tier_to",
+    "description": "The 5.00% rate is succeeded by the 5.50% re-fixed rate starting Year 3",
+    "properties": {
+      "sequence": "chronological"
+    },
+    "context": "First 2 years... Year 3+ (if re-fixed at 5.50%)",
+    "bidirectional": true,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_024",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_024_prd_001",
+    "source_name": "Fixed Rate Mortgage",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_024",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_024",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_024",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_024_rat_001",
+    "source_name": "Fixed Mortgage Rate — 5.00% (£200,000 balance)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_024",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_024",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_024",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_024_rat_002",
+    "source_name": "Re-fixed Mortgage Rate — 5.50% (Year 3+)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_024",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_024",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_024",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_024_ftr_001",
+    "source_name": "Rate Rise Protection",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_024",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_024",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_024",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_025_crd_001",
+    "source_name": "Visa Debit Card",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_025_fee_001",
+    "target_name": "Annual Fee — £0.00",
+    "rel_type": "charges_fee",
+    "description": "The Visa Debit Card has an associated annual fee of £0.00.",
+    "properties": {
+      "trigger": "Annual renewal",
+      "amount": "£0.00",
+      "waiver_condition": "Always free"
+    },
+    "context": "Annual Fee: £0.00",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_025",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_025_crd_001",
+    "source_name": "Visa Debit Card",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_025_fee_002",
+    "target_name": "Standard Replacement Fee — £15.00",
+    "rel_type": "incurs_fee_for",
+    "description": "A standard replacement of the Visa Debit Card incurs a fee of £15.00.",
+    "properties": {
+      "trigger": "Standard card replacement",
+      "amount": "£15.00"
+    },
+    "context": "Replacement Fee: £15.00",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_025",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_025_crd_001",
+    "source_name": "Visa Debit Card",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_025_fee_003",
+    "target_name": "Expedited Replacement Fee — £25.00",
+    "rel_type": "incurs_fee_for",
+    "description": "An expedited (1-2 days) replacement of the Visa Debit Card incurs a fee of £25.00.",
+    "properties": {
+      "trigger": "Expedited card replacement",
+      "amount": "£25.00",
+      "delivery_speed": "1-2 days"
+    },
+    "context": "or £25.00 for expedited 1–2 days",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_025",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_025_crd_001",
+    "source_name": "Visa Debit Card",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_025",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_025",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_025",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_025_fee_001",
+    "source_name": "Annual Fee — £0.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_025",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_025",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_025",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_025_fee_002",
+    "source_name": "Standard Replacement Fee — £15.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_025",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_025",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_025",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_025_fee_003",
+    "source_name": "Expedited Replacement Fee — £25.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_025",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_025",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_025",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_026_trn_001",
+    "source_name": "UK ATM Withdrawal",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_026_fee_001",
+    "target_name": "UK ATM Withdrawal Fee — £0.00",
+    "rel_type": "triggers",
+    "description": "A UK ATM Withdrawal triggers the UK ATM Withdrawal Fee.",
+    "properties": {
+      "amount": "£0.00",
+      "limit": "£500/day"
+    },
+    "context": "UK ATM Withdrawal | £0.00 | £500/day",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_026_trn_002",
+    "source_name": "International ATM Withdrawal",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_026_fee_002",
+    "target_name": "International ATM Fee — £2.50 per withdrawal",
+    "rel_type": "triggers",
+    "description": "An International ATM Withdrawal triggers an International ATM Fee.",
+    "properties": {
+      "amount": "£2.50 per withdrawal",
+      "limit": "£300/day"
+    },
+    "context": "International ATM | £2.50 per withdrawal | £300/day",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_026_trn_003",
+    "source_name": "Contactless Payment",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_026_fee_003",
+    "target_name": "Contactless Payment Fee — £0.00",
+    "rel_type": "triggers",
+    "description": "A Contactless Payment triggers the Contactless Payment Fee.",
+    "properties": {
+      "amount": "£0.00",
+      "limit": "£100 per transaction"
+    },
+    "context": "Contactless Payment | £0.00 | £100 per transaction",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_026_trn_004",
+    "source_name": "Online Purchase",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_026_fee_004",
+    "target_name": "Online Purchase Fee — £0.00",
+    "rel_type": "triggers",
+    "description": "An Online Purchase triggers the Online Purchase Fee.",
+    "properties": {
+      "amount": "£0.00",
+      "limit": "Visa limit"
+    },
+    "context": "Online Purchase | £0.00 | Visa limit",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_026_trn_005",
+    "source_name": "Point of Sale Transaction",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_026_fee_005",
+    "target_name": "Point of Sale Fee — £0.00",
+    "rel_type": "triggers",
+    "description": "A Point of Sale Transaction triggers the Point of Sale Fee.",
+    "properties": {
+      "amount": "£0.00",
+      "limit": "No limit"
+    },
+    "context": "Point of Sale | £0.00 | No limit",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_026_trn_006",
+    "source_name": "International Purchase",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_026_fee_006",
+    "target_name": "International Purchase Fee — £0.00",
+    "rel_type": "triggers",
+    "description": "An International Purchase triggers the International Purchase Fee.",
+    "properties": {
+      "amount": "£0.00",
+      "exchange_rate": "~2% Visa exchange rate"
+    },
+    "context": "International Purchase | £0.00 | ~2% Visa exchange rate",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_026_fee_001",
+    "source_name": "UK ATM Withdrawal Fee — £0.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_026_fee_002",
+    "source_name": "International ATM Fee — £2.50 per withdrawal",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_026_fee_003",
+    "source_name": "Contactless Payment Fee — £0.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_026_fee_004",
+    "source_name": "Online Purchase Fee — £0.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_026_fee_005",
+    "source_name": "Point of Sale Fee — £0.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_026_fee_006",
+    "source_name": "International Purchase Fee — £0.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_026_fee_007",
+    "source_name": "Monthly Maintenance Fee — £0.00",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_026_trn_001",
+    "source_name": "UK ATM Withdrawal",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_026_trn_002",
+    "source_name": "International ATM Withdrawal",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_026_trn_003",
+    "source_name": "Contactless Payment",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_026_trn_004",
+    "source_name": "Online Purchase",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_026_trn_005",
+    "source_name": "Point of Sale Transaction",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_026_trn_006",
+    "source_name": "International Purchase",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_027_prd_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_027_rat_001",
+    "target_name": "SmartSaver Tier 1 Rate — 4.50% (<£10k)",
+    "rel_type": "has_rate_tier",
+    "description": "SmartSaver Account offers a 4.50% interest rate for balances under £10,000",
+    "properties": {
+      "rate_percentage": "4.50%",
+      "balance_threshold": "<£10,000",
+      "rate_basis": "Tier 1"
+    },
+    "context": "Interest Rate (Tier 1: <£10k) | 4.50%",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_027",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_027_prd_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_027_fee_001",
+    "target_name": "SmartSaver Monthly Fee — £0",
+    "rel_type": "charges_fee",
+    "description": "SmartSaver Account has a monthly maintenance fee of £0",
+    "properties": {
+      "amount": "£0",
+      "frequency": "monthly",
+      "trigger": "account maintenance"
+    },
+    "context": "Monthly Fee | £0",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_027",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_027_prd_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_027_elig_001",
+    "target_name": "SmartSaver Minimum Opening Balance — £1",
+    "rel_type": "requires",
+    "description": "SmartSaver Account requires a minimum opening balance of £1",
+    "properties": {
+      "minimum_amount": "£1",
+      "application_stage": "opening"
+    },
+    "context": "Min. Opening Balance | £1",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_027",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_027_prd_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_027",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_027",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_027",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_027_rat_001",
+    "source_name": "SmartSaver Tier 1 Rate — 4.50% (<£10k)",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_027",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_027",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_027",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_027_fee_001",
+    "source_name": "SmartSaver Monthly Fee — £0",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_027",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_027",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_027",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_027_elig_001",
+    "source_name": "SmartSaver Minimum Opening Balance — £1",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_027",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_027",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_027",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_028_prd_001",
+    "source_name": "Current Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_028_fee_001",
+    "target_name": "Monthly Fee — £0",
+    "rel_type": "charges_fee",
+    "description": "The Current Account has a monthly maintenance fee of £0.",
+    "properties": {
+      "amount": "£0",
+      "trigger": "monthly"
+    },
+    "context": "Monthly Fee | FirstUK | £0",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_028",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_028_prd_001",
+    "source_name": "Current Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_028_rat_001",
+    "target_name": "Current Account Overdraft Rate — 15%",
+    "rel_type": "charges_rate",
+    "description": "The Current Account charges an interest rate of 15% on overdrafts.",
+    "properties": {
+      "rate": "15%",
+      "basis": "overdraft"
+    },
+    "context": "Overdraft Rate | FirstUK | 15%",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_028",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_028_prd_001",
+    "source_name": "Current Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_028_fee_002",
+    "target_name": "ATM Fee (UK) — £0",
+    "rel_type": "charges_fee",
+    "description": "The Current Account charges £0 for ATM usage within the UK.",
+    "properties": {
+      "amount": "£0",
+      "trigger": "UK ATM withdrawal"
+    },
+    "context": "ATM Fee (UK) | FirstUK | £0",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_028",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_028_prd_001",
+    "source_name": "Current Account",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_028",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_028",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_028",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_028_fee_001",
+    "source_name": "Monthly Fee — £0",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_028",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_028",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_028",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_028_rat_001",
+    "source_name": "Current Account Overdraft Rate — 15%",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_028",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_028",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_028",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_028_fee_002",
+    "source_name": "ATM Fee (UK) — £0",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_028",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_028",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_028",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_029_cls_001",
+    "source_name": "Pricing Transparency Policy",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_029_ftr_001",
+    "target_name": "Competitive Rate Guarantee",
+    "rel_type": "relates_to",
+    "description": "The Pricing Transparency Policy ensures that the Competitive Rate Guarantee is clearly stated and understood by customers.",
+    "properties": {},
+    "context": "FirstUK Bank aims for transparency and competitiveness: - No Hidden Fees: All charges clearly stated - Competitive Rates: Match or beat market for key products",
+    "bidirectional": true,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_029",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_029_cls_002",
+    "source_name": "Quarterly Pricing Review Provision",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_029_ftr_001",
+    "target_name": "Competitive Rate Guarantee",
+    "rel_type": "modifies",
+    "description": "The Quarterly Pricing Review Provision ensures the Competitive Rate Guarantee remains aligned with market rates.",
+    "properties": {
+      "review_frequency": "Quarterly"
+    },
+    "context": "Regular Review: Quarterly pricing review to stay competitive",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_029",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_029_cls_001",
+    "source_name": "Pricing Transparency Policy",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_029",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_029",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_029",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_029_cls_002",
+    "source_name": "Quarterly Pricing Review Provision",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_029",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_029",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_029",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_029_ftr_001",
+    "source_name": "Competitive Rate Guarantee",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_029",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_029",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_029",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_030_cls_001",
+    "source_name": "Product Review Schedule",
+    "target_id": "rate_variable_001",
+    "target_name": "Variable Rate Mechanism",
+    "rel_type": "governed_by",
+    "description": "The Product Review Schedule dictates that variable rates tied to the Bank of England are reviewed monthly",
+    "properties": {
+      "review_frequency": "Monthly",
+      "benchmark": "Bank of England (BoE)"
+    },
+    "context": "Rate Changes: Monthly (for variable rates tied to BoE)",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_030",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_030_cls_001",
+    "source_name": "Product Review Schedule",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_030",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_030",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_030",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_031_prd_001",
+    "source_name": "SmartSaver",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_031_rat_001",
+    "target_name": "SmartSaver Tier Rates — 4.50%–4.80% AER",
+    "rel_type": "has_rate_tier",
+    "description": "SmartSaver offers tiered interest rates between 4.50% and 4.80% AER",
+    "properties": {
+      "rate_basis": "variable",
+      "tier_dependent": true
+    },
+    "context": "SmartSaver: 4.50%–4.80% (variable, tier-dependent)",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_031",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_031_prd_002",
+    "source_name": "Mortgage",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_031_rat_002",
+    "target_name": "Mortgage Rates — 5.00%–5.75% APR",
+    "rel_type": "charges_rate",
+    "description": "Mortgage product carries an APR ranging from 5.00% to 5.75%",
+    "properties": {
+      "variation_factor": "product/LTV"
+    },
+    "context": "Mortgage: 5.00%–5.75% (varies by product/LTV)",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_031",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_031_prd_002",
+    "source_name": "Mortgage",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_031_ftr_001",
+    "target_name": "Optional PPI Insurance",
+    "rel_type": "offers_as_premium",
+    "description": "Optional PPI Insurance is available as an add-on for Mortgage products",
+    "properties": {
+      "status": "optional",
+      "inclusion": "not included by default"
+    },
+    "context": "PPI Insurance: Not included (optional add-on available for mortgages)",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_031",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_031_prd_001",
+    "source_name": "SmartSaver",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_031_cls_001",
+    "target_name": "Interest Tax Liability Clause",
+    "rel_type": "governed_by",
+    "description": "SmartSaver interest payments are gross and subject to customer tax reporting",
+    "properties": {
+      "tax_treatment": "Gross",
+      "reporting_entity": "HMRC"
+    },
+    "context": "Interest Paid: Gross (no tax deducted). Customers must report to HMRC if liable.",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_031",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_031_prd_002",
+    "source_name": "Mortgage",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_031_cls_001",
+    "target_name": "Interest Tax Liability Clause",
+    "rel_type": "governed_by",
+    "description": "Mortgage interest payments are gross and subject to customer tax reporting",
+    "properties": {
+      "tax_treatment": "Gross",
+      "reporting_entity": "HMRC"
+    },
+    "context": "Interest Paid: Gross (no tax deducted). Customers must report to HMRC if liable.",
+    "bidirectional": false,
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_031",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_031_prd_001",
+    "source_name": "SmartSaver",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_031",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_031",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_031",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_031_prd_002",
+    "source_name": "Mortgage",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_031",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_031",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_031",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_031_rat_001",
+    "source_name": "SmartSaver Tier Rates — 4.50%–4.80% AER",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_031",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_031",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_031",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_031_rat_002",
+    "source_name": "Mortgage Rates — 5.00%–5.75% APR",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_031",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_031",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_031",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_031_cls_001",
+    "source_name": "Interest Tax Liability Clause",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_031",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_031",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_031",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "source_id": "14aa26f573af44288c2c8b15f634e3c5_031_ftr_001",
+    "source_name": "Optional PPI Insurance",
+    "target_id": "14aa26f573af44288c2c8b15f634e3c5_031",
+    "target_name": "14aa26f573af44288c2c8b15f634e3c5_031",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_031",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  }
+]
