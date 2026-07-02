@@ -1,0 +1,4515 @@
+[
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_001_prc_001",
+    "source_name": "Standing Order Processing SOP",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_001_rol_001",
+    "target_name": "Head of Operations",
+    "rel_type": "owned_by",
+    "description": "The Standing Order Processing SOP is owned and managed by the Head of Operations",
+    "properties": {
+      "authority_level": "Executive"
+    },
+    "context": "Owner | Head of Operations",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_001",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_001_prc_001",
+    "source_name": "Standing Order Processing SOP",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_001_rol_002",
+    "target_name": "Operations Staff",
+    "rel_type": "executed_by",
+    "description": "Operations Staff are responsible for the execution of the Standing Order Processing SOP",
+    "properties": {
+      "role_category": "Audience"
+    },
+    "context": "Audience | Operations Staff, Branch Staff, Customer Service",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_001",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_001_prc_001",
+    "source_name": "Standing Order Processing SOP",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_001_rol_003",
+    "target_name": "Branch Staff",
+    "rel_type": "executed_by",
+    "description": "Branch Staff are responsible for the execution of the Standing Order Processing SOP",
+    "properties": {
+      "role_category": "Audience"
+    },
+    "context": "Audience | Operations Staff, Branch Staff, Customer Service",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_001",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_001_prc_001",
+    "source_name": "Standing Order Processing SOP",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_001_rol_004",
+    "target_name": "Customer Service",
+    "rel_type": "executed_by",
+    "description": "Customer Service staff are responsible for the execution of the Standing Order Processing SOP",
+    "properties": {
+      "role_category": "Audience"
+    },
+    "context": "Audience | Operations Staff, Branch Staff, Customer Service",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_001",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_001_prc_001",
+    "source_name": "Standing Order Processing SOP",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_001",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_001",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_001_rol_001",
+    "source_name": "Head of Operations",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_001",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_001",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_001_rol_002",
+    "source_name": "Operations Staff",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_001",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_001",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_001_rol_003",
+    "source_name": "Branch Staff",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_001",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_001",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_001_rol_004",
+    "source_name": "Customer Service",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_001",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_001",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_002_prc_001",
+    "source_name": "Standing Order Management Process",
+    "target_id": "ent_so_setup",
+    "target_name": "Standing Order Setup",
+    "rel_type": "contains",
+    "description": "The Standing Order Management Process includes the setup of new standing orders.",
+    "properties": {
+      "scope": "initial_creation"
+    },
+    "context": "Establish standardized procedures for setting up, maintaining, modifying, and canceling standing orders",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_002",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_002_prc_001",
+    "source_name": "Standing Order Management Process",
+    "target_id": "ent_so_maint",
+    "target_name": "Standing Order Maintenance",
+    "rel_type": "contains",
+    "description": "The Standing Order Management Process includes the maintenance of existing standing orders.",
+    "properties": {
+      "scope": "ongoing_management"
+    },
+    "context": "Establish standardized procedures for setting up, maintaining, modifying, and canceling standing orders",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_002",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_002_prc_001",
+    "source_name": "Standing Order Management Process",
+    "target_id": "ent_so_mod",
+    "target_name": "Standing Order Modification",
+    "rel_type": "contains",
+    "description": "The Standing Order Management Process includes the modification of standing orders.",
+    "properties": {
+      "scope": "amendment"
+    },
+    "context": "Establish standardized procedures for setting up, maintaining, modifying, and canceling standing orders",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_002",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_002_prc_001",
+    "source_name": "Standing Order Management Process",
+    "target_id": "ent_so_can",
+    "target_name": "Standing Order Cancellation",
+    "rel_type": "contains",
+    "description": "The Standing Order Management Process includes the cancellation of standing orders.",
+    "properties": {
+      "scope": "termination"
+    },
+    "context": "Establish standardized procedures for setting up, maintaining, modifying, and canceling standing orders",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_002",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_002_prc_001",
+    "source_name": "Standing Order Management Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_002",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_002",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_003_prc_001",
+    "source_name": "Standing Order Management Process",
+    "target_id": "ent_standing_order",
+    "target_name": "STANDING_ORDER",
+    "rel_type": "sets_up",
+    "description": "Governs the creation of new standing orders",
+    "properties": {
+      "channel": "online, branch, phone"
+    },
+    "context": "Applies to: All standing order creation requests",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_003",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_003_prc_001",
+    "source_name": "Standing Order Management Process",
+    "target_id": "ent_standing_order",
+    "target_name": "STANDING_ORDER",
+    "rel_type": "amends",
+    "description": "Governs the modification of existing standing orders",
+    "properties": {
+      "channel": "online, branch, phone"
+    },
+    "context": "Standing order modifications and cancellations",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_003",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_003_prc_001",
+    "source_name": "Standing Order Management Process",
+    "target_id": "ent_standing_order",
+    "target_name": "STANDING_ORDER",
+    "rel_type": "cancels",
+    "description": "Governs the cancellation of standing orders",
+    "properties": {
+      "channel": "online, branch, phone"
+    },
+    "context": "Standing order modifications and cancellations",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_003",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_003_prc_001",
+    "source_name": "Standing Order Management Process",
+    "target_id": "ent_standing_order_failure",
+    "target_name": "STANDING_ORDER_FAILURE",
+    "rel_type": "operates_on",
+    "description": "Governs the handling of failed standing orders",
+    "properties": {
+      "action": "failure_remediation"
+    },
+    "context": "Failed standing order handling",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_003",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_003_prc_001",
+    "source_name": "Standing Order Management Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_003",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_003",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_004_prc_001",
+    "source_name": "Standing Order Setup Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_004_stp_001",
+    "target_name": "Collect Standing Order Details",
+    "rel_type": "contains",
+    "description": "Standing Order Setup Process contains the step to collect standing order details",
+    "properties": {},
+    "context": "Process Overview: Collect Standing Order Details",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_004_prc_001",
+    "source_name": "Standing Order Setup Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_004_stp_002",
+    "target_name": "Validate Standing Order Information",
+    "rel_type": "contains",
+    "description": "Standing Order Setup Process contains the step to validate standing order information",
+    "properties": {},
+    "context": "Process Overview: Validate Information",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_004_prc_001",
+    "source_name": "Standing Order Setup Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_004_stp_003",
+    "target_name": "System Setup in AMS/PPS",
+    "rel_type": "contains",
+    "description": "Standing Order Setup Process contains the step to set up the order in the system",
+    "properties": {},
+    "context": "Process Overview: Set Up in System (AMS/PPS)",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_004_prc_001",
+    "source_name": "Standing Order Setup Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_004_stp_004",
+    "target_name": "Customer Confirmation",
+    "rel_type": "contains",
+    "description": "Standing Order Setup Process contains the step to confirm with the customer",
+    "properties": {},
+    "context": "Process Overview: Confirm with Customer",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_004_prc_001",
+    "source_name": "Standing Order Setup Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_004_stp_005",
+    "target_name": "Scheduled Execution",
+    "rel_type": "contains",
+    "description": "Standing Order Setup Process contains the step for scheduled execution",
+    "properties": {},
+    "context": "Process Overview: Execute on Schedule",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_004_prc_001",
+    "source_name": "Standing Order Setup Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_004_stp_006",
+    "target_name": "Payment Failure Monitoring",
+    "rel_type": "contains",
+    "description": "Standing Order Setup Process contains the step to monitor for failures",
+    "properties": {},
+    "context": "Process Overview: Monitor for Failures",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_004_stp_001",
+    "source_name": "Collect Standing Order Details",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_004_stp_002",
+    "target_name": "Validate Standing Order Information",
+    "rel_type": "followed_by",
+    "description": "Collecting details is followed by validating the information",
+    "properties": {
+      "timeline": "sequential"
+    },
+    "context": "Collect Standing Order Details ↓ Validate Information",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_004_stp_002",
+    "source_name": "Validate Standing Order Information",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_004_stp_003",
+    "target_name": "System Setup in AMS/PPS",
+    "rel_type": "followed_by",
+    "description": "Validating information is followed by system setup in AMS/PPS",
+    "properties": {
+      "timeline": "sequential"
+    },
+    "context": "Validate Information ↓ Set Up in System (AMS/PPS)",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_004_stp_003",
+    "source_name": "System Setup in AMS/PPS",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_004_stp_004",
+    "target_name": "Customer Confirmation",
+    "rel_type": "followed_by",
+    "description": "System setup is followed by customer confirmation",
+    "properties": {
+      "timeline": "sequential"
+    },
+    "context": "Set Up in System (AMS/PPS) ↓ Confirm with Customer",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_004_stp_004",
+    "source_name": "Customer Confirmation",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_004_stp_005",
+    "target_name": "Scheduled Execution",
+    "rel_type": "followed_by",
+    "description": "Customer confirmation is followed by execution on schedule",
+    "properties": {
+      "timeline": "sequential"
+    },
+    "context": "Confirm with Customer ↓ Execute on Schedule",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_004_stp_005",
+    "source_name": "Scheduled Execution",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_004_stp_006",
+    "target_name": "Payment Failure Monitoring",
+    "rel_type": "followed_by",
+    "description": "Execution on schedule is followed by failure monitoring",
+    "properties": {
+      "timeline": "sequential"
+    },
+    "context": "Execute on Schedule ↓ Monitor for Failures",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_004_stp_001",
+    "source_name": "Collect Standing Order Details",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_004_rol_001",
+    "target_name": "Customer",
+    "rel_type": "collects_data_from",
+    "description": "Details are collected from the customer",
+    "properties": {
+      "mandatory": true
+    },
+    "context": "Customer Requests Standing Order ↓ Collect Standing Order Details",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_004_stp_003",
+    "source_name": "System Setup in AMS/PPS",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_004_rol_002",
+    "target_name": "AMS/PPS System",
+    "rel_type": "performed_by",
+    "description": "System setup is performed by the AMS/PPS System",
+    "properties": {
+      "channel": "internal_system"
+    },
+    "context": "Set Up in System (AMS/PPS)",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_004_stp_004",
+    "source_name": "Customer Confirmation",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_004_rol_001",
+    "target_name": "Customer",
+    "rel_type": "notifies",
+    "description": "Customer is notified for confirmation",
+    "properties": {},
+    "context": "Confirm with Customer",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_004_stp_003",
+    "source_name": "System Setup in AMS/PPS",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_004_st_001",
+    "target_name": "Standing Order",
+    "rel_type": "creates",
+    "description": "The system setup step creates the Standing Order entity",
+    "properties": {},
+    "context": "Set Up in System (AMS/PPS) ↓ Confirm with Customer ↓ Standing Order Active",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_004_prc_001",
+    "source_name": "Standing Order Setup Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_004_stp_001",
+    "source_name": "Collect Standing Order Details",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_004_stp_002",
+    "source_name": "Validate Standing Order Information",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_004_stp_003",
+    "source_name": "System Setup in AMS/PPS",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_004_stp_004",
+    "source_name": "Customer Confirmation",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_004_stp_005",
+    "source_name": "Scheduled Execution",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_004_stp_006",
+    "source_name": "Payment Failure Monitoring",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_004_rol_001",
+    "source_name": "Customer",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_004_rol_002",
+    "source_name": "AMS/PPS System",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_004_st_001",
+    "source_name": "Standing Order",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_005_stp_001",
+    "source_name": "Customer Request Submission",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_005_rol_001",
+    "target_name": "Customer",
+    "rel_type": "performed_by",
+    "description": "The customer initiates the request submission process.",
+    "properties": {
+      "mandatory": true,
+      "channel": "all"
+    },
+    "context": "Step 1: Customer Request",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_005",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_005_stp_001",
+    "source_name": "Customer Request Submission",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_005_rol_002",
+    "target_name": "Branch Staff Member",
+    "rel_type": "performed_by",
+    "description": "A branch staff member assists the customer in submitting the request when conducted in-person.",
+    "properties": {
+      "mandatory": false,
+      "channel": "branch",
+      "authority_required": "standard_staff_access"
+    },
+    "context": "Branch: Speak with staff member",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_005",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_005_stp_001",
+    "source_name": "Customer Request Submission",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_005_rol_001",
+    "target_name": "Customer",
+    "rel_type": "collects_data_from",
+    "description": "The submission step collects account details and request information from the customer.",
+    "properties": {
+      "data_points": [
+        "account details",
+        "request type"
+      ]
+    },
+    "context": "Mail: Send request with account details",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_005",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_005_stp_001",
+    "source_name": "Customer Request Submission",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_005",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_005",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_005_rol_001",
+    "source_name": "Customer",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_005",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_005",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_005_rol_002",
+    "source_name": "Branch Staff Member",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_005",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_005",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_006_prc_001",
+    "source_name": "Standing Order Setup Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_006_stp_001",
+    "target_name": "Initial Information Collection Step",
+    "rel_type": "contains",
+    "description": "The Standing Order Setup Process includes the initial information collection phase.",
+    "properties": {},
+    "context": "### Initial Information Collected",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_006",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_006_stp_001",
+    "source_name": "Initial Information Collection Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_006_acc_001",
+    "target_name": "Source Account",
+    "rel_type": "collects",
+    "description": "The initial collection step requires the account number of the source account.",
+    "properties": {
+      "field": "account number"
+    },
+    "context": "- Account number (source account)",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_006",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_006_stp_001",
+    "source_name": "Initial Information Collection Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_006_sto_001",
+    "target_name": "Standing Order Mandate",
+    "rel_type": "creates",
+    "description": "The information collected in this step is used to create the Standing Order Mandate.",
+    "properties": {
+      "captured_fields": [
+        "Payee name",
+        "Payee account number",
+        "Amount",
+        "Frequency",
+        "Start date",
+        "End date"
+      ]
+    },
+    "context": "### Initial Information Collected\n- Payee name (recipient)\n- Payee account number... - Amount... - Frequency... - Start date... - End date...",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_006",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_006_sto_001",
+    "source_name": "Standing Order Mandate",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_006_acc_001",
+    "target_name": "Source Account",
+    "rel_type": "set_up_on",
+    "description": "The standing order mandate is linked to and deducts funds from the source account.",
+    "properties": {},
+    "context": "Account number (source account)",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_006",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_006_prc_001",
+    "source_name": "Standing Order Setup Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_006",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_006",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_006_stp_001",
+    "source_name": "Initial Information Collection Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_006",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_006",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_006_acc_001",
+    "source_name": "Source Account",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_006",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_006",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_006_sto_001",
+    "source_name": "Standing Order Mandate",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_006",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_006",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_007_prc_001",
+    "source_name": "Standing Order Setup Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_007_stp_001",
+    "target_name": "Validate Request Details",
+    "rel_type": "contains",
+    "description": "The Standing Order Setup Process contains the Validate Request Details step.",
+    "properties": {},
+    "context": "## Step 2: Validate Details",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_007_prc_001",
+    "source_name": "Standing Order Setup Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_007_stp_002",
+    "target_name": "Customer Correction Cycle",
+    "rel_type": "contains",
+    "description": "The Standing Order Setup Process contains the Customer Correction Cycle step.",
+    "properties": {
+      "optional": true
+    },
+    "context": "If Validation Fails: - Contact customer for correction",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_007_stp_001",
+    "source_name": "Validate Request Details",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_007_rol_001",
+    "target_name": "Bank Staff Member",
+    "rel_type": "performed_by",
+    "description": "Bank Staff Member is responsible for performing the validation checks on the request.",
+    "properties": {
+      "mandatory": true,
+      "channel": "all"
+    },
+    "context": "## Step 2: Validate Details",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_007_stp_001",
+    "source_name": "Validate Request Details",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_007_dec_001",
+    "target_name": "Validation Outcome Gate",
+    "rel_type": "leads_to",
+    "description": "The validation step leads to a decision gate based on whether the details are valid.",
+    "properties": {},
+    "context": "If Validation Fails:",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_007_stp_001",
+    "source_name": "Validate Request Details",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_007_acc_001",
+    "target_name": "Source Account",
+    "rel_type": "verifies",
+    "description": "The process verifies that the source account exists, is active, and holder matches.",
+    "properties": {
+      "checks": [
+        "existence",
+        "status",
+        "ownership",
+        "funds"
+      ]
+    },
+    "context": "Source Account: - ✅ Account exists and is active - ✅ Account holder matches requestor",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_007_stp_001",
+    "source_name": "Validate Request Details",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_007_sto_001",
+    "target_name": "Standing Order Instruction",
+    "rel_type": "validates",
+    "description": "The process validates the amount, frequency, and start date of the standing order instruction.",
+    "properties": {
+      "checks": [
+        "amount",
+        "frequency",
+        "start_date"
+      ]
+    },
+    "context": "Amount & Frequency: - ✅ Amount > £0... - ✅ Frequency valid... - ✅ Start date is future date",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_007_dec_001",
+    "source_name": "Validation Outcome Gate",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_007_stp_002",
+    "target_name": "Customer Correction Cycle",
+    "rel_type": "routes_to_on_fail",
+    "description": "If validation fails, the process routes to the customer correction cycle.",
+    "properties": {
+      "condition": "Validation Fails"
+    },
+    "context": "If Validation Fails: - Contact customer for correction",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_007_stp_002",
+    "source_name": "Customer Correction Cycle",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_007_cus_001",
+    "target_name": "Requesting Customer",
+    "rel_type": "collects_data_from",
+    "description": "The bank contacts the requesting customer to clarify requirements and collect correct information.",
+    "properties": {
+      "action": "clarify and collect"
+    },
+    "context": "- Contact customer for correction - Clarify requirements - Collect correct information",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_007_stp_002",
+    "source_name": "Customer Correction Cycle",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_007_stp_001",
+    "target_name": "Validate Request Details",
+    "rel_type": "followed_by",
+    "description": "Once corrected information is collected, the process loops back to re-validate the details.",
+    "properties": {
+      "condition": "Information corrected"
+    },
+    "context": "- Re-validate",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_007_prc_001",
+    "source_name": "Standing Order Setup Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_007_stp_001",
+    "source_name": "Validate Request Details",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_007_rol_001",
+    "source_name": "Bank Staff Member",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_007_dec_001",
+    "source_name": "Validation Outcome Gate",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_007_stp_002",
+    "source_name": "Customer Correction Cycle",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_007_cus_001",
+    "source_name": "Requesting Customer",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_007_acc_001",
+    "source_name": "Source Account",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_007_sto_001",
+    "source_name": "Standing Order Instruction",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_008_prc_001",
+    "source_name": "Standing Order Setup Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_008_stp_001",
+    "target_name": "Standing Order Data Entry in AMS/PPS",
+    "rel_type": "contains",
+    "description": "The Standing Order Setup Process includes the system setup step for data entry.",
+    "properties": {
+      "sequence_number": 3
+    },
+    "context": "## Step 3: System Setup\n### Standing Order Creation in AMS/PPS",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_008",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_008_stp_001",
+    "source_name": "Standing Order Data Entry in AMS/PPS",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_008_rol_001",
+    "target_name": "Bank Staff Member",
+    "rel_type": "performed_by",
+    "description": "Bank staff member enters the standing order details into the system.",
+    "properties": {
+      "mandatory": true,
+      "channel": "internal_system"
+    },
+    "context": "Created By | Staff ID | Who set it up",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_008",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_008_stp_001",
+    "source_name": "Standing Order Data Entry in AMS/PPS",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_008_sys_001",
+    "target_name": "AMS/PPS System",
+    "rel_type": "executed_by",
+    "description": "The data entry step is executed within the AMS/PPS system environment.",
+    "properties": {
+      "system_role": "platform"
+    },
+    "context": "Standing Order Creation in AMS/PPS",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_008",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_008_stp_001",
+    "source_name": "Standing Order Data Entry in AMS/PPS",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_008_so_001",
+    "target_name": "Standing Order Instruction",
+    "rel_type": "creates",
+    "description": "Entering the data into the system creates the Standing Order instruction.",
+    "properties": {
+      "output": "Active Standing Order"
+    },
+    "context": "Standing Order Creation in AMS/PPS",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_008",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_008_stp_001",
+    "source_name": "Standing Order Data Entry in AMS/PPS",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_008_acc_001",
+    "target_name": "Customer Source Account",
+    "rel_type": "updates",
+    "description": "The process links the standing order to the customer's source account.",
+    "properties": {
+      "field": "Source Account"
+    },
+    "context": "Source Account | ACC-00001 | Customer's account",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_008",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_008_so_001",
+    "source_name": "Standing Order Instruction",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_008_acc_001",
+    "target_name": "Customer Source Account",
+    "rel_type": "set_up_on",
+    "description": "The standing order is set up on the customer source account.",
+    "properties": {
+      "linkage": "permanent"
+    },
+    "context": "Source Account | ACC-00001 | Customer's account",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_008",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_008_prc_001",
+    "source_name": "Standing Order Setup Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_008",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_008",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_008_stp_001",
+    "source_name": "Standing Order Data Entry in AMS/PPS",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_008",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_008",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_008_rol_001",
+    "source_name": "Bank Staff Member",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_008",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_008",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_008_acc_001",
+    "source_name": "Customer Source Account",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_008",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_008",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_008_so_001",
+    "source_name": "Standing Order Instruction",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_008",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_008",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_008_sys_001",
+    "source_name": "AMS/PPS System",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_008",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_008",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_009_prc_001",
+    "source_name": "Standing Order Frequency Scheduling Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_009_stp_001",
+    "target_name": "Monthly Frequency Execution",
+    "rel_type": "contains",
+    "description": "The Standing Order Frequency Scheduling Process includes the monthly execution path.",
+    "properties": {},
+    "context": "Monthly: Executes on same calendar day each month",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_009",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_009_prc_001",
+    "source_name": "Standing Order Frequency Scheduling Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_009_stp_002",
+    "target_name": "Weekly Frequency Execution",
+    "rel_type": "contains",
+    "description": "The Standing Order Frequency Scheduling Process includes the weekly execution path.",
+    "properties": {},
+    "context": "Weekly: Executes every 7 days",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_009",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_009_prc_001",
+    "source_name": "Standing Order Frequency Scheduling Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_009_stp_003",
+    "target_name": "Quarterly Frequency Execution",
+    "rel_type": "contains",
+    "description": "The Standing Order Frequency Scheduling Process includes the quarterly execution path.",
+    "properties": {},
+    "context": "Quarterly: Executes every 3 months",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_009",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_009_prc_001",
+    "source_name": "Standing Order Frequency Scheduling Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_009_stp_004",
+    "target_name": "Annual Frequency Execution",
+    "rel_type": "contains",
+    "description": "The Standing Order Frequency Scheduling Process includes the annual execution path.",
+    "properties": {},
+    "context": "Annual: Executes once per year",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_009",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_009_stp_001",
+    "source_name": "Monthly Frequency Execution",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_009_tra_001",
+    "target_name": "Recurring Standing Order Transfer",
+    "rel_type": "triggers",
+    "description": "Monthly frequency execution triggers the recurring transfer on the same calendar day each month.",
+    "properties": {
+      "frequency": "monthly",
+      "timeline": "same calendar day"
+    },
+    "context": "Monthly: Executes on same calendar day each month",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_009",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_009_stp_002",
+    "source_name": "Weekly Frequency Execution",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_009_tra_001",
+    "target_name": "Recurring Standing Order Transfer",
+    "rel_type": "triggers",
+    "description": "Weekly frequency execution triggers the recurring transfer every 7 days.",
+    "properties": {
+      "frequency": "weekly",
+      "timeline": "7 days"
+    },
+    "context": "Weekly: Executes every 7 days",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_009",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_009_stp_003",
+    "source_name": "Quarterly Frequency Execution",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_009_tra_001",
+    "target_name": "Recurring Standing Order Transfer",
+    "rel_type": "triggers",
+    "description": "Quarterly frequency execution triggers the recurring transfer every 3 months.",
+    "properties": {
+      "frequency": "quarterly",
+      "timeline": "3 months"
+    },
+    "context": "Quarterly: Executes every 3 months",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_009",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_009_stp_004",
+    "source_name": "Annual Frequency Execution",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_009_tra_001",
+    "target_name": "Recurring Standing Order Transfer",
+    "rel_type": "triggers",
+    "description": "Annual frequency execution triggers the recurring transfer once per year.",
+    "properties": {
+      "frequency": "annual",
+      "timeline": "1 year"
+    },
+    "context": "Annual: Executes once per year",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_009",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_009_prc_001",
+    "source_name": "Standing Order Frequency Scheduling Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_009",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_009",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_009_stp_001",
+    "source_name": "Monthly Frequency Execution",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_009",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_009",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_009_stp_002",
+    "source_name": "Weekly Frequency Execution",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_009",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_009",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_009_stp_003",
+    "source_name": "Quarterly Frequency Execution",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_009",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_009",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_009_stp_004",
+    "source_name": "Annual Frequency Execution",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_009",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_009",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_009_tra_001",
+    "source_name": "Recurring Standing Order Transfer",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_009",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_009",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_010_prc_001",
+    "source_name": "Standing Order Setup Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_010_stp_001",
+    "target_name": "Customer Confirmation Step",
+    "rel_type": "contains",
+    "description": "The Standing Order Setup Process includes a step for customer confirmation.",
+    "properties": {
+      "sequence_order": 4
+    },
+    "context": "## Step 4: Confirm with Customer",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_010",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_010_stp_001",
+    "source_name": "Customer Confirmation Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_010_rol_001",
+    "target_name": "Customer",
+    "rel_type": "notifies",
+    "description": "The confirmation step involves notifying the customer via multiple channels.",
+    "properties": {
+      "channels": [
+        "Email",
+        "SMS",
+        "Verbal",
+        "Written receipt"
+      ],
+      "mandatory": true
+    },
+    "context": "Customer Must Receive: Email confirmation (preferred), SMS confirmation (if requested), Verbal confirmation (if by phone), Written receipt (if in branch)",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_010",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_010_stp_001",
+    "source_name": "Customer Confirmation Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_010_sto_001",
+    "target_name": "Standing Order",
+    "rel_type": "records",
+    "description": "The confirmation step communicates specific details regarding the standing order to the customer.",
+    "properties": {
+      "details_shared": [
+        "Standing order ID",
+        "Payee name",
+        "Account number",
+        "Amount",
+        "Frequency",
+        "Start date"
+      ]
+    },
+    "context": "Email/SMS Confirmation Should Include: Standing order ID (SO-00001234), Payee name and account number (masked: ****5678), Amount and frequency, Start date, Confirmation that standing order is active",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_010",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_010_prc_001",
+    "source_name": "Standing Order Setup Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_010",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_010",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_010_stp_001",
+    "source_name": "Customer Confirmation Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_010",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_010",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_010_rol_001",
+    "source_name": "Customer",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_010",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_010",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_010_sto_001",
+    "source_name": "Standing Order",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_010",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_010",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_prc_001",
+    "source_name": "Standing Order Execution Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_001",
+    "target_name": "Standing Order Identification Step",
+    "rel_type": "contains",
+    "description": "The Standing Order Execution Process includes the identification of due orders.",
+    "properties": {},
+    "context": "Execution Process: 1. System identifies standing orders due",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_prc_001",
+    "source_name": "Standing Order Execution Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_002",
+    "target_name": "Source Account Fund Validation Step",
+    "rel_type": "contains",
+    "description": "The Standing Order Execution Process includes the validation of source account funds.",
+    "properties": {},
+    "context": "Execution Process: 2. Validates source account has sufficient funds",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_prc_001",
+    "source_name": "Standing Order Execution Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_003",
+    "target_name": "FPS Transfer Initiation Step",
+    "rel_type": "contains",
+    "description": "The Standing Order Execution Process includes the initiation of the FPS transfer.",
+    "properties": {},
+    "context": "Execution Process: 3. Initiates FPS transfer",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_prc_001",
+    "source_name": "Standing Order Execution Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_004",
+    "target_name": "Ledger Transaction Recording Step",
+    "rel_type": "contains",
+    "description": "The Standing Order Execution Process includes recording the transaction in the ledger.",
+    "properties": {},
+    "context": "Execution Process: 4. Records transaction in ledger",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_prc_001",
+    "source_name": "Standing Order Execution Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_005",
+    "target_name": "Standing Order Status Update Step",
+    "rel_type": "contains",
+    "description": "The Standing Order Execution Process includes updating the order status.",
+    "properties": {},
+    "context": "Execution Process: 5. Updates standing order status (completed)",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_prc_001",
+    "source_name": "Standing Order Execution Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_006",
+    "target_name": "Customer Notification Step",
+    "rel_type": "includes_optional",
+    "description": "The Standing Order Execution Process optionally includes customer notification.",
+    "properties": {
+      "optional": true,
+      "trigger": "customer opt-in"
+    },
+    "context": "Execution Process: 6. Notifies customer (optional, if opted in)",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_001",
+    "source_name": "Standing Order Identification Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_002",
+    "target_name": "Source Account Fund Validation Step",
+    "rel_type": "followed_by",
+    "description": "Identification of orders is followed by fund validation.",
+    "properties": {
+      "timeline": "sequential"
+    },
+    "context": "1. System identifies standing orders due 2. Validates source account has sufficient funds",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_002",
+    "source_name": "Source Account Fund Validation Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011_dec_001",
+    "target_name": "Funds Availability Check",
+    "rel_type": "leads_to",
+    "description": "Fund validation leads to the funds availability decision point.",
+    "properties": {},
+    "context": "Validates source account has sufficient funds",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_dec_001",
+    "source_name": "Funds Availability Check",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_003",
+    "target_name": "FPS Transfer Initiation Step",
+    "rel_type": "routes_to_on_pass",
+    "description": "If funds are available, the process routes to FPS transfer initiation.",
+    "properties": {
+      "condition": "sufficient funds"
+    },
+    "context": "2. Validates source account has sufficient funds 3. Initiates FPS transfer",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_dec_001",
+    "source_name": "Funds Availability Check",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_006",
+    "target_name": "Customer Notification Step",
+    "rel_type": "routes_to_on_fail",
+    "description": "If funds are unavailable, the customer is notified of failure.",
+    "properties": {
+      "condition": "insufficient funds"
+    },
+    "context": "If Funds Unavailable: ... Customer notified of failure",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_003",
+    "source_name": "FPS Transfer Initiation Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_004",
+    "target_name": "Ledger Transaction Recording Step",
+    "rel_type": "followed_by",
+    "description": "FPS transfer initiation is followed by recording the transaction in the ledger.",
+    "properties": {
+      "timeline": "sequential"
+    },
+    "context": "3. Initiates FPS transfer 4. Records transaction in ledger",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_004",
+    "source_name": "Ledger Transaction Recording Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_005",
+    "target_name": "Standing Order Status Update Step",
+    "rel_type": "followed_by",
+    "description": "Ledger recording is followed by updating the order status.",
+    "properties": {
+      "timeline": "sequential"
+    },
+    "context": "4. Records transaction in ledger 5. Updates standing order status",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_005",
+    "source_name": "Standing Order Status Update Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_006",
+    "target_name": "Customer Notification Step",
+    "rel_type": "followed_by",
+    "description": "Status update is followed by customer notification.",
+    "properties": {
+      "timeline": "sequential"
+    },
+    "context": "5. Updates standing order status (completed) 6. Notifies customer",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_001",
+    "source_name": "Standing Order Identification Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011_rol_001",
+    "target_name": "Standing Order Automated System",
+    "rel_type": "performed_by",
+    "description": "The automated system identifies due standing orders.",
+    "properties": {
+      "mandatory": true,
+      "channel": "system"
+    },
+    "context": "System identifies standing orders due",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_002",
+    "source_name": "Source Account Fund Validation Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011_rol_001",
+    "target_name": "Standing Order Automated System",
+    "rel_type": "performed_by",
+    "description": "The automated system validates the source account funds.",
+    "properties": {
+      "mandatory": true,
+      "channel": "system"
+    },
+    "context": "Validates source account has sufficient funds",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_003",
+    "source_name": "FPS Transfer Initiation Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011_rol_001",
+    "target_name": "Standing Order Automated System",
+    "rel_type": "performed_by",
+    "description": "The automated system initiates the FPS transfer.",
+    "properties": {
+      "mandatory": true,
+      "channel": "system"
+    },
+    "context": "Initiates FPS transfer",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_004",
+    "source_name": "Ledger Transaction Recording Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011_rol_001",
+    "target_name": "Standing Order Automated System",
+    "rel_type": "performed_by",
+    "description": "The automated system records the transaction in the ledger.",
+    "properties": {
+      "mandatory": true,
+      "channel": "system"
+    },
+    "context": "Records transaction in ledger",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_005",
+    "source_name": "Standing Order Status Update Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011_rol_001",
+    "target_name": "Standing Order Automated System",
+    "rel_type": "performed_by",
+    "description": "The automated system updates the standing order status.",
+    "properties": {
+      "mandatory": true,
+      "channel": "system"
+    },
+    "context": "Updates standing order status",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_006",
+    "source_name": "Customer Notification Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011_rol_001",
+    "target_name": "Standing Order Automated System",
+    "rel_type": "performed_by",
+    "description": "The automated system notifies the customer.",
+    "properties": {
+      "mandatory": false,
+      "channel": "system"
+    },
+    "context": "Notifies customer",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_dec_001",
+    "source_name": "Funds Availability Check",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011_rol_002",
+    "target_name": "Operations Staff",
+    "rel_type": "escalated_to",
+    "description": "Persistent failures in funds availability are escalated to Operations Staff.",
+    "properties": {
+      "trigger_condition": "persistent failure"
+    },
+    "context": "Manual intervention if persistent failure",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_001",
+    "source_name": "Standing Order Identification Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011_sto_001",
+    "target_name": "Scheduled Standing Order",
+    "rel_type": "collects",
+    "description": "The identification step targets scheduled standing orders.",
+    "properties": {},
+    "context": "System identifies standing orders due",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_003",
+    "source_name": "FPS Transfer Initiation Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011_trn_001",
+    "target_name": "FPS Standing Order Transaction",
+    "rel_type": "creates",
+    "description": "The FPS transfer initiation step creates the transaction.",
+    "properties": {
+      "payment_method": "FPS"
+    },
+    "context": "Initiates FPS transfer",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_006",
+    "source_name": "Customer Notification Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011_cus_001",
+    "target_name": "Standing Order Customer",
+    "rel_type": "notifies",
+    "description": "The step notifies the customer of the outcome.",
+    "properties": {},
+    "context": "Notifies customer",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_prc_001",
+    "source_name": "Standing Order Execution Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_001",
+    "source_name": "Standing Order Identification Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_002",
+    "source_name": "Source Account Fund Validation Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_003",
+    "source_name": "FPS Transfer Initiation Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_004",
+    "source_name": "Ledger Transaction Recording Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_005",
+    "source_name": "Standing Order Status Update Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_stp_006",
+    "source_name": "Customer Notification Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_rol_001",
+    "source_name": "Standing Order Automated System",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_rol_002",
+    "source_name": "Operations Staff",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_dec_001",
+    "source_name": "Funds Availability Check",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_cus_001",
+    "source_name": "Standing Order Customer",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_sto_001",
+    "source_name": "Scheduled Standing Order",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_011_trn_001",
+    "source_name": "FPS Standing Order Transaction",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_012_prc_001",
+    "source_name": "Standing Order Modification Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_012_stp_001",
+    "target_name": "Modify Standing Order Amount",
+    "rel_type": "contains",
+    "description": "The Standing Order Modification Process includes the step to modify the payment amount.",
+    "properties": {},
+    "context": "Customer can modify: Amount",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_012_prc_001",
+    "source_name": "Standing Order Modification Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_012_stp_002",
+    "target_name": "Modify Standing Order Frequency",
+    "rel_type": "contains",
+    "description": "The Standing Order Modification Process includes the step to modify the payment frequency.",
+    "properties": {},
+    "context": "Customer can modify: Frequency",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_012_prc_001",
+    "source_name": "Standing Order Modification Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_012_stp_003",
+    "target_name": "Modify Standing Order Payee",
+    "rel_type": "contains",
+    "description": "The Standing Order Modification Process includes the step to modify the recipient payee.",
+    "properties": {},
+    "context": "Customer can modify: Payee",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_012_prc_001",
+    "source_name": "Standing Order Modification Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_012_stp_004",
+    "target_name": "Modify Standing Order End Date",
+    "rel_type": "contains",
+    "description": "The Standing Order Modification Process includes the step to set or change the end date.",
+    "properties": {},
+    "context": "Customer can modify: End Date",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_012_stp_001",
+    "source_name": "Modify Standing Order Amount",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_012_rol_001",
+    "target_name": "Customer",
+    "rel_type": "performed_by",
+    "description": "The modification of the standing order amount is initiated and performed by the customer.",
+    "properties": {
+      "mandatory": true
+    },
+    "context": "Customer can modify: Amount",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_012_stp_002",
+    "source_name": "Modify Standing Order Frequency",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_012_rol_001",
+    "target_name": "Customer",
+    "rel_type": "performed_by",
+    "description": "The modification of the standing order frequency is initiated and performed by the customer.",
+    "properties": {
+      "mandatory": true
+    },
+    "context": "Customer can modify: Frequency",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_012_stp_003",
+    "source_name": "Modify Standing Order Payee",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_012_rol_001",
+    "target_name": "Customer",
+    "rel_type": "performed_by",
+    "description": "The modification of the standing order payee is initiated and performed by the customer.",
+    "properties": {
+      "mandatory": true
+    },
+    "context": "Customer can modify: Payee",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_012_stp_004",
+    "source_name": "Modify Standing Order End Date",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_012_rol_001",
+    "target_name": "Customer",
+    "rel_type": "performed_by",
+    "description": "The modification of the standing order end date is initiated and performed by the customer.",
+    "properties": {
+      "mandatory": true
+    },
+    "context": "Customer can modify: End Date",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_012_stp_001",
+    "source_name": "Modify Standing Order Amount",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_012_so_001",
+    "target_name": "Standing Order",
+    "rel_type": "amends",
+    "description": "Modifying the amount results in the cancellation of the old standing order and creation of a new one.",
+    "properties": {
+      "action": "cancel_and_recreate"
+    },
+    "context": "Amount: Change payment amount (creates new SO, cancels old)",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_012_stp_002",
+    "source_name": "Modify Standing Order Frequency",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_012_so_001",
+    "target_name": "Standing Order",
+    "rel_type": "amends",
+    "description": "Modifying the frequency updates the existing standing order timing.",
+    "properties": {
+      "action": "update"
+    },
+    "context": "Frequency: Change timing (weekly → monthly, etc.)",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_012_stp_003",
+    "source_name": "Modify Standing Order Payee",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_012_so_001",
+    "target_name": "Standing Order",
+    "rel_type": "amends",
+    "description": "Modifying the payee results in the cancellation of the old standing order and creation of a new one.",
+    "properties": {
+      "action": "cancel_and_recreate"
+    },
+    "context": "Payee: Change recipient (creates new SO, cancels old)",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_012_stp_004",
+    "source_name": "Modify Standing Order End Date",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_012_so_001",
+    "target_name": "Standing Order",
+    "rel_type": "amends",
+    "description": "Modifying the end date updates the expiration of the standing order.",
+    "properties": {
+      "action": "update"
+    },
+    "context": "End Date: Set or change end date",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_012_prc_001",
+    "source_name": "Standing Order Modification Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_012_stp_001",
+    "source_name": "Modify Standing Order Amount",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_012_stp_002",
+    "source_name": "Modify Standing Order Frequency",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_012_stp_003",
+    "source_name": "Modify Standing Order Payee",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_012_stp_004",
+    "source_name": "Modify Standing Order End Date",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_012_rol_001",
+    "source_name": "Customer",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_012_so_001",
+    "source_name": "Standing Order",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_prc_001",
+    "source_name": "Standing Order Modification Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_001",
+    "target_name": "Online Banking Login",
+    "rel_type": "contains",
+    "description": "Process includes the online login step",
+    "properties": {},
+    "context": "Online Modification: 1. Customer logs into online banking",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_prc_001",
+    "source_name": "Standing Order Modification Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_002",
+    "target_name": "Standing Order Selection",
+    "rel_type": "contains",
+    "description": "Process includes the selection of standing order step",
+    "properties": {},
+    "context": "2. Selects standing order to modify",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_prc_001",
+    "source_name": "Standing Order Modification Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_003",
+    "target_name": "Field Modification",
+    "rel_type": "contains",
+    "description": "Process includes the field modification step",
+    "properties": {},
+    "context": "3. Changes desired field(s)",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_prc_001",
+    "source_name": "Standing Order Modification Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_004",
+    "target_name": "Modification Confirmation",
+    "rel_type": "contains",
+    "description": "Process includes the modification confirmation step",
+    "properties": {},
+    "context": "4. Confirms modification",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_prc_001",
+    "source_name": "Standing Order Modification Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_005",
+    "target_name": "Online Confirmation Receipt",
+    "rel_type": "contains",
+    "description": "Process includes the online confirmation receipt step",
+    "properties": {},
+    "context": "5. Receives confirmation",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_prc_001",
+    "source_name": "Standing Order Modification Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_006",
+    "target_name": "Channel Contact Initiation",
+    "rel_type": "contains",
+    "description": "Process includes the branch/phone contact step",
+    "properties": {},
+    "context": "Branch/Phone Modification: 1. Customer calls or visits branch",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_prc_001",
+    "source_name": "Standing Order Modification Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_007",
+    "target_name": "Standing Order Identification",
+    "rel_type": "contains",
+    "description": "Process includes the identification step",
+    "properties": {},
+    "context": "2. Provides standing order ID and current details",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_prc_001",
+    "source_name": "Standing Order Modification Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_008",
+    "target_name": "Change Specification",
+    "rel_type": "contains",
+    "description": "Process includes the change specification step",
+    "properties": {},
+    "context": "3. Specifies changes requested",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_prc_001",
+    "source_name": "Standing Order Modification Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_009",
+    "target_name": "System Record Update",
+    "rel_type": "contains",
+    "description": "Process includes the system update step",
+    "properties": {},
+    "context": "4. Staff member updates system",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_prc_001",
+    "source_name": "Standing Order Modification Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_010",
+    "target_name": "Staff-Initiated Confirmation",
+    "rel_type": "contains",
+    "description": "Process includes the staff-initiated confirmation step",
+    "properties": {},
+    "context": "5. Sends confirmation to customer",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_001",
+    "source_name": "Online Banking Login",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_002",
+    "target_name": "Standing Order Selection",
+    "rel_type": "followed_by",
+    "description": "Login is followed by selection of the order",
+    "properties": {
+      "channel": "online"
+    },
+    "context": "1. Customer logs into online banking 2. Selects standing order to modify",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_002",
+    "source_name": "Standing Order Selection",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_003",
+    "target_name": "Field Modification",
+    "rel_type": "followed_by",
+    "description": "Selection is followed by changing the field",
+    "properties": {
+      "channel": "online"
+    },
+    "context": "2. Selects standing order to modify 3. Changes desired field(s)",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_003",
+    "source_name": "Field Modification",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013_dec_001",
+    "target_name": "Modification Scope Check",
+    "rel_type": "leads_to",
+    "description": "Field modification leads to a check of the modification scope (amount/payee/frequency)",
+    "properties": {},
+    "context": "Note: Full changes (amount, payee, frequency) may require cancellation of old SO and creation of new SO",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_dec_001",
+    "source_name": "Modification Scope Check",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_004",
+    "target_name": "Modification Confirmation",
+    "rel_type": "routes_to_on_pass",
+    "description": "If modification is within scope, proceed to confirmation",
+    "properties": {
+      "condition": "Simple field change"
+    },
+    "context": "Note: Full changes... may require cancellation... [implied success path]",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_004",
+    "source_name": "Modification Confirmation",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_005",
+    "target_name": "Online Confirmation Receipt",
+    "rel_type": "followed_by",
+    "description": "Confirmation is followed by receipt of confirmation",
+    "properties": {
+      "channel": "online"
+    },
+    "context": "4. Confirms modification 5. Receives confirmation",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_006",
+    "source_name": "Channel Contact Initiation",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_007",
+    "target_name": "Standing Order Identification",
+    "rel_type": "followed_by",
+    "description": "Contact initiation is followed by providing order ID",
+    "properties": {
+      "channel": "branch|phone"
+    },
+    "context": "1. Customer calls or visits branch 2. Provides standing order ID",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_007",
+    "source_name": "Standing Order Identification",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_008",
+    "target_name": "Change Specification",
+    "rel_type": "followed_by",
+    "description": "Identification is followed by specifying changes",
+    "properties": {
+      "channel": "branch|phone"
+    },
+    "context": "2. Provides standing order ID... 3. Specifies changes requested",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_008",
+    "source_name": "Change Specification",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_009",
+    "target_name": "System Record Update",
+    "rel_type": "followed_by",
+    "description": "Change specification is followed by system update by staff",
+    "properties": {
+      "channel": "branch|phone"
+    },
+    "context": "3. Specifies changes requested 4. Staff member updates system",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_009",
+    "source_name": "System Record Update",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_010",
+    "target_name": "Staff-Initiated Confirmation",
+    "rel_type": "followed_by",
+    "description": "System update is followed by sending confirmation",
+    "properties": {
+      "channel": "branch|phone"
+    },
+    "context": "4. Staff member updates system 5. Sends confirmation to customer",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_001",
+    "source_name": "Online Banking Login",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013_rol_001",
+    "target_name": "Customer",
+    "rel_type": "performed_by",
+    "description": "Customer performs the login",
+    "properties": {
+      "mandatory": true,
+      "channel": "online"
+    },
+    "context": "1. Customer logs into online banking",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_002",
+    "source_name": "Standing Order Selection",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013_rol_001",
+    "target_name": "Customer",
+    "rel_type": "performed_by",
+    "description": "Customer selects the order",
+    "properties": {
+      "mandatory": true,
+      "channel": "online"
+    },
+    "context": "2. Selects standing order to modify",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_003",
+    "source_name": "Field Modification",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013_rol_001",
+    "target_name": "Customer",
+    "rel_type": "performed_by",
+    "description": "Customer modifies the fields",
+    "properties": {
+      "mandatory": true,
+      "channel": "online"
+    },
+    "context": "3. Changes desired field(s)",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_004",
+    "source_name": "Modification Confirmation",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013_rol_001",
+    "target_name": "Customer",
+    "rel_type": "performed_by",
+    "description": "Customer confirms modification",
+    "properties": {
+      "mandatory": true,
+      "channel": "online"
+    },
+    "context": "4. Confirms modification",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_006",
+    "source_name": "Channel Contact Initiation",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013_rol_001",
+    "target_name": "Customer",
+    "rel_type": "performed_by",
+    "description": "Customer initiates contact via branch or phone",
+    "properties": {
+      "mandatory": true,
+      "channel": "branch|phone"
+    },
+    "context": "1. Customer calls or visits branch",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_007",
+    "source_name": "Standing Order Identification",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013_rol_001",
+    "target_name": "Customer",
+    "rel_type": "performed_by",
+    "description": "Customer provides identification details",
+    "properties": {
+      "mandatory": true,
+      "channel": "branch|phone"
+    },
+    "context": "2. Provides standing order ID and current details",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_008",
+    "source_name": "Change Specification",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013_rol_001",
+    "target_name": "Customer",
+    "rel_type": "performed_by",
+    "description": "Customer specifies the changes",
+    "properties": {
+      "mandatory": true,
+      "channel": "branch|phone"
+    },
+    "context": "3. Specifies changes requested",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_009",
+    "source_name": "System Record Update",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013_rol_002",
+    "target_name": "Branch Staff",
+    "rel_type": "performed_by",
+    "description": "Branch staff updates the system",
+    "properties": {
+      "mandatory": true,
+      "channel": "branch|phone"
+    },
+    "context": "4. Staff member updates system",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_010",
+    "source_name": "Staff-Initiated Confirmation",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013_rol_002",
+    "target_name": "Branch Staff",
+    "rel_type": "performed_by",
+    "description": "Branch staff sends confirmation",
+    "properties": {
+      "mandatory": true,
+      "channel": "branch|phone"
+    },
+    "context": "5. Sends confirmation to customer",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_010",
+    "source_name": "Staff-Initiated Confirmation",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013_rol_001",
+    "target_name": "Customer",
+    "rel_type": "notifies",
+    "description": "Confirmation is sent to the customer",
+    "properties": {},
+    "context": "5. Sends confirmation to customer",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_prc_001",
+    "source_name": "Standing Order Modification Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_rol_001",
+    "source_name": "Customer",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_rol_002",
+    "source_name": "Branch Staff",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_001",
+    "source_name": "Online Banking Login",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_002",
+    "source_name": "Standing Order Selection",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_003",
+    "source_name": "Field Modification",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_004",
+    "source_name": "Modification Confirmation",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_005",
+    "source_name": "Online Confirmation Receipt",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_006",
+    "source_name": "Channel Contact Initiation",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_007",
+    "source_name": "Standing Order Identification",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_008",
+    "source_name": "Change Specification",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_009",
+    "source_name": "System Record Update",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_stp_010",
+    "source_name": "Staff-Initiated Confirmation",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_013_dec_001",
+    "source_name": "Modification Scope Check",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_014_prc_001",
+    "source_name": "Standing Order Cancellation Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_014_stp_001",
+    "target_name": "Standing Order Cancellation Request",
+    "rel_type": "contains",
+    "description": "The Standing Order Cancellation Process includes the cancellation request step",
+    "properties": {
+      "sequence_order": 7
+    },
+    "context": "## Step 7: Cancel Standing Order \n### Cancellation Request",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_014",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_014_stp_001",
+    "source_name": "Standing Order Cancellation Request",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_014_rol_001",
+    "target_name": "Customer",
+    "rel_type": "performed_by",
+    "description": "The customer initiates the cancellation request via online, phone, branch, or mail",
+    "properties": {
+      "mandatory": true,
+      "channel": "all"
+    },
+    "context": "How to Request: - Online: Self-service cancellation in portal - Phone: Call 0800-555-2265 - Branch: Visit and request cancellation - Mail: Send written cancellation request",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_014",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_014_stp_001",
+    "source_name": "Standing Order Cancellation Request",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_014_rol_002",
+    "target_name": "Online Portal System",
+    "rel_type": "performed_by",
+    "description": "The Online Portal System facilitates the self-service cancellation request",
+    "properties": {
+      "mandatory": false,
+      "channel": "online"
+    },
+    "context": "Online: Self-service cancellation in portal",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_014",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_014_stp_001",
+    "source_name": "Standing Order Cancellation Request",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_014_so_001",
+    "target_name": "Standing Order",
+    "rel_type": "cancels",
+    "description": "The request is made to cancel a specific Standing Order",
+    "properties": {
+      "required_info": [
+        "Standing order ID",
+        "Payee name",
+        "Amount",
+        "Account number"
+      ]
+    },
+    "context": "Information Needed: - Standing order ID (if known) - Payee name - Amount - Account number",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_014",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_014_prc_001",
+    "source_name": "Standing Order Cancellation Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_014",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_014",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_014_stp_001",
+    "source_name": "Standing Order Cancellation Request",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_014",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_014",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_014_rol_001",
+    "source_name": "Customer",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_014",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_014",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_014_rol_002",
+    "source_name": "Online Portal System",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_014",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_014",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_014_so_001",
+    "source_name": "Standing Order",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_014",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_014",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_015_prc_001",
+    "source_name": "Standing Order Cancellation Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_001",
+    "target_name": "Cancellation Request Receipt",
+    "rel_type": "contains",
+    "description": "The Standing Order Cancellation Process contains the Cancellation Request Receipt step.",
+    "properties": {},
+    "context": "Steps: 1. Customer requests cancellation",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_015_prc_001",
+    "source_name": "Standing Order Cancellation Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_002",
+    "target_name": "Customer Identity Verification",
+    "rel_type": "contains",
+    "description": "The Standing Order Cancellation Process contains the Customer Identity Verification step.",
+    "properties": {},
+    "context": "Steps: 2. Staff verifies customer identity",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_015_prc_001",
+    "source_name": "Standing Order Cancellation Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_003",
+    "target_name": "Standing Order Confirmation",
+    "rel_type": "contains",
+    "description": "The Standing Order Cancellation Process contains the Standing Order Confirmation step.",
+    "properties": {},
+    "context": "Steps: 3. Confirms standing order to cancel",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_015_prc_001",
+    "source_name": "Standing Order Cancellation Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_004",
+    "target_name": "Account Status Update",
+    "rel_type": "contains",
+    "description": "The Standing Order Cancellation Process contains the Account Status Update step.",
+    "properties": {},
+    "context": "Steps: 4. Sets status to \"Cancelled\"",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_015_prc_001",
+    "source_name": "Standing Order Cancellation Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_005",
+    "target_name": "Effective Date Application",
+    "rel_type": "contains",
+    "description": "The Standing Order Cancellation Process contains the Effective Date Application step.",
+    "properties": {},
+    "context": "Steps: 5. Effective date: Immediately (no notice period)",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_015_prc_001",
+    "source_name": "Standing Order Cancellation Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_006",
+    "target_name": "Payment Blockage",
+    "rel_type": "contains",
+    "description": "The Standing Order Cancellation Process contains the Payment Blockage step.",
+    "properties": {},
+    "context": "Steps: 6. Next scheduled payment blocked",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_015_prc_001",
+    "source_name": "Standing Order Cancellation Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_007",
+    "target_name": "Customer Cancellation Notification",
+    "rel_type": "contains",
+    "description": "The Standing Order Cancellation Process contains the Customer Cancellation Notification step.",
+    "properties": {},
+    "context": "Steps: 7. Confirmation sent to customer",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_001",
+    "source_name": "Cancellation Request Receipt",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_002",
+    "target_name": "Customer Identity Verification",
+    "rel_type": "followed_by",
+    "description": "Cancellation Request Receipt is followed by Customer Identity Verification.",
+    "properties": {
+      "timeline": "Sequential"
+    },
+    "context": "1. Customer requests cancellation 2. Staff verifies customer identity",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_002",
+    "source_name": "Customer Identity Verification",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_003",
+    "target_name": "Standing Order Confirmation",
+    "rel_type": "followed_by",
+    "description": "Customer Identity Verification is followed by Standing Order Confirmation.",
+    "properties": {
+      "timeline": "Sequential"
+    },
+    "context": "2. Staff verifies customer identity 3. Confirms standing order to cancel",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_003",
+    "source_name": "Standing Order Confirmation",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_004",
+    "target_name": "Account Status Update",
+    "rel_type": "followed_by",
+    "description": "Standing Order Confirmation is followed by Account Status Update.",
+    "properties": {
+      "timeline": "Sequential"
+    },
+    "context": "3. Confirms standing order to cancel 4. Sets status to \"Cancelled\"",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_004",
+    "source_name": "Account Status Update",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_005",
+    "target_name": "Effective Date Application",
+    "rel_type": "followed_by",
+    "description": "Account Status Update is followed by Effective Date Application.",
+    "properties": {
+      "timeline": "Sequential"
+    },
+    "context": "4. Sets status to \"Cancelled\" 5. Effective date: Immediately",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_005",
+    "source_name": "Effective Date Application",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_006",
+    "target_name": "Payment Blockage",
+    "rel_type": "followed_by",
+    "description": "Effective Date Application is followed by Payment Blockage.",
+    "properties": {
+      "timeline": "Sequential"
+    },
+    "context": "5. Effective date: Immediately (no notice period) 6. Next scheduled payment blocked",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_006",
+    "source_name": "Payment Blockage",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_007",
+    "target_name": "Customer Cancellation Notification",
+    "rel_type": "followed_by",
+    "description": "Payment Blockage is followed by Customer Cancellation Notification.",
+    "properties": {
+      "timeline": "Sequential"
+    },
+    "context": "6. Next scheduled payment blocked 7. Confirmation sent to customer",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_001",
+    "source_name": "Cancellation Request Receipt",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_015_rol_002",
+    "target_name": "Customer",
+    "rel_type": "collects_data_from",
+    "description": "The bank collects the cancellation request from the customer.",
+    "properties": {
+      "mandatory": true
+    },
+    "context": "1. Customer requests cancellation",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_002",
+    "source_name": "Customer Identity Verification",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_015_rol_001",
+    "target_name": "Bank Staff",
+    "rel_type": "performed_by",
+    "description": "Bank Staff performs the customer identity verification.",
+    "properties": {
+      "mandatory": true
+    },
+    "context": "2. Staff verifies customer identity",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_002",
+    "source_name": "Customer Identity Verification",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_015_rol_002",
+    "target_name": "Customer",
+    "rel_type": "verifies_identity_of",
+    "description": "The staff verifies the identity of the customer.",
+    "properties": {},
+    "context": "2. Staff verifies customer identity",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_003",
+    "source_name": "Standing Order Confirmation",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_015_sto_001",
+    "target_name": "Target Standing Order",
+    "rel_type": "validates",
+    "description": "The process confirms the specific standing order to be cancelled.",
+    "properties": {},
+    "context": "3. Confirms standing order to cancel",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_004",
+    "source_name": "Account Status Update",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_015_sto_001",
+    "target_name": "Target Standing Order",
+    "rel_type": "cancels",
+    "description": "The status of the target standing order is set to Cancelled.",
+    "properties": {
+      "status_value": "Cancelled"
+    },
+    "context": "4. Sets status to \"Cancelled\"",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_007",
+    "source_name": "Customer Cancellation Notification",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_015_rol_002",
+    "target_name": "Customer",
+    "rel_type": "notifies",
+    "description": "A confirmation of cancellation is sent to the customer.",
+    "properties": {},
+    "context": "7. Confirmation sent to customer",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_015_prc_001",
+    "source_name": "Standing Order Cancellation Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_001",
+    "source_name": "Cancellation Request Receipt",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_002",
+    "source_name": "Customer Identity Verification",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_003",
+    "source_name": "Standing Order Confirmation",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_004",
+    "source_name": "Account Status Update",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_005",
+    "source_name": "Effective Date Application",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_006",
+    "source_name": "Payment Blockage",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_015_stp_007",
+    "source_name": "Customer Cancellation Notification",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_015_rol_001",
+    "source_name": "Bank Staff",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_015_rol_002",
+    "source_name": "Customer",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_015_sto_001",
+    "source_name": "Target Standing Order",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_016_prc_001",
+    "source_name": "Standing Order Cancellation Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_016_stp_001",
+    "target_name": "Cancellation Confirmation Notification",
+    "rel_type": "contains",
+    "description": "The Standing Order Cancellation Process includes the step for sending a cancellation confirmation notification.",
+    "properties": {},
+    "context": "### Cancellation Confirmation",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_016",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_016_stp_001",
+    "source_name": "Cancellation Confirmation Notification",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_016_rol_001",
+    "target_name": "Customer",
+    "rel_type": "notifies",
+    "description": "The cancellation confirmation notification is sent to the customer via email.",
+    "properties": {
+      "channel": "email",
+      "mandatory": true
+    },
+    "context": "Customer Receives: - Email confirmation of cancellation",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_016",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_016_stp_001",
+    "source_name": "Cancellation Confirmation Notification",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_016_sto_001",
+    "target_name": "Canceled Standing Order",
+    "rel_type": "records",
+    "description": "The confirmation notification references the specific standing order ID that was canceled.",
+    "properties": {
+      "data_captured": [
+        "Standing order ID",
+        "Date of cancellation"
+      ]
+    },
+    "context": "Standing order ID that was canceled; Date of cancellation",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_016",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_016_prc_001",
+    "source_name": "Standing Order Cancellation Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_016",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_016",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_016",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_016_stp_001",
+    "source_name": "Cancellation Confirmation Notification",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_016",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_016",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_016",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_016_rol_001",
+    "source_name": "Customer",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_016",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_016",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_016",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_016_sto_001",
+    "source_name": "Canceled Standing Order",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_016",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_016",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_016",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_017_prc_001",
+    "source_name": "Standing Order Failure Handling Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_017_stp_001",
+    "target_name": "Standing Order Failure Analysis",
+    "rel_type": "contains",
+    "description": "The Standing Order Failure Handling Process contains the failure analysis step.",
+    "properties": {
+      "sequence_order": 8
+    },
+    "context": "## Step 8: Failed Standing Orders",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_017",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_017_stp_001",
+    "source_name": "Standing Order Failure Analysis",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_017_trn_001",
+    "target_name": "Failed Standing Order Transaction",
+    "rel_type": "reviews",
+    "description": "The analysis step reviews the specific failed transaction to determine the cause of failure.",
+    "properties": {
+      "analysis_scope": "failure_reason"
+    },
+    "context": "Common Failure Reasons",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_017",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_017_stp_001",
+    "source_name": "Standing Order Failure Analysis",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_017_acc_001",
+    "target_name": "Source Account",
+    "rel_type": "verifies",
+    "description": "The analysis step verifies if the source account has sufficient funds.",
+    "properties": {
+      "check_type": "funds_availability"
+    },
+    "context": "Insufficient funds in source account",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_017",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_017_stp_001",
+    "source_name": "Standing Order Failure Analysis",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_017_acc_002",
+    "target_name": "Recipient Account",
+    "rel_type": "verifies",
+    "description": "The analysis step verifies the validity and status of the recipient account.",
+    "properties": {
+      "check_type": "account_status_validation"
+    },
+    "context": "Invalid recipient account number; Recipient account closed",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_017",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_017_trn_001",
+    "source_name": "Failed Standing Order Transaction",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_017_sto_001",
+    "target_name": "Standing Order Payment",
+    "rel_type": "triggered_by",
+    "description": "The failed transaction is the result of a failed attempt to execute the standing order payment.",
+    "properties": {
+      "status": "failed"
+    },
+    "context": "Failed Standing Orders",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_017",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_017_sto_001",
+    "source_name": "Standing Order Payment",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_017_acc_001",
+    "target_name": "Source Account",
+    "rel_type": "deducts_from",
+    "description": "The standing order payment is configured to deduct funds from the source account.",
+    "properties": {
+      "payment_type": "automated"
+    },
+    "context": "Insufficient funds in source account",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_017",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_017_sto_001",
+    "source_name": "Standing Order Payment",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_017_acc_002",
+    "target_name": "Recipient Account",
+    "rel_type": "routes_to",
+    "description": "The standing order payment is directed toward the recipient account.",
+    "properties": {
+      "payment_type": "automated"
+    },
+    "context": "Invalid recipient account number",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_017",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_017_prc_001",
+    "source_name": "Standing Order Failure Handling Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_017",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_017",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_017_stp_001",
+    "source_name": "Standing Order Failure Analysis",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_017",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_017",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_017_acc_001",
+    "source_name": "Source Account",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_017",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_017",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_017_acc_002",
+    "source_name": "Recipient Account",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_017",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_017",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_017_trn_001",
+    "source_name": "Failed Standing Order Transaction",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_017",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_017",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_017_sto_001",
+    "source_name": "Standing Order Payment",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_017",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_017",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_prc_001",
+    "source_name": "Standing Order Failure Handling Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018_stp_001",
+    "target_name": "Failure Detection Step",
+    "rel_type": "contains",
+    "description": "The process begins with the detection of a failed standing order.",
+    "properties": {},
+    "context": "Step 1: Detect Failure",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_prc_001",
+    "source_name": "Standing Order Failure Handling Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018_stp_002",
+    "target_name": "Customer Alerting Step",
+    "rel_type": "contains",
+    "description": "The process includes alerting the customer of the failure.",
+    "properties": {},
+    "context": "Step 2: Alert Customer",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_prc_001",
+    "source_name": "Standing Order Failure Handling Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018_stp_003",
+    "target_name": "Automated Retry Attempt Step",
+    "rel_type": "contains",
+    "description": "The process includes an automated retry attempt.",
+    "properties": {},
+    "context": "Step 3: Retry Attempt",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_prc_001",
+    "source_name": "Standing Order Failure Handling Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018_stp_004",
+    "target_name": "Escalation and Review Step",
+    "rel_type": "contains",
+    "description": "The process includes a manual escalation and review phase.",
+    "properties": {},
+    "context": "Step 4: Escalation",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_prc_001",
+    "source_name": "Standing Order Failure Handling Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018_stp_005",
+    "target_name": "Resolution and Update Step",
+    "rel_type": "contains",
+    "description": "The process concludes with the resolution of the failure.",
+    "properties": {},
+    "context": "Step 5: Resolution",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_stp_001",
+    "source_name": "Failure Detection Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018_stp_002",
+    "target_name": "Customer Alerting Step",
+    "rel_type": "followed_by",
+    "description": "Once failure is detected, the customer is alerted.",
+    "properties": {
+      "timeline": "immediate"
+    },
+    "context": "Step 1: Detect Failure ... Step 2: Alert Customer",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_stp_002",
+    "source_name": "Customer Alerting Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018_stp_003",
+    "target_name": "Automated Retry Attempt Step",
+    "rel_type": "followed_by",
+    "description": "Customer alerting is followed by an automated retry attempt.",
+    "properties": {},
+    "context": "Step 2: Alert Customer ... Step 3: Retry Attempt",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_stp_003",
+    "source_name": "Automated Retry Attempt Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018_dec_001",
+    "target_name": "Retry Success Determination",
+    "rel_type": "leads_to",
+    "description": "The retry attempt leads to a determination of whether it succeeded.",
+    "properties": {},
+    "context": "If retry successful: Standing order resumes",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_dec_001",
+    "source_name": "Retry Success Determination",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018_stp_004",
+    "target_name": "Escalation and Review Step",
+    "rel_type": "routes_to_on_fail",
+    "description": "If the retry attempt fails, the process routes to escalation.",
+    "properties": {
+      "condition": "retry fails"
+    },
+    "context": "If retry fails: Standing order suspended",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_stp_004",
+    "source_name": "Escalation and Review Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018_stp_005",
+    "target_name": "Resolution and Update Step",
+    "rel_type": "followed_by",
+    "description": "Escalation and review leads to final resolution.",
+    "properties": {},
+    "context": "Step 4: Escalation ... Step 5: Resolution",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_stp_001",
+    "source_name": "Failure Detection Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018_rol_001",
+    "target_name": "Automated Banking System",
+    "rel_type": "performed_by",
+    "description": "The system logs and marks the failure.",
+    "properties": {
+      "mandatory": true,
+      "channel": "automated"
+    },
+    "context": "System logs failed standing order attempt",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_stp_002",
+    "source_name": "Customer Alerting Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018_rol_001",
+    "target_name": "Automated Banking System",
+    "rel_type": "performed_by",
+    "description": "The system sends the notification to the customer.",
+    "properties": {
+      "mandatory": true,
+      "channel": "email/sms"
+    },
+    "context": "Email/SMS sent to customer",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_stp_002",
+    "source_name": "Customer Alerting Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018_rol_003",
+    "target_name": "Customer",
+    "rel_type": "notifies",
+    "description": "The customer is notified of the failure and requested to take action.",
+    "properties": {
+      "channel": "email/sms"
+    },
+    "context": "Email/SMS sent to customer",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_stp_003",
+    "source_name": "Automated Retry Attempt Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018_rol_001",
+    "target_name": "Automated Banking System",
+    "rel_type": "performed_by",
+    "description": "The system executes the retry attempt.",
+    "properties": {
+      "mandatory": true,
+      "timeline": "within 24 hours"
+    },
+    "context": "System retries once (usually within 24 hours)",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_stp_004",
+    "source_name": "Escalation and Review Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018_rol_002",
+    "target_name": "Bank Staff",
+    "rel_type": "performed_by",
+    "description": "Bank staff are required to review the failed order and contact the customer.",
+    "properties": {
+      "mandatory": true
+    },
+    "context": "Staff review required",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_stp_004",
+    "source_name": "Escalation and Review Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018_rol_003",
+    "target_name": "Customer",
+    "rel_type": "notifies",
+    "description": "Staff contact the customer to resolve the issue.",
+    "properties": {
+      "channel": "manual"
+    },
+    "context": "Contact customer to resolve",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_stp_005",
+    "source_name": "Resolution and Update Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018_rol_002",
+    "target_name": "Bank Staff",
+    "rel_type": "performed_by",
+    "description": "Staff update the standing order details.",
+    "properties": {
+      "mandatory": true
+    },
+    "context": "Staff updates standing order",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_stp_005",
+    "source_name": "Resolution and Update Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018_rol_003",
+    "target_name": "Customer",
+    "rel_type": "collects_data_from",
+    "description": "The customer provides corrected information for the standing order.",
+    "properties": {
+      "mandatory": false,
+      "condition": "if needed"
+    },
+    "context": "Customer provides corrected information (if needed)",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_stp_001",
+    "source_name": "Failure Detection Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018_sto_001",
+    "target_name": "Failed Standing Order",
+    "rel_type": "records",
+    "description": "The system marks the specific standing order as failed.",
+    "properties": {},
+    "context": "Marks standing order status as \"Failed\"",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_stp_005",
+    "source_name": "Resolution and Update Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018_sto_001",
+    "target_name": "Failed Standing Order",
+    "rel_type": "amends",
+    "description": "The standing order is updated to resolve the failure.",
+    "properties": {},
+    "context": "Staff updates standing order",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_prc_001",
+    "source_name": "Standing Order Failure Handling Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_stp_001",
+    "source_name": "Failure Detection Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_stp_002",
+    "source_name": "Customer Alerting Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_stp_003",
+    "source_name": "Automated Retry Attempt Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_dec_001",
+    "source_name": "Retry Success Determination",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_stp_004",
+    "source_name": "Escalation and Review Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_stp_005",
+    "source_name": "Resolution and Update Step",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_rol_001",
+    "source_name": "Automated Banking System",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_rol_002",
+    "source_name": "Bank Staff",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_rol_003",
+    "source_name": "Customer",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_018_sto_001",
+    "source_name": "Failed Standing Order",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_019_prc_001",
+    "source_name": "Weekly Standing Order Review",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_019_stp_001",
+    "target_name": "Standing Order Operational Review",
+    "rel_type": "contains",
+    "description": "The Weekly Standing Order Review process includes an operational review step.",
+    "properties": {},
+    "context": "Weekly Standing Order Review Operations Staff Reviews",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_019",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_019_prc_001",
+    "source_name": "Weekly Standing Order Review",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_019_stp_002",
+    "target_name": "Standing Order Reconciliation",
+    "rel_type": "contains",
+    "description": "The Weekly Standing Order Review process includes a reconciliation step.",
+    "properties": {},
+    "context": "Weekly Standing Order Review Reconciliation",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_019",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_019_stp_001",
+    "source_name": "Standing Order Operational Review",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_019_rol_001",
+    "target_name": "Operations Staff",
+    "rel_type": "performed_by",
+    "description": "The operational review of standing orders is performed by Operations Staff.",
+    "properties": {
+      "mandatory": true,
+      "channel": "internal"
+    },
+    "context": "Operations Staff Reviews: Total value of standing orders executed",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_019",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_019_stp_001",
+    "source_name": "Standing Order Operational Review",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_019_sta_001",
+    "target_name": "Standing Order Transaction",
+    "rel_type": "reviews",
+    "description": "The operational review analyzes values and patterns of standing order transactions.",
+    "properties": {
+      "analysis_type": "pattern_and_value_check"
+    },
+    "context": "Total value of standing orders executed Number of failed standing orders Unusual patterns",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_019",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_019_stp_001",
+    "source_name": "Standing Order Operational Review",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_019_stp_002",
+    "target_name": "Standing Order Reconciliation",
+    "rel_type": "followed_by",
+    "description": "The operational review is followed by the reconciliation process.",
+    "properties": {
+      "timeline": "weekly"
+    },
+    "context": "Operations Staff Reviews: ... Reconciliation:",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_019",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_019_stp_002",
+    "source_name": "Standing Order Reconciliation",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_019_sta_001",
+    "target_name": "Standing Order Transaction",
+    "rel_type": "validates",
+    "description": "Reconciliation validates that standing order transactions match expectations and dates.",
+    "properties": {
+      "check_type": "duplicate_and_schedule_verification"
+    },
+    "context": "Standing order transactions match customer expectations No duplicate payments All executed on scheduled dates",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_019",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_019_stp_002",
+    "source_name": "Standing Order Reconciliation",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_019_rol_001",
+    "target_name": "Operations Staff",
+    "rel_type": "performed_by",
+    "description": "The reconciliation step is executed as part of the Operations Staff's weekly review duties.",
+    "properties": {
+      "mandatory": true
+    },
+    "context": "Weekly Standing Order Review Operations Staff Reviews: ... Reconciliation:",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_019",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_019_prc_001",
+    "source_name": "Weekly Standing Order Review",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_019",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_019",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_019_rol_001",
+    "source_name": "Operations Staff",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_019",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_019",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_019_stp_001",
+    "source_name": "Standing Order Operational Review",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_019",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_019",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_019_stp_002",
+    "source_name": "Standing Order Reconciliation",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_019",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_019",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_019_sta_001",
+    "source_name": "Standing Order Transaction",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_019",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_019",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_020_prc_001",
+    "source_name": "Standing Order Audit Trail Management",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_020_stp_001",
+    "target_name": "Standing Order System Recording",
+    "rel_type": "contains",
+    "description": "The Standing Order Audit Trail Management process includes the system recording of standing order events.",
+    "properties": {},
+    "context": "### Audit Trail System Records: - All standing orders (active and canceled)",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_020",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_020_stp_001",
+    "source_name": "Standing Order System Recording",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_020_rol_001",
+    "target_name": "Standing Order Processing Staff",
+    "rel_type": "performed_by",
+    "description": "Standing Order Processing Staff are responsible for creating the records within the system.",
+    "properties": {
+      "mandatory": true,
+      "authority_required": "System Access"
+    },
+    "context": "Creation date and staff who created",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_020",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_020_stp_001",
+    "source_name": "Standing Order System Recording",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_020_chk_001",
+    "target_name": "POCA Data Retention Checkpoint",
+    "rel_type": "satisfies",
+    "description": "The recording of standing order data satisfies the POCA data retention requirements.",
+    "properties": {
+      "retention_period": "6 years"
+    },
+    "context": "Retention: Retained for 6 years (per POCA regulations)",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_020",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_020_prc_001",
+    "source_name": "Standing Order Audit Trail Management",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_020_chk_001",
+    "target_name": "POCA Data Retention Checkpoint",
+    "rel_type": "requires",
+    "description": "The audit trail management process is mandated to comply with POCA retention standards.",
+    "properties": {
+      "regulation": "POCA"
+    },
+    "context": "Retention: Retained for 6 years (per POCA regulations)",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_020",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_020_prc_001",
+    "source_name": "Standing Order Audit Trail Management",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_020",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_020",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_020",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_020_stp_001",
+    "source_name": "Standing Order System Recording",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_020",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_020",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_020",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_020_chk_001",
+    "source_name": "POCA Data Retention Checkpoint",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_020",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_020",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_020",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_020_rol_001",
+    "source_name": "Standing Order Processing Staff",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_020",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_020",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_020",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_021_prc_001",
+    "source_name": "Standing Order Quality Assurance Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_021_stp_001",
+    "target_name": "Standing Order Pre-Activation Verification",
+    "rel_type": "contains",
+    "description": "The Standing Order Quality Assurance Process includes a pre-activation verification step.",
+    "properties": {},
+    "context": "Before Activation: [checklist]",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_021_prc_001",
+    "source_name": "Standing Order Quality Assurance Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_021_stp_002",
+    "target_name": "Standing Order Monthly Audit",
+    "rel_type": "contains",
+    "description": "The Standing Order Quality Assurance Process includes a monthly audit step.",
+    "properties": {},
+    "context": "Monthly Audit: [checklist]",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_021_stp_001",
+    "source_name": "Standing Order Pre-Activation Verification",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_021_chk_001",
+    "target_name": "Standing Order Data Integrity Check",
+    "rel_type": "triggers",
+    "description": "Pre-activation verification triggers a data integrity check on account, payee, amount, frequency, and date.",
+    "properties": {
+      "mandatory": true
+    },
+    "context": "Source account verified, Payee information valid, Amount reasonable, Frequency valid, Start date is future date",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_021_chk_001",
+    "source_name": "Standing Order Data Integrity Check",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_021_dec_001",
+    "target_name": "Standing Order Activation Gate",
+    "rel_type": "determines_outcome_of",
+    "description": "The result of the data integrity check determines if the standing order passes the activation gate.",
+    "properties": {
+      "gate_type": "binary"
+    },
+    "context": "Before Activation: [checklist items used to determine readiness]",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_021_dec_001",
+    "source_name": "Standing Order Activation Gate",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_021_sto_001",
+    "target_name": "Standing Order Instruction",
+    "rel_type": "routes_to_on_pass",
+    "description": "If the activation gate is passed, the standing order instruction is activated.",
+    "properties": {
+      "condition": "all checklist items verified"
+    },
+    "context": "Before Activation: [checklist]",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_021_stp_001",
+    "source_name": "Standing Order Pre-Activation Verification",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_021_cus_001",
+    "target_name": "Standing Order Customer",
+    "rel_type": "collects_data_from",
+    "description": "The pre-activation step requires receiving confirmation from the customer.",
+    "properties": {
+      "required_input": "confirmation"
+    },
+    "context": "Customer confirmation received",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_021_stp_002",
+    "source_name": "Standing Order Monthly Audit",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_021_rol_001",
+    "target_name": "Quality Assurance Auditor",
+    "rel_type": "performed_by",
+    "description": "The monthly audit is executed by the Quality Assurance Auditor.",
+    "properties": {
+      "mandatory": true,
+      "frequency": "monthly"
+    },
+    "context": "Monthly Audit: [checklist]",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_021_stp_002",
+    "source_name": "Standing Order Monthly Audit",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_021_sto_001",
+    "target_name": "Standing Order Instruction",
+    "rel_type": "reviews_result_of",
+    "description": "The monthly audit reviews the execution and amounts of standing order instructions.",
+    "properties": {
+      "sample_size": "10+"
+    },
+    "context": "10+ standing orders reviewed, Correct execution on scheduled date, Correct amount transferred",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_021_stp_002",
+    "source_name": "Standing Order Monthly Audit",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_021_cus_001",
+    "target_name": "Standing Order Customer",
+    "rel_type": "notifies",
+    "description": "The audit process assesses if the customer is satisfied and has no complaints.",
+    "properties": {
+      "metric": "customer_satisfaction"
+    },
+    "context": "Customer satisfied (no complaints)",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_021_prc_001",
+    "source_name": "Standing Order Quality Assurance Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_021_stp_001",
+    "source_name": "Standing Order Pre-Activation Verification",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_021_stp_002",
+    "source_name": "Standing Order Monthly Audit",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_021_dec_001",
+    "source_name": "Standing Order Activation Gate",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_021_chk_001",
+    "source_name": "Standing Order Data Integrity Check",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_021_rol_001",
+    "source_name": "Quality Assurance Auditor",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_021_cus_001",
+    "source_name": "Standing Order Customer",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_021_sto_001",
+    "source_name": "Standing Order Instruction",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_022_prc_001",
+    "source_name": "Account Opening Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_022_prc_002",
+    "target_name": "Standing Order Setup Process",
+    "rel_type": "includes_optional",
+    "description": "The Account Opening Process may include the setup of a standing order as an optional step.",
+    "properties": {
+      "availability": "optional",
+      "trigger": "customer request during account opening"
+    },
+    "context": "Account opening (standing order setup available)",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_022",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_022_prc_002",
+    "source_name": "Standing Order Setup Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_022_rol_001",
+    "target_name": "Payment Processing System",
+    "rel_type": "executed_by",
+    "description": "The Standing Order Setup Process is executed by the Payment Processing System.",
+    "properties": {
+      "mandatory": true,
+      "channel": "system-automated"
+    },
+    "context": "Payment Processing System (executes standing orders)",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_022",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_022_prc_001",
+    "source_name": "Account Opening Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_022",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_022",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_022",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_022_prc_002",
+    "source_name": "Standing Order Setup Process",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_022",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_022",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_022",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_022_rol_001",
+    "source_name": "Payment Processing System",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_022",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_022",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_022",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_024_rol_001",
+    "source_name": "Head of Operations",
+    "target_id": "doc_001",
+    "target_name": "SOP Document",
+    "rel_type": "approved_by",
+    "description": "Head of Operations provided formal approval for the document on 2026-01-15",
+    "properties": {
+      "approval_date": "2026-01-15",
+      "mandatory": true
+    },
+    "context": "Approved by: Head of Operations — Date: 2026-01-15",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_024",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_024_rol_002",
+    "source_name": "Head of Retail Banking",
+    "target_id": "doc_001",
+    "target_name": "SOP Document",
+    "rel_type": "approved_by",
+    "description": "Head of Retail Banking provided formal approval for the document on 2026-01-15",
+    "properties": {
+      "approval_date": "2026-01-15",
+      "mandatory": true
+    },
+    "context": "Approved by: Head of Retail Banking — Date: 2026-01-15",
+    "bidirectional": false,
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_024",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_024_rol_001",
+    "source_name": "Head of Operations",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_024",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_024",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_024",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "source_id": "3036a7c47bba45208dd13f0780363d8e_024_rol_002",
+    "source_name": "Head of Retail Banking",
+    "target_id": "3036a7c47bba45208dd13f0780363d8e_024",
+    "target_name": "3036a7c47bba45208dd13f0780363d8e_024",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_024",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  }
+]

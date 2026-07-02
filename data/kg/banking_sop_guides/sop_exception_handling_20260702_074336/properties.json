@@ -1,0 +1,1985 @@
+[
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_001_prc_001",
+    "name": "Exception Handling Process",
+    "properties": {
+      "document_id": "EXCP-SOP-001",
+      "owner": "Head of Operations",
+      "departments_involved": [
+        "Operations",
+        "Customer Service",
+        "Compliance"
+      ]
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_001",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_001_rol_001",
+    "name": "Head of Operations",
+    "properties": {
+      "role_type": "human",
+      "department": "Operations"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_001",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_001_rol_002",
+    "name": "Operations Staff",
+    "properties": {
+      "role_type": "human",
+      "department": "Operations"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_001",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_001_rol_003",
+    "name": "Customer Service",
+    "properties": {
+      "role_type": "human"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_001",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_001_rol_004",
+    "name": "Compliance",
+    "properties": {
+      "role_type": "human"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_001",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_002_prc_001",
+    "name": "Operational Exception Resolution Process",
+    "properties": {
+      "purpose": "Identifying, investigating, and resolving operational exceptions to ensure customer satisfaction and regulatory compliance",
+      "scope": [
+        "failed transactions",
+        "disputed transactions",
+        "regulatory exceptions"
+      ]
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_002",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_003_prc_001",
+    "name": "Exception Escalation and Resolution Process",
+    "properties": {
+      "scope": [
+        "Failed transactions (deposits, withdrawals, transfers)",
+        "Disputed transactions (customer claims unauthorized)",
+        "Regulatory exceptions (compliance failures, audit issues)"
+      ]
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_003",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_003_trn_001",
+    "name": "Failed Transactions",
+    "properties": {
+      "transaction_type": "failed",
+      "scope": [
+        "deposits",
+        "withdrawals",
+        "transfers"
+      ]
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_003",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_003_trn_002",
+    "name": "Disputed Transactions",
+    "properties": {
+      "transaction_type": "disputed",
+      "monitoring_trigger": "customer claims unauthorized"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_003",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_003_chk_001",
+    "name": "Regulatory Exception Check",
+    "properties": {
+      "checkpoint_name": "Regulatory Exception Check",
+      "evidence_required": [
+        "compliance failures",
+        "audit issues"
+      ]
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_003",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_004_prc_001",
+    "name": "Transaction Failure Exception Handling Process",
+    "properties": {
+      "purpose": "Resolve transactions that were initiated but not completed successfully",
+      "scope": "Transaction Failures (Category 1)",
+      "timeline_sla": "1–3 business days",
+      "outcome_success": "Resolution of the failed transaction"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_004",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_004_trn_001",
+    "name": "Failed Bank Transfer",
+    "properties": {
+      "transaction_type": "failed",
+      "monitoring_trigger": "Recipient account invalid"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_004",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_004_trn_002",
+    "name": "Denied ATM Withdrawal",
+    "properties": {
+      "transaction_type": "failed",
+      "monitoring_trigger": "Insufficient funds"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_004",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_004_stn_001",
+    "name": "Failed Standing Order",
+    "properties": {
+      "failure_handling": "Handle exception where account is closed"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_004",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_004_drb_001",
+    "name": "Rejected Direct Debit",
+    "properties": {
+      "failure_handling": "Handle exception where there are no funds"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_004",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_004_cus_001",
+    "name": "Impacted Customer",
+    "properties": {
+      "process_role": "Subject of transaction failure",
+      "impact_level": "High"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_004",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_005_prc_001",
+    "name": "Disputed Transactions Process",
+    "properties": {
+      "purpose": "Resolve customer claims regarding unauthorized or incorrect transactions",
+      "scope": "Financial loss claims including unauthorized transfers, duplicate charges, incorrect amounts, and wrong transaction dates",
+      "timeline_sla": "5–10 business days",
+      "trigger": "Customer claims transaction is unauthorized or incorrect"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_005",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_005_rol_001",
+    "name": "Customer",
+    "properties": {
+      "process_role": "Claimant reporting financial loss or transaction error",
+      "customer_impact": "High"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_005",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_005_trn_001",
+    "name": "Disputed Transaction",
+    "properties": {
+      "transaction_type": "disputed",
+      "monitoring_trigger": "Customer claim of unauthorized or incorrect activity",
+      "examples": [
+        "Unauthorized transfer",
+        "Duplicate charge",
+        "Incorrect amount",
+        "Wrong transaction date"
+      ]
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_005",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_006_prc_001",
+    "name": "Regulatory Exceptions Remediation Process",
+    "properties": {
+      "purpose": "Remediate operational or compliance issues flagged by audit/risk",
+      "scope": "Category 3: Regulatory Exceptions",
+      "timeline_sla": "5–30 days (depending on severity)",
+      "trigger": "Operational or compliance issue flagged by audit/risk",
+      "outcome_failure": "May require account restriction"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_006",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_006_rol_001",
+    "name": "Audit and Risk Team",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Flagging operational and compliance issues"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_006",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_006_chk_001",
+    "name": "KYC Documentation Completeness Check",
+    "properties": {
+      "mandatory": "yes",
+      "failure_consequence": "Regulatory exception flag; possible account restriction"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_006",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_006_chk_002",
+    "name": "AML Screening Timeline Verification",
+    "properties": {
+      "mandatory": "yes",
+      "failure_consequence": "Regulatory exception flag; possible account restriction"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_006",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_006_chk_003",
+    "name": "Transaction Policy Limit Review",
+    "properties": {
+      "mandatory": "yes",
+      "failure_consequence": "Regulatory exception flag; possible account restriction"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_006",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_006_chk_004",
+    "name": "Regulatory Reporting Accuracy Check",
+    "properties": {
+      "mandatory": "yes",
+      "failure_consequence": "Regulatory exception flag; possible account restriction"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_006",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_006_dec_001",
+    "name": "Account Restriction Trigger",
+    "properties": {
+      "decision_question": "Should the account be restricted due to a regulatory exception?",
+      "criteria": "Internal compliance issue severity (e.g., missing KYC, AML delay, policy breach)",
+      "path_yes": "Account is restricted",
+      "path_no": "Remediation continues without restriction"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_006",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_006_stp_001",
+    "name": "Exception Remediation",
+    "properties": {
+      "mandatory": "yes",
+      "estimated_duration": "5–30 days"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_006",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_007_prc_001",
+    "name": "Exception Detection Process",
+    "properties": {
+      "purpose": "Detection and logging of system, fraud, and compliance exceptions",
+      "scope": "Transaction monitoring and KYC/AML verification",
+      "trigger": "Detection of failed transactions, unusual patterns, regulatory alerts, or KYC/AML exceptions",
+      "outcome_success": "Automatic logging to exception queue"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_007",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_007_stp_001",
+    "name": "Automated Exception Monitoring",
+    "properties": {
+      "actor": "Automated Monitoring System",
+      "channel": "system",
+      "mandatory": "yes",
+      "input": "System logs, fraud rules, compliance flags, verification issues",
+      "output": "Exception triggers"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_007",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_007_stp_002",
+    "name": "Exception Queue Logging",
+    "properties": {
+      "actor": "Automated Monitoring System",
+      "channel": "system",
+      "mandatory": "yes",
+      "output": "Logged entry in exception queue"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_007",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_007_rol_001",
+    "name": "Automated Monitoring System",
+    "properties": {
+      "role_type": "system",
+      "authority_level": "Detection and logging"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_007",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_007_trn_001",
+    "name": "Failed Transaction",
+    "properties": {
+      "transaction_type": "failed",
+      "monitoring_trigger": "System logs of failed attempts"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_007",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_007_trn_002",
+    "name": "Unusual Transaction Pattern",
+    "properties": {
+      "transaction_type": "suspicious",
+      "monitoring_trigger": "Fraud rules"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_007",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_007_chk_001",
+    "name": "Regulatory Alert Checkpoint",
+    "properties": {
+      "mandatory": "yes",
+      "performed_by": "Automated Monitoring System",
+      "failure_consequence": "Automatic logging to exception queue"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_007",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_007_chk_002",
+    "name": "KYC/AML Exception Checkpoint",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": "Verification records",
+      "performed_by": "Automated Monitoring System",
+      "failure_consequence": "Automatic logging to exception queue"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_007",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_008_prc_001",
+    "name": "Manual Detection Process",
+    "properties": {
+      "purpose": "Identify and log operational exceptions via manual reporting channels",
+      "trigger": "Staff reports, teller observations, audit findings, or regulator communications",
+      "owner": "Exception Team",
+      "outcome_success": "Exception logged and escalated to the exception team"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_008",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_008_stp_001",
+    "name": "Staff Reporting Step",
+    "properties": {
+      "actor": "Bank Staff",
+      "input": "Customer complaints via phone, email, or branch",
+      "output": "Logged exception",
+      "channel": "branch | online | phone",
+      "mandatory": "yes"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_008",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_008_stp_002",
+    "name": "Teller Observation Step",
+    "properties": {
+      "actor": "Teller",
+      "input": "Rejected transaction",
+      "output": "Logged exception",
+      "channel": "branch",
+      "mandatory": "yes"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_008",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_008_stp_003",
+    "name": "Audit Finding Review Step",
+    "properties": {
+      "actor": "Bank Staff",
+      "input": "Control testing results",
+      "output": "Logged exception",
+      "channel": "system",
+      "mandatory": "yes"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_008",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_008_stp_004",
+    "name": "Regulator Communication Review Step",
+    "properties": {
+      "actor": "Bank Staff",
+      "input": "Regulatory exception notification",
+      "output": "Logged exception",
+      "channel": "system",
+      "mandatory": "yes"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_008",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_008_stp_005",
+    "name": "Exception Logging and Escalation Step",
+    "properties": {
+      "actor": "Bank Staff",
+      "output": "Escalation to exception team",
+      "channel": "system",
+      "mandatory": "yes"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_008",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_008_rol_001",
+    "name": "Bank Staff",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Reporting and logging"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_008",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_008_rol_002",
+    "name": "Teller",
+    "properties": {
+      "role_type": "human",
+      "department": "Branch Operations",
+      "channels": [
+        "branch"
+      ]
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_008",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_008_rol_003",
+    "name": "Exception Team",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Exception management and resolution"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_008",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_008_rol_004",
+    "name": "Regulator",
+    "properties": {
+      "role_type": "external"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_008",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_008_cus_001",
+    "name": "Complaining Customer",
+    "properties": {
+      "customer_type": "existing",
+      "process_role": "trigger for manual detection via complaint"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_008",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_009_prc_001",
+    "name": "Exception Triage & Categorization Process",
+    "properties": {
+      "purpose": "To log, categorize, and assess the severity of reported exceptions",
+      "trigger": "Exception reported",
+      "outcome_success": "Exception categorized and severity assessed for further action"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_009",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_009_stp_001",
+    "name": "Exception Logging",
+    "properties": {
+      "step_number": 1,
+      "output": "Exception ID (e.g., EXC-00001234), timestamp, reporter name, and initial description",
+      "mandatory": "yes"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_009",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_009_stp_002",
+    "name": "Exception Categorization",
+    "properties": {
+      "step_number": 2,
+      "output": "Category assignment (Category 1: Failed Transaction, Category 2: Customer Dispute, Category 3: Regulatory)"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_009",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_009_stp_003",
+    "name": "Severity Assessment",
+    "properties": {
+      "step_number": 3,
+      "input": [
+        "Amount involved",
+        "Customer impact",
+        "Regulatory implication"
+      ]
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_009",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_009_dec_001",
+    "name": "Escalation Trigger Decision",
+    "properties": {
+      "decision_question": "Is escalation required based on the severity assessment?",
+      "criteria": [
+        "Amount involved",
+        "Customer impact",
+        "Regulatory implication"
+      ]
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_009",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_010_prc_001",
+    "name": "Failed Transaction Investigation Process",
+    "properties": {
+      "purpose": "Investigate failed transactions and determine appropriate resolution (refund, retry, or explanation)",
+      "scope": "Category 1: Failed Transactions",
+      "outcome_success": "Refund issued, transaction retried, or customer informed of failure reason",
+      "trigger": "Detection of a failed transaction"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_010",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_010_stp_001",
+    "name": "Transaction Record Retrieval",
+    "properties": {
+      "step_number": 1,
+      "actor": "Investigator",
+      "input": "Transaction ID/Reference",
+      "output": "Transaction record",
+      "channel": "system"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_010",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_010_stp_002",
+    "name": "Failure Status Analysis",
+    "properties": {
+      "step_number": 2,
+      "actor": "Investigator",
+      "input": "Transaction record",
+      "output": "Failure reason (e.g., insufficient funds, invalid recipient, frozen account)",
+      "channel": "system"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_010",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_010_stp_003",
+    "name": "Customer Authorization Verification",
+    "properties": {
+      "step_number": 3,
+      "actor": "Investigator",
+      "mandatory": "yes",
+      "channel": "system"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_010",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_010_stp_004",
+    "name": "Account Details Confirmation",
+    "properties": {
+      "step_number": 4,
+      "actor": "Investigator",
+      "input": "Account details",
+      "output": "Verification of correctness",
+      "channel": "system"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_010",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_010_stp_005",
+    "name": "Reversibility Assessment",
+    "properties": {
+      "step_number": 5,
+      "actor": "Investigator",
+      "output": "Determination of whether funds can be reversed/refunded",
+      "channel": "system"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_010",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_010_dec_001",
+    "name": "Failure Reason Determination",
+    "properties": {
+      "decision_question": "Why did the transaction fail?",
+      "criteria": "System status codes and record analysis",
+      "path_yes": "Identify specific reason (Insufficient funds | Invalid recipient | Account frozen | Duplicate prevention)",
+      "decision_maker": "Investigator"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_010",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_010_dec_002",
+    "name": "Final Resolution Decision",
+    "properties": {
+      "decision_question": "What is the appropriate resolution based on failure reason?",
+      "criteria": "Funds debited status and validity of account/authorization",
+      "path_yes": "Refund if funds debited + failed; Retry if appropriate",
+      "path_no": "Explain failure to customer",
+      "decision_maker": "Investigator"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_010",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_010_tra_001",
+    "name": "Failed Transaction",
+    "properties": {
+      "transaction_type": "failed",
+      "investigation_steps": [
+        "Pull record",
+        "Check status",
+        "Verify authorization",
+        "Confirm details",
+        "Assess reversibility"
+      ],
+      "outcome_paths": [
+        "Refund",
+        "Retry",
+        "Explanation to customer"
+      ]
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_010",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_010_acc_001",
+    "name": "Investigated Account",
+    "properties": {
+      "account_state_at_start": "potentially frozen or with insufficient funds",
+      "system_recorded_in": "Bank transaction system"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_010",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_010_cus_001",
+    "name": "Affected Customer",
+    "properties": {
+      "process_role": "Subject of failed transaction investigation",
+      "notification_required": "Yes - required for failure explanation, retry offers, or freeze notifications"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_010",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_011_prc_001",
+    "name": "Disputed Transactions Investigation Process",
+    "properties": {
+      "purpose": "Investigate and resolve disputed transactions to determine refund eligibility",
+      "scope": "Category 2: Disputed Transactions",
+      "outcome_success": "Full refund provided for unauthorized transactions",
+      "outcome_failure": "Case flagged for further investigation or escalation",
+      "timeline_sla": "10 days for unauthorized transaction refunds"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_011",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_011_stp_001",
+    "name": "Pull Transaction Details",
+    "properties": {
+      "step_number": 1,
+      "output": "Transaction records",
+      "mandatory": "yes"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_011",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_011_stp_002",
+    "name": "Verify Customer Authorization",
+    "properties": {
+      "step_number": 2,
+      "decision_question": "Did customer authorize this amount?",
+      "mandatory": "yes"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_011",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_011_stp_003",
+    "name": "Verify Timestamp and Amount",
+    "properties": {
+      "step_number": 3,
+      "input": "Transaction timestamp and amount",
+      "mandatory": "yes"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_011",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_011_stp_004",
+    "name": "Review Customer History and Patterns",
+    "properties": {
+      "step_number": 4,
+      "mandatory": "yes"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_011",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_011_stp_005",
+    "name": "Assess Fraud Likelihood",
+    "properties": {
+      "step_number": 5,
+      "criteria": [
+        "Recipient known party",
+        "Customer negligence (e.g., shared password)",
+        "Reporting timeline vs occurrence date"
+      ],
+      "mandatory": "yes"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_011",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_011_dec_001",
+    "name": "Transaction Authorization Decision",
+    "properties": {
+      "decision_question": "Was the transaction authorized by the customer?",
+      "path_yes": "Explain and educate customer; no refund",
+      "path_no": "Full refund within 10 days",
+      "path_disputed": "Further investigation or escalation"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_011",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_011_trn_001",
+    "name": "Disputed Transaction",
+    "properties": {
+      "transaction_type": "disputed",
+      "investigation_steps": [
+        "Pull details",
+        "Verify authorization",
+        "Check timestamp/amount",
+        "Review history",
+        "Assess fraud likelihood"
+      ],
+      "outcome_paths": [
+        "Full refund",
+        "Customer education",
+        "Escalation"
+      ]
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_011",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_011_cus_001",
+    "name": "Complaining Customer",
+    "properties": {
+      "process_role": "Subject of disputed transaction investigation",
+      "notification_required": "yes",
+      "notification_context": "Outcome of authorization decision and refund status"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_011",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_012_prc_001",
+    "name": "Regulatory Exceptions Investigation Process",
+    "properties": {
+      "purpose": "Investigate and remediate regulatory exceptions including missing KYC, AML delays, and rate errors",
+      "scope": "Regulatory exceptions affecting accounts and customers",
+      "outcome_success": "Remediation steps completed and documented for audit trail",
+      "departments_involved": [
+        "Compliance",
+        "Operations"
+      ]
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_012",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_012_stp_001",
+    "name": "Identify Specific Regulatory Issue",
+    "properties": {
+      "step_number": 1,
+      "output": "Identification of the specific regulatory breach (e.g., Missing KYC, AML delay, Rate error)"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_012",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_012_stp_002",
+    "name": "Assess Impact",
+    "properties": {
+      "step_number": 2,
+      "criteria": "customer-facing vs. internal"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_012",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_012_stp_003",
+    "name": "Determine Remediation Steps",
+    "properties": {
+      "step_number": 3,
+      "output": "Action plan for remediation (e.g., obtain docs, retroactive screening, recalculate interest)"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_012",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_012_stp_004",
+    "name": "Check for Widespread Impact",
+    "properties": {
+      "step_number": 4,
+      "decision_question": "Are other customers affected by the same issue?"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_012",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_012_stp_005",
+    "name": "Document for Audit Trail",
+    "properties": {
+      "step_number": 5,
+      "mandatory": "yes",
+      "output": "Audit trail record of the investigation and resolution"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_012",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_012_dec_001",
+    "name": "KYC Documentation Availability Gate",
+    "properties": {
+      "decision_question": "Can the customer provide the missing ID verification documents?",
+      "path_yes": "Obtain missing docs immediately",
+      "path_no": "Suspend account"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_012",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_012_dec_002",
+    "name": "AML Screening Flag Gate",
+    "properties": {
+      "decision_question": "Is the customer flagged during retroactive screening?",
+      "path_yes": "Escalate issue",
+      "path_no": "Complete retroactive screening record"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_012",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_012_chk_001",
+    "name": "KYC Verification Checkpoint",
+    "properties": {
+      "checkpoint_name": "ID Verification Check",
+      "mandatory": "yes",
+      "evidence_required": "Identification Documents",
+      "failure_consequence": "Account suspension"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_012",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_012_chk_002",
+    "name": "AML Screening Timing Checkpoint",
+    "properties": {
+      "checkpoint_name": "AML Screening Timeliness Check",
+      "mandatory": "yes",
+      "failure_consequence": "Retroactive screening and potential escalation"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_012",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_012_acc_001",
+    "name": "Exception Impacted Account",
+    "properties": {
+      "account_state_at_start": "active",
+      "account_state_at_end": "suspended (if KYC fails) or active (if remediated)"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_012",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_012_cus_001",
+    "name": "Affected Customer",
+    "properties": {
+      "process_role": "subject of regulatory exception investigation",
+      "notification_required": "yes (if account is suspended or interest is recalculated)"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_012",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_013_prc_001",
+    "name": "Failed Transaction Resolution Process",
+    "properties": {
+      "purpose": "Resolve failed transactions through reprocessing, refunding, or manual facilitation",
+      "scope": "Failed transactions causing exceptions",
+      "outcome_success": "Exception closed and customer funds/service restored",
+      "trigger": "Occurrence of a failed transaction"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_013",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_013_dec_001",
+    "name": "Transaction Resolution Path Decision",
+    "properties": {
+      "decision_question": "Which resolution path should be taken for the failed transaction?",
+      "criteria": "Availability of funds, whether funds were debited despite failure, and customer preference/system blocks",
+      "path_yes": "Proceed to Reprocess, Refund + Compensation, or Manual Facilitation based on criteria",
+      "decision_maker": "Bank Staff"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_013",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_013_stp_001",
+    "name": "Transaction Reprocessing Step",
+    "properties": {
+      "actor": "Bank Staff",
+      "input": "Confirmation of funds availability",
+      "output": "Resubmitted transaction and success confirmation",
+      "mandatory": "no",
+      "failure_path": "Move to alternative resolution option if funds are unavailable"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_013",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_013_stp_002",
+    "name": "Refund and Compensation Step",
+    "properties": {
+      "actor": "Bank Staff",
+      "input": "Verification that funds were debited despite failure",
+      "output": "Immediate refund and potential interest/compensation",
+      "mandatory": "no",
+      "tools_or_systems": "Core banking system for refund and interest calculation"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_013",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_013_stp_003",
+    "name": "Manual Transaction Facilitation Step",
+    "properties": {
+      "actor": "Bank Staff",
+      "input": "Customer request to proceed despite system blocks",
+      "output": "Manually facilitated transaction with documented reason",
+      "mandatory": "no",
+      "tools_or_systems": "Manual override system",
+      "failure_path": "Escalation for approval if manual override is not permitted"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_013",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_013_rol_001",
+    "name": "Bank Staff",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Authorized to reprocess, refund, and manually facilitate transactions with documentation"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_013",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_013_rol_002",
+    "name": "Bank Customer",
+    "properties": {
+      "role_type": "external",
+      "process_role": "Recipient of transaction resolution and notification"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_013",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_013_tra_001",
+    "name": "Failed Transaction",
+    "properties": {
+      "transaction_type": "failed",
+      "outcome_paths": [
+        "reprocessed",
+        "refunded",
+        "manually facilitated"
+      ]
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_013",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_014_prc_001",
+    "name": "Disputed Transactions Resolution Process",
+    "properties": {
+      "purpose": "Resolve customer disputes regarding transactions through refund, education, or merchant escalation",
+      "timeline_sla": "10 business days for refunds",
+      "outcome_success": "Transaction resolved via refund, customer education, or card scheme resolution",
+      "trigger": "Customer raises a dispute regarding a transaction"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_014",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_014_dec_001",
+    "name": "Dispute Resolution Path Selection",
+    "properties": {
+      "decision_question": "Which resolution path is appropriate for the disputed transaction?",
+      "criteria": "Based on whether transaction was unauthorized, merchant error, customer regret, or a payment dispute",
+      "path_yes": "Proceed to Option A (Refund), Option B (Educate & Retain), or Option C (Escalate to Merchant)",
+      "decision_maker": "Bank Representative"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_014",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_014_stp_001",
+    "name": "Refund Execution Step",
+    "properties": {
+      "actor": "Bank Representative",
+      "input": "Proof of unauthorized transaction or confirmed merchant error",
+      "output": "Refunded funds to customer",
+      "estimated_duration": "10 business days",
+      "mandatory": "yes",
+      "failure_path": "Add interest if refund is delayed"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_014",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_014_stp_002",
+    "name": "Customer Education and Retention Step",
+    "properties": {
+      "actor": "Bank Representative",
+      "input": "Confirmation that customer authorized transaction but regrets it",
+      "output": "Explanation of terms of service and setup of safeguards",
+      "mandatory": "no",
+      "tools_or_systems": "Security settings (daily limits, alerts)"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_014",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_014_stp_003",
+    "name": "Merchant Dispute Escalation Step",
+    "properties": {
+      "actor": "Bank Representative",
+      "input": "Chargeback claim for payment dispute",
+      "output": "Initiation of merchant investigation via card scheme",
+      "mandatory": "no",
+      "failure_path": "Resolution governed by card scheme rules"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_014",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_014_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "process_role": "Applicant/Claimant"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_014",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_014_rol_002",
+    "name": "Merchant",
+    "properties": {
+      "role_type": "external",
+      "authority_level": "Investigation party in chargeback claims"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_014",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_014_rol_003",
+    "name": "Card Scheme",
+    "properties": {
+      "role_type": "external",
+      "authority_level": "Rule setter for dispute resolution"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_014",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_014_tra_001",
+    "name": "Disputed Transaction",
+    "properties": {
+      "transaction_type": "suspicious | failed | disputed",
+      "monitoring_trigger": "Customer claim of unauthorized use, merchant error, or payment dispute",
+      "outcome_paths": [
+        "Refunded",
+        "Educated/Retained",
+        "Escalated to Merchant"
+      ]
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_014",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_015_prc_001",
+    "name": "Regulatory Exceptions Resolution Process",
+    "properties": {
+      "purpose": "Resolve regulatory exceptions through remediation, management approval, or account restriction",
+      "scope": "Regulatory exceptions (e.g., missing KYC, incorrect rates)",
+      "outcome_success": "Exception closed and documented",
+      "outcome_failure": "Account remains restricted or non-compliant"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_015",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_015_dec_001",
+    "name": "Regulatory Exception Resolution Path Selection",
+    "properties": {
+      "decision_question": "Which resolution path should be taken for the regulatory exception?",
+      "criteria": "Ability to remediate immediately vs requirement for management decision vs inability to resolve immediately",
+      "path_yes": "Option A: Remediate Immediately",
+      "path_no": "Option B: Escalate for Approval or Option C: Restrict Account Temporarily"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_015",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_015_stp_001",
+    "name": "Immediate Remediation Execution",
+    "properties": {
+      "step_number": 1,
+      "input": "Missing KYC or incorrect rate data",
+      "output": "Corrected regulatory data and closed exception",
+      "mandatory": "no",
+      "failure_path": "Escalate to Option B or C"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_015",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_015_stp_002",
+    "name": "Management Escalation for Approval",
+    "properties": {
+      "step_number": 2,
+      "actor": "Head of Operations or Compliance Head",
+      "output": "Approved action and documented decision",
+      "mandatory": "no"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_015",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_015_rol_001",
+    "name": "Head of Operations",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Approval authority for regulatory exceptions"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_015",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_015_rol_002",
+    "name": "Compliance Head",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Approval authority for regulatory exceptions"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_015",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_015_stp_003",
+    "name": "Temporary Account Restriction",
+    "properties": {
+      "step_number": 3,
+      "input": "Unresolved regulatory issue",
+      "output": "Restricted transactions/held account",
+      "mandatory": "no",
+      "failure_path": "Continue restriction until remediation deadline"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_015",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_015_acc_001",
+    "name": "Restricted Account",
+    "properties": {
+      "account_state_at_start": "Active/Non-compliant",
+      "account_state_at_end": "Restricted (Hold pending resolution)"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_015",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_015_cus_001",
+    "name": "Affected Customer",
+    "properties": {
+      "process_role": "Subject of regulatory exception",
+      "notification_required": "Yes, if immediate remediation is performed"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_015",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_016_prc_001",
+    "name": "Customer Communication Process",
+    "properties": {
+      "purpose": "Notify customers regarding failed or disputed transactions",
+      "scope": "Failed and disputed transaction notifications",
+      "owner": "FirstUK Bank Customer Service",
+      "channels": [
+        "written communication"
+      ]
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_016",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_016_stp_001",
+    "name": "Failed Transaction Notification",
+    "properties": {
+      "actor": "FirstUK Bank Customer Service",
+      "input": [
+        "transfer/withdrawal type",
+        "amount",
+        "date",
+        "failure reason"
+      ],
+      "output": "Notification to customer regarding failure and action taken",
+      "mandatory": "yes",
+      "channel": "manual"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_016",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_016_stp_002",
+    "name": "Disputed Transaction Notification",
+    "properties": {
+      "actor": "FirstUK Bank Customer Service",
+      "input": [
+        "dispute amount",
+        "date",
+        "investigation outcome"
+      ],
+      "output": "Notification of outcome and subsequent action",
+      "mandatory": "yes",
+      "channel": "manual"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_016",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_016_rol_001",
+    "name": "FirstUK Bank Customer Service",
+    "properties": {
+      "role_type": "human",
+      "department": "Customer Service",
+      "channels": [
+        "phone"
+      ]
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_016",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_016_rol_002",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "process_role": "recipient of notifications",
+      "notification_required": "yes"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_016",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_016_rol_003",
+    "name": "Financial Ombudsman Service",
+    "properties": {
+      "role_type": "external",
+      "authority_level": "External Dispute Resolution"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_016",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_016_tra_001",
+    "name": "Failed Transaction",
+    "properties": {
+      "transaction_type": "failed",
+      "outcome_paths": [
+        "Reprocessed",
+        "Refunded",
+        "Awaiting customer action"
+      ]
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_016",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_016_tra_002",
+    "name": "Disputed Transaction",
+    "properties": {
+      "transaction_type": "disputed",
+      "investigation_steps": "Determination of Authorized, Unauthorized, or Other status",
+      "outcome_paths": [
+        "Refund processed",
+        "Explanation provided",
+        "Escalated to merchant"
+      ]
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_016",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_017_prc_001",
+    "name": "Exception Resolution Quality Assurance Process",
+    "properties": {
+      "purpose": "Ensure that all exceptions are properly investigated, justified, and resolved within SLA",
+      "scope": "Post-resolution review of exceptions, including refunds and escalations",
+      "departments_involved": [
+        "Quality Assurance"
+      ],
+      "outcome_success": "Accurate monthly exception reporting and validated resolution justifications"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_017",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_017_stp_001",
+    "name": "Post-Resolution Review",
+    "properties": {
+      "step_number": 1,
+      "mandatory": "yes",
+      "input": "Resolved exception record",
+      "output": "QA validation checklist completion",
+      "failure_path": "Incomplete documentation or unjustified resolution requiring rework"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_017",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_017_stp_002",
+    "name": "Refund Processing",
+    "properties": {
+      "step_number": 2,
+      "mandatory": "conditional",
+      "timeline_sla": "Within SLA",
+      "output": "Processed refund"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_017",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_017_stp_003",
+    "name": "Escalation Documentation",
+    "properties": {
+      "step_number": 3,
+      "mandatory": "conditional",
+      "input": "Reason for escalation",
+      "output": "Clear documentation of escalation reason"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_017",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_017_stp_004",
+    "name": "Monthly Exception Reporting",
+    "properties": {
+      "step_number": 4,
+      "mandatory": "yes",
+      "output": "Monthly Exception Report",
+      "data_captured": [
+        "Total exceptions received",
+        "Category (failed, disputed, regulatory)",
+        "Status (resolved, pending, escalated)",
+        "Average resolution time",
+        "Customer satisfaction rating",
+        "Trends/patterns"
+      ]
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_017",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_017_dec_001",
+    "name": "Refund Applicability Check",
+    "properties": {
+      "decision_question": "Is a refund required for this exception?",
+      "path_yes": "Process refund within SLA",
+      "path_no": "Proceed to general post-resolution review"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_017",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_017_dec_002",
+    "name": "Escalation Trigger Check",
+    "properties": {
+      "decision_question": "Was the exception escalated?",
+      "path_yes": "Document clear reason for escalation",
+      "path_no": "Proceed to general post-resolution review"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_017",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_017_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_type": "external",
+      "notification_required": "yes",
+      "process_role": "Subject of the resolution review"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_017",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_018_prc_001",
+    "name": "Financial Escalation Process",
+    "properties": {
+      "purpose": "Manage the approval and escalation of financial issues based on monetary value and regulatory risk",
+      "scope": "Financial approvals and regulatory implications",
+      "trigger": "Financial amount thresholds, regulatory implications, customer complaints, third-party involvement, or media concern",
+      "outcome_success": "Approval obtained from the appropriate authority level"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_018",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_018_dec_001",
+    "name": "Immediate Escalation Trigger Check",
+    "properties": {
+      "decision_question": "Does the case require immediate escalation?",
+      "criteria": [
+        "Financial amount >£5,000",
+        "Regulatory implication",
+        "Customer escalates to complaint",
+        "Merchant/third-party involved",
+        "Media/public concern"
+      ],
+      "path_yes": "Proceed to Approval Level Determination",
+      "path_no": "Standard processing"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_018",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_018_dec_002",
+    "name": "Approval Level Determination",
+    "properties": {
+      "decision_question": "Which authority level is required for approval?",
+      "criteria": "Financial amount and nature of the issue (Regulatory vs Monetary)",
+      "path_yes": "Route to specific Escalation Level (L1, L2, L3, or Regulatory)",
+      "decision_maker": "Process Initiator"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_018",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_018_esc_001",
+    "name": "Level 1 — Operations Manager Approval",
+    "properties": {
+      "level_number": 1,
+      "authority": "Operations Manager",
+      "approval_limit": "<£1,000"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_018",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_018_esc_002",
+    "name": "Level 2 — Director Approval",
+    "properties": {
+      "level_number": 2,
+      "authority": "Director",
+      "approval_limit": "£1,000–£5,000"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_018",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_018_esc_003",
+    "name": "Level 3 — Executive Approval",
+    "properties": {
+      "level_number": 3,
+      "authority": "Executive",
+      "approval_limit": ">£5,000"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_018",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_018_esc_004",
+    "name": "Regulatory Tier — Compliance Head Approval",
+    "properties": {
+      "level_number": 4,
+      "authority": "Compliance Head",
+      "escalation_trigger": "Regulatory implication"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_018",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_018_rol_001",
+    "name": "Operations Manager",
+    "properties": {
+      "role_type": "human",
+      "approval_limit": "<£1,000"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_018",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_018_rol_002",
+    "name": "Director",
+    "properties": {
+      "role_type": "human",
+      "approval_limit": "£1,000–£5,000"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_018",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_018_rol_003",
+    "name": "Executive",
+    "properties": {
+      "role_type": "human",
+      "approval_limit": ">£5,000"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_018",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_018_rol_004",
+    "name": "Compliance Head",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Regulatory Approval"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_018",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_019_prc_001",
+    "name": "Failed Transfer — Insufficient Funds Resolution Process",
+    "properties": {
+      "purpose": "Resolve failed transfers caused by insufficient account balances",
+      "trigger": "Customer attempted transfer exceeds available balance",
+      "timeline_sla": "1 business day",
+      "outcome_success": "Customer notified and provided with retry option",
+      "scope": "Transfer transactions"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_019",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_019_stp_001",
+    "name": "Balance Confirmation Investigation",
+    "properties": {
+      "step_number": 1,
+      "actor": "Bank Staff",
+      "input": "Transaction amount and current account balance",
+      "output": "Confirmation of balance at transaction time",
+      "mandatory": "yes"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_019",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_019_stp_002",
+    "name": "Customer Notification and Retry Offer",
+    "properties": {
+      "step_number": 2,
+      "actor": "Bank Staff",
+      "output": "Explanation of failure and offer to retry once funds are available",
+      "mandatory": "yes"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_019",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_019_rol_001",
+    "name": "Bank Staff",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Operational investigation and customer communication"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_019",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_019_rol_002",
+    "name": "Customer",
+    "properties": {
+      "role_type": "external",
+      "process_role": "Subject of the failed transfer"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_019",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_019_trn_001",
+    "name": "Failed Transfer Transaction",
+    "properties": {
+      "transaction_type": "failed",
+      "monitoring_trigger": "Balance < Transaction Amount",
+      "outcome_paths": [
+        "Customer notified",
+        "Retry once funds available"
+      ]
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_019",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_020_prc_001",
+    "name": "Disputed Standing Order Process",
+    "properties": {
+      "purpose": "Resolve customer claims of unauthorized standing orders",
+      "timeline_sla": "2 business days",
+      "trigger": "Customer claims unauthorized standing order to 'Unknown Recipient'",
+      "outcome_success": "Customer educated and dispute resolved"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_020",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_020_rol_001",
+    "name": "Bank Staff",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Investigative and Educational"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_020",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_020_cus_001",
+    "name": "Complaining Customer",
+    "properties": {
+      "customer_type": "existing",
+      "process_role": "Claimant",
+      "notification_required": "yes"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_020",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_020_stp_001",
+    "name": "Unauthorized Standing Order Investigation",
+    "properties": {
+      "step_number": 1,
+      "actor": "Bank Staff",
+      "output": "Verification of standing order legitimacy",
+      "mandatory": "yes"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_020",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_020_stp_002",
+    "name": "Customer Education and Resolution",
+    "properties": {
+      "step_number": 2,
+      "actor": "Bank Staff",
+      "input": "Investigation findings",
+      "output": "Customer understanding of standing order setup and online banking visibility",
+      "mandatory": "yes"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_020",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_020_sto_001",
+    "name": "Disputed Mortgage Standing Order",
+    "properties": {
+      "transaction_type": "legitimate",
+      "beneficiary": "Mortgage Company"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_020",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_020_dec_001",
+    "name": "Standing Order Legitimacy Check",
+    "properties": {
+      "decision_question": "Is the standing order unauthorized or a legitimate payment (e.g., mortgage)?",
+      "criteria": "Verification of recipient identity and purpose",
+      "path_yes": "Proceed to customer education and resolution",
+      "path_no": "Treat as unauthorized transaction"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_020",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_021_prc_001",
+    "name": "Duplicate Charge Exception Handling Process",
+    "properties": {
+      "purpose": "Resolve duplicate charges resulting from system failure",
+      "scope": "Duplicate transfer transactions",
+      "timeline_sla": "3 business days for resolution",
+      "outcome_success": "Refund of second charge, payment of interest, and goodwill compensation",
+      "trigger": "Customer charged twice for the same transfer"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_021",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_021_stp_001",
+    "name": "Duplicate Transaction Investigation",
+    "properties": {
+      "step_number": 1,
+      "input": "Transaction history",
+      "output": "Confirmation of identical transactions within 1 minute",
+      "mandatory": "yes",
+      "failure_path": "If transactions are not identical or within 1 minute, the exception is not a system duplicate"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_021",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_021_stp_002",
+    "name": "Refund and Compensation Execution",
+    "properties": {
+      "step_number": 2,
+      "output": "Refund of second charge, interest, and £50 goodwill compensation",
+      "timeline_sla": "Refund within 10 business days",
+      "mandatory": "yes"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_021",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_021_rol_001",
+    "name": "Duplicate Prevention System",
+    "properties": {
+      "role_type": "system",
+      "authority_level": "Automated prevention",
+      "failure_consequence": "Initiates the Duplicate Charge Exception Handling Process"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_021",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_021_cus_001",
+    "name": "Affected Customer",
+    "properties": {
+      "customer_type": "existing",
+      "process_role": "Recipient of refund and compensation",
+      "notification_required": "yes"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_021",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_021_tra_001",
+    "name": "Duplicate Transfer Transaction",
+    "properties": {
+      "transaction_type": "failed (duplicate prevention failed)",
+      "monitoring_trigger": "Two identical transactions within 1 minute",
+      "outcome_paths": [
+        "refund of second charge",
+        "interest payment",
+        "goodwill compensation"
+      ]
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_021",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_022_prc_001",
+    "name": "Missing KYC Documentation Resolution Process",
+    "properties": {
+      "purpose": "Resolve audit findings where accounts were opened without identity verification",
+      "scope": "Online accounts with missing KYC files",
+      "channels": [
+        "online",
+        "email"
+      ],
+      "timeline_sla": "5 days",
+      "trigger": "Audit finding of account opened without identity verification",
+      "outcome_success": "Identity document provided and verified",
+      "outcome_failure": "Account restricted"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_022",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_022_stp_001",
+    "name": "KYC File Investigation",
+    "properties": {
+      "step_number": 1,
+      "actor": "Operations Analyst",
+      "input": "Audit finding",
+      "output": "Confirmation of missing KYC file",
+      "channel": "system",
+      "mandatory": "yes"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_022",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_022_stp_002",
+    "name": "Customer Documentation Request",
+    "properties": {
+      "step_number": 2,
+      "actor": "Operations Analyst",
+      "input": "Customer contact details",
+      "output": "Request for identity document",
+      "channel": "email",
+      "mandatory": "yes"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_022",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_022_dec_001",
+    "name": "Identity Document Provision Check",
+    "properties": {
+      "decision_question": "Has the customer provided the requested identity document within the SLA?",
+      "criteria": "Receipt of valid identity document within 5 days",
+      "decision_maker": "Operations Analyst",
+      "path_yes": "Proceed to Identity Verification Compliance Gate",
+      "path_no": "Restrict account"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_022",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_022_chk_001",
+    "name": "Identity Verification Compliance Gate",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": [
+        "Identity document"
+      ],
+      "performed_by": "Operations Analyst",
+      "failure_consequence": "Account restricted"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_022",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_022_rol_001",
+    "name": "Operations Analyst",
+    "properties": {
+      "role_type": "human",
+      "department": "Operations",
+      "channels": [
+        "system",
+        "email"
+      ]
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_022",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_022_cus_001",
+    "name": "Online Applicant",
+    "properties": {
+      "customer_type": "applicant",
+      "process_role": "Subject of KYC remediation",
+      "notification_required": "yes"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_022",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_022_acc_001",
+    "name": "Unverified Online Account",
+    "properties": {
+      "account_state_at_start": "new",
+      "account_state_at_end": "restricted",
+      "system_recorded_in": "Online Banking System"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_022",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_022_doc_001",
+    "name": "Identity Document",
+    "properties": {
+      "collection_steps": "Request via email",
+      "recording_obligation": "KYC file"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_022",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_025_rol_001",
+    "name": "Head of Operations",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Approval Authority",
+      "approval_date": "2026-01-15"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_025",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_025_rol_002",
+    "name": "Head of Compliance",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Approval Authority",
+      "approval_date": "2026-01-15"
+    },
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_025",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650"
+  }
+]

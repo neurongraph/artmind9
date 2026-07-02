@@ -1,0 +1,2224 @@
+[
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_001_prc_001",
+    "name": "Direct Debit Management Process",
+    "properties": {
+      "document_id": "DDEBIT-SOP-001",
+      "owner": "Head of Operations",
+      "departments_involved": [
+        "Operations",
+        "Payments"
+      ]
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_001",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_001_rol_001",
+    "name": "Head of Operations",
+    "properties": {
+      "role_type": "human",
+      "department": "Operations"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_001",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_001_rol_002",
+    "name": "Operations Staff",
+    "properties": {
+      "role_type": "human",
+      "department": "Operations"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_001",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_001_rol_003",
+    "name": "Branch Staff",
+    "properties": {
+      "role_type": "human",
+      "department": "Branch"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_001",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_001_rol_004",
+    "name": "Customer Service",
+    "properties": {
+      "role_type": "human",
+      "department": "Customer Service"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_001",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_002_prc_001",
+    "name": "Direct Debit Management Process",
+    "properties": {
+      "purpose": "Establish procedures for managing Direct Debbits, including mandate collection, processing, dispute handling, and cancellation",
+      "scope": [
+        "mandate collection",
+        "processing",
+        "dispute handling",
+        "cancellation"
+      ],
+      "regulatory_references": [
+        "Direct Debit Scheme rules"
+      ]
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_002",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_003_prc_001",
+    "name": "Direct Debit Lifecycle Management Process",
+    "properties": {
+      "scope": [
+        "Direct Debit mandate collection and setup",
+        "Direct Debit processing and execution",
+        "Failed Direct Debit handling",
+        "Customer disputes and claims",
+        "Direct Debit cancellation"
+      ]
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_003",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_004_prc_001",
+    "name": "Standing Order Management Process",
+    "properties": {
+      "scope": "Fixed amount payments initiated by the customer",
+      "channels": [
+        "branch",
+        "online"
+      ],
+      "trigger": "Customer request to pay a fixed amount",
+      "outcome_success": "Payment executed as per customer instructions"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_004",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_004_prc_002",
+    "name": "Direct Debit Management Process",
+    "properties": {
+      "scope": "Variable amount payments initiated by Biller/Company",
+      "channels": [
+        "branch",
+        "online"
+      ],
+      "trigger": "Biller instruction to collect funds",
+      "outcome_success": "Funds transferred to biller under Direct Debit Guarantee"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_004",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_004_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Full control over Standing Order instructions"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_004",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_004_rol_002",
+    "name": "Biller/Company",
+    "properties": {
+      "role_type": "external",
+      "authority_level": "Ability to send payment instructions for variable amounts"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_004",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_004_stp_001",
+    "name": "Standing Order Cancellation",
+    "properties": {
+      "actor": "Customer",
+      "mandatory": "no",
+      "timeline_sla": "immediate"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_004",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_004_stp_002",
+    "name": "Direct Debit Cancellation",
+    "properties": {
+      "actor": "Customer",
+      "mandatory": "no",
+      "timeline_sla": "5-day notice typical"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_004",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_004_chk_001",
+    "name": "Direct Debit Guarantee Verification",
+    "properties": {
+      "regulatory_basis": "Direct Debit Guarantee",
+      "mandatory": "yes",
+      "applies_to_channels": [
+        "all"
+      ]
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_004",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_005_prc_001",
+    "name": "Direct Debit Setup and Payment Process",
+    "properties": {
+      "purpose": "Establishment of a direct debit mandate and the subsequent automated payment processing",
+      "trigger": "Biller request for authorization",
+      "outcome_success": "Payment Complete",
+      "scope": "Direct Debit payments"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_005",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_005_stp_001",
+    "name": "Biller Authorization Request",
+    "properties": {
+      "step_number": 1,
+      "actor": "Biller",
+      "output": "Authorization request sent to customer"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_005",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_005_rol_001",
+    "name": "Biller",
+    "properties": {
+      "role_type": "external",
+      "authority_level": "Requesting party for payment authorization"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_005",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_005_stp_002",
+    "name": "Customer Mandate Signing",
+    "properties": {
+      "step_number": 2,
+      "actor": "Customer",
+      "output": "Signed DD Mandate"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_005",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_005_rol_002",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "process_role": "Applicant/Payer"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_005",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_005_stp_003",
+    "name": "System Mandate Setup",
+    "properties": {
+      "step_number": 3,
+      "actor": "Bank System",
+      "input": "Signed DD Mandate",
+      "channel": "system"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_005",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_005_rol_003",
+    "name": "Bank System",
+    "properties": {
+      "role_type": "system",
+      "department": "Operations/IT"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_005",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_005_stp_004",
+    "name": "Payment Instruction Submission",
+    "properties": {
+      "step_number": 4,
+      "actor": "Biller",
+      "output": "Payment instruction submitted to bank"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_005",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_005_stp_005",
+    "name": "Auto-Debit Payment Processing",
+    "properties": {
+      "step_number": 5,
+      "actor": "Bank System",
+      "channel": "system",
+      "outcome_success": "Payment Complete"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_005",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_005_dec_001",
+    "name": "Customer Dispute or Cancellation Trigger",
+    "properties": {
+      "decision_question": "Does the customer wish to dispute or cancel the payment/mandate?",
+      "decision_maker": "Customer",
+      "path_yes": "Initiate dispute or cancellation process",
+      "path_no": "Continue with automated payments"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_005",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_006_prc_001",
+    "name": "Direct Debit Mandate Setup Process",
+    "properties": {
+      "purpose": "Establish a Direct Debit mandate for recurring payments",
+      "scope": "Utility bills, gym memberships, insurance",
+      "trigger": "Customer agreement to pay by Direct Debit during signup"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_006",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_006_stp_001",
+    "name": "DD Mandate Initiation",
+    "properties": {
+      "step_number": 1,
+      "actor": "Customer",
+      "input": "Bank account details, Biller details",
+      "output": "Signed mandate form",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_006",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_006_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Account holder authorization"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_006",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_006_rol_002",
+    "name": "Biller",
+    "properties": {
+      "role_type": "external",
+      "required_identifiers": [
+        "name",
+        "DDIC number"
+      ]
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_006",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_006_acc_001",
+    "name": "Bank Account",
+    "properties": {
+      "data_collected": [
+        "account number",
+        "sort code"
+      ]
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_006",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_006_dd_001",
+    "name": "Direct Debit Mandate Form",
+    "properties": {
+      "mandate_setup_steps": "Collection of account details, biller details, and customer signature",
+      "mandate_validation": "Customer authorization via signature",
+      "data_captured": [
+        "account number",
+        "sort code",
+        "biller name",
+        "DDIC number",
+        "amount type (fixed or variable)",
+        "customer signature"
+      ]
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_006",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_007_prc_001",
+    "name": "Direct Debit Mandate Setup Process",
+    "properties": {
+      "purpose": "Processing and recording of Direct Debit mandates received from billers or customers",
+      "scope": "Direct Debit accounts",
+      "trigger": "Receipt of mandate from biller or customer",
+      "outcome_success": "Mandate recorded in system, biller notified via ARUDD, and customer confirmed",
+      "channels": [
+        "system",
+        "postal"
+      ]
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_007",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_007_stp_001",
+    "name": "Mandate Receipt",
+    "properties": {
+      "step_number": 1,
+      "actor": "FirstUK Bank",
+      "input": "Signed mandate",
+      "output": "Received mandate for processing",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_007",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_007_stp_002",
+    "name": "Account Details Verification",
+    "properties": {
+      "step_number": 2,
+      "actor": "FirstUK Bank",
+      "criteria": [
+        "valid format",
+        "account exists"
+      ],
+      "mandatory": "yes",
+      "channel": "system"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_007",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_007_stp_003",
+    "name": "Customer Identity Confirmation",
+    "properties": {
+      "step_number": 3,
+      "actor": "FirstUK Bank",
+      "mandatory": "yes",
+      "channel": "system"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_007",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_007_stp_004",
+    "name": "Mandate System Recording",
+    "properties": {
+      "step_number": 4,
+      "actor": "FirstUK Bank",
+      "output": "System record of mandate",
+      "mandatory": "yes",
+      "channel": "system"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_007",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_007_stp_005",
+    "name": "Biller Setup Notification",
+    "properties": {
+      "step_number": 5,
+      "actor": "FirstUK Bank",
+      "output": "ARUDD message",
+      "mandatory": "yes",
+      "channel": "system"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_007",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_007_stp_006",
+    "name": "Customer Confirmation Notification",
+    "properties": {
+      "step_number": 6,
+      "actor": "FirstUK Bank",
+      "output": "Confirmation notification",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_007",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_007_rol_001",
+    "name": "FirstUK Bank",
+    "properties": {
+      "role_type": "system",
+      "authority_level": "Process Executor",
+      "channels": [
+        "system"
+      ]
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_007",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_007_rol_002",
+    "name": "Biller",
+    "properties": {
+      "role_type": "external",
+      "authority_level": "Mandate Sender",
+      "channels": [
+        "system",
+        "postal"
+      ]
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_007",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_007_rol_003",
+    "name": "Customer",
+    "properties": {
+      "role_type": "external",
+      "authority_level": "Mandate Signatory",
+      "channels": [
+        "postal"
+      ]
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_007",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_007_cus_001",
+    "name": "Mandate Applicant",
+    "properties": {
+      "customer_type": "applicant",
+      "process_role": "Subject of the mandate setup",
+      "notification_required": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_007",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_007_dd_001",
+    "name": "Direct Debit Mandate",
+    "properties": {
+      "mandate_setup_steps": [
+        "Customer signs mandate",
+        "Biller sends mandate to bank",
+        "Bank verifies and records"
+      ],
+      "mandate_validation": "Check for valid account format and existence",
+      "system_used": "Bank Internal Systems"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_007",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_008_prc_001",
+    "name": "Direct Debit Mandate Setup Process",
+    "properties": {
+      "scope": "Direct Debit Mandate Setup",
+      "outcome_success": "Active Mandate Status"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_008",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_008_stp_001",
+    "name": "System Entry for Mandate Setup",
+    "properties": {
+      "step_number": 2,
+      "input": [
+        "Mandate Reference",
+        "Customer Account",
+        "Biller Name",
+        "Biller DDIC",
+        "Biller Reference",
+        "Amount Type",
+        "Max Amount",
+        "Start Date",
+        "Received Date"
+      ],
+      "output": "Active Mandate Status",
+      "channel": "system"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_008",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_008_acc_001",
+    "name": "Customer Account",
+    "properties": {
+      "system_recorded_in": "Mandate Setup System"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_008",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_008_dd_001",
+    "name": "Direct Debit Mandate",
+    "properties": {
+      "mandate_setup_steps": [
+        "Recording Mandate Reference",
+        "Linking Customer Account",
+        "Entering Biller Details (Name, DDIC, Reference)",
+        "Defining Amount Type and Max Amount",
+        "Setting Start and Received Dates"
+      ],
+      "system_used": "Mandate Setup System"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_008",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_009_prc_001",
+    "name": "Direct Debit Mandate Validation Process",
+    "properties": {
+      "purpose": "Verify the validity and authorization of a Direct Debit mandate before processing",
+      "scope": "Direct Debit mandates",
+      "outcome_success": "Mandate validated and processed",
+      "outcome_failure": "Mandate returned to sender for correction",
+      "trigger": "Receipt of a Direct Debit mandate form"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_009",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_009_stp_001",
+    "name": "Account Status and Holder Verification",
+    "properties": {
+      "step_number": 1,
+      "input": "Account number and Mandate form",
+      "mandatory": "yes",
+      "criteria": [
+        "Account exists",
+        "Account is active",
+        "Account holder matches mandate"
+      ]
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_009",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_009_stp_002",
+    "name": "Biller DDIC Validation",
+    "properties": {
+      "step_number": 2,
+      "input": "Biller DDIC",
+      "mandatory": "yes",
+      "criteria": "Biller must be a registered biller"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_009",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_009_stp_003",
+    "name": "Mandate Authorization Review",
+    "properties": {
+      "step_number": 3,
+      "input": "Mandate form",
+      "mandatory": "yes",
+      "criteria": "Form must be properly signed and authorized"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_009",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_009_stp_004",
+    "name": "Duplicate Mandate Check",
+    "properties": {
+      "step_number": 4,
+      "input": "Existing mandate records",
+      "mandatory": "yes",
+      "criteria": "Ensure no duplicate mandates exist for the same biller"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_009",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_009_dec_001",
+    "name": "Mandate Validation Decision Gate",
+    "properties": {
+      "decision_question": "Does the mandate meet all validation checks?",
+      "criteria": "All checks (Account, Biller DDIC, Authorization, Duplicates) must be passed",
+      "path_yes": "Process the mandate",
+      "path_no": "Trigger mandate rejection and correction request"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_009",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_009_stp_005",
+    "name": "Mandate Rejection and Request for Correction",
+    "properties": {
+      "step_number": 5,
+      "output": "Returned mandate and request for correction",
+      "mandatory": "yes",
+      "failure_path": "Do not process until corrected mandate is received"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_009",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_009_chk_001",
+    "name": "Direct Debit Mandate Compliance Gate",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": [
+        "Signed mandate form",
+        "Verified account holder details",
+        "Registered Biller DDIC"
+      ],
+      "failure_consequence": "Mandate returned to sender; processing halted"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_009",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_010_prc_001",
+    "name": "Biller Submission Process",
+    "properties": {
+      "purpose": "Process payment instructions submitted by billers to debit customer accounts",
+      "scope": "Direct Debit scheme payments",
+      "channels": [
+        "system"
+      ],
+      "trigger": "Biller determines amount due",
+      "outcome_success": "Payment debited from account and biller notified of success",
+      "outcome_failure": "Biller notified of payment failure"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_010",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_010_stp_001",
+    "name": "Payment Amount Determination",
+    "properties": {
+      "step_number": 1,
+      "actor": "Biller",
+      "output": "Amount due (e.g., £75 for monthly electricity)",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_010",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_010_stp_002",
+    "name": "Payment Instruction Submission",
+    "properties": {
+      "step_number": 2,
+      "actor": "Biller",
+      "channel": "system",
+      "tools_or_systems": "Direct Debit scheme",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_010",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_010_stp_003",
+    "name": "Payment Instruction Receipt",
+    "properties": {
+      "step_number": 3,
+      "actor": "FirstUK",
+      "input": "Payment instruction from Biller",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_010",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_010_stp_004",
+    "name": "Mandate Validation",
+    "properties": {
+      "step_number": 4,
+      "actor": "FirstUK",
+      "criteria": [
+        "amount within limits",
+        "account active"
+      ],
+      "mandatory": "yes",
+      "failure_path": "Biller notified of failure"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_010",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_010_stp_005",
+    "name": "Account Debit Execution",
+    "properties": {
+      "step_number": 5,
+      "actor": "FirstUK",
+      "channel": "system",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_010",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_010_stp_006",
+    "name": "Biller Success/Failure Notification",
+    "properties": {
+      "step_number": 6,
+      "actor": "FirstUK",
+      "output": "Notification of success or failure",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_010",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_010_rol_001",
+    "name": "Biller",
+    "properties": {
+      "role_type": "external",
+      "channels": [
+        "system"
+      ]
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_010",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_010_rol_002",
+    "name": "FirstUK",
+    "properties": {
+      "role_type": "system",
+      "department": "Payments Operations"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_010",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_010_dec_001",
+    "name": "Mandate Compliance Gate",
+    "properties": {
+      "decision_question": "Is the payment instruction compliant with the mandate?",
+      "criteria": [
+        "amount within limits",
+        "account active"
+      ],
+      "decision_maker": "FirstUK",
+      "path_yes": "Payment debited from account",
+      "path_no": "Biller notified of failure"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_010",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_010_chk_001",
+    "name": "Direct Debit Mandate Verification",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": [
+        "Active account status",
+        "Mandate limit check"
+      ],
+      "performed_by": "FirstUK",
+      "timing": "After receipt of instruction and before debit execution",
+      "failure_consequence": "Payment rejection and notification to Biller"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_010",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_010_acc_001",
+    "name": "Customer Account",
+    "properties": {
+      "account_state_at_start": "active",
+      "account_state_at_end": "active"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_010",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_011_prc_001",
+    "name": "Direct Debit Processing Rules",
+    "properties": {
+      "purpose": "Ensure validity of direct debit instructions before funds are withdrawn",
+      "scope": "Direct Debit transactions",
+      "outcome_success": "Debit processed successfully",
+      "outcome_failure": "Debit rejected and biller notified"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_011",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_011_stp_001",
+    "name": "Pre-Debit Validation Step",
+    "properties": {
+      "step_number": 1,
+      "input": "Direct Debit instruction, account balance, mandate status",
+      "mandatory": "yes",
+      "output": "Validation result (Pass/Fail)"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_011",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_011_dec_001",
+    "name": "Debit Validation Gate",
+    "properties": {
+      "decision_question": "Does the transaction meet all validation criteria?",
+      "criteria": [
+        "Mandate active (not canceled)",
+        "Amount within maximum limit",
+        "Sufficient funds available",
+        "Instruction received within time window"
+      ],
+      "path_yes": "Proceed to debit processing",
+      "path_no": "Trigger Debit Rejection and Notification Step"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_011",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_011_stp_002",
+    "name": "Debit Rejection and Notification Step",
+    "properties": {
+      "step_number": 2,
+      "actor": "System",
+      "output": "Rejection notice to Biller",
+      "failure_path": "Customer may be charged based on biller terms"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_011",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_011_rol_001",
+    "name": "Biller",
+    "properties": {
+      "role_type": "external",
+      "notification_required": "Notified upon debit rejection with specific reason"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_011",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_011_rol_002",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "process_role": "Account holder",
+      "financial_impact": "May be charged for failed debits depending on biller"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_011",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_011_acc_001",
+    "name": "Debit Account",
+    "properties": {
+      "account_state_at_start": "existing",
+      "validation_requirement": "Must have sufficient funds"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_011",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_011_dd_001",
+    "name": "Direct Debit Mandate",
+    "properties": {
+      "mandate_validation": "Must be active and not canceled",
+      "limit_check": "Amount must not exceed maximum if set"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_011",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_011_tra_001",
+    "name": "Direct Debit Transaction",
+    "properties": {
+      "transaction_type": "monitored",
+      "monitoring_trigger": "Time window of instruction receipt",
+      "outcome_paths": [
+        "Processed",
+        "Rejected"
+      ]
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_011",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_012_prc_001",
+    "name": "Biller Payment Processing",
+    "properties": {
+      "timeline_sla": "3 days before payment date for submission",
+      "channels": [
+        "BACS"
+      ],
+      "outcome_success": "Funds reach biller next business day"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_012",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_012_stp_001",
+    "name": "Biller Payment Submission",
+    "properties": {
+      "step_number": 1,
+      "actor": "Biller",
+      "timeline_sla": "3 days before payment date"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_012",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_012_stp_002",
+    "name": "Overnight BACS Processing",
+    "properties": {
+      "step_number": 2,
+      "actor": "FirstUK",
+      "tools_or_systems": "BACS",
+      "channel": "system"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_012",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_012_stp_003",
+    "name": "Payment Settlement",
+    "properties": {
+      "step_number": 3,
+      "outcome": "Funds reach biller",
+      "estimated_duration": "next business day"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_012",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_012_rol_001",
+    "name": "Biller",
+    "properties": {
+      "role_type": "external"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_012",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_012_rol_002",
+    "name": "FirstUK",
+    "properties": {
+      "role_type": "system",
+      "department": "Operations"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_012",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_013_prc_001",
+    "name": "Failed Direct Debit Handling Process",
+    "properties": {
+      "purpose": "Handle and categorise failures of Direct Debit transactions",
+      "scope": "Direct Debit payments",
+      "trigger": "Direct Debit transaction failure"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_013",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_013_stp_001",
+    "name": "Direct Debit Failure Scenario Identification",
+    "properties": {
+      "step_number": 4,
+      "output": "Identification of the specific failure reason",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_013",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_013_acc_001",
+    "name": "Closed Account",
+    "properties": {
+      "account_state_at_start": "closed",
+      "process_role": "reason for Direct Debit failure"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_013",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_013_acc_002",
+    "name": "Frozen Account",
+    "properties": {
+      "account_state_at_start": "frozen",
+      "process_role": "reason for Direct Debit failure"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_013",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_013_dd_001",
+    "name": "Canceled Direct Debit Mandate",
+    "properties": {
+      "cancellation_steps": "customer cancels without informing biller",
+      "process_role": "reason for Direct Debit failure"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_013",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_013_trn_001",
+    "name": "Failed Direct Debit Transaction",
+    "properties": {
+      "transaction_type": "failed",
+      "monitoring_trigger": [
+        "Account closed",
+        "Insufficient funds",
+        "Account frozen",
+        "Mandate canceled"
+      ]
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_013",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_014_prc_001",
+    "name": "Direct Debit Failure Process",
+    "properties": {
+      "purpose": "Manage the sequence of events and notifications when a Direct Debit payment cannot be completed",
+      "trigger": "Payment failure due to insufficient funds or closed account",
+      "outcome_success": "Payment successfully retried or alternative payment arranged",
+      "outcome_failure": "Permanent payment failure or Direct Debit cancellation"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_014",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_014_stp_001",
+    "name": "Debit Attempt Failure and Recording",
+    "properties": {
+      "step_number": 1,
+      "actor": "Automated Payment System",
+      "output": "Failure record with reason code",
+      "channel": "system",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_014",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_014_stp_002",
+    "name": "Biller Notification",
+    "properties": {
+      "step_number": 2,
+      "actor": "Automated Payment System",
+      "output": "ARUDD rejection message",
+      "channel": "system",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_014",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_014_stp_003",
+    "name": "Customer Notification",
+    "properties": {
+      "step_number": 3,
+      "actor": "Automated Payment System",
+      "channel": "online",
+      "mandatory": "no",
+      "input": "Amount, biller, and reason for failure"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_014",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_014_stp_004",
+    "name": "Customer Remediation Action",
+    "properties": {
+      "step_number": 4,
+      "actor": "Customer",
+      "channel": "manual",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_014",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_014_stp_005",
+    "name": "Payment Retry",
+    "properties": {
+      "step_number": 5,
+      "actor": "Biller",
+      "estimated_duration": "3–5 days",
+      "channel": "system",
+      "mandatory": "no"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_014",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_014_rol_001",
+    "name": "Automated Payment System",
+    "properties": {
+      "role_type": "system",
+      "channels": [
+        "system"
+      ]
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_014",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_014_rol_002",
+    "name": "Biller",
+    "properties": {
+      "role_type": "external",
+      "authority_level": "Decision maker for payment retries"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_014",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_014_rol_003",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "email",
+        "SMS"
+      ]
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_014",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_014_dec_001",
+    "name": "Retry Decision Gate",
+    "properties": {
+      "decision_question": "Should the payment be retried?",
+      "criteria": "Biller's option based on customer funding or agreement",
+      "decision_maker": "Biller",
+      "path_yes": "Retry payment attempt within 3-5 days",
+      "path_no": "Payment remains failed or mandate cancelled"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_014",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_014_dd_001",
+    "name": "Failed Direct Debit Mandate",
+    "properties": {
+      "failure_handling": "ARUDD rejection sent to biller; optional customer notification; remediation via funding or alternative payment",
+      "system_used": "Automated Payment System"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_014",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_015_prc_001",
+    "name": "Direct Debit Disputes and Claims Process",
+    "properties": {
+      "purpose": "Handle unauthorized or incorrect Direct Debit charges under the Direct Debit Guarantee",
+      "scope": "Unauthorized debits, wrong amount charged, and debits after cancellation",
+      "timeline_sla": "10 business days for full refund",
+      "outcome_success": "Full refund of the unauthorized or incorrect amount to the customer"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_015",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_015_stp_001",
+    "name": "Customer Claim Filing",
+    "properties": {
+      "step_number": 1,
+      "actor": "Customer",
+      "input": "Notification of unauthorized or incorrect debit",
+      "output": "Filed claim with FirstUK Bank",
+      "channel": "branch | online | phone",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_015",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_015_stp_002",
+    "name": "Direct Debit Refund Processing",
+    "properties": {
+      "step_number": 2,
+      "actor": "FirstUK Bank",
+      "output": "Full refund of disputed amount",
+      "estimated_duration": "within 10 business days",
+      "mandatory": "yes",
+      "failure_path": "Violation of Direct Debit Guarantee"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_015",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_015_rol_001",
+    "name": "FirstUK Bank",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Refund execution",
+      "response_time_sla": "10 business days"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_015",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_015_rol_002",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "phone",
+        "branch",
+        "online"
+      ]
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_015",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_015_rol_003",
+    "name": "Biller",
+    "properties": {
+      "role_type": "external",
+      "authority_level": "Initiates debit requests"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_015",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_015_cus_001",
+    "name": "Claiming Customer",
+    "properties": {
+      "customer_type": "existing",
+      "process_role": "Claimant under Direct Debit Guarantee",
+      "notification_required": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_015",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_015_txn_001",
+    "name": "Unauthorized Direct Debit Transaction",
+    "properties": {
+      "transaction_type": "suspicious | failed | reversed",
+      "monitoring_trigger": "Customer report of unauthorized charge",
+      "outcome_paths": [
+        "refunded"
+      ]
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_015",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_015_dd_001",
+    "name": "Direct Debit Mandate",
+    "properties": {
+      "dispute_steps": "Claim filing followed by bank refund",
+      "indemnity_process": "Full refund within 10 business days per Direct Debit Guarantee"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_015",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_016_prc_001",
+    "name": "Claim Process",
+    "properties": {
+      "purpose": "Processing customer claims related to direct debit issues",
+      "channels": [
+        "phone",
+        "email",
+        "branch"
+      ],
+      "timeline_sla": "Refund processed within 10 days of approval",
+      "outcome_success": "Funds credited to account and confirmation sent",
+      "outcome_failure": "Claim denied and explanation provided to customer"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_016",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_016_stp_001",
+    "name": "Customer Issue Reporting",
+    "properties": {
+      "step_number": 1,
+      "actor": "Customer",
+      "channels": [
+        "phone",
+        "email",
+        "branch"
+      ],
+      "mandatory": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_016",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_016_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "phone",
+        "email",
+        "branch"
+      ]
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_016",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_016_stp_002",
+    "name": "Claim Investigation",
+    "properties": {
+      "step_number": 2,
+      "actor": "FirstUK Bank Staff",
+      "input": "Direct Debit details and mandate status",
+      "tools_or_systems": "Mandate verification system",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_016",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_016_rol_002",
+    "name": "FirstUK Bank Staff",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Investigator/Decision Maker"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_016",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_016_dec_001",
+    "name": "Claim Approval Decision",
+    "properties": {
+      "decision_question": "Is the claim valid based on mandate status and investigation?",
+      "criteria": "Verification of Direct Debit details and mandate status",
+      "path_yes": "Proceed to Refund Execution",
+      "path_no": "Provide explanation to customer and close claim"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_016",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_016_stp_003",
+    "name": "Refund Execution",
+    "properties": {
+      "step_number": 4,
+      "actor": "FirstUK Bank Staff",
+      "output": "Funds credited to account and confirmation sent",
+      "estimated_duration": "within 10 days",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_016",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_016_dd_001",
+    "name": "Direct Debit Mandate",
+    "properties": {
+      "mandate_validation": "Verify status as active or canceled during investigation"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_016",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_016_acc_001",
+    "name": "Customer Account",
+    "properties": {
+      "account_state_at_end": "credited"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_016",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_017_prc_001",
+    "name": "Dispute Resolution Process",
+    "properties": {
+      "purpose": "Resolve customer disagreements with bank outcomes",
+      "scope": "Customers unhappy with FirstUK's decisions",
+      "trigger": "Customer disagrees with bank outcome",
+      "outcome_success": "Resolution of dispute",
+      "outcome_failure": "Referral to External Ombudsman"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_017",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_017_stp_001",
+    "name": "Managerial Escalation Step",
+    "properties": {
+      "actor": "Manager",
+      "mandatory": "no",
+      "failure_path": "Formal complaint process"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_017",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_017_stp_002",
+    "name": "Formal Complaint Process Initiation",
+    "properties": {
+      "actor": "Customer",
+      "mandatory": "no",
+      "tools_or_systems": "policy_complaints"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_017",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_017_stp_003",
+    "name": "External Ombudsman Referral",
+    "properties": {
+      "actor": "Financial Ombudsman Service",
+      "mandatory": "no",
+      "failure_path": "Final external decision"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_017",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_017_rol_001",
+    "name": "Manager",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Internal dispute review"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_017",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_017_rol_002",
+    "name": "Financial Ombudsman Service",
+    "properties": {
+      "role_type": "external",
+      "authority_level": "Final external adjudication"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_017",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_017_rol_003",
+    "name": "Customer",
+    "properties": {
+      "customer_type": "existing",
+      "process_role": "subject of dispute"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_017",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_017_dec_001",
+    "name": "Internal Resolution Outcome Gate",
+    "properties": {
+      "decision_question": "Is the customer happy with the internal decision?",
+      "path_yes": "Process ends",
+      "path_no": "Escalate to manager or Formal Complaint process"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_017",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_017_esc_001",
+    "name": "Level 1 — Managerial Review",
+    "properties": {
+      "level_number": 1,
+      "authority": "Manager",
+      "escalation_trigger": "Customer remains unhappy after managerial review",
+      "escalates_to": "Level 2 — External Ombudsman Review"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_017",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_017_esc_002",
+    "name": "Level 2 — External Ombudsman Review",
+    "properties": {
+      "level_number": 2,
+      "authority": "Financial Ombudsman Service",
+      "examples": [
+        "Unresolved formal complaints"
+      ]
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_017",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_018_prc_001",
+    "name": "Direct Debit Mandate Cancellation Process",
+    "properties": {
+      "purpose": "To terminate a Direct Debit mandate and cease future collections",
+      "channels": [
+        "phone",
+        "email",
+        "branch",
+        "online"
+      ],
+      "trigger": "Request from customer or notification from biller"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_018",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_018_stp_001",
+    "name": "Bank-Initiated Mandate Cancellation",
+    "properties": {
+      "actor": "FirstUK Bank Staff",
+      "channel": "branch | online | phone | email",
+      "mandatory": "no",
+      "input": "Cancellation request from customer"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_018",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_018_stp_002",
+    "name": "Biller-Initiated Mandate Cancellation",
+    "properties": {
+      "actor": "Biller",
+      "channel": "system",
+      "mandatory": "no",
+      "input": "Biller request to cease collection"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_018",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_018_rol_001",
+    "name": "FirstUK Bank Staff",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "phone",
+        "email",
+        "branch",
+        "system"
+      ]
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_018",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_018_rol_002",
+    "name": "Biller",
+    "properties": {
+      "role_type": "external",
+      "authority_level": "Can notify bank to cease collection automatically"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_018",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_018_rol_003",
+    "name": "Customer",
+    "properties": {
+      "role_type": "external",
+      "channels": [
+        "phone",
+        "email",
+        "branch",
+        "online"
+      ]
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_018",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_018_dd_001",
+    "name": "Direct Debit Mandate",
+    "properties": {
+      "cancellation_steps": [
+        "Contact FirstUK Bank via phone, email, branch, or online",
+        "Contact Biller to cease collection"
+      ]
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_018",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_019_prc_001",
+    "name": "FirstUK Cancellation Process",
+    "properties": {
+      "purpose": "Cancel a Direct Debit mandate upon request",
+      "scope": "Direct Debit payments",
+      "timeline_sla": "Immediate",
+      "trigger": "Cancellation Request",
+      "outcome_success": "Mandate status set to Canceled and future payments blocked"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_019",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_019_stp_001",
+    "name": "Verify Customer Identity",
+    "properties": {
+      "step_number": 1,
+      "mandatory": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_019",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_019_stp_002",
+    "name": "Confirm Mandate Details",
+    "properties": {
+      "step_number": 2,
+      "mandatory": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_019",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_019_stp_003",
+    "name": "Set Mandate Status to Canceled",
+    "properties": {
+      "step_number": 3,
+      "output": "Mandate status updated to Canceled",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_019",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_019_stp_004",
+    "name": "Notify Biller via Automated ARUDD",
+    "properties": {
+      "step_number": 4,
+      "actor": "Automated ARUDD System",
+      "tools_or_systems": "ARUDD",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_019",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_019_stp_005",
+    "name": "Send Confirmation to Customer",
+    "properties": {
+      "step_number": 5,
+      "output": "Cancellation confirmation",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_019",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_019_stp_006",
+    "name": "Block Future Payments",
+    "properties": {
+      "step_number": 6,
+      "outcome_success": "Future payments blocked, including pending payments if before settlement date",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_019",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_019_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "process_role": "Initiator of cancellation request"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_019",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_019_rol_002",
+    "name": "Automated ARUDD System",
+    "properties": {
+      "role_type": "system",
+      "authority_level": "Automated notification"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_019",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_019_rol_003",
+    "name": "Biller",
+    "properties": {
+      "role_type": "external",
+      "process_role": "Recipient of cancellation notification"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_019",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_019_dd_001",
+    "name": "Direct Debit Mandate",
+    "properties": {
+      "account_state_at_end": "Canceled",
+      "cancellation_steps": [
+        "Verify identity",
+        "Confirm details",
+        "Update status to Canceled",
+        "Notify biller",
+        "Notify customer",
+        "Block payments"
+      ]
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_019",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_020_prc_001",
+    "name": "Biller Cancellation Process",
+    "properties": {
+      "purpose": "To terminate a Direct Debit mandate upon request from the Biller",
+      "trigger": "Biller submits cancellation instruction",
+      "outcome_success": "Mandate status updated and debits ceased",
+      "scope": "Direct Debit Mandates",
+      "owner": "FirstUK"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_020",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_020_stp_001",
+    "name": "Biller Cancellation Instruction Submission",
+    "properties": {
+      "step_number": 1,
+      "actor": "Biller",
+      "output": "Cancellation instruction"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_020",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_020_stp_002",
+    "name": "Cancellation Request Processing",
+    "properties": {
+      "step_number": 2,
+      "actor": "FirstUK",
+      "input": "Cancellation instruction"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_020",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_020_stp_003",
+    "name": "Mandate Status Update",
+    "properties": {
+      "step_number": 3,
+      "actor": "FirstUK",
+      "output": "Updated mandate status"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_020",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_020_stp_004",
+    "name": "Cessation of Debits",
+    "properties": {
+      "step_number": 4,
+      "actor": "FirstUK",
+      "outcome": "No further debits processed"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_020",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_020_rol_001",
+    "name": "Biller",
+    "properties": {
+      "role_type": "external",
+      "authority_level": "Initiator of cancellation"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_020",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_020_rol_002",
+    "name": "FirstUK",
+    "properties": {
+      "role_type": "system/human",
+      "department": "Operations"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_020",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_020_dd_001",
+    "name": "Direct Debit Mandate",
+    "properties": {
+      "account_state_at_end": "cancelled"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_020",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_021_prc_001",
+    "name": "Account Management Process",
+    "properties": {
+      "purpose": "Manage mandate status and payment continuity during account changes or account freezes",
+      "scope": "Direct Debit mandates",
+      "trigger": "Customer address change, new account opening, or account freeze (fraud hold)",
+      "outcome_success": "Payment continuity maintained or mandates correctly transitioned/blocked"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_021",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_021_stp_001",
+    "name": "Address Change Notification",
+    "properties": {
+      "actor": "System",
+      "output": "Automatic notification to Biller",
+      "mandatory": "yes",
+      "failure_path": "Payment interruption (implied)"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_021",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_021_stp_002",
+    "name": "Old Mandate Cancellation",
+    "properties": {
+      "trigger": "Account closed",
+      "output": "Cancelled mandate",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_021",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_021_stp_003",
+    "name": "New Mandate Authorization",
+    "properties": {
+      "actor": "Customer",
+      "input": "New account details",
+      "mandatory": "yes",
+      "output": "Authorized mandate for new account"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_021",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_021_stp_004",
+    "name": "Biller Account Detail Update",
+    "properties": {
+      "actor": "Biller",
+      "input": "Customer's new account details",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_021",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_021_stp_005",
+    "name": "Direct Debit Temporary Block",
+    "properties": {
+      "trigger": "Account Frozen (Fraud Hold)",
+      "output": "Blocked payments",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_021",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_021_stp_006",
+    "name": "Fraud Hold Biller Notification",
+    "properties": {
+      "output": "Generic 'unable to process' message",
+      "actor": "System",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_021",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_021_stp_007",
+    "name": "Customer Fraud Resolution",
+    "properties": {
+      "actor": "Customer",
+      "output": "Payment resumption",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_021",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_021_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Mandate authorization"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_021",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_021_rol_002",
+    "name": "Biller",
+    "properties": {
+      "role_type": "external",
+      "channels": [
+        "system"
+      ]
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_021",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_021_dec_001",
+    "name": "Account Change Trigger",
+    "properties": {
+      "decision_question": "What type of account change has occurred?",
+      "criteria": "Address change vs New Account vs Frozen Account",
+      "path_yes": "Apply specific mandate logic based on trigger type"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_021",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_021_cus_001",
+    "name": "Account Holder",
+    "properties": {
+      "customer_type": "existing",
+      "process_role": "Subject of account change or fraud hold"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_021",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_021_acc_001",
+    "name": "Frozen Account",
+    "properties": {
+      "account_state_at_start": "frozen",
+      "account_state_at_end": "active (upon resolution)"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_021",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_021_dd_001",
+    "name": "Direct Debit Mandate",
+    "properties": {
+      "card_state": "blocked (during fraud hold)",
+      "system_used": "Automatic notification system"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_021",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_022_prc_001",
+    "name": "Weekly Quality Assurance Review",
+    "properties": {
+      "purpose": "Review direct debit processing metrics, reconciliation, and investigation of failures",
+      "departments_involved": [
+        "Operations"
+      ],
+      "timeline_sla": "Weekly",
+      "trigger": "Weekly schedule",
+      "outcome_success": "Confirmed reconciliation of DD transactions and resolution of failed collections"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_022",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_022_rol_001",
+    "name": "Operations Staff",
+    "properties": {
+      "role_type": "human",
+      "department": "Operations",
+      "authority_level": "Operational Review"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_022",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_022_stp_001",
+    "name": "Direct Debit Processing Metrics Check",
+    "properties": {
+      "step_number": 1,
+      "actor": "Operations Staff",
+      "input": [
+        "Total value of Direct Debits processed",
+        "Number of failed collections",
+        "Customer disputes received",
+        "Biller complaints"
+      ],
+      "mandatory": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_022",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_022_stp_002",
+    "name": "Direct Debit Reconciliation",
+    "properties": {
+      "step_number": 2,
+      "actor": "Operations Staff",
+      "criteria": [
+        "DD transactions match biller instructions",
+        "No duplicate payments"
+      ],
+      "mandatory": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_022",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_022_stp_003",
+    "name": "Failed Direct Debit Investigation",
+    "properties": {
+      "step_number": 3,
+      "actor": "Operations Staff",
+      "input": "Failed DDs",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_022",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_022_dir_001",
+    "name": "Direct Debit Mandate",
+    "properties": {
+      "investigation_steps": [
+        "Reconciliation against biller instructions",
+        "Review of failed collections"
+      ]
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_022",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_023_prc_001",
+    "name": "Direct Debit Audit Trail and Record Retention Process",
+    "properties": {
+      "purpose": "Ensure comprehensive audit trail and regulatory record retention for direct debits",
+      "timeline_sla": "6 years",
+      "regulatory_references": [
+        "POCA"
+      ],
+      "scope": "Direct Debit mandates, payments, disputes, and communications"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_023",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_023_rol_001",
+    "name": "System Records Engine",
+    "properties": {
+      "role_type": "system",
+      "authority_level": "Automated recording and archival"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_023",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_023_chk_001",
+    "name": "POCA Regulatory Retention Check",
+    "properties": {
+      "regulatory_basis": "POCA",
+      "mandatory": "yes",
+      "evidence_required": [
+        "Mandates",
+        "Payment instructions",
+        "Debit outcomes",
+        "Dispute records",
+        "Customer communications"
+      ],
+      "refresh_frequency": "6 years"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_023",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_023_stp_001",
+    "name": "Mandate Record Maintenance",
+    "properties": {
+      "actor": "System Records Engine",
+      "input": "Active and canceled mandates",
+      "output": "Archived mandate record",
+      "channel": "system"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_023",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_023_stp_002",
+    "name": "Payment Instruction Logging",
+    "properties": {
+      "actor": "System Records Engine",
+      "input": "Payment instructions received",
+      "output": "Logged instruction record",
+      "channel": "system"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_023",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_023_stp_003",
+    "name": "Debit Outcome Recording",
+    "properties": {
+      "actor": "System Records Engine",
+      "input": "Successful and failed debits",
+      "output": "Debit status log",
+      "channel": "system"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_023",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_023_stp_004",
+    "name": "Dispute and Outcome Documentation",
+    "properties": {
+      "actor": "System Records Engine",
+      "input": "Customer disputes and outcomes",
+      "output": "Case documentation",
+      "channel": "system"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_023",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_023_stp_005",
+    "name": "Customer Communication Archiving",
+    "properties": {
+      "actor": "System Records Engine",
+      "input": "Customer communications",
+      "output": "Communication archive",
+      "channel": "system"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_023",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_023_dir_001",
+    "name": "Direct Debit Mandate",
+    "properties": {
+      "system_used": "System Records Engine",
+      "record_states": [
+        "active",
+        "canceled"
+      ]
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_023",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_026_rol_001",
+    "name": "Head of Operations",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Final Sign-off / Approval"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_026",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_026_rol_002",
+    "name": "Head of Compliance",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Final Sign-off / Approval"
+    },
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_026",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f"
+  }
+]

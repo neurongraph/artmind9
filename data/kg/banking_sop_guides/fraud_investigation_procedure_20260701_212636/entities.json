@@ -1,0 +1,3383 @@
+[
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_001_prc_001",
+    "name": "Fraud Investigation Procedure",
+    "aliases": [
+      "FRAUD-INVEST-SOP-001"
+    ],
+    "entity_class": "PROCESS",
+    "type": "fraud_investigation",
+    "description": "The end-to-end operational procedure for investigating fraud within FirstUK Bank, owned by the Head of Financial Crime and applicable to the Financial Crime, Risk, Compliance, and Legal departments.",
+    "context": [
+      "FirstUK Bank — Fraud Investigation Procedure",
+      "Document ID | FRAUD-INVEST-SOP-001"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_001",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_001_rol_001",
+    "name": "Head of Financial Crime",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The individual responsible for the ownership and oversight of the Fraud Investigation Procedure.",
+    "context": [
+      "Owner | Head of Financial Crime"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_001",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_001_rol_002",
+    "name": "Financial Crime Team",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "financial_crime_team",
+    "description": "One of the primary audiences and executors of the fraud investigation procedure.",
+    "context": [
+      "Audience | Financial Crime Team, Risk, Compliance, Legal"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_001",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_001_rol_003",
+    "name": "Risk Department",
+    "aliases": [
+      "Risk"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "A department involved in the execution and oversight of fraud investigation processes.",
+    "context": [
+      "Department | Financial Crime, Risk, Legal",
+      "Audience | Financial Crime Team, Risk, Compliance, Legal"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_001",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_001_rol_004",
+    "name": "Compliance Department",
+    "aliases": [
+      "Compliance"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "A department responsible for ensuring the fraud investigation procedure adheres to regulatory standards.",
+    "context": [
+      "Audience | Financial Crime Team, Risk, Compliance, Legal"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_001",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_001_rol_005",
+    "name": "Legal Department",
+    "aliases": [
+      "Legal"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "A department providing legal oversight and guidance during the fraud investigation process.",
+    "context": [
+      "Department | Financial Crime, Risk, Legal",
+      "Audience | Financial Crime Team, Risk, Compliance, Legal"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_001",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_002_prc_001",
+    "name": "Suspected Fraud Investigation Process",
+    "aliases": [
+      "investigating suspected fraud cases"
+    ],
+    "entity_class": "PROCESS",
+    "type": "fraud_investigation",
+    "description": "A standardized operational procedure designed to investigate suspected fraud cases. The process ensures thorough documentation, an appropriate escalation framework, and a coordinated response with law enforcement agencies.",
+    "context": [
+      "Establish standardized procedures for investigating suspected fraud cases",
+      "ensuring thorough documentation, appropriate escalation, and coordinated response with law enforcement"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_002",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_003_prc_001",
+    "name": "Fraud Investigation Framework",
+    "aliases": [
+      "Framework"
+    ],
+    "entity_class": "PROCESS",
+    "type": "fraud_investigation",
+    "description": "The overarching operational framework used by FirstUK Bank to categorize and analyze different types of fraud, ranging from account takeovers to internal collusion and AML evasion, including typical loss estimates for each category.",
+    "context": [
+      "FRAUD INVESTIGATION FRAMEWORK",
+      "FirstUK Bank fraud typically falls into"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_003",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_003_txn_001",
+    "name": "Account Takeover Fraud",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "suspicious_transaction",
+    "description": "A fraud category where a fraudster gains unauthorized access to a customer account to transfer funds, with typical losses ranging from £500 to £5,000.",
+    "context": [
+      "Account Takeover",
+      "Fraudster gains access to customer account, transfers funds",
+      "£500–£5,000"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_003",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_003_txn_002",
+    "name": "Unauthorized Transaction Fraud",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "suspicious_transaction",
+    "description": "A fraud category where a customer claims a specific transaction was not authorized, with typical losses between £200 and £10,000.",
+    "context": [
+      "Unauthorized Transaction",
+      "Customer claims transaction not authorized",
+      "£200–£10,000"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_003",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_003_txn_003",
+    "name": "Check Fraud",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "suspicious_transaction",
+    "description": "A fraud category involving the deposit of stolen or forged checks, with typical losses ranging from £1,000 to £50,000.",
+    "context": [
+      "Check Fraud",
+      "Stolen/forged check deposited",
+      "£1,000–£50,000"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_003",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_003_crd_001",
+    "name": "Card Fraud",
+    "aliases": [],
+    "entity_class": "CARD",
+    "type": "card_block",
+    "description": "A fraud category where a card number is stolen and used for online or retail transactions, typically resulting in losses of £100 to £5,000.",
+    "context": [
+      "Card Fraud",
+      "Card number stolen, used for online/retail",
+      "£100–£5,000"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_003",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_003_prc_002",
+    "name": "Impersonation Fraud",
+    "aliases": [],
+    "entity_class": "PROCESS",
+    "type": "fraud_investigation",
+    "description": "A fraud category involving the opening of a bank account using a false identity, with typical losses between £1,000 and £20,000.",
+    "context": [
+      "Impersonation",
+      "Fraudster opens account using false identity",
+      "£1,000–£20,000"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_003",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_003_rol_001",
+    "name": "Internal Collusion Actor",
+    "aliases": [
+      "Employee"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "An internal employee who facilitates fraud, representing a high-risk category with typical losses ranging from £5,000 to £500,000.",
+    "context": [
+      "Collusion (Internal)",
+      "Employee facilitates fraud",
+      "£5,000–£500,000"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_003",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_003_chk_001",
+    "name": "AML and Sanctions Evasion Check",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "sanctions_check",
+    "description": "A critical compliance gate where a customer deliberately attempts to evade screening processes, potentially leading to losses exceeding £1M.",
+    "context": [
+      "AML/Sanctions Evasion",
+      "Customer deliberately evades screening",
+      "£1,000–£1M+"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_003",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_004_prc_001",
+    "name": "Fraud Detection & Intake Process",
+    "aliases": [
+      "PART 1: FRAUD DETECTION & INTAKE"
+    ],
+    "entity_class": "PROCESS",
+    "type": "fraud_investigation",
+    "description": "The initial phase of identifying and reporting fraudulent activity through four primary channels: automated systems, customer reports, internal staff detection, and law enforcement notifications.",
+    "context": [
+      "PART 1: FRAUD DETECTION & INTAKE",
+      "How Fraud Is Discovered"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_004",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_004_rol_001",
+    "name": "Fraud Detection Engine",
+    "aliases": [
+      "FDE"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "An automated system responsible for flagging suspicious transactions with a detection rate of over 97%.",
+    "context": [
+      "Fraud Detection Engine (FDE) flags transaction (97%+ detection rate)",
+      "Automated Detection (60% of fraud found)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_004",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_004_stp_001",
+    "name": "Automated Transaction Flagging",
+    "aliases": [
+      "Automated Detection"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The step where the Fraud Detection Engine identifies suspicious patterns, such as multiple rapid international transfers, and triggers a system alert.",
+    "context": [
+      "Fraud Detection Engine (FDE) flags transaction",
+      "System alert triggers investigation",
+      "Example: Multiple rapid international transfers"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_004",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_004_rol_002",
+    "name": "Customer",
+    "aliases": [
+      "Customer Report"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The account holder who reports unauthorized transactions or activity via phone or statement review.",
+    "context": [
+      "Customer calls: \"I didn't authorize this transaction\"",
+      "Customer notices unauthorized account activity"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_004",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_004_stp_002",
+    "name": "Customer Fraud Reporting",
+    "aliases": [
+      "Customer Report"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The process of a customer notifying the bank of unauthorized account activity or disputing a specific charge on their statement.",
+    "context": [
+      "Customer calls: \"I didn't authorize this transaction\"",
+      "Customer notices unauthorized account activity",
+      "Disputed charge on statement"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_004",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_004_rol_003",
+    "name": "Internal Bank Staff",
+    "aliases": [
+      "Staff member",
+      "Back-office",
+      "Teller"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "Bank employees, including tellers and back-office staff, who identify suspicious activity or discrepancies during reconciliation.",
+    "context": [
+      "Staff member notices suspicious activity",
+      "Back-office reconciliation identifies discrepancy",
+      "Teller observes unusual transaction request"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_004",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_004_stp_003",
+    "name": "Internal Suspicious Activity Detection",
+    "aliases": [
+      "Internal Detection"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The internal identification of fraud through staff observation of unusual requests or the discovery of discrepancies during back-office reconciliation.",
+    "context": [
+      "Staff member notices suspicious activity",
+      "Back-office reconciliation identifies discrepancy",
+      "Teller observes unusual transaction request"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_004",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_004_rol_004",
+    "name": "Law Enforcement Agency",
+    "aliases": [
+      "Police",
+      "Federal agency",
+      "FBI",
+      "OFAC"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "External authorities, including local police, federal agencies (FBI, OFAC), or international bodies, that notify the bank of compromised accounts.",
+    "context": [
+      "Police report of compromised account",
+      "Federal agency investigation (FBI, OFAC, etc.)",
+      "International law enforcement inquiry"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_004",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_004_stp_004",
+    "name": "External Authority Notification",
+    "aliases": [
+      "Law Enforcement"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The intake of fraud information sourced from official police reports, federal investigations, or international law enforcement inquiries.",
+    "context": [
+      "Police report of compromised account",
+      "Federal agency investigation (FBI, OFAC, etc.)",
+      "International law enforcement inquiry"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_004",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_004_tra_001",
+    "name": "Suspicious Transaction",
+    "aliases": [
+      "unauthorized transaction",
+      "rapid international transfers"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "suspicious_transaction",
+    "description": "Financial events flagged by the FDE or reported by customers and staff as being unauthorized or unusual.",
+    "context": [
+      "Multiple rapid international transfers",
+      "I didn't authorize this transaction",
+      "unusual transaction request"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_004",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_005_prc_001",
+    "name": "Fraud Allegation Intake Process",
+    "aliases": [
+      "Intake Process"
+    ],
+    "entity_class": "PROCESS",
+    "type": "fraud_investigation",
+    "description": "The end-to-end workflow for handling fraud allegations, encompassing initial reporting, triage based on urgency, and immediate account security actions. The process varies between routine and critical timelines depending on the triage outcome.",
+    "context": [
+      "Intake Process",
+      "Upon Fraud Allegation"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_005",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_005_stp_001",
+    "name": "Initial Report Generation",
+    "aliases": [
+      "Step 1",
+      "Initial Report"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The first stage of the process where a Fraud Report Form is completed. This includes capturing a unique Fraud ID, reporter details, customer account information, transaction details, and the reported fraud type and loss amount.",
+    "context": [
+      "Step 1: Initial Report",
+      "Fraud Report Form",
+      "Customer Name & Account: [ACC-XXXXX]"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_005",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_005_stp_002",
+    "name": "Initial Triage Assessment",
+    "aliases": [
+      "Step 2",
+      "Initial Triage"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "risk_assessment",
+    "description": "The evaluation of the reported fraud to determine if it is urgent or standard. Urgent cases require action within 1 hour, while standard investigations are handled within 24 hours.",
+    "context": [
+      "Step 2: Initial Triage",
+      "Is This Urgent?",
+      "Immediate action required (within 1 hour)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_005",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_005_dec_001",
+    "name": "Urgency Determination Gate",
+    "aliases": [
+      "Is This Urgent?"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A branching point that splits the workflow into two paths: 'YES' for urgent scenarios (account takeover, large amounts at risk) leading to immediate action, and 'NO' for standard investigations (disputed posted transactions).",
+    "context": [
+      "Is This Urgent?",
+      "YES → Immediate action required (within 1 hour)",
+      "NO → Standard investigation (within 24 hours)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_005",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_005_stp_003",
+    "name": "Immediate Account Security Actions",
+    "aliases": [
+      "Step 3",
+      "Account Security Actions"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "A set of critical mitigation steps to be performed within the first 5 minutes of an urgent triage. These include freezing accounts, blocking cards, resetting passwords, and notifying the customer.",
+    "context": [
+      "Step 3: Account Security Actions (if urgent)",
+      "IMMEDIATE ACTIONS (First 5 Minutes)",
+      "Freeze customer account (block transactions)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_005",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_005_rol_001",
+    "name": "Reporter",
+    "aliases": [
+      "Reporter Category"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer_service",
+    "description": "The individual or entity initiating the fraud report, which can be a Customer, Staff member, System, or Law Enforcement representative.",
+    "context": [
+      "Reporter: [Name, Department, Phone]",
+      "Reporter Category: [Customer / Staff / System / Law Enforcement]"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_005",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_005_rol_002",
+    "name": "Financial Crime Head",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The senior authority responsible for receiving escalations when a fraud allegation involves a loss amount exceeding £5,000.",
+    "context": [
+      "Escalate to Financial Crime Head if >£5,000"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_005",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_005_esc_001",
+    "name": "High Value Escalation — Financial Crime Head",
+    "aliases": [],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "department_head",
+    "description": "An escalation tier triggered specifically when the alleged loss amount is greater than £5,000, requiring the intervention of the Financial Crime Head.",
+    "context": [
+      "Escalate to Financial Crime Head if >£5,000"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_005",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_005_cus_001",
+    "name": "Fraud Allegation Subject",
+    "aliases": [
+      "Customer Name"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The customer whose account is the subject of the fraud allegation and whose security actions (e.g., password reset, account freeze) are being executed.",
+    "context": [
+      "Customer Name & Account: [ACC-XXXXX]",
+      "Notify customer (by phone if possible)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_005",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_005_acc_001",
+    "name": "Alleged Fraudulent Account",
+    "aliases": [
+      "ACC-XXXXX"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "frozen_account",
+    "description": "The specific bank account identified in the report that may be frozen or have its sessions terminated to prevent further financial loss.",
+    "context": [
+      "Customer Name & Account: [ACC-XXXXX]",
+      "Freeze customer account (block transactions)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_005",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_005_trn_001",
+    "name": "Questioned Transaction",
+    "aliases": [
+      "Transaction(s) in Question"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "suspicious_transaction",
+    "description": "The financial events listed in the fraud report with associated dates and amounts that are being investigated for fraud.",
+    "context": [
+      "Transaction(s) in Question: [List with dates, amounts]",
+      "Disputed transaction already posted"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_005",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_005_crd_001",
+    "name": "Customer Debit/Credit Cards",
+    "aliases": [],
+    "entity_class": "CARD",
+    "type": "card_block",
+    "description": "The payment cards associated with the customer that are blocked as part of the immediate security actions to prevent further fraudulent activity.",
+    "context": [
+      "Block customer's debit/credit cards (prevent further fraud)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_005",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_006_prc_001",
+    "name": "Investigation Procedures",
+    "aliases": [
+      "PART 2: INVESTIGATION PROCEDURES"
+    ],
+    "entity_class": "PROCESS",
+    "type": "fraud_investigation",
+    "description": "The operational workflow for conducting investigations, focusing on the systematic preservation and securing of evidence related to fraudulent activity.",
+    "context": [
+      "PART 2: INVESTIGATION PROCEDURES"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_006",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_006_stp_001",
+    "name": "Evidence Preservation Step",
+    "aliases": [
+      "Step 1",
+      "Preserve All Evidence"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The initial stage of the investigation process involving the collection of transaction records, account statements, communications, system logs, device info, geo-location data, and written statements. Requires evidence to be stored in encrypted or locked files with a minimum 7-year retention period.",
+    "context": [
+      "Step 1: Evidence Preservation",
+      "Preserve All Evidence",
+      "All evidence secured in locked file (physical) or encrypted (digital)",
+      "Retention: Minimum 7 years"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_006",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_006_rol_001",
+    "name": "Investigation Team",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "financial_crime_team",
+    "description": "The specialized team responsible for managing and accessing the secured evidence files during the investigation process.",
+    "context": [
+      "Access limited to investigation team"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_006",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_006_txn_001",
+    "name": "Fraudulent Transaction Records",
+    "aliases": [
+      "Original transaction records"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "investigated_transaction",
+    "description": "The specific financial events being investigated, including screenshots and system data used as evidence.",
+    "context": [
+      "Original transaction records (screenshots, system data)",
+      "Geo-location data (where transaction originated)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_006",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_006_acc_001",
+    "name": "Investigated Customer Account",
+    "aliases": [
+      "Account statements"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "active_account",
+    "description": "The customer account associated with the fraud investigation, specifically requiring statements from 30 days prior to the fraud date.",
+    "context": [
+      "Account statements (30 days before fraud date)",
+      "Separate from normal account files"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_006",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_007_prc_001",
+    "name": "Disputed and Flagged Transaction Analysis Process",
+    "aliases": [
+      "Transaction Analysis"
+    ],
+    "entity_class": "PROCESS",
+    "type": "fraud_investigation",
+    "description": "An operational procedure to assess the legitimacy of disputed or flagged transactions by analyzing transaction details, behavioral patterns, and identifying red flags.",
+    "context": [
+      "Step 2: Transaction Analysis",
+      "For Each Disputed/Flagged Transaction"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_007",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_007_stp_001",
+    "name": "Transaction Analysis Step",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "A discrete stage in the fraud investigation process where specific transaction attributes and legitimacy assessments are recorded for each flagged item.",
+    "context": [
+      "Step 2: Transaction Analysis",
+      "Transaction Details: - Transaction ID: [ID] - Date/Time: [Exact timestamp]"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_007",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_007_dec_001",
+    "name": "Transaction Legitimacy Assessment",
+    "aliases": [
+      "Legitimacy Check"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "fraud_flag",
+    "description": "A branching decision gate where the investigator determines if the amount, merchant, timing, device, and geo-location are typical or unusual for the customer.",
+    "context": [
+      "Transaction Legitimacy Assessment:",
+      "Is amount typical for customer? ☐ Yes ☐ No ☐ Unusual",
+      "Is geo-location different from normal? ☐ Yes ☐ No ☐ Impossible"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_007",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_007_dec_002",
+    "name": "Red Flag Identification",
+    "aliases": [
+      "Red Flags"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A critical check to identify high-risk indicators such as velocity, unusual timing, high-risk merchants, geo-impossibility, or departures from habitual patterns.",
+    "context": [
+      "Red Flags:",
+      "Multiple transactions in short time (velocity)",
+      "Geo-impossibility (2 transactions on opposite sides of world within minutes)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_007",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_007_txn_001",
+    "name": "Disputed or Flagged Transaction",
+    "aliases": [
+      "Flagged Transaction"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "investigated_transaction",
+    "description": "The specific financial event being analyzed for potential fraud, characterized by ID, amount, type, and merchant details.",
+    "context": [
+      "For Each Disputed/Flagged Transaction",
+      "Transaction ID: [ID]",
+      "Amount: [£Amount]"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_007",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_008_prc_001",
+    "name": "Customer Interview Procedure",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS",
+    "type": "fraud_investigation",
+    "description": "A formal procedure to conduct a customer interview within 24 hours of a report to distinguish between legitimate and fraudulent activities. It encompasses authentication, account access, device security, communication, recipient verification, and timeline reconstruction.",
+    "context": [
+      "Step 3: Customer Interview",
+      "Interview Procedure:",
+      "Timing: Within 24 hours of report (unless law enforcement requests delay)",
+      "Scope: Understanding customer's legitimate activities vs. fraudulent"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_008",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_008_stp_001",
+    "name": "Authentication and Authorization Review",
+    "aliases": [
+      "Question Set 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The stage of the interview where the actor verifies if the customer authorized the specific transaction and identifies the relationship between the customer and the recipient.",
+    "context": [
+      "1. AUTHENTICATION & AUTHORIZATION",
+      "\"Did you authorize this transaction of £[amount] on [date]?\"",
+      "\"What is your relationship with [recipient]?\""
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_008",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_008_stp_002",
+    "name": "Account Access Assessment",
+    "aliases": [
+      "Question Set 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "A review of the customer's physical card security, usage patterns, and password management to identify potential compromises.",
+    "context": [
+      "2. ACCOUNT ACCESS",
+      "\"Where are your cards normally kept?\"",
+      "\"Do you share your PIN/password with anyone?\""
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_008",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_008_stp_003",
+    "name": "Device Security Evaluation",
+    "aliases": [
+      "Question Set 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "Investigation into the hardware used for online banking, including the presence of unusual apps or history of device loss/theft.",
+    "context": [
+      "3. DEVICE SECURITY",
+      "\"Do you use the same device (phone/computer) for online banking?\"",
+      "\"Have you downloaded unusual apps recently?\""
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_008",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_008_stp_004",
+    "name": "Communication Channel Analysis",
+    "aliases": [
+      "Question Set 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "Checking for the presence of social engineering, phishing emails, or suspicious phone calls prior to the transaction.",
+    "context": [
+      "4. COMMUNICATION",
+      "\"Have you received suspicious emails requesting information?\"",
+      "\"Did anyone contact you before this transaction?\""
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_008",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_008_stp_005",
+    "name": "Merchant and Recipient Verification",
+    "aliases": [
+      "Question Set 5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "Determining the customer's recognition of the merchant and the nature of the initiation of contact.",
+    "context": [
+      "5. MERCHANT/RECIPIENT",
+      "\"Do you recognize [merchant name]?\"",
+      "\"Did you initiate contact, or did they contact you?\""
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_008",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_008_stp_006",
+    "name": "Timeline Reconstruction",
+    "aliases": [
+      "Question Set 6"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "A detailed chronological walkthrough of the customer's day and location during the transaction to identify discrepancies.",
+    "context": [
+      "6. TIMELINE RECONSTRUCTION",
+      "\"Walk me through your day on [date].\"",
+      "\"When did you first notice the unauthorized transaction?\""
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_008",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_008_stp_007",
+    "name": "Interview Documentation",
+    "aliases": [
+      "Documentation"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The final administrative step involving recording the date, time, method of interview, and the customer's formal statement.",
+    "context": [
+      "Documentation:",
+      "Interview conducted: [Date/Time]",
+      "Customer statement taken (audio recorded if possible)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_008",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_008_rol_001",
+    "name": "Interviewing Officer",
+    "aliases": [
+      "Conducted by"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The bank staff member responsible for conducting the interview and documenting the results, as identified by Name and Title in the documentation section.",
+    "context": [
+      "Conducted by: [Name, Title]"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_008",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_008_rol_002",
+    "name": "Law Enforcement",
+    "aliases": [
+      "Police"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "External authority that has the power to request a delay in the timing of the customer interview.",
+    "context": [
+      "unless law enforcement requests delay"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_008",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_008_cust_001",
+    "name": "Interviewee Customer",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The bank customer who is the subject of the fraud investigation and is required to provide statements and answer a series of verification questions.",
+    "context": [
+      "Understanding customer's legitimate activities vs. fraudulent",
+      "Customer statement taken",
+      "Customer confirms facts or disputes"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_008",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_008_dec_001",
+    "name": "Fact Confirmation Gate",
+    "aliases": [
+      "confirms facts or disputes"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "pass_fail",
+    "description": "A decision point where the customer either confirms the facts of the transaction or disputes them, which likely triggers different investigation paths.",
+    "context": [
+      "Customer confirms facts or disputes"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_008",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_008_trn_001",
+    "name": "Investigated Transaction",
+    "aliases": [
+      "this transaction"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "investigated_transaction",
+    "description": "The specific financial event of £[amount] on [date] that is the primary subject of the authentication and authorization review.",
+    "context": [
+      "\"Did you authorize this transaction of £[amount] on [date]?\"",
+      "When did you first notice the unauthorized transaction?"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_008",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_009_prc_001",
+    "name": "Fraud Evidence Evaluation Process",
+    "aliases": [],
+    "entity_class": "PROCESS",
+    "type": "fraud_investigation",
+    "description": "A systematic procedure to assess the likelihood of fraud by scoring various evidence points and determining the appropriate action based on the total fraud score.",
+    "context": [
+      "Step 4: Evidence Evaluation",
+      "Assess Fraud Likelihood"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_009",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_009_stp_001",
+    "name": "Evidence Scoring Stage",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "risk_assessment",
+    "description": "The process of assigning numerical values to specific evidence markers including customer disputes, geo-impossibility, device mismatch, merchant risk, velocity, and customer history.",
+    "context": [
+      "For Each Piece of Evidence, Score",
+      "Fraud Score = Sum of Evidence Points (0–12)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_009",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_009_dec_001",
+    "name": "Fraud Score Outcome Decision",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "risk_level_gate",
+    "description": "A decision gate where the total Fraud Score (0-12) determines whether the claim is confirmed, likely, possible, unlikely, or not likely, triggering different actions such as refunds or denials.",
+    "context": [
+      "Score | Assessment | Action",
+      "10–12 | Fraud Confirmed | Refund + Investigation",
+      "0 | Fraud Not Likely | Deny fraud claim; educate customer"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_009",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_009_stp_002",
+    "name": "Fraud Confirmation and Remediation",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The action taken when a fraud score of 7 or higher is achieved, involving the issuance of a refund and the commencement of a formal investigation.",
+    "context": [
+      "Fraud Confirmed | Refund + Investigation",
+      "Fraud Likely | Refund + Investigation"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_009",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_009_stp_003",
+    "name": "Customer Education and Claim Denial",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The final action taken when a fraud score is between 0 and 3, resulting in the denial of the fraud claim and the provision of educational guidance to the customer.",
+    "context": [
+      "Fraud Unlikely | Likely authorized or error; educate customer",
+      "Fraud Not Likely | Deny fraud claim; educate customer"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_009",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_009_cus_001",
+    "name": "Claiming Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "complaining_customer",
+    "description": "The customer whose transaction is being disputed and who may receive a refund or education based on the fraud assessment.",
+    "context": [
+      "Customer Disputes Transaction",
+      "educate customer"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_009",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_009_trn_001",
+    "name": "Disputed Transaction",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "suspicious_transaction",
+    "description": "The specific financial event being analyzed for fraud markers such as geo-impossibility, velocity, and merchant risk.",
+    "context": [
+      "Customer Disputes Transaction",
+      "Multiple rapid transactions"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_009",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_010_prc_001",
+    "name": "Merchant and Third-Party Fraud Investigation Process",
+    "aliases": [
+      "Step 5: Merchant/Third-Party Investigation"
+    ],
+    "entity_class": "PROCESS",
+    "type": "fraud_investigation",
+    "description": "A specialized investigative workflow used when fraud involves an external merchant or recipient. It differentiates between card-based transactions and external account transfers to recover funds or trace illicit activity.",
+    "context": [
+      "Step 5: Merchant/Third-Party Investigation",
+      "If Fraud Involves External Merchant/Recipient"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_010",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_010_stp_001",
+    "name": "Card Transaction Merchant Evidence Collection",
+    "aliases": [
+      "Card Transactions investigation"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The process of contacting external merchants to gather transaction proof, verify customer presence, obtain records such as footage/receipts, and analyze the merchant's chargeback history.",
+    "context": [
+      "Contact merchant for transaction proof",
+      "Request proof customer was present (if card-present)",
+      "Request merchant records (receipt, camera footage)",
+      "Review merchant chargeback history"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_010",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_010_stp_002",
+    "name": "External Account Transfer Investigation",
+    "aliases": [
+      "Transfers to External Account"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The stage of investigation focused on external account transfers, involving the identification of the recipient bank, matching recipient names, screening for sanctions/fraud reports, and checking fund status.",
+    "context": [
+      "Identify recipient bank",
+      "Request transaction details (recipient name matches account?)",
+      "Track recipient account (is it in sanctions list? Multiple fraud reports?)",
+      "Identify if funds already withdrawn"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_010",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_010_dec_001",
+    "name": "Fund Availability Decision Gate",
+    "aliases": [
+      "Funds withdrawn check"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A branching point based on whether funds remain in the recipient account. If funds are present, an urgent recovery is attempted; if withdrawn, the process pivots to law enforcement tracing.",
+    "context": [
+      "If funds still in recipient account: Attempt to recover (urgent)",
+      "If funds withdrawn: Trace withdrawal location (law enforcement)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_010",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_010_stp_003",
+    "name": "Urgent Fund Recovery Action",
+    "aliases": [
+      "Attempt to recover"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "An urgent action taken to recover funds when it is identified that they are still held within the recipient's account.",
+    "context": [
+      "If funds still in recipient account: Attempt to recover (urgent)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_010",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_010_stp_004",
+    "name": "Law Enforcement Withdrawal Tracing",
+    "aliases": [
+      "Trace withdrawal location"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The process of tracing the location of withdrawn funds in coordination with law enforcement after funds have left the recipient account.",
+    "context": [
+      "If funds withdrawn: Trace withdrawal location (law enforcement)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_010",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_010_rol_001",
+    "name": "Law Enforcement",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "law_enforcement",
+    "description": "External authority responsible for assisting in the tracing of withdrawal locations once funds have been removed from a recipient account.",
+    "context": [
+      "Trace withdrawal location (law enforcement)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_010",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_010_chk_001",
+    "name": "Recipient Sanctions Screening",
+    "aliases": [
+      "sanctions list check"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "sanctions_check",
+    "description": "A mandatory compliance check performed during external transfer investigations to determine if the recipient account appears on a sanctions list.",
+    "context": [
+      "Track recipient account (is it in sanctions list? Multiple fraud reports?)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_010",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_010_tra_001",
+    "name": "Fraudulent Card Transaction",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "suspicious_transaction",
+    "description": "A card-based financial event suspected of fraud that triggers merchant contact and evidence collection.",
+    "context": [
+      "For Card Transactions:",
+      "Contact merchant for transaction proof"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_010",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_010_tra_002",
+    "name": "Fraudulent External Transfer",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "suspicious_transaction",
+    "description": "A transfer of funds to an external account that is subject to recipient bank identification and sanctions screening.",
+    "context": [
+      "For Transfers to External Account:",
+      "Identify recipient bank"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_010",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_011_prc_001",
+    "name": "Forensic Investigation Process",
+    "aliases": [
+      "Step 6",
+      "Forensic Analysis"
+    ],
+    "entity_class": "PROCESS",
+    "type": "fraud_investigation",
+    "description": "A specialized operational procedure triggered for high-loss fraud or suspected cybercrime. It involves detailed technical and financial analysis to identify fraudsters, patterns, and entry points, with an estimated timeline of 2–4 weeks.",
+    "context": [
+      "Step 6: Forensic Investigation (If Serious/Complex)",
+      "For High-Loss Fraud or Suspected Cybercrime",
+      "Estimated timeline: 2–4 weeks"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_011",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_011_stp_001",
+    "name": "Forensic Analysis Execution",
+    "aliases": [
+      "Forensic Analysis"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The technical execution phase of the investigation comprising email header analysis, device and network forensics, financial money flow tracing, and database queries to identify linked frauds.",
+    "context": [
+      "Forensic Analysis May Include:",
+      "Email header analysis (trace phishing emails)",
+      "Device forensics (if customer device involved)",
+      "Network forensics (IP logs, ISP subpoena)",
+      "Financial forensics (trace money flow)",
+      "Database queries (identify linked frauds)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_011",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_011_stp_002",
+    "name": "Forensic Investigator Engagement",
+    "aliases": [
+      "Engagement"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The formal process of requesting forensic resources via the Head of Financial Crime and transferring the case file to the internal or external forensics team.",
+    "context": [
+      "Forensic Investigator Engagement:",
+      "Request made to Head of Financial Crime",
+      "Case file transferred to external/internal forensics team"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_011",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_011_rol_001",
+    "name": "Head of Financial Crime",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The authority figure to whom requests for forensic investigator engagement must be made.",
+    "context": [
+      "Request made to Head of Financial Crime"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_011",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_011_rol_002",
+    "name": "Forensics Team",
+    "aliases": [
+      "external/internal forensics team"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "financial_crime_team",
+    "description": "The internal or external specialist group responsible for conducting the technical forensic analysis and receiving the case file.",
+    "context": [
+      "Case file transferred to external/internal forensics team"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_011",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_011_dec_001",
+    "name": "Forensic Investigation Trigger",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A decision gate to determine if a case requires forensic investigation based on whether the fraud is classified as 'Serious/Complex', 'High-Loss', or 'Suspected Cybercrime'.",
+    "context": [
+      "Forensic Investigation (If Serious/Complex)",
+      "For High-Loss Fraud or Suspected Cybercrime"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_011",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_012_prc_001",
+    "name": "Fraud Investigation Decision and Resolution Process",
+    "aliases": [
+      "PART 3: DECISION & RESOLUTION"
+    ],
+    "entity_class": "PROCESS",
+    "type": "fraud_investigation",
+    "description": "The end-to-end operational workflow for concluding a fraud investigation after all evidence has been gathered. This process focuses on categorizing the outcome of a disputed transaction to determine the final resolution path.",
+    "context": [
+      "PART 3: DECISION & RESOLUTION",
+      "After All Evidence Gathered, Determine"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_012",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_012_stp_001",
+    "name": "Investigation Conclusion Step",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The discrete action of reviewing all gathered evidence to reach a formal determination on the nature of the fraud claim. This step requires selecting one of five predefined determination categories.",
+    "context": [
+      "Step 1: Investigation Conclusion",
+      "After All Evidence Gathered, Determine"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_012",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_012_dec_001",
+    "name": "Fraud Determination Gate",
+    "aliases": [
+      "DETERMINATION"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "fraud_flag",
+    "description": "A branching decision point where the investigator categorizes the transaction outcome. The paths include Confirmed Fraud, Disputed Transaction, Authorized, Customer Error, or Incomplete, each leading to different resolution outcomes.",
+    "context": [
+      "DETERMINATION:",
+      "CONFIRMED FRAUD — Fraudster unauthorized transaction",
+      "DISPUTED TRANSACTION — Ambiguous, but balance of evidence favors customer",
+      "AUTHORIZED — Customer authorized, now regrets",
+      "CUSTOMER ERROR — System worked correctly; customer misunderstood",
+      "INCOMPLETE — Insufficient evidence; close with follow-up conditions"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_012",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_012_trn_001",
+    "name": "Disputed Transaction",
+    "aliases": [
+      "unauthorized transaction"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "investigated_transaction",
+    "description": "The specific financial event being analyzed within the investigation process to determine if it was authorized, fraudulent, or a customer error.",
+    "context": [
+      "Fraudster unauthorized transaction",
+      "DISPUTED TRANSACTION — Ambiguous, but balance of evidence favors customer"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_012",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_013_prc_001",
+    "name": "Fraud Resolution and Prevention Process",
+    "aliases": [
+      "Step 2: Resolution by Fraud Type"
+    ],
+    "entity_class": "PROCESS",
+    "type": "fraud_investigation",
+    "description": "An operational workflow to resolve fraud claims based on fraud type, encompassing refund execution, prevention actions, and customer education. It includes specific timelines for refunds under the Direct Debit Guarantee.",
+    "context": [
+      "Step 2: Resolution by Fraud Type",
+      "Refund Process",
+      "Prevention Actions"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_013",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_013_dec_001",
+    "name": "Fraud Type Determination",
+    "aliases": [
+      "Resolution by Fraud Type"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "fraud_flag",
+    "description": "A critical branching point where the investigator determines if a case is Confirmed Fraud, a Disputed Transaction, Authorized, or Customer Error, leading to different resolution paths.",
+    "context": [
+      "IF CONFIRMED FRAUD",
+      "IF DISPUTED TRANSACTION",
+      "IF AUTHORIZED",
+      "IF CUSTOMER ERROR"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_013",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_013_dec_002",
+    "name": "Disputed Transaction Evidence Review",
+    "aliases": [
+      "Balance of Evidence"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "pass_fail",
+    "description": "A decision gate for disputed transactions to determine if the balance of evidence favors the customer or is inconclusive, affecting the refund amount and follow-up actions.",
+    "context": [
+      "If Balance of Evidence Favors Customer",
+      "If Balance of Evidence Inconclusive"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_013",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_013_stp_001",
+    "name": "Fraud Refund Execution",
+    "aliases": [
+      "Refund Process",
+      "Step 1-5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The sequence of issuing a full refund including accrued interest, timestamping the decision, and notifying the customer in writing within 10 business days per the Direct Debit Guarantee.",
+    "context": [
+      "Issue full refund to customer account",
+      "Refund includes interest (daily rate × days delayed)",
+      "Process within 10 business days (Direct Debit Guarantee)",
+      "Notify customer in writing"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_013",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_013_stp_002",
+    "name": "Fraud Prevention Implementation",
+    "aliases": [
+      "Prevention Actions"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "risk_assessment",
+    "description": "A set of security hardening steps following confirmed fraud, including card issuance, password resets, 2FA enablement, and account monitoring.",
+    "context": [
+      "Issue new card (old compromised)",
+      "Reset online banking password",
+      "Enable 2FA if not already active",
+      "Flag account for enhanced monitoring"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_013",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_013_stp_003",
+    "name": "Customer Fraud Education",
+    "aliases": [
+      "Educate customer"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The action of educating the customer on how the fraud occurred or explaining the nature of the transaction (e.g., Direct Debit Guarantee) to prevent future occurrences.",
+    "context": [
+      "Educate customer on how fraud occurred",
+      "Educate customer (e.g., \"Direct Debit Guarantee protection\", \"Standing Order\", etc.)",
+      "Document customer education"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_013",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_013_stp_004",
+    "name": "Compromised Mandate Review",
+    "aliases": [
+      "Review standing orders"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "A review of active standing orders and direct debits to identify if they have been compromised as part of the prevention phase.",
+    "context": [
+      "Review standing orders / direct debits (may be compromised)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_013",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_013_rol_001",
+    "name": "Fraud Investigator",
+    "aliases": [
+      "Investigator"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The actor responsible for determining the fraud type, calculating interest for refunds, and executing prevention actions.",
+    "context": [
+      "Issue full refund to customer account",
+      "Review standing orders / direct debits"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_013",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_013_cus_001",
+    "name": "Fraud Claiming Customer",
+    "aliases": [
+      "customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "complaining_customer",
+    "description": "The bank customer who is the subject of the fraud investigation and the recipient of refunds or education.",
+    "context": [
+      "Notify customer in writing",
+      "Educate customer on how fraud occurred",
+      "Balance of Evidence Favors Customer"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_013",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_013_acc_001",
+    "name": "Impacted Customer Account",
+    "aliases": [
+      "customer account"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "active_account",
+    "description": "The customer account receiving the refund or being flagged for enhanced monitoring due to fraud.",
+    "context": [
+      "Issue full refund to customer account",
+      "Flag account for enhanced monitoring"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_013",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_013_crd_001",
+    "name": "Compromised Payment Card",
+    "aliases": [
+      "old compromised"
+    ],
+    "entity_class": "CARD",
+    "type": "card_replacement",
+    "description": "The specific payment card identified as compromised which must be replaced as a prevention action.",
+    "context": [
+      "Issue new card (old compromised)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_013",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_013_tra_001",
+    "name": "Fraudulent Transaction",
+    "aliases": [
+      "Original Fraudulent Transaction"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "suspicious_transaction",
+    "description": "The specific financial event being refunded or disputed.",
+    "context": [
+      "Original Fraudulent Transaction: £1,000",
+      "Explain transaction was authorized by customer"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_013",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_014_prc_001",
+    "name": "Fraud Classification & Reporting Process",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS",
+    "type": "fraud_investigation",
+    "description": "The operational workflow for classifying fraud events and executing internal and external reporting obligations, including timelines for regulatory notifications.",
+    "context": [
+      "Step 3: Fraud Classification & Reporting",
+      "Classify Fraud for Reporting",
+      "Reporting Requirements"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_014",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_014_stp_001",
+    "name": "Fraud Classification Step",
+    "aliases": [
+      "Classify Fraud for Reporting"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The action of categorising a fraud event by type (e.g., Account Takeover, Card Fraud), recording the amount, confirmation status, recovered funds, and current resolution status.",
+    "context": [
+      "Classify Fraud for Reporting",
+      "Fraud Classification: - Type: [Account Takeover / Card Fraud / Check Fraud / Impersonation / Other]"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_014",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_014_stp_002",
+    "name": "Internal Financial Crime Reporting",
+    "aliases": [
+      "Financial Crime Report (Internal)"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "A monthly reporting activity submitted to the Head of Financial Crime providing summaries of fraud cases, trends, and prevention effectiveness.",
+    "context": [
+      "Financial Crime Report (Internal): - Submitted monthly to Head of Financial Crime",
+      "Summary of fraud cases by type",
+      "Trends (increasing/decreasing?)",
+      "Prevention effectiveness"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_014",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_014_stp_003",
+    "name": "SAR Filing Procedure",
+    "aliases": [
+      "Suspicious Activity Report",
+      "Regulatory Reporting"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "sar_submission",
+    "description": "The process of filing a Suspicious Activity Report with the FCA within 30 days if fraud is suspected to involve money laundering or sanctions evasion.",
+    "context": [
+      "Suspicious Activity Report (SAR): - File if fraud suspected involving money laundering/sanctions evasion",
+      "File with FCA within 30 days"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_014",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_014_stp_004",
+    "name": "Data Breach Reporting Procedure",
+    "aliases": [
+      "Data Breach Report"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The procedure for notifying the FCA within 72 hours and the customer immediately if customer data has been compromised.",
+    "context": [
+      "Data Breach Report (If Applicable): - File if customer data compromised",
+      "Notify FCA within 72 hours",
+      "Notify customer immediately"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_014",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_014_rol_001",
+    "name": "Head of Financial Crime",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The internal authority responsible for receiving and reviewing the monthly Financial Crime Report.",
+    "context": [
+      "Submitted monthly to Head of Financial Crime"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_014",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_014_rol_002",
+    "name": "Financial Conduct Authority (FCA)",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "The external regulatory body that must be notified of SARs within 30 days and data breaches within 72 hours.",
+    "context": [
+      "File with FCA within 30 days",
+      "Notify FCA within 72 hours"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_014",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_014_rol_003",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The bank customer who must be notified immediately in the event of a data breach.",
+    "context": [
+      "Notify customer immediately"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_014",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_014_dec_001",
+    "name": "SAR Filing Trigger",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "compliance_gate",
+    "description": "A decision point to determine if a SAR must be filed based on whether fraud involves money laundering or sanctions evasion.",
+    "context": [
+      "File if fraud suspected involving money laundering/sanctions evasion"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_014",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_014_dec_002",
+    "name": "Data Breach Notification Trigger",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A decision point to determine if data breach reporting is required based on whether customer data was compromised.",
+    "context": [
+      "File if customer data compromised"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_014",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_014_chk_001",
+    "name": "Regulatory Reporting Compliance Gate",
+    "aliases": [
+      "Regulatory Reporting (If Required)"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "regulatory_reporting",
+    "description": "The mandatory checkpoint ensuring that legal reporting obligations (SAR and Data Breach) are met within the specified regulatory timelines.",
+    "context": [
+      "Regulatory Reporting (If Required)",
+      "File with FCA within 30 days",
+      "Notify FCA within 72 hours"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_014",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_015_prc_001",
+    "name": "Law Enforcement Coordination Process",
+    "aliases": [
+      "Part 4: Law Enforcement Coordination"
+    ],
+    "entity_class": "PROCESS",
+    "type": "fraud_investigation",
+    "description": "The operational workflow for determining when to report fraudulent activities to the police. It distinguishes between mandatory and optional reporting triggers based on fraud type, value, and customer requests.",
+    "context": [
+      "PART 4: LAW ENFORCEMENT COORDINATION",
+      "When to Report to Police"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_015",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_015_dec_001",
+    "name": "Police Reporting Trigger Decision",
+    "aliases": [
+      "Reporting Gate"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A decision point to determine if a case requires a mandatory police report, an optional report, or no report. Mandatory paths are triggered by high values (>£10,000), organized crime, identity theft, or customer request.",
+    "context": [
+      "Mandatory Police Report",
+      "Optional Police Report"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_015",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_015_stp_001",
+    "name": "Mandatory Police Reporting Action",
+    "aliases": [
+      "Mandatory Report"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The action of filing a report with law enforcement when specific high-risk or high-value criteria are met, such as confirmed fraud over £10,000 or organized fraud rings.",
+    "context": [
+      "Mandatory Police Report",
+      "Confirmed fraud >£10,000",
+      "Serial fraud (multiple victims, pattern)",
+      "Organized fraud ring"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_015",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_015_stp_002",
+    "name": "Optional Police Reporting Action",
+    "aliases": [
+      "Optional Report"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The discretionary action of encouraging or filing a police report for fraud between £5,000 and £10,000 or cases involving repeated fraudsters.",
+    "context": [
+      "Optional Police Report",
+      "Fraud >£5,000 (encouraging reports)",
+      "Repeated fraudster (pattern recognition)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_015",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_015_rol_001",
+    "name": "Bank Systems Team",
+    "aliases": [
+      "systems team"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The internal technical team that must coordinate with the reporting actor specifically during the handling of check fraud reports.",
+    "context": [
+      "Check fraud (coordinated with bank systems team)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_015",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_015_rol_002",
+    "name": "Police",
+    "aliases": [
+      "Law Enforcement"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "law_enforcement",
+    "description": "The external law enforcement agency that receives fraud reports from the bank.",
+    "context": [
+      "When to Report to Police",
+      "Customer requests police report"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_015",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_015_rol_003",
+    "name": "Customer",
+    "aliases": [
+      "victim"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "complaining_customer",
+    "description": "The bank customer who may be the victim of fraud and can trigger a mandatory police report by request.",
+    "context": [
+      "Customer requests police report"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_015",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_015_trn_001",
+    "name": "Fraudulent Transaction",
+    "aliases": [
+      "Confirmed fraud",
+      "Check fraud"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "suspicious_transaction",
+    "description": "Transactions identified as fraudulent, categorized by value (e.g., >£10,000 or >£5,000) or type (e.g., check fraud) to determine reporting requirements.",
+    "context": [
+      "Confirmed fraud >£10,000",
+      "Check fraud (coordinated with bank systems team)",
+      "Fraud >£5,000"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_015",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_016_prc_001",
+    "name": "Police Report Process",
+    "aliases": [],
+    "entity_class": "PROCESS",
+    "type": "escalation_procedure",
+    "description": "The end-to-end operational workflow for notifying internal stakeholders, filing a formal report with the police, managing evidence, and following up on a case.",
+    "context": [
+      "Police Report Process"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_016",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_016_stp_001",
+    "name": "Internal Notification Step",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The initial stage of the process where the Head of Financial Crime and Head of Legal are notified, and the decision to report is formally documented.",
+    "context": [
+      "Step 1: Internal Notification",
+      "Notify Head of Financial Crime",
+      "Notify Head of Legal",
+      "Document decision to report"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_016",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_016_stp_002",
+    "name": "Police Report Filing Step",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The action of contacting the local police via non-emergency channels, providing evidence, and securing a police reference number for the case file.",
+    "context": [
+      "Step 2: File Police Report",
+      "Contact local police (non-emergency: 101 in UK)",
+      "Provide case details, evidence",
+      "Obtain police reference number",
+      "Document in case file"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_016",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_016_stp_003",
+    "name": "Evidence Management Step",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The phase focused on preserving evidence, maintaining the status of the fraudster's account to allow police monitoring, and coordinating communication and data sharing with law enforcement.",
+    "context": [
+      "Step 3: Evidence Management",
+      "Preserve evidence for police investigation",
+      "Don't disturb suspected fraudster's account (police may monitor)",
+      "Coordinate with police on customer communication",
+      "Provide police with requested documents/data"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_016",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_016_stp_004",
+    "name": "Police Follow-Up Step",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The final ongoing stage involving periodic contact with the police for status updates, provision of supplementary evidence, and documentation of all interactions.",
+    "context": [
+      "Step 4: Follow-Up",
+      "Periodically contact police for case status",
+      "Provide additional evidence if requested",
+      "Document all communications"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_016",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_016_rol_001",
+    "name": "Head of Financial Crime",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "A senior internal stakeholder who must be notified when a decision is made to file a police report.",
+    "context": [
+      "Notify Head of Financial Crime"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_016",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_016_rol_002",
+    "name": "Head of Legal",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "A senior internal stakeholder who must be notified when a decision is made to file a police report.",
+    "context": [
+      "Notify Head of Legal"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_016",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_016_rol_003",
+    "name": "Local Police",
+    "aliases": [
+      "101"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "law_enforcement",
+    "description": "The external law enforcement agency responsible for receiving the report, providing reference numbers, monitoring accounts, and requesting evidence.",
+    "context": [
+      "Contact local police (non-emergency: 101 in UK)",
+      "Coordinate with police on customer communication",
+      "Provide police with requested documents/data"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_016",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_016_dec_001",
+    "name": "Decision to Report Gate",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "The point in the process where it is determined whether the circumstances warrant a formal police report, which then triggers the notification and filing steps.",
+    "context": [
+      "Document decision to report"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_016",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_016_acc_001",
+    "name": "Suspected Fraudster's Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "frozen_account",
+    "description": "The specific customer account associated with suspected fraudulent activity that must not be disturbed to facilitate police monitoring.",
+    "context": [
+      "Don't disturb suspected fraudster's account (police may monitor)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_016",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_017_prc_001",
+    "name": "Fraud Investigation Case Documentation and Closure Process",
+    "aliases": [
+      "PART 5: CASE DOCUMENTATION & CLOSURE"
+    ],
+    "entity_class": "PROCESS",
+    "type": "fraud_investigation",
+    "description": "The end-to-end procedure for documenting and closing a fraud investigation case file. It ensures all necessary evidence, analysis, and approvals are recorded before the case is officially closed.",
+    "context": [
+      "PART 5: CASE DOCUMENTATION & CLOSURE",
+      "Complete Fraud Investigation Case File Must Contain"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_017",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_017_stp_001",
+    "name": "Case File Compilation",
+    "aliases": [
+      "Case File Contents"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The action of aggregating all required documentation into a complete case file, including reports, interview notes, evidence, and analysis.",
+    "context": [
+      "Case File Contents",
+      "Complete Fraud Investigation Case File Must Contain"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_017",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_017_stp_002",
+    "name": "Investigation Conclusion and Determination",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The step where the investigator finalizes their findings and makes a formal determination regarding the fraud case.",
+    "context": [
+      "Investigation conclusion & determination"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_017",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_017_stp_003",
+    "name": "Refund Decision Determination",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "approval_decision",
+    "description": "The stage of the process where a decision is made regarding whether a refund is applicable to the customer based on the investigation findings.",
+    "context": [
+      "Refund decision (if applicable)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_017",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_017_stp_004",
+    "name": "Case Closure Recording",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The final recording of the date the case was closed and the full timeline of the investigation from the initial report to closure.",
+    "context": [
+      "Date case closed",
+      "Timeline of investigation (from report to closure)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_017",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_017_rol_001",
+    "name": "Manager or Head of Crime",
+    "aliases": [
+      "Manager",
+      "Head of Crime"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The senior authority responsible for the final sign-off of the fraud investigation case file to ensure it is complete and accurate.",
+    "context": [
+      "Manager/Head of Crime sign-off"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_017",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_017_dec_001",
+    "name": "Refund Applicability Check",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "approve_reject",
+    "description": "A decision point to determine if a refund is applicable based on the investigation outcome.",
+    "context": [
+      "Refund decision (if applicable)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_017",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_017_dec_002",
+    "name": "Police Report Necessity Check",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A check to determine if the nature of the fraud requires the filing and inclusion of a police report reference.",
+    "context": [
+      "Police report reference (if applicable)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_017",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_017_tra_001",
+    "name": "Investigated Transactions",
+    "aliases": [
+      "Transaction documentation"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "investigated_transaction",
+    "description": "The specific financial events being analyzed, evidenced via screenshots and statements within the case file.",
+    "context": [
+      "Transaction documentation (screenshots, statements)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_017",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_prc_001",
+    "name": "Case Closure Process",
+    "aliases": [
+      "Case Closure"
+    ],
+    "entity_class": "PROCESS",
+    "type": "fraud_investigation",
+    "description": "The end-to-end procedure for closing a fraud investigation case. It defines the mandatory criteria for investigation completion, including evidence analysis, determination, refunds, and manager approval.",
+    "context": [
+      "Case Closure",
+      "Investigation Complete When:"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_stp_001",
+    "name": "Evidence Gathering and Analysis",
+    "aliases": [
+      "1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The initial step where all relevant evidence is collected and analyzed to support the investigation findings.",
+    "context": [
+      "All evidence gathered and analyzed"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_stp_002",
+    "name": "Fraud Determination",
+    "aliases": [
+      "2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "risk_assessment",
+    "description": "The step of making a final determination on the case, categorizing it as fraud, not fraud, or inconclusive.",
+    "context": [
+      "Determination made (fraud/not fraud/inconclusive)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_stp_003",
+    "name": "Customer Refund Execution",
+    "aliases": [
+      "3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "account_activation",
+    "description": "The process of issuing a refund to the customer's account if the investigation determines the transaction was unauthorized.",
+    "context": [
+      "Customer refunded (if applicable)",
+      "Refund of £[amount] issued to your account on [date]"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_stp_004",
+    "name": "Implementation of Prevention Actions",
+    "aliases": [
+      "4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "Executing security measures to prevent further fraud, including card replacement, password resets, and enabling security features.",
+    "context": [
+      "Prevention actions implemented",
+      "Issued new card (old one cancelled)",
+      "Reset your online banking password",
+      "Enabled extra security features"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_stp_005",
+    "name": "Police Report Filing",
+    "aliases": [
+      "5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The action of filing a formal report with the police regarding the fraudulent activity where applicable.",
+    "context": [
+      "Police report filed (if applicable)",
+      "Reported to police (reference: [number])"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_stp_006",
+    "name": "Case Documentation",
+    "aliases": [
+      "6"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The final administrative recording and documentation of the case details and findings.",
+    "context": [
+      "Case documented"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_stp_007",
+    "name": "Manager Approval for Closure",
+    "aliases": [
+      "7"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "approval_decision",
+    "description": "Obtaining formal approval from a manager before the case can be officially closed.",
+    "context": [
+      "Manager approval obtained"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_stp_008",
+    "name": "Customer Closure Notification",
+    "aliases": [
+      "Closure Notification to Customer"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "Sending a formal letter to the customer detailing the investigation finding, action taken, and recommended prevention steps.",
+    "context": [
+      "Closure Notification to Customer",
+      "We have completed our investigation into the disputed transaction"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_rol_001",
+    "name": "Manager",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_manager",
+    "description": "The authority responsible for reviewing the investigation and providing final approval for case closure.",
+    "context": [
+      "Manager approval obtained"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_rol_002",
+    "name": "FirstUK Bank Financial Crime Team",
+    "aliases": [
+      "Financial Crime Team"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "financial_crime_team",
+    "description": "The specialized team responsible for conducting the investigation and communicating the outcome to the customer.",
+    "context": [
+      "Best regards, FirstUK Bank Financial Crime Team"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_dec_001",
+    "name": "Fraud Determination Decision",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "fraud_flag",
+    "description": "The decision point where the investigator determines if the transaction was fraud, not fraud, or inconclusive, which dictates whether a refund is issued.",
+    "context": [
+      "Determination made (fraud/not fraud/inconclusive)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_cus_001",
+    "name": "Disputing Customer",
+    "aliases": [
+      "Customer Name"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "complaining_customer",
+    "description": "The account holder who has disputed a transaction and is the subject of the fraud investigation.",
+    "context": [
+      "Customer refunded (if applicable)",
+      "Dear [Customer Name]"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_acc_001",
+    "name": "Customer Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "active_account",
+    "description": "The account where the disputed transaction occurred and where the refund is issued.",
+    "context": [
+      "Refund of £[amount] issued to your account on [date]"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_tra_001",
+    "name": "Disputed Transaction",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "investigated_transaction",
+    "description": "The specific financial event being investigated for potential fraud.",
+    "context": [
+      "disputed transaction of £[amount] on [date]"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_crd_001",
+    "name": "Payment Card Replacement",
+    "aliases": [],
+    "entity_class": "CARD",
+    "type": "card_replacement",
+    "description": "The action of cancelling the compromised card and issuing a new one as a prevention measure.",
+    "context": [
+      "Issued new card (old one cancelled)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_prc_001",
+    "name": "Fraud Prevention Measures Process",
+    "aliases": [
+      "Part 6",
+      "Prevention Actions by Fraud Type"
+    ],
+    "entity_class": "PROCESS",
+    "type": "fraud_investigation",
+    "description": "A comprehensive set of prevention measures categorized by fraud type, including Account Takeover, Card Fraud, Impersonation, and Check Fraud. The process defines specific technical controls and verification requirements to mitigate fraudulent activity.",
+    "context": [
+      "PART 6: FRAUD PREVENTION MEASURES",
+      "Prevention Actions by Fraud Type"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_stp_001",
+    "name": "Password Complexity Enforcement",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "A security measure within Account Takeover Prevention requiring the enforcement of password complexity standards.",
+    "context": [
+      "Enforce password complexity requirements"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_stp_002",
+    "name": "Two-Factor Authentication Implementation",
+    "aliases": [
+      "2FA"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The mandatory implementation of 2FA across all customer accounts to prevent account takeover.",
+    "context": [
+      "Implement 2FA on all accounts"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_stp_003",
+    "name": "Login Anomaly Monitoring",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "Continuous monitoring of account login patterns to identify anomalies indicative of account takeover.",
+    "context": [
+      "Monitor for login anomalies"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_stp_004",
+    "name": "Customer Phishing Education",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "Educational outreach provided to customers to help them recognize and avoid phishing attempts.",
+    "context": [
+      "Educate customers on phishing"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_stp_005",
+    "name": "Chip and Contactless Card Issuance",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "card_issuance",
+    "description": "A card fraud prevention measure restricting card issuance exclusively to chip and contactless technology.",
+    "context": [
+      "Issue chip/contactless cards only"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_stp_006",
+    "name": "Transaction Card Alert Setup",
+    "aliases": [
+      "SMS alerts"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "Enabling SMS alerts for transactions that exceed a specific monetary threshold (£X) to prevent card fraud.",
+    "context": [
+      "Enable card alerts (SMS for transactions >£X)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_stp_007",
+    "name": "Transaction Velocity Checking",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "risk_assessment",
+    "description": "Implementation of system checks to limit the maximum number of transactions allowed per day per card.",
+    "context": [
+      "Implement velocity checks (max transactions per day)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_stp_008",
+    "name": "High-Value Transaction Authentication",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "identity_check",
+    "description": "Requirement for explicit customer authentication when a transaction is flagged as high-value.",
+    "context": [
+      "Require customer authentication for high-value transactions"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_stp_009",
+    "name": "Enhanced KYC Verification",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_verification",
+    "description": "A rigorous KYC process used specifically to prevent impersonation fraud.",
+    "context": [
+      "Enhanced KYC verification"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_stp_010",
+    "name": "Original ID Document Verification",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_verification",
+    "description": "The verification of original identification documents to prevent fraud by impersonation.",
+    "context": [
+      "Document original ID verification"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_stp_011",
+    "name": "Duplicate ID Monitoring",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "A check performed to identify if the same identification document is being used across multiple applications/accounts.",
+    "context": [
+      "Monitor for duplicate IDs"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_stp_012",
+    "name": "Suspicious Pattern Flagging",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "risk_assessment",
+    "description": "The process of identifying and flagging patterns of behavior that suggest impersonation attempts.",
+    "context": [
+      "Flag suspicious patterns"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_stp_013",
+    "name": "Positive Pay Implementation",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "A check fraud prevention measure where customers must specify the checks they have issued for the bank to validate.",
+    "context": [
+      "Implement positive pay (customer specifies issued checks)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_stp_014",
+    "name": "Large Check Additional Verification",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "identity_check",
+    "description": "Mandatory additional verification steps required for the processing of large-value checks.",
+    "context": [
+      "Require additional verification for large checks"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_stp_015",
+    "name": "Check Clearing Time Monitoring",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The monitoring of the time it takes for checks to clear, where unusual delays are treated as red flags for fraud.",
+    "context": [
+      "Monitor check clearing times (unusual delays = red flag)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The bank customer who is the subject of fraud prevention measures and is required to provide authentication or specify issued checks.",
+    "context": [
+      "Educate customers on phishing",
+      "Require customer authentication for high-value transactions",
+      "customer specifies issued checks"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_dec_001",
+    "name": "High-Value Transaction Authentication Gate",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "approve_reject",
+    "description": "A decision point triggered by high-value transactions requiring customer authentication before the transaction can proceed.",
+    "context": [
+      "Require customer authentication for high-value transactions"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_dec_002",
+    "name": "Check Clearing Delay Red Flag",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "An exception trigger where unusual delays in check clearing are flagged as potential fraud.",
+    "context": [
+      "unusual delays = red flag"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_020_prc_001",
+    "name": "Fraud Investigation and Resolution Process",
+    "aliases": [
+      "Common Mistakes",
+      "Fraud handling"
+    ],
+    "entity_class": "PROCESS",
+    "type": "fraud_investigation",
+    "description": "The end-to-end operational workflow for investigating suspected fraud, managing customer notifications, executing refunds, and implementing preventative measures. It emphasizes confidentiality and a strict 7-year record retention policy for audit trails.",
+    "context": [
+      "Complete investigation; only refund if confirmed/likely fraud",
+      "Retain files for 7 years minimum (supports audit trail)",
+      "Notify within 24 hours so customer can take protective action"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_020",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_020_stp_001",
+    "name": "Fraud Investigation Step",
+    "aliases": [
+      "Investigation"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "A mandatory thorough investigation phase that must be completed before any refund is processed or a customer is reported as a fraudster.",
+    "context": [
+      "Process refund without thorough investigation",
+      "Complete investigation; only refund if confirmed/likely fraud"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_020",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_020_stp_002",
+    "name": "Fraud Case File Retention",
+    "aliases": [
+      "Audit trail"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The requirement to maintain and retain fraud case files for a minimum of 7 years following the closure of the case to ensure a valid audit trail.",
+    "context": [
+      "Delete fraud case file after closure",
+      "Retain files for 7 years minimum (supports audit trail)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_020",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_020_stp_003",
+    "name": "Customer Fraud Notification",
+    "aliases": [
+      "Customer notification"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The act of informing the customer about fraud, which must occur within a 24-hour window to allow the customer to take protective action.",
+    "context": [
+      "Delay notifying customer of fraud",
+      "Notify within 24 hours so customer can take protective action"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_020",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_020_stp_004",
+    "name": "Fraud Prevention Implementation",
+    "aliases": [
+      "Protective action"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "The final stage of the fraud process involving the implementation of security measures such as issuing new cards, password resets, or enabling 2FA.",
+    "context": [
+      "Fail to implement prevention after fraud occurs",
+      "Always implement prevention (new card, password reset, 2FA, etc.)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_020",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_020_dec_001",
+    "name": "Refund Eligibility Decision",
+    "aliases": [
+      "Refund check"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "approve_reject",
+    "description": "A decision gate where a refund is only approved if the investigation has confirmed or indicated that fraud was likely.",
+    "context": [
+      "only refund if confirmed/likely fraud"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_020",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_020_dec_002",
+    "name": "Fraud Confirmation Gate",
+    "aliases": [
+      "Confidentiality check"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "pass_fail",
+    "description": "A control point ensuring that a customer is not reported as a fraudster until the investigation is formally confirmed.",
+    "context": [
+      "Report customer as fraudster before confirming",
+      "Keep investigation confidential until confirmed"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_020",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_020_rol_001",
+    "name": "Customer",
+    "aliases": [
+      "Fraud victim"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The bank customer who is the subject of a fraud investigation and must be notified within 24 hours to take protective action.",
+    "context": [
+      "Report customer as fraudster before confirming",
+      "Notify within 24 hours so customer can take protective action"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_020",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_020_crd_001",
+    "name": "Replacement Card Issuance",
+    "aliases": [
+      "New card"
+    ],
+    "entity_class": "CARD",
+    "type": "card_replacement",
+    "description": "The issuance of a new payment card as a primary preventative measure following the occurrence of fraud.",
+    "context": [
+      "Always implement prevention (new card, password reset, 2FA, etc.)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_020",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_021_prc_001",
+    "name": "Fraud Investigation and Approval Process",
+    "aliases": [
+      "Escalation & Authorities"
+    ],
+    "entity_class": "PROCESS",
+    "type": "fraud_investigation",
+    "description": "An operational workflow for managing fraud investigations based on the monetary value of the fraud or the nature of the activity (serial/pattern). It defines investigation levels, required approval authorities, and expected resolution timelines.",
+    "context": [
+      "Escalation & Authorities",
+      "Fraud Amount | Investigation Level | Approval Authority | Timeline"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_021",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_021_esc_001",
+    "name": "Level 1 — Routine Investigation (CSR)",
+    "aliases": [
+      "<£500"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "frontline",
+    "description": "The lowest tier of fraud escalation for amounts under £500. This level is handled as a Routine investigation with a 2–3 day timeline.",
+    "context": [
+      "<£500",
+      "Routine",
+      "CSR",
+      "2–3 days"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_021",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_021_esc_002",
+    "name": "Level 2 — Standard Investigation (Manager)",
+    "aliases": [
+      "£500–£5,000"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "supervisor",
+    "description": "The second tier of fraud escalation for amounts between £500 and £5,000. This is classified as a Standard investigation with a 3–5 day timeline.",
+    "context": [
+      "£500–£5,000",
+      "Standard",
+      "Manager",
+      "3–5 days"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_021",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_021_esc_003",
+    "name": "Level 3 — Enhanced Investigation (Risk Manager)",
+    "aliases": [
+      "£5,000–£50,000"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "department_head",
+    "description": "The third tier of fraud escalation for amounts between £5,000 and £50,000. This is classified as an Enhanced investigation with a 5–7 day timeline.",
+    "context": [
+      "£5,000–£50,000",
+      "Enhanced",
+      "Risk Manager",
+      "5–7 days"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_021",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_021_esc_004",
+    "name": "Level 4 — Complex Investigation (Head of Crime + Legal)",
+    "aliases": [
+      ">£50,000"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "executive",
+    "description": "A high-level escalation for fraud amounts exceeding £50,000. This is classified as a Complex investigation requiring joint approval from the Head of Crime and Legal, with a 7–14 day timeline.",
+    "context": [
+      ">£50,000",
+      "Complex",
+      "Head of Crime + Legal",
+      "7–14 days"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_021",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_021_esc_005",
+    "name": "Level 5 — Specialized Investigation (Head of Crime + Police)",
+    "aliases": [
+      "Serial/Pattern"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "regulator",
+    "description": "The highest level of escalation triggered by serial or pattern-based fraud regardless of specific amount. This is a Specialized investigation requiring Head of Crime and Police involvement, with a timeline of 10+ days.",
+    "context": [
+      "Serial/Pattern",
+      "Specialized",
+      "Head of Crime + Police",
+      "10+ days"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_021",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_021_rol_001",
+    "name": "Customer Service Representative",
+    "aliases": [
+      "CSR"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer_service",
+    "description": "The staff member responsible for the approval authority of Routine fraud investigations under £500.",
+    "context": [
+      "CSR"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_021",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_021_rol_002",
+    "name": "Manager",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_manager",
+    "description": "The staff member providing approval authority for Standard fraud investigations between £500 and £5,000.",
+    "context": [
+      "Manager"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_021",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_021_rol_003",
+    "name": "Risk Manager",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The authority responsible for approving Enhanced fraud investigations between £5,000 and £50,000.",
+    "context": [
+      "Risk Manager"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_021",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_021_rol_004",
+    "name": "Head of Crime",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "A senior authority required for the approval of both Complex investigations (>£50,000) and Specialized investigations (Serial/Pattern).",
+    "context": [
+      "Head of Crime + Legal",
+      "Head of Crime + Police"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_021",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_021_rol_005",
+    "name": "Legal Department",
+    "aliases": [
+      "Legal"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "The department providing joint approval authority with the Head of Crime for Complex fraud investigations over £50,000.",
+    "context": [
+      "Head of Crime + Legal"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_021",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_021_rol_006",
+    "name": "Police",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "law_enforcement",
+    "description": "External authority required for joint approval of Specialized investigations concerning serial or pattern fraud.",
+    "context": [
+      "Head of Crime + Police"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_021",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_021_dec_001",
+    "name": "Fraud Amount and Pattern Assessment",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "authority_limit_check",
+    "description": "A decision gate where the fraud amount and the nature of the fraud (single vs serial/pattern) are evaluated to determine the investigation level, approval authority, and timeline.",
+    "context": [
+      "Fraud Amount",
+      "Investigation Level",
+      "Approval Authority",
+      "Serial/Pattern"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_021",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_022_prc_001",
+    "name": "Fraud Prevention Policy",
+    "aliases": [
+      "policy_fraud"
+    ],
+    "entity_class": "PROCESS",
+    "type": "fraud_investigation",
+    "description": "A high-level policy governing the prevention and detection of fraudulent activities within the bank.",
+    "context": [
+      "policy_fraud — Fraud prevention policy"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_022",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_022_prc_002",
+    "name": "Incident Response Procedures",
+    "aliases": [
+      "incident_response_plan"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "The defined procedures for responding to and managing operational or security incidents.",
+    "context": [
+      "incident_response_plan — Incident response procedures"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_022",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_022_prc_003",
+    "name": "Decision Authority Matrix",
+    "aliases": [
+      "escalation_matrix"
+    ],
+    "entity_class": "PROCESS",
+    "type": "escalation_procedure",
+    "description": "A structured framework defining the levels of decision authority and escalation paths within the bank.",
+    "context": [
+      "escalation_matrix — Decision authority levels"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_022",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_022_prc_004",
+    "name": "Exception Handling Process",
+    "aliases": [
+      "sop_exception_handling"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "A standard operating procedure for managing exceptions, noted to have operational overlap with fraud-related procedures.",
+    "context": [
+      "sop_exception_handling — Exception handling (overlaps with fraud)"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_022",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_022_prc_005",
+    "name": "AML and Sanctions Fraud Detection Policy",
+    "aliases": [
+      "policy_aml"
+    ],
+    "entity_class": "PROCESS",
+    "type": "aml_screening",
+    "description": "The regulatory policy governing the detection of fraud through Anti-Money Laundering (AML) and sanctions screening processes.",
+    "context": [
+      "policy_aml — AML/sanctions fraud detection"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_022",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_023_prc_001",
+    "name": "Fraud Investigation SOP",
+    "aliases": [
+      "Initial fraud investigation SOP"
+    ],
+    "entity_class": "PROCESS",
+    "type": "fraud_investigation",
+    "description": "The comprehensive operational procedure for conducting fraud investigations within FirstUK Bank, as established in version 1.0 of the document.",
+    "context": [
+      "Initial fraud investigation SOP"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_023",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_023_rol_001",
+    "name": "Head of Financial Crime",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The senior official responsible for the authorship and establishment of the Fraud Investigation SOP.",
+    "context": [
+      "Author | Head of Financial Crime"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_023",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_024_rol_001",
+    "name": "Head of Financial Crime",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "Senior executive responsible for approving the operational procedures related to financial crime investigations.",
+    "context": [
+      "Approved by: Head of Financial Crime — Date: 2026-01-15"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_024",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_024_rol_002",
+    "name": "Head of Legal",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "Senior executive responsible for the legal sign-off and approval of the investigation procedures.",
+    "context": [
+      "Approved by: Head of Legal — Date: 2026-01-15"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_024",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_024_rol_003",
+    "name": "Chief Risk Officer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "executive",
+    "description": "Executive officer responsible for the risk-based approval of the financial crime investigation procedures.",
+    "context": [
+      "Approved by: Chief Risk Officer — Date: 2026-01-15"
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_024",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_024_prc_001",
+    "name": "Financial Crime Investigation Procedures",
+    "aliases": [
+      "Investigation procedures"
+    ],
+    "entity_class": "PROCESS",
+    "type": "fraud_investigation",
+    "description": "A sensitive operational workflow for conducting financial crime investigations, restricted to authorized parties and approved by key risk, legal, and financial crime executives.",
+    "context": [
+      "Confidential — Financial Crime Distribution Only",
+      "Investigation procedures are sensitive and should not be disclosed to non-authorized parties."
+    ],
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_024",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d",
+    "domain": "banking_sop_guides"
+  }
+]

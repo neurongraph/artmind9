@@ -1,0 +1,2366 @@
+[
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_001_prc_001",
+    "name": "Standing Order Processing SOP",
+    "aliases": [
+      "STORD-SOP-001"
+    ],
+    "entity_class": "PROCESS",
+    "type": "standing_order_setup",
+    "description": "The end-to-end operational procedure for processing standing orders within FirstUK Bank, managed by the Head of Operations for the Retail Banking department.",
+    "context": [
+      "FirstUK Bank — Standing Order Processing SOP",
+      "Document ID | STORD-SOP-001"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_001",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_001_rol_001",
+    "name": "Head of Operations",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The designated owner of the Standing Order Processing SOP, responsible for the document's oversight and governance.",
+    "context": [
+      "Owner | Head of Operations"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_001",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_001_rol_002",
+    "name": "Operations Staff",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "Personnel within the Operations department designated as a primary audience for the standing order processing procedures.",
+    "context": [
+      "Audience | Operations Staff, Branch Staff, Customer Service"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_001",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_001_rol_003",
+    "name": "Branch Staff",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_staff",
+    "description": "Personnel within the bank branches designated as a primary audience for the standing order processing procedures.",
+    "context": [
+      "Audience | Operations Staff, Branch Staff, Customer Service"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_001",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_001_rol_004",
+    "name": "Customer Service",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer_service",
+    "description": "Personnel within the customer service function designated as a primary audience for the standing order processing procedures.",
+    "context": [
+      "Audience | Operations Staff, Branch Staff, Customer Service"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_001",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_002_prc_001",
+    "name": "Standing Order Management Process",
+    "aliases": [
+      "Standing Order Procedure"
+    ],
+    "entity_class": "PROCESS",
+    "type": "standing_order_setup",
+    "description": "A standardized operational workflow for the end-to-end lifecycle of standing orders, encompassing their setup, maintenance, modification, and cancellation to ensure accurate and timely recurring transfers.",
+    "context": [
+      "Establish standardized procedures for setting up, maintaining, modifying, and canceling standing orders",
+      "ensure accurate, timely execution of customer-initiated recurring transfers"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_002",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_003_prc_001",
+    "name": "Standing Order Management Process",
+    "aliases": [
+      "Standing order creation requests",
+      "Standing order modifications and cancellations",
+      "Failed standing order handling"
+    ],
+    "entity_class": "PROCESS",
+    "type": "standing_order_setup",
+    "description": "An end-to-end operational procedure covering the creation, modification, cancellation, and failure handling of standing orders. This process is applicable across all banking channels including online, branch, and phone.",
+    "context": [
+      "All standing order creation requests",
+      "All channels (online, branch, phone)",
+      "Standing order modifications and cancellations",
+      "Failed standing order handling"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_003",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_004_prc_001",
+    "name": "Standing Order Setup Process",
+    "aliases": [
+      "Customer Requests Standing Order"
+    ],
+    "entity_class": "PROCESS",
+    "type": "standing_order_setup",
+    "description": "The end-to-end operational workflow for establishing a new standing order, starting from the initial customer request through to system execution and failure monitoring.",
+    "context": [
+      "Customer Requests Standing Order",
+      "Set Up in System (AMS/PPS)",
+      "Execute on Schedule"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_004_stp_001",
+    "name": "Collect Standing Order Details",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial action of gathering the necessary payment and beneficiary details required to establish a standing order.",
+    "context": [
+      "Collect Standing Order Details"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_004_stp_002",
+    "name": "Validate Standing Order Information",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_verification",
+    "description": "A review stage where the collected standing order details are checked for accuracy and completeness before system entry.",
+    "context": [
+      "Validate Information"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_004_stp_003",
+    "name": "System Setup in AMS/PPS",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The technical recording of the standing order into the bank's core systems, specifically identified as AMS or PPS.",
+    "context": [
+      "Set Up in System (AMS/PPS)"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_004_stp_004",
+    "name": "Customer Confirmation",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The final step of the setup phase where the bank confirms the activation of the standing order to the customer.",
+    "context": [
+      "Confirm with Customer"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_004_stp_005",
+    "name": "Scheduled Execution",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The automated stage where the system processes the payment on the pre-defined schedule.",
+    "context": [
+      "Execute on Schedule"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_004_stp_006",
+    "name": "Payment Failure Monitoring",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "The ongoing operational oversight to identify and handle any failures in the execution of the standing order.",
+    "context": [
+      "Monitor for Failures"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_004_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The bank customer who initiates the request for a standing order and receives confirmation of its activation.",
+    "context": [
+      "Customer Requests Standing Order",
+      "Confirm with Customer"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_004_rol_002",
+    "name": "AMS/PPS System",
+    "aliases": [
+      "AMS",
+      "PPS"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The automated banking systems used to record the standing order and execute the scheduled payments.",
+    "context": [
+      "Set Up in System (AMS/PPS)"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_004_st_001",
+    "name": "Standing Order",
+    "aliases": [],
+    "entity_class": "STANDING_ORDER",
+    "type": "standing_order_creation",
+    "description": "The financial instruction being created, validated, and executed as part of this procedure.",
+    "context": [
+      "Customer Requests Standing Order",
+      "Standing Order Active"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_004",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_005_stp_001",
+    "name": "Customer Request Submission",
+    "aliases": [
+      "Step 1",
+      "Customer Request"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial stage where a customer initiates a request through one of four supported channels: online banking portal, phone, branch visit, or mail.",
+    "context": [
+      "Step 1: Customer Request",
+      "Online: Self-service via online banking portal",
+      "Phone: Call 0800-555-2265",
+      "Branch: Speak with staff member",
+      "Mail: Send request with account details"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_005",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_005_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The individual initiating the request via online, phone, branch, or mail channels.",
+    "context": [
+      "Step 1: Customer Request",
+      "Self-service via online banking portal"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_005",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_005_rol_002",
+    "name": "Branch Staff Member",
+    "aliases": [
+      "staff member"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_staff",
+    "description": "The bank employee responsible for receiving and processing requests submitted in person at a branch location.",
+    "context": [
+      "Branch: Speak with staff member"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_005",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_006_prc_001",
+    "name": "Standing Order Setup Process",
+    "aliases": [
+      "Standing Order Creation"
+    ],
+    "entity_class": "PROCESS",
+    "type": "standing_order_setup",
+    "description": "The operational procedure for collecting and recording the necessary details to establish a fixed-amount recurring payment from a source account to a designated payee.",
+    "context": [
+      "Initial Information Collected"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_006",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_006_stp_001",
+    "name": "Initial Information Collection Step",
+    "aliases": [
+      "Information Gathering"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The primary stage of the process where critical payment parameters including account numbers, payee details, amount, and frequency are gathered from the customer.",
+    "context": [
+      "Initial Information Collected",
+      "Account number (source account)",
+      "Payee name (recipient)",
+      "Amount (fixed, no variations)"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_006",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_006_acc_001",
+    "name": "Source Account",
+    "aliases": [
+      "Account number"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "active_account",
+    "description": "The customer account from which the standing order funds will be debited.",
+    "context": [
+      "Account number (source account)"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_006",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_006_sto_001",
+    "name": "Standing Order Mandate",
+    "aliases": [
+      "Standing Order"
+    ],
+    "entity_class": "STANDING_ORDER",
+    "type": "standing_order_creation",
+    "description": "A recurring payment instruction characterized by a fixed amount and a defined frequency (weekly, monthly, quarterly, or annual).",
+    "context": [
+      "Amount (fixed, no variations)",
+      "Frequency (weekly, monthly, quarterly, annual)",
+      "when standing order should stop"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_006",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_007_prc_001",
+    "name": "Standing Order Setup Process",
+    "aliases": [
+      "Standing Order Setup"
+    ],
+    "entity_class": "PROCESS",
+    "type": "standing_order_setup",
+    "description": "The operational workflow for validating and establishing a standing order, including source account verification, payee information checks, and payment frequency validation.",
+    "context": [
+      "Step 2: Validate Details",
+      "Validate Details",
+      "If Validation Fails: Contact customer for correction"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_007_stp_001",
+    "name": "Validate Request Details",
+    "aliases": [
+      "Step 2",
+      "Validation Checks"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "A discrete stage where the source account, payee information, and payment amount/frequency are verified against specific criteria to ensure the request is valid.",
+    "context": [
+      "Step 2: Validate Details",
+      "Validation Checks",
+      "Account exists and is active",
+      "Recipient account number valid (format check)"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_007_rol_001",
+    "name": "Bank Staff Member",
+    "aliases": [
+      "Request Processor"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The actor responsible for performing validation checks and contacting the customer if details are incorrect.",
+    "context": [
+      "Contact customer for correction",
+      "Clarify requirements",
+      "Collect correct information"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_007_dec_001",
+    "name": "Validation Outcome Gate",
+    "aliases": [
+      "If Validation Fails"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "pass_fail",
+    "description": "A branching point where the process either proceeds if all validation checks are passed or triggers a correction cycle if any check fails.",
+    "context": [
+      "If Validation Fails:",
+      "Contact customer for correction",
+      "Re-validate"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_007_stp_002",
+    "name": "Customer Correction Cycle",
+    "aliases": [
+      "Correction Process"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The remedial action taken when validation fails, involving contacting the customer to clarify and collect correct information before re-validating.",
+    "context": [
+      "Contact customer for correction",
+      "Clarify requirements",
+      "Collect correct information",
+      "Re-validate"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_007_cus_001",
+    "name": "Requesting Customer",
+    "aliases": [
+      "requestor",
+      "customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The bank customer who is requesting the setup of a standing order and whose account is being validated as the source of funds.",
+    "context": [
+      "Account holder matches requestor",
+      "Contact customer for correction"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_007_acc_001",
+    "name": "Source Account",
+    "aliases": [
+      "requesting account"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "active_account",
+    "description": "The account from which funds will be drawn, which must be active, match the requestor, and contain sufficient funds for the first payment.",
+    "context": [
+      "Source Account:",
+      "Account exists and is active",
+      "Account has sufficient funds (for first payment)"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_007_sto_001",
+    "name": "Standing Order Instruction",
+    "aliases": [
+      "payment request"
+    ],
+    "entity_class": "STANDING_ORDER",
+    "type": "standing_order_creation",
+    "description": "The specific payment instruction being validated, encompassing the payee's account details, the amount, the frequency, and the start date.",
+    "context": [
+      "Payee Information:",
+      "Amount & Frequency:",
+      "Recipient account number valid (format check)",
+      "Frequency valid (weekly, monthly, etc.)"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_007",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_008_prc_001",
+    "name": "Standing Order Setup Process",
+    "aliases": [
+      "System Setup"
+    ],
+    "entity_class": "PROCESS",
+    "type": "standing_order_setup",
+    "description": "The operational workflow for creating a standing order within the bank's internal systems. This process involves entering specific financial and recipient data into the AMS/PPS systems to enable recurring payments.",
+    "context": [
+      "Step 3: System Setup",
+      "Standing Order Creation in AMS/PPS"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_008",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_008_stp_001",
+    "name": "Standing Order Data Entry in AMS/PPS",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The discrete action of entering standing order details into the AMS/PPS system. This includes the input of source accounts, payee details, amounts, frequency, and effective dates.",
+    "context": [
+      "Standing Order Creation in AMS/PPS",
+      "Fields Entered into System"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_008",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_008_rol_001",
+    "name": "Bank Staff Member",
+    "aliases": [
+      "Staff ID",
+      "Created By"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The internal bank employee responsible for the actual system entry and setup of the standing order, identified in the system by their Staff ID.",
+    "context": [
+      "Created By | Staff ID | Who set it up"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_008",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_008_acc_001",
+    "name": "Customer Source Account",
+    "aliases": [
+      "Source Account",
+      "ACC-00001"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "active_account",
+    "description": "The customer's bank account from which the recurring standing order funds will be debited.",
+    "context": [
+      "Source Account | ACC-00001 | Customer's account"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_008",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_008_so_001",
+    "name": "Standing Order Instruction",
+    "aliases": [
+      "Standing Order ID",
+      "SO-00001234"
+    ],
+    "entity_class": "STANDING_ORDER",
+    "type": "standing_order_creation",
+    "description": "The specific recurring payment instruction created in the system, characterized by an auto-generated ID, a fixed amount, and a recurrence pattern.",
+    "context": [
+      "Standing Order ID | SO-00001234 | Auto-generated",
+      "Amount | £500.00 | Fixed amount",
+      "Frequency | Monthly | Recurrence pattern"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_008",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_008_sys_001",
+    "name": "AMS/PPS System",
+    "aliases": [
+      "System"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The banking system used for the creation and management of standing orders, responsible for auto-generating Standing Order IDs.",
+    "context": [
+      "Standing Order Creation in AMS/PPS",
+      "Standing Order ID | SO-00001234 | Auto-generated"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_008",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_009_prc_001",
+    "name": "Standing Order Frequency Scheduling Process",
+    "aliases": [
+      "Frequency Scheduling"
+    ],
+    "entity_class": "PROCESS",
+    "type": "standing_order_setup",
+    "description": "The operational procedure for defining and executing the timing of recurring transfers based on specific calendar intervals. It governs how payments are triggered on a monthly, weekly, quarterly, or annual basis.",
+    "context": [
+      "Frequency Scheduling",
+      "Executes on same calendar day each month",
+      "Executes every 7 days",
+      "Executes every 3 months",
+      "Executes once per year"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_009",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_009_stp_001",
+    "name": "Monthly Frequency Execution",
+    "aliases": [
+      "Monthly"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The process of executing a transfer on the same calendar day of each month. This is a recurring action that continues until an end date is reached.",
+    "context": [
+      "Monthly: Executes on same calendar day each month",
+      "Jan 15: £500 transferred",
+      "Feb 15: £500 transferred"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_009",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_009_stp_002",
+    "name": "Weekly Frequency Execution",
+    "aliases": [
+      "Weekly"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The process of executing a transfer every 7 days.",
+    "context": [
+      "Weekly: Executes every 7 days"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_009",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_009_stp_003",
+    "name": "Quarterly Frequency Execution",
+    "aliases": [
+      "Quarterly"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The process of executing a transfer every 3 months.",
+    "context": [
+      "Quarterly: Executes every 3 months"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_009",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_009_stp_004",
+    "name": "Annual Frequency Execution",
+    "aliases": [
+      "Annual"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The process of executing a transfer once per year.",
+    "context": [
+      "Annual: Executes once per year"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_009",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_009_tra_001",
+    "name": "Recurring Standing Order Transfer",
+    "aliases": [
+      "£500 monthly"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "monitored_transaction",
+    "description": "A financial event involving a fixed sum (e.g., £500) transferred at regular intervals as defined by the frequency schedule.",
+    "context": [
+      "Example: £500 monthly on the 15th",
+      "Jan 15: £500 transferred",
+      "Feb 15: £500 transferred",
+      "Mar 15: £500 transferred"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_009",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_010_prc_001",
+    "name": "Standing Order Setup Process",
+    "aliases": [],
+    "entity_class": "PROCESS",
+    "type": "standing_order_setup",
+    "description": "The operational workflow for establishing a standing order, including the final stage of confirming the setup details with the customer across multiple channels.",
+    "context": [
+      "Step 4: Confirm with Customer",
+      "Confirmation that standing order is active"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_010",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_010_stp_001",
+    "name": "Customer Confirmation Step",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The final stage of the standing order setup where the bank provides specific transaction details to the customer via their preferred communication channel to confirm activation.",
+    "context": [
+      "Step 4: Confirm with Customer",
+      "Confirmation Details Provided"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_010",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_010_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The individual receiving confirmation of their standing order setup via email, SMS, phone, or in-branch receipt.",
+    "context": [
+      "Confirm with Customer",
+      "Customer Must Receive"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_010",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_010_sto_001",
+    "name": "Standing Order",
+    "aliases": [],
+    "entity_class": "STANDING_ORDER",
+    "type": "standing_order_creation",
+    "description": "The financial instruction being activated, identified by a Standing order ID and containing payee details, amount, frequency, and start date.",
+    "context": [
+      "Standing order ID (SO-00001234)",
+      "Confirmation that standing order is active"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_010",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_011_prc_001",
+    "name": "Standing Order Execution Process",
+    "aliases": [
+      "Step 5",
+      "Scheduled Processing"
+    ],
+    "entity_class": "PROCESS",
+    "type": "standing_order_setup",
+    "description": "The end-to-end workflow for executing scheduled standing order payments. It involves automated identification, fund validation, transfer via FPS, and ledger recording, occurring in the early morning before business hours.",
+    "context": [
+      "Step 5: Standing Order Execution",
+      "Processing occurs early morning (before business hours)",
+      "Funds transferred via FPS (Faster Payments Service)"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_011_stp_001",
+    "name": "Standing Order Identification Step",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The initial automated action where the system identifies all standing orders that are due for execution on the scheduled date.",
+    "context": [
+      "System identifies standing orders due"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_011_stp_002",
+    "name": "Source Account Fund Validation Step",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "authority_limit_check",
+    "description": "A verification step to ensure the source account possesses sufficient funds to cover the standing order payment before the transfer is initiated.",
+    "context": [
+      "Validates source account has sufficient funds"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_011_stp_003",
+    "name": "FPS Transfer Initiation Step",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The execution of the fund transfer using the Faster Payments Service (FPS), ensuring the recipient receives funds within 1 hour.",
+    "context": [
+      "Initiates FPS transfer",
+      "Recipient account receives funds within 1 hour"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_011_stp_004",
+    "name": "Ledger Transaction Recording Step",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The process of recording the completed financial transaction within the bank's ledger for audit and balance tracking.",
+    "context": [
+      "Records transaction in ledger"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_011_stp_005",
+    "name": "Standing Order Status Update Step",
+    "aliases": [
+      "Step 5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "Updating the internal status of the specific standing order to 'completed' following a successful transfer.",
+    "context": [
+      "Updates standing order status (completed)"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_011_stp_006",
+    "name": "Customer Notification Step",
+    "aliases": [
+      "Step 6"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "An optional step to notify the customer of the transaction, triggered only if the customer has opted into notifications.",
+    "context": [
+      "Notifies customer (optional, if opted in)"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_011_rol_001",
+    "name": "Standing Order Automated System",
+    "aliases": [
+      "System"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The automated banking system responsible for identifying due payments, validating funds, initiating FPS transfers, and updating ledgers.",
+    "context": [
+      "System identifies standing orders due",
+      "Validates source account has sufficient funds",
+      "Initiates FPS transfer"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_011_rol_002",
+    "name": "Operations Staff",
+    "aliases": [
+      "Manual intervention"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "Personnel responsible for manual intervention in the event of persistent standing order failures.",
+    "context": [
+      "Manual intervention if persistent failure"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_011_dec_001",
+    "name": "Funds Availability Check",
+    "aliases": [
+      "If Funds Unavailable"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "authority_limit_check",
+    "description": "A branching point determining if a transfer proceeds or fails. If funds are sufficient, the transfer is initiated; if unavailable, the transfer is declined and a retry is attempted.",
+    "context": [
+      "If Funds Unavailable:",
+      "Transfer fails (declined)",
+      "Retry attempt made (usually once)"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_011_cus_001",
+    "name": "Standing Order Customer",
+    "aliases": [
+      "customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The bank customer who has set up a standing order and is the subject of notifications regarding success or failure of the payment.",
+    "context": [
+      "Notifies customer (optional, if opted in)",
+      "Customer notified of failure"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_011_sto_001",
+    "name": "Scheduled Standing Order",
+    "aliases": [
+      "standing order"
+    ],
+    "entity_class": "STANDING_ORDER",
+    "type": "standing_order_creation",
+    "description": "The specific standing order instruction being executed on its scheduled date (e.g., 15th of the month).",
+    "context": [
+      "Standing order executes on scheduled date (e.g., 15th of month)",
+      "Updates standing order status (completed)"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_011_trn_001",
+    "name": "FPS Standing Order Transaction",
+    "aliases": [
+      "transaction",
+      "FPS transfer"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "monitored_transaction",
+    "description": "The financial event of transferring funds via the Faster Payments Service as part of the standing order execution.",
+    "context": [
+      "Funds transferred via FPS (Faster Payments Service)",
+      "Records transaction in ledger"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_011",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_012_prc_001",
+    "name": "Standing Order Modification Process",
+    "aliases": [
+      "Step 6: Modify Standing Order"
+    ],
+    "entity_class": "PROCESS",
+    "type": "standing_order_setup",
+    "description": "The operational procedure for updating the details of an existing standing order. It defines the specific fields a customer is permitted to modify and the system logic triggered by those changes.",
+    "context": [
+      "Step 6: Modify Standing Order",
+      "Customer can modify:"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_012_stp_001",
+    "name": "Modify Standing Order Amount",
+    "aliases": [
+      "Amount change"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "standing_order_amendment",
+    "description": "The action of changing the payment amount of a standing order. This specific modification triggers the creation of a new standing order and the cancellation of the old one.",
+    "context": [
+      "Amount: Change payment amount (creates new SO, cancels old)"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_012_stp_002",
+    "name": "Modify Standing Order Frequency",
+    "aliases": [
+      "Frequency change"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "standing_order_amendment",
+    "description": "The action of changing the timing of the standing order payments, such as moving from a weekly to a monthly cadence.",
+    "context": [
+      "Frequency: Change timing (weekly → monthly, etc.)"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_012_stp_003",
+    "name": "Modify Standing Order Payee",
+    "aliases": [
+      "Payee change"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "standing_order_amendment",
+    "description": "The action of changing the recipient of the standing order. Similar to amount changes, this requires the creation of a new standing order and the cancellation of the existing one.",
+    "context": [
+      "Payee: Change recipient (creates new SO, cancels old)"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_012_stp_004",
+    "name": "Modify Standing Order End Date",
+    "aliases": [
+      "End Date change"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "standing_order_amendment",
+    "description": "The action of setting or changing the end date for the standing order payments.",
+    "context": [
+      "End Date: Set or change end date"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_012_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The bank customer who initiates the modification of their standing order details.",
+    "context": [
+      "Customer can modify:"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_012_so_001",
+    "name": "Standing Order",
+    "aliases": [
+      "SO"
+    ],
+    "entity_class": "STANDING_ORDER",
+    "type": "standing_order_amendment",
+    "description": "The recurring payment instruction being modified, which may be cancelled and replaced depending on the type of change requested.",
+    "context": [
+      "creates new SO, cancels old"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_012",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_013_prc_001",
+    "name": "Standing Order Modification Process",
+    "aliases": [
+      "Modification Process"
+    ],
+    "entity_class": "PROCESS",
+    "type": "standing_order_setup",
+    "description": "The end-to-end procedure for amending existing standing orders via online banking or through branch and phone channels. It includes paths for simple field updates and full changes requiring replacement.",
+    "context": [
+      "Modification Process",
+      "Online Modification",
+      "Branch/Phone Modification"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_013_rol_001",
+    "name": "Customer",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The bank customer who initiates the modification of a standing order either through self-service online banking or by contacting the bank via phone or branch visit.",
+    "context": [
+      "Customer logs into online banking",
+      "Customer calls or visits branch"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_013_rol_002",
+    "name": "Branch Staff",
+    "aliases": [
+      "Staff member"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_staff",
+    "description": "The bank employee responsible for updating the system records when a customer requests a standing order modification via phone or in-person visit.",
+    "context": [
+      "Staff member updates system"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_013_stp_001",
+    "name": "Online Banking Login",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial step of the online modification path where the customer authenticates into their online banking account.",
+    "context": [
+      "Customer logs into online banking"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_013_stp_002",
+    "name": "Standing Order Selection",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The step where the customer identifies and selects the specific standing order they wish to modify from their account list.",
+    "context": [
+      "Selects standing order to modify"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_013_stp_003",
+    "name": "Field Modification",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The action where the customer enters the new values for the desired fields of the standing order.",
+    "context": [
+      "Changes desired field(s)"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_013_stp_004",
+    "name": "Modification Confirmation",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "approval_decision",
+    "description": "The final customer action to commit the changes to the standing order.",
+    "context": [
+      "Confirms modification"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_013_stp_005",
+    "name": "Online Confirmation Receipt",
+    "aliases": [
+      "Step 5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The system-generated notification sent to the customer confirming the online modification was successful.",
+    "context": [
+      "Receives confirmation"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_013_stp_006",
+    "name": "Channel Contact Initiation",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial step for non-digital modifications where the customer contacts the bank via phone or visits a physical branch.",
+    "context": [
+      "Customer calls or visits branch"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_013_stp_007",
+    "name": "Standing Order Identification",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The step where the customer provides the standing order ID and current details to the staff member for verification.",
+    "context": [
+      "Provides standing order ID and current details"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_013_stp_008",
+    "name": "Change Specification",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The step where the customer explicitly states the changes they wish to apply to the standing order.",
+    "context": [
+      "Specifies changes requested"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_013_stp_009",
+    "name": "System Record Update",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The action performed by the staff member to update the standing order details within the bank's internal systems.",
+    "context": [
+      "Staff member updates system"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_013_stp_010",
+    "name": "Staff-Initiated Confirmation",
+    "aliases": [
+      "Step 5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The final step where the staff member ensures a confirmation of the change is sent to the customer.",
+    "context": [
+      "Sends confirmation to customer"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_013_dec_001",
+    "name": "Modification Scope Check",
+    "aliases": [
+      "Note"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A decision point to determine if the requested changes are simple field updates or 'full changes' (amount, payee, frequency). Full changes trigger a different workflow: cancellation of the old SO and creation of a new one.",
+    "context": [
+      "Full changes (amount, payee, frequency) may require cancellation of old SO and creation of new SO"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_013",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_014_prc_001",
+    "name": "Standing Order Cancellation Process",
+    "aliases": [
+      "Step 7",
+      "Cancel Standing Order"
+    ],
+    "entity_class": "PROCESS",
+    "type": "standing_order_setup",
+    "description": "The end-to-end procedure for cancelling a standing order, encompassing multiple request channels (Online, Phone, Branch, Mail) and the collection of specific mandate details.",
+    "context": [
+      "Step 7: Cancel Standing Order",
+      "Cancellation Request",
+      "How to Request"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_014",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_014_stp_001",
+    "name": "Standing Order Cancellation Request",
+    "aliases": [
+      "Request Cancellation"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "standing_order_cancellation",
+    "description": "The initial stage where a customer initiates the request to cancel a standing order through an approved channel and provides necessary identification details.",
+    "context": [
+      "Cancellation Request",
+      "How to Request: Online: Self-service cancellation in portal, Phone: Call 0800-555-2265, Branch: Visit and request cancellation, Mail: Send written cancellation request"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_014",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_014_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The account holder responsible for initiating the cancellation request via the online portal, telephone, branch visit, or mail.",
+    "context": [
+      "Self-service cancellation in portal",
+      "Call 0800-555-2265",
+      "Visit and request cancellation",
+      "Send written cancellation request"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_014",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_014_rol_002",
+    "name": "Online Portal System",
+    "aliases": [
+      "portal"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The automated system used by customers for self-service cancellation of standing orders.",
+    "context": [
+      "Online: Self-service cancellation in portal"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_014",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_014_so_001",
+    "name": "Standing Order",
+    "aliases": [],
+    "entity_class": "STANDING_ORDER",
+    "type": "standing_order_cancellation",
+    "description": "The specific financial instruction being cancelled, identified by a Standing order ID, Payee name, Amount, and Account number.",
+    "context": [
+      "Standing order ID (if known)",
+      "Payee name",
+      "Amount",
+      "Account number"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_014",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_015_prc_001",
+    "name": "Standing Order Cancellation Process",
+    "aliases": [
+      "Cancellation Process"
+    ],
+    "entity_class": "PROCESS",
+    "type": "standing_order_cancellation",
+    "description": "The operational workflow for cancelling a customer's standing order. The process is free of charge, requires no notice period, and takes effect immediately.",
+    "context": [
+      "Cancellation Process",
+      "Timeline: Cancellation effective immediately",
+      "No Fees: Cancellation is free",
+      "No Notice Required: Customer can cancel anytime with no notice"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_015_stp_001",
+    "name": "Cancellation Request Receipt",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial stage of the process where the customer formally requests the cancellation of their standing order.",
+    "context": [
+      "Customer requests cancellation"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_015_stp_002",
+    "name": "Customer Identity Verification",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "identity_check",
+    "description": "A security step where staff must verify the identity of the customer making the request before proceeding with the cancellation.",
+    "context": [
+      "Staff verifies customer identity"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_015_stp_003",
+    "name": "Standing Order Confirmation",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "beneficiary_validation",
+    "description": "The step where the specific standing order to be cancelled is identified and confirmed.",
+    "context": [
+      "Confirms standing order to cancel"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_015_stp_004",
+    "name": "Account Status Update",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The administrative action of updating the standing order status to 'Cancelled' within the bank's systems.",
+    "context": [
+      "Sets status to \"Cancelled\""
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_015_stp_005",
+    "name": "Effective Date Application",
+    "aliases": [
+      "Step 5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The application of the cancellation date, which is processed immediately without a notice period.",
+    "context": [
+      "Effective date: Immediately (no notice period)"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_015_stp_006",
+    "name": "Payment Blockage",
+    "aliases": [
+      "Step 6"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "payment_failure_handling",
+    "description": "The operational action to ensure that the next scheduled payment associated with the standing order is blocked.",
+    "context": [
+      "Next scheduled payment blocked"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_015_stp_007",
+    "name": "Customer Cancellation Notification",
+    "aliases": [
+      "Step 7"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The final step where a confirmation of the cancellation is communicated to the customer.",
+    "context": [
+      "Confirmation sent to customer"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_015_rol_001",
+    "name": "Bank Staff",
+    "aliases": [
+      "Staff"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The internal bank personnel responsible for verifying customer identity and executing the standing order cancellation steps.",
+    "context": [
+      "Staff verifies customer identity"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_015_rol_002",
+    "name": "Customer",
+    "aliases": [
+      "Applicant"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The bank customer who initiates the cancellation request and receives the final confirmation.",
+    "context": [
+      "Customer requests cancellation",
+      "Confirmation sent to customer"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_015_sto_001",
+    "name": "Target Standing Order",
+    "aliases": [],
+    "entity_class": "STANDING_ORDER",
+    "type": "standing_order_cancellation",
+    "description": "The specific standing order payment instruction being cancelled by the customer.",
+    "context": [
+      "Confirms standing order to cancel",
+      "Next scheduled payment blocked"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_015",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_016_prc_001",
+    "name": "Standing Order Cancellation Process",
+    "aliases": [
+      "Cancellation Confirmation"
+    ],
+    "entity_class": "PROCESS",
+    "type": "standing_order_setup",
+    "description": "The operational workflow for confirming the cancellation of a standing order, ensuring the customer is notified of the specific order ID and the termination of future payments.",
+    "context": [
+      "Cancellation Confirmation",
+      "Customer Receives: Email confirmation of cancellation"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_016",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_016_stp_001",
+    "name": "Cancellation Confirmation Notification",
+    "aliases": [
+      "Customer Receives"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The final stage of the cancellation process where a confirmation email is dispatched to the customer containing the canceled standing order ID, the date of cancellation, and a guarantee that no further payments will occur.",
+    "context": [
+      "Customer Receives: Email confirmation of cancellation",
+      "Confirmation that no further payments will be made"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_016",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_016_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The recipient of the cancellation confirmation and the subject of the standing order cancellation process.",
+    "context": [
+      "Customer Receives:"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_016",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_016_sto_001",
+    "name": "Canceled Standing Order",
+    "aliases": [
+      "Standing order ID"
+    ],
+    "entity_class": "STANDING_ORDER",
+    "type": "standing_order_cancellation",
+    "description": "The specific financial instruction being terminated, identified by a unique standing order ID.",
+    "context": [
+      "Standing order ID that was canceled"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_016",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_017_prc_001",
+    "name": "Standing Order Failure Handling Process",
+    "aliases": [
+      "Step 8: Failed Standing Orders"
+    ],
+    "entity_class": "PROCESS",
+    "type": "standing_order_setup",
+    "description": "The operational procedure for identifying and managing standing orders that fail to execute. It encompasses the identification of common failure scenarios such as insufficient funds or invalid account details.",
+    "context": [
+      "Step 8: Failed Standing Orders",
+      "Failure Scenarios"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_017",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_017_stp_001",
+    "name": "Standing Order Failure Analysis",
+    "aliases": [
+      "Failure Scenarios"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "payment_failure_handling",
+    "description": "The stage in the process where the reason for a failed standing order is identified. This involves checking for source account funds, recipient account validity, and system failures.",
+    "context": [
+      "Common Failure Reasons:",
+      "Insufficient funds in source account",
+      "Invalid recipient account number",
+      "Recipient account closed",
+      "Payee bank system failure",
+      "Duplicate prevention (if failed before)"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_017",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_017_acc_001",
+    "name": "Source Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "active_account",
+    "description": "The customer account from which the standing order funds are being drawn, subject to insufficient funds checks during failure analysis.",
+    "context": [
+      "Insufficient funds in source account"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_017",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_017_acc_002",
+    "name": "Recipient Account",
+    "aliases": [
+      "Payee account"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "active_account",
+    "description": "The destination account for the standing order payment, which may cause failure if the account number is invalid or the account is closed.",
+    "context": [
+      "Invalid recipient account number",
+      "Recipient account closed"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_017",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_017_trn_001",
+    "name": "Failed Standing Order Transaction",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "failed_transaction",
+    "description": "A financial event where a standing order payment has failed to complete due to specific operational or financial triggers.",
+    "context": [
+      "Failed Standing Orders",
+      "Duplicate prevention (if failed before)"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_017",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_017_sto_001",
+    "name": "Standing Order Payment",
+    "aliases": [],
+    "entity_class": "STANDING_ORDER",
+    "type": "payment_failure_handling",
+    "description": "The recurring payment instruction being processed, which is subject to failure scenarios such as payee bank system errors.",
+    "context": [
+      "Step 8: Failed Standing Orders",
+      "Payee bank system failure"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_017",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_018_prc_001",
+    "name": "Standing Order Failure Handling Process",
+    "aliases": [
+      "Failure Handling"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "An operational workflow designed to detect, alert, and resolve failed standing order attempts. The process involves automated system actions, customer notifications, a single retry attempt, and manual staff intervention for resolution.",
+    "context": [
+      "Failure Handling",
+      "System logs failed standing order attempt",
+      "If retry fails: Standing order suspended"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_018_stp_001",
+    "name": "Failure Detection Step",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The initial phase where the system identifies a failed standing order attempt and updates the record status to 'Failed' within the system logs.",
+    "context": [
+      "Step 1: Detect Failure",
+      "System logs failed standing order attempt",
+      "Marks standing order status as \"Failed\""
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_018_stp_002",
+    "name": "Customer Alerting Step",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "An automated communication step where the customer is notified via Email or SMS regarding the failure, including details of the amount, recipient, and reason, with a request for corrective action.",
+    "context": [
+      "Step 2: Alert Customer",
+      "Email/SMS sent to customer",
+      "Alert includes: Amount, recipient, failure reason"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_018_stp_003",
+    "name": "Automated Retry Attempt Step",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "A system-driven attempt to re-process the standing order, typically occurring within a 24-hour window. A successful retry allows the standing order to resume normally.",
+    "context": [
+      "Step 3: Retry Attempt",
+      "System retries once (usually within 24 hours)",
+      "If retry successful: Standing order resumes"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_018_dec_001",
+    "name": "Retry Success Determination",
+    "aliases": [
+      "Retry check"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "pass_fail",
+    "description": "A branching point based on the outcome of the system retry. If successful, the process concludes with the order resuming; if it fails, the process escalates to manual staff review.",
+    "context": [
+      "If retry successful: Standing order resumes",
+      "If retry fails: Standing order suspended"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_018_stp_004",
+    "name": "Escalation and Review Step",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "A manual intervention stage triggered by a failed retry where the standing order is suspended and staff members must review the case and contact the customer.",
+    "context": [
+      "Step 4: Escalation",
+      "Standing order suspended",
+      "Staff review required",
+      "Contact customer to resolve"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_018_stp_005",
+    "name": "Resolution and Update Step",
+    "aliases": [
+      "Step 5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The final stage where staff update the standing order based on corrected information provided by the customer, leading to either the resumption of the order or its cancellation.",
+    "context": [
+      "Step 5: Resolution",
+      "Customer provides corrected information (if needed)",
+      "Staff updates standing order",
+      "Standing order resumes or customer opts for cancellation"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_018_rol_001",
+    "name": "Automated Banking System",
+    "aliases": [
+      "System"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The system responsible for logging failures, updating order statuses, sending automated alerts, and executing the 24-hour retry attempt.",
+    "context": [
+      "System logs failed standing order attempt",
+      "Email/SMS sent to customer",
+      "System retries once"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_018_rol_002",
+    "name": "Bank Staff",
+    "aliases": [
+      "Staff"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "Human personnel responsible for reviewing suspended standing orders, contacting customers for resolution, and manually updating order details in the system.",
+    "context": [
+      "Staff review required",
+      "Contact customer to resolve",
+      "Staff updates standing order"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_018_rol_003",
+    "name": "Customer",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The recipient of failure alerts who is required to provide funds, update payee information, or opt for cancellation to resolve the failure.",
+    "context": [
+      "Email/SMS sent to customer",
+      "Request for action (provide funds, update payee)",
+      "Customer provides corrected information"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_018_sto_001",
+    "name": "Failed Standing Order",
+    "aliases": [
+      "standing order"
+    ],
+    "entity_class": "STANDING_ORDER",
+    "type": "standing_order_cancellation",
+    "description": "The specific payment instruction that has failed its execution attempt and is subject to detection, retry, suspension, or cancellation.",
+    "context": [
+      "failed standing order attempt",
+      "Marks standing order status as \"Failed\"",
+      "Standing order suspended"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_018",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_019_prc_001",
+    "name": "Weekly Standing Order Review",
+    "aliases": [
+      "Monitoring & Control"
+    ],
+    "entity_class": "PROCESS",
+    "type": "standing_order_setup",
+    "description": "A weekly operational monitoring and control procedure designed to review executed standing orders, identify failures or unusual patterns, and ensure reconciliation of payments.",
+    "context": [
+      "Weekly Standing Order Review",
+      "Monitoring & Control"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_019",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_019_rol_001",
+    "name": "Operations Staff",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "Staff members responsible for performing the weekly review of standing order values, failure counts, and pattern analysis.",
+    "context": [
+      "Operations Staff Reviews:"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_019",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_019_stp_001",
+    "name": "Standing Order Operational Review",
+    "aliases": [
+      "Reviews"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "A review step where Operations Staff analyze the total value of executed standing orders, the number of failures, unusual patterns such as large amounts or unusual recipients, and related customer complaints.",
+    "context": [
+      "Operations Staff Reviews:",
+      "Total value of standing orders executed",
+      "Number of failed standing orders",
+      "Unusual patterns (large amounts, unusual recipients)",
+      "Customer complaints related to standing orders"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_019",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_019_stp_002",
+    "name": "Standing Order Reconciliation",
+    "aliases": [
+      "Reconciliation"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "A verification step to ensure standing order transactions match customer expectations, confirm the absence of duplicate payments, and verify that all payments were executed on scheduled dates.",
+    "context": [
+      "Reconciliation:",
+      "Standing order transactions match customer expectations",
+      "No duplicate payments",
+      "All executed on scheduled dates"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_019",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_019_sta_001",
+    "name": "Standing Order Transaction",
+    "aliases": [],
+    "entity_class": "STANDING_ORDER",
+    "type": "standing_order_creation",
+    "description": "The financial instructions being reviewed and reconciled weekly to ensure correct execution and value.",
+    "context": [
+      "Total value of standing orders executed",
+      "Standing order transactions match customer expectations"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_019",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_020_prc_001",
+    "name": "Standing Order Audit Trail Management",
+    "aliases": [
+      "Audit Trail"
+    ],
+    "entity_class": "PROCESS",
+    "type": "standing_order_setup",
+    "description": "The procedure for maintaining system records of standing orders, including creation, modification, cancellation, and execution history. Records are retained for 6 years in accordance with POCA regulations.",
+    "context": [
+      "Audit Trail",
+      "System Records:",
+      "Retention: Retained for 6 years (per POCA regulations)"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_020",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_020_stp_001",
+    "name": "Standing Order System Recording",
+    "aliases": [
+      "System Records"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The action of capturing and storing all standing order lifecycle events, including active and canceled orders, creation dates, staff identifiers, modifications, and execution outcomes.",
+    "context": [
+      "All standing orders (active and canceled)",
+      "Creation date and staff who created",
+      "All modifications and cancellations",
+      "All execution records (successful and failed)",
+      "Customer communications"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_020",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_020_chk_001",
+    "name": "POCA Data Retention Checkpoint",
+    "aliases": [
+      "Retention"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "document_retention",
+    "description": "A regulatory compliance gate ensuring that all standing order records are retained for the mandatory period of 6 years as required by the Proceeds of Crime Act (POCA).",
+    "context": [
+      "Retention: Retained for 6 years (per POCA regulations)"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_020",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_020_rol_001",
+    "name": "Standing Order Processing Staff",
+    "aliases": [
+      "staff who created"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The bank staff member responsible for the creation of standing orders, whose identity must be recorded in the system audit trail.",
+    "context": [
+      "staff who created"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_020",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_021_prc_001",
+    "name": "Standing Order Quality Assurance Process",
+    "aliases": [
+      "Quality Assurance",
+      "Standing Order Checklist"
+    ],
+    "entity_class": "PROCESS",
+    "type": "standing_order_setup",
+    "description": "A quality assurance procedure consisting of a pre-activation checklist and a monthly audit to ensure the accuracy and validity of standing order setups and executions.",
+    "context": [
+      "Quality Assurance",
+      "Standing Order Checklist",
+      "Before Activation",
+      "Monthly Audit"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_021_stp_001",
+    "name": "Standing Order Pre-Activation Verification",
+    "aliases": [
+      "Before Activation"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "A mandatory review performed before a standing order is activated to verify source accounts, payee details, amounts, frequencies, dates, and customer confirmation.",
+    "context": [
+      "Before Activation",
+      "Source account verified",
+      "Payee information valid",
+      "Customer confirmation received"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_021_stp_002",
+    "name": "Standing Order Monthly Audit",
+    "aliases": [
+      "Monthly Audit"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "A recurring monthly review of at least 10 standing orders to ensure correct execution dates, transfer amounts, recipient delivery, and customer satisfaction.",
+    "context": [
+      "Monthly Audit",
+      "10+ standing orders reviewed",
+      "Correct execution on scheduled date",
+      "Customer satisfied (no complaints)"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_021_dec_001",
+    "name": "Standing Order Activation Gate",
+    "aliases": [
+      "Before Activation Checklist"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "pass_fail",
+    "description": "A decision point where a standing order is only activated if all checklist items—including account verification, payee validity, and customer confirmation—are satisfied.",
+    "context": [
+      "Before Activation",
+      "Source account verified",
+      "Payee information valid",
+      "Customer confirmation received"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_021_chk_001",
+    "name": "Standing Order Data Integrity Check",
+    "aliases": [
+      "Payee information valid",
+      "Amount reasonable"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "regulatory_reporting",
+    "description": "A formal control point ensuring that the financial details of a standing order (sort code, account format, and amount > £0) meet bank operational standards before activation.",
+    "context": [
+      "Payee information valid (account/sort code format correct)",
+      "Amount reasonable and > £0"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_021_rol_001",
+    "name": "Quality Assurance Auditor",
+    "aliases": [
+      "QA Staff"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The actor responsible for performing the pre-activation checklist and conducting the monthly audit of 10+ standing orders.",
+    "context": [
+      "Quality Assurance",
+      "Monthly Audit",
+      "10+ standing orders reviewed"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_021_cus_001",
+    "name": "Standing Order Customer",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The bank customer who provides confirmation for the standing order and whose satisfaction is monitored during the monthly audit.",
+    "context": [
+      "Customer confirmation received",
+      "Customer satisfied (no complaints)"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_021_sto_001",
+    "name": "Standing Order Instruction",
+    "aliases": [
+      "Standing Order"
+    ],
+    "entity_class": "STANDING_ORDER",
+    "type": "standing_order_creation",
+    "description": "The specific payment instruction being verified for activation and audited for execution accuracy.",
+    "context": [
+      "Standing Order Checklist",
+      "10+ standing orders reviewed",
+      "Correct amount transferred"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_021",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_022_prc_001",
+    "name": "Account Opening Process",
+    "aliases": [
+      "sop_account_opening"
+    ],
+    "entity_class": "PROCESS",
+    "type": "account_opening",
+    "description": "The end-to-end procedure for opening a new bank account, which includes the availability of standing order setup as part of the workflow.",
+    "context": [
+      "Account opening (standing order setup available)"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_022",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_022_prc_002",
+    "name": "Standing Order Setup Process",
+    "aliases": [
+      "standing order setup"
+    ],
+    "entity_class": "PROCESS",
+    "type": "standing_order_setup",
+    "description": "A specific operational workflow available during the account opening process to establish recurring payment instructions.",
+    "context": [
+      "standing order setup available"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_022",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_022_rol_001",
+    "name": "Payment Processing System",
+    "aliases": [
+      "systems"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The automated system responsible for the technical execution of standing orders.",
+    "context": [
+      "Payment Processing System (executes standing orders)"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_022",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_024_rol_001",
+    "name": "Head of Operations",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "A senior leadership role responsible for the formal approval and sign-off of the operational procedure document.",
+    "context": [
+      "Approved by: Head of Operations — Date: 2026-01-15"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_024",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "3036a7c47bba45208dd13f0780363d8e_024_rol_002",
+    "name": "Head of Retail Banking",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "A senior leadership role responsible for the formal approval and sign-off of the operational procedure document.",
+    "context": [
+      "Head of Retail Banking — Date: 2026-01-15"
+    ],
+    "chunk_id": "3036a7c47bba45208dd13f0780363d8e_024",
+    "doc_id": "3036a7c47bba45208dd13f0780363d8e",
+    "domain": "banking_sop_guides"
+  }
+]

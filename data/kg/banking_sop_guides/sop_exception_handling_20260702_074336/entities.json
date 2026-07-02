@@ -1,0 +1,2748 @@
+[
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_001_prc_001",
+    "name": "Exception Handling Process",
+    "aliases": [
+      "Exception Handling Guide",
+      "EXCP-SOP-001"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "The end-to-end operational workflow for managing exceptions within FirstUK Bank, as defined in document EXCP-SOP-001. It is owned by the Head of Operations and intended for use by Operations Staff, Customer Service, and Compliance.",
+    "context": [
+      "FirstUK Bank — Exception Handling Guide",
+      "Document ID | EXCP-SOP-001"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_001",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_001_rol_001",
+    "name": "Head of Operations",
+    "aliases": [
+      "Owner"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The executive owner of the Exception Handling Guide responsible for the oversight and maintenance of the procedure.",
+    "context": [
+      "Owner | Head of Operations"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_001",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_001_rol_002",
+    "name": "Operations Staff",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "Internal staff within the Operations department who are part of the target audience for the exception handling procedures.",
+    "context": [
+      "Audience | Operations Staff, Customer Service, Compliance"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_001",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_001_rol_003",
+    "name": "Customer Service",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer_service",
+    "description": "Staff members responsible for customer-facing interactions who are instructed on how to handle exceptions according to this guide.",
+    "context": [
+      "Audience | Operations Staff, Customer Service, Compliance"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_001",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_001_rol_004",
+    "name": "Compliance",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "The compliance function responsible for ensuring that exception handling aligns with regulatory requirements and internal policy.",
+    "context": [
+      "Audience | Operations Staff, Customer Service, Compliance"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_001",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_002_prc_001",
+    "name": "Operational Exception Resolution Process",
+    "aliases": [
+      "Operational Exception Procedures"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "A comprehensive procedure designed to identify, investigate, and resolve operational exceptions, including failed transactions, disputed transactions, and regulatory exceptions. The goal is to maintain regulatory compliance and ensure customer satisfaction.",
+    "context": [
+      "Establish procedures for identifying, investigating, and resolving operational exceptions",
+      "failed transactions, disputed transactions, regulatory exceptions",
+      "ensure customer satisfaction and regulatory compliance"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_002",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_003_prc_001",
+    "name": "Exception Escalation and Resolution Process",
+    "aliases": [],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "A comprehensive operational workflow governing the management of failed, disputed, and regulatory exception transactions, including their escalation and final resolution.",
+    "context": [
+      "Exception escalation and resolution",
+      "Applies to: Failed transactions (deposits, withdrawals, transfers), Disputed transactions (customer claims unauthorized), Regulatory exceptions (compliance failures, audit issues)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_003",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_003_trn_001",
+    "name": "Failed Transactions",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "failed_transaction",
+    "description": "Transactions involving deposits, withdrawals, or transfers that have failed to process correctly and fall within the scope of the exception resolution process.",
+    "context": [
+      "Failed transactions (deposits, withdrawals, transfers)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_003",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_003_trn_002",
+    "name": "Disputed Transactions",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "investigated_transaction",
+    "description": "Transactions where the customer claims the activity was unauthorized, requiring a dispute resolution workflow.",
+    "context": [
+      "Disputed transactions (customer claims unauthorized)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_003",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_003_chk_001",
+    "name": "Regulatory Exception Check",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "regulatory_reporting",
+    "description": "A compliance gate used to identify and manage failures related to regulatory requirements or audit issues.",
+    "context": [
+      "Regulatory exceptions (compliance failures, audit issues)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_003",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_004_prc_001",
+    "name": "Transaction Failure Exception Handling Process",
+    "aliases": [
+      "Category 1: Transaction Failures"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "An operational procedure to manage transactions that were initiated but not completed successfully. It covers various failure types including bank transfers, ATM withdrawals, standing orders, and direct debits, with a resolution SLA of 1–3 business days.",
+    "context": [
+      "Category 1: Transaction Failures",
+      "Definition: Transaction initiated but not completed successfully",
+      "SLA: Resolve within 1–3 business days"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_004",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_004_trn_001",
+    "name": "Failed Bank Transfer",
+    "aliases": [
+      "Bank transfer fails"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "failed_transaction",
+    "description": "A financial event where a bank transfer was initiated but failed because the recipient account was invalid.",
+    "context": [
+      "Bank transfer fails (recipient account invalid)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_004",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_004_trn_002",
+    "name": "Denied ATM Withdrawal",
+    "aliases": [
+      "ATM withdrawal denied"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "failed_transaction",
+    "description": "A financial event where an ATM withdrawal attempt was denied due to insufficient funds in the account.",
+    "context": [
+      "ATM withdrawal denied (insufficient funds)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_004",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_004_stn_001",
+    "name": "Failed Standing Order",
+    "aliases": [
+      "Standing order fails"
+    ],
+    "entity_class": "STANDING_ORDER",
+    "type": "payment_failure_handling",
+    "description": "A standing order payment that fails to execute because the associated account has been closed.",
+    "context": [
+      "Standing order fails (account closed)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_004",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_004_drb_001",
+    "name": "Rejected Direct Debit",
+    "aliases": [
+      "Direct Debit rejected"
+    ],
+    "entity_class": "DIRECT_DEBIT",
+    "type": "dd_dispute_handling",
+    "description": "A direct debit transaction that is rejected by the system due to insufficient funds available in the account.",
+    "context": [
+      "Direct Debit rejected (no funds)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_004",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_004_cus_001",
+    "name": "Impacted Customer",
+    "aliases": [
+      "customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The bank customer who is experiencing a high impact because they expected a transaction to complete successfully.",
+    "context": [
+      "Customer Impact: High (customer expecting transaction to complete)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_004",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_005_prc_001",
+    "name": "Disputed Transactions Process",
+    "aliases": [
+      "Category 2"
+    ],
+    "entity_class": "PROCESS",
+    "type": "complaint_resolution",
+    "description": "An operational procedure to handle customer claims where a transaction is deemed unauthorized or incorrect. The process carries a high customer impact due to financial loss claims and mandates an investigation window of 5–10 business days.",
+    "context": [
+      "Category 2: Disputed Transactions",
+      "Customer claims transaction unauthorized or incorrect",
+      "SLA: Investigate within 5–10 business days"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_005",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_005_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "complaining_customer",
+    "description": "The individual who initiates the dispute by claiming a transaction was unauthorized or incorrect, resulting in a potential financial loss.",
+    "context": [
+      "Customer claims transaction unauthorized or incorrect",
+      "Customer Impact: High (financial loss claim)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_005",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_005_trn_001",
+    "name": "Disputed Transaction",
+    "aliases": [
+      "unauthorized transfer",
+      "incorrect charge"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "investigated_transaction",
+    "description": "A financial event flagged by the customer as being unauthorized, duplicated, having an incorrect amount, or showing the wrong date.",
+    "context": [
+      "I didn't authorize this transfer",
+      "I was charged twice",
+      "Amount is wrong (£50 instead of £5)",
+      "Transaction shows wrong date"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_005",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_006_prc_001",
+    "name": "Regulatory Exceptions Remediation Process",
+    "aliases": [
+      "Category 3: Regulatory Exceptions"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "A process designed to handle operational or compliance issues flagged by audit or risk, such as missing KYC or AML delays. The process aims for remediation within a timeline of 5 to 30 days depending on severity, with potentially low customer impact including account restrictions.",
+    "context": [
+      "Category 3: Regulatory Exceptions",
+      "Operational or compliance issue flagged by audit/risk",
+      "Remediate within 5–30 days (depends on severity)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_006",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_006_rol_001",
+    "name": "Audit and Risk Team",
+    "aliases": [
+      "audit/risk"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "The internal body responsible for flagging operational or compliance issues as regulatory exceptions that require remediation.",
+    "context": [
+      "Operational or compliance issue flagged by audit/risk"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_006",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_006_chk_001",
+    "name": "KYC Documentation Completeness Check",
+    "aliases": [
+      "Missing KYC documentation"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "document_retention",
+    "description": "A compliance gate used to identify if mandatory KYC documentation is missing, which, if failed, triggers a Category 3 Regulatory Exception.",
+    "context": [
+      "Missing KYC documentation"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_006",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_006_chk_002",
+    "name": "AML Screening Timeline Verification",
+    "aliases": [
+      "AML screening delay"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "aml_screening",
+    "description": "A control point to ensure AML screening has been completed within required timeframes; delays are flagged as regulatory exceptions.",
+    "context": [
+      "AML screening delay"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_006",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_006_chk_003",
+    "name": "Transaction Policy Limit Review",
+    "aliases": [
+      "Transaction outside policy limits"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "risk_classification",
+    "description": "A check to ensure transactions remain within defined policy limits. Transactions exceeding these limits are flagged as regulatory exceptions.",
+    "context": [
+      "Transaction outside policy limits"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_006",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_006_chk_004",
+    "name": "Regulatory Reporting Accuracy Check",
+    "aliases": [
+      "Regulatory reporting error"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "regulatory_reporting",
+    "description": "A mandatory check to ensure regulatory reports are accurate. Errors discovered here are categorized as regulatory exceptions.",
+    "context": [
+      "Regulatory reporting error"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_006",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_006_dec_001",
+    "name": "Account Restriction Trigger",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A decision point based on the internal operational or compliance issue where the bank determines if a customer account needs to be restricted.",
+    "context": [
+      "Customer Impact: Low (internal issue, may require account restriction)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_006",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_006_stp_001",
+    "name": "Exception Remediation",
+    "aliases": [
+      "Remediate"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The action of resolving the flagged regulatory exception within the specified SLA of 5 to 30 days.",
+    "context": [
+      "Remediate within 5–30 days (depends on severity)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_006",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_007_prc_001",
+    "name": "Exception Detection Process",
+    "aliases": [
+      "Exception Detection"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "The end-to-end procedure for identifying operational exceptions through automated monitoring of transactions and compliance flags. The process results in the automatic logging of identified issues to an exception queue.",
+    "context": [
+      "Exception Detection",
+      "Automatic logging to exception queue"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_007",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_007_stp_001",
+    "name": "Automated Exception Monitoring",
+    "aliases": [
+      "Automated Detection"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "A discrete stage where the system monitors for failed transactions, unusual patterns, regulatory alerts, and KYC/AML verification issues.",
+    "context": [
+      "Automated Detection",
+      "System Monitors For:"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_007",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_007_stp_002",
+    "name": "Exception Queue Logging",
+    "aliases": [
+      "Action"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The final action in the automated detection sequence where detected exceptions are automatically recorded into the exception queue.",
+    "context": [
+      "Action: Automatic logging to exception queue"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_007",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_007_rol_001",
+    "name": "Automated Monitoring System",
+    "aliases": [
+      "System"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The system responsible for monitoring logs, fraud rules, and compliance flags to detect exceptions.",
+    "context": [
+      "System Monitors For:",
+      "Automatic logging to exception queue"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_007",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_007_trn_001",
+    "name": "Failed Transaction",
+    "aliases": [
+      "Failed transaction attempts"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "failed_transaction",
+    "description": "A transaction attempt that has failed and is captured via system logs for exception detection.",
+    "context": [
+      "Failed transaction attempts (system logs)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_007",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_007_trn_002",
+    "name": "Unusual Transaction Pattern",
+    "aliases": [
+      "Unusual transaction patterns"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "suspicious_transaction",
+    "description": "Transactions that trigger fraud rules due to abnormal patterns and are flagged as exceptions.",
+    "context": [
+      "Unusual transaction patterns (fraud rules)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_007",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_007_chk_001",
+    "name": "Regulatory Alert Checkpoint",
+    "aliases": [
+      "Regulatory alerts"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "regulatory_reporting",
+    "description": "A compliance gate where regulatory alerts are flagged, triggering an exception log.",
+    "context": [
+      "Regulatory alerts (compliance flagged)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_007",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_007_chk_002",
+    "name": "KYC/AML Exception Checkpoint",
+    "aliases": [
+      "KYC/AML exceptions"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "risk_classification",
+    "description": "A verification gate that identifies issues during the KYC or AML process and logs them as exceptions.",
+    "context": [
+      "KYC/AML exceptions (verification issues)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_007",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_008_prc_001",
+    "name": "Manual Detection Process",
+    "aliases": [
+      "Manual Detection"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "The operational workflow for identifying and logging exceptions via staff reports, teller observations, audit findings, and regulator communications. The process concludes with escalation to the exception team.",
+    "context": [
+      "Manual Detection",
+      "Logged by staff, escalated to exception team"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_008",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_008_stp_001",
+    "name": "Staff Reporting Step",
+    "aliases": [
+      "Staff Reports"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The collection of reports regarding customer complaints via phone, email, or branch visits to identify potential operational issues.",
+    "context": [
+      "Staff Reports",
+      "Customer complaint (phone, email, branch)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_008",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_008_stp_002",
+    "name": "Teller Observation Step",
+    "aliases": [
+      "Teller observation"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The identification of a potential issue based on a teller observing a rejected transaction during processing.",
+    "context": [
+      "Teller observation (transaction rejected)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_008",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_008_stp_003",
+    "name": "Audit Finding Review Step",
+    "aliases": [
+      "Audit finding"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "The identification of operational exceptions arising from formal control testing performed during audits.",
+    "context": [
+      "Audit finding (control testing)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_008",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_008_stp_004",
+    "name": "Regulator Communication Review Step",
+    "aliases": [
+      "Regulator communication"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The process of receiving and acting upon regulatory exceptions communicated by the regulator.",
+    "context": [
+      "Regulator communication (regulatory exception)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_008",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_008_stp_005",
+    "name": "Exception Logging and Escalation Step",
+    "aliases": [
+      "Action"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The final action where the detected exception is logged by staff and formally escalated to the exception team.",
+    "context": [
+      "Action: Logged by staff, escalated to exception team"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_008",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_008_rol_001",
+    "name": "Bank Staff",
+    "aliases": [
+      "staff"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "Personnel responsible for reporting complaints, observing transaction failures, and logging exceptions for escalation.",
+    "context": [
+      "Staff Reports",
+      "Logged by staff"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_008",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_008_rol_002",
+    "name": "Teller",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_staff",
+    "description": "Front-line staff responsible for observing and reporting rejected transactions.",
+    "context": [
+      "Teller observation (transaction rejected)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_008",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_008_rol_003",
+    "name": "Exception Team",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The specialized team to which manual detections are escalated for further handling.",
+    "context": [
+      "escalated to exception team"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_008",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_008_rol_004",
+    "name": "Regulator",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "External body that communicates regulatory exceptions to the bank.",
+    "context": [
+      "Regulator communication (regulatory exception)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_008",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_008_cus_001",
+    "name": "Complaining Customer",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "complaining_customer",
+    "description": "The customer who initiates a complaint via phone, email, or branch, triggering the manual detection process.",
+    "context": [
+      "Customer complaint (phone, email, branch)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_008",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_009_prc_001",
+    "name": "Exception Triage & Categorization Process",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "The initial phase of handling reported exceptions, focusing on the immediate logging of the event, categorization based on exception type, and severity assessment to determine if escalation is required.",
+    "context": [
+      "Step 1: Triage & Categorization",
+      "When exception reported"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_009",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_009_stp_001",
+    "name": "Exception Logging",
+    "aliases": [
+      "Log Immediately"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The immediate recording of an exception including the generation of an Exception ID, timestamp, reporter details, and an initial description of the event.",
+    "context": [
+      "Log Immediately",
+      "Exception ID generated (EXC-00001234)",
+      "Date/time recorded",
+      "Reporter name noted",
+      "Initial description captured"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_009",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_009_stp_002",
+    "name": "Exception Categorization",
+    "aliases": [
+      "Categorize"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "risk_assessment",
+    "description": "The process of assigning a category to the exception based on whether it is a failed transaction, customer dispute, or regulatory issue.",
+    "context": [
+      "Categorize",
+      "Is it a failed transaction? → Category 1",
+      "Is it a customer dispute? → Category 2",
+      "Is it regulatory? → Category 3"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_009",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_009_stp_003",
+    "name": "Severity Assessment",
+    "aliases": [
+      "Assess Severity"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "risk_assessment",
+    "description": "Evaluating the impact of the exception by analyzing the amount involved, the impact on the customer, and regulatory implications.",
+    "context": [
+      "Assess Severity",
+      "Amount involved",
+      "Customer impact",
+      "Regulatory implication"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_009",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_009_dec_001",
+    "name": "Escalation Trigger Decision",
+    "aliases": [
+      "Escalation required?"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A decision point during severity assessment to determine if the exception necessitates further escalation based on the assessed impact and implications.",
+    "context": [
+      "Escalation required?"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_009",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_010_prc_001",
+    "name": "Failed Transaction Investigation Process",
+    "aliases": [
+      "Step 2: Investigation",
+      "Category 1: Failed Transactions"
+    ],
+    "entity_class": "PROCESS",
+    "type": "fraud_investigation",
+    "description": "An operational procedure for investigating failed transactions to determine the cause of failure and implement the appropriate resolution, such as refunds or retries.",
+    "context": [
+      "Step 2: Investigation",
+      "Category 1: Failed Transactions",
+      "Investigation Steps"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_010",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_010_stp_001",
+    "name": "Transaction Record Retrieval",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial action of pulling the specific transaction record from the banking system to begin the investigation.",
+    "context": [
+      "Pull transaction record from system"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_010",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_010_stp_002",
+    "name": "Failure Status Analysis",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The process of checking the system status to identify the specific reason why a transaction failed.",
+    "context": [
+      "Check status (why did it fail?)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_010",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_010_stp_003",
+    "name": "Customer Authorization Verification",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "identity_check",
+    "description": "A verification step to ensure that the customer had properly authorized the transaction attempt.",
+    "context": [
+      "Verify customer authorization"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_010",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_010_stp_004",
+    "name": "Account Details Confirmation",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_verification",
+    "description": "A check to confirm that the account details associated with the transaction are correct and valid.",
+    "context": [
+      "Confirm account details correct"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_010",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_010_stp_005",
+    "name": "Reversibility Assessment",
+    "aliases": [
+      "Step 5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "risk_assessment",
+    "description": "An assessment to determine if the failed transaction is eligible for reversal based on its current state.",
+    "context": [
+      "Assess if reversible"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_010",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_010_dec_001",
+    "name": "Failure Reason Determination",
+    "aliases": [
+      "Common Failure Reasons"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A branching point where the investigator identifies the specific failure reason (Insufficient funds, Invalid recipient, Account frozen, or Duplicate prevention) to determine the resolution path.",
+    "context": [
+      "Insufficient funds",
+      "Invalid recipient",
+      "Account frozen",
+      "Duplicate prevention"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_010",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_010_dec_002",
+    "name": "Final Resolution Decision",
+    "aliases": [
+      "Outcome"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "approve_reject",
+    "description": "The final decision gate to determine if the outcome should be a refund, a transaction retry, or a customer explanation.",
+    "context": [
+      "Outcome: Refund if funds were debited + failed, retry if appropriate, or explain to customer"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_010",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_010_tra_001",
+    "name": "Failed Transaction",
+    "aliases": [
+      "transaction record"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "failed_transaction",
+    "description": "The specific financial event that has failed to complete and is the subject of the investigation process.",
+    "context": [
+      "Pull transaction record from system",
+      "Refund if funds were debited + failed"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_010",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_010_acc_001",
+    "name": "Investigated Account",
+    "aliases": [
+      "account details"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "active_account",
+    "description": "The customer account involved in the failed transaction, which may be checked for balance or freeze status.",
+    "context": [
+      "Confirm account details correct",
+      "Confirm balance at time of attempt",
+      "Confirm freeze in place and reason"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_010",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_010_cus_001",
+    "name": "Affected Customer",
+    "aliases": [
+      "customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The bank customer whose transaction has failed and who must be notified or contacted for correct details.",
+    "context": [
+      "Explain to customer",
+      "Contact customer for correct details",
+      "notify customer"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_010",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_011_prc_001",
+    "name": "Disputed Transactions Investigation Process",
+    "aliases": [
+      "Category 2: Disputed Transactions"
+    ],
+    "entity_class": "PROCESS",
+    "type": "fraud_investigation",
+    "description": "An operational workflow for investigating disputed transactions to determine if they were authorized, unauthorized, or require further escalation. The process involves reviewing transaction details, customer history, and negligence factors to determine the refund outcome.",
+    "context": [
+      "Category 2: Disputed Transactions",
+      "Investigation Steps:",
+      "Outcomes:"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_011",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_011_stp_001",
+    "name": "Pull Transaction Details",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The initial action of retrieving the specific details of the transaction under dispute to begin the investigation.",
+    "context": [
+      "1. Pull transaction details"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_011",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_011_stp_002",
+    "name": "Verify Customer Authorization",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "A step to determine whether the customer actually authorized the transaction in question.",
+    "context": [
+      "2. Verify customer authorized",
+      "Did customer authorize this amount?"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_011",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_011_stp_003",
+    "name": "Verify Timestamp and Amount",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "A technical check of the transaction's timing and monetary value to validate the claim.",
+    "context": [
+      "3. Check timestamp and amount",
+      "Timeline: When reported vs. when occurred?"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_011",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_011_stp_004",
+    "name": "Review Customer History and Patterns",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "An analytical review of the customer's previous transaction behavior to identify any patterns that might indicate fraud or normal usage.",
+    "context": [
+      "4. Review customer history (patterns?)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_011",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_011_stp_005",
+    "name": "Assess Fraud Likelihood",
+    "aliases": [
+      "Step 5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "risk_assessment",
+    "description": "The final evaluative step where the investigator determines the probability that the transaction was fraudulent based on the collected evidence.",
+    "context": [
+      "5. Assess fraud likelihood"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_011",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_011_dec_001",
+    "name": "Transaction Authorization Decision",
+    "aliases": [
+      "Outcomes"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "approve_reject",
+    "description": "A decision gate based on the investigation outcome that determines if a transaction is categorized as Unauthorized, Authorized, or Disputed, triggering different response paths.",
+    "context": [
+      "Outcomes:",
+      "Unauthorized: Full refund within 10 days",
+      "Authorized: Explain, educate customer",
+      "Disputed: Further investigation or escalation"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_011",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_011_trn_001",
+    "name": "Disputed Transaction",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "investigated_transaction",
+    "description": "The specific financial event being investigated for authorization and fraud likelihood.",
+    "context": [
+      "Disputed Transactions",
+      "Pull transaction details"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_011",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_011_cus_001",
+    "name": "Complaining Customer",
+    "aliases": [
+      "customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "complaining_customer",
+    "description": "The bank customer who is disputing a transaction and whose authorization and negligence (e.g., password sharing) are being assessed.",
+    "context": [
+      "Verify customer authorized",
+      "Review customer history",
+      "Was customer negligent? (shared password?)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_011",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_012_prc_001",
+    "name": "Regulatory Exceptions Investigation Process",
+    "aliases": [
+      "Category 3: Regulatory Exceptions"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "A workflow designed to identify, assess, and remediate regulatory failures within the bank's operations, ensuring audit trails are maintained and customer impacts are mitigated.",
+    "context": [
+      "Category 3: Regulatory Exceptions",
+      "Investigation Steps"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_012",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_012_stp_001",
+    "name": "Identify Specific Regulatory Issue",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The initial step in the investigation process where the specific nature of the regulatory breach or exception is determined.",
+    "context": [
+      "1. Identify specific regulatory issue"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_012",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_012_stp_002",
+    "name": "Assess Impact",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "risk_assessment",
+    "description": "Evaluating whether the regulatory exception has a customer-facing impact or is strictly an internal failure.",
+    "context": [
+      "2. Assess impact (customer-facing vs. internal)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_012",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_012_stp_003",
+    "name": "Determine Remediation Steps",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "Deciding upon the specific corrective actions required to resolve the identified regulatory exception.",
+    "context": [
+      "3. Determine remediation steps"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_012",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_012_stp_004",
+    "name": "Check for Widespread Impact",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "A review step to determine if the regulatory issue is an isolated incident or if other customers are similarly affected.",
+    "context": [
+      "4. Check if other customers affected"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_012",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_012_stp_005",
+    "name": "Document for Audit Trail",
+    "aliases": [
+      "Step 5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The final step of the investigation process to ensure all findings and remediation actions are formally recorded for auditing purposes.",
+    "context": [
+      "5. Document for audit trail"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_012",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_012_dec_001",
+    "name": "KYC Documentation Availability Gate",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "pass_fail",
+    "description": "A decision point during the remediation of missing KYC where the bank decides whether to proceed with account activity based on the customer's ability to provide missing documents.",
+    "context": [
+      "Obtain missing docs immediately, suspend if can't provide"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_012",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_012_dec_002",
+    "name": "AML Screening Flag Gate",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "escalate_or_resolve",
+    "description": "A decision point during retroactive AML screening where a result is either resolved or escalated if a flag is generated.",
+    "context": [
+      "Retroactive screening, escalate if flagged"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_012",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_012_chk_001",
+    "name": "KYC Verification Checkpoint",
+    "aliases": [
+      "Missing KYC"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "document_retention",
+    "description": "A control point verifying that accounts have been opened with the required identity verification documents.",
+    "context": [
+      "Missing KYC",
+      "Account opened without ID verification"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_012",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_012_chk_002",
+    "name": "AML Screening Timing Checkpoint",
+    "aliases": [
+      "AML delay"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "sanctions_check",
+    "description": "A control point verifying that AML screening was performed within the required timeframe relative to account opening.",
+    "context": [
+      "AML delay",
+      "Customer screened 3 days after opening"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_012",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_012_acc_001",
+    "name": "Exception Impacted Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "active_account",
+    "description": "Accounts subject to regulatory exceptions, including those with missing KYC, delayed AML screening, or rate errors.",
+    "context": [
+      "Account opened without ID verification",
+      "Wrong interest applied to account"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_012",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_012_cus_001",
+    "name": "Affected Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The customer subject to the regulatory exception investigation and potential remediation (e.g., receiving back-interest).",
+    "context": [
+      "Check if other customers affected",
+      "add back-interest if in customer's favor"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_012",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_013_prc_001",
+    "name": "Failed Transaction Resolution Process",
+    "aliases": [
+      "Step 3: Resolution",
+      "Failed Transactions"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "An operational workflow to resolve failed transactions through three primary paths: reprocessing, refunding with compensation, or manual facilitation based on the specific failure scenario.",
+    "context": [
+      "Step 3: Resolution",
+      "Failed Transactions",
+      "Resolution Options"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_013",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_013_dec_001",
+    "name": "Transaction Resolution Path Decision",
+    "aliases": [
+      "Resolution Options"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A branching point where staff must determine whether to Reprocess the transaction, provide a Refund + Compensation, or perform Manual Facilitation based on fund availability and customer intent.",
+    "context": [
+      "Resolution Options:",
+      "Option A: Reprocess",
+      "Option B: Refund + Compensation",
+      "Option C: Manual Facilitation"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_013",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_013_stp_001",
+    "name": "Transaction Reprocessing Step",
+    "aliases": [
+      "Option A"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "A sequence of actions to resolve a failure by confirming fund availability, resubmitting the transaction, notifying the customer of success, and closing the exception record.",
+    "context": [
+      "Confirm funds now available",
+      "Resubmit transaction",
+      "Confirm success to customer",
+      "Close exception"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_013",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_013_stp_002",
+    "name": "Refund and Compensation Step",
+    "aliases": [
+      "Option B"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "A remediation sequence triggered when funds were debited despite a transaction failure, involving an immediate refund, interest addition, and potential service failure compensation.",
+    "context": [
+      "If funds were debited despite failure: Refund immediately",
+      "Add interest (if applicable)",
+      "Apologize for inconvenience",
+      "Consider compensation (if service failure)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_013",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_013_stp_003",
+    "name": "Manual Transaction Facilitation Step",
+    "aliases": [
+      "Option C"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "An override procedure used when a customer wishes to proceed despite system blocks, requiring staff to manually facilitate the transaction and document the justification for the override.",
+    "context": [
+      "Customer wants to proceed but system blocks",
+      "Staff can manually facilitate (with approvals)",
+      "Document reason for manual override"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_013",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_013_rol_001",
+    "name": "Bank Staff",
+    "aliases": [
+      "Staff"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The personnel responsible for executing resolution options, including reprocessing transactions, issuing refunds, and facilitating manual overrides.",
+    "context": [
+      "Staff can manually facilitate (with approvals)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_013",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_013_rol_002",
+    "name": "Bank Customer",
+    "aliases": [
+      "customer"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The recipient of transaction success confirmations, refunds, and apologies, and the party requesting manual facilitation when system blocks occur.",
+    "context": [
+      "Confirm success to customer",
+      "Apologize for inconvenience",
+      "Customer wants to proceed but system blocks"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_013",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_013_tra_001",
+    "name": "Failed Transaction",
+    "aliases": [
+      "exception"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "failed_transaction",
+    "description": "A financial event that has failed to complete successfully and requires resolution through the reprocessing, refund, or manual override workflows.",
+    "context": [
+      "Failed Transactions",
+      "Resubmit transaction",
+      "If funds were debited despite failure"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_013",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_014_prc_001",
+    "name": "Disputed Transactions Resolution Process",
+    "aliases": [
+      "Disputed Transactions"
+    ],
+    "entity_class": "PROCESS",
+    "type": "complaint_resolution",
+    "description": "An operational workflow for handling customer disputes regarding transactions. The process branches into three distinct resolution paths (Refund, Educate & Retain, or Merchant Escalation) based on the nature of the dispute.",
+    "context": [
+      "Disputed Transactions",
+      "Resolution Options"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_014",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_014_dec_001",
+    "name": "Dispute Resolution Path Selection",
+    "aliases": [
+      "Resolution Options"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "escalate_or_resolve",
+    "description": "A decision gate to determine whether a disputed transaction should be handled via a direct refund, customer education, or escalation to the merchant/card scheme based on the evidence provided.",
+    "context": [
+      "Resolution Options:",
+      "Option A: Refund",
+      "Option B: Educate & Retain",
+      "Option C: Escalate to Merchant"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_014",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_014_stp_001",
+    "name": "Refund Execution Step",
+    "aliases": [
+      "Option A"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The process of issuing a refund to a customer when unauthorized activity or merchant error is confirmed. This includes a 10 business day timeline for completion, addition of interest if delayed, and a formal apology.",
+    "context": [
+      "Customer proves unauthorized OR Merchant error confirmed",
+      "Refund within 10 business days",
+      "Add interest if delayed",
+      "Apologize"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_014",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_014_stp_002",
+    "name": "Customer Education and Retention Step",
+    "aliases": [
+      "Option B"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "A step used when a customer authorized a transaction but regrets it. It involves explaining the terms of service and offering the setup of account safeguards such as daily limits and alerts.",
+    "context": [
+      "Customer authorized but regrets",
+      "Explain terms of service",
+      "Offer to set up safeguards (daily limits, alerts)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_014",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_014_stp_003",
+    "name": "Merchant Dispute Escalation Step",
+    "aliases": [
+      "Option C"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The procedure for handling payment disputes via chargeback claims. This involves escalating the matter to the card scheme and initiating a merchant investigation to be resolved according to scheme rules.",
+    "context": [
+      "Payment dispute (chargeback claim)",
+      "Escalate to card scheme",
+      "Merchant investigation initiated",
+      "Resolution per scheme rules"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_014",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_014_rol_001",
+    "name": "Customer",
+    "aliases": [
+      "Applicant"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The bank customer who initiates the dispute and provides proof of unauthorized activity or expresses regret over an authorized transaction.",
+    "context": [
+      "Customer proves unauthorized",
+      "Customer authorized but regrets"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_014",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_014_rol_002",
+    "name": "Merchant",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "The external entity where merchant errors are confirmed or where investigations are initiated for chargeback claims.",
+    "context": [
+      "Merchant error confirmed",
+      "Merchant investigation initiated"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_014",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_014_rol_003",
+    "name": "Card Scheme",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "The governing body or system to which payment disputes are escalated for resolution according to predefined scheme rules.",
+    "context": [
+      "Escalate to card scheme",
+      "Resolution per scheme rules"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_014",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_014_tra_001",
+    "name": "Disputed Transaction",
+    "aliases": [
+      "Payment dispute",
+      "Chargeback claim"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "investigated_transaction",
+    "description": "A financial event flagged by the customer as unauthorized, an error, or a point of regret, requiring investigation and resolution.",
+    "context": [
+      "Disputed Transactions",
+      "Payment dispute (chargeback claim)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_014",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_015_prc_001",
+    "name": "Regulatory Exceptions Resolution Process",
+    "aliases": [
+      "Regulatory Exceptions"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "The operational workflow for handling and resolving regulatory exceptions. It provides three distinct resolution paths based on the nature of the issue: immediate remediation, management escalation, or temporary account restriction.",
+    "context": [
+      "Regulatory Exceptions",
+      "Resolution Options"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_015",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_015_dec_001",
+    "name": "Regulatory Exception Resolution Path Selection",
+    "aliases": [
+      "Resolution Options"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A decision gate where the handler determines which of the three resolution options (Option A, B, or C) is appropriate based on the severity and nature of the regulatory issue.",
+    "context": [
+      "Resolution Options:",
+      "Option A: Remediate Immediately",
+      "Option B: Escalate for Approval",
+      "Option C: Restrict Account Temporarily"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_015",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_015_stp_001",
+    "name": "Immediate Remediation Execution",
+    "aliases": [
+      "Option A"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The process of fixing a regulatory issue immediately by obtaining missing KYC or correcting rates. Includes customer notification, documentation of the fix, and closing the exception.",
+    "context": [
+      "Fix the issue (get missing KYC, correct rate, etc.)",
+      "Notify customer if needed",
+      "Document remediation",
+      "Close exception"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_015",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_015_stp_002",
+    "name": "Management Escalation for Approval",
+    "aliases": [
+      "Option B"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "approval_decision",
+    "description": "The process of moving an exception to senior management when a management decision is required. This involves obtaining a formal approval and documenting the decision before proceeding.",
+    "context": [
+      "Exception requires management decision",
+      "Escalate to Head of Operations or Compliance Head",
+      "Obtain approval",
+      "Proceed with approved action",
+      "Document decision"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_015",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_015_rol_001",
+    "name": "Head of Operations",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "A senior management role responsible for reviewing escalated regulatory exceptions and providing formal approval for approved actions.",
+    "context": [
+      "Escalate to Head of Operations or Compliance Head"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_015",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_015_rol_002",
+    "name": "Compliance Head",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "A senior management role responsible for reviewing escalated regulatory exceptions and providing formal approval for approved actions.",
+    "context": [
+      "Escalate to Head of Operations or Compliance Head"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_015",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_015_stp_003",
+    "name": "Temporary Account Restriction",
+    "aliases": [
+      "Option C"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The process applied when a regulatory issue cannot be resolved immediately. It involves placing a hold on transactions and setting a remediation deadline before reactivation.",
+    "context": [
+      "If regulatory issue cannot be immediately resolved",
+      "Restrict transactions (hold pending resolution)",
+      "Set deadline for remediation",
+      "Reactivate once resolved"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_015",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_015_acc_001",
+    "name": "Restricted Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "frozen_account",
+    "description": "A customer account that has been temporarily restricted to prevent transactions due to an unresolved regulatory exception.",
+    "context": [
+      "Restrict Account Temporarily",
+      "Restrict transactions (hold pending resolution)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_015",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_015_cus_001",
+    "name": "Affected Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The customer associated with the regulatory exception who may need to be notified or provide missing information during remediation.",
+    "context": [
+      "Notify customer if needed"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_015",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_016_prc_001",
+    "name": "Customer Communication Process",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS",
+    "type": "notification",
+    "description": "A procedure for notifying customers regarding the outcome of failed or disputed transactions. It utilizes specific templates to communicate actions taken and provides contact details for further inquiries or escalation.",
+    "context": [
+      "Step 4: Customer Communication",
+      "Notification Template",
+      "We attempted to process your [transfer/withdrawal] of £[amount] on [date], but it failed"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_016",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_016_stp_001",
+    "name": "Failed Transaction Notification",
+    "aliases": [
+      "Failed Transaction"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The action of informing a customer that a transfer or withdrawal failed, detailing the reason and the resulting action (Reprocessed, Refunded, or Awaiting action).",
+    "context": [
+      "Failed Transaction:",
+      "We attempted to process your [transfer/withdrawal] of £[amount] on [date], but it failed due to [reason].",
+      "Action taken: [Reprocessed/Refunded/Awaiting your action]"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_016",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_016_stp_002",
+    "name": "Disputed Transaction Notification",
+    "aliases": [
+      "Disputed Transaction"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The action of communicating the outcome of a transaction dispute investigation to the customer, stating whether the transaction was authorized or unauthorized and the resulting action.",
+    "context": [
+      "Disputed Transaction:",
+      "Thank you for reporting the disputed transaction of £[amount] on [date].",
+      "Investigation outcome: [Authorized/Unauthorized/Other]"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_016",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_016_rol_001",
+    "name": "FirstUK Bank Customer Service",
+    "aliases": [
+      "Customer Service"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer_service",
+    "description": "The department responsible for issuing notifications to customers regarding failed or disputed transactions and serving as the primary point of contact for questions.",
+    "context": [
+      "contact us at 0800-555-2265. Regards, FirstUK Bank Customer Service"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_016",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_016_rol_002",
+    "name": "Customer",
+    "aliases": [
+      "Recipient"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "existing_customer",
+    "description": "The bank client who receives notifications regarding transaction failures or dispute outcomes and who may initiate contact or escalate to the Ombudsman.",
+    "context": [
+      "Dear [Customer],",
+      "If you disagree with our findings, contact Financial Ombudsman Service."
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_016",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_016_rol_003",
+    "name": "Financial Ombudsman Service",
+    "aliases": [
+      "Ombudsman"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "The external body the customer is directed to contact if they disagree with the bank's findings regarding a disputed transaction.",
+    "context": [
+      "If you disagree with our findings, contact Financial Ombudsman Service."
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_016",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_016_tra_001",
+    "name": "Failed Transaction",
+    "aliases": [
+      "failed_transaction"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "failed_transaction",
+    "description": "A transfer or withdrawal that could not be processed and triggers a customer notification.",
+    "context": [
+      "We attempted to process your [transfer/withdrawal] of £[amount] on [date], but it failed"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_016",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_016_tra_002",
+    "name": "Disputed Transaction",
+    "aliases": [
+      "disputed_transaction"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "investigated_transaction",
+    "description": "A transaction reported by a customer as disputed, which undergoes investigation to determine if it was authorized or unauthorized.",
+    "context": [
+      "Thank you for reporting the disputed transaction of £[amount] on [date].",
+      "Investigation outcome: [Authorized/Unauthorized/Other]"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_016",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_017_prc_001",
+    "name": "Exception Resolution Quality Assurance Process",
+    "aliases": [
+      "Step 5: Quality Assurance"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "A quality assurance workflow consisting of post-resolution reviews for individual exceptions and the generation of a Monthly Exception Report to track trends, resolution times, and satisfaction.",
+    "context": [
+      "Step 5: Quality Assurance",
+      "Post-Resolution Review",
+      "Monthly Exception Report"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_017",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_017_stp_001",
+    "name": "Post-Resolution Review",
+    "aliases": [
+      "Review"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "A discrete review stage performed for each exception to ensure the investigation is documented, the resolution is justified, and the customer has been notified.",
+    "context": [
+      "Post-Resolution Review",
+      "For Each Exception:",
+      "Investigation documented",
+      "Resolution justified",
+      "Customer notified"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_017",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_017_stp_002",
+    "name": "Refund Processing",
+    "aliases": [
+      "Process refund"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The action of processing a refund if applicable, which must be completed within the defined Service Level Agreement (SLA).",
+    "context": [
+      "If refund: Processed within SLA"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_017",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_017_stp_003",
+    "name": "Escalation Documentation",
+    "aliases": [
+      "Document escalation"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The requirement to document a clear reason whenever an exception has been escalated.",
+    "context": [
+      "If escalated: Clear reason documented"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_017",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_017_stp_004",
+    "name": "Monthly Exception Reporting",
+    "aliases": [
+      "Report generation"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The creation of a monthly report aggregating total exceptions, categories (failed, disputed, regulatory), status, resolution times, and customer satisfaction trends.",
+    "context": [
+      "Monthly Exception Report:",
+      "Total exceptions received",
+      "By category (failed, disputed, regulatory)",
+      "Average resolution time"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_017",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_017_dec_001",
+    "name": "Refund Applicability Check",
+    "aliases": [
+      "Refund trigger"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A decision point to determine if a refund is required as part of the resolution; if so, it triggers the SLA-bound refund process.",
+    "context": [
+      "If refund: Processed within SLA"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_017",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_017_dec_002",
+    "name": "Escalation Trigger Check",
+    "aliases": [
+      "Escalation trigger"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "escalate_or_resolve",
+    "description": "A decision point to determine if the case was escalated, necessitating the documentation of a clear reason for the escalation.",
+    "context": [
+      "If escalated: Clear reason documented"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_017",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_017_rol_001",
+    "name": "Customer",
+    "aliases": [
+      "Client"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The subject of the exception resolution who must be notified of the outcome and whose satisfaction is rated in the monthly report.",
+    "context": [
+      "Customer notified",
+      "Customer satisfaction rating"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_017",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_018_prc_001",
+    "name": "Financial Escalation Process",
+    "aliases": [
+      "Escalation Rules"
+    ],
+    "entity_class": "PROCESS",
+    "type": "escalation_procedure",
+    "description": "A procedure defining the triggers and approval paths for escalating financial and regulatory issues based on monetary thresholds and risk factors.",
+    "context": [
+      "Escalation Rules",
+      "When to Escalate",
+      "Escalation Path"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_018",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_018_dec_001",
+    "name": "Immediate Escalation Trigger Check",
+    "aliases": [
+      "When to Escalate"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A decision point to determine if an issue requires immediate escalation based on financial amount (>£5,000), regulatory implications, customer complaints, third-party involvement, or media concern.",
+    "context": [
+      "Escalate Immediately If:",
+      "Financial amount >£5,000",
+      "Regulatory implication",
+      "Customer escalates to complaint",
+      "Merchant/third-party involved",
+      "Media/public concern"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_018",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_018_dec_002",
+    "name": "Approval Level Determination",
+    "aliases": [
+      "Escalation Path"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "authority_limit_check",
+    "description": "A branching logic that assigns the required approval authority based on the specific financial amount of the transaction or the nature of the regulatory risk.",
+    "context": [
+      "Escalation Path:",
+      "Amount <£1,000: Operations Manager approval",
+      "Amount £1,000–£5,000: Director approval",
+      "Amount >£5,000: Executive approval",
+      "Regulatory: Compliance Head approval"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_018",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_018_esc_001",
+    "name": "Level 1 — Operations Manager Approval",
+    "aliases": [
+      "Amount <£1,000"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "supervisor",
+    "description": "The first tier of escalation for financial amounts less than £1,000, requiring approval from the Operations Manager.",
+    "context": [
+      "Amount <£1,000: Operations Manager approval"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_018",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_018_esc_002",
+    "name": "Level 2 — Director Approval",
+    "aliases": [
+      "Amount £1,000–£5,000"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "department_head",
+    "description": "The second tier of escalation for financial amounts between £1,000 and £5,000, requiring Director level approval.",
+    "context": [
+      "Amount £1,000–£5,000: Director approval"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_018",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_018_esc_003",
+    "name": "Level 3 — Executive Approval",
+    "aliases": [
+      "Amount >£5,000"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "executive",
+    "description": "The highest financial escalation tier for amounts exceeding £5,000, requiring approval from the Executive level.",
+    "context": [
+      "Amount >£5,000: Executive approval"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_018",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_018_esc_004",
+    "name": "Regulatory Tier — Compliance Head Approval",
+    "aliases": [
+      "Regulatory"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "department_head",
+    "description": "A specialized escalation path for issues with regulatory implications, requiring approval from the Compliance Head.",
+    "context": [
+      "Regulatory: Compliance Head approval"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_018",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_018_rol_001",
+    "name": "Operations Manager",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The actor responsible for approving escalations where the financial amount is less than £1,000.",
+    "context": [
+      "Operations Manager approval"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_018",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_018_rol_002",
+    "name": "Director",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The actor responsible for approving escalations for financial amounts between £1,000 and £5,000.",
+    "context": [
+      "Director approval"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_018",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_018_rol_003",
+    "name": "Executive",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "executive",
+    "description": "The actor responsible for approving high-value escalations exceeding £5,000.",
+    "context": [
+      "Executive approval"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_018",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_018_rol_004",
+    "name": "Compliance Head",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "The actor responsible for approving escalations involving regulatory implications.",
+    "context": [
+      "Compliance Head approval"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_018",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_019_prc_001",
+    "name": "Failed Transfer — Insufficient Funds Resolution Process",
+    "aliases": [
+      "Failed Transfer",
+      "Insufficient Funds Exception"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "The operational procedure for handling and resolving failed fund transfers caused by insufficient account balances. It involves investigation of the balance at the time of transaction and customer notification within a 1 business day SLA.",
+    "context": [
+      "Failed Transfer — Insufficient Funds",
+      "Exception: Customer attempted £5,000 transfer, balance only £3,000",
+      "SLA: 1 business day (immediate notification)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_019",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_019_stp_001",
+    "name": "Balance Confirmation Investigation",
+    "aliases": [
+      "Investigation"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The step where the bank confirms the exact account balance available at the specific time the transaction was attempted to verify the cause of the failure.",
+    "context": [
+      "Investigation: Confirmed balance at transaction time"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_019",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_019_stp_002",
+    "name": "Customer Notification and Retry Offer",
+    "aliases": [
+      "Resolution"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The final resolution step where the staff explains the failure to the customer and provides the option to retry the transfer once the necessary funds are available.",
+    "context": [
+      "Resolution: Explain to customer, offer retry once funds available"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_019",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_019_rol_001",
+    "name": "Bank Staff",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The unnamed bank employee responsible for investigating the balance, notifying the customer, and offering a retry of the transaction.",
+    "context": [
+      "Investigation: Confirmed balance at transaction time",
+      "Resolution: Explain to customer"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_019",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_019_rol_002",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The bank customer who attempted the transfer and receives the notification regarding the insufficient funds.",
+    "context": [
+      "Customer attempted £5,000 transfer",
+      "Explain to customer"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_019",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_019_trn_001",
+    "name": "Failed Transfer Transaction",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "failed_transaction",
+    "description": "A specific financial event where a transfer (e.g., £5,000) failed to execute because the available balance (e.g., £3,000) was insufficient.",
+    "context": [
+      "Customer attempted £5,000 transfer, balance only £3,000",
+      "Confirmed balance at transaction time"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_019",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_020_prc_001",
+    "name": "Disputed Standing Order Process",
+    "aliases": [
+      "Disputed Standing Order"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "An operational workflow to handle exceptions where a customer claims a standing order is unauthorized. The process involves investigation and resolution within a 2 business day SLA.",
+    "context": [
+      "Disputed Standing Order",
+      "Exception: Customer claims unauthorized standing order to \"Unknown Recipient\"",
+      "SLA: 2 business days"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_020",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_020_rol_001",
+    "name": "Bank Staff",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The implicit actor responsible for investigating the disputed standing order and educating the customer on the resolution.",
+    "context": [
+      "Investigation: Found legitimate standing order",
+      "Resolution: Educate customer on standing order setup"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_020",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_020_cus_001",
+    "name": "Complaining Customer",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "complaining_customer",
+    "description": "The bank customer who has raised a dispute claiming a standing order to an 'Unknown Recipient' was unauthorized.",
+    "context": [
+      "Customer claims unauthorized standing order to \"Unknown Recipient\"",
+      "Educate customer on standing order setup"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_020",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_020_stp_001",
+    "name": "Unauthorized Standing Order Investigation",
+    "aliases": [
+      "Investigation"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The stage where the bank investigates the claim of an unauthorized standing order to verify the legitimacy of the recipient.",
+    "context": [
+      "Investigation: Found legitimate standing order to Mortgage Company (customer's mortgage)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_020",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_020_stp_002",
+    "name": "Customer Education and Resolution",
+    "aliases": [
+      "Resolution"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The final step where the customer is educated on how standing orders are set up and how to view them via online banking.",
+    "context": [
+      "Resolution: Educate customer on standing order setup, explain visibility in online banking"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_020",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_020_sto_001",
+    "name": "Disputed Mortgage Standing Order",
+    "aliases": [
+      "Unknown Recipient"
+    ],
+    "entity_class": "STANDING_ORDER",
+    "type": "investigated_transaction",
+    "description": "A specific standing order initially flagged by the customer as unauthorized but found to be a legitimate payment to the customer's mortgage company.",
+    "context": [
+      "unauthorized standing order to \"Unknown Recipient\"",
+      "Found legitimate standing order to Mortgage Company (customer's mortgage)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_020",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_020_dec_001",
+    "name": "Standing Order Legitimacy Check",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "pass_fail",
+    "description": "A decision point during investigation to determine if the standing order is indeed unauthorized or a legitimate payment.",
+    "context": [
+      "Investigation: Found legitimate standing order to Mortgage Company"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_020",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_021_prc_001",
+    "name": "Duplicate Charge Exception Handling Process",
+    "aliases": [
+      "Duplicate Charge"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "An operational workflow to resolve instances where a customer is charged twice for the same transfer due to a failure in system duplicate prevention. The process involves investigation, refunding the duplicate charge with interest and goodwill compensation, and adheres to a 3-business day SLA.",
+    "context": [
+      "Exception: Customer charged twice for £500 transfer",
+      "SLA: 3 business days (refund within 10)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_021",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_021_stp_001",
+    "name": "Duplicate Transaction Investigation",
+    "aliases": [
+      "Investigation"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The analysis phase where the system is checked for identical transactions occurring within a short timeframe (1 minute) to confirm a failure in duplicate prevention.",
+    "context": [
+      "Investigation: Two identical transactions within 1 minute (system duplicate prevention failed)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_021",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_021_stp_002",
+    "name": "Refund and Compensation Execution",
+    "aliases": [
+      "Resolution"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The final resolution step requiring the refund of the second charge, addition of interest, and the application of a £50 goodwill compensation payment.",
+    "context": [
+      "Resolution: Refund second charge + interest + £50 goodwill compensation"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_021",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_021_rol_001",
+    "name": "Duplicate Prevention System",
+    "aliases": [
+      "system"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The automated system responsible for preventing duplicate transactions, which in this instance failed to block two identical transfers.",
+    "context": [
+      "system duplicate prevention failed"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_021",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_021_cus_001",
+    "name": "Affected Customer",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The bank customer who has been erroneously charged twice for a single transfer and is the recipient of the refund and compensation.",
+    "context": [
+      "Customer charged twice for £500 transfer"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_021",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_021_tra_001",
+    "name": "Duplicate Transfer Transaction",
+    "aliases": [
+      "Two identical transactions"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "suspicious_transaction",
+    "description": "The financial events consisting of two identical £500 transfers occurring within one minute of each other.",
+    "context": [
+      "Customer charged twice for £500 transfer",
+      "Two identical transactions within 1 minute"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_021",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_022_prc_001",
+    "name": "Missing KYC Documentation Resolution Process",
+    "aliases": [
+      "Exception: Account opened without identity verification"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "An operational workflow triggered by an audit finding where an account was opened online without identity verification. The process involves investigating the missing KYC file and requesting documentation from the customer within a 5-day SLA.",
+    "context": [
+      "Exception: Account opened without identity verification (audit finding)",
+      "Investigation: KYC file missing; customer opened via online",
+      "Resolution: Email customer, request identity document immediately"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_022",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_022_stp_001",
+    "name": "KYC File Investigation",
+    "aliases": [
+      "Investigation"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The initial stage of the exception process where the missing nature of the KYC file is confirmed and the account opening channel (online) is identified.",
+    "context": [
+      "Investigation: KYC file missing; customer opened via online"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_022",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_022_stp_002",
+    "name": "Customer Documentation Request",
+    "aliases": [
+      "Resolution"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The action of contacting the customer via email to immediately request the missing identity documents required for KYC compliance.",
+    "context": [
+      "Resolution: Email customer, request identity document immediately"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_022",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_022_dec_001",
+    "name": "Identity Document Provision Check",
+    "aliases": [
+      "SLA check"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "timeout_check",
+    "description": "A decision gate based on a 5-day SLA to determine if the customer has provided the required identity documents. If the document is not provided, the account must be restricted.",
+    "context": [
+      "SLA: 5 days (account restricted if doc not provided)"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_022",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_022_chk_001",
+    "name": "Identity Verification Compliance Gate",
+    "aliases": [
+      "KYC verification"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "risk_classification",
+    "description": "The mandatory regulatory control point ensuring that identity verification is completed for accounts opened via online channels to satisfy audit requirements.",
+    "context": [
+      "Account opened without identity verification (audit finding)",
+      "KYC file missing"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_022",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_022_rol_001",
+    "name": "Operations Analyst",
+    "aliases": [
+      "Implicit actor"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The staff member responsible for performing the investigation, emailing the customer, and enforcing the account restriction if the SLA is breached.",
+    "context": [
+      "Investigation: KYC file missing",
+      "Resolution: Email customer, request identity document immediately"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_022",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_022_cus_001",
+    "name": "Online Applicant",
+    "aliases": [
+      "customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "applicant",
+    "description": "The customer who opened an account via the online channel and is currently missing required identity documentation.",
+    "context": [
+      "customer opened via online",
+      "Email customer, request identity document immediately"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_022",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_022_acc_001",
+    "name": "Unverified Online Account",
+    "aliases": [
+      "account"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "active_account",
+    "description": "The specific bank account subject to an audit finding for missing KYC, which is liable to be restricted if documentation is not provided within 5 days.",
+    "context": [
+      "Account opened without identity verification",
+      "account restricted if doc not provided"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_022",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_022_doc_001",
+    "name": "Identity Document",
+    "aliases": [
+      "identity verification"
+    ],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "passport_verification",
+    "description": "The official identity documentation required to resolve the audit exception and satisfy the KYC file requirement.",
+    "context": [
+      "request identity document immediately",
+      "Account opened without identity verification"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_022",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_025_rol_001",
+    "name": "Head of Operations",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "Senior operational leader responsible for the final sign-off and approval of the operational procedure document.",
+    "context": [
+      "Approved by: Head of Operations"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_025",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "f1c5f161c2404ef5a866d07e78cf3650_025_rol_002",
+    "name": "Head of Compliance",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "Senior compliance leader responsible for the final sign-off and approval of the operational procedure document to ensure regulatory alignment.",
+    "context": [
+      "Approved by: Head of Compliance"
+    ],
+    "chunk_id": "f1c5f161c2404ef5a866d07e78cf3650_025",
+    "doc_id": "f1c5f161c2404ef5a866d07e78cf3650",
+    "domain": "banking_sop_guides"
+  }
+]

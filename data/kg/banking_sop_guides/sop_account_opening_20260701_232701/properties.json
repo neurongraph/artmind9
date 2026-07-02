@@ -1,0 +1,3373 @@
+[
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_001_prc_001",
+    "name": "Account Opening Process",
+    "properties": {
+      "document_id": "ACCT-OPEN-SOP-001",
+      "owner": "Head of Retail Banking",
+      "departments_involved": [
+        "Retail Banking",
+        "Operations"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_001",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_001_rol_001",
+    "name": "Head of Retail Banking",
+    "properties": {
+      "department": "Retail Banking",
+      "role_type": "human"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_001",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_001_rol_002",
+    "name": "Branch Staff",
+    "properties": {
+      "department": "Retail Banking",
+      "role_type": "human"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_001",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_001_rol_003",
+    "name": "Customer Service",
+    "properties": {
+      "department": "Retail Banking",
+      "role_type": "human"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_001",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_001_rol_004",
+    "name": "Operations",
+    "properties": {
+      "department": "Operations",
+      "role_type": "human"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_001",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_001_rol_005",
+    "name": "Compliance",
+    "properties": {
+      "department": "Compliance",
+      "role_type": "human"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_001",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_002_prc_001",
+    "name": "Customer Account Opening Process",
+    "properties": {
+      "purpose": "Establish standardized procedures for opening customer accounts to ensure regulatory compliance, data accuracy, and consistent customer experience",
+      "scope": [
+        "SmartSaver Account",
+        "Current Account",
+        "Mortgage Account"
+      ],
+      "channels": [
+        "branch",
+        "online",
+        "postal"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_002",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_002_prd_001",
+    "name": "SmartSaver Account",
+    "properties": {
+      "product_type": "savings"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_002",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_002_prd_002",
+    "name": "Current Account",
+    "properties": {
+      "product_type": "current"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_002",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_002_prd_003",
+    "name": "Mortgage Account",
+    "properties": {
+      "product_type": "mortgage"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_002",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_003_prc_001",
+    "name": "New Customer Account Opening Process",
+    "properties": {
+      "scope": [
+        "New customer account openings",
+        "All product types (savings, current, mortgages)",
+        "All channels (branch, online, postal)",
+        "All locations (head office, branches)"
+      ],
+      "channels": [
+        "branch",
+        "online",
+        "postal"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_003",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_003_prd_001",
+    "name": "Savings Account",
+    "properties": {
+      "product_type": "savings"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_003",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_003_prd_002",
+    "name": "Current Account",
+    "properties": {
+      "product_type": "current"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_003",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_003_prd_003",
+    "name": "Mortgage Product",
+    "properties": {
+      "product_type": "mortgage"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_003",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_003_rol_001",
+    "name": "Head Office Staff",
+    "properties": {
+      "role_type": "human"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_003",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_003_rol_002",
+    "name": "Branch Staff",
+    "properties": {
+      "role_type": "human"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_003",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_004_prc_001",
+    "name": "Account Opening Process",
+    "properties": {
+      "purpose": "Opening a new bank account for a customer",
+      "channels": [
+        "branch",
+        "online",
+        "postal"
+      ],
+      "timeline_sla": "1–2 business days (online/branch), 5–7 days (postal)",
+      "trigger": "Customer Request",
+      "outcome_success": "Account Activation"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_004",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_004_stp_001",
+    "name": "Customer Request",
+    "properties": {
+      "step_number": 1,
+      "actor": "Customer",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_004",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_004_stp_002",
+    "name": "Channel Selection",
+    "properties": {
+      "step_number": 2,
+      "channel": "branch | online | postal",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_004",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_004_stp_003",
+    "name": "Application Form Completion",
+    "properties": {
+      "step_number": 3,
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_004",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_004_stp_004",
+    "name": "KYC Verification",
+    "properties": {
+      "step_number": 4,
+      "input": [
+        "ID",
+        "Address"
+      ],
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_004",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_004_stp_005",
+    "name": "AML Screening",
+    "properties": {
+      "step_number": 5,
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_004",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_004_stp_006",
+    "name": "Risk Assessment",
+    "properties": {
+      "step_number": 6,
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_004",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_004_dec_001",
+    "name": "Approval or Rejection Decision",
+    "properties": {
+      "decision_question": "Does the application meet the bank's criteria for approval?",
+      "path_yes": "Account Creation",
+      "path_no": "Application Rejection"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_004",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_004_stp_007",
+    "name": "Account Creation",
+    "properties": {
+      "step_number": 8,
+      "mandatory": "yes",
+      "channel": "system"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_004",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_004_stp_008",
+    "name": "Card Issuance",
+    "properties": {
+      "step_number": 9,
+      "mandatory": "no",
+      "channel": "system"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_004",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_004_stp_009",
+    "name": "Customer Notification",
+    "properties": {
+      "step_number": 10,
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_004",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_004_stp_010",
+    "name": "Account Activation",
+    "properties": {
+      "step_number": 11,
+      "mandatory": "yes",
+      "channel": "system"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_004",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_004_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "process_role": "applicant"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_004",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_005_prc_001",
+    "name": "Account Opening Process",
+    "properties": {
+      "scope": "Branch Opening",
+      "channels": [
+        "branch"
+      ],
+      "timeline_sla": "5 minutes (initial request phase)",
+      "trigger": "Customer arrives at branch stating intent to open an account"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_005",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_005_stp_001",
+    "name": "Customer Intent Identification",
+    "properties": {
+      "step_number": 1,
+      "actor": "Customer",
+      "input": "Customer statement of intent",
+      "output": "Identified account request",
+      "channel": "branch"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_005",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_005_stp_002",
+    "name": "Customer Greeting and Seating",
+    "properties": {
+      "step_number": 2,
+      "actor": "Branch Staff",
+      "channel": "branch",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_005",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_005_stp_003",
+    "name": "Account Opening Form Retrieval",
+    "properties": {
+      "step_number": 3,
+      "actor": "Branch Staff",
+      "output": "Account opening form",
+      "tools_or_systems": [
+        "paper",
+        "tablet"
+      ],
+      "channel": "branch"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_005",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_005_stp_004",
+    "name": "Product Availability Explanation",
+    "properties": {
+      "step_number": 4,
+      "actor": "Branch Staff",
+      "input": "List of available products",
+      "channel": "branch"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_005",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_005_rol_001",
+    "name": "Branch Staff",
+    "properties": {
+      "role_type": "human",
+      "department": "Branch Operations",
+      "channels": [
+        "branch"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_005",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_005_rol_002",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "process_role": "applicant",
+      "channels": [
+        "branch"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_005",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_005_dec_001",
+    "name": "Product Selection Gate",
+    "properties": {
+      "decision_question": "Which account product does the customer want to open?",
+      "decision_maker": "Customer",
+      "criteria": "Customer's financial needs (savings, transactional, or lending)",
+      "path_yes": "Proceed with selected product onboarding"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_005",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_005_prd_001",
+    "name": "SmartSaver Account",
+    "properties": {
+      "product_type": "savings"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_005",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_005_prd_002",
+    "name": "Current Account",
+    "properties": {
+      "product_type": "transactional"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_005",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_005_prd_003",
+    "name": "Mortgage",
+    "properties": {
+      "product_type": "lending"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_005",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_006_prc_001",
+    "name": "Online Account Opening Process",
+    "properties": {
+      "purpose": "Enable customers to open a bank account via the website",
+      "channels": [
+        "online"
+      ],
+      "timeline_sla": "15–20 minutes",
+      "trigger": "Customer navigates to Open Account page",
+      "outcome_success": "Account opened successfully"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_006",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_006_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "online"
+      ],
+      "process_role": "applicant"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_006",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_006_stp_001",
+    "name": "Website Navigation to Open Account Page",
+    "properties": {
+      "step_number": 1,
+      "actor": "Customer",
+      "channel": "online",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_006",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_006_stp_002",
+    "name": "Product Type Selection",
+    "properties": {
+      "step_number": 2,
+      "actor": "Customer",
+      "channel": "online",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_006",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_006_stp_003",
+    "name": "Online Form Completion",
+    "properties": {
+      "step_number": 3,
+      "actor": "Customer",
+      "channel": "online",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_006",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_006_stp_004",
+    "name": "KYC Verification Execution",
+    "properties": {
+      "step_number": 4,
+      "actor": "Customer",
+      "channel": "online",
+      "mandatory": "yes",
+      "input": "Identification documents"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_006",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_006_chk_001",
+    "name": "KYC Compliance Gate",
+    "properties": {
+      "mandatory": "yes",
+      "applies_to_channels": [
+        "online"
+      ],
+      "timing": "After online form completion"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_006",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_007_prc_001",
+    "name": "Postal Account Opening Process",
+    "properties": {
+      "purpose": "Opening a bank account via postal application",
+      "channels": [
+        "phone",
+        "online",
+        "postal"
+      ],
+      "departments_involved": [
+        "Phone Support",
+        "Operations Team"
+      ],
+      "timeline_sla": "5–7 days",
+      "trigger": "Customer request for a postal application pack",
+      "outcome_success": "Account opened"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_007",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_007_stp_001",
+    "name": "Postal Pack Request",
+    "properties": {
+      "step_number": 1,
+      "actor": "Phone Support or Website",
+      "channel": "phone | online",
+      "output": "Request for postal pack"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_007",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_007_stp_002",
+    "name": "Application Form Dispatch",
+    "properties": {
+      "step_number": 2,
+      "output": "Application forms and prepaid envelope mailed to customer",
+      "channel": "postal"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_007",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_007_stp_003",
+    "name": "Application Completion and Return",
+    "properties": {
+      "step_number": 3,
+      "actor": "Customer",
+      "input": "Application forms",
+      "output": "Completed application forms",
+      "channel": "postal"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_007",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_007_stp_004",
+    "name": "Application Processing",
+    "properties": {
+      "step_number": 4,
+      "actor": "Operations Team",
+      "input": "Returned application forms",
+      "channel": "system | manual"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_007",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_007_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "phone",
+        "online",
+        "postal"
+      ],
+      "process_role": "applicant"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_007",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_007_rol_002",
+    "name": "Phone Support",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "phone"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_007",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_007_rol_003",
+    "name": "Website",
+    "properties": {
+      "role_type": "system",
+      "channels": [
+        "online"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_007",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_007_rol_004",
+    "name": "Operations Team",
+    "properties": {
+      "role_type": "human",
+      "department": "Operations"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_007",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_008_stp_001",
+    "name": "Application Form Completion",
+    "properties": {
+      "step_number": 2,
+      "actor": "Applicant",
+      "input": [
+        "Personal Details",
+        "Financial Information",
+        "Product Selection"
+      ],
+      "output": "Completed Application Form",
+      "mandatory": "yes",
+      "channel": "manual"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_008",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_008_cus_001",
+    "name": "Applicant",
+    "properties": {
+      "customer_type": "applicant",
+      "process_role": "subject of the application",
+      "data_collected": [
+        "full legal name",
+        "date of birth",
+        "nationality",
+        "occupation/employment",
+        "email",
+        "phone",
+        "current address",
+        "previous address",
+        "source of funds",
+        "expected transaction volume",
+        "income range"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_008",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_008_adr_001",
+    "name": "Customer Address Collection",
+    "properties": {
+      "collection_steps": "Capture current address and previous address if current residency is less than 3 years",
+      "recording_obligation": "Included in Personal Details section of application form"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_008",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_008_prd_001",
+    "name": "Product Selection",
+    "properties": {
+      "determines_process_variant": "yes",
+      "data_collected": [
+        "product type",
+        "requested features",
+        "account access preferences"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_008",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_008_crd_001",
+    "name": "Card Type Selection",
+    "properties": {
+      "card_state": "issuance",
+      "mandatory": "conditional (if applicable)"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_008",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_008_sto_001",
+    "name": "Standing Order Setup Identification",
+    "properties": {
+      "creation_steps": "Identify known standing orders during application form completion"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_008",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_008_dd_001",
+    "name": "Direct Debit Setup Identification",
+    "properties": {
+      "mandate_setup_steps": "Identify known direct debits during application form completion"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_008",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_008_acc_001",
+    "name": "New Account Setup",
+    "properties": {
+      "account_state_at_start": "new",
+      "account_state_at_end": "active"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_008",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_009_prc_001",
+    "name": "Data Accuracy Checks Process",
+    "properties": {
+      "purpose": "Ensure correctness, completeness, and validity of customer information across multiple intake channels",
+      "scope": [
+        "Branch",
+        "Online",
+        "Postal"
+      ],
+      "channels": [
+        "branch",
+        "online",
+        "postal"
+      ],
+      "departments_involved": [
+        "Branch",
+        "Operations"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_009",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_009_rol_001",
+    "name": "Branch Staff",
+    "properties": {
+      "role_type": "human",
+      "department": "Branch",
+      "channels": [
+        "branch"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_009",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_009_stp_001",
+    "name": "Customer Information Verification",
+    "properties": {
+      "actor": "Branch Staff",
+      "channel": "branch",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_009",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_009_stp_002",
+    "name": "Spelling and Accuracy Review",
+    "properties": {
+      "actor": "Branch Staff",
+      "channel": "branch",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_009",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_009_stp_003",
+    "name": "Contact Details Confirmation",
+    "properties": {
+      "actor": "Branch Staff",
+      "channel": "branch",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_009",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_009_stp_004",
+    "name": "Completeness Review",
+    "properties": {
+      "actor": "Branch Staff",
+      "channel": "branch",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_009",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_009_rol_002",
+    "name": "Online Validation System",
+    "properties": {
+      "role_type": "system",
+      "channels": [
+        "online"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_009",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_009_stp_005",
+    "name": "Real-time Field Validation",
+    "properties": {
+      "actor": "Online Validation System",
+      "channel": "system",
+      "input": [
+        "email format",
+        "postcode"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_009",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_009_stp_006",
+    "name": "Mandatory Field Check",
+    "properties": {
+      "actor": "Online Validation System",
+      "channel": "system",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_009",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_009_stp_007",
+    "name": "Online Address Postcode Verification",
+    "properties": {
+      "actor": "Online Validation System",
+      "channel": "system"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_009",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_009_rol_003",
+    "name": "Operations Staff",
+    "properties": {
+      "role_type": "human",
+      "department": "Operations",
+      "channels": [
+        "postal"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_009",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_009_stp_008",
+    "name": "Postal Completeness Review",
+    "properties": {
+      "actor": "Operations Staff",
+      "channel": "manual",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_009",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_009_stp_009",
+    "name": "Missing Information Customer Outreach",
+    "properties": {
+      "actor": "Operations Staff",
+      "channel": "manual",
+      "trigger": "missing information identified during review"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_009",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_009_stp_010",
+    "name": "Handwriting Verification",
+    "properties": {
+      "actor": "Operations Staff",
+      "channel": "manual",
+      "trigger": "unclear handwriting"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_009",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_010_stp_001",
+    "name": "Identity Verification (KYC)",
+    "properties": {
+      "step_number": 3,
+      "mandatory": "yes",
+      "regulatory_references": [
+        "policy_customer_identification"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_010",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_011_prc_001",
+    "name": "Account Opening Process",
+    "properties": {
+      "scope": "New account openings",
+      "channels": [
+        "branch",
+        "online",
+        "postal"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_011",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_011_stp_001",
+    "name": "Branch Document Examination",
+    "properties": {
+      "actor": "Branch Staff",
+      "input": "Original identification documents",
+      "channel": "branch",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_011",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_011_stp_002",
+    "name": "Online Document Submission",
+    "properties": {
+      "input": "Scan or photo of passport or driving license",
+      "channel": "online",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_011",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_011_stp_003",
+    "name": "Postal Document Submission",
+    "properties": {
+      "input": "Scan attached to application and notarized copy",
+      "channel": "postal",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_011",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_011_doc_001",
+    "name": "UK Passport",
+    "properties": {
+      "accepted_types": [
+        "Original (Branch)",
+        "Scan/Photo (Online)",
+        "Certified Copy (Postal)"
+      ],
+      "verification_steps": "Original examination for branch applications"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_011",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_011_doc_002",
+    "name": "UK Driving License",
+    "properties": {
+      "accepted_types": [
+        "Photocard (Branch)",
+        "Scan/Photo (Online)",
+        "Certified Copy (Postal)"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_011",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_011_rol_001",
+    "name": "Notary or Solicitor",
+    "properties": {
+      "role_type": "external",
+      "authority_level": "Certification of identity documents",
+      "channels": [
+        "postal"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_011",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_012_prc_001",
+    "name": "Verification Process",
+    "properties": {
+      "scope": [
+        "branch",
+        "online",
+        "postal"
+      ],
+      "timeline_sla": {
+        "branch": "10 minutes",
+        "online": "<1 minute",
+        "postal": "1–2 business days"
+      },
+      "outcome_success": "Document marked as verified in AMS system"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_012",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_012_stp_001",
+    "name": "Document Collection Step",
+    "properties": {
+      "step_number": 1,
+      "actor": "Branch Staff",
+      "input": "Primary identity document",
+      "output": "Document number, issue date, expiry date",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_012",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_012_stp_002",
+    "name": "Physical Verification Step",
+    "properties": {
+      "step_number": 2,
+      "actor": "Branch Staff",
+      "channel": "branch",
+      "mandatory": "yes",
+      "verification_actions": [
+        "compare photo to appearance",
+        "verify signature match",
+        "note document concerns"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_012",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_012_stp_003",
+    "name": "System Recording Step",
+    "properties": {
+      "step_number": 3,
+      "actor": "Branch Staff",
+      "tools_or_systems": "AMS",
+      "output": "Verified status linked to customer record",
+      "channel": "system"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_012",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_012_rol_001",
+    "name": "Branch Staff",
+    "properties": {
+      "role_type": "human",
+      "department": "Branch Operations",
+      "channels": [
+        "branch",
+        "system"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_012",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_012_rol_002",
+    "name": "AMS System",
+    "properties": {
+      "role_type": "system",
+      "purpose": "Customer record management and verification status tracking"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_012",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_012_dec_001",
+    "name": "Document Validity Check",
+    "properties": {
+      "decision_question": "Is the document valid and not expired?",
+      "criteria": "Current date is before document expiry date",
+      "path_yes": "Proceed to Physical Verification/System Recording",
+      "path_no": "Document rejected"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_012",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_012_cus_001",
+    "name": "Customer",
+    "properties": {
+      "process_role": "applicant",
+      "notification_required": "no"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_012",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_012_doc_001",
+    "name": "Primary Identity Document",
+    "properties": {
+      "accepted_types": [
+        "Primary identity document"
+      ],
+      "collection_steps": "Request document and record number, issue, and expiry dates",
+      "verification_steps": [
+        "expiry date check",
+        "photo comparison",
+        "signature match"
+      ],
+      "expiry_check": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_012",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_013_stp_001",
+    "name": "Address Verification Step",
+    "properties": {
+      "step_number": 4,
+      "mandatory": "yes",
+      "failure_path": "Refer to policy_customer_identification for resolution"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_013",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_013_prc_001",
+    "name": "Customer Identification Process",
+    "properties": {
+      "scope": "Customer Identification"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_013",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_014_id_001",
+    "name": "Utility Bill",
+    "properties": {
+      "accepted_types": [
+        "Utility bill"
+      ],
+      "verification_steps": [
+        "Verify date is within 3 months"
+      ],
+      "expiry_check": "required",
+      "document_category": "Primary (Preferred)"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_014",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_014_id_002",
+    "name": "Council Tax Document",
+    "properties": {
+      "accepted_types": [
+        "Council tax document"
+      ],
+      "document_category": "Primary (Preferred)"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_014",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_014_id_003",
+    "name": "Bank Statement",
+    "properties": {
+      "accepted_types": [
+        "Bank statement"
+      ],
+      "document_category": "Primary (Preferred)"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_014",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_014_id_004",
+    "name": "Mortgage Statement",
+    "properties": {
+      "accepted_types": [
+        "Mortgage statement"
+      ],
+      "document_category": "Primary (Preferred)"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_014",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_014_id_005",
+    "name": "Tenancy Agreement",
+    "properties": {
+      "accepted_types": [
+        "Tenancy agreement"
+      ],
+      "document_category": "Secondary"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_014",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_014_id_006",
+    "name": "Insurance Policy",
+    "properties": {
+      "accepted_types": [
+        "Insurance policy"
+      ],
+      "document_category": "Secondary"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_014",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_014_id_007",
+    "name": "HM Revenue & Customs Letter",
+    "properties": {
+      "accepted_types": [
+        "HM Revenue & Customs letter"
+      ],
+      "document_category": "Secondary"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_014",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_014_id_008",
+    "name": "Electoral Register Extract",
+    "properties": {
+      "accepted_types": [
+        "Electoral register extract"
+      ],
+      "document_category": "Secondary"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_014",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_015_prc_001",
+    "name": "Verification Process",
+    "properties": {
+      "purpose": "Verify customer address through document collection and system recording",
+      "scope": "Address verification",
+      "outcome_success": "Address marked as verified in the customer record"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_015",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_015_stp_001",
+    "name": "Document Collection Step",
+    "properties": {
+      "step_number": 1,
+      "actor": "Bank Staff",
+      "input": "Address verification document",
+      "output": "Recorded document type and date",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_015",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_015_stp_002",
+    "name": "Address Verification Step",
+    "properties": {
+      "step_number": 2,
+      "actor": "Bank Staff",
+      "input": [
+        "ID document",
+        "Address verification document"
+      ],
+      "mandatory": "yes",
+      "verification_criteria": [
+        "Compare address on ID with address document",
+        "Confirm UK address format (postcode)"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_015",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_015_stp_003",
+    "name": "System Recording Step",
+    "properties": {
+      "step_number": 3,
+      "actor": "Bank Staff",
+      "output": "Verified address status linked to customer record",
+      "mandatory": "yes",
+      "tools_or_systems": "Customer record system",
+      "recorded_fields": [
+        "address document type",
+        "verification status"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_015",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_015_dec_001",
+    "name": "Address Match Decision",
+    "properties": {
+      "decision_question": "Do the addresses on the ID and the address document match?",
+      "criteria": "Exact match of address details and valid UK postcode format",
+      "path_yes": "Proceed to System Recording Step",
+      "path_no": "Verification failure"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_015",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_015_chk_001",
+    "name": "Address Validity Compliance Checkpoint",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": [
+        "Address verification document",
+        "ID document"
+      ],
+      "performed_by": "Bank Staff",
+      "timing": "During Step 2: Verification"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_015",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_016_stp_001",
+    "name": "AML Screening Step",
+    "properties": {
+      "step_number": 5,
+      "mandatory": "yes",
+      "regulatory_references": [
+        "policy_aml"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_016",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_017_prc_001",
+    "name": "Sanctions and PEP Screening Process",
+    "properties": {
+      "purpose": "To identify and mitigate risks associated with sanctioned individuals/entities and Politically Exposed Persons (PEPs)",
+      "scope": "All customers and entities subject to onboarding or periodic review",
+      "mandatory_checks": [
+        "OFAC",
+        "EU Consolidated",
+        "HMT",
+        "UN",
+        "PEP Database"
+      ],
+      "conditional_checks": [
+        "Adverse media",
+        "Beneficial ownership"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_017",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_017_chk_001",
+    "name": "OFAC Sanctions Check",
+    "properties": {
+      "mandatory": "yes",
+      "checkpoint_name": "OFAC Sanctions List Screening"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_017",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_017_chk_002",
+    "name": "EU Consolidated Sanctions Check",
+    "properties": {
+      "mandatory": "yes",
+      "checkpoint_name": "EU Consolidated Sanctions List Screening"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_017",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_017_chk_003",
+    "name": "HMT Sanctions Check",
+    "properties": {
+      "mandatory": "yes",
+      "checkpoint_name": "HMT Sanctions List Screening"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_017",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_017_chk_004",
+    "name": "UN Sanctions Check",
+    "properties": {
+      "mandatory": "yes",
+      "checkpoint_name": "UN Sanctions List Screening"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_017",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_017_chk_005",
+    "name": "PEP Database Screening",
+    "properties": {
+      "mandatory": "yes",
+      "checkpoint_name": "PEP Database Screening"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_017",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_017_chk_006",
+    "name": "Adverse Media Screening",
+    "properties": {
+      "mandatory": "conditional",
+      "applies_to": "High-Risk customers",
+      "checkpoint_name": "Adverse Media Screening"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_017",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_017_chk_007",
+    "name": "Beneficial Ownership Verification",
+    "properties": {
+      "mandatory": "conditional",
+      "applies_to": "High-Risk entities",
+      "checkpoint_name": "Beneficial Ownership Verification"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_017",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_017_dec_001",
+    "name": "Risk Level Determination",
+    "properties": {
+      "decision_question": "Is the customer/entity considered high-risk?",
+      "criteria": "Presence of PEP status or other risk indicators",
+      "path_yes": "Trigger additional screening: Adverse Media and Beneficial Ownership",
+      "path_no": "Proceed with mandatory sanctions and PEP screening only"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_017",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_018_prc_001",
+    "name": "Screening Process",
+    "properties": {
+      "purpose": "Screen customer names against sanctions, PEP, and adverse media lists",
+      "timeline_sla": "5–10 minutes",
+      "departments_involved": [
+        "Compliance"
+      ],
+      "outcome_success": "Screening recorded and account cleared or risk-managed",
+      "outcome_failure": "Account blocked or application rejected"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_018",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_018_stp_001",
+    "name": "Name Screening Step",
+    "properties": {
+      "step_number": 1,
+      "actor": "Screening System",
+      "input": "Customer name",
+      "estimated_duration": "<1 minute",
+      "channel": "system",
+      "mandatory": "yes",
+      "tools_or_systems": "Screening System"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_018",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_018_stp_002",
+    "name": "Match Assessment Step",
+    "properties": {
+      "step_number": 2,
+      "actor": "Compliance Team",
+      "input": "Screening results",
+      "channel": "manual",
+      "mandatory": "yes",
+      "failure_path": "False positive assessment"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_018",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_018_stp_003",
+    "name": "Hit Handling Step",
+    "properties": {
+      "step_number": 3,
+      "actor": "Compliance Team",
+      "mandatory": "yes",
+      "output": "Escalation, Account Block, or Enhanced Due Diligence"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_018",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_018_stp_004",
+    "name": "Screening Record Entry Step",
+    "properties": {
+      "step_number": 4,
+      "actor": "Compliance Team",
+      "output": "Documented screening result and match resolution",
+      "channel": "system",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_018",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_018_rol_001",
+    "name": "Compliance Team",
+    "properties": {
+      "role_type": "human",
+      "department": "Compliance",
+      "authority_level": "Manual review and risk assessment"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_018",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_018_rol_002",
+    "name": "Screening System",
+    "properties": {
+      "role_type": "system",
+      "channels": [
+        "system"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_018",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_018_dec_001",
+    "name": "Match Found Decision",
+    "properties": {
+      "decision_question": "Was a match found during name screening?",
+      "criteria": "Name similarity vs true match",
+      "decision_maker": "Screening System / Compliance Team",
+      "path_yes": "Manual review by Compliance",
+      "path_no": "Proceed to next step"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_018",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_018_dec_002",
+    "name": "Hit Type Classification Decision",
+    "properties": {
+      "decision_question": "What is the type of the match?",
+      "criteria": "Sanctions list, PEP list, or Adverse Media",
+      "decision_maker": "Compliance Team",
+      "path_yes": "Specific actions based on type (Block for Sanctions, EDD for PEP, Risk Assessment for Media)"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_018",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_018_chk_001",
+    "name": "Sanctions and PEP Screening Checkpoint",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": "Screening results and resolution record",
+      "performed_by": "Screening System and Compliance Team",
+      "failure_consequence": "Account blocked or application rejected"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_018",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_018_cus_001",
+    "name": "Screened Customer",
+    "properties": {
+      "process_role": "Subject of screening",
+      "data_collected": [
+        "Customer name"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_018",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_018_acc_001",
+    "name": "Screened Account",
+    "properties": {
+      "account_state_at_end": "Active or Blocked",
+      "system_recorded_in": "Screening System/Account record"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_018",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_019_stp_001",
+    "name": "Risk Assessment Step",
+    "properties": {
+      "step_number": 6,
+      "input": [
+        "Customer age",
+        "Nationality/residence",
+        "PEP status",
+        "Adverse media results",
+        "Product/account size"
+      ],
+      "output": "Risk Category (Low, Medium, or High)",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_019",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_019_dec_001",
+    "name": "Customer Risk Level Determination",
+    "properties": {
+      "decision_question": "What is the customer's risk category?",
+      "criteria": {
+        "Low Risk": "Standard customer, standard product, standard amount",
+        "Medium Risk": "Higher-value account or foreign residence",
+        "High Risk": "PEP, PEP family, adverse media, foreign high-value"
+      },
+      "path_yes": "Assign risk category based on criteria",
+      "path_no": "Re-evaluate risk factors"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_019",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_019_chk_001",
+    "name": "PEP Status Check",
+    "properties": {
+      "checkpoint_name": "PEP Status Check",
+      "mandatory": "yes",
+      "failure_consequence": "Customer categorized as High Risk",
+      "evidence_required": "PEP status verification"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_019",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_019_chk_002",
+    "name": "Adverse Media Screening",
+    "properties": {
+      "checkpoint_name": "Adverse Media Screening",
+      "mandatory": "yes",
+      "failure_consequence": "Customer categorized as High Risk",
+      "evidence_required": "Adverse media screening report"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_019",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_019_cust_001",
+    "name": "Risk-Assessed Customer",
+    "properties": {
+      "customer_type": "applicant",
+      "process_role": "subject of risk assessment",
+      "data_collected": [
+        "Age",
+        "Nationality",
+        "Residence",
+        "PEP Status",
+        "Adverse Media Presence"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_019",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_019_prod_001",
+    "name": "Risk-Rated Banking Product",
+    "properties": {
+      "determines_process_variant": "yes",
+      "product_type": "banking product",
+      "risk_impact": "High-value products increase customer risk rating"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_019",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_020_prc_001",
+    "name": "Enhanced Due Diligence (EDD) Process",
+    "properties": {
+      "purpose": "Conduct deeper verification for high-risk customers",
+      "trigger": "High-Risk Trigger Gate",
+      "scope": "High-risk customers and entities",
+      "departments_involved": [
+        "Compliance",
+        "Branch/Front Office"
+      ],
+      "outcome_success": "Compliance Head approval"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_020",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_020_stp_001",
+    "name": "Senior Staff Review Step",
+    "properties": {
+      "step_number": 1,
+      "actor": "rol_001",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_020",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_020_stp_002",
+    "name": "Beneficial Ownership Verification Step",
+    "properties": {
+      "step_number": 2,
+      "mandatory": "conditional",
+      "criteria": "required if customer is an entity"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_020",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_020_stp_003",
+    "name": "Source of Funds Documentation Step",
+    "properties": {
+      "step_number": 3,
+      "mandatory": "yes",
+      "output": "Source of funds documentation"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_020",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_020_stp_004",
+    "name": "Additional Screening Step",
+    "properties": {
+      "step_number": 4,
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_020",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_020_stp_005",
+    "name": "Compliance Head Approval Step",
+    "properties": {
+      "step_number": 5,
+      "actor": "rol_002",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_020",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_020_rol_001",
+    "name": "Senior Staff",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Reviewer"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_020",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_020_rol_002",
+    "name": "Compliance Head",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Final Approver"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_020",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_020_dec_001",
+    "name": "High-Risk Trigger Gate",
+    "properties": {
+      "decision_question": "Is the customer/entity classified as High-Risk?",
+      "path_yes": "Initiate Enhanced Due Diligence (EDD) Process",
+      "path_no": "Proceed with Standard Due Diligence"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_020",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_020_esc_001",
+    "name": "Compliance Head Escalation Level",
+    "properties": {
+      "authority": "Compliance Head",
+      "escalation_trigger": "Requirement for EDD approval"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_020",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_020_chk_001",
+    "name": "EDD Compliance Approval Checkpoint",
+    "properties": {
+      "mandatory": "yes",
+      "performed_by": "rol_002",
+      "timing": "Final step of EDD process"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_020",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_021_prc_001",
+    "name": "Account Opening Process",
+    "properties": {
+      "scope": "All account opening applications",
+      "channels": [
+        "branch",
+        "online",
+        "postal"
+      ],
+      "timeline_sla": {
+        "branch": "1–2 hours",
+        "online": "<1 hour",
+        "postal": "1–2 business days"
+      }
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_021",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_021_stp_001",
+    "name": "Approval/Rejection Decision Step",
+    "properties": {
+      "step_number": 7,
+      "actor": "Account Manager, Compliance Head, or CRO",
+      "mandatory": "yes",
+      "output": "Account Approval or Rejection"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_021",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_021_dec_001",
+    "name": "Account Approval Gate",
+    "properties": {
+      "decision_question": "Does the account application meet all approval criteria?",
+      "criteria": [
+        "KYC verification successful",
+        "Address verification complete",
+        "AML screening passed",
+        "Risk assessment acceptable",
+        "No regulatory concerns",
+        "Form complete and accurate"
+      ],
+      "decision_maker": "Account Manager (Low-Medium Risk), Compliance Head (High Risk), CRO (Exceptions)",
+      "path_yes": "Account Approved",
+      "path_no": "Account Rejected"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_021",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_021_rol_001",
+    "name": "Account Manager",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Approve Low-Medium Risk accounts"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_021",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_021_rol_002",
+    "name": "Compliance Head",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Approve High Risk accounts"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_021",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_021_rol_003",
+    "name": "Chief Risk Officer (CRO)",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Approve policy exceptions"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_021",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_021_chk_001",
+    "name": "KYC Completion Checkpoint",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": "Successful KYC verification record",
+      "failure_consequence": "Account Rejection"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_021",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_021_chk_002",
+    "name": "Address Verification Checkpoint",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": "Completed address verification",
+      "failure_consequence": "Account Rejection"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_021",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_021_chk_003",
+    "name": "AML and Sanctions Checkpoint",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": "AML screening result (no sanctions hits)",
+      "failure_consequence": "Account Rejection"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_021",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_021_chk_004",
+    "name": "Risk Assessment Checkpoint",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": "Acceptable risk assessment score",
+      "failure_consequence": "Account Rejection"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_021",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_022_prc_001",
+    "name": "Account Rejection Process",
+    "properties": {
+      "purpose": "Standardize the rejection of account applications based on compliance and risk failures",
+      "scope": "New account applications",
+      "outcome_failure": "Account rejected; customer notified via written notice",
+      "trigger": "Failure at any KYC, AML, PEP, Beneficial Ownership, Source of Funds, or Regulatory Exception checkpoint"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_022",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_022_dec_001",
+    "name": "Account Application Approval Gate",
+    "properties": {
+      "decision_question": "Does the account application satisfy all compliance and risk checkpoints?",
+      "criteria": [
+        "KYC verification success",
+        "No confirmed AML sanctions match",
+        "PEP/Adverse media risks mitigated",
+        "Clear beneficial ownership",
+        "Legitimate source of funds",
+        "Regulatory exception approved (if applicable)"
+      ],
+      "path_yes": "Account opening proceeds",
+      "path_no": "Trigger Account Rejection Process"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_022",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_022_chk_001",
+    "name": "KYC Identity Verification Checkpoint",
+    "properties": {
+      "mandatory": "yes",
+      "failure_consequence": "Account Rejected",
+      "checkpoint_name": "KYC Identity Verification"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_022",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_022_chk_002",
+    "name": "AML Sanctions Screening Checkpoint",
+    "properties": {
+      "mandatory": "yes",
+      "failure_consequence": "Account Rejected",
+      "checkpoint_name": "AML Sanctions Screening"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_022",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_022_chk_003",
+    "name": "PEP and Adverse Media Risk Checkpoint",
+    "properties": {
+      "mandatory": "yes",
+      "failure_consequence": "Account Rejected if risk cannot be mitigated",
+      "checkpoint_name": "PEP and Adverse Media Risk Check"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_022",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_022_chk_004",
+    "name": "Beneficial Ownership Verification Checkpoint",
+    "properties": {
+      "mandatory": "yes",
+      "applies_to_channels": "entity customers",
+      "failure_consequence": "Account Rejected if ownership is unclear",
+      "checkpoint_name": "Beneficial Ownership Verification"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_022",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_022_chk_005",
+    "name": "Source of Funds Fraud Checkpoint",
+    "properties": {
+      "mandatory": "yes",
+      "failure_consequence": "Account Rejected due to fraud concern",
+      "checkpoint_name": "Source of Funds Fraud Check"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_022",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_022_chk_006",
+    "name": "Regulatory Exception Approval Checkpoint",
+    "properties": {
+      "mandatory": "conditional",
+      "failure_consequence": "Account Rejected",
+      "checkpoint_name": "Regulatory Exception Approval"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_022",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_022_stp_001",
+    "name": "Rejection Notification Issuance",
+    "properties": {
+      "actor": "Bank",
+      "output": "Written notice to customer",
+      "channel": "postal",
+      "mandatory": "yes",
+      "failure_path": "Compliance breach (tipping off risk if AML reasons disclosed)"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_022",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_022_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "process_role": "applicant",
+      "notification_required": "yes (written notice of rejection)"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_022",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_023_prc_001",
+    "name": "Account Creation Process",
+    "properties": {
+      "purpose": "Account creation and system setup for branch or online opening",
+      "channels": [
+        "branch",
+        "online"
+      ],
+      "timeline_sla": "<15 minutes",
+      "trigger": "Branch/Online Opening request",
+      "outcome_success": "Account created and linked systems updated"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_023",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_023_stp_001",
+    "name": "AMS Account Creation",
+    "properties": {
+      "step_number": 1,
+      "actor": "AMS (Account Management System)",
+      "channel": "system",
+      "mandatory": "yes",
+      "tools_or_systems": "AMS"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_023",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_023_stp_002",
+    "name": "Account Number Assignment",
+    "properties": {
+      "step_number": 2,
+      "actor": "AMS (Account Management System)",
+      "output": "Account number (ACC-00XXX)",
+      "channel": "system",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_023",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_023_stp_003",
+    "name": "Product Settings Configuration",
+    "properties": {
+      "step_number": 3,
+      "actor": "AMS (Account Management System)",
+      "channel": "system",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_023",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_023_stp_004",
+    "name": "Interest Rate Setup",
+    "properties": {
+      "step_number": 4,
+      "actor": "AMS (Account Management System)",
+      "input": "current schedule",
+      "channel": "system",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_023",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_023_stp_005",
+    "name": "Linked System Update",
+    "properties": {
+      "step_number": 5,
+      "actor": "AMS (Account Management System)",
+      "tools_or_systems": [
+        "online banking",
+        "fraud engine"
+      ],
+      "channel": "system",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_023",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_023_rol_001",
+    "name": "AMS (Account Management System)",
+    "properties": {
+      "role_type": "system",
+      "authority_level": "Automated account creation and configuration"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_023",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_023_rol_002",
+    "name": "Fraud Engine",
+    "properties": {
+      "role_type": "system",
+      "channels": [
+        "system"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_023",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_023_acc_001",
+    "name": "New Account",
+    "properties": {
+      "account_state_at_start": "new",
+      "account_state_at_end": "active",
+      "system_recorded_in": "AMS"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_023",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_024_prc_001",
+    "name": "Initial Balance Funding Process",
+    "properties": {
+      "purpose": "Funding the initial balance of a new account",
+      "scope": "New Account openings",
+      "channels": [
+        "branch",
+        "online",
+        "mobile app"
+      ],
+      "outcome_success": "Account created with Active status"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_024",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_024_stp_001",
+    "name": "Cash Deposit Processing",
+    "properties": {
+      "actor": "Branch Staff",
+      "channel": "branch",
+      "input": "Cash",
+      "limit": "max £10k per transaction"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_024",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_024_stp_002",
+    "name": "FPS Transfer Processing",
+    "properties": {
+      "channel": "online",
+      "input": "Existing bank account",
+      "tools_or_systems": "FPS (Faster Payments Service)"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_024",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_024_stp_003",
+    "name": "Mobile Check Deposit",
+    "properties": {
+      "channel": "mobile app",
+      "status": "future feature"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_024",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_024_stp_004",
+    "name": "Zero Balance Account Setup",
+    "properties": {
+      "input": "No initial deposit",
+      "output": "Account created with £0 balance"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_024",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_024_rol_001",
+    "name": "Branch Staff",
+    "properties": {
+      "role_type": "human",
+      "department": "Branch Operations",
+      "channels": [
+        "branch"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_024",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_024_acc_001",
+    "name": "New Account",
+    "properties": {
+      "account_state_at_end": "Active"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_024",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_025_prc_001",
+    "name": "Card Issuance Process",
+    "properties": {
+      "channels": [
+        "branch",
+        "online",
+        "postal"
+      ],
+      "timeline_sla": "Immediate (Branch) or 5–7 business days (Online/Postal)",
+      "outcome_success": "Card issued and linked to account"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_025",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_025_stp_001",
+    "name": "Card Issuance Execution",
+    "properties": {
+      "step_number": 9,
+      "channel": "branch | online | postal",
+      "output": "Physical Visa Debit Card",
+      "estimated_duration": "Immediate (Branch) or 5–7 business days (Online/Postal)"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_025",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_025_stp_002",
+    "name": "PIN Setup Procedure",
+    "properties": {
+      "actor": "Customer",
+      "channel": "branch | online | phone",
+      "tools_or_systems": "PinPad (Branch)",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_025",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_025_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "branch",
+        "online",
+        "phone"
+      ],
+      "authority_level": "PIN selection"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_025",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_025_prd_001",
+    "name": "Visa Debit Card",
+    "properties": {
+      "product_type": "card",
+      "features": [
+        "Contactless enabled",
+        "Chip enabled"
+      ],
+      "validity_period": "3 years"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_025",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_025_crd_001",
+    "name": "Debit Card Activation",
+    "properties": {
+      "card_state": "issuance",
+      "issuance_steps": "Card ordered/issued followed by PIN setup",
+      "system_used": "Linked to account"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_025",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_026_prc_001",
+    "name": "Card Activation Procedure",
+    "properties": {
+      "purpose": "Enable a payment card for transactional use",
+      "channels": [
+        "online",
+        "mobile",
+        "phone",
+        "branch"
+      ],
+      "timeline_sla": "Same day (branch) or next business day (online)",
+      "outcome_success": "Card active for transactions"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_026",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_026_stp_001",
+    "name": "Card Delivery Step",
+    "properties": {
+      "step_number": 1,
+      "actor": "Customer",
+      "input": "Payment Card",
+      "channel": "postal"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_026",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_026_stp_002",
+    "name": "Activation Channel Selection",
+    "properties": {
+      "step_number": 2,
+      "actor": "Customer",
+      "channel": "online | mobile | phone"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_026",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_026_stp_003",
+    "name": "PIN Confirmation Step",
+    "properties": {
+      "step_number": 3,
+      "actor": "Customer",
+      "output": "Confirmed PIN"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_026",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_026_stp_004",
+    "name": "Card Transactional Activation",
+    "properties": {
+      "step_number": 4,
+      "outcome": "Card active for transactions"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_026",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_026_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "online",
+        "mobile",
+        "phone",
+        "branch"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_026",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_026_crd_001",
+    "name": "Payment Card",
+    "properties": {
+      "card_state": "issuance",
+      "issuance_steps": [
+        "delivery via mail",
+        "activation via chosen channel",
+        "PIN confirmation"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_026",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_027_prc_001",
+    "name": "Account Opening Process",
+    "properties": {
+      "scope": [
+        "Branch Customers",
+        "Online Customers",
+        "Postal Customers"
+      ],
+      "channels": [
+        "branch",
+        "online",
+        "postal"
+      ],
+      "outcome_success": "Customer receives account confirmation and account details"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_027",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_027_stp_001",
+    "name": "Customer Notification Step",
+    "properties": {
+      "step_number": 10,
+      "output": "Account confirmation and welcome materials",
+      "channel": "branch | online | postal",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_027",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_027_rol_001",
+    "name": "Branch Staff",
+    "properties": {
+      "role_type": "human",
+      "department": "Branch Operations",
+      "channels": [
+        "branch"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_027",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_027_rol_002",
+    "name": "Automated Notification System",
+    "properties": {
+      "role_type": "system",
+      "channels": [
+        "online",
+        "email"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_027",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_027_cus_001",
+    "name": "Branch Customer",
+    "properties": {
+      "customer_type": "applicant",
+      "notification_required": "Immediate verbal and written confirmation at branch"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_027",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_027_cus_002",
+    "name": "Online Customer",
+    "properties": {
+      "customer_type": "applicant",
+      "notification_required": "Immediate email confirmation after account creation"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_027",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_027_cus_003",
+    "name": "Postal Customer",
+    "properties": {
+      "customer_type": "applicant",
+      "notification_required": "Letter confirmation posted next day"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_027",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_027_acc_001",
+    "name": "New Account",
+    "properties": {
+      "account_state_at_start": "new",
+      "account_state_at_end": "active",
+      "data_disclosed": [
+        "account number",
+        "sort code",
+        "online login details"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_027",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_028_prc_001",
+    "name": "Welcome Communications Process",
+    "properties": {
+      "purpose": "Provision of essential onboarding documentation and guidance to new customers",
+      "channels": [
+        "branch",
+        "email",
+        "postal"
+      ],
+      "timeline_sla": {
+        "branch": "Same day",
+        "email": "Next day",
+        "postal": "2–3 days"
+      }
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_028",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_028_stp_001",
+    "name": "Welcome Letter Issuance",
+    "properties": {
+      "actor": "System/Branch Staff",
+      "output": "Welcome letter from CEO",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_028",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_028_stp_002",
+    "name": "Product Guide Distribution",
+    "properties": {
+      "output": "Product guide",
+      "content_covered": [
+        "terms",
+        "features",
+        "FAQs"
+      ],
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_028",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_028_stp_003",
+    "name": "Getting Started Guide Distribution",
+    "properties": {
+      "output": "Getting started guide",
+      "content_covered": [
+        "online banking",
+        "mobile app"
+      ],
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_028",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_028_stp_004",
+    "name": "Contact Information Provision",
+    "properties": {
+      "output": "Contact information",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_028",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_028_stp_005",
+    "name": "Fraud Prevention Advice Delivery",
+    "properties": {
+      "output": "Fraud prevention advice",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_028",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_029_prc_001",
+    "name": "Account Activation Process",
+    "properties": {
+      "purpose": "Enable customer access to online and mobile banking services",
+      "scope": "New accounts requiring digital activation",
+      "channels": [
+        "online",
+        "mobile app"
+      ],
+      "outcome_success": "Online banking and mobile app active for transactions"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_029",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_029_stp_001",
+    "name": "Credential Delivery",
+    "properties": {
+      "step_number": 1,
+      "actor": "Customer",
+      "input": "Online banking credentials",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_029",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_029_stp_002",
+    "name": "Online Banking Portal Access",
+    "properties": {
+      "step_number": 2,
+      "actor": "Customer",
+      "channel": "online",
+      "tools_or_systems": "firstuk.bank/login"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_029",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_029_stp_003",
+    "name": "Password Permanency Update",
+    "properties": {
+      "step_number": 3,
+      "actor": "Customer",
+      "input": "Temporary password",
+      "output": "Permanent password",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_029",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_029_stp_004",
+    "name": "Security Question Configuration",
+    "properties": {
+      "step_number": 4,
+      "actor": "Customer",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_029",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_029_stp_005",
+    "name": "Online Banking Activation Completion",
+    "properties": {
+      "step_number": 5,
+      "outcome_success": "Online banking fully active"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_029",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_029_stp_006",
+    "name": "Mobile Application Installation",
+    "properties": {
+      "step_number": 6,
+      "actor": "Customer",
+      "channel": "mobile app",
+      "tools_or_systems": "FirstUK Bank app"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_029",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_029_stp_007",
+    "name": "Mobile App Authentication",
+    "properties": {
+      "step_number": 7,
+      "actor": "Customer",
+      "input": "Online banking credentials"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_029",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_029_stp_008",
+    "name": "Biometric Security Setup",
+    "properties": {
+      "step_number": 8,
+      "actor": "Customer",
+      "input": "Fingerprint/Face ID"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_029",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_029_stp_009",
+    "name": "Mobile App Transaction Activation",
+    "properties": {
+      "step_number": 9,
+      "outcome_success": "App active for transactions"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_029",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_029_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "online",
+        "mobile app"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_029",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_030_prc_001",
+    "name": "Access Activation Process",
+    "properties": {
+      "purpose": "Ensure accounts are fully active through verification and system configuration",
+      "timeline_sla": "1–7 business days",
+      "outcome_success": "Account fully active",
+      "scope": "New or existing account activation"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_030",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_030_stp_001",
+    "name": "KYC Verification Step",
+    "properties": {
+      "mandatory": "yes",
+      "output": "KYC verification complete"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_030",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_030_stp_002",
+    "name": "AML Screening Step",
+    "properties": {
+      "mandatory": "yes",
+      "output": "AML screening passed"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_030",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_030_stp_003",
+    "name": "System Account Creation",
+    "properties": {
+      "mandatory": "yes",
+      "output": "Account created in all systems"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_030",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_030_stp_004",
+    "name": "Card Issuance and Activation",
+    "properties": {
+      "mandatory": "no",
+      "output": "Card issued and activated"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_030",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_030_stp_005",
+    "name": "Digital Access Configuration",
+    "properties": {
+      "mandatory": "yes",
+      "output": "Online/mobile access configured"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_030",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_030_stp_006",
+    "name": "Customer Notification Step",
+    "properties": {
+      "mandatory": "yes",
+      "output": "Customer notified"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_030",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_030_chk_001",
+    "name": "KYC Compliance Checkpoint",
+    "properties": {
+      "mandatory": "yes",
+      "timing": "Prior to account activation"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_030",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_030_chk_002",
+    "name": "AML Compliance Checkpoint",
+    "properties": {
+      "mandatory": "yes",
+      "timing": "Prior to account activation"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_030",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_030_rol_001",
+    "name": "Customer",
+    "properties": {
+      "process_role": "Subject of activation",
+      "notification_required": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_030",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_031_prc_001",
+    "name": "Account Quality Assurance Process",
+    "properties": {
+      "purpose": "Ensure account accuracy, regulatory compliance, and correct system execution",
+      "scope": "Account opening and activation",
+      "outcome_success": "Account status active with all compliance checks passed and notifications sent"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_031",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_031_stp_001",
+    "name": "Pre-Approval Compliance and Data Validation",
+    "properties": {
+      "step_number": 1,
+      "mandatory": "yes",
+      "input": [
+        "Customer ID",
+        "Proof of Address",
+        "AML Screening results"
+      ],
+      "output": "Validated application ready for approval",
+      "tools_or_systems": "KYC and AML systems"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_031",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_031_stp_002",
+    "name": "Post-Approval System and Notification Execution",
+    "properties": {
+      "step_number": 2,
+      "mandatory": "yes",
+      "output": "Active account and customer notification",
+      "tools_or_systems": "Core Banking System"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_031",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_031_chk_001",
+    "name": "KYC Verification Checkpoint",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": [
+        "Identification document",
+        "Address verification"
+      ],
+      "timing": "Pre-Approval"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_031",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_031_chk_002",
+    "name": "AML Screening Checkpoint",
+    "properties": {
+      "mandatory": "yes",
+      "pass_criteria": "Screening passed",
+      "timing": "Pre-Approval"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_031",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_031_dec_001",
+    "name": "Authority-Based Approval Gate",
+    "properties": {
+      "decision_question": "Does the account meet all pre-approval criteria and have valid authority sign-off?",
+      "criteria": "All required fields complete, KYC/AML passed, Risk assessment documented",
+      "path_yes": "Proceed to Post-Approval execution",
+      "path_no": "Remain in Pre-Approval/Reject application"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_031",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_031_rol_001",
+    "name": "Approving Authority",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Approval of account opening based on compliance checks"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_031",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_031_stp_003",
+    "name": "Risk Assessment Documentation",
+    "properties": {
+      "step_number": 1,
+      "mandatory": "yes",
+      "output": "Documented risk assessment",
+      "timing": "Pre-Approval"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_031",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_031_stp_004",
+    "name": "Card Ordering Process",
+    "properties": {
+      "mandatory": "conditional",
+      "timing": "Post-Approval",
+      "output": "Card order submitted"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_031",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_032_prc_001",
+    "name": "Monthly Audit Process",
+    "properties": {
+      "purpose": "Review account opening files for compliance and accuracy",
+      "scope": "Account opening files",
+      "timeline_sla": "Monthly",
+      "trigger": "Monthly schedule",
+      "outcome_success": "Error rate <0.5% (99.5% accuracy)"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_032",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_032_stp_001",
+    "name": "Account Opening File Review",
+    "properties": {
+      "step_number": 1,
+      "input": "Account opening files",
+      "output": "Audit findings",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_032",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_032_chk_001",
+    "name": "KYC and AML Completion Verification",
+    "properties": {
+      "checkpoint_name": "KYC and AML Completion Verification",
+      "mandatory": "yes",
+      "evidence_required": "Completed KYC/AML documentation in account opening files",
+      "timing": "During monthly audit review"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_032",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_032_stp_002",
+    "name": "Data Accuracy Verification",
+    "properties": {
+      "step_number": 2,
+      "mandatory": "yes",
+      "output": "Accuracy status"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_032",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_032_stp_003",
+    "name": "Timeliness Assessment",
+    "properties": {
+      "step_number": 3,
+      "mandatory": "yes",
+      "output": "Timeliness status"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_032",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_032_dec_001",
+    "name": "Error Rate Threshold Check",
+    "properties": {
+      "decision_question": "Is the error rate less than 0.5%?",
+      "criteria": "99.5% accuracy rate",
+      "path_yes": "Audit target achieved",
+      "path_no": "Audit target failed"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_032",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_033_prc_001",
+    "name": "Common Issues and Resolution Process",
+    "properties": {
+      "purpose": "Resolution of common operational hurdles during the account opening or maintenance process",
+      "scope": "KYC, Address Verification, AML Screening, Application Forms, Online Systems",
+      "outcome_success": "Issue resolved and process allowed to proceed to completion"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_033",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_033_stp_001",
+    "name": "Expired KYC Document Resolution",
+    "properties": {
+      "step_number": 1,
+      "actor": "Support Team",
+      "input": "Expired ID document",
+      "output": "New valid identity document",
+      "mandatory": "yes",
+      "failure_path": "Account opening/maintenance stalled until valid ID is provided"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_033",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_033_stp_002",
+    "name": "Address Mismatch Resolution",
+    "properties": {
+      "step_number": 2,
+      "actor": "Support Team",
+      "input": "Conflicting address data between ID and verification",
+      "output": "Current address verification document",
+      "mandatory": "yes",
+      "failure_path": "Address verification failure"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_033",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_033_stp_003",
+    "name": "AML Screening Delay Management",
+    "properties": {
+      "step_number": 3,
+      "actor": "Support Team",
+      "input": "Pending AML screening result",
+      "output": "AML confirmation or escalation",
+      "mandatory": "yes",
+      "failure_path": "Escalation to AML specialist"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_033",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_033_stp_004",
+    "name": "Incomplete Form Resolution",
+    "properties": {
+      "step_number": 4,
+      "actor": "Support Team",
+      "input": "Application form with missing fields",
+      "output": "Completed application form",
+      "mandatory": "yes"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_033",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_033_stp_005",
+    "name": "Online Opening System Issue Resolution",
+    "properties": {
+      "step_number": 5,
+      "actor": "Customer",
+      "input": "System processing delay or failure",
+      "output": "Successful system submission",
+      "channel": "online",
+      "failure_path": "Contact support if persistent"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_033",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_033_dec_001",
+    "name": "AML Delay Escalation Gate",
+    "properties": {
+      "decision_question": "Is the AML screening delay excessive or has a hit been found?",
+      "criteria": "System delay duration or presence of a screening hit",
+      "decision_maker": "Support Team",
+      "path_yes": "Escalate the case for further review",
+      "path_no": "Wait for system confirmation"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_033",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_033_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "online",
+        "branch",
+        "email"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_033",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_033_rol_002",
+    "name": "Support Team",
+    "properties": {
+      "role_type": "human",
+      "department": "Operations/Support",
+      "authority_level": "Issue resolution and document request"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_033",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_033_chk_001",
+    "name": "KYC Document Validity Check",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": [
+        "Valid ID document"
+      ],
+      "performed_by": "Support Team",
+      "failure_consequence": "Request for new valid document"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_033",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_033_chk_002",
+    "name": "Address Consistency Check",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": [
+        "ID address",
+        "Verification address"
+      ],
+      "performed_by": "Support Team",
+      "failure_consequence": "Request for current address verification"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_033",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_033_chk_003",
+    "name": "AML Screening Gate",
+    "properties": {
+      "mandatory": "yes",
+      "performed_by": "System/Support Team",
+      "failure_consequence": "Escalation if hit is found or delay persists"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_033",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_034_prc_001",
+    "name": "Staff Training and Competency Process",
+    "properties": {
+      "purpose": "Ensure staff are trained and competent in account opening, KYC, AML, and compliance obligations",
+      "scope": "All bank staff involved in account opening and compliance",
+      "timeline_sla": "Annual",
+      "departments_involved": [
+        "Training",
+        "Compliance",
+        "Operations"
+      ],
+      "outcome_success": "Staff certification and competency validation"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_034",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_034_stp_001",
+    "name": "Annual Training Completion",
+    "properties": {
+      "step_number": 1,
+      "actor": "Bank Staff",
+      "input": "Training modules for Account opening, KYC, AML, and Compliance",
+      "mandatory": "yes",
+      "channel": "system"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_034",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_034_stp_002",
+    "name": "Knowledge Assessment",
+    "properties": {
+      "step_number": 2,
+      "actor": "Bank Staff",
+      "output": "Certification pass/fail status",
+      "mandatory": "yes",
+      "channel": "system"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_034",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_034_stp_003",
+    "name": "Observed Practice Review",
+    "properties": {
+      "step_number": 3,
+      "actor": "Manager",
+      "mandatory": "yes",
+      "channel": "branch"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_034",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_034_stp_004",
+    "name": "Senior Staff Shadowing",
+    "properties": {
+      "step_number": 4,
+      "actor": "Bank Staff",
+      "input": "Minimum 10 account processing sessions",
+      "mandatory": "yes",
+      "channel": "branch"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_034",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_034_rol_001",
+    "name": "Bank Staff",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Trainee/Operator",
+      "channels": [
+        "system",
+        "branch"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_034",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_034_rol_002",
+    "name": "Manager",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Supervisor",
+      "channels": [
+        "branch",
+        "system"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_034",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_034_rol_003",
+    "name": "Senior Staff",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Mentor/Expert",
+      "channels": [
+        "branch"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_034",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_036_rol_001",
+    "name": "Head of Retail Banking",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Document Author/Approver",
+      "responsibilities": [
+        "SOP authoring",
+        "Defining online opening procedures",
+        "Updating KYC requirements",
+        "Overseeing branch staff training"
+      ]
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_036",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_037_rol_001",
+    "name": "Head of Retail Banking",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Sign-off authority for operational procedures",
+      "approval_date": "2026-01-15"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_037",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_037_rol_002",
+    "name": "Head of Compliance",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Sign-off authority for operational procedures",
+      "approval_date": "2026-01-15"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_037",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_037_rol_003",
+    "name": "Chief Operating Officer",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Sign-off authority for operational procedures",
+      "approval_date": "2026-01-15"
+    },
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_037",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59"
+  }
+]

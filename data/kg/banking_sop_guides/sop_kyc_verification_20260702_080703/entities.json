@@ -1,0 +1,2725 @@
+[
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_001_prc_001",
+    "name": "KYC Verification Process",
+    "aliases": [
+      "KYC-SOP-001"
+    ],
+    "entity_class": "PROCESS",
+    "type": "kyc_verification",
+    "description": "The end-to-end operational procedure for Know Your Customer (KYC) verification at FirstUK Bank, governed by the Compliance department and effective from 2026-01-15.",
+    "context": [
+      "FirstUK Bank — KYC Verification SOP",
+      "Document ID | KYC-SOP-001"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_001",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_001_rol_001",
+    "name": "Head of Compliance",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The designated owner of the KYC Verification SOP responsible for oversight and ownership of the procedure.",
+    "context": [
+      "Owner | Head of Compliance"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_001",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_001_rol_002",
+    "name": "Compliance Staff",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "Personnel within the Compliance department who are the target audience for and executors of the KYC verification procedures.",
+    "context": [
+      "Audience | Compliance Staff, Branch Staff, Operations"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_001",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_001_rol_003",
+    "name": "Branch Staff",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_staff",
+    "description": "Front-line personnel responsible for the initial execution and application of the KYC verification process.",
+    "context": [
+      "Audience | Compliance Staff, Branch Staff, Operations"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_001",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_001_rol_004",
+    "name": "Operations Staff",
+    "aliases": [
+      "Operations"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "Operational personnel involved in the processing and administration of the KYC verification workflow.",
+    "context": [
+      "Audience | Compliance Staff, Branch Staff, Operations"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_001",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_002_prc_001",
+    "name": "KYC Verification Process",
+    "aliases": [
+      "Know Your Customer verification"
+    ],
+    "entity_class": "PROCESS",
+    "type": "kyc_verification",
+    "description": "A procedure to confirm customer identity and address during account opening and at periodic intervals. The process ensures institutional compliance with FCA COBS Part 10 and Money Laundering Regulations 2017.",
+    "context": [
+      "Establish procedures for conducting Know Your Customer (KYC) verification to confirm customer identity and address at account opening and periodically thereafter",
+      "ensuring compliance with FCA COBS Part 10 and Money Laundering Regulations 2017"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_002",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_003_prc_001",
+    "name": "Customer Account Opening and Re-verification Process",
+    "aliases": [],
+    "entity_class": "PROCESS",
+    "type": "account_opening",
+    "description": "The end-to-end operational procedure for opening accounts for new customers and performing periodic re-verification based on risk schedules. This process applies across all banking channels, including branch, online, and postal, and requires verification for all joint account holders.",
+    "context": [
+      "Applies to: All customer account openings (new customers)",
+      "All channels (branch, online, postal)",
+      "Periodic re-verification (per risk-based schedule)",
+      "Joint account holders (both must verify)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_003",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_003_rol_001",
+    "name": "New Customer",
+    "aliases": [
+      "customers"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The individual applying for a new account who is the subject of the account opening process.",
+    "context": [
+      "All customer account openings (new customers)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_003",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_003_rol_002",
+    "name": "Joint Account Holder",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "account_holder",
+    "description": "Individuals opening a joint account who are both required to undergo the verification process.",
+    "context": [
+      "Joint account holders (both must verify)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_003",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_003_acc_001",
+    "name": "New Customer Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "new_account",
+    "description": "The account being established for a new customer as part of the opening process.",
+    "context": [
+      "All customer account openings (new customers)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_003",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_003_jnt_001",
+    "name": "Joint Account",
+    "aliases": [],
+    "entity_class": "JOINT_ACCOUNT",
+    "type": "joint_account_opening",
+    "description": "An account arrangement involving multiple holders, where the SOP specifies that both parties must complete verification.",
+    "context": [
+      "Joint account holders (both must verify)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_003",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004_prc_001",
+    "name": "KYC Verification Process",
+    "aliases": [
+      "KYC"
+    ],
+    "entity_class": "PROCESS",
+    "type": "kyc_verification",
+    "description": "An end-to-end operational workflow to verify customer identity and address, assess risk, and record data. The process typically concludes within 1–2 business days.",
+    "context": [
+      "Customer Provides Information",
+      "Timeline: 1–2 business days",
+      "KYC Complete & Approved"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004_stp_001",
+    "name": "Document Collection",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_collection",
+    "description": "The initial stage of the KYC process where necessary identification documents are gathered from the customer.",
+    "context": [
+      "Step 1: Document Collection"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004_stp_002",
+    "name": "Document Verification",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_verification",
+    "description": "The stage where the collected identification documents are checked for authenticity and validity.",
+    "context": [
+      "Step 2: Document Verification"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004_stp_003",
+    "name": "Address Verification",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "address_verification",
+    "description": "The stage dedicated to confirming the customer's residential address using provided evidence.",
+    "context": [
+      "Step 3: Address Verification"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004_stp_004",
+    "name": "Risk Assessment",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "risk_assessment",
+    "description": "An evaluative stage where the customer's risk profile is determined based on the verified information.",
+    "context": [
+      "Step 4: Risk Assessment"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004_stp_005",
+    "name": "System Recording",
+    "aliases": [
+      "Step 5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The stage where verified customer data and risk assessments are entered into the bank's official systems.",
+    "context": [
+      "Step 5: System Recording"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004_stp_006",
+    "name": "Quality Check",
+    "aliases": [
+      "Step 6"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "A final review stage to ensure all previous KYC steps were completed accurately and in accordance with standards.",
+    "context": [
+      "Step 6: Quality Check"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004_dec_001",
+    "name": "KYC Approval Gate",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "pass_fail",
+    "description": "The final decision point determining if the KYC process is successfully completed or if it must be escalated due to failure.",
+    "context": [
+      "KYC Complete & Approved",
+      "KYC Failed - Escalate"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004_chk_001",
+    "name": "KYC Compliance Checkpoint",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "risk_classification",
+    "description": "The mandatory regulatory gate verifying that all KYC steps (Collection, Verification, Risk Assessment) have been satisfied before approval.",
+    "context": [
+      "KYC Complete & Approved",
+      "KYC Failed - Escalate"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004_rol_001",
+    "name": "Customer",
+    "aliases": [
+      "Applicant"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The individual providing the necessary information and documentation to undergo the KYC verification process.",
+    "context": [
+      "Customer Provides Information"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_005_prc_001",
+    "name": "Customer Identity Document Collection Process",
+    "aliases": [],
+    "entity_class": "PROCESS",
+    "type": "kyc_verification",
+    "description": "The operational procedure for requesting and collecting valid photo identification from customers to satisfy identity requirements. It specifies acceptable primary documents and explicitly lists unacceptable forms of ID.",
+    "context": [
+      "Step 1: Document Collection",
+      "Identity Document Request"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_005",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_005_stp_001",
+    "name": "Identity Document Request Step",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial action of requesting a valid form of photo identification from the customer. The staff must specifically ask for a UK Passport or Driving License.",
+    "context": [
+      "Step 1: Document Collection",
+      "Please provide a valid form of photo identification (UK Passport or Driving License)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_005",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_005_rol_001",
+    "name": "Bank Staff Member",
+    "aliases": [
+      "Requester"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_staff",
+    "description": "The employee responsible for executing the document request and verifying the validity of the provided identification documents.",
+    "context": [
+      "What to Request",
+      "Please provide a valid form of photo identification"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_005",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_005_cus_001",
+    "name": "Customer Applicant",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "applicant",
+    "description": "The individual providing photo identification to the bank for verification purposes.",
+    "context": [
+      "Please provide a valid form of photo identification"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_005",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_005_idoc_001",
+    "name": "UK Passport",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "passport_verification",
+    "description": "An acceptable primary identification document. It must be valid (not expired), have a clear photo page, and all security features must be visible.",
+    "context": [
+      "UK Passport",
+      "Must be valid (not expired)",
+      "Photo page clear",
+      "All security features visible"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_005",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_005_idoc_002",
+    "name": "UK Driving License",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "driving_licence_check",
+    "description": "An acceptable primary identification document, provided it is in photocard format, valid, contains a visible signature, and has an intact driving record.",
+    "context": [
+      "UK Driving License",
+      "Photocard format only",
+      "Must be valid (not expired)",
+      "Signature visible",
+      "Driving record intact"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_005",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_005_dec_001",
+    "name": "Document Validity and Acceptability Gate",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "pass_fail",
+    "description": "A check to determine if the provided document is acceptable. Documents are rejected if they are expired, damaged, illegible, provisional, or non-UK (without secondary verification).",
+    "context": [
+      "Unacceptable Documents",
+      "Expired documents",
+      "Damaged/illegible documents",
+      "Provisional licenses",
+      "Non-UK documents (unless verified via secondary source)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_005",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_006_prc_001",
+    "name": "Address Document Request Process",
+    "aliases": [
+      "Address Document Request"
+    ],
+    "entity_class": "PROCESS",
+    "type": "change_of_address",
+    "description": "The procedure for requesting and verifying a customer's current address using a set of approved primary and secondary documentation. It defines the specific documents acceptable to the bank for address confirmation.",
+    "context": [
+      "Address Document Request",
+      "Please provide a document confirming your current address"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_006",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_006_stp_001",
+    "name": "Address Document Collection",
+    "aliases": [
+      "What to Request"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial stage of the process where the bank requests a document from the customer to confirm their current residency.",
+    "context": [
+      "What to Request:",
+      "Please provide a document confirming your current address"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_006",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_006_stp_002",
+    "name": "Address Document Verification",
+    "aliases": [
+      "Acceptable Documents"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "address_verification",
+    "description": "The review process where submitted documents are checked against the list of primary (dated within 3 months) and secondary acceptable documents.",
+    "context": [
+      "Acceptable Documents (Primary - Dated Within 3 Months)",
+      "Acceptable Documents (Secondary)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_006",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_006_rol_001",
+    "name": "Customer",
+    "aliases": [
+      "applicant"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The individual responsible for providing the requested address confirmation documents to the bank.",
+    "context": [
+      "Please provide a document confirming your current address"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_006",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_006_chk_001",
+    "name": "Address Validation Checkpoint",
+    "aliases": [
+      "Document Check"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "address_verification_step",
+    "description": "The compliance gate where a submitted document is validated as either a Primary document (requiring a date within 3 months) or a Secondary document.",
+    "context": [
+      "Acceptable Documents (Primary - Dated Within 3 Months)",
+      "Acceptable Documents (Secondary)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_006",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_006_adr_001",
+    "name": "Primary Address Evidence",
+    "aliases": [
+      "Primary Documents"
+    ],
+    "entity_class": "ADDRESS",
+    "type": "proof_of_address",
+    "description": "High-validity address documents that must be dated within 3 months, including Utility Bills, Council Tax Documents, Bank Statements, and Mortgage Statements.",
+    "context": [
+      "Acceptable Documents (Primary - Dated Within 3 Months):",
+      "Utility Bill (Gas, Electricity, Water, Telephone)",
+      "Council Tax Document (Bill or banding notice)",
+      "Bank Statement (Another bank's statement acceptable)",
+      "Mortgage Statement"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_006",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_006_adr_002",
+    "name": "Secondary Address Evidence",
+    "aliases": [
+      "Secondary Documents"
+    ],
+    "entity_class": "ADDRESS",
+    "type": "proof_of_address",
+    "description": "Alternative address evidence that may be used, including tenancy agreements, insurance policies, HMRC letters, and electoral register extracts.",
+    "context": [
+      "Acceptable Documents (Secondary):",
+      "Tenancy agreement (signed + landlord details)",
+      "Insurance policy (buildings/contents)",
+      "HM Revenue & Customs letter",
+      "Electoral register extract"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_006",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007_prc_001",
+    "name": "Document Verification Process",
+    "aliases": [
+      "Step 2",
+      "Document Verification (Branch)"
+    ],
+    "entity_class": "PROCESS",
+    "type": "kyc_verification",
+    "description": "An in-branch procedure for verifying the authenticity and validity of a customer's physical identity documents. It involves physical examination, photo and signature comparison, and data recording to ensure the customer is who they claim to be.",
+    "context": [
+      "Step 2: Document Verification (Branch)",
+      "Physical Document Examination"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007_stp_001",
+    "name": "Original Document Examination",
+    "aliases": [
+      "Examine Original",
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_verification",
+    "description": "The initial physical inspection of the original identity document. The actor must verify security features, watermarks, and ensure the document has not been tampered with.",
+    "context": [
+      "Examine Original",
+      "Request customer bring original document",
+      "Inspect document in person",
+      "Verify authenticity (security features, watermarks)",
+      "Check document not tampered with"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007_stp_002",
+    "name": "Photo Comparison Step",
+    "aliases": [
+      "Photo Comparison",
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "identity_check",
+    "description": "A visual verification step where the photo on the provided identification document is compared against the customer's actual appearance to ensure a match.",
+    "context": [
+      "Photo Comparison",
+      "Compare photo on ID to customer's appearance",
+      "Verify face matches",
+      "Note any discrepancies"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007_stp_003",
+    "name": "Signature Verification Step",
+    "aliases": [
+      "Signature Verification",
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "identity_check",
+    "description": "A consistency check comparing the signature found on the identity document with the signature provided by the customer on the application form.",
+    "context": [
+      "Signature Verification",
+      "Compare signature on ID to customer's signature on form",
+      "Verify signature consistency"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007_stp_004",
+    "name": "Document Expiry Check",
+    "aliases": [
+      "Expiry Check",
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "expiry_check",
+    "description": "A validation step to confirm that the identity document is current and has not expired, including noting the expiry date in the bank's records.",
+    "context": [
+      "Expiry Check",
+      "Confirm document not expired",
+      "Note expiry date in record"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007_stp_005",
+    "name": "Document Data Recording",
+    "aliases": [
+      "Data Recording",
+      "Step 5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The administrative step of logging the document type, number, issue date, and expiry date, while specifying the verification method as 'in-branch examination'.",
+    "context": [
+      "Data Recording",
+      "Record document type (Passport, Driving License)",
+      "Record document number",
+      "Record issue date and expiry date",
+      "Note verification method (\"in-branch examination\")"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007_rol_001",
+    "name": "Branch Staff",
+    "aliases": [
+      "Branch"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_staff",
+    "description": "The bank personnel responsible for conducting the physical examination of documents, comparing IDs to the customer, and recording the data in the system.",
+    "context": [
+      "Document Verification (Branch)",
+      "Inspect document in person"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007_dec_001",
+    "name": "Document Validity and Authenticity Gate",
+    "aliases": [
+      "Pass Criteria",
+      "Fail Criteria"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "pass_fail",
+    "description": "A decision point based on a set of pass/fail criteria including document expiration, photo/signature matches, and physical integrity. Failure to meet any criteria (e.g., expired document or identity mismatch) results in a fail outcome.",
+    "context": [
+      "Pass Criteria: Document valid and not expired",
+      "Fail Criteria: Document expired",
+      "Photo doesn't match (identity issue)",
+      "Customer unable to provide original"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007_chk_001",
+    "name": "Physical Identity Verification Checkpoint",
+    "aliases": [
+      "Pass Criteria"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "risk_classification",
+    "description": "The mandatory control point where the result of the physical document examination is verified. The workflow only proceeds if all pass criteria (validity, photo match, signature match, and security features) are satisfied.",
+    "context": [
+      "Pass Criteria:",
+      "Fail Criteria:"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007_cus_001",
+    "name": "Customer",
+    "aliases": [
+      "Applicant"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "applicant",
+    "description": "The individual seeking to open an account or perform a transaction who must provide original identity documents and be physically present for comparison.",
+    "context": [
+      "Request customer bring original document",
+      "Compare photo on ID to customer's appearance",
+      "Compare signature on ID to customer's signature on form"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007_doc_001",
+    "name": "Identity Document",
+    "aliases": [
+      "ID",
+      "Original document"
+    ],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "passport_verification",
+    "description": "Official identification provided by the customer, specifically referencing Passports and Driving Licenses, which are checked for security features and expiration.",
+    "context": [
+      "Record document type (Passport, Driving License)",
+      "Verify authenticity (security features, watermarks)",
+      "Compare photo on ID to customer's appearance"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008_prc_001",
+    "name": "Address Verification Process",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS",
+    "type": "address_verification",
+    "description": "An operational procedure to verify a customer's residential address using identity documents and secondary evidence. The process ensures the address is within the UK, follows the correct postcode format, and is supported by current documentation.",
+    "context": [
+      "Step 3: Address Verification",
+      "Verify UK postcode format",
+      "Confirm address is in United Kingdom"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008_stp_001",
+    "name": "Address Format Check",
+    "aliases": [
+      "1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "address_verification_step",
+    "description": "The initial check to ensure the customer's address is located within the United Kingdom and conforms to the specific UK postcode format A(1,2)9(1,2)A 9A(2). Any concerns regarding the address must be noted.",
+    "context": [
+      "Check Address Format",
+      "Verify UK postcode format: A(1,2)9(1,2)A 9A(2)",
+      "Confirm address is in United Kingdom",
+      "Note any address concerns"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008_stp_002",
+    "name": "Address Document Matching",
+    "aliases": [
+      "2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "address_verification_step",
+    "description": "A comparative analysis between the address listed on the primary identity document and the secondary supporting document. If discrepancies are found, the actor must investigate potential causes such as spelling variances or recent moves.",
+    "context": [
+      "Match Address Documents",
+      "Compare address on ID with address on secondary document",
+      "Confirm both show same address",
+      "If addresses differ: Investigate (recent move? spelling variance?)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008_stp_003",
+    "name": "Document Currency Validation",
+    "aliases": [
+      "3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_recording",
+    "description": "The process of checking the validity dates of secondary documents. Utility bills and bank statements must be dated within 3 months, tenancy agreements must be signed/current, and insurance policies must be active.",
+    "context": [
+      "Document Currency",
+      "Utility bill, council tax: Dated within 3 months",
+      "Bank statement: Current (within last 3 months)",
+      "Tenancy agreement: Must be signed and current",
+      "Insurance policy: Must be active policy"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008_dec_001",
+    "name": "Address Verification Pass/Fail Gate",
+    "aliases": [
+      "Pass Criteria",
+      "Fail Criteria"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "pass_fail",
+    "description": "A final decision point to determine if the address verification is successful based on four criteria: matching addresses, UK location, document currency (within 3 months), and valid postcode format.",
+    "context": [
+      "Pass Criteria",
+      "Fail Criteria",
+      "Address on ID matches secondary document",
+      "Document outdated (>3 months old)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008_chk_001",
+    "name": "Address Validity Compliance Checkpoint",
+    "aliases": [
+      "Pass Criteria"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "address_verification_step",
+    "description": "The formal control gate where the bank verifies that the residency obligations have been met before the onboarding or update process can advance.",
+    "context": [
+      "Pass Criteria: ✅ Address on ID matches secondary document",
+      "✅ Address is in UK",
+      "✅ Secondary document is current (within 3 months)",
+      "✅ Address format valid (proper postcode)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008_doc_001",
+    "name": "Secondary Address Document",
+    "aliases": [
+      "Utility bill",
+      "council tax",
+      "Bank statement",
+      "Tenancy agreement",
+      "Insurance policy"
+    ],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "proof_of_address",
+    "description": "Supporting documentation used to verify the customer's address, subject to specific currency requirements (e.g., 3 months for bills/statements).",
+    "context": [
+      "Utility bill, council tax: Dated within 3 months",
+      "Bank statement: Current (within last 3 months)",
+      "Tenancy agreement: Must be signed and current",
+      "Insurance policy: Must be active policy"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008_adr_001",
+    "name": "Customer Residential Address",
+    "aliases": [
+      "UK address"
+    ],
+    "entity_class": "ADDRESS",
+    "type": "address_recording",
+    "description": "The physical address of the customer being verified, which must be located in the UK and match across provided documents.",
+    "context": [
+      "Confirm address is in United Kingdom",
+      "Compare address on ID with address on secondary document"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009_prc_001",
+    "name": "Risk Assessment Process",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS",
+    "type": "risk_assessment",
+    "description": "The procedure for determining a customer's risk category based on residency, age, product type, address, PEP status, and deposit value.",
+    "context": [
+      "Step 4: Risk Assessment",
+      "Determine Risk Category"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009_stp_001",
+    "name": "Customer Risk Level Determination",
+    "aliases": [
+      "Determine Risk Category"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "risk_assessment",
+    "description": "The action of assessing customer attributes against defined criteria to assign a risk rating of Low, Medium, or High.",
+    "context": [
+      "Determine Risk Category:",
+      "Determine Risk Category"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009_dec_001",
+    "name": "Risk Category Classification Gate",
+    "aliases": [
+      "Risk Level Split"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "risk_level_gate",
+    "description": "A branching decision point where customers are categorized as Low, Medium, or High risk based on specific flags such as residency, PEP status, and account value.",
+    "context": [
+      "Low Risk:",
+      "Medium Risk:",
+      "High Risk:"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009_chk_001",
+    "name": "PEP and Adverse Media Screening Checkpoint",
+    "aliases": [
+      "PEP/adverse media"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "pep_screening",
+    "description": "A mandatory compliance check to identify Politically Exposed Persons or adverse media flags, which triggers a High Risk classification.",
+    "context": [
+      "No PEP/adverse media",
+      "PEP (Politically Exposed Person)",
+      "Adverse media (criminal history, fraud)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009_prod_001",
+    "name": "SmartSaver Account",
+    "aliases": [
+      "SmartSaver"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "A standard banking product identified as a factor for Low Risk categorization.",
+    "context": [
+      "Standard product (SmartSaver, Current Account)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009_prod_002",
+    "name": "Current Account",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "current_account",
+    "description": "A standard banking product identified as a factor for Low Risk categorization.",
+    "context": [
+      "Standard product (SmartSaver, Current Account)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009_cust_001",
+    "name": "Low Risk Customer",
+    "aliases": [
+      "Low Risk"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "A customer profile meeting criteria such as UK residency, age 18-65, and no PEP flags.",
+    "context": [
+      "Low Risk:",
+      "UK national or long-term resident"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009_cust_002",
+    "name": "Medium Risk Customer",
+    "aliases": [
+      "Medium Risk"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "A customer profile characterized by non-UK residency in developed countries or higher-value accounts (>£50k).",
+    "context": [
+      "Medium Risk:",
+      "Non-UK resident (but EU/developed country)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009_cust_003",
+    "name": "High Risk Customer",
+    "aliases": [
+      "High Risk"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "high_risk_customer",
+    "description": "A customer profile meeting high-risk criteria including PEP status, adverse media, or residency in countries with weak AML controls.",
+    "context": [
+      "High Risk:",
+      "Non-UK national with foreign address",
+      "Country with weak AML controls"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010_prc_001",
+    "name": "Enhanced Due Diligence (EDD) Process",
+    "aliases": [
+      "EDD Flag"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "An operational workflow triggered for high-risk customers requiring additional verification and senior management approval before an account can be created.",
+    "context": [
+      "Enhanced Due Diligence (EDD) Flag",
+      "If High-Risk: Mark customer for Enhanced Due Diligence"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010_stp_001",
+    "name": "Mark Customer for Enhanced Due Diligence",
+    "aliases": [
+      "EDD marking"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "risk_assessment",
+    "description": "The initial action of flagging a customer as high-risk to initiate the EDD workflow.",
+    "context": [
+      "Mark customer for Enhanced Due Diligence"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010_stp_002",
+    "name": "Escalate to Compliance Head",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The act of moving the customer file to the Compliance Head for review due to high-risk status.",
+    "context": [
+      "Escalate to Compliance Head"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010_stp_003",
+    "name": "Perform Additional Verification",
+    "aliases": [
+      "EDD verification"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_verification",
+    "description": "Conducting deeper checks into the customer's profile, specifically targeting beneficial ownership and source of funds.",
+    "context": [
+      "Additional verification may be required (beneficial ownership, source of funds)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010_rol_001",
+    "name": "Compliance Head",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The senior official responsible for reviewing high-risk escalations and providing the final approval for account creation.",
+    "context": [
+      "Escalate to Compliance Head",
+      "Compliance Head approval required before account creation"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010_dec_001",
+    "name": "High-Risk Status Determination",
+    "aliases": [
+      "If High-Risk"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "risk_level_gate",
+    "description": "A branching point where the process diverts to EDD if the customer is identified as High-Risk.",
+    "context": [
+      "If High-Risk:"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010_dec_002",
+    "name": "Compliance Head Approval Gate",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "approve_reject",
+    "description": "A critical approval gate where the Compliance Head must authorize the process before an account can be created.",
+    "context": [
+      "Compliance Head approval required before account creation"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010_chk_001",
+    "name": "Beneficial Ownership and Source of Funds Check",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "beneficial_owner_check",
+    "description": "A mandatory compliance verification of the customer's ownership structure and the origin of their funds.",
+    "context": [
+      "Additional verification may be required (beneficial ownership, source of funds)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010_cus_001",
+    "name": "High-Risk Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "high_risk_customer",
+    "description": "A customer identified as high-risk who is the subject of the Enhanced Due Diligence process.",
+    "context": [
+      "If High-Risk:",
+      "Mark customer for Enhanced Due Diligence"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010_acc_001",
+    "name": "New Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "new_account",
+    "description": "The account intended for creation following the successful completion and approval of the EDD process.",
+    "context": [
+      "Compliance Head approval required before account creation"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011_stp_001",
+    "name": "System Recording",
+    "aliases": [
+      "Step 5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The stage of the process where verified customer identification, address details, and risk assessment data are formally entered into the Account Management System (AMS). It ensures all verification metadata is captured for audit and compliance purposes.",
+    "context": [
+      "Step 5: System Recording",
+      "Document Entry in AMS"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011_rol_001",
+    "name": "AMS Staff Member",
+    "aliases": [
+      "Verified By"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The bank staff member responsible for performing the verification and recording their name or ID in the AMS system to attest to the validity of the documents.",
+    "context": [
+      "Verified By (staff member name/ID)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011_chk_001",
+    "name": "Identity Document Verification Recording",
+    "aliases": [
+      "Document Entry"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "document_retention",
+    "description": "A control point where the system records the specific identity document used (Passport or Driving License), its validity dates, and the method of verification used to ensure the identity check is satisfied.",
+    "context": [
+      "Document Type (Passport / Driving License)",
+      "Verification Method (In-branch examination / Online upload / Postal)",
+      "Status (Verified / Pending / Failed)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011_chk_002",
+    "name": "Address Verification Recording",
+    "aliases": [
+      "Address Entry"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "address_verification_step",
+    "description": "A mandatory recording gate that captures the customer's registered or correspondence address along with the specific evidence document (e.g., Utility Bill) used to verify the residency.",
+    "context": [
+      "Address Type (Registered / Correspondence)",
+      "Address Verification Date",
+      "Document Type (Utility Bill / Council Tax / etc.)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011_chk_003",
+    "name": "Risk Assessment Entry",
+    "aliases": [
+      "Risk Assessment"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "risk_classification",
+    "description": "The final checkpoint in the recording process where the customer is assigned a risk level and determined if Enhanced Due Diligence (EDD) is required, including the scheduling of the next review date.",
+    "context": [
+      "Risk Level (Low / Medium / High)",
+      "EDD Flag (Yes / No)",
+      "Next Review Date (per risk-based schedule)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011_dec_001",
+    "name": "EDD Requirement Decision",
+    "aliases": [
+      "EDD Flag"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A branching point where the staff must decide if the customer requires Enhanced Due Diligence (EDD) based on the risk assessment, necessitating a recorded reason if flagged 'Yes'.",
+    "context": [
+      "EDD Flag (Yes / No)",
+      "Reason (if EDD flagged)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011_doc_001",
+    "name": "Identity Document",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "passport_verification",
+    "description": "Official identity documents used for verification, specifically Passports and Driving Licenses, requiring the recording of document numbers and expiry dates.",
+    "context": [
+      "Document Type (Passport / Driving License)",
+      "Document Number",
+      "Expiry Date"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011_adr_001",
+    "name": "Customer Address",
+    "aliases": [],
+    "entity_class": "ADDRESS",
+    "type": "address_recording",
+    "description": "The physical residence or correspondence address of the customer, captured as part of the AMS entry process.",
+    "context": [
+      "Address Line 1",
+      "City/Town",
+      "Postcode",
+      "Country"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012_prc_001",
+    "name": "KYC Quality Check and Approval Process",
+    "aliases": [
+      "Step 6",
+      "Verification Quality Checklist"
+    ],
+    "entity_class": "PROCESS",
+    "type": "quality_check",
+    "description": "A quality assurance workflow to verify that all KYC documentation and risk assessments are complete and accurate before final approval. It involves a detailed checklist and manager sign-off.",
+    "context": [
+      "Step 6: Quality Check",
+      "Verification Quality Checklist",
+      "Before Approving KYC"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012_stp_001",
+    "name": "KYC Documentation and Risk Verification",
+    "aliases": [
+      "Verification Quality Checklist"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "A comprehensive review of collected identity documents, address verification, photo matching, and risk assessment completion. All data must be recorded in the AMS system.",
+    "context": [
+      "Identity document collected and verified (original or certified copy)",
+      "Addresses match (ID and secondary)",
+      "All fields recorded in AMS",
+      "Risk assessment completed"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012_stp_002",
+    "name": "Manager Sign-Off and Filing",
+    "aliases": [
+      "Manager Sign-Off"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "approval_decision",
+    "description": "The final review phase where an authorized manager evaluates the checklist and either approves the KYC or requests more information, followed by filing the checklist in the account record.",
+    "context": [
+      "Operations Manager or Compliance Staff reviews checklist",
+      "Approves or requests additional verification",
+      "Files checklist in account record"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012_rol_001",
+    "name": "Operations Manager",
+    "aliases": [
+      "Manager"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_manager",
+    "description": "A management role responsible for reviewing the KYC verification quality checklist and providing final approval or requesting further evidence.",
+    "context": [
+      "Operations Manager or Compliance Staff reviews checklist"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012_rol_002",
+    "name": "Compliance Staff",
+    "aliases": [
+      "Compliance"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "A role dedicated to ensuring regulatory requirements are met by reviewing the quality checklist and authorizing the KYC process.",
+    "context": [
+      "Operations Manager or Compliance Staff reviews checklist"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012_dec_001",
+    "name": "KYC Approval Gate",
+    "aliases": [
+      "Approves or requests"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "approve_reject",
+    "description": "A critical decision point where the manager determines if the KYC verification is sufficient for approval or if additional documentation is required.",
+    "context": [
+      "Approves or requests additional verification"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012_chk_001",
+    "name": "KYC Pre-Approval Compliance Gate",
+    "aliases": [
+      "Before Approving KYC"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "risk_classification",
+    "description": "A mandatory control point ensuring all identity, address, and risk assessment requirements (including EDD if applicable) are satisfied before the account can proceed.",
+    "context": [
+      "Before Approving KYC",
+      "No compliance concerns noted",
+      "EDD flagged (if high-risk)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012_cus_001",
+    "name": "KYC Subject",
+    "aliases": [
+      "customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "applicant",
+    "description": "The individual whose identity and address are being verified against provided documentation and photo evidence.",
+    "context": [
+      "Photo matches customer appearance"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012_acc_001",
+    "name": "Customer Account Record",
+    "aliases": [
+      "account record"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "active_account",
+    "description": "The system record where the final signed-off KYC quality checklist is archived.",
+    "context": [
+      "Files checklist in account record"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012_doc_001",
+    "name": "Identity Document",
+    "aliases": [
+      "ID"
+    ],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "passport_verification",
+    "description": "Official identification provided by the customer, which must be original or a certified copy and not expired.",
+    "context": [
+      "Identity document collected and verified (original or certified copy)",
+      "Document not expired"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012_adr_001",
+    "name": "Proof of Address Document",
+    "aliases": [
+      "Address document"
+    ],
+    "entity_class": "ADDRESS",
+    "type": "proof_of_address",
+    "description": "A secondary document used to verify the customer's residence, which must be current and dated within the last 3 months.",
+    "context": [
+      "Address document collected (current, within 3 months)",
+      "Addresses match (ID and secondary)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013_prc_001",
+    "name": "Periodic Re-Verification Process",
+    "aliases": [
+      "Step 7"
+    ],
+    "entity_class": "PROCESS",
+    "type": "periodic_refresh",
+    "description": "A risk-based operational workflow to re-verify customer information at set intervals or upon specific triggers. The frequency of verification is determined by the customer's risk rating (Low, Medium, or High).",
+    "context": [
+      "Step 7: Periodic Re-Verification",
+      "Risk-Based Re-Verification Schedule"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013_stp_001",
+    "name": "Low-Risk Customer Re-Verification",
+    "aliases": [
+      "Low-Risk Schedule"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "periodic_refresh",
+    "description": "Re-verification of customers classified as low-risk occurring every 5 years. This process is initiated by an automatic system reminder and may be waived if no risk increase is indicated.",
+    "context": [
+      "Low-Risk Customers: Re-verify every 5 years",
+      "Reminder generated automatically in system",
+      "May be waived if customer activity indicates no risk increase"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013_stp_002",
+    "name": "Medium-Risk Customer Re-Verification",
+    "aliases": [
+      "Medium-Risk Schedule"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "periodic_refresh",
+    "description": "Re-verification of customers classified as medium-risk occurring every 3 years. Includes ongoing monitoring via quarterly risk assessments.",
+    "context": [
+      "Medium-Risk Customers: Re-verify every 3 years",
+      "Quarterly risk assessment (ongoing monitoring)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013_stp_003",
+    "name": "High-Risk Customer Re-Verification",
+    "aliases": [
+      "High-Risk Schedule"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "periodic_refresh",
+    "description": "Annual re-verification for high-risk customers. This step involves quarterly enhanced monitoring and a transaction-by-transaction review to identify suspicious patterns.",
+    "context": [
+      "High-Risk Customers: Re-verify annually",
+      "Quarterly enhanced monitoring",
+      "Transaction-by-transaction review for suspicious patterns"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013_dec_001",
+    "name": "Immediate Re-Verification Trigger Check",
+    "aliases": [
+      "Triggering Immediate Re-Verification"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A decision gate that triggers an immediate re-verification process regardless of the scheduled cycle if specific event-based triggers occur, such as address changes or fraud alerts.",
+    "context": [
+      "Triggering Immediate Re-Verification:",
+      "Customer registers new address",
+      "Fraud detection/alert",
+      "PEP status change"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013_rol_001",
+    "name": "Automated System",
+    "aliases": [
+      "system"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The banking system responsible for automatically generating reminders for the re-verification of low-risk customers.",
+    "context": [
+      "Reminder generated automatically in system"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013_cus_001",
+    "name": "Low-Risk Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "Customers classified as low-risk who are subject to a 5-year re-verification cycle.",
+    "context": [
+      "Low-Risk Customers: Re-verify every 5 years"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013_cus_002",
+    "name": "Medium-Risk Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "Customers classified as medium-risk who are subject to a 3-year re-verification cycle and quarterly assessments.",
+    "context": [
+      "Medium-Risk Customers: Re-verify every 3 years"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013_cus_003",
+    "name": "High-Risk Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "high_risk_customer",
+    "description": "Customers classified as high-risk requiring annual re-verification and enhanced monitoring.",
+    "context": [
+      "High-Risk Customers: Re-verify annually"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013_chk_001",
+    "name": "Risk Classification Check",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "risk_classification",
+    "description": "The control point where a customer's risk level (Low, Medium, High) is determined to assign the correct re-verification frequency and monitoring intensity.",
+    "context": [
+      "Risk-Based Re-Verification Schedule",
+      "Low-Risk Customers",
+      "Medium-Risk Customers",
+      "High-Risk Customers"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013_adr_001",
+    "name": "Customer Address Update",
+    "aliases": [],
+    "entity_class": "ADDRESS",
+    "type": "address_update",
+    "description": "The action of a customer registering a new address, which serves as a trigger for immediate re-verification.",
+    "context": [
+      "Customer registers new address"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013_flt_001",
+    "name": "Fraud Alert Trigger",
+    "aliases": [],
+    "entity_class": "FRAUD_ALERT",
+    "type": "alert_generation",
+    "description": "A fraud detection event that necessitates the immediate re-verification of the customer's status.",
+    "context": [
+      "Fraud detection/alert"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013_aml_001",
+    "name": "Sanctions List Hit",
+    "aliases": [],
+    "entity_class": "AML_SCREENING",
+    "type": "sanctions_screening_step",
+    "description": "A match found during sanctions screening that triggers an immediate re-verification process.",
+    "context": [
+      "Sanctions list hit"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_014_prc_001",
+    "name": "Re-Verification Process",
+    "aliases": [
+      "Re-Verification"
+    ],
+    "entity_class": "PROCESS",
+    "type": "kyc_verification",
+    "description": "A procedure to refresh customer verification data, mirroring the initial verification steps. It involves contacting the customer for updated documentation and updating the system records.",
+    "context": [
+      "Re-Verification Process",
+      "Same as initial verification (Steps 1–6 above)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_014",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_014_stp_001",
+    "name": "Customer Document Request Step",
+    "aliases": [
+      "Contacting customer"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The action of contacting the customer to request updated identity or address documents as part of the re-verification workflow.",
+    "context": [
+      "Customer contacted for updated documents"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_014",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_014_stp_002",
+    "name": "Document Verification and System Update Step",
+    "aliases": [
+      "Verification and update"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_verification",
+    "description": "The stage where the provided updated documents are verified for authenticity and the customer's system records are updated accordingly.",
+    "context": [
+      "Documents verified and system updated"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_014",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_014_stp_003",
+    "name": "Re-verification Date Recording Step",
+    "aliases": [
+      "Recording date"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The final administrative action of recording the date the re-verification was completed within the bank's systems.",
+    "context": [
+      "Re-verification date recorded"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_014",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_014_rol_001",
+    "name": "Customer",
+    "aliases": [
+      "Applicant"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The bank customer who is the subject of the re-verification process and is responsible for providing updated documentation.",
+    "context": [
+      "Customer contacted for updated documents"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_014",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015_prc_001",
+    "name": "Online KYC Verification Process",
+    "aliases": [
+      "Online Account Opening"
+    ],
+    "entity_class": "PROCESS",
+    "type": "kyc_verification",
+    "description": "The end-to-end digital procedure for verifying a customer's identity and address during online account opening. The timeline is less than 1 hour for automated paths and 1–2 business days for manual reviews.",
+    "context": [
+      "Online KYC Verification",
+      "For Online Account Opening",
+      "Timeline: < 1 hour (if no issues), 1–2 business days (if manual review)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015_stp_001",
+    "name": "Digital Document Upload and Initial Review",
+    "aliases": [
+      "Step 1",
+      "Upload Document"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_collection",
+    "description": "The initial stage where the customer uploads identification and the system or compliance staff performs a verification check.",
+    "context": [
+      "Customer uploads photo of ID (Passport or Driving License)",
+      "System performs automated verification (if available)",
+      "Manual review by Compliance staff"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015_stp_002",
+    "name": "Document Verification Detail Check",
+    "aliases": [
+      "Step 2",
+      "Verification Steps"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_verification",
+    "description": "A detailed review of the uploaded ID to ensure the document is not expired, the number format is correct, and the image quality is sufficient.",
+    "context": [
+      "Check document not expired",
+      "Verify document number format",
+      "Review uploaded image quality"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015_stp_003",
+    "name": "Address Verification Step",
+    "aliases": [
+      "Step 3",
+      "Address Verification"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "address_verification_step",
+    "description": "The process of validating the customer's address through form entry, automated postcode verification, and potential secondary document upload reviewed by staff.",
+    "context": [
+      "Customer enters address in form",
+      "Postcode verification (automated)",
+      "Secondary document upload (optional, if required)",
+      "Compliance staff review"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015_stp_004",
+    "name": "KYC Approval Decision",
+    "aliases": [
+      "Step 4",
+      "Approval"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "approval_decision",
+    "description": "The final review step where compliance staff either approve the KYC submission or request further clarification from the customer.",
+    "context": [
+      "Compliance staff approves or requests clarification",
+      "If approved, account proceeds to AML screening",
+      "If rejected, customer notified"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015_rol_001",
+    "name": "Compliance Staff",
+    "aliases": [
+      "Compliance"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "Human actors responsible for performing manual reviews of uploaded documents and addresses, as well as making the final approval or rejection decision.",
+    "context": [
+      "Manual review by Compliance staff",
+      "Compliance staff review",
+      "Compliance staff approves or requests clarification"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015_rol_002",
+    "name": "Automated Verification System",
+    "aliases": [
+      "System"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The system component that performs automated ID verification and postcode validation.",
+    "context": [
+      "System performs automated verification (if available)",
+      "Postcode verification (automated)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015_rol_003",
+    "name": "Customer",
+    "aliases": [
+      "Applicant"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The individual applying for an account who provides identification and address details via the digital interface.",
+    "context": [
+      "Customer uploads photo of ID",
+      "Customer enters address in form",
+      "customer notified"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015_dec_001",
+    "name": "KYC Approval Gate",
+    "aliases": [
+      "Approval Decision"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "approve_reject",
+    "description": "A decision point where the submission is either approved (leading to AML screening) or rejected (leading to customer notification).",
+    "context": [
+      "Compliance staff approves or requests clarification",
+      "If approved, account proceeds to AML screening",
+      "If rejected, customer notified"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015_dec_002",
+    "name": "Manual Review Trigger",
+    "aliases": [
+      "Flag for manual review"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A condition where an unclear image or automated failure triggers a manual review by compliance staff.",
+    "context": [
+      "Flag for manual review if unclear"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015_chk_001",
+    "name": "KYC Compliance Checkpoint",
+    "aliases": [
+      "Online KYC Verification"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "risk_classification",
+    "description": "The mandatory gate verifying that identity and address requirements have been satisfied before the workflow is permitted to advance to AML screening.",
+    "context": [
+      "If approved, account proceeds to AML screening"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015_doc_001",
+    "name": "Identity Document",
+    "aliases": [
+      "ID"
+    ],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "passport_verification",
+    "description": "Official identification provided by the customer, specifically listed as a Passport or Driving License.",
+    "context": [
+      "Customer uploads photo of ID (Passport or Driving License)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015_addr_001",
+    "name": "Customer Address",
+    "aliases": [
+      "Address"
+    ],
+    "entity_class": "ADDRESS",
+    "type": "address_verification_step",
+    "description": "The residential address provided by the customer, verified via postcode and potentially secondary documentation.",
+    "context": [
+      "Customer enters address in form",
+      "Postcode verification (automated)",
+      "Secondary document upload (optional, if required)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016_prc_001",
+    "name": "Postal KYC Verification",
+    "aliases": [
+      "Postal KYC"
+    ],
+    "entity_class": "PROCESS",
+    "type": "kyc_verification",
+    "description": "An operational workflow for verifying customer identity and address via certified postal documents. The process involves third-party certification and internal bank review with a total timeline of 3–5 business days.",
+    "context": [
+      "Postal KYC Verification",
+      "Timeline: 3–5 business days"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016_stp_001",
+    "name": "Customer Document Submission",
+    "aliases": [
+      "Customer Provides"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_collection",
+    "description": "The initial stage where the customer provides certified copies of their identification and address documentation, specifically notarized by a solicitor or notary public.",
+    "context": [
+      "Customer Provides:",
+      "Certified copy of ID (notarized by solicitor, notary public)",
+      "Certified copy of address document"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016_stp_002",
+    "name": "Third Party Document Certification",
+    "aliases": [
+      "Certification Process"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "identity_check",
+    "description": "The process performed by a solicitor or notary public to verify the customer's identity, confirm the document is a genuine copy, and apply a dated stamp and signature.",
+    "context": [
+      "Certification Process:",
+      "Solicitor/notary verifies identity",
+      "Confirms document is genuine copy",
+      "Stamps/signs certification",
+      "Provides certification date"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016_stp_003",
+    "name": "Bank Certification Review",
+    "aliases": [
+      "Verification by Bank"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_verification",
+    "description": "The internal bank review where operations staff verify the certifier's details and record the verification in the system.",
+    "context": [
+      "Verification by Bank:",
+      "Operations staff reviews certification",
+      "Confirms certifier details (notary/solicitor)",
+      "Records in system"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016_rol_001",
+    "name": "Customer",
+    "aliases": [
+      "Applicant"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The individual undergoing the KYC process who is responsible for providing certified identification and address documents.",
+    "context": [
+      "Customer Provides:"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016_rol_002",
+    "name": "Solicitor or Notary Public",
+    "aliases": [
+      "Certifier"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "An external professional responsible for verifying the customer's identity, confirming document authenticity, and signing/stamping the certification.",
+    "context": [
+      "notarized by solicitor, notary public",
+      "Solicitor/notary verifies identity"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016_rol_003",
+    "name": "Operations Staff",
+    "aliases": [
+      "Ops Team"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "Bank personnel responsible for reviewing the certifications, confirming the legitimacy of the certifier, and recording the result in the bank's system.",
+    "context": [
+      "Operations staff reviews certification",
+      "Confirms certifier details (notary/solicitor)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016_dec_001",
+    "name": "Certifier Verification Trigger",
+    "aliases": [
+      "Certifier Contact Check"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A decision point where operations staff determine if there are concerns regarding the certification that necessitate direct contact with the solicitor or notary public.",
+    "context": [
+      "May contact certifier to verify (if concerns)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016_chk_001",
+    "name": "Postal Document Compliance Gate",
+    "aliases": [
+      "Certification Review"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "document_retention",
+    "description": "The mandatory control point where the bank verifies that the identity and address documents have been correctly certified by an approved professional before recording the KYC status.",
+    "context": [
+      "Operations staff reviews certification",
+      "Confirms certifier details (notary/solicitor)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016_doc_001",
+    "name": "Certified Identity Document",
+    "aliases": [
+      "ID Copy"
+    ],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "passport_verification",
+    "description": "A copy of the customer's identity document that must be notarized by a solicitor or notary public.",
+    "context": [
+      "Certified copy of ID (notarized by solicitor, notary public)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016_doc_002",
+    "name": "Certified Address Document",
+    "aliases": [
+      "Proof of Address"
+    ],
+    "entity_class": "ADDRESS",
+    "type": "proof_of_address",
+    "description": "A document used to verify the customer's residential address, required to be provided as a certified copy.",
+    "context": [
+      "Certified copy of address document"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_017_prc_001",
+    "name": "Escalation & Exceptions Procedure",
+    "aliases": [
+      "Escalation & Exceptions"
+    ],
+    "entity_class": "PROCESS",
+    "type": "escalation_procedure",
+    "description": "A procedure defining the specific triggers and criteria that require a customer verification case to be escalated to senior compliance management for review.",
+    "context": [
+      "Escalation & Exceptions",
+      "When to Escalate"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_017",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_017_rol_001",
+    "name": "Compliance Head",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The senior authority responsible for reviewing escalated cases involving identity discrepancies, potential fraud, or high-risk customer profiles.",
+    "context": [
+      "Escalate to Compliance Head If:"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_017",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_017_esc_001",
+    "name": "Level 2 — Compliance Head Review",
+    "aliases": [],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "department_head",
+    "description": "An escalation tier where the Compliance Head evaluates exceptions and high-risk triggers that cannot be resolved at the frontline level.",
+    "context": [
+      "Escalate to Compliance Head If:"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_017",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_017_dec_001",
+    "name": "Identity and Risk Escalation Trigger",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A decision gate determining whether to proceed with standard onboarding or escalate to the Compliance Head based on ID validity, address matching, or risk status.",
+    "context": [
+      "Customer unable to provide acceptable ID",
+      "Addresses don't match (possible fraud)",
+      "Document appears forged/tampered",
+      "Customer identity unclear",
+      "High-risk customer (PEP/adverse media)",
+      "Customer refuses to provide verification"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_017",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_017_cus_001",
+    "name": "High-Risk Customer",
+    "aliases": [
+      "PEP",
+      "adverse media"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "high_risk_customer",
+    "description": "A customer categorized as high-risk due to being a Politically Exposed Person (PEP) or having associated adverse media, requiring escalation.",
+    "context": [
+      "High-risk customer (PEP/adverse media)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_017",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018_prc_001",
+    "name": "Exception Process",
+    "aliases": [],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "The operational workflow for handling account application exceptions, involving documentation, escalation to the Compliance Head, and a final decision on the application.",
+    "context": [
+      "Exception Process"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018_stp_001",
+    "name": "Exception Reason Documentation",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The initial step in the exception process where the specific reason for the exception is formally documented.",
+    "context": [
+      "Document reason for exception"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018_stp_002",
+    "name": "Escalation to Compliance Head",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The action of moving the exception case up to the Compliance Head for review and decision making.",
+    "context": [
+      "Escalate to Compliance Head"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018_rol_001",
+    "name": "Compliance Head",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The senior official responsible for reviewing exception cases and deciding whether to approve, request more info, or reject an account application.",
+    "context": [
+      "Escalate to Compliance Head",
+      "Compliance Head reviews and decides"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018_stp_003",
+    "name": "Compliance Review and Decision",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "approval_decision",
+    "description": "The stage where the Compliance Head evaluates the exception and selects one of three possible outcomes.",
+    "context": [
+      "Compliance Head reviews and decides"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018_dec_001",
+    "name": "Exception Approval Gate",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "approve_reject",
+    "description": "A branching point where the Compliance Head decides to either approve the application with conditions, request alternative verification, or reject the account application.",
+    "context": [
+      "Approve (with additional conditions)",
+      "Request alternative verification",
+      "Reject (account application denied)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018_stp_004",
+    "name": "Decision System Recording",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The final step where the decision reached by the Compliance Head is formally recorded in the system.",
+    "context": [
+      "Decision recorded in system"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018_cus_001",
+    "name": "Account Applicant",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "applicant",
+    "description": "The individual whose account application is subject to the exception process and potentially denied based on the decision.",
+    "context": [
+      "account application denied"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018_acc_001",
+    "name": "Proposed Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "new_account",
+    "description": "The new account application being processed through the exception workflow.",
+    "context": [
+      "account application denied"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019_prc_001",
+    "name": "Staff Training and Competency Process",
+    "aliases": [
+      "Training & Competency"
+    ],
+    "entity_class": "PROCESS",
+    "type": "training_certification",
+    "description": "The end-to-end procedure for ensuring staff are trained and certified in document authentication, customer communication, data entry, and compliance procedures. It includes a knowledge assessment and practical observation.",
+    "context": [
+      "Training & Competency",
+      "Staff Required Training",
+      "Certification"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019_stp_001",
+    "name": "Document Authentication Training",
+    "aliases": [
+      "spotting fakes"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_verification",
+    "description": "Training staff on how to identify counterfeit documents and recognise legitimate security features.",
+    "context": [
+      "Document authentication (spotting fakes, security features)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019_stp_002",
+    "name": "Customer Communication Training",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "Instruction on how to clearly explain the bank's Know Your Customer (KYC) requirements to customers.",
+    "context": [
+      "Customer communication (explaining KYC requirements clearly)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019_stp_003",
+    "name": "System Data Entry Training",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "Training to ensure accurate recording of customer information into the bank's systems.",
+    "context": [
+      "System data entry (accurate recording)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019_stp_004",
+    "name": "Compliance Procedures Training",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "Training regarding the specific compliance rules and the criteria for when a matter must be escalated.",
+    "context": [
+      "Compliance procedures (what to escalate)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019_stp_005",
+    "name": "Knowledge Assessment",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "A formal test that staff must pass as part of their certification process.",
+    "context": [
+      "Pass knowledge assessment"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019_stp_006",
+    "name": "Practical Observation Assessment",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "A practical evaluation where a manager observes the staff member processing at least 5 customers to verify competency.",
+    "context": [
+      "Practical observation (verified by manager on 5+ customers)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019_stp_007",
+    "name": "Annual Refresher Training",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "periodic_refresh",
+    "description": "Mandatory yearly training to maintain staff competency and updated knowledge of procedures.",
+    "context": [
+      "Annual refresher training"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019_rol_001",
+    "name": "Staff Member",
+    "aliases": [
+      "Staff"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_staff",
+    "description": "The personnel undergoing training and certification in operational and compliance procedures.",
+    "context": [
+      "Staff Required Training",
+      "Pass knowledge assessment"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019_rol_002",
+    "name": "Manager",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_manager",
+    "description": "The individual responsible for verifying a staff member's competency through practical observation of customer interactions.",
+    "context": [
+      "verified by manager on 5+ customers"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019_dec_001",
+    "name": "Certification Approval Gate",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "pass_fail",
+    "description": "A decision point where staff must pass both the knowledge assessment and the practical observation to be certified.",
+    "context": [
+      "Pass knowledge assessment",
+      "Practical observation (verified by manager on 5+ customers)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_020_prc_001",
+    "name": "Account Opening Process",
+    "aliases": [
+      "sop_account_opening"
+    ],
+    "entity_class": "PROCESS",
+    "type": "account_opening",
+    "description": "The operational workflow for opening a new account, which incorporates KYC as a primary component (specifically Step 3).",
+    "context": [
+      "sop_account_opening — Account opening (KYC is Step 3)"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_020",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_020_stp_001",
+    "name": "KYC Step in Account Opening",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "identity_check",
+    "description": "The third discrete action within the Account Opening Process dedicated to Know Your Customer (KYC) procedures.",
+    "context": [
+      "KYC is Step 3"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_020",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_021_rol_001",
+    "name": "Head of Compliance",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "The individual responsible for authoring and updating the operational procedure documents, including version 1.0 and 2.0.",
+    "context": [
+      "Author | Head of Compliance"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_021",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_022_rol_001",
+    "name": "Head of Compliance",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The senior official responsible for the final approval and sign-off of the operational procedure on 2026-01-15.",
+    "context": [
+      "Approved by: Head of Compliance — Date: 2026-01-15"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_022",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_022_rol_002",
+    "name": "Chief Risk Officer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The executive officer responsible for the final approval and sign-off of the operational procedure on 2026-01-15.",
+    "context": [
+      "Chief Risk Officer — Date: 2026-01-15"
+    ],
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_022",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e",
+    "domain": "banking_sop_guides"
+  }
+]

@@ -1,0 +1,2168 @@
+[
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_001_prc_001",
+    "name": "KYC Verification Process",
+    "properties": {
+      "document_id": "KYC-SOP-001",
+      "owner": "Head of Compliance",
+      "departments_involved": [
+        "Compliance",
+        "Branch",
+        "Operations"
+      ],
+      "scope": "Customer Identification and AML compliance"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_001",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_001_rol_001",
+    "name": "Head of Compliance",
+    "properties": {
+      "role_type": "human",
+      "department": "Compliance",
+      "authority_level": "Process Owner"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_001",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_001_rol_002",
+    "name": "Compliance Staff",
+    "properties": {
+      "role_type": "human",
+      "department": "Compliance"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_001",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_001_rol_003",
+    "name": "Branch Staff",
+    "properties": {
+      "role_type": "human",
+      "department": "Branch"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_001",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_001_rol_004",
+    "name": "Operations Staff",
+    "properties": {
+      "role_type": "human",
+      "department": "Operations"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_001",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_002_prc_001",
+    "name": "KYC Verification Process",
+    "properties": {
+      "purpose": "Confirm customer identity and address at account opening and periodically thereafter",
+      "scope": [
+        "account opening",
+        "periodic review"
+      ],
+      "regulatory_references": [
+        "FCA COBS Part 10",
+        "Money Laundering Regulations 2017"
+      ]
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_002",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_003_prc_001",
+    "name": "Customer Account Opening and Re-verification Process",
+    "properties": {
+      "scope": [
+        "new customers",
+        "periodic re-verification"
+      ],
+      "channels": [
+        "branch",
+        "online",
+        "postal"
+      ]
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_003",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_003_rol_001",
+    "name": "New Customer",
+    "properties": {
+      "role_type": "human",
+      "process_role": "applicant"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_003",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_003_rol_002",
+    "name": "Joint Account Holder",
+    "properties": {
+      "role_type": "human",
+      "kyc_requirement": "both must verify"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_003",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_003_acc_001",
+    "name": "New Customer Account",
+    "properties": {
+      "account_state_at_start": "new"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_003",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_003_jnt_001",
+    "name": "Joint Account",
+    "properties": {
+      "dual_verification_steps": "both holders must verify"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_003",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004_prc_001",
+    "name": "KYC Verification Process",
+    "properties": {
+      "timeline_sla": "1–2 business days",
+      "outcome_success": "KYC Complete & Approved",
+      "outcome_failure": "KYC Failed - Escalate",
+      "trigger": "Customer Provides Information"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004_stp_001",
+    "name": "Document Collection",
+    "properties": {
+      "step_number": 1
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004_stp_002",
+    "name": "Document Verification",
+    "properties": {
+      "step_number": 2
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004_stp_003",
+    "name": "Address Verification",
+    "properties": {
+      "step_number": 3
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004_stp_004",
+    "name": "Risk Assessment",
+    "properties": {
+      "step_number": 4
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004_stp_005",
+    "name": "System Recording",
+    "properties": {
+      "step_number": 5
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004_stp_006",
+    "name": "Quality Check",
+    "properties": {
+      "step_number": 6
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004_dec_001",
+    "name": "KYC Approval Gate",
+    "properties": {
+      "decision_question": "Is the KYC complete and approved?",
+      "path_yes": "KYC Complete & Approved",
+      "path_no": "KYC Failed - Escalate"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004_chk_001",
+    "name": "KYC Compliance Checkpoint",
+    "properties": {
+      "mandatory": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004_rol_001",
+    "name": "Customer",
+    "properties": {
+      "process_role": "applicant",
+      "role_type": "human"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_004",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_005_prc_001",
+    "name": "Customer Identity Document Collection Process",
+    "properties": {
+      "purpose": "Verify identity of applicant through valid photo identification",
+      "scope": "Customer applicants providing UK-based identity documents",
+      "channels": [
+        "branch"
+      ],
+      "outcome_success": "Valid identification document collected and verified",
+      "outcome_failure": "Document rejected as expired, damaged, or ineligible"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_005",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_005_stp_001",
+    "name": "Identity Document Request Step",
+    "properties": {
+      "step_number": 1,
+      "actor": "Bank Staff Member",
+      "input": "Customer request for account/service",
+      "output": "Physical or digital copy of photo ID",
+      "mandatory": "yes",
+      "channel": "manual"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_005",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_005_rol_001",
+    "name": "Bank Staff Member",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Document requester and initial reviewer"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_005",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_005_cus_001",
+    "name": "Customer Applicant",
+    "properties": {
+      "customer_type": "applicant",
+      "process_role": "Subject of identity verification"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_005",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_005_idoc_001",
+    "name": "UK Passport",
+    "properties": {
+      "accepted_types": [
+        "UK Passport"
+      ],
+      "verification_steps": [
+        "Check validity date",
+        "Verify photo page clarity",
+        "Inspect security features"
+      ],
+      "expiry_check": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_005",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_005_idoc_002",
+    "name": "UK Driving License",
+    "properties": {
+      "accepted_types": [
+        "UK Driving License (Photocard)"
+      ],
+      "verification_steps": [
+        "Verify photocard format",
+        "Check validity date",
+        "Confirm signature visibility",
+        "Confirm driving record intact"
+      ],
+      "expiry_check": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_005",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_005_dec_001",
+    "name": "Document Validity and Acceptability Gate",
+    "properties": {
+      "decision_question": "Is the provided identification document valid and acceptable?",
+      "criteria": [
+        "Document is not expired",
+        "Document is not damaged or illegible",
+        "Document is not a provisional license",
+        "Document is UK-issued"
+      ],
+      "decision_maker": "Bank Staff Member",
+      "path_yes": "Proceed with identity verification",
+      "path_no": "Reject document and request alternative valid ID"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_005",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_006_prc_001",
+    "name": "Address Document Request Process",
+    "properties": {
+      "purpose": "To obtain and verify documentation confirming the customer's current address",
+      "scope": "Address verification for customer identity and residency",
+      "trigger": "Need for address confirmation"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_006",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_006_stp_001",
+    "name": "Address Document Collection",
+    "properties": {
+      "step_number": 1,
+      "actor": "Customer",
+      "input": "Request for document confirming current address",
+      "output": "Primary or Secondary address evidence",
+      "mandatory": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_006",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_006_stp_002",
+    "name": "Address Document Verification",
+    "properties": {
+      "step_number": 2,
+      "mandatory": "yes",
+      "criteria": "Validation of document type and date of issuance"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_006",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_006_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "process_role": "applicant/subject of verification"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_006",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_006_chk_001",
+    "name": "Address Validation Checkpoint",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": [
+        "Utility Bill",
+        "Council Tax Document",
+        "Bank Statement",
+        "Mortgage Statement",
+        "Tenancy agreement",
+        "Insurance policy",
+        "HMRC letter",
+        "Electoral register extract"
+      ]
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_006",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_006_adr_001",
+    "name": "Primary Address Evidence",
+    "properties": {
+      "acceptable_proof": [
+        "Utility Bill (Gas, Electricity, Water, Telephone)",
+        "Council Tax Document (Bill or banding notice)",
+        "Bank Statement",
+        "Mortgage Statement"
+      ],
+      "verification_steps": "Must be dated within 3 months"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_006",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_006_adr_002",
+    "name": "Secondary Address Evidence",
+    "properties": {
+      "acceptable_proof": [
+        "Tenancy agreement (signed + landlord details)",
+        "Insurance policy (buildings/contents)",
+        "HM Revenue & Customs letter",
+        "Electoral register extract"
+      ]
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_006",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007_prc_001",
+    "name": "Document Verification Process",
+    "properties": {
+      "purpose": "Verify the authenticity and validity of customer identification documents in-branch",
+      "scope": "In-branch physical identity verification",
+      "channels": [
+        "branch"
+      ],
+      "trigger": "Customer provides physical identification documents",
+      "outcome_success": "Document verified as valid, authentic, and matching the customer",
+      "outcome_failure": "Identity issue, expired document, or lack of original documentation"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007_stp_001",
+    "name": "Original Document Examination",
+    "properties": {
+      "step_number": 1,
+      "actor": "Branch Staff",
+      "input": "Original physical identification document",
+      "output": "Confirmation of document authenticity and integrity",
+      "channel": "branch",
+      "mandatory": "yes",
+      "verification_actions": [
+        "Inspect security features",
+        "Check watermarks",
+        "Verify no tampering"
+      ]
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007_stp_002",
+    "name": "Photo Comparison Step",
+    "properties": {
+      "step_number": 2,
+      "actor": "Branch Staff",
+      "input": "Photo on ID and customer's physical appearance",
+      "output": "Verification of face match",
+      "channel": "branch",
+      "mandatory": "yes",
+      "failure_path": "Identity issue flagged"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007_stp_003",
+    "name": "Signature Verification Step",
+    "properties": {
+      "step_number": 3,
+      "actor": "Branch Staff",
+      "input": "Signature on ID and customer's signature on form",
+      "output": "Confirmation of signature consistency",
+      "channel": "branch",
+      "mandatory": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007_stp_004",
+    "name": "Document Expiry Check",
+    "properties": {
+      "step_number": 4,
+      "actor": "Branch Staff",
+      "input": "Document expiry date",
+      "output": "Confirmation of validity period",
+      "channel": "branch",
+      "mandatory": "yes",
+      "failure_path": "Document rejected as expired"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007_stp_005",
+    "name": "Document Data Recording",
+    "properties": {
+      "step_number": 5,
+      "actor": "Branch Staff",
+      "input": "Document type, document number, issue date, expiry date",
+      "output": "System record of verification",
+      "channel": "system",
+      "mandatory": "yes",
+      "data_fields": [
+        "document_type",
+        "document_number",
+        "issue_date",
+        "expiry_date",
+        "verification_method"
+      ]
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007_rol_001",
+    "name": "Branch Staff",
+    "properties": {
+      "role_type": "human",
+      "department": "Branch Operations",
+      "channels": [
+        "branch",
+        "system"
+      ],
+      "authority_level": "Execution of identity verification checks"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007_dec_001",
+    "name": "Document Validity and Authenticity Gate",
+    "properties": {
+      "decision_question": "Does the document meet all validity and authenticity criteria?",
+      "criteria": [
+        "Not expired",
+        "Photo matches customer",
+        "Signature matches application",
+        "No tampering or damage",
+        "Security features present"
+      ],
+      "decision_maker": "Branch Staff",
+      "path_yes": "Proceed to data recording and account opening",
+      "path_no": "Application rejected due to identity or document failure"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007_chk_001",
+    "name": "Physical Identity Verification Checkpoint",
+    "properties": {
+      "mandatory": "yes",
+      "applies_to_channels": [
+        "branch"
+      ],
+      "evidence_required": [
+        "Original ID document",
+        "Signed application form"
+      ],
+      "performed_by": "Branch Staff",
+      "failure_consequence": "Identity issue identified; process halt"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007_cus_001",
+    "name": "Customer",
+    "properties": {
+      "process_role": "Subject of identity verification",
+      "notification_required": "No (implied in-person interaction)"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007_doc_001",
+    "name": "Identity Document",
+    "properties": {
+      "accepted_types": [
+        "Passport",
+        "Driving License"
+      ],
+      "collection_steps": "Request customer to bring original document to branch",
+      "verification_steps": [
+        "Security feature inspection",
+        "Watermark check",
+        "Tamper check",
+        "Expiry validation"
+      ],
+      "expiry_check": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_007",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008_prc_001",
+    "name": "Address Verification Process",
+    "properties": {
+      "purpose": "Verify customer residential address through document examination and format validation",
+      "scope": "UK-based customers",
+      "channels": [
+        "branch",
+        "manual"
+      ],
+      "outcome_success": "Address verified as valid and current",
+      "outcome_failure": "Verification fail due to mismatch, outdated documents, or invalid format"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008_stp_001",
+    "name": "Address Format Check",
+    "properties": {
+      "step_number": 1,
+      "input": "Customer address and postcode",
+      "output": "Confirmation of UK address and valid postcode format",
+      "mandatory": "yes",
+      "channel": "manual"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008_stp_002",
+    "name": "Address Document Matching",
+    "properties": {
+      "step_number": 2,
+      "input": [
+        "Identity Document",
+        "Secondary Address Document"
+      ],
+      "output": "Confirmation of address consistency between documents",
+      "mandatory": "yes",
+      "failure_path": "Investigate for recent moves or spelling variances"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008_stp_003",
+    "name": "Document Currency Validation",
+    "properties": {
+      "step_number": 3,
+      "input": "Secondary Address Document",
+      "output": "Verification that document is current/active",
+      "mandatory": "yes",
+      "channel": "manual"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008_dec_001",
+    "name": "Address Verification Pass/Fail Gate",
+    "properties": {
+      "decision_question": "Does the address documentation meet all validity and currency criteria?",
+      "criteria": [
+        "Address on ID matches secondary document",
+        "Address is in UK",
+        "Secondary document is within 3 months (for bills/statements)",
+        "Postcode format is valid"
+      ],
+      "path_yes": "Proceed to next stage of onboarding",
+      "path_no": "Verification failure"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008_chk_001",
+    "name": "Address Validity Compliance Checkpoint",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": [
+        "ID document",
+        "Secondary address document (Utility bill, Council tax, Bank statement, Tenancy agreement, or Insurance policy)"
+      ],
+      "failure_consequence": "Process failure due to outdated documents, non-UK address, or mismatch"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008_doc_001",
+    "name": "Secondary Address Document",
+    "properties": {
+      "accepted_types": [
+        "Utility bill",
+        "Council tax bill",
+        "Bank statement",
+        "Tenancy agreement",
+        "Insurance policy"
+      ],
+      "verification_steps": "Check date of issue/activity and match address against primary ID",
+      "expiry_check": "Must be dated within 3 months (excluding tenancy/insurance which must be 'current' or 'active')"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008_adr_001",
+    "name": "Customer Residential Address",
+    "properties": {
+      "verification_steps": "Postcode format validation and document cross-referencing",
+      "acceptable_proof": "Matching address on ID and a current secondary document",
+      "recording_system": "Customer record system"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_008",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009_prc_001",
+    "name": "Risk Assessment Process",
+    "properties": {
+      "purpose": "Determine customer risk level to apply appropriate due diligence",
+      "scope": [
+        "SmartSaver Account",
+        "Current Account"
+      ],
+      "trigger": "Customer onboarding or account review"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009_stp_001",
+    "name": "Customer Risk Level Determination",
+    "properties": {
+      "step_number": 4,
+      "input": [
+        "Nationality",
+        "Age",
+        "Product Type",
+        "Address",
+        "PEP/Adverse Media Status",
+        "Initial Deposit Amount"
+      ],
+      "output": "Assigned Risk Category (Low, Medium, High)",
+      "mandatory": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009_dec_001",
+    "name": "Risk Category Classification Gate",
+    "properties": {
+      "decision_question": "Which risk category does the customer fall into based on residency, age, product, and screening?",
+      "criteria": "Comparison of customer attributes against defined Low, Medium, and High risk thresholds",
+      "path_yes": "Assign Low Risk if all basic criteria met",
+      "path_no": "Assign Medium or High Risk based on specific risk indicators"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009_chk_001",
+    "name": "PEP and Adverse Media Screening Checkpoint",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": [
+        "PEP screening results",
+        "Adverse media search logs"
+      ],
+      "failure_consequence": "Automatic classification as High Risk"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009_prod_001",
+    "name": "SmartSaver Account",
+    "properties": {
+      "product_type": "savings",
+      "determines_process_variant": "Standard product (Low Risk if other criteria met)"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009_prod_002",
+    "name": "Current Account",
+    "properties": {
+      "product_type": "current",
+      "determines_process_variant": "Standard product (Low Risk if other criteria met)"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009_cust_001",
+    "name": "Low Risk Customer",
+    "properties": {
+      "customer_type": "low_risk",
+      "criteria": [
+        "UK national or long-term resident",
+        "Age 18–65",
+        "UK address",
+        "No PEP/adverse media",
+        "Initial deposit <£100k"
+      ]
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009_cust_002",
+    "name": "Medium Risk Customer",
+    "properties": {
+      "customer_type": "medium_risk",
+      "criteria": [
+        "Non-UK resident (EU/developed country)",
+        "Age >65 or <25",
+        "Account value >£50k",
+        "Foreign address (EU/developed country)",
+        "Professional/business account"
+      ]
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009_cust_003",
+    "name": "High Risk Customer",
+    "properties": {
+      "customer_type": "high_risk",
+      "criteria": [
+        "Non-UK national with foreign address",
+        "PEP status",
+        "Adverse media (criminal history, fraud)",
+        "Unclear beneficial ownership",
+        "Account value >£250k",
+        "Residency in country with weak AML controls"
+      ]
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_009",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010_prc_001",
+    "name": "Enhanced Due Diligence (EDD) Process",
+    "properties": {
+      "purpose": "Perform additional verification and obtain high-level approval for high-risk customers",
+      "scope": "High-Risk Customers",
+      "trigger": "Customer identified as High-Risk",
+      "outcome_success": "Compliance Head approval and account creation",
+      "outcome_failure": "Account creation denied"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010_stp_001",
+    "name": "Mark Customer for Enhanced Due Diligence",
+    "properties": {
+      "step_number": 1,
+      "mandatory": "yes",
+      "output": "Customer flagged for EDD"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010_stp_002",
+    "name": "Escalate to Compliance Head",
+    "properties": {
+      "step_number": 2,
+      "actor": "rol_001",
+      "mandatory": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010_stp_003",
+    "name": "Perform Additional Verification",
+    "properties": {
+      "step_number": 3,
+      "input": [
+        "Beneficial ownership data",
+        "Source of funds documentation"
+      ],
+      "mandatory": "conditional"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010_rol_001",
+    "name": "Compliance Head",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Final approval for high-risk account opening"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010_dec_001",
+    "name": "High-Risk Status Determination",
+    "properties": {
+      "decision_question": "Is the customer high-risk?",
+      "path_yes": "Initiate EDD Process (prc_001)",
+      "path_no": "Proceed with Standard Due Diligence"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010_dec_002",
+    "name": "Compliance Head Approval Gate",
+    "properties": {
+      "decision_question": "Does the Compliance Head approve the high-risk account?",
+      "decision_maker": "Compliance Head",
+      "path_yes": "Allow account creation",
+      "path_no": "Deny account creation"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010_chk_001",
+    "name": "Beneficial Ownership and Source of Funds Check",
+    "properties": {
+      "mandatory": "conditional",
+      "evidence_required": [
+        "Beneficial ownership records",
+        "Source of funds verification"
+      ],
+      "timing": "During EDD process before account creation"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010_cus_001",
+    "name": "High-Risk Customer",
+    "properties": {
+      "customer_type": "high_risk",
+      "process_role": "Subject of Enhanced Due Diligence"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010_acc_001",
+    "name": "New Account",
+    "properties": {
+      "account_state_at_start": "pending_creation",
+      "account_state_at_end": "active"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_010",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011_stp_001",
+    "name": "System Recording",
+    "properties": {
+      "step_number": 5,
+      "actor": "AMS Staff Member",
+      "input": [
+        "Identity Document",
+        "Customer Address",
+        "Risk Assessment"
+      ],
+      "output": "Completed AMS Customer Record",
+      "channel": "system",
+      "mandatory": "yes",
+      "tools_or_systems": "AMS"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011_rol_001",
+    "name": "AMS Staff Member",
+    "properties": {
+      "role_type": "human",
+      "channels": "system",
+      "authority_level": "Data Entry and Verification"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011_chk_001",
+    "name": "Identity Document Verification Recording",
+    "properties": {
+      "checkpoint_name": "Identity Document Verification Recording",
+      "mandatory": "yes",
+      "evidence_required": [
+        "Document Type",
+        "Document Number",
+        "Issue Date",
+        "Expiry Date",
+        "Verification Method"
+      ],
+      "performed_by": "AMS Staff Member",
+      "system_used": "AMS"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011_chk_002",
+    "name": "Address Verification Recording",
+    "properties": {
+      "checkpoint_name": "Address Verification Recording",
+      "mandatory": "yes",
+      "evidence_required": [
+        "Address Details",
+        "Address Type",
+        "Address Verification Date",
+        "Proof Document Type"
+      ],
+      "performed_by": "AMS Staff Member",
+      "system_used": "AMS"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011_chk_003",
+    "name": "Risk Assessment Entry",
+    "properties": {
+      "checkpoint_name": "Risk Assessment Entry",
+      "mandatory": "yes",
+      "evidence_required": [
+        "Risk Level",
+        "EDD Flag",
+        "Reason for EDD",
+        "Next Review Date"
+      ],
+      "performed_by": "AMS Staff Member",
+      "system_used": "AMS"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011_dec_001",
+    "name": "EDD Requirement Decision",
+    "properties": {
+      "decision_question": "Is Enhanced Due Diligence (EDD) required?",
+      "criteria": "Based on Risk Level assessment",
+      "decision_maker": "AMS Staff Member",
+      "path_yes": "Set EDD Flag to 'Yes' and provide reason",
+      "path_no": "Set EDD Flag to 'No'"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011_doc_001",
+    "name": "Identity Document",
+    "properties": {
+      "accepted_types": [
+        "Passport",
+        "Driving License"
+      ],
+      "recording_obligation": "Enter Document Type, Number, Issue Date, and Expiry Date into AMS",
+      "expiry_check": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011_adr_001",
+    "name": "Customer Address",
+    "properties": {
+      "acceptable_proof": [
+        "Utility Bill",
+        "Council Tax"
+      ],
+      "recording_system": "AMS",
+      "data_collected": [
+        "Address Line 1",
+        "Address Line 2",
+        "City/Town",
+        "Postcode",
+        "Country",
+        "Address Type"
+      ]
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_011",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012_prc_001",
+    "name": "KYC Quality Check and Approval Process",
+    "properties": {
+      "purpose": "To ensure all KYC documentation and risk assessments are verified and complete before account approval",
+      "scope": "KYC verification for customers",
+      "owner": "Operations Manager / Compliance Staff",
+      "outcome_success": "KYC approved and checklist filed in account record",
+      "outcome_failure": "Request for additional verification"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012_stp_001",
+    "name": "KYC Documentation and Risk Verification",
+    "properties": {
+      "step_number": 1,
+      "actor": "Compliance Staff / Operations Manager",
+      "input": [
+        "Identity document",
+        "Address document",
+        "Customer appearance/photo",
+        "Risk assessment"
+      ],
+      "output": "Completed Verification Quality Checklist",
+      "mandatory": "yes",
+      "tools_or_systems": "AMS",
+      "failure_path": "Request for additional verification"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012_stp_002",
+    "name": "Manager Sign-Off and Filing",
+    "properties": {
+      "step_number": 2,
+      "actor": "Operations Manager or Compliance Staff",
+      "output": "Filed checklist in account record",
+      "mandatory": "yes",
+      "channel": "system"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012_rol_001",
+    "name": "Operations Manager",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Approval authority for KYC quality checks",
+      "channels": [
+        "system",
+        "manual"
+      ]
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012_rol_002",
+    "name": "Compliance Staff",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Review and approval authority for KYC quality checks",
+      "channels": [
+        "system",
+        "manual"
+      ]
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012_dec_001",
+    "name": "KYC Approval Gate",
+    "properties": {
+      "decision_question": "Does the KYC documentation meet all quality checklist requirements?",
+      "criteria": [
+        "ID verified and not expired",
+        "Address current within 3 months",
+        "Addresses match",
+        "Photo matches customer",
+        "All fields in AMS",
+        "Risk assessment complete",
+        "EDD flagged if high-risk"
+      ],
+      "decision_maker": "Operations Manager or Compliance Staff",
+      "path_yes": "Approve and file checklist in account record",
+      "path_no": "Request additional verification"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012_chk_001",
+    "name": "KYC Pre-Approval Compliance Gate",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": [
+        "Verified Identity Document",
+        "Proof of Address (within 3 months)",
+        "Completed Risk Assessment",
+        "AMS Data Entry"
+      ],
+      "performed_by": "Operations Manager or Compliance Staff",
+      "timing": "Before Approving KYC",
+      "system_used": "AMS"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012_cus_001",
+    "name": "KYC Subject",
+    "properties": {
+      "process_role": "Subject of the KYC quality check",
+      "customer_type": "determined by risk assessment (e.g., high-risk if EDD flagged)"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012_acc_001",
+    "name": "Customer Account Record",
+    "properties": {
+      "account_state_at_end": "active (upon approval)",
+      "system_recorded_in": "AMS"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012_doc_001",
+    "name": "Identity Document",
+    "properties": {
+      "accepted_types": [
+        "original",
+        "certified copy"
+      ],
+      "verification_steps": [
+        "Check for expiry",
+        "Verify photo matches customer appearance"
+      ],
+      "expiry_check": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012_adr_001",
+    "name": "Proof of Address Document",
+    "properties": {
+      "verification_steps": [
+        "Check if current",
+        "Cross-reference match with Identity Document"
+      ],
+      "acceptable_proof": "Document current within 3 months"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_012",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013_prc_001",
+    "name": "Periodic Re-Verification Process",
+    "properties": {
+      "purpose": "Ensure customer risk profiles remain current and compliant through scheduled and trigger-based re-verification",
+      "scope": "All customers categorized by risk level (Low, Medium, High)",
+      "trigger": "Scheduled intervals or immediate triggers (address change, disputes, fraud alerts, regulatory queries, PEP status change, sanctions hits)",
+      "departments_involved": [
+        "Compliance",
+        "Risk Management"
+      ]
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013_stp_001",
+    "name": "Low-Risk Customer Re-Verification",
+    "properties": {
+      "step_number": 1,
+      "frequency": "Every 5 years",
+      "mandatory": "Conditional",
+      "tools_or_systems": "Automated system reminders",
+      "failure_path": "Re-classification to higher risk if activity indicates risk increase"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013_stp_002",
+    "name": "Medium-Risk Customer Re-Verification",
+    "properties": {
+      "step_number": 2,
+      "frequency": "Every 3 years",
+      "monitoring_cycle": "Quarterly risk assessment",
+      "failure_path": "Escalation if risk factors change"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013_stp_003",
+    "name": "High-Risk Customer Re-Verification",
+    "properties": {
+      "step_number": 3,
+      "frequency": "Annually",
+      "monitoring_cycle": "Quarterly enhanced monitoring",
+      "investigation_method": "Transaction-by-transaction review for suspicious patterns",
+      "failure_path": "Escalation for any risk changes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013_dec_001",
+    "name": "Immediate Re-Verification Trigger Check",
+    "properties": {
+      "decision_question": "Has a trigger event occurred necessitating immediate re-verification?",
+      "criteria": [
+        "New address registration",
+        "Dispute/complaint involvement",
+        "Fraud alert",
+        "Regulatory query",
+        "PEP status change",
+        "Sanctions list hit"
+      ],
+      "path_yes": "Initiate immediate re-verification process",
+      "path_no": "Maintain existing risk-based schedule"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013_rol_001",
+    "name": "Automated System",
+    "properties": {
+      "role_type": "system",
+      "authority_level": "Notification and monitoring",
+      "channels": [
+        "system"
+      ],
+      "responsibilities": [
+        "Generating re-verification reminders"
+      ]
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013_cus_001",
+    "name": "Low-Risk Customer",
+    "properties": {
+      "customer_type": "low_risk",
+      "process_role": "Subject of periodic verification",
+      "re_verification_cycle": "5 years"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013_cus_002",
+    "name": "Medium-Risk Customer",
+    "properties": {
+      "customer_type": "medium_risk",
+      "process_role": "Subject of periodic verification",
+      "re_verification_cycle": "3 years"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013_cus_003",
+    "name": "High-Risk Customer",
+    "properties": {
+      "customer_type": "high_risk",
+      "process_role": "Subject of periodic verification",
+      "re_verification_cycle": "Annual"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013_chk_001",
+    "name": "Risk Classification Check",
+    "properties": {
+      "checkpoint_name": "Risk-Based Re-Verification Schedule",
+      "mandatory": "yes",
+      "timing": "Periodic (1, 3, or 5 years) or Event-driven",
+      "failure_consequence": "Risk profile escalation or immediate re-verification"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013_adr_001",
+    "name": "Customer Address Update",
+    "properties": {
+      "update_process": "Registration of new address",
+      "failure_path": "Triggers immediate re-verification process"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013_flt_001",
+    "name": "Fraud Alert Trigger",
+    "properties": {
+      "alert_trigger": "Fraud detection event",
+      "escalation_path": "Triggers immediate re-verification of the customer"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013_aml_001",
+    "name": "Sanctions List Hit",
+    "properties": {
+      "screening_steps": "Check against sanctions lists",
+      "failure_path": "Triggers immediate re-verification process"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_013",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_014_prc_001",
+    "name": "Re-Verification Process",
+    "properties": {
+      "purpose": "Update customer identification and verification records",
+      "scope": "Existing customers requiring periodic or trigger-based re-verification",
+      "outcome_success": "Customer documents updated and re-verification date recorded in system"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_014",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_014_stp_001",
+    "name": "Customer Document Request Step",
+    "properties": {
+      "step_number": 1,
+      "actor": "Bank Staff",
+      "output": "Request for updated documents sent to customer",
+      "mandatory": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_014",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_014_stp_002",
+    "name": "Document Verification and System Update Step",
+    "properties": {
+      "step_number": 2,
+      "actor": "Bank Staff",
+      "input": "Updated customer documents",
+      "output": "Updated customer records in system",
+      "mandatory": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_014",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_014_stp_003",
+    "name": "Re-verification Date Recording Step",
+    "properties": {
+      "step_number": 3,
+      "actor": "Bank Staff",
+      "output": "Recorded re-verification date",
+      "channel": "system",
+      "mandatory": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_014",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_014_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "process_role": "Subject of re-verification",
+      "notification_required": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_014",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015_prc_001",
+    "name": "Online KYC Verification Process",
+    "properties": {
+      "purpose": "Verify customer identity and address for online account opening",
+      "scope": "Online Account Opening",
+      "channels": [
+        "online"
+      ],
+      "timeline_sla": "1 hour (automated) to 2 business days (manual review)",
+      "trigger": "Online account opening application",
+      "outcome_success": "Account proceeds to AML screening",
+      "outcome_failure": "Customer notified of rejection"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015_stp_001",
+    "name": "Digital Document Upload and Initial Review",
+    "properties": {
+      "step_number": 1,
+      "actor": "Customer",
+      "input": "Photo of ID (Passport or Driving License)",
+      "tools_or_systems": "Automated Verification System",
+      "mandatory": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015_stp_002",
+    "name": "Document Verification Detail Check",
+    "properties": {
+      "step_number": 2,
+      "actor": "Automated Verification System",
+      "input": "Uploaded ID image",
+      "verification_criteria": [
+        "Expiry date check",
+        "Document number format",
+        "Image quality"
+      ],
+      "failure_path": "Flag for manual review"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015_stp_003",
+    "name": "Address Verification Step",
+    "properties": {
+      "step_number": 3,
+      "actor": "Customer",
+      "input": "Address form and optional secondary document",
+      "tools_or_systems": "Postcode verification system",
+      "mandatory": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015_stp_004",
+    "name": "KYC Approval Decision",
+    "properties": {
+      "step_number": 4,
+      "actor": "Compliance Staff",
+      "outcome": "Approve or request clarification",
+      "mandatory": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015_rol_001",
+    "name": "Compliance Staff",
+    "properties": {
+      "role_type": "human",
+      "department": "Compliance",
+      "authority_level": "Final approval/rejection of KYC documents",
+      "channels": [
+        "system"
+      ]
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015_rol_002",
+    "name": "Automated Verification System",
+    "properties": {
+      "role_type": "system",
+      "authority_level": "Initial screening and flagging",
+      "channels": [
+        "online"
+      ]
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015_rol_003",
+    "name": "Customer",
+    "properties": {
+      "role_type": "external",
+      "process_role": "applicant",
+      "channels": [
+        "online"
+      ]
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015_dec_001",
+    "name": "KYC Approval Gate",
+    "properties": {
+      "decision_question": "Does the customer meet KYC verification requirements?",
+      "decision_maker": "Compliance Staff",
+      "path_yes": "Proceed to AML screening",
+      "path_no": "Notify customer of rejection"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015_dec_002",
+    "name": "Manual Review Trigger",
+    "properties": {
+      "decision_question": "Is the automated verification unclear or insufficient?",
+      "criteria": "Unclear image quality or system failure",
+      "decision_maker": "Automated Verification System",
+      "path_yes": "Route to Compliance Staff for manual review",
+      "path_no": "Proceed with automated flow"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015_chk_001",
+    "name": "KYC Compliance Checkpoint",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": [
+        "Passport or Driving License",
+        "Proof of Address"
+      ],
+      "performed_by": "Compliance Staff",
+      "failure_consequence": "Application rejected"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015_doc_001",
+    "name": "Identity Document",
+    "properties": {
+      "accepted_types": [
+        "Passport",
+        "Driving License"
+      ],
+      "verification_steps": [
+        "Expiry check",
+        "Number format validation",
+        "Image quality review"
+      ],
+      "expiry_check": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015_addr_001",
+    "name": "Customer Address",
+    "properties": {
+      "collection_steps": "Customer enters address in online form",
+      "verification_steps": "Automated postcode verification",
+      "acceptable_proof": "Secondary document upload (if required)"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_015",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016_prc_001",
+    "name": "Postal KYC Verification",
+    "properties": {
+      "purpose": "Verify customer identity and address via certified postal documents",
+      "channels": [
+        "postal"
+      ],
+      "timeline_sla": "3–5 business days",
+      "outcome_success": "Customer identity and address verified and recorded in system"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016_stp_001",
+    "name": "Customer Document Submission",
+    "properties": {
+      "step_number": 1,
+      "actor": "Customer",
+      "input": [
+        "Certified copy of ID",
+        "Certified copy of address document"
+      ],
+      "channel": "postal",
+      "mandatory": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016_stp_002",
+    "name": "Third Party Document Certification",
+    "properties": {
+      "step_number": 2,
+      "actor": "Solicitor or Notary Public",
+      "output": "Stamped and signed certified copies with certification date",
+      "channel": "manual",
+      "mandatory": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016_stp_003",
+    "name": "Bank Certification Review",
+    "properties": {
+      "step_number": 3,
+      "actor": "Operations Staff",
+      "input": "Certified document copies",
+      "output": "Verification record in system",
+      "channel": "system",
+      "mandatory": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "postal"
+      ]
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016_rol_002",
+    "name": "Solicitor or Notary Public",
+    "properties": {
+      "role_type": "external",
+      "authority_level": "Certified Identity Verifier"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016_rol_003",
+    "name": "Operations Staff",
+    "properties": {
+      "role_type": "human",
+      "department": "Operations",
+      "channels": [
+        "system"
+      ]
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016_dec_001",
+    "name": "Certifier Verification Trigger",
+    "properties": {
+      "decision_question": "Are there concerns regarding the certification?",
+      "criteria": "Presence of concerns or anomalies in certification details",
+      "decision_maker": "Operations Staff",
+      "path_yes": "Contact certifier to verify authenticity",
+      "path_no": "Proceed to record in system"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016_chk_001",
+    "name": "Postal Document Compliance Gate",
+    "properties": {
+      "mandatory": "yes",
+      "applies_to_channels": [
+        "postal"
+      ],
+      "evidence_required": [
+        "Stamped/signed certified ID",
+        "Stamped/signed certified address document",
+        "Certification date"
+      ],
+      "performed_by": "Operations Staff"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016_doc_001",
+    "name": "Certified Identity Document",
+    "properties": {
+      "accepted_types": [
+        "Notarized ID"
+      ],
+      "verification_steps": [
+        "Confirm document is genuine copy",
+        "Verify certifier details",
+        "Check for stamp and signature"
+      ],
+      "recording_obligation": "Record in system"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016_doc_002",
+    "name": "Certified Address Document",
+    "properties": {
+      "verification_steps": [
+        "Confirm document is genuine copy",
+        "Verify certifier details",
+        "Check for stamp and signature"
+      ],
+      "recording_obligation": "Record in system"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_016",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_017_prc_001",
+    "name": "Escalation & Exceptions Procedure",
+    "properties": {
+      "purpose": "Handling cases where standard identity and risk verification cannot be completed",
+      "scope": "Identity verification, fraud detection, and high-risk customer onboarding",
+      "trigger": "Failure of standard ID checks, suspected forgery, or identification of high-risk profiles",
+      "owner": "Compliance Head"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_017",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_017_rol_001",
+    "name": "Compliance Head",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Final reviewer for identity and risk exceptions",
+      "department": "Compliance"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_017",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_017_esc_001",
+    "name": "Level 2 — Compliance Head Review",
+    "properties": {
+      "level_number": 2,
+      "authority": "Compliance Head",
+      "escalation_trigger": "Unable to provide acceptable ID, address mismatch, forged documents, unclear identity, PEP/adverse media, or refusal to provide verification"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_017",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_017_dec_001",
+    "name": "Identity and Risk Escalation Trigger",
+    "properties": {
+      "decision_question": "Does the customer application meet standard ID and risk criteria?",
+      "criteria": [
+        "Provision of acceptable ID",
+        "Matching address records",
+        "Authenticity of documents",
+        "Clarity of identity",
+        "Absence of PEP/adverse media flags",
+        "Willingness to provide verification"
+      ],
+      "path_yes": "Continue standard onboarding process",
+      "path_no": "Escalate to Compliance Head (Level 2)",
+      "decision_maker": "Onboarding Staff / Front Office"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_017",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_017_cus_001",
+    "name": "High-Risk Customer",
+    "properties": {
+      "customer_type": "high_risk",
+      "process_role": "Subject of enhanced due diligence",
+      "data_collected": [
+        "PEP status",
+        "Adverse media records"
+      ],
+      "notification_required": "Implicitly requires escalation to Compliance Head for approval"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_017",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018_prc_001",
+    "name": "Exception Process",
+    "properties": {
+      "purpose": "To handle and resolve account application exceptions through compliance review",
+      "scope": "Account applications requiring exception handling",
+      "outcome_success": "Exception approved with conditions or alternative verification accepted",
+      "outcome_failure": "Account application denied"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018_stp_001",
+    "name": "Exception Reason Documentation",
+    "properties": {
+      "step_number": 1,
+      "output": "Documented reason for exception",
+      "mandatory": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018_stp_002",
+    "name": "Escalation to Compliance Head",
+    "properties": {
+      "step_number": 2,
+      "actor": "Compliance Head",
+      "mandatory": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018_rol_001",
+    "name": "Compliance Head",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Final decision maker for exceptions",
+      "department": "Compliance"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018_stp_003",
+    "name": "Compliance Review and Decision",
+    "properties": {
+      "step_number": 3,
+      "actor": "Compliance Head",
+      "mandatory": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018_dec_001",
+    "name": "Exception Approval Gate",
+    "properties": {
+      "decision_question": "Should the exception be approved, requested for alternative verification, or rejected?",
+      "decision_maker": "Compliance Head",
+      "path_yes": "Approve with additional conditions",
+      "path_no": "Reject (account application denied)",
+      "criteria": "Compliance review of the documented exception reason"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018_stp_004",
+    "name": "Decision System Recording",
+    "properties": {
+      "step_number": 4,
+      "channel": "system",
+      "output": "Recorded decision in system",
+      "mandatory": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018_cus_001",
+    "name": "Account Applicant",
+    "properties": {
+      "customer_type": "applicant",
+      "process_role": "Subject of the exception process"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018_acc_001",
+    "name": "Proposed Account",
+    "properties": {
+      "account_state_at_start": "new",
+      "account_state_at_end": "active (if approved) or closed/denied (if rejected)"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_018",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019_prc_001",
+    "name": "Staff Training and Competency Process",
+    "properties": {
+      "purpose": "Ensure staff are trained and competent in authentication, communication, data entry, and compliance",
+      "scope": "Staff operational training",
+      "outcome_success": "Certification achieved via knowledge and practical assessment"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019_stp_001",
+    "name": "Document Authentication Training",
+    "properties": {
+      "step_number": 1,
+      "input": "Training materials on security features",
+      "output": "Ability to spot fake documents",
+      "mandatory": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019_stp_002",
+    "name": "Customer Communication Training",
+    "properties": {
+      "step_number": 2,
+      "input": "KYC requirement guidelines",
+      "output": "Ability to explain KYC requirements clearly to customers",
+      "mandatory": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019_stp_003",
+    "name": "System Data Entry Training",
+    "properties": {
+      "step_number": 3,
+      "output": "Accurate recording of data in systems",
+      "mandatory": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019_stp_004",
+    "name": "Compliance Procedures Training",
+    "properties": {
+      "step_number": 4,
+      "output": "Understanding of escalation triggers",
+      "mandatory": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019_stp_005",
+    "name": "Knowledge Assessment",
+    "properties": {
+      "step_number": 5,
+      "mandatory": "yes",
+      "output": "Pass/Fail result for theoretical knowledge"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019_stp_006",
+    "name": "Practical Observation Assessment",
+    "properties": {
+      "step_number": 6,
+      "actor": "Manager",
+      "criteria": "Verification of performance on 5+ customers",
+      "mandatory": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019_stp_007",
+    "name": "Annual Refresher Training",
+    "properties": {
+      "step_number": 7,
+      "refresh_frequency": "Annual",
+      "mandatory": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019_rol_001",
+    "name": "Staff Member",
+    "properties": {
+      "role_type": "human",
+      "process_role": "Trainee/Subject of certification"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019_rol_002",
+    "name": "Manager",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Certification Verifier",
+      "responsibilities": [
+        "Practical observation assessment"
+      ]
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019_dec_001",
+    "name": "Certification Approval Gate",
+    "properties": {
+      "decision_question": "Has the staff member met all training and assessment criteria?",
+      "criteria": [
+        "Pass knowledge assessment",
+        "Pass practical observation (5+ customers)"
+      ],
+      "decision_maker": "Manager",
+      "path_yes": "Staff member certified",
+      "path_no": "Retraining or failure to certify"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_019",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_020_prc_001",
+    "name": "Account Opening Process",
+    "properties": {
+      "document_id": "sop_account_opening"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_020",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_020_stp_001",
+    "name": "KYC Step in Account Opening",
+    "properties": {
+      "step_number": 3,
+      "mandatory": "yes"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_020",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_021_rol_001",
+    "name": "Head of Compliance",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "SOP Author/Approver"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_021",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_022_rol_001",
+    "name": "Head of Compliance",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Approval/Sign-off"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_022",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  },
+  {
+    "id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_022_rol_002",
+    "name": "Chief Risk Officer",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Approval/Sign-off"
+    },
+    "chunk_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e_022",
+    "doc_id": "e34c9d826e0d4e3aba3b5cfb5f50bf1e"
+  }
+]

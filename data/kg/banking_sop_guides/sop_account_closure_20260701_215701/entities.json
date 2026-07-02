@@ -1,0 +1,3270 @@
+[
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_001_prc_001",
+    "name": "Account Closure Process",
+    "aliases": [
+      "ACCT-CLOSE-SOP-001"
+    ],
+    "entity_class": "PROCESS",
+    "type": "account_closure",
+    "description": "The formal operational procedure for closing customer accounts at FirstUK Bank. The process is managed by the Operations and Retail Banking departments and is intended for use by Branch Staff, Operations, and Customer Service.",
+    "context": [
+      "FirstUK Bank — Account Closure SOP",
+      "Document ID | ACCT-CLOSE-SOP-001"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_001",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_001_rol_001",
+    "name": "Head of Operations",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The individual responsible for the ownership and ultimate oversight of the Account Closure SOP document.",
+    "context": [
+      "Owner | Head of Operations"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_001",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_001_rol_002",
+    "name": "Branch Staff",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_staff",
+    "description": "One of the primary audience groups responsible for executing the account closure procedure within a branch environment.",
+    "context": [
+      "Audience | Branch Staff, Operations, Customer Service"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_001",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_001_rol_003",
+    "name": "Operations",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The departmental team responsible for the operational execution and management of the account closure workflow.",
+    "context": [
+      "Department | Operations, Retail Banking",
+      "Audience | Branch Staff, Operations, Customer Service"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_001",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_001_rol_004",
+    "name": "Customer Service",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer_service",
+    "description": "Staff members responsible for interacting with customers and facilitating the account closure process.",
+    "context": [
+      "Audience | Branch Staff, Operations, Customer Service"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_001",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_002_prc_001",
+    "name": "Customer Account Closure Process",
+    "aliases": [],
+    "entity_class": "PROCESS",
+    "type": "account_closure",
+    "description": "A standardized operational procedure for closing bank accounts, including SmartSaver, Current, and Mortgage accounts. The process covers both customer-initiated requests and bank-initiated closures resulting from fraud, regulatory concerns, or policy violations.",
+    "context": [
+      "Establish standardized procedures for closing customer accounts (SmartSaver, Current, Mortgage)",
+      "through customer-initiated requests or bank-initiated closures due to policy violations, regulatory concerns, or fraud."
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_002",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_002_prd_001",
+    "name": "SmartSaver Account",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "A specific banking product subject to the account closure procedures outlined in this SOP.",
+    "context": [
+      "closing customer accounts (SmartSaver, Current, Mortgage)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_002",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_002_prd_002",
+    "name": "Current Account",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "current_account",
+    "description": "A specific banking product subject to the account closure procedures outlined in this SOP.",
+    "context": [
+      "closing customer accounts (SmartSaver, Current, Mortgage)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_002",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_002_prd_003",
+    "name": "Mortgage Account",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "A specific banking product subject to the account closure procedures outlined in this SOP.",
+    "context": [
+      "closing customer accounts (SmartSaver, Current, Mortgage)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_002",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_002_acc_001",
+    "name": "Closing Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "closing_account",
+    "description": "A customer account being closed through either a customer-initiated request or a bank-initiated action due to compliance or policy issues.",
+    "context": [
+      "closing customer accounts (SmartSaver, Current, Mortgage)",
+      "bank-initiated closures due to policy violations, regulatory concerns, or fraud."
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_002",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_003_prc_001",
+    "name": "Account Closure Process",
+    "aliases": [
+      "account closures"
+    ],
+    "entity_class": "PROCESS",
+    "type": "account_closure",
+    "description": "The end-to-end operational procedure for closing bank accounts. It covers both customer-initiated and bank-initiated closures across all product types and delivery channels.",
+    "context": [
+      "Applies to: Customer-initiated account closures",
+      "Bank-initiated closures (regulatory, fraud, policy violation)",
+      "All product types (savings, current, mortgages)",
+      "All channels (branch, online, phone, mail)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_003",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_003_prod_001",
+    "name": "Savings Account",
+    "aliases": [
+      "savings"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "A banking product type subject to the account closure process.",
+    "context": [
+      "All product types (savings, current, mortgages)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_003",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_003_prod_002",
+    "name": "Current Account",
+    "aliases": [
+      "current"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "current_account",
+    "description": "A banking product type subject to the account closure process.",
+    "context": [
+      "All product types (savings, current, mortgages)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_003",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_003_prod_003",
+    "name": "Mortgage Account",
+    "aliases": [
+      "mortgages"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "A banking product type subject to the account closure process.",
+    "context": [
+      "All product types (savings, current, mortgages)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_003",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004_prc_001",
+    "name": "Account Closure Process",
+    "aliases": [],
+    "entity_class": "PROCESS",
+    "type": "account_closure",
+    "description": "The end-to-end operational workflow for closing a customer account. It involves identity verification, balance calculation, handling of payment mandates, and archiving. Timelines vary between 3–5 business days for customer-initiated requests and immediate action for bank-initiated closures.",
+    "context": [
+      "Closure Request Received",
+      "Timeline: 3–5 business days (customer-initiated), Immediate (bank-initiated with notice)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004_stp_001",
+    "name": "Closure Request Receipt",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial stage of the process where the request to close the account is first received.",
+    "context": [
+      "Closure Request Received"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004_stp_002",
+    "name": "Customer Identity Verification",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "identity_check",
+    "description": "A step to verify the identity of the customer requesting the closure before proceeding with the workflow.",
+    "context": [
+      "Verify Customer Identity"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004_stp_003",
+    "name": "Final Balance Calculation",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The action of determining the final outstanding balance on the account to be closed.",
+    "context": [
+      "Calculate Final Balance"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004_stp_004",
+    "name": "Payment Mandate Processing",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The stage where active standing orders and direct debits associated with the account are processed or cancelled.",
+    "context": [
+      "Process Standing Orders/Direct Debits"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004_dec_001",
+    "name": "Closure Type Assessment",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A branching point to determine if the closure is customer-initiated or bank-initiated. Customer-initiated requests follow the normal path, while bank-initiated requests trigger a requirement to investigate and document the reason.",
+    "context": [
+      "Closure Type Assessment (Customer vs. Bank-Initiated)",
+      "Customer-Initiated: Process normally",
+      "Bank-Initiated: Investigate, document reason"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004_stp_005",
+    "name": "Final Balance Transfer",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The action of transferring or remitting the remaining final balance to the customer.",
+    "context": [
+      "Transfer/Remit Final Balance"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004_stp_006",
+    "name": "Closure Confirmation Issuance",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The step of providing the customer with formal confirmation that the account has been closed.",
+    "context": [
+      "Issue Closure Confirmation"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004_stp_007",
+    "name": "Records Archiving",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The mandatory retention step where account records are archived for a period of 6 years.",
+    "context": [
+      "Archive Records (6 years)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004_stp_008",
+    "name": "System Account Status Update",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "account_activation",
+    "description": "The final administrative action of marking the account as 'Closed' within the bank's core system.",
+    "context": [
+      "Account Marked \"Closed\" in System"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005_prc_001",
+    "name": "Account Closure Process",
+    "aliases": [
+      "Closure Request"
+    ],
+    "entity_class": "PROCESS",
+    "type": "account_closure",
+    "description": "The end-to-end procedure for closing a customer account, initiated via branch, phone, online, or mail. It involves request reception, identity verification, and confirmation of account status before proceeding with closure.",
+    "context": [
+      "Step 1: Closure Request Reception",
+      "Customer-Initiated Closure"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005_stp_001",
+    "name": "Closure Request Reception",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial stage where a customer request to close an account is received through one of four approved channels. The actor must collect the account number, full name, address, reason for closure, and preferred final payment method.",
+    "context": [
+      "Step 1: Closure Request Reception",
+      "Request Channels: Branch: In-person request to manager, Phone: Call customer service, Online: Submit closure form, Mail: Written request"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005_stp_002",
+    "name": "Request Recording",
+    "aliases": [
+      "Immediate Action 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The action of logging the closure request details, including the date, time, method of request, and the customer's contact information.",
+    "context": [
+      "Record request (date, time, method, customer contact info)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005_stp_003",
+    "name": "Customer Identity Verification",
+    "aliases": [
+      "Immediate Action 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "identity_check",
+    "description": "The process of confirming the requester's identity using either security questions or the verification of official documents.",
+    "context": [
+      "Verify customer identity (security questions or document verification)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005_stp_004",
+    "name": "Account Hold Confirmation",
+    "aliases": [
+      "Immediate Action 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "A check to ensure the account is not subject to any freezes, disputes, or active fraud investigations that would prevent closure.",
+    "context": [
+      "Confirm no holds on account (freezes, disputes, fraud investigation)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005_stp_005",
+    "name": "Closure Implications Briefing",
+    "aliases": [
+      "Immediate Action 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The act of informing the customer that once closed, no further transactions can occur, interest accrual stops, and records will be archived.",
+    "context": [
+      "Explain closure implications (no further transactions, interest stops, records archived)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005_rol_001",
+    "name": "Branch Manager",
+    "aliases": [
+      "manager"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_manager",
+    "description": "The staff member responsible for receiving in-person account closure requests at the branch level.",
+    "context": [
+      "Branch: In-person request to manager"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005_rol_002",
+    "name": "Customer Service",
+    "aliases": [
+      "customer service"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer_service",
+    "description": "The team responsible for handling account closure requests received via the phone channel (0800-555-2265).",
+    "context": [
+      "Phone: Call customer service (0800-555-2265)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005_rol_003",
+    "name": "Customer",
+    "aliases": [
+      "applicant"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The individual initiating the account closure request through one of the bank's approved channels.",
+    "context": [
+      "Customer-Initiated Closure",
+      "Verify customer identity"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005_dec_001",
+    "name": "Account Hold Gate",
+    "aliases": [
+      "Hold Check"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A decision point to determine if the account has freezes, disputes, or fraud investigations. If holds exist, the closure process cannot proceed normally.",
+    "context": [
+      "Confirm no holds on account (freezes, disputes, fraud investigation)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005_acc_001",
+    "name": "Closing Account",
+    "aliases": [
+      "account"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "closing_account",
+    "description": "The specific bank account that is the subject of the closure request and verification process.",
+    "context": [
+      "Account number",
+      "Confirm no holds on account"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006_prc_001",
+    "name": "Bank-Initiated Closure Process",
+    "aliases": [
+      "Bank-Initiated Closure"
+    ],
+    "entity_class": "PROCESS",
+    "type": "account_closure",
+    "description": "An operational workflow for closing customer accounts triggered by regulatory reasons, fraud, policy violations, or dormancy. The process typically requires a 30-day notice period, unless an emergency closure is triggered.",
+    "context": [
+      "Bank-Initiated Closure",
+      "Triggers for Bank-Initiated Closure",
+      "Process: 1. Manager/Compliance Head initiates closure"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006_prc_002",
+    "name": "Emergency Bank-Initiated Closure Process",
+    "aliases": [
+      "Emergency Closure",
+      "No Notice Closure"
+    ],
+    "entity_class": "PROCESS",
+    "type": "account_closure",
+    "description": "An accelerated closure workflow used when fraud or security risks are confirmed. It involves an immediate account freeze and closure within 7 days, with same-day customer notification.",
+    "context": [
+      "Emergency Bank-Initiated Closure (No Notice)",
+      "Immediate account freeze (if fraud/security risk confirmed)",
+      "Closure follows within 7 days"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006_rol_001",
+    "name": "Manager",
+    "aliases": [
+      "Manager"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_manager",
+    "description": "An authorized actor capable of initiating the bank-initiated account closure process.",
+    "context": [
+      "Manager/Compliance Head initiates closure"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006_rol_002",
+    "name": "Compliance Head",
+    "aliases": [
+      "Compliance Head"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "An authorized actor capable of initiating the bank-initiated account closure process, specifically for regulatory or compliance-related triggers.",
+    "context": [
+      "Manager/Compliance Head initiates closure"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006_stp_001",
+    "name": "Closure Initiation Step",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "approval_decision",
+    "description": "The initial action where a Manager or Compliance Head triggers the account closure workflow.",
+    "context": [
+      "1. Manager/Compliance Head initiates closure"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006_stp_002",
+    "name": "Reason Documentation Step",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The requirement to record the specific trigger for closure (regulatory, fraud, or policy) within the bank's system.",
+    "context": [
+      "2. Document reason in system (regulatory, fraud, policy)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006_stp_003",
+    "name": "Closure Notice Preparation Step",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The preparation of a formal notice to the customer, adhering to a 30-day notice requirement unless the situation is an emergency.",
+    "context": [
+      "3. Prepare notice to customer (30-day notice required, except emergencies)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006_stp_004",
+    "name": "Customer Notification Step",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The final step of sending a letter to the customer explaining the reason for the account closure.",
+    "context": [
+      "4. Customer notification sent (letter explaining reason)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006_stp_005",
+    "name": "Immediate Account Freeze Step",
+    "aliases": [
+      "Freeze"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "account_activation",
+    "description": "An immediate action taken in emergency scenarios to freeze the account when fraud or security risks are confirmed.",
+    "context": [
+      "Immediate account freeze (if fraud/security risk confirmed)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006_dec_001",
+    "name": "Closure Trigger Decision",
+    "aliases": [
+      "Triggers"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "The determination of whether an account should be closed based on regulatory reasons, fraud, policy violations, or dormancy.",
+    "context": [
+      "Triggers for Bank-Initiated Closure:",
+      "Regulatory Reason: Compliance violation, AML breach, regulatory order",
+      "Fraud: Account used fraudulently, customer identity issue, unauthorized access",
+      "Policy Violation: Breach of terms & conditions, customer misconduct",
+      "Dormancy: No activity + failed contact attempts"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006_dec_002",
+    "name": "Emergency vs Standard Closure Gate",
+    "aliases": [
+      "Emergency Check"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A decision point to determine if the closure is an emergency (fraud/security risk), which bypasses the 30-day notice period for an immediate freeze.",
+    "context": [
+      "30-day notice required, except emergencies",
+      "Immediate account freeze (if fraud/security risk confirmed)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006_chk_001",
+    "name": "Regulatory and AML Compliance Check",
+    "aliases": [
+      "Compliance violation",
+      "AML breach"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "regulatory_reporting",
+    "description": "A mandatory check for compliance violations or AML breaches that serves as a trigger for bank-initiated closure.",
+    "context": [
+      "Regulatory Reason: Compliance violation, AML breach, regulatory order"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006_acc_001",
+    "name": "Target Account",
+    "aliases": [
+      "Account"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "closing_account",
+    "description": "The customer account subject to the bank-initiated closure process, which may be frozen or closed.",
+    "context": [
+      "Account used fraudulently",
+      "Immediate account freeze",
+      "Closure follows within 7 days"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006_cus_001",
+    "name": "Affected Customer",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The customer whose account is being closed by the bank and who must be notified of the reason.",
+    "context": [
+      "Prepare notice to customer",
+      "Customer notification sent",
+      "Customer notified same day"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007_prc_001",
+    "name": "Account Verification Process",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS",
+    "type": "account_verification",
+    "description": "An operational procedure to verify the status, ownership, and legal standing of an account before further actions are taken. The process typically concludes on the same day.",
+    "context": [
+      "Step 2: Account Verification",
+      "Typical Resolution Time: Same day"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007_stp_001",
+    "name": "Account Status and Ownership Verification",
+    "aliases": [
+      "Verification Checks"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_verification",
+    "description": "A series of checks to ensure the account exists, is active, and that the ownership matches the customer's identity.",
+    "context": [
+      "Account exists and is active (not already closed)",
+      "Account ownership confirmed (match customer identity)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007_stp_002",
+    "name": "Account Dispute and Legal Hold Review",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "risk_assessment",
+    "description": "A review stage to identify any active disputes, legal holds, or outstanding fraud investigations associated with the account.",
+    "context": [
+      "No active disputes (complaint, chargeback, reversal)",
+      "No legal holds (litigation, regulatory investigation, tax lien)",
+      "No outstanding fraud investigation"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007_dec_001",
+    "name": "Account Verification Outcome Gate",
+    "aliases": [
+      "If Issues Found"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "pass_fail",
+    "description": "A branching point where the process either proceeds if all checks are passed or triggers an escalation if issues are identified.",
+    "context": [
+      "If Issues Found:",
+      "Escalate to manager/Compliance Head",
+      "Resolve issue before proceeding"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007_stp_003",
+    "name": "Issue Resolution and Documentation",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The action of resolving identified account issues and recording the reason for any resulting delays in the system.",
+    "context": [
+      "Resolve issue before proceeding",
+      "Document delay reason in system"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007_rol_001",
+    "name": "Manager",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_manager",
+    "description": "A supervisory role responsible for receiving escalations when account verification issues are identified.",
+    "context": [
+      "Escalate to manager/Compliance Head"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007_rol_002",
+    "name": "Compliance Head",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The head of the compliance department responsible for reviewing and resolving escalated account verification failures.",
+    "context": [
+      "Escalate to manager/Compliance Head"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007_esc_001",
+    "name": "Level 1 — Management/Compliance Escalation",
+    "aliases": [],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "supervisor",
+    "description": "The first level of escalation triggered when verification issues are found, involving the Manager or Compliance Head.",
+    "context": [
+      "Escalate to manager/Compliance Head"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007_chk_001",
+    "name": "Account Eligibility Compliance Check",
+    "aliases": [
+      "Verification Checks"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "risk_classification",
+    "description": "A mandatory gate ensuring the account is free of legal holds, fraud investigations, and disputes before the process can advance.",
+    "context": [
+      "No legal holds (litigation, regulatory investigation, tax lien)",
+      "No outstanding fraud investigation"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008_prc_001",
+    "name": "Balance Calculation Process",
+    "aliases": [
+      "Step 3: Final Balance Calculation"
+    ],
+    "entity_class": "PROCESS",
+    "type": "account_closure",
+    "description": "An operational workflow used to determine the final balance of an account, involving transaction collection, balance calculation, documentation, and management approval. This process is part of the final stages of account closure.",
+    "context": [
+      "Balance Calculation Process",
+      "Step 3: Final Balance Calculation"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008_stp_001",
+    "name": "Collect All Transactions Step",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial stage of the balance calculation where all transactions since the last statement are gathered. This includes pending items such as standing orders and direct debits, and requires verification that no deposits or withdrawals remain unprocessed.",
+    "context": [
+      "Step 1: Collect All Transactions",
+      "Pull all transactions since last statement",
+      "Include pending transactions (standing orders, direct debits due)",
+      "Verify no unprocessed deposits/withdrawals"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008_stp_002",
+    "name": "Calculate Final Balance Step",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "risk_assessment",
+    "description": "The stage where the final balance is computed using the ledger balance, adding pending interest and subtracting pending fees like overdrafts. The result must be verified against the account record in the Account Management System (AMS).",
+    "context": [
+      "Step 2: Calculate Final Balance",
+      "Ledger balance (posted transactions)",
+      "Add any pending interest (if accrual period not yet completed)",
+      "Subtract any pending fees (overdraft, if applicable)",
+      "Verify balance matches account record in AMS"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008_stp_003",
+    "name": "Document Balance Step",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The process of generating a formal final statement. This document must include the calculation date, a list of all pending transactions, and a clearly stated final balance.",
+    "context": [
+      "Step 3: Document Balance",
+      "Print final statement",
+      "Include calculation date",
+      "List all pending transactions",
+      "Final balance clearly stated"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008_stp_004",
+    "name": "Approval Step",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "approval_decision",
+    "description": "The final quality control stage where an operations manager verifies the calculation, signs off on the statement, and files it within the account closure record.",
+    "context": [
+      "Step 4: Approval",
+      "Operations manager verifies calculation",
+      "Sign-off on final statement",
+      "File in account closure record"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008_rol_001",
+    "name": "Operations Manager",
+    "aliases": [
+      "Ops Manager"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The individual responsible for the final verification of the balance calculation and the formal sign-off of the final statement.",
+    "context": [
+      "Operations manager verifies calculation",
+      "Sign-off on final statement"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008_rol_002",
+    "name": "Account Management System (AMS)",
+    "aliases": [
+      "AMS"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The system of record used to verify that the calculated balance matches the official account records.",
+    "context": [
+      "Verify balance matches account record in AMS"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008_dec_001",
+    "name": "Balance Verification Gate",
+    "aliases": [
+      "AMS match"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "pass_fail",
+    "description": "A check to ensure that the manually calculated final balance matches the record stored in the AMS before proceeding to documentation.",
+    "context": [
+      "Verify balance matches account record in AMS"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008_acc_001",
+    "name": "Closing Account",
+    "aliases": [
+      "Account"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "closing_account",
+    "description": "The specific customer account being finalized and closed, for which the balance is being calculated and documented.",
+    "context": [
+      "Verify balance matches account record in AMS",
+      "File in account closure record"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_009_prc_001",
+    "name": "SmartSaver Account Closure Process",
+    "aliases": [
+      "Account Closure Example"
+    ],
+    "entity_class": "PROCESS",
+    "type": "account_closure",
+    "description": "The operational workflow for closing a SmartSaver account, specifically involving the calculation of the final balance to remit by totaling the ledger balance and pending interest while subtracting pending fees.",
+    "context": [
+      "SmartSaver Account Closure Example",
+      "FINAL BALANCE TO REMIT: £4,264.90"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_009",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_009_acc_001",
+    "name": "SmartSaver Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "closing_account",
+    "description": "A specific bank account type undergoing the closure process, characterized by a ledger balance and pending interest calculations.",
+    "context": [
+      "SmartSaver Account Closure Example",
+      "Ledger Balance (as of closure date): £4,250.32"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_009",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_009_prd_001",
+    "name": "SmartSaver Product",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "The banking product associated with the account closure example provided in the calculation guide.",
+    "context": [
+      "SmartSaver Account Closure Example"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_009",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_009_stp_001",
+    "name": "Final Balance Remittance Calculation",
+    "aliases": [
+      "Example Calculation"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The step of determining the final payout amount by aggregating the Ledger Balance, adding Pending Interest, and deducting Pending Fees.",
+    "context": [
+      "Ledger Balance (as of closure date): £4,250.32",
+      "Pending Interest (current month): +£14.58",
+      "Pending Fees (none): £0.00",
+      "FINAL BALANCE TO REMIT: £4,264.90"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_009",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_010_prc_001",
+    "name": "Account Closure Process",
+    "aliases": [
+      "closure request"
+    ],
+    "entity_class": "PROCESS",
+    "type": "account_closure",
+    "description": "The overall operational workflow for closing a customer account, which includes the management and cancellation of recurring payments such as standing orders and direct debits.",
+    "context": [
+      "Step 4: Process Standing Orders & Direct Debits",
+      "Same day as closure request"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_010",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_010_stp_001",
+    "name": "Standing Order Cancellation Step",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "standing_order_cancellation",
+    "description": "A discrete action within the account closure process where all future standing orders are cancelled effectively immediately, with the exception of those scheduled before the closure date.",
+    "context": [
+      "Cancel all future standing orders (effective immediately)",
+      "Last standing order executes if scheduled before closure date"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_010",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_010_stp_002",
+    "name": "Customer Cancellation Notification Step",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The action of informing the customer that their standing orders have been cancelled as part of the account closure procedure.",
+    "context": [
+      "Customer notified of cancellation"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_010",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_010_stp_003",
+    "name": "Beneficiary Cancellation Notification Step",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "An optional action where the beneficiaries of the standing orders are notified that the payments have been cancelled.",
+    "context": [
+      "Beneficiary(ies) may receive cancellation notice (optional)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_010",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_010_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The account holder who initiates the closure request and is the recipient of the cancellation notification.",
+    "context": [
+      "Customer notified of cancellation",
+      "Same day as closure request"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_010",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_010_rol_002",
+    "name": "Beneficiary",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The recipient of a standing order who may optionally be notified of the payment cancellation.",
+    "context": [
+      "Beneficiary(ies) may receive cancellation notice"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_010",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_010_so_001",
+    "name": "Standing Order",
+    "aliases": [],
+    "entity_class": "STANDING_ORDER",
+    "type": "standing_order_cancellation",
+    "description": "Recurring payment instructions that must be cancelled immediately upon the account closure request, unless scheduled prior to the closure date.",
+    "context": [
+      "Cancel all future standing orders",
+      "Last standing order executes if scheduled before closure date"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_010",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011_prc_001",
+    "name": "Direct Debit Cancellation Process",
+    "aliases": [
+      "Direct Debit Cancellation"
+    ],
+    "entity_class": "PROCESS",
+    "type": "direct_debit_setup",
+    "description": "An operational workflow to cancel all Direct Debit mandates upon a closure request. The process is executed on the same day as the request and involves bank notification to billers.",
+    "context": [
+      "Direct Debit Cancellation",
+      "Timeline: Same day as closure request"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011_stp_001",
+    "name": "Direct Debit Mandate Cancellation",
+    "aliases": [
+      "Cancel all Direct Debit mandates"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "dd_mandate_cancellation",
+    "description": "The action of cancelling all existing Direct Debit mandates, which becomes effective immediately upon execution.",
+    "context": [
+      "Cancel all Direct Debit mandates (effective immediately)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011_stp_002",
+    "name": "Biller Notification",
+    "aliases": [
+      "Notify billers"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The bank's responsibility to notify the billers that the Direct Debit mandates have been cancelled.",
+    "context": [
+      "Notify billers of cancellation (bank's responsibility)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011_stp_003",
+    "name": "Customer Cancellation Advice",
+    "aliases": [
+      "Customer advised"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The step where the customer is advised to independently confirm the cancellation with their billers.",
+    "context": [
+      "Customer advised to confirm cancellation with billers separately"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011_rol_001",
+    "name": "Bank Operational Staff",
+    "aliases": [
+      "bank"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The entity responsible for the cancellation of mandates and the notification of billers.",
+    "context": [
+      "Notify billers of cancellation (bank's responsibility)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011_rol_002",
+    "name": "Customer",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The account holder who requests the closure and is responsible for ensuring billers receive the cancellation notice.",
+    "context": [
+      "Customer advised to confirm cancellation with billers separately",
+      "Customer responsible for ensuring billers received cancellation notice"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011_dec_001",
+    "name": "Transaction Processing Gate",
+    "aliases": [
+      "No further DD transactions"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "pass_fail",
+    "description": "A systemic block ensuring that no further Direct Debit transactions can be processed once the cancellation process is initiated.",
+    "context": [
+      "No further DD transactions can be processed"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011_dd_001",
+    "name": "Direct Debit Mandate",
+    "aliases": [],
+    "entity_class": "DIRECT_DEBIT",
+    "type": "dd_mandate_cancellation",
+    "description": "The specific financial authorization being cancelled as part of the account closure request.",
+    "context": [
+      "Cancel all Direct Debit mandates"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_012_prc_001",
+    "name": "Account Closure Process",
+    "aliases": [
+      "Closure Process"
+    ],
+    "entity_class": "PROCESS",
+    "type": "account_closure",
+    "description": "The end-to-end operational workflow for closing a customer account. This specific section handles the assessment of the closure type and the standard path for customer-initiated requests.",
+    "context": [
+      "Customer-Initiated Closure (Standard Process)",
+      "Process proceeds as planned"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_012",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_012_stp_001",
+    "name": "Closure Type Assessment",
+    "aliases": [
+      "Step 5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "risk_assessment",
+    "description": "The stage where the reason for account closure is evaluated to determine if it is a standard customer request or if regulatory/fraud concerns are present.",
+    "context": [
+      "Step 5: Closure Type Assessment"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_012",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_012_dec_001",
+    "name": "Closure Type Determination",
+    "aliases": [
+      "Standard Process Gate"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "approve_reject",
+    "description": "A branching point to determine if the closure is a standard customer-initiated request without regulatory or fraud concerns. If conditions are met, the process proceeds to final payment.",
+    "context": [
+      "Customer voluntarily requests closure",
+      "No regulatory/fraud concerns",
+      "Account in good standing",
+      "Process proceeds as planned"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_012",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_012_stp_002",
+    "name": "Final Payment Processing",
+    "aliases": [
+      "Step 6"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "payment_processing",
+    "description": "The action of processing the final payment for the account following a successful closure type assessment.",
+    "context": [
+      "Proceed to Step 6 (final payment)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_012",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_012_stp_003",
+    "name": "Closure Confirmation Issuance",
+    "aliases": [
+      "Confirmation Step"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The step of sending a standard confirmation notice to the customer once the closure process is complete.",
+    "context": [
+      "Standard closure confirmation sent"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_012",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_012_rol_001",
+    "name": "Customer",
+    "aliases": [
+      "Applicant"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The bank customer who voluntarily requests the closure of their account.",
+    "context": [
+      "Customer voluntarily requests closure"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_012",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_012_acc_001",
+    "name": "Closing Account",
+    "aliases": [
+      "Account"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "closing_account",
+    "description": "The specific bank account being subjected to the closure assessment and process.",
+    "context": [
+      "Account in good standing"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_012",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013_prc_001",
+    "name": "Bank-Initiated Closure Process",
+    "aliases": [
+      "Special Process"
+    ],
+    "entity_class": "PROCESS",
+    "type": "account_closure",
+    "description": "A specialized operational workflow where the bank initiates the closure of an account due to regulatory, fraud, or policy reasons. The process may involve urgent freeze actions and requires specific approvals and notification periods ranging from immediate to 30 days.",
+    "context": [
+      "Bank-Initiated Closure (Special Process)",
+      "Bank initiates closure (regulatory, fraud, policy)",
+      "Timeline: Immediate (freeze) + 7–30 days (notice period)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013_stp_001",
+    "name": "Closure Reason Documentation",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The action of recording the specific justification for the bank-initiated closure within the system.",
+    "context": [
+      "Document closure reason in system"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013_stp_002",
+    "name": "Closure Approval Procurement",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "approval_decision",
+    "description": "The stage where formal approval for the account closure is obtained from compliance or management.",
+    "context": [
+      "Compliance/manager approval required"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013_stp_003",
+    "name": "Legal Review",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "A review conducted by the legal team specifically in cases where the closure is expected to have a significant financial impact.",
+    "context": [
+      "Legal review (if significant financial impact)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013_stp_004",
+    "name": "Customer Notification",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The process of notifying the customer of the closure, typically providing 30 days' notice, though this may be immediate in emergency scenarios.",
+    "context": [
+      "Customer notice (30 days, or immediate if emergency)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013_stp_005",
+    "name": "Investigation Documentation Attachment",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The finalization of the process by attaching all relevant investigation documentation to the account record.",
+    "context": [
+      "Investigation documentation attached"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013_rol_001",
+    "name": "Compliance Staff",
+    "aliases": [
+      "Compliance"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "Role responsible for providing approval for bank-initiated account closures.",
+    "context": [
+      "Compliance/manager approval required"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013_rol_002",
+    "name": "Bank Manager",
+    "aliases": [
+      "manager"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_manager",
+    "description": "Role responsible for providing approval for bank-initiated account closures.",
+    "context": [
+      "Compliance/manager approval required"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013_rol_003",
+    "name": "Legal Team",
+    "aliases": [
+      "Legal"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The team responsible for reviewing closures that may result in significant financial impact.",
+    "context": [
+      "Legal review (if significant financial impact)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013_dec_001",
+    "name": "Financial Impact Assessment",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A decision gate determining if the closure has a significant financial impact, which triggers a mandatory legal review.",
+    "context": [
+      "Legal review (if significant financial impact)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013_dec_002",
+    "name": "Urgency/Emergency Determination",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "escalate_or_resolve",
+    "description": "A decision point based on the nature of the closure (e.g., emergency vs standard) which determines whether the customer notice is immediate or 30 days.",
+    "context": [
+      "Customer notice (30 days, or immediate if emergency)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013_chk_001",
+    "name": "Closure Approval Gate",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "compliance_gate",
+    "description": "The mandatory control point where approval from either compliance or a manager must be verified before the closure proceeds.",
+    "context": [
+      "Compliance/manager approval required"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013_acc_001",
+    "name": "Frozen Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "frozen_account",
+    "description": "An account that may be placed in a frozen state immediately during a bank-initiated closure process.",
+    "context": [
+      "Account may be frozen",
+      "Immediate (freeze)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013_cus_001",
+    "name": "Affected Customer",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The account holder who is the subject of the bank-initiated closure and must be notified.",
+    "context": [
+      "Customer notice (30 days, or immediate if emergency)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014_prc_001",
+    "name": "Final Balance Payment Process",
+    "aliases": [
+      "Step 6"
+    ],
+    "entity_class": "PROCESS",
+    "type": "payment_disbursement",
+    "description": "The final stage of a procedure focused on returning the remaining balance to a customer via four different disbursement methods: Bank Transfer, Check, Cash, or Hold for Instruction.",
+    "context": [
+      "Step 6: Final Balance Payment",
+      "Payment Method Options"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014_stp_001",
+    "name": "Bank Transfer Payment Execution",
+    "aliases": [
+      "Option 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "A preferred payment method where the customer provides receiving bank details and the transfer is initiated immediately via FPS, typically taking 1-2 business days.",
+    "context": [
+      "Bank Transfer (Preferred)",
+      "Customer provides receiving bank details",
+      "Transfer initiated immediately (if funds available)",
+      "Timeline: 1–2 business days (FPS)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014_stp_002",
+    "name": "Check Issuance and Mailing",
+    "aliases": [
+      "Option 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The process of issuing a check in the customer's name and mailing it to their registered address, with a completion timeline of 3-5 business days.",
+    "context": [
+      "Check issued in customer name",
+      "Mailed to registered address",
+      "Timeline: 3–5 business days"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014_stp_003",
+    "name": "Branch Cash Collection",
+    "aliases": [
+      "Option 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "Immediate payment provided at a branch where the customer collects cash and a teller issues a formal receipt.",
+    "context": [
+      "Cash (Branch Only)",
+      "Customer collects at branch",
+      "Teller issues cash receipt",
+      "Immediate payment"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014_stp_004",
+    "name": "Hold for Customer Instruction",
+    "aliases": [
+      "Option 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The temporary holding of funds in a suspense account for up to 6 months while awaiting customer payment details, including a reminder at the 3-month mark.",
+    "context": [
+      "Balance held in suspense account (maximum 6 months)",
+      "Customer instructed to provide payment details",
+      "Reminder sent at 3 months"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014_stp_005",
+    "name": "Unclaimed Money Fund Transfer",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The final action taken when funds held for customer instruction exceed the 6-month limit, resulting in a transfer to the unclaimed money fund.",
+    "context": [
+      "Transferred to unclaimed money fund after 6 months"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The recipient of the final balance who provides bank details, collects cash at the branch, or provides payment instructions.",
+    "context": [
+      "Customer provides receiving bank details",
+      "Customer collects at branch",
+      "Customer instructed to provide payment details"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014_rol_002",
+    "name": "Branch Teller",
+    "aliases": [
+      "Teller"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_staff",
+    "description": "The branch staff member responsible for issuing cash and providing the corresponding cash receipt.",
+    "context": [
+      "Teller issues cash receipt"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014_dec_001",
+    "name": "Cash Limit Threshold Check",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "authority_limit_check",
+    "description": "A decision gate based on the payment amount; if the amount is £5,000 or less, cash is permitted; if larger, check or transfer is recommended.",
+    "context": [
+      "Limited to £5,000 (regulatory requirement for cash)",
+      "Larger amounts: Check or transfer recommended"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014_chk_001",
+    "name": "Cash Payment Regulatory Limit",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "regulatory_reporting",
+    "description": "A mandatory regulatory control that limits cash disbursements to a maximum of £5,000.",
+    "context": [
+      "Limited to £5,000 (regulatory requirement for cash)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014_acc_001",
+    "name": "Suspense Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "active_account",
+    "description": "An internal account used to hold customer balances temporarily for up to 6 months pending payment instructions.",
+    "context": [
+      "Balance held in suspense account (maximum 6 months)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_015_prc_001",
+    "name": "Payment Processing",
+    "aliases": [],
+    "entity_class": "PROCESS",
+    "type": "payment_processing",
+    "description": "An operational workflow to handle the disbursement of payments to customers. The process involves confirming payment methods, collecting necessary details, and ensuring recording of the payment within a 5 business day timeline.",
+    "context": [
+      "Payment Processing"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_015",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_015_stp_001",
+    "name": "Payment Method Confirmation",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial action where the operator verifies the preferred method of payment with the customer.",
+    "context": [
+      "Confirm payment method with customer"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_015",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_015_stp_002",
+    "name": "Payment Detail Acquisition",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The step of collecting necessary routing information, specifically bank details for transfers or a physical address for checks.",
+    "context": [
+      "Obtain bank details (if transfer) or address (if check)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_015",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_015_stp_003",
+    "name": "Payment Execution",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The operational act of processing the payment, which must be completed within a window of 5 business days.",
+    "context": [
+      "Process payment within 5 business days"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_015",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_015_stp_004",
+    "name": "Payment Sent Notification",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The final communication step to inform the customer that the payment has been dispatched.",
+    "context": [
+      "Confirm payment sent to customer"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_015",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_015_stp_005",
+    "name": "Payment System Recording",
+    "aliases": [
+      "Step 5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The final administrative action to record the payment in the system, marking the closure as complete.",
+    "context": [
+      "Record payment in system (closure complete)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_015",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_015_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The recipient of the payment who provides the payment method and necessary bank or address details.",
+    "context": [
+      "Confirm payment method with customer",
+      "Confirm payment sent to customer"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_015",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016_prc_001",
+    "name": "Account Closure Process",
+    "aliases": [],
+    "entity_class": "PROCESS",
+    "type": "account_closure",
+    "description": "The operational workflow for changing an account status from Active to Closed. This process involves system updates, recording closure details, and restricting all access and payments on the same day as the final payment.",
+    "context": [
+      "Step 7: Account Status Change",
+      "Account status: \"Active\" → \"Closed\"",
+      "Timeline: Same day as final payment"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016_stp_001",
+    "name": "Account Status Update",
+    "aliases": [
+      "Step 7"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The technical action of updating the account status to 'Closed' and recording the closure date and reason. It also involves recording the final balance.",
+    "context": [
+      "Account status: \"Active\" → \"Closed\"",
+      "Closure date recorded",
+      "Closure reason documented",
+      "Final balance recorded"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016_stp_002",
+    "name": "Payment Instruction Cancellation",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The step where all active standing orders and Direct Debits associated with the account are marked as cancelled and blocked.",
+    "context": [
+      "All standing orders/DDs marked \"Cancelled\"",
+      "Standing orders/DDs: Blocked"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016_stp_003",
+    "name": "Access Restriction Enforcement",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "account_activation",
+    "description": "The process of disabling online banking access, deactivating issued cards, and prohibiting new transactions.",
+    "context": [
+      "No new transactions permitted",
+      "Online banking access: Disabled",
+      "Card (if issued): Automatically deactivated"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016_rol_001",
+    "name": "Fraud Detection Engine",
+    "aliases": [
+      "Fraud detection"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "An automated system that monitors accounts for fraudulent activity and must be updated to exclude the account once it is closed.",
+    "context": [
+      "Fraud detection: Account excluded from monitoring"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016_acc_001",
+    "name": "Closing Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "closing_account",
+    "description": "The specific customer account undergoing the status change from Active to Closed.",
+    "context": [
+      "Account status: \"Active\" → \"Closed\"",
+      "Customer profile: Account marked as closed"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016_sto_001",
+    "name": "Cancelled Standing Orders",
+    "aliases": [],
+    "entity_class": "STANDING_ORDER",
+    "type": "standing_order_cancellation",
+    "description": "Standing order instructions that are terminated as part of the account closure procedure.",
+    "context": [
+      "All standing orders/DDs marked \"Cancelled\"",
+      "Standing orders/DDs: Blocked"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016_dir_001",
+    "name": "Cancelled Direct Debits",
+    "aliases": [
+      "DDs"
+    ],
+    "entity_class": "DIRECT_DEBIT",
+    "type": "dd_mandate_cancellation",
+    "description": "Direct Debit mandates that are terminated and blocked during the account closure process.",
+    "context": [
+      "All standing orders/DDs marked \"Cancelled\"",
+      "Standing orders/DDs: Blocked"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016_crd_001",
+    "name": "Deactivated Account Card",
+    "aliases": [],
+    "entity_class": "CARD",
+    "type": "card_cancellation",
+    "description": "The payment card associated with the account which is automatically deactivated upon closure.",
+    "context": [
+      "Card (if issued): Automatically deactivated"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017_prc_001",
+    "name": "Account Closure Process",
+    "aliases": [],
+    "entity_class": "PROCESS",
+    "type": "account_closure",
+    "description": "The operational workflow for closing a customer account, including the final notification requirements and records retention obligations.",
+    "context": [
+      "Step 8: Customer Notification",
+      "Closure Confirmation Letter"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017_stp_001",
+    "name": "Customer Notification Step",
+    "aliases": [
+      "Step 8"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The final stage of the closure process where the bank sends a confirmation letter to the customer via email and postal mail within 2 business days of closure.",
+    "context": [
+      "Step 8: Customer Notification",
+      "Sent within 2 business days of closure"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017_rol_001",
+    "name": "Bank Operations Staff",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The internal bank actor responsible for generating and delivering the Closure Confirmation Letter to the customer.",
+    "context": [
+      "Delivery: Email (if email on file), Postal mail (required, to registered address)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017_cus_001",
+    "name": "Closing Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The customer whose account is being closed and who receives the confirmation notification.",
+    "context": [
+      "thanking customer for business",
+      "Sent within 2 business days of closure"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017_acc_001",
+    "name": "Closing Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "closing_account",
+    "description": "The specific customer account being closed, identified by account number and product name in the confirmation letter.",
+    "context": [
+      "Account number and product name",
+      "Closure date",
+      "Final balance"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017_st_ord_001",
+    "name": "Standing Order Cancellation",
+    "aliases": [],
+    "entity_class": "STANDING_ORDER",
+    "type": "standing_order_cancellation",
+    "description": "The action of cancelling standing orders associated with the closed account, which must be confirmed in the notification letter.",
+    "context": [
+      "Standing order/DD cancellation confirmation"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017_dd_001",
+    "name": "Direct Debit Cancellation",
+    "aliases": [
+      "DD cancellation"
+    ],
+    "entity_class": "DIRECT_DEBIT",
+    "type": "dd_mandate_cancellation",
+    "description": "The action of cancelling direct debit mandates associated with the closed account, which must be confirmed in the notification letter.",
+    "context": [
+      "Standing order/DD cancellation confirmation"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017_chk_001",
+    "name": "Records Retention Compliance Check",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "document_retention",
+    "description": "A regulatory requirement to notify the customer that account records will be archived for a period of 6 years.",
+    "context": [
+      "Records retention notice (6 years archive)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_018_prc_001",
+    "name": "Account Closure Record Retention and Archive Process",
+    "aliases": [
+      "Step 9",
+      "Record Retention & Archive"
+    ],
+    "entity_class": "PROCESS",
+    "type": "document_retention",
+    "description": "The end-to-end procedure for archiving account closing documentation and transaction records. It specifies a 6-year retention period in accordance with POCA and AML Regulations, ending in secure destruction.",
+    "context": [
+      "Step 9: Record Retention & Archive",
+      "Retention Period: 6 years from closure date (per POCA, AML Regulations)",
+      "Destruction Procedure: At 6-year mark: Schedule for secure destruction"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_018",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_018_stp_001",
+    "name": "Document Archival",
+    "aliases": [
+      "Archiving"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_recording",
+    "description": "The action of storing specific account opening, transaction, and closure documents within a secure document management system. This ensures all regulatory evidence is preserved for the mandatory period.",
+    "context": [
+      "Document Archival",
+      "Records to Archive (6 Years): Account opening documents (KYC, ID, address verification)",
+      "Storage Location: Secure document management system (DMS)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_018",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_018_stp_002",
+    "name": "Secure Destruction Procedure",
+    "aliases": [
+      "Destruction"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_retention",
+    "description": "The final stage of the retention lifecycle occurring at the 6-year mark. It involves shredding paper, deleting digital records, and obtaining a formal certificate of destruction.",
+    "context": [
+      "Destruction Procedure: At 6-year mark: Schedule for secure destruction",
+      "Shred paper documents",
+      "Securely delete digital records",
+      "Certificate of destruction obtained"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_018",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_018_rol_001",
+    "name": "Secure Document Management System",
+    "aliases": [
+      "DMS"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The encrypted and access-controlled system responsible for storing archived records and maintaining an audit trail of all access.",
+    "context": [
+      "Storage Location: Secure document management system (DMS)",
+      "Encrypted, access-controlled",
+      "Audit trail of all access"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_018",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_018_chk_001",
+    "name": "POCA and AML Regulatory Retention Check",
+    "aliases": [
+      "Retention Period"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "document_retention",
+    "description": "A mandatory regulatory gate ensuring that all required documentation is retained for exactly 6 years from the closure date as per Proceeds of Crime Act (POCA) and AML Regulations.",
+    "context": [
+      "Retention Period: 6 years from closure date (per POCA, AML Regulations)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_018",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_018_acc_001",
+    "name": "Closing Account",
+    "aliases": [
+      "Account closure"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "closing_account",
+    "description": "The specific bank account being closed, for which records including the closure request, reason, and final statement must be archived.",
+    "context": [
+      "Account closure request and reason",
+      "Final statement and balance confirmation"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_018",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019_prc_001",
+    "name": "Standard Customer-Initiated Closure Process",
+    "aliases": [
+      "Scenario 1",
+      "Standard Customer-Initiated Closure"
+    ],
+    "entity_class": "PROCESS",
+    "type": "account_closure",
+    "description": "An end-to-end operational workflow for closing a SmartSaver Account initiated by a customer via telephone. The process involves balance calculation, fund transfer via FPS, and formal confirmation, completing within a 3-day timeline.",
+    "context": [
+      "Scenario 1: Standard Customer-Initiated Closure",
+      "Customer: Closes SmartSaver Account",
+      "Result: ✅ Closed in 3 days, customer satisfied"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019_stp_001",
+    "name": "Closure Request Initiation",
+    "aliases": [
+      "Day 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial stage where the customer contacts the bank via phone to request account closure, provides receiving bank details, and the request is logged in the system.",
+    "context": [
+      "Customer calls 0800-555-2265",
+      "Requests closure, all balance to bank transfer",
+      "Provides receiving bank details",
+      "System notes closure request"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019_stp_002",
+    "name": "Closure Processing and Payment Initiation",
+    "aliases": [
+      "Day 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The operational stage where the final balance is calculated, a payment is initiated via Faster Payments Service (FPS), and a confirmation letter is generated.",
+    "context": [
+      "Operations processes request",
+      "Final balance calculated: £4,264.90",
+      "Payment initiated (FPS transfer)",
+      "Closure confirmation letter generated"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019_stp_003",
+    "name": "Account Finalisation and Archiving",
+    "aliases": [
+      "Day 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "account_activation",
+    "description": "The final stage where the customer receives funds and confirmation, the account status is formally updated to 'Closed', and records are archived.",
+    "context": [
+      "Customer receives bank transfer",
+      "Receives confirmation letter",
+      "Account status changed to \"Closed\"",
+      "Records archived"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019_rol_001",
+    "name": "Customer",
+    "aliases": [
+      "Applicant"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The bank customer who initiates the closure request of their SmartSaver Account via the designated phone line.",
+    "context": [
+      "Customer calls 0800-555-2265",
+      "Requests closure, all balance to bank transfer"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019_rol_002",
+    "name": "Operations Team",
+    "aliases": [
+      "Operations"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The internal banking team responsible for processing the closure request, calculating balances, and initiating the transfer of funds.",
+    "context": [
+      "Operations processes request"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019_rol_003",
+    "name": "Banking System",
+    "aliases": [
+      "System"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The automated system used to note closure requests and update account statuses to 'Closed'.",
+    "context": [
+      "System notes closure request",
+      "Account status changed to \"Closed\""
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019_acc_001",
+    "name": "SmartSaver Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "closing_account",
+    "description": "The specific customer account being closed during this operational scenario.",
+    "context": [
+      "Customer: Closes SmartSaver Account"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019_prd_001",
+    "name": "SmartSaver Product",
+    "aliases": [
+      "SmartSaver"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "The banking product type associated with the account being closed.",
+    "context": [
+      "Customer: Closes SmartSaver Account"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019_trn_001",
+    "name": "Closure Balance Transfer",
+    "aliases": [
+      "FPS transfer"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "investigated_transaction",
+    "description": "The final financial event where the calculated balance of the account is transferred to the customer's external bank via FPS.",
+    "context": [
+      "Final balance calculated: £4,264.90",
+      "Payment initiated (FPS transfer)",
+      "Customer receives bank transfer"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020_prc_001",
+    "name": "Bank-Initiated Account Closure (Policy Violation)",
+    "aliases": [
+      "Scenario 2"
+    ],
+    "entity_class": "PROCESS",
+    "type": "account_closure",
+    "description": "An operational workflow for closing a customer account initiated by the bank due to policy violations, specifically suspected unauthorized use. The process involves a fraud hold, investigation, refunding unauthorized transactions, and a mandatory 30-day notice period before final closure.",
+    "context": [
+      "Scenario 2: Bank-Initiated (Policy Violation)",
+      "Customer: Suspected unauthorized use, investigation underway",
+      "Account officially closed"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020_stp_001",
+    "name": "Immediate Account Freeze",
+    "aliases": [
+      "Day 1",
+      "fraud hold"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "account_activation",
+    "description": "The first action taken on Day 1 where the account is frozen immediately via a fraud hold to prevent further unauthorized activity.",
+    "context": [
+      "Account frozen immediately (fraud hold)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020_rol_001",
+    "name": "Financial Crime Team",
+    "aliases": [
+      "FinCrime"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "financial_crime_team",
+    "description": "The internal banking team responsible for initiating and completing the investigation into suspected unauthorized account use.",
+    "context": [
+      "Investigation initiated by Financial Crime team"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020_stp_002",
+    "name": "Investigation Initiation",
+    "aliases": [
+      "Day 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The formal start of the investigation into the account's activity by the Financial Crime team.",
+    "context": [
+      "Investigation initiated by Financial Crime team"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020_stp_003",
+    "name": "Customer Freeze Notification",
+    "aliases": [
+      "Day 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "Notifying the customer that their account has been frozen. Crucially, no reason is disclosed at this stage to avoid tipping off risk.",
+    "context": [
+      "Customer notified of freeze (no reason disclosed—tipping off risk)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020_stp_004",
+    "name": "Investigation Completion and Transaction Confirmation",
+    "aliases": [
+      "Days 2–7"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The phase between Day 2 and Day 7 where the investigation is finalized and unauthorized transactions are officially confirmed.",
+    "context": [
+      "Investigation completed",
+      "Unauthorized transactions confirmed"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020_stp_005",
+    "name": "Refund Processing",
+    "aliases": [
+      "Days 2–7"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The step of processing refunds to the customer for the transactions confirmed as unauthorized during the investigation.",
+    "context": [
+      "Refund processed to customer"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020_dec_001",
+    "name": "Account Closure Decision",
+    "aliases": [
+      "Days 2–7"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "approve_reject",
+    "description": "A decision point occurring between Day 2 and Day 7 where the bank determines that the account must be closed due to the policy violation.",
+    "context": [
+      "Account closure decision made"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020_stp_006",
+    "name": "Policy Violation Closure Notice",
+    "aliases": [
+      "Day 8"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "Sending the formal notice to the customer on Day 8 stating the account will be closed due to policy violation and triggering the 30-day notice period.",
+    "context": [
+      "Notice sent to customer: \"Account closure due to policy violation\"",
+      "30-day notice period begins"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020_stp_007",
+    "name": "Final Balance Transfer",
+    "aliases": [
+      "Day 38"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The action on Day 38 to transfer the remaining final balance to the customer, deducting any applicable chargebacks.",
+    "context": [
+      "Final balance transferred (minus any chargebacks)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020_stp_008",
+    "name": "Official Account Closure",
+    "aliases": [
+      "Day 38"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "account_activation",
+    "description": "The final administrative step on Day 38 to officially close the account after the 30-day notice period has elapsed.",
+    "context": [
+      "Account officially closed"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020_stp_009",
+    "name": "Records Archiving",
+    "aliases": [
+      "Day 38"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The final step of the process where records related to the policy violation and closure are archived.",
+    "context": [
+      "Records archived"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020_cus_001",
+    "name": "Affected Customer",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The bank customer whose account is subject to investigation for unauthorized use and subsequent policy-driven closure.",
+    "context": [
+      "Customer: Suspected unauthorized use, investigation underway",
+      "Customer notified of freeze",
+      "Refund processed to customer"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020_acc_001",
+    "name": "Frozen/Closing Account",
+    "aliases": [
+      "Account"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "frozen_account",
+    "description": "The specific customer account that is frozen on Day 1 and officially closed on Day 38 following a policy violation.",
+    "context": [
+      "Account frozen immediately",
+      "Account closure decision made",
+      "Account officially closed"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020_trn_001",
+    "name": "Unauthorized Transactions",
+    "aliases": [
+      "Transactions"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "suspicious_transaction",
+    "description": "Financial events on the account that were investigated and confirmed as unauthorized, leading to refunds.",
+    "context": [
+      "Unauthorized transactions confirmed",
+      "Refund processed to customer"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021_prc_001",
+    "name": "Account Closure Quality Assurance Process",
+    "aliases": [
+      "Closure Audit Checklist",
+      "Monthly Audit"
+    ],
+    "entity_class": "PROCESS",
+    "type": "account_closure",
+    "description": "An operational workflow designed to ensure that account closures are executed accurately and in compliance with banking standards. It consists of a pre-closure checklist and a monthly audit cycle for file review.",
+    "context": [
+      "Quality Assurance",
+      "Closure Audit Checklist",
+      "Monthly Audit"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021_stp_001",
+    "name": "Closure Request Documentation",
+    "aliases": [
+      "Closure request properly documented"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial step of ensuring that the formal request to close the account has been properly recorded and documented before proceeding.",
+    "context": [
+      "Closure request properly documented"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021_stp_002",
+    "name": "Customer Identity Verification",
+    "aliases": [
+      "Customer identity verified"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "identity_check",
+    "description": "A security step to verify the identity of the customer making the closure request to prevent unauthorized account termination.",
+    "context": [
+      "Customer identity verified"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021_stp_003",
+    "name": "Final Balance Calculation",
+    "aliases": [
+      "Final balance calculated correctly"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The process of accurately calculating the final remaining balance in the account prior to closure.",
+    "context": [
+      "Final balance calculated correctly"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021_stp_004",
+    "name": "Standing Order and Direct Debit Cancellation",
+    "aliases": [
+      "All standing orders/DDs cancelled"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "standing_order_cancellation",
+    "description": "The step of ensuring all active standing orders and direct debit mandates associated with the account are terminated.",
+    "context": [
+      "All standing orders/DDs cancelled"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021_stp_005",
+    "name": "Final Payment Initiation",
+    "aliases": [
+      "Final payment initiated"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The action of initiating the final transfer of funds to the customer to clear the account balance.",
+    "context": [
+      "Final payment initiated"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021_stp_006",
+    "name": "Customer Closure Confirmation",
+    "aliases": [
+      "Closure confirmation sent to customer"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The formal step of notifying the customer that their account has been successfully closed.",
+    "context": [
+      "Closure confirmation sent to customer"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021_stp_007",
+    "name": "System Account Status Update",
+    "aliases": [
+      "Account status updated in system"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "Updating the core banking system to reflect the changed status of the account from active to closed.",
+    "context": [
+      "Account status updated in system"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021_stp_008",
+    "name": "Records Archival Flagging",
+    "aliases": [
+      "Records flagged for 6-year archival"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_retention",
+    "description": "The process of flagging the account records for a mandatory 6-year archival period for regulatory compliance.",
+    "context": [
+      "Records flagged for 6-year archival"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021_stp_009",
+    "name": "Monthly Closure File Review",
+    "aliases": [
+      "5+ closure files reviewed"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "A periodic quality assurance step where at least 5 closure files are reviewed monthly to ensure completeness, accuracy, and timeline adherence.",
+    "context": [
+      "Monthly Audit:",
+      "5+ closure files reviewed",
+      "Check completeness and accuracy",
+      "Verify timelines met"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021_chk_001",
+    "name": "Closure Compliance Review",
+    "aliases": [
+      "Assess for compliance issues"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "regulatory_reporting",
+    "description": "A formal assessment during the monthly audit to identify any compliance issues related to the account closure process.",
+    "context": [
+      "Assess for compliance issues"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022_prc_001",
+    "name": "Account Re-opening Process",
+    "aliases": [],
+    "entity_class": "PROCESS",
+    "type": "account_opening",
+    "description": "The procedure followed when a customer requests to re-open an account after a closure request, requiring a full KYC cycle.",
+    "context": [
+      "Customer requests re-opening",
+      "New account opening required (full KYC)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022_prc_002",
+    "name": "Account Closure Exception Handling",
+    "aliases": [
+      "Common Issues & Resolution"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "Operational workflow for resolving common issues encountered during the account closure process, including standing order timing and disputes.",
+    "context": [
+      "Common Issues & Resolution",
+      "Pending standing order on closure date",
+      "Dispute received after closure"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022_stp_001",
+    "name": "Full KYC Verification",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_verification",
+    "description": "The requirement to perform a complete Know Your Customer verification process when an account needs to be re-opened.",
+    "context": [
+      "New account opening required (full KYC)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022_stp_002",
+    "name": "Final Standing Order Execution",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The action of executing the final remaining standing order before proceeding with the account closure to resolve timing issues.",
+    "context": [
+      "Execute final SO, then close"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022_stp_003",
+    "name": "Closure Dispute Investigation",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The process of reopening an investigation into a customer claim received after an account has already been closed.",
+    "context": [
+      "Reopen investigation, may reverse closure if warranted"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022_stp_004",
+    "name": "Uncollected Check Holding Period",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "A holding period of 6 months for checks not collected by the customer before they are escalated to unclaimed money procedures.",
+    "context": [
+      "Hold 6 months, escalate to unclaimed money procedures"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022_dec_001",
+    "name": "Closure Reversal Decision",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "approve_reject",
+    "description": "A decision point following a dispute investigation to determine if a closed account should be reversed/re-opened based on the warrants of the claim.",
+    "context": [
+      "may reverse closure if warranted"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022_esc_001",
+    "name": "Unclaimed Money Procedures Escalation",
+    "aliases": [],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "regulator",
+    "description": "The escalation tier reached when a customer fails to collect a payment check after a 6-month holding period.",
+    "context": [
+      "escalate to unclaimed money procedures"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022_cus_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The individual requesting account re-opening, disputing a closure, or failing to collect payment checks.",
+    "context": [
+      "Customer requests re-opening",
+      "Customer claim",
+      "Customer doesn't collect check"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022_acc_001",
+    "name": "Closing Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "closing_account",
+    "description": "The bank account currently undergoing the closure process or recently closed, which may be subject to disputes or standing order executions.",
+    "context": [
+      "Pending standing order on closure date",
+      "reverse closure if warranted"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022_sto_001",
+    "name": "Pending Standing Order",
+    "aliases": [
+      "SO"
+    ],
+    "entity_class": "STANDING_ORDER",
+    "type": "standing_order_cancellation",
+    "description": "A standing order that remains active on the date of account closure and must be executed before final closure.",
+    "context": [
+      "Pending standing order on closure date",
+      "Execute final SO, then close"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022_chk_001",
+    "name": "Full KYC Compliance Check",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "risk_classification",
+    "description": "A mandatory compliance gate requiring full KYC verification to be satisfied before a requested account re-opening can proceed.",
+    "context": [
+      "New account opening required (full KYC)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_023_prc_001",
+    "name": "Account Closure Process",
+    "aliases": [
+      "Account closure"
+    ],
+    "entity_class": "PROCESS",
+    "type": "account_closure",
+    "description": "The operational procedure for closing a bank account. This process is the reverse of the account opening procedure and is distinct from the Account Dormancy SOP.",
+    "context": [
+      "Account opening (reverse process)",
+      "Account entity closure"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_023",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_023_prc_002",
+    "name": "Account Opening Process",
+    "aliases": [
+      "sop_account_opening"
+    ],
+    "entity_class": "PROCESS",
+    "type": "account_opening",
+    "description": "The procedure for opening a new account, referenced as the reverse process of account closure.",
+    "context": [
+      "[[sop_account_opening]] — Account opening (reverse process)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_023",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_023_prc_003",
+    "name": "Account Dormancy Procedure",
+    "aliases": [
+      "Account Dormancy SOP"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "A specific operational procedure dealing with dormant accounts, explicitly noted as being different from the account closure process.",
+    "context": [
+      "Account Dormancy SOP (different from closure)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_023",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_023_prc_004",
+    "name": "Record Retention Process",
+    "aliases": [
+      "policy_retention"
+    ],
+    "entity_class": "PROCESS",
+    "type": "document_retention",
+    "description": "The policy and procedure for archiving records, specifying a 6-year archive period.",
+    "context": [
+      "[[policy_retention]] — Record retention (6-year archive)"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_023",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_024_rol_001",
+    "name": "Head of Operations",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The individual responsible for authoring and updating the operational procedure documents, including versions 1.0, 1.1, and 1.2.",
+    "context": [
+      "Author | Head of Operations"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_024",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_025_rol_001",
+    "name": "Head of Operations",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "A senior executive responsible for the final sign-off and approval of the operational procedure document.",
+    "context": [
+      "Approved by: Head of Operations — Date: 2026-01-15"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_025",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_025_rol_002",
+    "name": "Head of Retail Banking",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "A senior executive responsible for the final sign-off and approval of the operational procedure document.",
+    "context": [
+      "Approved by: Head of Retail Banking — Date: 2026-01-15"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_025",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_025_rol_003",
+    "name": "Chief Operating Officer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "executive",
+    "description": "The highest level of operational authority responsible for the final sign-off and approval of the operational procedure document.",
+    "context": [
+      "Approved by: Chief Operating Officer — Date: 2026-01-15"
+    ],
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_025",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e",
+    "domain": "banking_sop_guides"
+  }
+]
