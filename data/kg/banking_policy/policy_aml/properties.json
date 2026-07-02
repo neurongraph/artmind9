@@ -1,0 +1,4282 @@
+[
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_001_pol_001",
+    "name": "FirstUK Bank — Anti-Money Laundering Policy",
+    "properties": {
+      "document_id": "AML-POL-002",
+      "version": "2.2",
+      "effective_date": "2026-01-15",
+      "review_date": "2027-01-15",
+      "owner": "Head of Financial Crime",
+      "owning_department": "Financial Crime",
+      "audience": [
+        "All Staff",
+        "Compliance",
+        "Risk",
+        "Retail Banking"
+      ],
+      "regulatory_basis": [
+        "Money Laundering Regulations 2017",
+        "POCA 2002",
+        "Terrorism Act 2000",
+        "FCA COBS Part 10"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_001",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_001_reg_001",
+    "name": "Money Laundering Regulations 2017",
+    "properties": {
+      "jurisdiction": "UK",
+      "how_cited": "Regulatory Reference"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_001",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_001_reg_002",
+    "name": "Proceeds of Crime Act 2002",
+    "properties": {
+      "jurisdiction": "UK",
+      "how_cited": "POCA 2002"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_001",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_001_reg_003",
+    "name": "Terrorism Act 2000",
+    "properties": {
+      "jurisdiction": "UK",
+      "how_cited": "Regulatory Reference"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_001",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_001_reg_004",
+    "name": "FCA Conduct of Business Sourcebook Part 10",
+    "properties": {
+      "issuing_authority": "FCA",
+      "jurisdiction": "UK",
+      "how_cited": "FCA COBS Part 10"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_001",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_001_rol_001",
+    "name": "Head of Financial Crime",
+    "properties": {
+      "role_title": "Head of Financial Crime",
+      "department": "Financial Crime",
+      "authority": "Policy Owner"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_001",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_001_rol_002",
+    "name": "All Staff",
+    "properties": {
+      "role_title": "All Staff",
+      "accountability_for": "Compliance with AML-POL-002"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_001",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_001_rol_003",
+    "name": "Compliance",
+    "properties": {
+      "role_title": "Compliance",
+      "accountability_for": "Compliance with AML-POL-002"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_001",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_001_rol_004",
+    "name": "Risk",
+    "properties": {
+      "role_title": "Risk",
+      "accountability_for": "Compliance with AML-POL-002"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_001",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_001_rol_005",
+    "name": "Retail Banking",
+    "properties": {
+      "role_title": "Retail Banking",
+      "accountability_for": "Compliance with AML-POL-002"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_001",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_002_pol_001",
+    "name": "Anti-Money Laundering (AML) and Counter-Financing of Terrorism (CFT) Policy",
+    "properties": {
+      "policy_domain": "aml",
+      "core_policy_statement": "Prevent financial crime, protect the bank's reputation and license, and meet regulatory obligations.",
+      "scope_summary": "Establishes mandatory procedures for AML screening, customer due diligence, transaction monitoring, and suspicious activity reporting."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_002",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_002_prv_001",
+    "name": "Mandatory AML Screening Procedure",
+    "properties": {
+      "provision_type": "mandatory"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_002",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_002_prv_002",
+    "name": "Mandatory Customer Due Diligence Procedure",
+    "properties": {
+      "provision_type": "mandatory"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_002",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_002_prv_003",
+    "name": "Mandatory Transaction Monitoring Procedure",
+    "properties": {
+      "provision_type": "mandatory"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_002",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_002_prv_004",
+    "name": "Mandatory Suspicious Activity Reporting Procedure",
+    "properties": {
+      "provision_type": "mandatory"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_002",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_002_rsk_001",
+    "name": "Financial Crime",
+    "properties": {
+      "risk_definition": "The overarching category of crime that the bank aims to prevent through the AML/CFT policy."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_002",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_002_rsk_002",
+    "name": "Money Laundering",
+    "properties": {
+      "risk_definition": "A specific form of financial crime addressed by the AML/CFT policy."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_002",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_002_rsk_003",
+    "name": "Terrorist Financing",
+    "properties": {
+      "risk_definition": "A specific form of financial crime addressed by the AML/CFT policy."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_002",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_002_rsk_004",
+    "name": "Reputational Risk",
+    "properties": {
+      "risk_definition": "The risk to the bank's reputation and license resulting from failure to prevent financial crime."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_002",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_002_ctl_001",
+    "name": "AML Screening",
+    "properties": {
+      "mandatory": "yes"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_002",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_002_ctl_002",
+    "name": "Customer Due Diligence",
+    "properties": {
+      "mandatory": "yes"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_002",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_002_ctl_003",
+    "name": "Transaction Monitoring",
+    "properties": {
+      "mandatory": "yes"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_002",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_002_ctl_004",
+    "name": "Suspicious Activity Reporting",
+    "properties": {
+      "mandatory": "yes"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_002",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_003_pol_001",
+    "name": "AML/CFT Compliance Policy",
+    "properties": {
+      "policy_domain": "aml",
+      "regulatory_basis": [
+        "Money Laundering Regulations 2017",
+        "Proceeds of Crime Act",
+        "Terrorism Act"
+      ],
+      "core_policy_statement": "Establish procedures to detect and prevent money laundering and terrorist financing, ensure compliance with statutory obligations including SAR filings and sanctions list adherence."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_003",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_003_reg_001",
+    "name": "Money Laundering Regulations 2017",
+    "properties": {
+      "jurisdiction": "UK",
+      "regulation_type": "secondary_legislation"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_003",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_003_reg_002",
+    "name": "Proceeds of Crime Act",
+    "properties": {
+      "jurisdiction": "UK",
+      "regulation_type": "primary_legislation",
+      "key_obligation": "Implement statutory obligations regarding the proceeds of crime"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_003",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_003_reg_003",
+    "name": "Terrorism Act",
+    "properties": {
+      "jurisdiction": "UK",
+      "regulation_type": "primary_legislation"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_003",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_003_rsk_001",
+    "name": "Money Laundering",
+    "properties": {
+      "required_response": "Detection and prevention"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_003",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_003_rsk_002",
+    "name": "Terrorist Financing",
+    "properties": {
+      "required_response": "Detection and prevention"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_003",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_003_rsk_003",
+    "name": "Sanctions Violation",
+    "properties": {
+      "required_response": "Maintain sanctions list compliance"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_003",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_003_prv_001",
+    "name": "Obligation to File Suspicious Activity Reports",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "FirstUK Bank"
+      ],
+      "verification_method": "Filing with National Crime Agency (NCA)"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_003",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_003_prv_002",
+    "name": "Sanctions List Compliance Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "FirstUK Bank"
+      ],
+      "regulatory_source": [
+        "OFAC",
+        "EU",
+        "HMT",
+        "UN"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_003",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_003_ctl_001",
+    "name": "SAR Filing Process",
+    "properties": {
+      "control_type": "corrective",
+      "performed_by": "Compliance/MLRO",
+      "escalation_path": "National Crime Agency (NCA)"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_003",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_003_ctl_002",
+    "name": "Sanctions Screening",
+    "properties": {
+      "control_type": "preventive",
+      "applies_to": [
+        "OFAC",
+        "EU",
+        "HMT",
+        "UN"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_003",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_003_rol_001",
+    "name": "National Crime Agency",
+    "properties": {
+      "role_title": "National Crime Agency (NCA)",
+      "authority": "Recipient of Suspicious Activity Reports (SARs)"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_003",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_003_reg_004",
+    "name": "Office of Foreign Assets Control",
+    "properties": {
+      "issuing_authority": "US Treasury",
+      "jurisdiction": "International",
+      "regulation_type": "sanctions_list"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_003",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_003_reg_005",
+    "name": "European Union Sanctions List",
+    "properties": {
+      "issuing_authority": "European Union",
+      "jurisdiction": "EU",
+      "regulation_type": "sanctions_list"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_003",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_003_reg_006",
+    "name": "Her Majesty's Treasury Sanctions List",
+    "properties": {
+      "issuing_authority": "HMT",
+      "jurisdiction": "UK",
+      "regulation_type": "sanctions_list"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_003",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_003_reg_007",
+    "name": "United Nations Sanctions List",
+    "properties": {
+      "issuing_authority": "United Nations",
+      "jurisdiction": "International",
+      "regulation_type": "sanctions_list"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_003",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_004_pol_001",
+    "name": "FirstUK Bank General Policy",
+    "properties": {
+      "scope_summary": "Applies to all customers, accounts, transactions, staff, contractors, third parties, and products/channels. Excludes regulatory authorities, law enforcement, and HM Treasury exempt entities."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_004",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_004_rol_001",
+    "name": "All Staff, Contractors, and Third Parties",
+    "properties": {
+      "audience": "Included in policy scope"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_004",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_004_rol_002",
+    "name": "Regulatory Authorities",
+    "properties": {
+      "scope_status": "Excluded from policy application"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_004",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_004_rol_003",
+    "name": "Law Enforcement",
+    "properties": {
+      "scope_status": "Excluded from policy application"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_004",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_004_reg_001",
+    "name": "HM Treasury Guidance",
+    "properties": {
+      "issuing_authority": "HM Treasury",
+      "jurisdiction": "UK",
+      "key_obligation": "Defines exempt entities that are not subject to the policy scope"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_004",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_004_cus_001",
+    "name": "All Customers",
+    "properties": {
+      "scope_status": "Included in policy scope"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_004",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_004_acc_001",
+    "name": "All Accounts",
+    "properties": {
+      "scope_status": "Included in policy scope"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_004",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_004_trn_001",
+    "name": "All Transactions",
+    "properties": {
+      "scope_status": "Included in policy scope",
+      "examples": [
+        "deposits",
+        "withdrawals",
+        "transfers"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_004",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_004_prd_001",
+    "name": "All Products and Channels",
+    "properties": {
+      "scope_status": "Included in policy scope",
+      "channels": [
+        "branch",
+        "online",
+        "mobile"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_004",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_005_pol_001",
+    "name": "FirstUK Bank Financial Crime Policy",
+    "properties": {
+      "core_policy_statement": "FirstUK Bank does not knowingly provide banking services to individuals or entities engaged in or suspected of money laundering, terrorist financing, sanctions violations, or other financial crime."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_005",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_005_prv_001",
+    "name": "Prohibition of Services to Financial Crime Suspects",
+    "properties": {
+      "provision_type": "prohibited",
+      "applies_to": [
+        "individuals",
+        "entities"
+      ],
+      "condition": "engaged in or suspected of money laundering, terrorist financing, sanctions violations, or other financial crime"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_005",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_005_rsk_001",
+    "name": "Money Laundering",
+    "properties": {
+      "risk_level": "critical"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_005",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_005_rsk_002",
+    "name": "Terrorist Financing",
+    "properties": {
+      "risk_level": "critical"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_005",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_005_rsk_003",
+    "name": "Sanctions Violations",
+    "properties": {
+      "risk_level": "critical"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_005",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_005_rsk_004",
+    "name": "Other Financial Crime",
+    "properties": {
+      "risk_level": "critical"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_005",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_006_pol_001",
+    "name": "AML Policy",
+    "properties": {
+      "core_policy_statement": "FirstUK Bank maintains core requirements for customer screening, ongoing monitoring, suspicious activity reporting, record retention, staff awareness, and escalation to prevent financial crime."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_006",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_006_prv_001",
+    "name": "Mandatory AML Screening at Account Opening",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "prospective customers"
+      ],
+      "timeframe": "at account opening"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_006",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_006_prv_002",
+    "name": "Continuous Transaction Pattern Analysis",
+    "properties": {
+      "provision_type": "periodic",
+      "timeframe": "continuous"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_006",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_006_prv_003",
+    "name": "Reporting Suspected Financial Crime to NCA",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "suspected financial crime"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_006",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_006_prv_004",
+    "name": "Five Year Minimum AML Record Retention",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "5 years minimum"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_006",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_006_prv_005",
+    "name": "Annual Mandatory AML Training",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "annual",
+      "applies_to": [
+        "all staff"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_006",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_006_prv_006",
+    "name": "Confidential Reporting Procedures",
+    "properties": {
+      "provision_type": "mandatory"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_006",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_006_reg_001",
+    "name": "National Crime Agency",
+    "properties": {
+      "issuing_authority": "National Crime Agency",
+      "jurisdiction": "UK",
+      "key_obligation": "Recipient of suspected financial crime reports"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_006",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_006_rsk_001",
+    "name": "Financial Crime",
+    "properties": {
+      "risk_definition": "Activities involving suspected financial crime requiring reporting to the NCA"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_006",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_006_ctl_001",
+    "name": "AML Screening",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "frequency": "at_onboarding"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_006",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_006_ctl_002",
+    "name": "Transaction Pattern Analysis",
+    "properties": {
+      "control_type": "detective",
+      "mandatory": "yes",
+      "frequency": "real-time"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_006",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_006_ctl_003",
+    "name": "AML Record Keeping",
+    "properties": {
+      "control_type": "directive",
+      "mandatory": "yes",
+      "evidence_required": "all AML records"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_006",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_006_ctl_004",
+    "name": "AML Training",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "frequency": "annual",
+      "performed_by": "all staff"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_006",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_006_rol_001",
+    "name": "All Staff",
+    "properties": {
+      "specific_obligations": [
+        "complete annual AML training"
+      ],
+      "training_required": "Annual AML training"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_006",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_007_pol_001",
+    "name": "AML Screening Framework",
+    "properties": {
+      "policy_domain": "aml",
+      "core_policy_statement": "Establishment of mandatory screening databases and frequencies to ensure compliance with international, regional, and national sanctions and risk identification."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_007",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_007_reg_001",
+    "name": "OFAC Sanctions List",
+    "properties": {
+      "issuing_authority": "US Treasury",
+      "jurisdiction": "international",
+      "key_obligation": "Sanction compliance"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_007",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_007_reg_002",
+    "name": "EU Consolidated List",
+    "properties": {
+      "issuing_authority": "European Commission",
+      "jurisdiction": "EU",
+      "key_obligation": "EU sanctions"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_007",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_007_reg_003",
+    "name": "HMT Sanctions List",
+    "properties": {
+      "issuing_authority": "UK Treasury",
+      "jurisdiction": "UK",
+      "key_obligation": "UK sanctions"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_007",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_007_reg_004",
+    "name": "UN Sanctions List",
+    "properties": {
+      "issuing_authority": "UN Security Council",
+      "jurisdiction": "international",
+      "key_obligation": "UN terrorism sanctions"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_007",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_007_ctl_001",
+    "name": "Mandatory Sanctions and PEP Screening",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": [
+        "Sanctions",
+        "PEP",
+        "Adverse Media"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_007",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_007_prv_001",
+    "name": "Daily Sanctions Screening Obligation",
+    "properties": {
+      "provision_type": "periodic",
+      "timeframe": "Daily",
+      "applies_to": [
+        "OFAC Sanctions List",
+        "EU Consolidated List",
+        "HMT Sanctions List"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_007",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_007_prv_002",
+    "name": "Weekly UN Sanctions Screening Obligation",
+    "properties": {
+      "provision_type": "periodic",
+      "timeframe": "Weekly",
+      "applies_to": [
+        "UN Sanctions List"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_007",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_007_prv_003",
+    "name": "Real-time PEP and Adverse Media Screening",
+    "properties": {
+      "provision_type": "periodic",
+      "timeframe": "Real-time",
+      "applies_to": [
+        "PEP Database",
+        "Adverse Media"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_007",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_007_rsk_001",
+    "name": "Sanctions Violation Risk",
+    "properties": {
+      "risk_definition": "Risk of engaging with entities or individuals on sanctioned lists",
+      "detection_mechanism": "Screening against OFAC, EU, HMT, and UN lists"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_007",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_007_rsk_002",
+    "name": "Politically Exposed Persons Risk",
+    "properties": {
+      "risk_definition": "Risk associated with individuals holding prominent public functions",
+      "detection_mechanism": "Real-time PEP Database screening"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_007",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_007_rsk_003",
+    "name": "Criminal and Fraud Risk",
+    "properties": {
+      "risk_definition": "Risk associated with customers with criminal or fraudulent backgrounds",
+      "detection_mechanism": "Real-time Adverse Media screening"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_007",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_007_aml_001",
+    "name": "Sanctions Screening",
+    "properties": {
+      "mandatory": "yes",
+      "screening_lists": [
+        "OFAC Sanctions List",
+        "EU Consolidated List",
+        "HMT Sanctions List",
+        "UN Sanctions List"
+      ],
+      "ongoing_monitoring": "yes"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_007",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_007_aml_002",
+    "name": "PEP Screening",
+    "properties": {
+      "mandatory": "yes",
+      "screening_lists": [
+        "PEP Database"
+      ],
+      "ongoing_monitoring": "yes"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_007",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_007_aml_003",
+    "name": "Adverse Media Check",
+    "properties": {
+      "mandatory": "yes",
+      "screening_lists": [
+        "Adverse Media"
+      ],
+      "ongoing_monitoring": "yes"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_007",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_008_pol_001",
+    "name": "Screening Process Policy",
+    "properties": {
+      "core_policy_statement": "Establishing a structured multi-step process for initial and ongoing screening of customers, associates, and family members to mitigate financial crime risks.",
+      "scope_summary": "Applies to account opening and periodic monitoring of all customers, including high-risk and standard segments."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_008_prv_001",
+    "name": "Initial Customer and Associate Screening",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Prospective Customers",
+        "Immediate Family",
+        "Close Associates"
+      ],
+      "verification_method": "Screening against all mandatory lists",
+      "timeframe": "At account opening"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_008_prv_002",
+    "name": "Match Review and False Positive Assessment",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Potential matches"
+      ],
+      "verification_method": "Comparison of name similarity vs. true match",
+      "consequence_of_breach": "Account blocked if true positive identified",
+      "escalation_path": "Financial Crime team to Compliance Head"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_008_prv_003",
+    "name": "Sanctions Hit Response",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Sanctions True Positives"
+      ],
+      "consequence_of_breach": "Immediate account freeze",
+      "required_response": [
+        "Account freeze",
+        "NCA notification"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_008_prv_004",
+    "name": "PEP Flag Handling",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Politically Exposed Persons"
+      ],
+      "required_response": "Enhanced Due Diligence (EDD)"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_008_prv_005",
+    "name": "Adverse Media Risk Response",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Customers with adverse media hits"
+      ],
+      "required_response": [
+        "Risk assessment",
+        "Possible rejection"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_008_prv_006",
+    "name": "Periodic Re-screening Schedule",
+    "properties": {
+      "provision_type": "periodic",
+      "applies_to": [
+        "High-Risk Customers",
+        "Standard Customers"
+      ],
+      "timeframe": {
+        "high_risk": "Quarterly",
+        "standard": "Annually"
+      }
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_008_reg_001",
+    "name": "National Crime Agency",
+    "properties": {
+      "issuing_authority": "NCA",
+      "jurisdiction": "UK",
+      "key_obligation": "Notification of sanctions hits"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_008_rsk_001",
+    "name": "Sanctions Violation",
+    "properties": {
+      "risk_level": "critical",
+      "required_response": "Immediate account freeze and regulatory notification",
+      "detection_mechanism": "Mandatory list screening"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_008_rsk_002",
+    "name": "Politically Exposed Person Risk",
+    "properties": {
+      "risk_level": "high",
+      "required_response": "Mandatory Enhanced Due Diligence (EDD)"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_008_rsk_003",
+    "name": "Adverse Media Risk",
+    "properties": {
+      "risk_level": "medium",
+      "required_response": "Risk assessment and potential onboarding rejection"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_008_ctl_001",
+    "name": "Mandatory List Screening",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "frequency": "at_onboarding",
+      "evidence_required": "Results documented in system"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_008_ctl_002",
+    "name": "Transaction Monitoring",
+    "properties": {
+      "control_type": "detective",
+      "frequency": "ongoing",
+      "mandatory": "yes"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_008_ctl_003",
+    "name": "Account Freezing",
+    "properties": {
+      "control_type": "corrective",
+      "mandatory": "yes",
+      "applies_to": "Sanctions true positives"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_008_rol_001",
+    "name": "Financial Crime Team",
+    "properties": {
+      "specific_obligations": [
+        "Perform false positive assessments",
+        "Review potential matches"
+      ],
+      "accountability_for": "Initial match validation"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_008_rol_002",
+    "name": "Compliance Head",
+    "properties": {
+      "authority": "Final decision on true positive escalations",
+      "reporting_to": "Executive Management"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_008_cus_001",
+    "name": "High-Risk Customer",
+    "properties": {
+      "risk_treatment": "Quarterly periodic re-screening"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_008_cus_002",
+    "name": "Standard Customer",
+    "properties": {
+      "risk_treatment": "Annual periodic re-screening"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_008_aml_001",
+    "name": "Sanctions and PEP Screening",
+    "properties": {
+      "mandatory": "yes",
+      "screening_lists": [
+        "All mandatory lists"
+      ],
+      "ongoing_monitoring": "yes",
+      "hit_response": "Escalation to Financial Crime team"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_008_kyc_001",
+    "name": "Enhanced Due Diligence",
+    "properties": {
+      "mandatory": "yes",
+      "edd_trigger": "PEP Flag"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_009_pol_001",
+    "name": "Customer Due Diligence (CDD) Policy",
+    "properties": {
+      "policy_domain": "aml"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_009",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_009_pol_002",
+    "name": "Customer Identification Policy",
+    "properties": {},
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_009",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_009_kyc_001",
+    "name": "Identity and Address Verification",
+    "properties": {},
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_009",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_009_rsk_001",
+    "name": "Money Laundering",
+    "properties": {},
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_009",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_010_pol_001",
+    "name": "Source of Funds Verification Policy",
+    "properties": {
+      "policy_domain": "aml",
+      "core_policy_statement": "FirstUK Bank requires the verification of the source of funds for high-value initial deposits, large transactions, high-risk customers, and business account funding to mitigate financial crime risks."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_010",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_010_prv_001",
+    "name": "Mandatory Source of Funds Verification for High-Value Initial Deposits",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Prospective Customers"
+      ],
+      "timeframe": "At account opening",
+      "reporting_threshold": "£10,000"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_010",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_010_prv_002",
+    "name": "Mandatory Source of Funds Verification for Large Transactions",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Existing Customers"
+      ],
+      "reporting_threshold": "£50,000"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_010",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_010_prv_003",
+    "name": "Mandatory Source of Funds Verification for High-Risk Customers",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "High-Risk Customers"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_010",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_010_prv_004",
+    "name": "Mandatory Source of Funds Verification for Business Account Funding",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Business Account Holders"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_010",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_010_prv_005",
+    "name": "Source of Funds Documentation Recording",
+    "properties": {
+      "provision_type": "mandatory",
+      "verification_method": "System record",
+      "evidence_required": "Verified source of funds documentation"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_010",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_010_prv_006",
+    "name": "Suspicious Source of Funds Flagging",
+    "properties": {
+      "provision_type": "mandatory",
+      "trigger": "Unclear or suspicious source of funds",
+      "required_response": "Flag in system"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_010",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_010_rsk_001",
+    "name": "High-Risk Customer Profile",
+    "properties": {
+      "required_response": "Mandatory Source of Funds verification"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_010",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_010_ctl_001",
+    "name": "Source of Funds Documentation Review",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "frequency": "at_onboarding",
+      "performed_by": "Compliance/Onboarding Team"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_010",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_010_cus_001",
+    "name": "High-Risk Customer",
+    "properties": {
+      "risk_treatment": "Mandatory Source of Funds verification"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_010",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_010_acc_001",
+    "name": "Business Account",
+    "properties": {
+      "policy_controls": "Mandatory source of funds verification for funding"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_010",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_010_tra_001",
+    "name": "Large Transaction",
+    "properties": {
+      "reporting_threshold": "£50,000",
+      "monitoring_obligation": "Source of funds verification"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_010",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_010_id_001",
+    "name": "Employment Letter and Payslips",
+    "properties": {
+      "accepted_types": [
+        "Employment letter",
+        "Payslips"
+      ],
+      "verification_method": "Document review"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_010",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_010_id_002",
+    "name": "Business Accounts and Tax Returns",
+    "properties": {
+      "accepted_types": [
+        "Business bank statements",
+        "Tax returns"
+      ],
+      "verification_method": "Document review"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_010",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_010_id_003",
+    "name": "Property Sale Documentation",
+    "properties": {
+      "accepted_types": [
+        "Property sale contracts",
+        "Completion statements"
+      ],
+      "verification_method": "Document review"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_010",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_010_id_004",
+    "name": "Inheritance Documentation",
+    "properties": {
+      "accepted_types": [
+        "Grant of probate",
+        "Will",
+        "Legal correspondence"
+      ],
+      "verification_method": "Document review"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_010",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_010_id_005",
+    "name": "Gift Confirmation Letter",
+    "properties": {
+      "accepted_types": [
+        "Signed gift letter"
+      ],
+      "verification_method": "Document review"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_010",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_011_pol_001",
+    "name": "FirstUK Bank Customer Due Diligence Policy",
+    "properties": {
+      "core_policy_statement": "The policy mandates the collection of business purpose information for specific customer types and account risk profiles to ensure effective customer due diligence."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_011",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_011_prv_001",
+    "name": "Mandatory Collection of Business Purpose Information",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Business customers",
+        "Accounts with unusual transaction patterns",
+        "High-value accounts"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_011",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_011_prv_002",
+    "name": "Business Purpose Data Collection Standard",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Business customers",
+        "Accounts with unusual transaction patterns",
+        "High-value accounts"
+      ],
+      "verification_method": "Collection of business type and nature, expected transaction volumes, expected geographic markets, and beneficial ownership"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_011",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_011_rsk_001",
+    "name": "Unusual Transaction Patterns",
+    "properties": {
+      "risk_treatment": "Triggers the mandatory collection of business purpose information"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_011",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_011_ctl_001",
+    "name": "Business Purpose Verification",
+    "properties": {
+      "control_type": "preventive",
+      "evidence_required": [
+        "Business type and nature",
+        "Expected transaction volumes",
+        "Expected geographic markets",
+        "Beneficial ownership details"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_011",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_011_cus_001",
+    "name": "Business Customer",
+    "properties": {
+      "obligations_under_policy": [
+        "Must provide business type and nature",
+        "Must provide expected transaction volumes",
+        "Must provide expected geographic markets",
+        "Must disclose beneficial ownership if not a natural person"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_011",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_011_acc_001",
+    "name": "High-Value Account",
+    "properties": {
+      "policy_controls": "Mandatory collection of business purpose information"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_011",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_011_kvc_001",
+    "name": "Beneficial Ownership Verification",
+    "properties": {
+      "mandatory": "yes",
+      "applies_to": "Customers who are not natural persons"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_011",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_011_ah_001",
+    "name": "Beneficial Owner",
+    "properties": {
+      "beneficial_owner_disclosure": "Mandatory for entities that are not natural persons as part of the business purpose collection"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_011",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_012_pol_001",
+    "name": "Enhanced Due Diligence Policy",
+    "properties": {
+      "policy_domain": "aml",
+      "core_policy_statement": "Mandatory implementation of enhanced due diligence procedures for customers identified as high-risk to mitigate financial crime threats."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_012",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_012_rsk_001",
+    "name": "High-Risk Customer Profile",
+    "properties": {
+      "risk_definition": "Customers exhibiting specific high-risk indicators requiring enhanced scrutiny",
+      "examples": [
+        "Unclear beneficial ownership",
+        "Jurisdictions with weak AML controls",
+        "Politically Exposed Persons (PEPs) or their family members",
+        "Sanctions list matches",
+        "Adverse media",
+        "High-value accounts",
+        "Complex transaction patterns",
+        "Non-face-to-face relationships"
+      ],
+      "required_response": "Application of Enhanced Due Diligence (EDD) procedures"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_012",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_012_prv_001",
+    "name": "Mandatory Senior Staff Approval for High-Risk Customers",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "High-Risk Customers",
+      "verification_method": "Approval sign-off by Compliance Head"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_012",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_012_prv_002",
+    "name": "Additional Identity Verification for EDD",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "High-Risk Customers"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_012",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_012_prv_003",
+    "name": "Beneficial Ownership Investigation",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": "Entities identified as High-Risk"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_012",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_012_prv_004",
+    "name": "Source of Funds Verification",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "High-Risk Customers"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_012",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_012_prv_005",
+    "name": "Enhanced Ongoing Monitoring",
+    "properties": {
+      "provision_type": "periodic",
+      "applies_to": "High-Risk Customers"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_012",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_012_prv_006",
+    "name": "Quarterly Risk Reassessment",
+    "properties": {
+      "provision_type": "periodic",
+      "applies_to": "High-Risk Customers",
+      "timeframe": "Quarterly"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_012",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_012_prv_007",
+    "name": "Documentation of Risk Assessment",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "High-Risk Customers",
+      "evidence_required": "Documented risk assessment records"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_012",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_012_rol_001",
+    "name": "Compliance Head",
+    "properties": {
+      "role_title": "Compliance Head",
+      "authority": "Final approval authority for High-Risk Customer onboarding/maintenance"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_012",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_012_ctl_001",
+    "name": "EDD Verification Suite",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": "High-Risk Customer Profiles"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_012",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_012_kyc_001",
+    "name": "Enhanced Due Diligence Process",
+    "properties": {
+      "mandatory": "yes",
+      "edd_trigger": "Identification of any high-risk indicator (e.g., PEP, Sanctions match, weak jurisdiction)",
+      "refresh_frequency": "Quarterly"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_012",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_012_aml_001",
+    "name": "High-Risk Screening",
+    "properties": {
+      "mandatory": "yes",
+      "screening_lists": [
+        "Sanctions lists",
+        "PEP lists",
+        "Adverse media"
+      ],
+      "ongoing_monitoring": "yes"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_012",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_013_pol_001",
+    "name": "Transaction Monitoring Policy",
+    "properties": {
+      "core_policy_statement": "Detect suspicious transaction patterns indicative of money laundering or terrorist financing."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_013",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_013_rsk_001",
+    "name": "Money Laundering",
+    "properties": {
+      "risk_definition": "Suspicious transaction patterns indicative of the process of making illegally-gained proceeds appear legal."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_013",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_013_rsk_002",
+    "name": "Terrorist Financing",
+    "properties": {
+      "risk_definition": "Suspicious transaction patterns indicative of the provision of funds for terrorist activities."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_013",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_013_ctl_001",
+    "name": "Transaction Monitoring",
+    "properties": {
+      "control_type": "detective",
+      "applies_to": [
+        "Money Laundering",
+        "Terrorist Financing"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_013",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_014_ctl_001",
+    "name": "Fraud Detection Engine",
+    "properties": {
+      "control_type": "detective",
+      "frequency": "real-time",
+      "performed_by": "Automated Rules Engine",
+      "applies_to": [
+        "Large deposits",
+        "Rapid movement of funds",
+        "Transfer velocity",
+        "Geographic anomalies",
+        "High-risk jurisdictions",
+        "Unusual beneficiaries"
+      ],
+      "technology_used": "Fraud Detection Engine"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_014",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_014_prv_001",
+    "name": "Large Deposit Monitoring Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "24h",
+      "applies_to": "Deposits >£50,000",
+      "linked_control": "ctl_001",
+      "verification_method": "Alert + manual review"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_014",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_014_prv_002",
+    "name": "Rapid Movement of Funds Monitoring Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "<2h",
+      "applies_to": "Deposit then withdrawal sequence",
+      "linked_control": "ctl_001",
+      "verification_method": "Alert for review"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_014",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_014_prv_003",
+    "name": "Multiple Small Transfers Velocity Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "<24h",
+      "applies_to": "10+ transfers to different recipients",
+      "linked_control": "ctl_001",
+      "verification_method": "Velocity alert"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_014",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_014_prv_004",
+    "name": "Geographic Anomaly Monitoring Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "within 2 hours",
+      "applies_to": "Transactions in different countries",
+      "linked_control": "ctl_001",
+      "verification_method": "Alert for review"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_014",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_014_prv_005",
+    "name": "High-Risk Jurisdiction Transaction Prohibition",
+    "properties": {
+      "provision_type": "prohibited",
+      "applies_to": "Transactions with sanctioned countries",
+      "linked_control": "ctl_001",
+      "consequence_of_breach": "Auto-block"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_014",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_014_prv_006",
+    "name": "Unusual Beneficiary Monitoring Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "Transfers to new beneficiaries above threshold",
+      "linked_control": "ctl_001",
+      "verification_method": "Alert for review"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_014",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_014_rol_001",
+    "name": "Financial Crime Team",
+    "properties": {
+      "role_title": "Financial Crime Team",
+      "specific_obligations": [
+        "Review automated alerts",
+        "Perform pattern analysis for suspicious sequences",
+        "Conduct behavioral profiling changes",
+        "Perform judgment-based assessments"
+      ],
+      "accountability_for": "Manual monitoring and alert disposition"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_014",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_014_ctl_002",
+    "name": "Manual Monitoring Process",
+    "properties": {
+      "control_type": "detective",
+      "performed_by": "Financial Crime Team",
+      "applies_to": [
+        "Alert review",
+        "Suspicious sequences",
+        "Behavioral profiling"
+      ],
+      "verification_method": "Judgment-based assessment"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_014",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_014_rsk_001",
+    "name": "Sanctions Violation Risk",
+    "properties": {
+      "risk_definition": "Transactions involving sanctioned countries",
+      "required_response": "Auto-block transaction",
+      "risk_level": "critical"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_014",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_014_rsk_002",
+    "name": "Fraudulent Transaction Risk",
+    "properties": {
+      "examples": [
+        "Large deposits >£50k",
+        "Rapid deposit/withdrawal cycles",
+        "High-velocity small transfers",
+        "Geographic anomalies"
+      ],
+      "detection_mechanism": "Fraud Detection Engine and Manual Monitoring",
+      "required_response": "Alert generation and manual review by Financial Crime Team"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_014",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_015_pol_001",
+    "name": "Transaction Profile Assessment Policy",
+    "properties": {
+      "policy_domain": "aml",
+      "core_policy_statement": "Customer Risk Profile is determined through Transaction Pattern Analysis."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_015",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_015_prv_001",
+    "name": "Mandatory Transaction Pattern Analysis for Risk Profiling",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "Customer Risk Profiling"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_015",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_015_rsk_001",
+    "name": "Suspicious Transaction Patterns",
+    "properties": {
+      "risk_definition": "Transaction behaviors that deviate from normal profiles and indicate potential financial crime",
+      "examples": [
+        "Large deposit immediately followed by international transfer",
+        "Round-dollar amounts to multiple countries",
+        "Cash deposits followed by wire transfers out",
+        "Deposits using different names/accounts"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_015",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_015_rsk_002",
+    "name": "Structuring",
+    "properties": {
+      "risk_definition": "Repeated transfers just below reporting threshold",
+      "examples": [
+        "Repeated transfers just below reporting threshold"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_015",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_015_ctl_001",
+    "name": "Transaction Pattern Monitoring",
+    "properties": {
+      "control_type": "detective",
+      "applies_to": [
+        "Suspicious Transaction Patterns",
+        "Structuring"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_015",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_015_trn_001",
+    "name": "Normal Transaction Profile",
+    "properties": {
+      "suspicious_indicators": "Absence of irregular patterns",
+      "examples": [
+        "Salary deposits monthly + regular bills",
+        "Periodic savings deposits + interest credits",
+        "Business deposits + operational expenses",
+        "Pension payments + utility bills"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_015",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_015_trn_002",
+    "name": "Suspicious Transaction",
+    "properties": {
+      "suspicious_indicators": [
+        "Rapid international transfer after large deposit",
+        "Round-dollar multi-country transfers",
+        "Cash-to-wire transfers",
+        "Multi-name/account deposits",
+        "Sub-threshold repeated transfers"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_015",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_016_pol_001",
+    "name": "Action on Suspicious Transaction Policy",
+    "properties": {
+      "core_policy_statement": "A four-step process to handle suspicious transactions through initial alert, investigation, decision-making, and documentation to prevent financial crime and ensure regulatory compliance.",
+      "scope_summary": "Covers the lifecycle of a suspicious transaction from alert generation to final disposition and SAR filing."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_016",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_016_prv_001",
+    "name": "Transaction Hold Period",
+    "properties": {
+      "provision_type": "conditional",
+      "timeframe": "up to 5 business days",
+      "applies_to": "Transactions flagged by system alerts or staff observation"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_016",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_016_prv_002",
+    "name": "Immediate Review of Alerts",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "Financial Crime team",
+      "timeframe": "immediately"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_016",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_016_prv_003",
+    "name": "Anti-Tipping Off Prohibition",
+    "properties": {
+      "provision_type": "prohibited",
+      "applies_to": "All staff",
+      "consequence_of_breach": "Regulatory breach",
+      "core_requirement": "No customer disclosure regarding AML reasons or SAR filing"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_016",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_016_prv_004",
+    "name": "Decision Documentation Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "evidence_required": "Documented reasoning for all decisions",
+      "confidentiality_level": "Confidential"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_016",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_016_reg_001",
+    "name": "National Crime Agency",
+    "properties": {
+      "issuing_authority": "NCA",
+      "jurisdiction": "UK",
+      "key_obligation": "Recipient of Suspicious Activity Reports (SARs)"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_016",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_016_rsk_001",
+    "name": "Suspicious Activity",
+    "properties": {
+      "detection_mechanism": "System-generated alerts or staff observation",
+      "required_response": "Place transaction on hold, investigate, and potentially file a SAR"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_016",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_016_ctl_001",
+    "name": "Transaction Monitoring Alerts",
+    "properties": {
+      "control_type": "detective",
+      "frequency": "real-time",
+      "technology_used": "Monitoring System",
+      "performed_by": "System"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_016",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_016_ctl_002",
+    "name": "Account Freezing",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": "Accounts identified as high risk during investigation",
+      "escalation_path": "Account frozen pending investigation"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_016",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_016_rol_001",
+    "name": "Financial Crime Team",
+    "properties": {
+      "specific_obligations": [
+        "Review alerts immediately",
+        "Conduct investigations",
+        "Analyze transaction history",
+        "Update risk assessments",
+        "Document decisions"
+      ],
+      "authority": "Decision to proceed, reject, or block transactions"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_016",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_016_cus_001",
+    "name": "Customer",
+    "properties": {
+      "obligations_under_policy": "Provide explanations and supporting documentation upon request (if safe)",
+      "rights_under_policy": "Not entitled to be informed of AML-related transaction rejections"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_016",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_016_acc_001",
+    "name": "Frozen Account",
+    "properties": {
+      "freeze_conditions": "When a decision to 'Block' is reached pending further investigation"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_016",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_016_trn_001",
+    "name": "Suspicious Transaction",
+    "properties": {
+      "suspicious_indicators": "System-generated alerts or staff observations",
+      "required_response": "Hold for up to 5 business days, investigate, and determine whether to proceed, reject, or block"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_016",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_016_sar_001",
+    "name": "SAR Filing Obligation",
+    "properties": {
+      "filing_obligation": "mandatory",
+      "recipient": "NCA",
+      "confidentiality_rule": "Tipping off is prohibited"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_016",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_017_pol_001",
+    "name": "Suspicious Activity Reporting Policy",
+    "properties": {
+      "policy_domain": "aml",
+      "core_policy_statement": "Establishes the triggers and requirements for filing Suspicious Activity Reports (SARs) when money laundering, terrorist financing, sanctions violations, or other suspicious financial activities are detected."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_017",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_017_prv_001",
+    "name": "Mandatory SAR Filing Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Money laundering suspected",
+        "Terrorist financing suspected",
+        "Proceeds of crime suspected",
+        "Sanctions violations",
+        "Large cash transactions with no obvious purpose",
+        "Customers unwilling to provide information",
+        "Structuring detected"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_017",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_017_prv_002",
+    "name": "Discretionary SAR Filing Provision",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Unusual transaction patterns not clearly illegal",
+        "Potential fraud",
+        "Regulatory concerns"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_017",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_017_reg_001",
+    "name": "Proceeds of Crime Act",
+    "properties": {
+      "jurisdiction": "UK",
+      "key_obligation": "Mandates the reporting of suspected proceeds of crime via SARs"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_017",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_017_rsk_001",
+    "name": "Money Laundering",
+    "properties": {
+      "risk_level": "critical",
+      "required_response": "Mandatory SAR filing regardless of the amount involved"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_017",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_017_rsk_002",
+    "name": "Terrorist Financing",
+    "properties": {
+      "risk_level": "critical",
+      "required_response": "Mandatory SAR filing"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_017",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_017_rsk_003",
+    "name": "Sanctions Violation",
+    "properties": {
+      "risk_level": "critical",
+      "required_response": "Mandatory SAR filing"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_017",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_017_rsk_004",
+    "name": "Structuring",
+    "properties": {
+      "risk_definition": "Deliberately avoiding reporting thresholds",
+      "required_response": "Mandatory SAR filing"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_017",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_017_rsk_005",
+    "name": "Fraud",
+    "properties": {
+      "risk_definition": "Potential fraud separate from AML fraud",
+      "required_response": "Discretionary SAR filing"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_017",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_017_trn_001",
+    "name": "Large Cash Transaction",
+    "properties": {
+      "suspicious_indicators": [
+        "No obvious purpose"
+      ],
+      "required_response": "Mandatory SAR filing"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_017",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_017_sar_001",
+    "name": "Suspicious Activity Report Filing",
+    "properties": {
+      "filing_obligation": "Mandatory for specific triggers; Discretionary for unusual patterns"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_017",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_018_pol_001",
+    "name": "SAR Filing Process",
+    "properties": {
+      "core_policy_statement": "A four-step process for the preparation, internal approval, submission to the NCA, and follow-up of Suspicious Activity Reports.",
+      "scope_summary": "Covers the end-to-end workflow from identifying suspicious activity to document retention after NCA submission."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_018",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_018_prv_001",
+    "name": "Mandatory SAR Report Content Requirements",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "SAR Preparers"
+      ],
+      "verification_method": "Review of report components",
+      "required_content": [
+        "Detailed narrative of suspicious activity",
+        "Timeline of transactions",
+        "Customer and transaction details",
+        "Supporting evidence",
+        "Risk assessment",
+        "Recommendation (ML suspected, TF suspected, or other)"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_018",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_018_prv_002",
+    "name": "Internal Approval Workflow for SARs",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Compliance Head",
+        "Chief Risk Officer",
+        "CEO"
+      ],
+      "verification_method": "Approval sign-off records",
+      "approval_hierarchy": {
+        "primary_review": "Compliance Head",
+        "secondary_sign_off": "Chief Risk Officer (for significant cases)",
+        "notification": "CEO (for high-profile cases)"
+      }
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_018",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_018_prv_003",
+    "name": "NCA Submission Timeline and Method",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "Within 30 days of suspicion arising",
+      "verification_method": "NCA submission confirmation",
+      "submission_channel": "Suspicious Activity Report Online (SARs Online)"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_018",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_018_prv_004",
+    "name": "SAR Document Retention Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "5 years minimum",
+      "verification_method": "Document audit/retention check"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_018",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_018_reg_001",
+    "name": "National Crime Agency",
+    "properties": {
+      "issuing_authority": "National Crime Agency (NCA)",
+      "jurisdiction": "UK",
+      "key_obligation": "Receipt and processing of Suspicious Activity Reports (SARs)"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_018",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_018_rsk_001",
+    "name": "Money Laundering",
+    "properties": {
+      "risk_definition": "Illegal process of concealing the origin of money obtained from illicit activities",
+      "required_response": "Filing of a Suspicious Activity Report (SAR)"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_018",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_018_rsk_002",
+    "name": "Terrorist Financing",
+    "properties": {
+      "risk_definition": "Providing funds for terrorist activities",
+      "required_response": "Filing of a Suspicious Activity Report (SAR)"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_018",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_018_ctl_001",
+    "name": "Suspicious Activity Report Online Portal",
+    "properties": {
+      "control_type": "preventive",
+      "technology_used": "SARs Online",
+      "performed_by": "Compliance/Reporting Staff",
+      "applies_to": "NCA Submission"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_018",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_018_rol_001",
+    "name": "Compliance Head",
+    "properties": {
+      "role_title": "Compliance Head",
+      "specific_obligations": [
+        "Review and approve SAR reports"
+      ],
+      "authority": "Approval of SAR submissions"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_018",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_018_rol_002",
+    "name": "Chief Risk Officer",
+    "properties": {
+      "role_title": "Chief Risk Officer",
+      "specific_obligations": [
+        "Sign-off on significant SAR reports"
+      ],
+      "authority": "High-level risk sign-off"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_018",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_018_rol_003",
+    "name": "CEO",
+    "properties": {
+      "role_title": "CEO",
+      "specific_obligations": [
+        "Receive notification of high-profile SAR reports"
+      ],
+      "accountability_for": "Executive awareness of high-profile financial crime risks"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_018",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_018_sar_001",
+    "name": "Suspicious Activity Report Obligation",
+    "properties": {
+      "filing_obligation": "Mandatory upon suspicion",
+      "filing_deadline": "30 days from date of suspicion",
+      "recipient": "National Crime Agency (NCA)",
+      "document_retention": "5 years minimum"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_018",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_019_pol_001",
+    "name": "SAR Confidentiality Policy",
+    "properties": {
+      "policy_domain": "aml",
+      "core_policy_statement": "Strict prohibition against informing customers of SAR filings to prevent tipping off, ensuring the integrity of financial crime investigations.",
+      "audience": [
+        "All Staff"
+      ],
+      "consequence_of_breach": [
+        "Criminal offense",
+        "Regulatory fine",
+        "Disciplinary action (termination)"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_019",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_019_prv_001",
+    "name": "Prohibition of Informing Customer of SAR Filing",
+    "properties": {
+      "provision_type": "prohibited",
+      "applies_to": [
+        "Bank Staff"
+      ],
+      "consequence_of_breach": [
+        "Criminal offense (up to 2 years imprisonment)",
+        "Regulatory fine",
+        "Disciplinary action (termination)"
+      ],
+      "specific_prohibitions": [
+        "Cannot tell customer a SAR has been filed",
+        "Cannot disclose grounds for suspicion",
+        "Cannot describe specific suspicious transactions"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_019",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_019_prv_002",
+    "name": "Prohibition of Transaction Delay for SAR Preparation and Notification",
+    "properties": {
+      "provision_type": "prohibited",
+      "applies_to": [
+        "Bank Staff"
+      ],
+      "consequence_of_breach": [
+        "Criminal offense (up to 2 years imprisonment)",
+        "Regulatory fine",
+        "Disciplinary action (termination)"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_019",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_019_prv_003",
+    "name": "Permitted Communication Exception",
+    "properties": {
+      "provision_type": "conditional",
+      "exceptions": "Permitted if the SAR has already been filed and the transaction is proceeding normally, provided communication does not constitute tipping off."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_019",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_019_rsk_001",
+    "name": "Tipping Off",
+    "properties": {
+      "risk_definition": "The act of informing a customer that a Suspicious Activity Report (SAR) has been filed or disclosing the grounds for suspicion.",
+      "risk_level": "critical",
+      "consequence_of_breach": [
+        "Criminal offense (up to 2 years imprisonment)",
+        "Regulatory fine",
+        "Disciplinary action (termination)"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_019",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_019_sar_001",
+    "name": "Suspicious Activity Report (SAR) Confidentiality",
+    "properties": {
+      "confidentiality_rule": "Customer must not be informed of the filing, the grounds for suspicion, or the specific transactions flagged.",
+      "consequence_of_non_filing": "Not specified",
+      "consequence_of_breach": "Criminal offense (up to 2 years imprisonment)"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_019",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_019_cus_001",
+    "name": "Customer",
+    "properties": {
+      "obligations_under_policy": "None stated",
+      "rights_under_policy": "Not entitled to be informed of SAR filings or the grounds for suspicion."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_019",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_019_trn_001",
+    "name": "Suspicious Transaction",
+    "properties": {
+      "monitoring_obligation": "Must be handled without alerting the customer to the suspicion",
+      "required_response": " Filing of a SAR without notifying the customer or delaying the transaction for the purpose of informing them."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_019",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_020_pol_001",
+    "name": "Sanctions Compliance Policy",
+    "properties": {
+      "policy_domain": "sanctions",
+      "scope_summary": "Monitoring and compliance with OFAC, EU, HMT, and UN sanctions programs."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_020",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_020_reg_001",
+    "name": "US Office of Foreign Assets Control",
+    "properties": {
+      "issuing_authority": "OFAC",
+      "jurisdiction": "US",
+      "how_cited": "OFAC"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_020",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_020_reg_002",
+    "name": "European Union Consolidated Sanctions List",
+    "properties": {
+      "issuing_authority": "European Union",
+      "jurisdiction": "EU",
+      "how_cited": "EU"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_020",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_020_reg_003",
+    "name": "UK Treasury Sanctions Designations List",
+    "properties": {
+      "issuing_authority": "HM Treasury",
+      "jurisdiction": "UK",
+      "how_cited": "HMT"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_020",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_020_reg_004",
+    "name": "UN Security Council Sanctions",
+    "properties": {
+      "issuing_authority": "United Nations Security Council",
+      "jurisdiction": "international",
+      "key_obligation": "Sanctions related to terrorism and other security threats",
+      "how_cited": "UN"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_020",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_020_rsk_001",
+    "name": "Sanctions Violation Risk",
+    "properties": {
+      "risk_definition": "The risk of engaging in transactions or business relationships with entities or individuals listed on designated sanctions lists."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_020",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_020_ctl_001",
+    "name": "Sanctions List Monitoring",
+    "properties": {
+      "control_type": "detective",
+      "applies_to": [
+        "US Office of Foreign Assets Control",
+        "European Union Consolidated Sanctions List",
+        "UK Treasury Sanctions Designations List",
+        "UN Security Council Sanctions"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_020",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_021_pol_001",
+    "name": "Sanctions Screening Policy",
+    "properties": {
+      "policy_domain": "sanctions",
+      "core_policy_statement": "FirstUK Bank implements rigorous screening of customers, associates, and transactions against sanctions lists to prevent the provision of services to sanctioned entities and to ensure immediate freezing of assets upon identification of a true hit."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_021",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_021_prv_001",
+    "name": "Mandatory Customer Name Screening",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All Customers"
+      ],
+      "verification_method": "Cross-referencing customer names against all sanctions lists"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_021",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_021_prv_002",
+    "name": "High-Risk Jurisdiction Transaction Screening",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Transactions"
+      ],
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_021",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_021_prv_003",
+    "name": "Real-Time Sanctions List Updates",
+    "properties": {
+      "provision_type": "periodic",
+      "timeframe": "daily",
+      "verification_method": "Real-time system updates"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_021",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_021_prv_004",
+    "name": "Supplementary Screening of Associates",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Immediate family",
+        "Associates"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_021",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_021_prv_005",
+    "name": "Immediate Account Freeze on Potential Match",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "immediate",
+      "consequence_of_breach": "Regulatory breach and potential criminal liability",
+      "linked_control": "ctl_002"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_021",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_021_prv_006",
+    "name": "Manual False Positive Assessment",
+    "properties": {
+      "provision_type": "mandatory",
+      "verification_method": "Manual review of potential matches"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_021",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_021_prv_007",
+    "name": "Escalation and NCA Notification for True Hits",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "immediate",
+      "applies_to": [
+        "True Hits"
+      ],
+      "reporting_obligation": "File NCA notice"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_021",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_021_prv_008",
+    "name": "Asset Freeze Maintenance",
+    "properties": {
+      "provision_type": "mandatory",
+      "core_policy_statement": "Prevent removal of funds; account remains blocked pending resolution"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_021",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_021_prv_009",
+    "name": "Confidentiality of Blocked Account Reasons",
+    "properties": {
+      "provision_type": "prohibited",
+      "core_policy_statement": "Customer must not be informed of the reason for the account block"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_021",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_021_reg_001",
+    "name": "National Crime Agency",
+    "properties": {
+      "issuing_authority": "NCA",
+      "jurisdiction": "UK",
+      "key_obligation": "Receipt of notifications regarding true sanctions hits"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_021",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_021_reg_002",
+    "name": "Office of Financial Sanctions Implementation",
+    "properties": {
+      "issuing_authority": "OFSI",
+      "jurisdiction": "UK",
+      "key_obligation": "Management of sanctions lists and compliance enforcement"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_021",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_021_rsk_001",
+    "name": "Sanctions Violation",
+    "properties": {
+      "risk_definition": "Providing banking services to sanctioned individuals, entities, or facilitating transactions in high-risk jurisdictions",
+      "consequences_of_breach": "Potential criminal liability"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_021",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_021_ctl_001",
+    "name": "Sanctions List Screening",
+    "properties": {
+      "control_type": "preventive",
+      "frequency": "daily",
+      "applies_to": [
+        "Customer names",
+        "Transactions",
+        "Associates"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_021",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_021_ctl_002",
+    "name": "Account Freezing Mechanism",
+    "properties": {
+      "control_type": "preventive",
+      "frequency": "real-time",
+      "applies_to": [
+        "Potential matches"
+      ],
+      "evidence_required": "Blocked account status"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_021",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_021_rol_001",
+    "name": "Compliance Head",
+    "properties": {
+      "role_title": "Compliance Head",
+      "specific_obligations": [
+        "Receive escalation of true sanctions hits"
+      ],
+      "authority": "Resolution of sanctions matches"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_021",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_021_cus_001",
+    "name": "Sanctioned Customer",
+    "properties": {
+      "eligibility_status": "sanctioned",
+      "risk_treatment": "Immediate account freeze and asset freeze"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_021",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_021_acc_001",
+    "name": "Blocked Account",
+    "properties": {
+      "freeze_conditions": "Potential or true match on sanctions screening",
+      "policy_controls": [
+        "No transactions permitted",
+        "Asset freeze to prevent removal of funds"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_021",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_021_tra_001",
+    "name": "High-Risk Jurisdiction Transaction",
+    "properties": {
+      "monitoring_obligation": "Mandatory screening for high-risk jurisdictions"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_021",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_021_aml_001",
+    "name": "Sanctions Screening Process",
+    "properties": {
+      "mandatory": "yes",
+      "screening_lists": [
+        "All sanctions lists"
+      ],
+      "ongoing_monitoring": "yes",
+      "hit_response": "Immediate account freeze followed by manual review and escalation"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_021",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_022_pol_001",
+    "name": "Beneficial Ownership Policy",
+    "properties": {
+      "policy_domain": "aml",
+      "scope_summary": "Applies to trusts, partnerships, corporations, and investment vehicles",
+      "core_policy_statement": "FirstUK Bank requires the identification, verification, and documentation of ultimate beneficial owners for all non-individual customer entities to prevent ownership abuse."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_022",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_022_prv_001",
+    "name": "Mandatory Identification of Ultimate Beneficial Owners",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "trusts",
+        "partnerships",
+        "corporations",
+        "investment vehicles"
+      ],
+      "specific_obligations": [
+        "Identify ultimate beneficial owners",
+        "Obtain ownership percentages",
+        "Verify identity of all beneficial owners",
+        "Document source of control/ownership"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_022",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_022_prv_002",
+    "name": "Verification Threshold for Beneficial Ownership",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": "Beneficial Owners",
+      "threshold": ">25% ownership",
+      "requirement": "mandatory verification"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_022",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_022_prv_003",
+    "name": "Enhanced Identification for Complex Structures",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "Complex ownership structures",
+      "verification_method": [
+        "Consider chains of control",
+        "Investigate shell company structures",
+        "Assess likelihood of beneficial ownership abuse"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_022",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_022_rsk_001",
+    "name": "Beneficial Ownership Abuse",
+    "properties": {
+      "risk_definition": "The exploitation of ownership structures to conceal the identity of the true controller or source of funds",
+      "required_response": "Enhanced identification and investigation of shell company structures"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_022",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_022_rsk_002",
+    "name": "Opaque Ownership Structure Risk",
+    "properties": {
+      "risk_definition": "Lack of transparency in ownership hindering the identification of ultimate beneficial owners",
+      "examples": [
+        "Bearer shares",
+        "Trusts",
+        "Multiple layers of intermediaries",
+        "Beneficial owners in high-risk jurisdictions"
+      ],
+      "risk_level": "high"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_022",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_022_ctl_001",
+    "name": "Ownership Verification Process",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": "Non-Individual Customers",
+      "evidence_required": [
+        "Ownership percentages",
+        "Identity verification documents",
+        "Documentation of source of control/ownership"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_022",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_022_cus_001",
+    "name": "Non-Individual Customer",
+    "properties": {
+      "eligibility_status": "existing/prospective",
+      "risk_treatment": "Subject to beneficial ownership identification and verification",
+      "customer_types": [
+        "trusts",
+        "partnerships",
+        "corporations",
+        "investment vehicles"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_022",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_022_kyc_001",
+    "name": "Beneficial Owner Identity Verification",
+    "properties": {
+      "mandatory": "yes",
+      "edd_trigger": [
+        "Ownership >25%",
+        "Complex chains of control",
+        "Shell company structures",
+        "High-risk jurisdictions"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_022",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_022_acc_hld_001",
+    "name": "Ultimate Beneficial Owner",
+    "properties": {
+      "due_diligence_requirement": "Mandatory identity verification if ownership exceeds 25% or presents high risk",
+      "beneficial_owner_disclosure": "Required including ownership percentages and source of control"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_022",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_023_pol_001",
+    "name": "Correspondent Banking Policy",
+    "properties": {
+      "core_policy_statement": "FirstUK Bank does not currently engage in correspondent banking or money transfer services.",
+      "scope_summary": "Covers the prohibition and future requirements for correspondent banking and money transfer services."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_023",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_023_prv_001",
+    "name": "Prohibition of Correspondent Banking and Money Transfer Services",
+    "properties": {
+      "provision_type": "prohibited",
+      "applies_to": [
+        "Correspondent Banking",
+        "Money Transfer Services"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_023",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_023_prv_002",
+    "name": "Mandatory Enhanced Due Diligence for Future Correspondent Banking Expansion",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Future expansion of correspondent banking"
+      ],
+      "verification_method": "Enhanced Due Diligence",
+      "regulatory_source": "Correspondent Banking AML standards"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_023",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_023_reg_001",
+    "name": "Correspondent Banking AML Standards",
+    "properties": {
+      "key_obligation": "Requirement to perform enhanced due diligence for correspondent banking engagements."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_023",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_023_ctl_001",
+    "name": "Enhanced Due Diligence",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": [
+        "Correspondent Banking expansion"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_023",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_024_pol_001",
+    "name": "Anti-Money Laundering Policy",
+    "properties": {
+      "core_policy_statement": "Ensuring all staff complete annual training, report suspicious activity, adhere to tipping-off and confidentiality rules, and follow KYC procedures to prevent money laundering."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_024",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_024_rol_001",
+    "name": "All Staff",
+    "properties": {
+      "role_title": "All Staff",
+      "specific_obligations": [
+        "Complete annual AML training",
+        "Report suspicious activity to manager or compliance",
+        "Strictly follow tipping off rules",
+        "Maintain confidentiality",
+        "Follow Know Your Customer (KYC) procedures"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_024",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_024_prv_001",
+    "name": "Mandatory Annual AML Training Completion",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All Staff"
+      ],
+      "timeframe": "annual"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_024",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_024_prv_002",
+    "name": "Obligation to Report Suspicious Activity",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All Staff"
+      ],
+      "escalation_path": [
+        "Manager",
+        "Compliance"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_024",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_024_prv_003",
+    "name": "Prohibition of Tipping Off",
+    "properties": {
+      "provision_type": "prohibited",
+      "applies_to": [
+        "All Staff"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_024",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_024_prv_004",
+    "name": "Confidentiality Maintenance Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All Staff"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_024",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_024_prv_005",
+    "name": "Adherence to KYC Procedures",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All Staff"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_024",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_024_rsk_001",
+    "name": "Money Laundering",
+    "properties": {
+      "required_response": "Reporting of suspicious activity and adherence to KYC and confidentiality protocols"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_024",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_024_ctl_001",
+    "name": "Staff AML Training",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "frequency": "annual",
+      "performed_by": "All Staff"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_024",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_024_ctl_002",
+    "name": "KYC Verification Process",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "performed_by": "All Staff"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_024",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_025_rol_001",
+    "name": "Branch Staff & Customer Service",
+    "properties": {
+      "role_title": "Branch Staff & Customer Service",
+      "specific_obligations": [
+        "Conduct/support customer verification",
+        "Report unusual transactions",
+        "Escalate customer inquiries about frozen accounts",
+        "Maintain vigilance for suspicious patterns"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_025",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_025_prv_001",
+    "name": "Mandatory Customer Verification",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Branch Staff & Customer Service"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_025",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_025_prv_002",
+    "name": "Obligation to Report Unusual Transactions",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Branch Staff & Customer Service"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_025",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_025_prv_003",
+    "name": "Escalation of Frozen Account Inquiries",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Branch Staff & Customer Service"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_025",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_025_prv_004",
+    "name": "Suspicious Pattern Vigilance",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Branch Staff & Customer Service"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_025",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_025_rsk_001",
+    "name": "Suspicious Activity",
+    "properties": {
+      "detection_mechanism": "Staff vigilance for suspicious patterns"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_025",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_025_acc_001",
+    "name": "Frozen Account",
+    "properties": {
+      "policy_controls": "Customer inquiries regarding these accounts must be escalated by branch staff"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_025",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_025_trn_001",
+    "name": "Unusual Transaction",
+    "properties": {
+      "monitoring_obligation": "Must be reported by Branch Staff & Customer Service"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_025",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_026_rol_001",
+    "name": "Compliance & Financial Crime",
+    "properties": {
+      "role_title": "Compliance & Financial Crime",
+      "specific_obligations": [
+        "Execute AML screening procedures",
+        "Investigate alerts",
+        "File SARs",
+        "Maintain AML audit trail",
+        "Support regulatory examinations"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_026",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_026_prv_001",
+    "name": "Mandatory Execution of AML Screening Procedures",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Compliance & Financial Crime"
+      ],
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_026",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_026_prv_002",
+    "name": "Obligation to Investigate AML Alerts",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Compliance & Financial Crime"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_026",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_026_prv_003",
+    "name": "Obligation to File Suspicious Activity Reports",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Compliance & Financial Crime"
+      ],
+      "linked_control": "sar_001"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_026",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_026_prv_004",
+    "name": "Maintenance of AML Audit Trail",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Compliance & Financial Crime"
+      ],
+      "linked_control": "ctl_002"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_026",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_026_prv_005",
+    "name": "Support for Regulatory Examinations",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Compliance & Financial Crime"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_026",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_026_ctl_001",
+    "name": "AML Screening Procedures",
+    "properties": {
+      "control_type": "preventive",
+      "performed_by": "Compliance & Financial Crime"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_026",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_026_ctl_002",
+    "name": "AML Audit Trail",
+    "properties": {
+      "control_type": "detective",
+      "performed_by": "Compliance & Financial Crime",
+      "evidence_required": "AML audit trail records"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_026",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_026_sar_001",
+    "name": "SAR Filing Process",
+    "properties": {
+      "filing_obligation": "mandatory",
+      "performed_by": "Compliance & Financial Crime"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_026",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_026_aml_001",
+    "name": "AML Screening",
+    "properties": {
+      "mandatory": "yes",
+      "performed_by": "Compliance & Financial Crime"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_026",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_027_rol_001",
+    "name": "Compliance Head",
+    "properties": {
+      "role_title": "Compliance Head",
+      "specific_obligations": [
+        "Approve SAR filings",
+        "Manage EDD approvals",
+        "Oversee training",
+        "Report to Board Risk Committee",
+        "External regulatory liaison"
+      ],
+      "reporting_to": "Board Risk Committee"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_027",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_027_rol_002",
+    "name": "Board Risk Committee",
+    "properties": {
+      "role_title": "Board Risk Committee",
+      "accountability_for": "Receiving regulatory reporting from the Compliance Head"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_027",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_027_prv_001",
+    "name": "Mandatory Approval of SAR Filings by Compliance Head",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Compliance Head"
+      ],
+      "verification_method": "Approval record on SAR filings"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_027",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_027_prv_002",
+    "name": "Management of Enhanced Due Diligence (EDD) Approvals",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Compliance Head"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_027",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_027_prv_003",
+    "name": "Compliance Training Oversight",
+    "properties": {
+      "provision_type": "periodic",
+      "applies_to": [
+        "Compliance Head"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_027",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_027_prv_004",
+    "name": "Regulatory Reporting to Board Risk Committee",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Compliance Head"
+      ],
+      "reporting_obligation": "Board Risk Committee"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_027",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_027_sar_001",
+    "name": "Suspicious Activity Report (SAR)",
+    "properties": {
+      "filing_obligation": "mandatory",
+      "approval_requirement": "Must be approved by Compliance Head"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_027",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_027_kyc_001",
+    "name": "Enhanced Due Diligence (EDD)",
+    "properties": {
+      "approval_authority": "Compliance Head"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_027",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_028_pol_001",
+    "name": "Training & Awareness Policy",
+    "properties": {
+      "policy_domain": "aml",
+      "audience": [
+        "All Staff",
+        "Customer-Facing Staff",
+        "Compliance Staff"
+      ],
+      "core_policy_statement": "Establish a mandatory training and awareness regime to ensure all staff are equipped to identify and mitigate money laundering and CFT risks."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_028",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_028_prv_001",
+    "name": "Mandatory Annual AML Training for All Staff",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All Staff"
+      ],
+      "timeframe": "Annual",
+      "verification_method": "certification",
+      "consequence_of_breach": "disciplinary action"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_028",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_028_prv_002",
+    "name": "Enhanced Training for Customer-Facing Staff",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer-Facing Staff"
+      ],
+      "timeframe": "Annual",
+      "verification_method": "completion of practical scenarios",
+      "consequence_of_breach": "disciplinary action"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_028",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_028_prv_003",
+    "name": "Specialist Training for Compliance Staff",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Compliance Staff"
+      ],
+      "timeframe": "Quarterly",
+      "verification_method": "specialist certifications",
+      "consequence_of_breach": "disciplinary action"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_028",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_028_prv_004",
+    "name": "Disciplinary Action for Training Non-Compliance",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All Staff"
+      ],
+      "consequence_of_breach": "disciplinary action"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_028",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_028_rsk_001",
+    "name": "Money Laundering",
+    "properties": {
+      "risk_definition": "Illegal process of making large amounts of money generated by a criminal activity appear to have come from a legitimate source",
+      "examples": [
+        "Money laundering methods and trends",
+        "Red flags and suspicious indicators"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_028",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_028_rol_001",
+    "name": "All Staff",
+    "properties": {
+      "role_title": "All Staff",
+      "specific_obligations": [
+        "Complete 1-hour AML training annually",
+        "Obtain training certification"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_028",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_028_rol_002",
+    "name": "Customer-Facing Staff",
+    "properties": {
+      "role_title": "Customer-Facing Staff",
+      "specific_obligations": [
+        "Complete 1-hour annual AML training",
+        "Complete additional 1-hour practical scenarios training"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_028",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_028_rol_003",
+    "name": "Compliance Staff",
+    "properties": {
+      "role_title": "Compliance Staff",
+      "specific_obligations": [
+        "Complete quarterly updates",
+        "Obtain specialist certifications"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_028",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_028_ctl_001",
+    "name": "AML/CFT Training Program",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "frequency": "Annual",
+      "performed_by": "Training Department / Compliance",
+      "evidence_required": "certification",
+      "applies_to": [
+        "Money Laundering",
+        "CFT"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_028",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_028_reg_001",
+    "name": "AML/CFT Regulatory Framework",
+    "properties": {
+      "regulation_type": "regulatory_guidance",
+      "key_obligation": "Ensure staff are trained on AML/CFT requirements, red flags, and reporting processes"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_028",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_029_pol_001",
+    "name": "AML Policy",
+    "properties": {
+      "policy_domain": "aml",
+      "core_policy_statement": "Establishment of audit, monitoring, and performance metrics to ensure compliance with AML procedures, including system validation and staff training."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_029",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_029_prv_001",
+    "name": "Annual Testing of AML Procedures",
+    "properties": {
+      "provision_type": "periodic",
+      "timeframe": "Annual",
+      "applies_to": "AML procedures",
+      "verification_method": "Internal Audit testing"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_029",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_029_prv_002",
+    "name": "Sample File Review Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "KYC",
+        "EDD",
+        "SAR decisions"
+      ],
+      "verification_method": "Sample file review"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_029",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_029_prv_003",
+    "name": "AML System Validation Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "AML systems",
+      "verification_method": "Internal Audit validation"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_029",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_029_reg_001",
+    "name": "Financial Conduct Authority",
+    "properties": {
+      "issuing_authority": "FCA",
+      "jurisdiction": "UK",
+      "key_obligation": "Periodic AML examinations and thematic reviews",
+      "consequences_of_breach": "Consent orders"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_029",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_029_reg_002",
+    "name": "Prudential Regulation Authority",
+    "properties": {
+      "issuing_authority": "PRA",
+      "jurisdiction": "UK",
+      "key_obligation": "Periodic AML examinations and thematic reviews",
+      "consequences_of_breach": "Consent orders"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_029",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_029_ctl_001",
+    "name": "Control Testing",
+    "properties": {
+      "control_type": "detective",
+      "performed_by": "Internal Audit",
+      "mandatory": "yes"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_029",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_029_rol_001",
+    "name": "Internal Audit",
+    "properties": {
+      "role_title": "Internal Audit",
+      "specific_obligations": [
+        "Annual testing of AML procedures",
+        "Sample file review of KYC, EDD, and SAR decisions",
+        "Control testing",
+        "AML system validation"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_029",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_029_prv_004",
+    "name": "AML Screening Completion Target",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "AML screening",
+      "verification_method": "Performance metrics tracking",
+      "target_value": "100%"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_029",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_029_prv_005",
+    "name": "SAR Filing Accuracy Standard",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "SAR filings",
+      "verification_method": "Performance metrics tracking",
+      "target_value": "100%"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_029",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_029_prv_006",
+    "name": "SAR Filing Timeliness Obligation",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "Within 30 days",
+      "applies_to": "SAR filings",
+      "target_value": "95%+"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_029",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_029_prv_007",
+    "name": "High-Risk Customer EDD Completion Standard",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "High-risk customers",
+      "verification_method": "Performance metrics tracking",
+      "target_value": "100%"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_029",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_029_prv_008",
+    "name": "Annual Staff Training Requirement",
+    "properties": {
+      "provision_type": "periodic",
+      "timeframe": "Annual",
+      "applies_to": "Staff",
+      "target_value": "100%"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_029",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_029_rsk_001",
+    "name": "Money Laundering",
+    "properties": {
+      "detection_mechanism": [
+        "AML screening",
+        "EDD",
+        "SAR filing",
+        "Internal Audit testing"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_029",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_030_pol_001",
+    "name": "Anti-Money Laundering Policy",
+    "properties": {
+      "policy_domain": "aml",
+      "core_policy_statement": "Establishment of frameworks to prevent AML violations, including regulatory fines, criminal liability, and reputational damage."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_030",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_030_rsk_001",
+    "name": "Regulatory Breach",
+    "properties": {
+      "risk_definition": "Violations of AML regulations resulting in sanctions from authorities",
+      "examples": [
+        "FCA fines",
+        "PRA fines"
+      ],
+      "risk_level": "critical",
+      "required_response": "Potential regulatory self-disclosure",
+      "consequences_of_breach": [
+        "Fines in millions of pounds",
+        "Up to 14 years imprisonment for directors/staff"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_030",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_030_reg_001",
+    "name": "Financial Conduct Authority",
+    "properties": {
+      "issuing_authority": "FCA",
+      "jurisdiction": "UK",
+      "regulation_type": "regulatory_guidance",
+      "consequences_of_breach": "Fines in millions of pounds"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_030",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_030_reg_002",
+    "name": "Prudential Regulation Authority",
+    "properties": {
+      "issuing_authority": "PRA",
+      "jurisdiction": "UK",
+      "regulation_type": "regulatory_guidance",
+      "consequences_of_breach": "Fines in millions of pounds"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_030",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_030_rsk_002",
+    "name": "Reputational Risk",
+    "properties": {
+      "risk_definition": "Damage to the bank's standing resulting from AML violations",
+      "examples": [
+        "License revocation",
+        "Business closure"
+      ],
+      "risk_level": "critical"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_030",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_030_rol_001",
+    "name": "Compliance Head",
+    "properties": {
+      "role_title": "Compliance Head",
+      "specific_obligations": [
+        "Approval of SAR filings"
+      ],
+      "authority": "Approval authority for SARs"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_030",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_030_rol_002",
+    "name": "Chief Risk Officer",
+    "properties": {
+      "role_title": "Chief Risk Officer",
+      "specific_obligations": [
+        "Receive notification for large SARs"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_030",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_030_rol_003",
+    "name": "Chief Executive Officer",
+    "properties": {
+      "role_title": "Chief Executive Officer",
+      "specific_obligations": [
+        "Receive notification of significant breaches"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_030",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_030_rol_004",
+    "name": "Board of Directors",
+    "properties": {
+      "role_title": "Board of Directors",
+      "specific_obligations": [
+        "Receive notification of significant breaches"
+      ],
+      "accountability_for": "Regulatory compliance and potential criminal liability"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_030",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_030_prv_001",
+    "name": "Approval Requirement for SAR Filings",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "SAR filing process"
+      ],
+      "verification_method": "Approval by Compliance Head"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_030",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_030_prv_002",
+    "name": "Notification Requirement for Large SARs",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Large SARs"
+      ],
+      "verification_method": "Notification to Chief Risk Officer (CRO)"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_030",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_030_prv_003",
+    "name": "Escalation of Significant Breaches",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Significant AML breaches"
+      ],
+      "verification_method": "Notification to CEO and Board of Directors"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_030",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_030_sar_001",
+    "name": "Suspicious Activity Report Filing",
+    "properties": {
+      "filing_obligation": "Mandatory",
+      "required_approval": "Compliance Head"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_030",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_030_ctl_001",
+    "name": "Regulatory Self-Disclosure",
+    "properties": {
+      "control_type": "corrective",
+      "mandatory": "no",
+      "applies_to": [
+        "Potential regulatory breaches"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_030",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_031_pol_001",
+    "name": "Record Retention Policy",
+    "properties": {
+      "policy_domain": "aml",
+      "scope_summary": "Retention requirements for customer verification, SAR files, transaction records, risk assessments, and screening results."
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_031",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_031_prv_001",
+    "name": "Retention of Customer Verification Documents",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "5 years post-closure minimum",
+      "applies_to": [
+        "Customer verification documents"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_031",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_031_prv_002",
+    "name": "Retention of SAR and Related Transaction Files",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "5 years",
+      "applies_to": [
+        "SAR files",
+        "Transaction records related to SAR"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_031",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_031_prv_003",
+    "name": "Retention of Risk Assessments and Screening Results",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "5 years",
+      "applies_to": [
+        "Risk assessments",
+        "Screening results"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_031",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_031_ctl_001",
+    "name": "Secure Document Management System",
+    "properties": {
+      "control_type": "preventive",
+      "technology_used": "DMS",
+      "applies_to": [
+        "AML Records"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_031",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_031_ctl_002",
+    "name": "Compliance Staff Access Control",
+    "properties": {
+      "control_type": "preventive",
+      "performed_by": "Compliance staff",
+      "mandatory": "yes"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_031",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_031_ctl_003",
+    "name": "Access Audit Logging",
+    "properties": {
+      "control_type": "detective",
+      "evidence_required": "Access logs",
+      "frequency": "real-time"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_031",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_031_rol_001",
+    "name": "Compliance Staff",
+    "properties": {
+      "authority": "Authorized access to the Secure Document Management System"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_031",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_031_rsk_001",
+    "name": "Money Laundering",
+    "properties": {
+      "risk_definition": "Implied via the requirement for AML records retention"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_031",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_031_sar_001",
+    "name": "SAR Filing Records",
+    "properties": {
+      "retention_period": "5 years"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_031",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_032_pol_001",
+    "name": "FirstUK Bank Policy Review and Update Framework",
+    "properties": {
+      "review_date": "2027-01-15",
+      "effective_date": "2026-01-15"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_032",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_032_prv_001",
+    "name": "Annual Policy Review Requirement",
+    "properties": {
+      "provision_type": "periodic",
+      "timeframe": "Annual"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_032",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_032_prv_002",
+    "name": "Regulatory Change Triggered Review",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "FinCEN guidance updates",
+        "FATF guidance updates",
+        "FCA rule changes",
+        "PRA rule changes",
+        "Money Laundering Regulations amendments",
+        "Sanctions program updates"
+      ]
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_032",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_032_reg_001",
+    "name": "Financial Crimes Enforcement Network Guidance",
+    "properties": {
+      "issuing_authority": "FinCEN",
+      "how_cited": "Regulatory Change Trigger"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_032",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_032_reg_002",
+    "name": "Financial Action Task Force Guidance",
+    "properties": {
+      "issuing_authority": "FATF",
+      "how_cited": "Regulatory Change Trigger"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_032",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_032_reg_003",
+    "name": "Financial Conduct Authority Rulebook",
+    "properties": {
+      "issuing_authority": "FCA",
+      "jurisdiction": "UK",
+      "how_cited": "Regulatory Change Trigger"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_032",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_032_reg_004",
+    "name": "Prudential Regulation Authority Rulebook",
+    "properties": {
+      "issuing_authority": "PRA",
+      "jurisdiction": "UK",
+      "how_cited": "Regulatory Change Trigger"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_032",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_032_reg_005",
+    "name": "Money Laundering Regulations",
+    "properties": {
+      "jurisdiction": "UK",
+      "how_cited": "Regulatory Change Trigger"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_032",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_032_reg_006",
+    "name": "Sanctions Programs",
+    "properties": {
+      "how_cited": "Regulatory Change Trigger"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_032",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_033_pol_001",
+    "name": "KYC Policy",
+    "properties": {
+      "document_id": "policy_customer_identification"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_033",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_033_pol_002",
+    "name": "AML Screening SOP",
+    "properties": {
+      "document_id": "AML-SOP-001"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_033",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_033_pol_003",
+    "name": "Account Opening SOP",
+    "properties": {
+      "document_id": "ACCT-OPEN-SOP-001"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_033",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_033_reg_001",
+    "name": "National Crime Agency Suspicious Activity Report Guidance",
+    "properties": {
+      "issuing_authority": "National Crime Agency"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_033",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_033_reg_002",
+    "name": "HM Treasury Sanctions Guidance",
+    "properties": {
+      "issuing_authority": "HM Treasury"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_033",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_033_ctl_001",
+    "name": "AML Screening",
+    "properties": {
+      "owning_department": "Financial Crime Department"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_033",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_034_pol_001",
+    "name": "Financial Crime Policy",
+    "properties": {
+      "version": "2.2",
+      "effective_date": "2026-01-15",
+      "owner": "Head of Financial Crime"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_034",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_034_rol_001",
+    "name": "Head of Financial Crime",
+    "properties": {
+      "role_title": "Head of Financial Crime",
+      "specific_obligations": [
+        "Policy authorship",
+        "Updating screening lists and procedures",
+        "Executing annual policy reviews"
+      ],
+      "accountability_for": "Financial Crime Policy maintenance and version control"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_034",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_034_prv_001",
+    "name": "Annual Policy Review Requirement",
+    "properties": {
+      "provision_type": "periodic",
+      "timeframe": "annual",
+      "performed_by": "Head of Financial Crime"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_034",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_034_ctl_001",
+    "name": "Sanctions Screening",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "last_updated": "2026-01-15"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_034",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_035_rol_001",
+    "name": "Head of Financial Crime",
+    "properties": {
+      "authority": "Policy Approval",
+      "approval_date": "2026-01-15"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_035",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_035_rol_002",
+    "name": "Head of Compliance",
+    "properties": {
+      "authority": "Policy Approval",
+      "approval_date": "2026-01-15"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_035",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_035_rol_003",
+    "name": "Chief Risk Officer",
+    "properties": {
+      "authority": "Policy Approval",
+      "approval_date": "2026-01-15"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_035",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  },
+  {
+    "id": "cf9236bc18814de694f221d28b5fd515_035_rol_004",
+    "name": "Chief Executive Officer",
+    "properties": {
+      "authority": "Policy Approval",
+      "approval_date": "2026-01-15"
+    },
+    "chunk_id": "cf9236bc18814de694f221d28b5fd515_035",
+    "doc_id": "cf9236bc18814de694f221d28b5fd515"
+  }
+]
