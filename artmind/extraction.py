@@ -2,15 +2,22 @@ import re
 from pathlib import Path
 
 import json_repair
-import ollama
 from loguru import logger
 
+from artmind.llm_providers import call_llm_ollama, call_llm_openrouter, embed_text_ollama
 from utils.functions import load_env, log_llm_call
 
 
 def embed_text(model: str, text: str) -> list[float]:
-    response = ollama.embed(model=model, input=text)
-    embedding = response.embeddings[0]
+    env = load_env()
+    provider = env.get("ARTMIND_KG_EMBEDDINGS_PROVIDER", "ollama")
+    if provider == "openrouter":
+        raise RuntimeError(
+            "OpenRouter does not provide an embeddings API; set "
+            "ARTMIND_KG_EMBEDDINGS_PROVIDER=ollama (embeddings can stay on Ollama "
+            "even when ARTMIND_KG_LLM_PROVIDER=openrouter)"
+        )
+    embedding = embed_text_ollama(model, text)
     log_llm_call("embed", model, text, f"[embedding vector, dim={len(embedding)}]")
     return embedding
 
@@ -18,12 +25,11 @@ def embed_text(model: str, text: str) -> list[float]:
 def call_llm(model: str, prompt: str) -> str:
     env = load_env()
     timeout = int(env.get("ARTMIND_OLLAMA_TIMEOUT", "120"))
-    response = ollama.Client(timeout=timeout).chat(
-        model=model,
-        messages=[{"role": "user", "content": prompt}],
-        options={"temperature": 0},
-    )
-    result = (response.message.content or "").strip()
+    provider = env.get("ARTMIND_KG_LLM_PROVIDER", "ollama")
+    if provider == "openrouter":
+        result = call_llm_openrouter(model, prompt, timeout, env)
+    else:
+        result = call_llm_ollama(model, prompt, timeout)
     log_llm_call("chat", model, prompt, result)
     return result
 

@@ -9,7 +9,6 @@ from datetime import datetime
 from hashlib import sha256
 from pathlib import Path
 
-import ollama
 import yaml
 from langchain_text_splitters import (
     MarkdownHeaderTextSplitter,
@@ -29,6 +28,7 @@ from artmind.extraction import (
     parse_json_response as _parse_json_response,
     entities_list_text as _entities_list_text,
 )
+from artmind.llm_providers import describe_image_ollama, describe_image_openrouter
 from artmind.jobs import _update_job_file_status, _update_job_status
 from paths import (
     DB_PATH,
@@ -308,6 +308,7 @@ _DESCRIBE_PROMPTS = [
 def _describe_image(image: Path, model: str) -> str | None:
     env = load_env()
     timeout = int(env.get("ARTMIND_OLLAMA_TIMEOUT", "120"))
+    provider = env.get("ARTMIND_KG_LLM_PROVIDER", "ollama")
     logger.debug(
         "Describing image: {} (model={}, timeout={}s)", image.name, model, timeout
     )
@@ -320,11 +321,10 @@ def _describe_image(image: Path, model: str) -> str | None:
             image.name,
         )
         try:
-            response = ollama.Client(timeout=timeout).chat(
-                model=model,
-                messages=[{"role": "user", "content": prompt, "images": [str(image)]}],
-            )
-            description = (response.message.content or "").strip()
+            if provider == "openrouter":
+                description = describe_image_openrouter(image, model, prompt, timeout, env)
+            else:
+                description = describe_image_ollama(image, model, prompt, timeout)
             log_llm_call("chat", model, f"[IMAGE: {image.name}]\n{prompt}", description)
             logger.debug(
                 "LLM RESPONSE (image description, attempt {}):\n{}",

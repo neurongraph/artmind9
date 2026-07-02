@@ -14,7 +14,7 @@ from artmind.db import _get_db
 from artmind.ingest import ingest_file, ingest_to_kg
 from artmind.jobs import _update_job_file_status, _update_job_status
 from paths import LOGS_DIR, PROJECT_ROOT, WORKER_LOG, WORKER_PID_FILE
-from utils.functions import load_env
+from utils.functions import load_env, resolve_llm_model
 
 WORKER_LOG.parent.mkdir(parents=True, exist_ok=True)
 
@@ -69,7 +69,7 @@ def _final_file_statuses(job_id: str) -> list[str]:
 
 def _process_job(job_id: str, domain: str, env: dict, force: bool = False) -> None:
     image_model = env.get("ARTMIND_IMAGE_MODEL", "gemma4:e4b")
-    text_model = env.get("ARTMIND_KG_LLM_MODEL", "ministral-3:14b")
+    text_model = resolve_llm_model(env)
     embed_model = env.get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest")
     chunk_size = int(env.get("ARTMIND_KG_CHUNK_SIZE", "6000"))
 

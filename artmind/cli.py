@@ -43,7 +43,7 @@ from paths import (
     WORKER_LOG,
     WORKER_PID_FILE,
 )
-from utils.functions import load_env
+from utils.functions import load_env, resolve_llm_model
 
 
 def _setup_logger(log_file: Path = INGEST_LOG_FILE) -> None:
@@ -276,7 +276,7 @@ def ingest_sync(file_path: str, domain: str | None, force: bool):
     _setup_logger()
     env = load_env()
     image_model = env.get("ARTMIND_IMAGE_MODEL", "gemma4:e4b")
-    text_model = env.get("ARTMIND_KG_LLM_MODEL", "ministral-3:14b")
+    text_model = resolve_llm_model(env)
     embed_model = env.get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest")
     chunk_size = int(env.get("ARTMIND_KG_CHUNK_SIZE", "6000"))
 
@@ -436,7 +436,7 @@ def ingest_extract_kg(document_name: str, domain: str) -> None:
     """
     _setup_logger()
     env = load_env()
-    text_model = env.get("ARTMIND_KG_LLM_MODEL", "ministral-3:14b")
+    text_model = resolve_llm_model(env)
     embed_model = env.get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest")
 
     file_result = _build_file_result_from_db(document_name, domain)
@@ -644,7 +644,7 @@ def ingest_refine_graph(
     """
     _setup_logger()
     env = load_env()
-    resolved_model = model or env.get("ARTMIND_KG_LLM_MODEL", "ministral-3:14b")
+    resolved_model = resolve_llm_model(env, model)
 
     out_path: Path | None = None
     if from_file is None:
