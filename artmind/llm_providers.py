@@ -24,6 +24,13 @@ def _image_data_url(image: Path) -> str:
     return f"data:{mime};base64,{b64}"
 
 
+def _first_choice_content(response) -> str:
+    if not response.choices:
+        err = getattr(response, "error", None)
+        raise RuntimeError(f"OpenRouter returned no completion choices: {err or response}")
+    return (response.choices[0].message.content or "").strip()
+
+
 def call_llm_ollama(model: str, prompt: str, timeout: int) -> str:
     response = ollama.Client(timeout=timeout).chat(
         model=model,
@@ -40,7 +47,7 @@ def call_llm_openrouter(model: str, prompt: str, timeout: int, env: dict) -> str
         messages=[{"role": "user", "content": prompt}],
         temperature=0,
     )
-    return (response.choices[0].message.content or "").strip()
+    return _first_choice_content(response)
 
 
 def embed_text_ollama(model: str, text: str) -> list[float]:
@@ -72,4 +79,4 @@ def describe_image_openrouter(
             }
         ],
     )
-    return (response.choices[0].message.content or "").strip()
+    return _first_choice_content(response)

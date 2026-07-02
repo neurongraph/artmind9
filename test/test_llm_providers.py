@@ -81,6 +81,21 @@ def test_describe_image_openrouter_sends_base64_vision_payload(tmp_path):
     assert base64.b64decode(b64_payload) == b"fake-image-bytes"
 
 
+def test_call_llm_openrouter_raises_clear_error_on_null_choices():
+    from artmind.llm_providers import call_llm_openrouter
+
+    env = {"ARTMIND_OPENROUTER_API_KEY": "key"}
+    fake_response = MagicMock()
+    fake_response.choices = None
+    fake_response.error = {"message": "Provider returned error", "code": 502}
+
+    with patch("artmind.llm_providers.openai.OpenAI") as mock_openai_cls:
+        mock_client = mock_openai_cls.return_value
+        mock_client.chat.completions.create.return_value = fake_response
+        with pytest.raises(RuntimeError, match="OpenRouter returned no completion choices"):
+            call_llm_openrouter("some-model", "prompt", 30, env)
+
+
 def test_resolve_llm_model_defaults_by_provider():
     assert resolve_llm_model({}) == "ministral-3:14b"
     assert resolve_llm_model({"ARTMIND_KG_LLM_PROVIDER": "openrouter"}) == "google/gemma-4-31b-it"

@@ -599,6 +599,25 @@ def _save_debug(path: Path, content: str) -> None:
     logger.debug("Raw LLM response saved for debugging: {}", path.name)
 
 
+def _filter_valid_items(
+    items: list, seq: int, step_name: str, required_key: str | None = None
+) -> list:
+    """Drop non-dict items an LLM occasionally mixes into otherwise-valid JSON output."""
+
+    def is_valid(item) -> bool:
+        if not isinstance(item, dict):
+            return False
+        return required_key is None or required_key in item
+
+    valid = [item for item in items if is_valid(item)]
+    dropped = len(items) - len(valid)
+    if dropped:
+        logger.warning(
+            "  Chunk {} — dropped {} malformed {} item(s) from LLM output", seq, dropped, step_name
+        )
+    return valid
+
+
 def _rewrite_entity_ids(
     entities: list[dict], chunk_id: str
 ) -> tuple[list[dict], dict[str, str]]:
@@ -1219,6 +1238,7 @@ def extract_kg(
             )
             _update_chunk_step(doc_sha256, seq, "entities", "ok" if ok else "failed")
             if ok:
+                raw_entities = _filter_valid_items(raw_entities, seq, "entity", required_key="id")
                 entities, id_map = _rewrite_entity_ids(raw_entities, chunk_id)
                 data["raw_entities"] = raw_entities
                 data["id_map"] = id_map
@@ -1249,6 +1269,7 @@ def extract_kg(
             )
             _update_chunk_step(doc_sha256, seq, "properties", "ok" if ok else "failed")
             if ok:
+                raw_props = _filter_valid_items(raw_props, seq, "property")
                 props = _rewrite_ref_ids(raw_props, id_map, "id")
                 data["properties"] = [
                     {**p, "chunk_id": chunk_id, "doc_id": doc_id} for p in props
@@ -1271,6 +1292,7 @@ def extract_kg(
             )
             _update_chunk_step(doc_sha256, seq, "relationships", "ok" if ok else "failed")
             if ok:
+                raw_rels = _filter_valid_items(raw_rels, seq, "relationship")
                 rels = _rewrite_ref_ids(raw_rels, id_map, "source_id", "target_id")
                 rels = [{**r, "chunk_id": chunk_id, "doc_id": doc_id} for r in rels]
                 for e in data.get("entities", []):
