@@ -1,0 +1,4147 @@
+[
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_001_pol_001",
+    "name": "FirstUK Bank — Complaint Handling Policy",
+    "aliases": [
+      "COM-POL-006"
+    ],
+    "entity_class": "POLICY",
+    "type": "complaints",
+    "description": "The formal governing instrument for managing customer complaints at FirstUK Bank. It defines the framework for handling grievances and ensures compliance with regulatory standards.",
+    "context": [
+      "FirstUK Bank — Complaint Handling Policy",
+      "Document ID | COM-POL-006"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_001",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_001_reg_001",
+    "name": "FCA Conduct of Business Sourcebook Part 2 (Complaints)",
+    "aliases": [
+      "FCA COBS Part 2 (Complaints)"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The specific section of the Financial Conduct Authority's rulebook governing the handling of complaints that the bank's policy must adhere to.",
+    "context": [
+      "Regulatory Reference | FCA COBS Part 2 (Complaints)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_001",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_001_reg_002",
+    "name": "FCA Handbook",
+    "aliases": [],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "rulebook",
+    "description": "The comprehensive set of rules and guidance issued by the Financial Conduct Authority applicable to the bank's operations.",
+    "context": [
+      "Regulatory Reference | FCA COBS Part 2 (Complaints), FCA Handbook"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_001",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_001_rol_001",
+    "name": "Head of Customer Service",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The individual role designated as the owner of the Complaint Handling Policy, responsible for its maintenance and oversight.",
+    "context": [
+      "Owner | Head of Customer Service"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_001",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_001_rol_002",
+    "name": "All Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The collective group of bank employees to whom this policy applies and who are expected to adhere to its guidelines.",
+    "context": [
+      "Audience | All Staff, Customers, FCA"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_001",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_001_rol_003",
+    "name": "Financial Conduct Authority",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "external_regulator",
+    "description": "The external regulatory body that oversees the bank's compliance with complaint handling standards.",
+    "context": [
+      "Audience | All Staff, Customers, FCA"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_001",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_001_cus_001",
+    "name": "Customers",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The bank's clients who are the subjects of the complaint handling process and are included in the policy audience.",
+    "context": [
+      "Audience | All Staff, Customers, FCA"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_001",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_002_pol_001",
+    "name": "FirstUK Bank Complaints Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "complaints",
+    "description": "A formal policy governing the fair and efficient handling of customer complaints at FirstUK Bank. It establishes the mandatory procedures for the receipt, investigation, resolution, and regulatory reporting of complaints to ensure compliance with FCA requirements.",
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_002",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_003_pol_001",
+    "name": "Complaint Handling Policy",
+    "aliases": [
+      "Purpose & Scope"
+    ],
+    "entity_class": "POLICY",
+    "type": "complaints",
+    "description": "A formal policy establishing the procedures for handling customer complaints at FirstUK Bank. Its primary objectives are prompt acknowledgement, thorough investigation, fair resolution, and regulatory reporting to the FCA.",
+    "context": [
+      "To establish complaint handling procedures that:",
+      "Acknowledge all complaints promptly",
+      "Investigate issues thoroughly",
+      "Resolve complaints fairly"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_003",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_003_prv_001",
+    "name": "Prompt Acknowledgement of Complaints",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement that all customer complaints must be acknowledged by the bank in a prompt manner.",
+    "context": [
+      "Acknowledge all complaints promptly"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_003",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_003_prv_002",
+    "name": "Thorough Investigation of Complaint Issues",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandate ensuring that all issues raised within a complaint are investigated thoroughly before resolution.",
+    "context": [
+      "Investigate issues thoroughly"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_003",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_003_prv_003",
+    "name": "Fair Resolution of Complaints",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement that the outcome of the complaint handling process must be fair to the customer.",
+    "context": [
+      "Resolve complaints fairly"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_003",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_003_prv_004",
+    "name": "Regulatory Reporting of Complaints to FCA",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "An obligation to report complaint-related data or specific incidents to the Financial Conduct Authority (FCA) as required by regulation.",
+    "context": [
+      "Report to FCA as required"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_003",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_003_prv_005",
+    "name": "Prevention of Repeat Complaint Issues",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to use complaint data and outcomes to implement changes that prevent the recurrence of the same issues.",
+    "context": [
+      "Prevent repeat issues"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_003",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_003_reg_001",
+    "name": "Financial Conduct Authority",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "external_regulator",
+    "description": "The regulatory body to which FirstUK Bank must report complaint handling activities as required.",
+    "context": [
+      "Report to FCA as required"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_003",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_003_rol_001",
+    "name": "Financial Conduct Authority",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "external_regulator",
+    "description": "The external regulatory authority responsible for receiving required reports regarding the bank's complaint handling.",
+    "context": [
+      "Report to FCA as required"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_003",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_003_cus_001",
+    "name": "Complaining Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The bank customer who initiates a complaint and with whom the bank seeks to maintain a relationship through fair resolution.",
+    "context": [
+      "Maintain customer relationship"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_003",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_004_pol_001",
+    "name": "Customer Complaints Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "complaints",
+    "description": "The governing policy document defining the scope and application of the bank's complaint handling process. It covers all customer complaints across all channels, staff, and products.",
+    "context": [
+      "Applies to: - All customer complaints (product, service, policy)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_004",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_004_rol_001",
+    "name": "All Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The collective group of all bank employees to whom the complaints policy applies, regardless of their specific department or role.",
+    "context": [
+      "Applies to: ... - All staff"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_004",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_004_cus_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The subject of the policy who may lodge complaints regarding products, services, or policies through various bank channels.",
+    "context": [
+      "Applies to: - All customer complaints (product, service, policy)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_004",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_004_acc_001",
+    "name": "Bank Accounts",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "current_account",
+    "description": "All customer accounts that fall within the scope of the complaints policy.",
+    "context": [
+      "Applies to: ... - All accounts and products"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_004",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_004_prd_001",
+    "name": "Banking Products",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "savings_account_product",
+    "description": "All banking products offered by FirstUK Bank that are subject to the complaints policy.",
+    "context": [
+      "Applies to: - All customer complaints (product, service, policy)",
+      "Applies to: ... - All accounts and products"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_004",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_005_pol_001",
+    "name": "FirstUK Bank Complaints Policy",
+    "aliases": [
+      "Policy Statement"
+    ],
+    "entity_class": "POLICY",
+    "type": "complaints",
+    "description": "The governing policy document outlining FirstUK Bank's commitment to treating customer complaints seriously and ensuring fair resolution within mandated regulatory timeframes.",
+    "context": [
+      "FirstUK Bank treats all customer complaints seriously and resolves them fairly within regulatory timeframes."
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_005",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_005_prv_001",
+    "name": "Fair and Timely Resolution of Customer Complaints",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "A mandatory requirement that all customer complaints must be handled seriously and resolved in a fair manner, adhering to the timeframes set by regulatory authorities.",
+    "context": [
+      "FirstUK Bank treats all customer complaints seriously and resolves them fairly within regulatory timeframes."
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_005",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_005_rol_001",
+    "name": "FirstUK Bank",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The corporate entity responsible for the serious treatment and fair resolution of customer complaints in accordance with regulatory standards.",
+    "context": [
+      "FirstUK Bank treats all customer complaints seriously and resolves them fairly within regulatory timeframes."
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_005",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_005_cus_001",
+    "name": "Bank Customer",
+    "aliases": [
+      "customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The subject of the policy whose complaints must be treated seriously and resolved fairly by the bank.",
+    "context": [
+      "FirstUK Bank treats all customer complaints seriously"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_005",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_006_pol_001",
+    "name": "FirstUK Bank Complaints Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "complaints",
+    "description": "The governing policy document defining what constitutes a complaint within FirstUK Bank regarding its services or products.",
+    "context": [
+      "Complaint Definition",
+      "Any expression of dissatisfaction by customer about FirstUK Bank's service or product."
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_006",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_006_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_subject",
+    "description": "The individual or entity who expresses dissatisfaction regarding the bank's services or products.",
+    "context": [
+      "Any expression of dissatisfaction by customer about FirstUK Bank's service or product."
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_006",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_006_prd_001",
+    "name": "FirstUK Bank Product",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "banking_product",
+    "description": "Any banking product offered by FirstUK Bank that may be the subject of a customer complaint.",
+    "context": [
+      "Any expression of dissatisfaction by customer about FirstUK Bank's service or product."
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_006",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_007_rsk_001",
+    "name": "Service Complaints",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "Risks associated with the quality of service delivery, including processing delays, misinformation, and system availability.",
+    "context": [
+      "Service Complaints:",
+      "Long processing time",
+      "Incorrect information provided",
+      "Poor customer service",
+      "System error/outage impact"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_007",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_007_rsk_002",
+    "name": "Product Complaints",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "Risks relating to the administration and understanding of banking products, specifically regarding interest rates, fees, and terms.",
+    "context": [
+      "Product Complaints:",
+      "Wrong interest rate applied",
+      "Fee incorrectly charged",
+      "Terms & conditions misunderstood",
+      "Feature not working"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_007",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_007_rsk_003",
+    "name": "Financial Loss",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "Risks involving direct monetary loss to the customer or bank resulting from unauthorized activity, fraud, or accounting errors.",
+    "context": [
+      "Financial Loss:",
+      "Unauthorized transaction",
+      "Fraudulent activity",
+      "Incorrect balance",
+      "Fees wrongly charged"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_007",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_007_trn_001",
+    "name": "Unauthorized Transaction",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "suspicious_transaction",
+    "description": "A financial event categorized under Financial Loss where a transaction occurs without the account holder's authorization.",
+    "context": [
+      "Unauthorized transaction"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_007",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_007_trn_002",
+    "name": "Fraudulent Activity",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "suspicious_transaction",
+    "description": "Financial events involving deceptive practices resulting in financial loss.",
+    "context": [
+      "Fraudulent activity"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_007",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_008_pol_001",
+    "name": "Complaint Receipt & Logging Policy",
+    "aliases": [
+      "Complaint Receipt & Logging"
+    ],
+    "entity_class": "POLICY",
+    "type": "complaints",
+    "description": "The governing policy defining the acceptable channels and procedures for customers to submit complaints to FirstUK Bank and the requirement for those complaints to be logged.",
+    "context": [
+      "Complaint Receipt & Logging",
+      "How to Complain"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_008",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_008_prv_001",
+    "name": "Immediate Logging of In-Person Branch Complaints",
+    "aliases": [
+      "Branch channel"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Complaints received in person at a bank branch must be logged immediately.",
+    "context": [
+      "Branch (in person, immediate log)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_008",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_008_prv_002",
+    "name": "Recording and Logging of Telephone Complaints",
+    "aliases": [
+      "Phone channel"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Complaints received via the dedicated phone line (0800-555-2265) must be recorded and logged.",
+    "context": [
+      "Phone (0800-555-2265, recorded and logged)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_008",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_008_prv_003",
+    "name": "Immediate Logging of Email Complaints",
+    "aliases": [
+      "Email channel"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Complaints submitted via email to support@firstuk.bank must be logged immediately.",
+    "context": [
+      "Email (support@firstuk.bank, immediate log)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_008",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_008_ctl_001",
+    "name": "Complaint Logging Mechanism",
+    "aliases": [
+      "immediate log",
+      "recorded and logged"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational process of capturing and recording customer complaints across various channels to ensure they are tracked.",
+    "context": [
+      "immediate log",
+      "recorded and logged"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_008",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_008_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_subject",
+    "description": "The individual utilizing the provided channels to submit a complaint to the bank.",
+    "context": [
+      "How to Complain",
+      "customer portal complaint form"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_008",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_009_pol_001",
+    "name": "Complaints Handling Policy",
+    "aliases": [
+      "Immediate Actions"
+    ],
+    "entity_class": "POLICY",
+    "type": "complaints",
+    "description": "A formal policy governing the immediate actions required when a customer complaint is received, focusing on recording, acknowledgment, and system logging.",
+    "context": [
+      "Immediate Actions",
+      "Record Complaint",
+      "Acknowledge to Customer",
+      "Log in System"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_009",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_009_prv_001",
+    "name": "Mandatory Complaint Recording Requirements",
+    "aliases": [
+      "1. Record Complaint"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Staff must record specific data points upon receipt of a complaint, including date, time, customer identity, account number, verbatim details, channel, and the receiving staff member.",
+    "context": [
+      "Record Complaint",
+      "Date and time received",
+      "Customer name and account number",
+      "Complaint details (verbatim if verbal)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_009",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_009_prv_002",
+    "name": "Customer Complaint Acknowledgment Timeframes",
+    "aliases": [
+      "2. Acknowledge to Customer"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Mandates specific acknowledgment windows based on the channel: immediate for branches, 24 hours for phone, automated for email, and 2 business days for letters.",
+    "context": [
+      "Acknowledge to Customer",
+      "Branch: Immediate verbal acknowledgment + written confirmation",
+      "Phone: Verbal acknowledgment + written confirmation within 24 hours",
+      "Letter: Written acknowledgment within 2 business days"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_009",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_009_prv_003",
+    "name": "Complaint System Logging and Assignment",
+    "aliases": [
+      "3. Log in System"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires the creation of a complaint record in the CRM, assignment of a unique ID, categorization, and assignment to a handler.",
+    "context": [
+      "Log in System",
+      "Create complaint record in CRM",
+      "Assign complaint ID",
+      "Assign to appropriate handler"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_009",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_009_ctl_001",
+    "name": "CRM Complaint Logging",
+    "aliases": [
+      "CRM"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The use of the CRM system to create records, assign IDs, and tag complaints by category for tracking and management.",
+    "context": [
+      "Create complaint record in CRM",
+      "Assign complaint ID",
+      "Tag by category"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_009",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_009_rol_001",
+    "name": "Complaint Handler",
+    "aliases": [
+      "appropriate handler"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The staff member assigned to manage and resolve a specific complaint after it has been logged in the CRM.",
+    "context": [
+      "Assign to appropriate handler"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_009",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_009_rol_002",
+    "name": "Receiving Staff Member",
+    "aliases": [
+      "Staff member receiving"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The employee responsible for the initial intake, recording, and acknowledgment of the customer complaint.",
+    "context": [
+      "Staff member receiving"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_009",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_009_cus_001",
+    "name": "Complaining Customer",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The bank customer who has initiated a complaint and is entitled to acknowledgment within the specified timeframes.",
+    "context": [
+      "Customer name and account number",
+      "Acknowledge to Customer"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_009",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_009_acc_001",
+    "name": "Customer Account",
+    "aliases": [
+      "account number"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "current_account",
+    "description": "The customer account associated with the complaint, which must be recorded during the intake process.",
+    "context": [
+      "Customer name and account number"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_009",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_010_pol_001",
+    "name": "Complaint Handling Process",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "complaints",
+    "description": "A formal policy governing the triage, assessment, and escalation of customer complaints based on severity and financial impact.",
+    "context": [
+      "Complaint Handling Process"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_010",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_010_prv_001",
+    "name": "Initial Assessment Timeframe",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Mandates that the initial assessment of a complaint must be completed within a window of Day 1 to Day 2.",
+    "context": [
+      "Step 1: Initial Assessment (Day 1–2)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_010",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_010_prv_002",
+    "name": "Immediate Escalation of Urgent Complaints",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "notification_rule",
+    "description": "Requires that complaints categorized as 'Urgent'—including those involving financial loss over £1,000, fraud, security breaches, service outages, or regulatory concerns—must be escalated to a Manager immediately.",
+    "context": [
+      "Urgent (Immediate Action)",
+      "Escalate to Manager immediately"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_010",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_010_prv_003",
+    "name": "Standard Complaint Processing",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Directs that standard complaints, such as regular service issues, fee disputes under £1,000, and operational delays, should be processed normally.",
+    "context": [
+      "Standard:",
+      "Process normally"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_010",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_010_rsk_001",
+    "name": "Financial Loss",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "A risk category defined by financial loss exceeding £1,000, triggering urgent escalation.",
+    "context": [
+      "Financial loss >£1,000"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_010",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_010_rsk_002",
+    "name": "Fraud and Security Breach",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "A high-severity risk involving fraud or security breaches that requires immediate action.",
+    "context": [
+      "Fraud/security breach"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_010",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_010_rsk_003",
+    "name": "Service Outage",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "A risk category relating to the impact of service outages, classified as an urgent concern.",
+    "context": [
+      "Service outage impact"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_010",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_010_rsk_004",
+    "name": "Regulatory Concern",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "A risk category involving regulatory concerns that necessitate immediate escalation to management.",
+    "context": [
+      "Regulatory concern"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_010",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_010_rol_001",
+    "name": "Manager",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The role responsible for receiving and handling escalated urgent complaints.",
+    "context": [
+      "Escalate to Manager immediately"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_010",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_010_ctl_001",
+    "name": "Triage by Severity",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "incident_reporting",
+    "description": "An operational mechanism used to categorize complaints into 'Urgent' or 'Standard' streams to determine the processing path.",
+    "context": [
+      "Triage by Severity"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_010",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_011_rol_001",
+    "name": "Investigating Staff",
+    "aliases": [
+      "involved staff"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Staff members responsible for conducting the investigation phase between days 2 and 5. Their duties include gathering information, reviewing records, and documenting findings to determine bank fault and financial loss.",
+    "context": [
+      "Interview involved staff (if applicable)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_011",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_011_prv_001",
+    "name": "Mandatory Information Gathering during Investigation",
+    "aliases": [
+      "Step 2: Investigation (Days 2–5)",
+      "Information Gathering"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to perform specific information gathering activities between day 2 and day 5 of the process. This includes reviewing account records, transaction history, procedures, and interviewing staff to assess policy compliance.",
+    "context": [
+      "Step 2: Investigation (Days 2–5)",
+      "Review account records",
+      "Check transaction history",
+      "Review relevant procedures/policies",
+      "Interview involved staff (if applicable)",
+      "Assess policy compliance"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_011",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_011_prv_002",
+    "name": "Mandatory Investigation Documentation",
+    "aliases": [
+      "Documentation"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "A requirement to formally record all investigation findings. Documentation must include the applicable policy or procedure, a determination of whether FirstUK Bank is at fault, and a quantification of any financial loss.",
+    "context": [
+      "Record all findings",
+      "Note policy/procedure applicable",
+      "Determine if FirstUK Bank at fault",
+      "Quantify financial loss (if any)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_011",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_011_ctl_001",
+    "name": "Account Record Review",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational act of reviewing account records as part of the investigation process to gather evidence and assess compliance.",
+    "context": [
+      "Review account records"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_011",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_011_ctl_002",
+    "name": "Transaction History Audit",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The operational act of checking transaction history to identify anomalies or evidence during the investigation phase.",
+    "context": [
+      "Check transaction history"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_011",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_011_acc_001",
+    "name": "Bank Account",
+    "aliases": [
+      "account records"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "current_account",
+    "description": "Customer accounts whose records and transaction histories are subject to review during the investigation process.",
+    "context": [
+      "Review account records"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_011",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_011_tra_001",
+    "name": "Account Transaction",
+    "aliases": [
+      "transaction history"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "monitored_transaction",
+    "description": "Financial transactions recorded in the bank's history that must be checked during the investigation phase.",
+    "context": [
+      "Check transaction history"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_011",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_012_pol_001",
+    "name": "FirstUK Bank Complaints Resolution Policy",
+    "aliases": [
+      "Complaints Policy"
+    ],
+    "entity_class": "POLICY",
+    "type": "complaints",
+    "description": "The governing framework for resolving customer complaints at FirstUK Bank, specifically detailing the resolution phase (Days 5–8) and the potential outcomes based on fault determination.",
+    "context": [
+      "Step 3: Resolution (Days 5–8)",
+      "Possible Outcomes:"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_012",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_012_prv_001",
+    "name": "Compensation and Redress for Bank Fault",
+    "aliases": [
+      "If FirstUK Bank at Fault"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates that if FirstUK Bank is found at fault, the bank must provide full financial compensation for loss, potentially including 8% per annum interest, distress compensation, a written apology, and a process improvement plan.",
+    "context": [
+      "If FirstUK Bank at Fault:",
+      "Full financial compensation for loss",
+      "Plus interest (8% per annum) if appropriate",
+      "Plus additional compensation if distress caused",
+      "Written apology",
+      "Process improvement (to prevent recurrence)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_012",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_012_prv_002",
+    "name": "Response Protocol for Customer Fault",
+    "aliases": [
+      "If Customer at Fault"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires the bank to provide an explanation of policy/procedure and supporting evidence, politely decline compensation, and maintain an educational tone when the customer is found to be at fault.",
+    "context": [
+      "If Customer at Fault:",
+      "Explanation of policy/procedure",
+      "Evidence provided",
+      "Polite decline of compensation",
+      "Educational tone (help customer understand)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_012",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_012_prv_003",
+    "name": "Handling of Inconclusive Complaint Outcomes",
+    "aliases": [
+      "If Unclear/Inconclusive"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Specifies the requirements for inconclusive cases, including explaining the evidence reviewed, acknowledging the customer's perspective, offering partial compensation if appropriate, and explaining external escalation steps.",
+    "context": [
+      "If Unclear/Inconclusive:",
+      "Explain evidence reviewed",
+      "Acknowledge customer perspective",
+      "Offer partial compensation (if appropriate)",
+      "Explain further steps (e.g., external ombudsman)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_012",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_012_rol_001",
+    "name": "External Ombudsman",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "external_regulator",
+    "description": "An external body to which customers may be referred for further steps if a complaint resolution is unclear or inconclusive.",
+    "context": [
+      "Explain further steps (e.g., external ombudsman)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_012",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_012_cus_001",
+    "name": "Complaining Customer",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The bank customer who has filed a complaint and is the subject of the resolution process, including potential compensation or educational feedback.",
+    "context": [
+      "If Customer at Fault:",
+      "Acknowledge customer perspective",
+      "help customer understand"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_012",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_013_pol_001",
+    "name": "Complaints Handling Policy",
+    "aliases": [
+      "Step 4: Response"
+    ],
+    "entity_class": "POLICY",
+    "type": "complaints",
+    "description": "A formal policy governing the final response stage of the complaint handling process, specifying the mandatory content and delivery standards for written responses to customers.",
+    "context": [
+      "Step 4: Response (Day 8 Latest)",
+      "Written Response Must Include"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_013",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_013_prv_001",
+    "name": "Mandatory Content of Written Complaint Response",
+    "aliases": [
+      "Written Response Must Include"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement that all written responses to complaints must contain an acknowledgment, an investigation summary, a clear decision with reasoning, any applicable compensation, and escalation rights.",
+    "context": [
+      "Written Response Must Include: Acknowledgment of complaint, Summary of investigation, Clear decision and reasoning, Compensation offered (if applicable), Explanation of right to escalate"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_013",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_013_prv_002",
+    "name": "Complaint Response Delivery Standards",
+    "aliases": [
+      "Delivery"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates that complaint responses be delivered via the customer's choice of email or letter, using plain language and a professional, respectful tone.",
+    "context": [
+      "Delivery: Email or letter (customer choice)",
+      "Plain language (avoid jargon)",
+      "Tone: Professional, respectful"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_013",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_013_prv_003",
+    "name": "Complaint Response Deadline",
+    "aliases": [
+      "Day 8 Latest"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Establishes a deadline for the final response to be issued by the 8th day.",
+    "context": [
+      "Step 4: Response (Day 8 Latest)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_013",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_013_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_subject",
+    "description": "The individual who has raised a complaint and is the recipient of the formal response, with the right to choose the delivery method.",
+    "context": [
+      "Email or letter (customer choice)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_013",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_014_pol_001",
+    "name": "Complaints Response Policy",
+    "aliases": [
+      "Response Timeframes (FCA Requirements)"
+    ],
+    "entity_class": "POLICY",
+    "type": "complaints",
+    "description": "A policy governing the timeframes and escalation procedures for responding to customer complaints in accordance with FCA requirements.",
+    "context": [
+      "Response Timeframes (FCA Requirements)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_014",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_014_reg_001",
+    "name": "Financial Conduct Authority Requirements",
+    "aliases": [
+      "FCA",
+      "FCA Requirements"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulatory_guidance",
+    "description": "The regulatory standards set by the Financial Conduct Authority that dictate the mandatory response times and notification requirements for customer complaints.",
+    "context": [
+      "Response Timeframes (FCA Requirements)",
+      "8 weeks (FCA extension)",
+      "FCA notification if exceeded"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_014",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_014_prv_001",
+    "name": "Simple Complaint Response Timeframe",
+    "aliases": [
+      "Simple (resolve quickly)"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Mandatory requirement to resolve simple complaints within 1 business day.",
+    "context": [
+      "Simple (resolve quickly) | 1 business day"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_014",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_014_prv_002",
+    "name": "Standard Complaint Response Timeframe",
+    "aliases": [
+      "Standard"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Mandatory requirement to resolve standard complaints within 8 calendar days.",
+    "context": [
+      "Standard | 8 calendar days"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_014",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_014_prv_003",
+    "name": "Complex Complaint Response Timeframe",
+    "aliases": [
+      "Complex"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Mandatory requirement to resolve complex complaints within 8 weeks, subject to FCA extensions.",
+    "context": [
+      "Complex | 8 weeks (FCA extension)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_014",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_014_prv_004",
+    "name": "Complex Investigation Extension Rule",
+    "aliases": [
+      "8-Week Clock extension"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "The 8-week response clock can be extended by an additional 8 weeks if a complex investigation is justified and the customer agrees.",
+    "context": [
+      "Can be extended 8 weeks if: Complex investigation justified, customer agrees"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_014",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_014_prv_005",
+    "name": "FCA Notification Obligation for Overdue Complex Complaints",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "notification_rule",
+    "description": "Obligation to notify the FCA if the response timeframe for a complex complaint is exceeded.",
+    "context": [
+      "FCA notification if exceeded"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_014",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_014_rol_001",
+    "name": "Manager",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The role responsible for handling the escalation of simple complaints.",
+    "context": [
+      "Manager if escalated"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_014",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_014_rol_002",
+    "name": "Director",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The role responsible for handling the escalation of standard complaints that remain unresolved.",
+    "context": [
+      "Director if unresolved"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_014",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_014_rol_003",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_subject",
+    "description": "The individual to whom the response is sent and who must agree to extensions for complex investigations.",
+    "context": [
+      "Stops: When response sent to customer",
+      "customer agrees"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_014",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_015_pol_001",
+    "name": "Complaint Categories & Handling Policy",
+    "aliases": [
+      "Complaint Handling"
+    ],
+    "entity_class": "POLICY",
+    "type": "complaints",
+    "description": "A policy governing the categorization, investigation, and resolution of customer complaints, specifically focusing on service-related issues and compensation frameworks.",
+    "context": [
+      "Complaint Categories & Handling"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_015",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_015_rsk_001",
+    "name": "Service Failure Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "Risks associated with poor service delivery, including long wait times, provision of incorrect information, and staff misconduct.",
+    "context": [
+      "Service Complaints",
+      "Long wait, incorrect information, rude staff"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_015",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_015_prv_001",
+    "name": "Mandatory Investigation of Service Complaints",
+    "aliases": [
+      "Investigation"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to investigate service complaints by checking timelines, reviewing procedures, assessing reasonableness, and interviewing staff where necessary.",
+    "context": [
+      "Investigation:",
+      "Check timeline",
+      "Review procedures followed",
+      "Assess reasonableness",
+      "Interview staff if needed"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_015",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_015_prv_002",
+    "name": "Service Complaint Resolution and Compensation",
+    "aliases": [
+      "Resolution"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "Obligation to provide an apology and financial compensation if the bank is at fault. Compensation is capped at £100 for minor inconvenience, with higher amounts for significant distress or loss.",
+    "context": [
+      "Resolution:",
+      "If at fault: Apology + compensation for inconvenience",
+      "Compensation: Up to £100 for minor inconvenience, more if significant distress/loss"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_015",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_015_prv_003",
+    "name": "Post-Complaint Process Improvement",
+    "aliases": [
+      "Learning"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to implement process improvements following a complaint to prevent the recurrence of the service failure.",
+    "context": [
+      "Learning: Process improvement to prevent recurrence"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_015",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_015_ctl_001",
+    "name": "Complaint Investigation Process",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "incident_reporting",
+    "description": "The operational mechanism of reviewing timelines and procedures to determine the validity of a service complaint.",
+    "context": [
+      "Check timeline",
+      "Review procedures followed",
+      "Assess reasonableness"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_015",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_016_pol_001",
+    "name": "Fee Disputes Policy",
+    "aliases": [
+      "Section 2. Fee Disputes"
+    ],
+    "entity_class": "POLICY",
+    "type": "complaints",
+    "description": "A policy governing the investigation and resolution of customer disputes regarding bank fees, including unexpected charges, overdraft fees, and card replacement fees.",
+    "context": [
+      "2. Fee Disputes",
+      "Example: Unexpected charge, overdraft fee, card replacement fee"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_016",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_016_prv_001",
+    "name": "Mandatory Fee Dispute Investigation Process",
+    "aliases": [
+      "Investigation"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Staff must conduct a formal investigation into fee disputes by reviewing terms and conditions, verifying the correctness of the fee application, assessing disclosure clarity, and reviewing customer history.",
+    "context": [
+      "Review terms & conditions",
+      "Check if fee applied correctly",
+      "Assess if fee disclosed clearly",
+      "Review customer history"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_016",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_016_prv_002",
+    "name": "Fee Dispute Resolution Requirements",
+    "aliases": [
+      "Resolution"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates specific outcomes based on investigation findings: decline reversal if correct per T&Cs, reverse charge and interest if an error occurred, or refund and apologize if T&Cs were unclear.",
+    "context": [
+      "If fee applied correctly per T&Cs: Explain and decline reversal",
+      "If fee error: Reverse charge + interest",
+      "If unclear T&Cs: Refund + apology"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_016",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_016_rsk_001",
+    "name": "Fee Dispute Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "The risk associated with incorrect fee application or lack of transparency in terms and conditions leading to customer disputes.",
+    "context": [
+      "Unexpected charge, overdraft fee, card replacement fee",
+      "If unclear T&Cs: Refund + apology"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_016",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_016_ctl_001",
+    "name": "Terms and Conditions Review",
+    "aliases": [
+      "T&Cs"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational act of reviewing the bank's formal terms and conditions to determine the validity of a fee charge.",
+    "context": [
+      "Review terms & conditions",
+      "If fee applied correctly per T&Cs"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_016",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_016_ctl_002",
+    "name": "Customer History Review",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The process of reviewing a customer's account history to inform the resolution of a fee dispute.",
+    "context": [
+      "Review customer history"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_016",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_016_cus_001",
+    "name": "Disputing Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "A customer who has raised a dispute regarding a fee charged to their account.",
+    "context": [
+      "Review customer history",
+      "Refund + apology"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_016",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_016_prd_001",
+    "name": "Card Product",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "card_product",
+    "description": "Banking products subject to card replacement fees as referenced in the dispute examples.",
+    "context": [
+      "card replacement fee"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_016",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_017_pol_001",
+    "name": "Account Balance Issues Policy",
+    "aliases": [
+      "Section 3"
+    ],
+    "entity_class": "POLICY",
+    "type": "complaints",
+    "description": "A policy governing the investigation and resolution of account balance discrepancies, including missing credits, incorrect balances, and interest miscalculations.",
+    "context": [
+      "3. Account Balance Issues",
+      "Example: Missing credit, wrong balance shown, interest miscalculated"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_017",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_017_prv_001",
+    "name": "Mandatory Investigation of Balance Discrepancies",
+    "aliases": [
+      "Investigation"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires a structured investigation process for balance issues involving transaction reconciliation, system record checks, calculation verification, and review of hold periods.",
+    "context": [
+      "Investigation: Reconcile transactions",
+      "Check system records",
+      "Verify calculations",
+      "Review any hold periods"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_017",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_017_prv_002",
+    "name": "Remediation for Bank Error",
+    "aliases": [
+      "Resolution - Bank Error"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "Obligates the bank to correct the account balance and provide interest on any missing amounts when a bank error is identified.",
+    "context": [
+      "If bank error: Correct balance + interest on missing amount"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_017",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_017_prv_003",
+    "name": "Customer Education for Balance Misunderstandings",
+    "aliases": [
+      "Resolution - Customer Misunderstanding"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "Mandates that staff explain the balance to the customer in cases of misunderstanding, emphasizing education over penalization.",
+    "context": [
+      "If customer misunderstanding: Explain (educate, don't penalize)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_017",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_017_prv_004",
+    "name": "Urgent IT Escalation for System Errors",
+    "aliases": [
+      "Resolution - System Error"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "Requires an urgent escalation to the IT department to resolve the root cause when a balance issue is determined to be a system error.",
+    "context": [
+      "If system error: Urgent IT escalation to fix"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_017",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_017_rsk_001",
+    "name": "Account Balance Discrepancy",
+    "aliases": [
+      "Balance Issues"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "The risk of incorrect financial reporting to the customer, manifesting as missing credits, wrong balances, or miscalculated interest.",
+    "context": [
+      "Missing credit, wrong balance shown, interest miscalculated"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_017",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_017_ctl_001",
+    "name": "Transaction Reconciliation",
+    "aliases": [
+      "Reconcile transactions"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational process of reconciling transactions to identify the source of a balance discrepancy.",
+    "context": [
+      "Reconcile transactions"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_017",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_017_ctl_002",
+    "name": "System Record Verification",
+    "aliases": [
+      "Check system records"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The process of checking internal system records to verify the accuracy of the displayed account balance.",
+    "context": [
+      "Check system records"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_017",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_017_rol_001",
+    "name": "IT Department",
+    "aliases": [
+      "IT"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The technical collective responsible for fixing system errors that lead to account balance discrepancies.",
+    "context": [
+      "Urgent IT escalation to fix"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_017",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_017_cus_001",
+    "name": "Account Customer",
+    "aliases": [
+      "customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The bank customer who may experience balance issues or misunderstandings regarding their account status.",
+    "context": [
+      "If customer misunderstanding: Explain (educate, don't penalize)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_017",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_017_acc_001",
+    "name": "Customer Account",
+    "aliases": [
+      "account"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "current_account",
+    "description": "The financial account subject to balance verification, interest calculation, and correction.",
+    "context": [
+      "Correct balance + interest on missing amount",
+      "wrong balance shown"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_017",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_018_pol_001",
+    "name": "Fraud Policy",
+    "aliases": [
+      "policy_fraud"
+    ],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "The governing policy document containing fraud-specific procedures and the overarching framework for handling fraudulent transactions.",
+    "context": [
+      "See: [[policy_fraud]] for fraud-specific procedures"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_018",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_018_prv_001",
+    "name": "Fraud Investigation Process",
+    "aliases": [
+      "Investigation"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandatory set of steps to be followed when a customer claims a fraudulent transaction, including obtaining statements, reviewing details, and assessing fraud likelihood.",
+    "context": [
+      "Obtain customer statement",
+      "Review transaction details",
+      "Check if customer authorized",
+      "Assess fraud likelihood"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_018",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_018_prv_002",
+    "name": "Confirmed Fraud Reimbursement Timeline",
+    "aliases": [
+      "Resolution"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "A requirement to provide full reimbursement and an apology to the customer within 10 business days once fraud is confirmed.",
+    "context": [
+      "If fraud confirmed: Full reimbursement within 10 business days + apology"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_018",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_018_prv_003",
+    "name": "Disputed Transaction Resolution",
+    "aliases": [
+      "Resolution"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "The obligation to conduct further investigation and apply FCA guidance in cases where a transaction is disputed.",
+    "context": [
+      "If disputed: Further investigation + FCA guidance"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_018",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_018_reg_001",
+    "name": "Financial Conduct Authority Guidance",
+    "aliases": [
+      "FCA guidance"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulatory_guidance",
+    "description": "External guidance provided by the Financial Conduct Authority used to resolve disputed transactions.",
+    "context": [
+      "If disputed: Further investigation + FCA guidance"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_018",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_018_rsk_001",
+    "name": "Fraudulent Transactions",
+    "aliases": [
+      "Fraud/Unauthorized Transactions"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The risk of unauthorized or fraudulent financial transactions claimed by customers.",
+    "context": [
+      "4. Fraud/Unauthorized Transactions",
+      "Customer claims fraudulent transaction"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_018",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_018_rol_001",
+    "name": "Fraud Team",
+    "aliases": [
+      "Fraud team"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "board_committee",
+    "description": "The specialized collective responsible for conducting detailed investigations into suspected fraud when required.",
+    "context": [
+      "Fraud team investigation (if needed)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_018",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_018_cus_001",
+    "name": "Claiming Customer",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The bank customer who reports a fraudulent transaction and is the subject of the investigation and reimbursement process.",
+    "context": [
+      "Customer claims fraudulent transaction",
+      "Obtain customer statement",
+      "If customer liable: Explain (educational)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_018",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_018_trn_001",
+    "name": "Fraudulent Transaction",
+    "aliases": [
+      "transaction details"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "suspicious_transaction",
+    "description": "A financial event reported as unauthorized or fraudulent that requires review and investigation.",
+    "context": [
+      "Customer claims fraudulent transaction",
+      "Review transaction details"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_018",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_019_pol_001",
+    "name": "Unauthorized Account Access Policy",
+    "aliases": [
+      "Section 5",
+      "Account Takeover Policy"
+    ],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "A policy governing the response and resolution process when a customer discovers their account has been used without permission. It defines the investigation steps and the mandatory resolution actions to be taken by the bank.",
+    "context": [
+      "5. Unauthorized Account Access (Account Takeover)",
+      "Customer discovers account used without permission"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_019",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_019_rsk_001",
+    "name": "Unauthorized Account Access",
+    "aliases": [
+      "Account Takeover"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "unauthorized_access",
+    "description": "A risk scenario where a customer's account is accessed and used without their permission, potentially leading to fraudulent transactions and identity theft.",
+    "context": [
+      "Unauthorized Account Access (Account Takeover)",
+      "Customer discovers account used without permission"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_019",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_019_prv_001",
+    "name": "Immediate Account Freeze upon Unauthorized Access",
+    "aliases": [
+      "Investigation step 1"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandatory requirement to immediately freeze an account once unauthorized access has been identified as part of the investigation process.",
+    "context": [
+      "Immediate account freeze"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_019",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_019_prv_002",
+    "name": "Fraud Team Escalation Requirement",
+    "aliases": [
+      "Investigation step 4"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "An obligation to escalate the case of unauthorized account access to the specialized Fraud team for further investigation.",
+    "context": [
+      "Fraud team escalation"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_019",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_019_prv_003",
+    "name": "Full Reimbursement of Fraudulent Transactions",
+    "aliases": [
+      "Resolution step 1"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "A mandatory resolution requirement to provide full reimbursement to the customer for transactions identified as fraudulent resulting from unauthorized access.",
+    "context": [
+      "Full reimbursement of fraudulent transactions"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_019",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_019_ctl_001",
+    "name": "Account Freeze",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "account_freeze",
+    "description": "An operational safeguard used to prevent further unauthorized transactions by restricting all activity on the affected account.",
+    "context": [
+      "Immediate account freeze"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_019",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_019_ctl_002",
+    "name": "Authentication Review",
+    "aliases": [
+      "password change"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "authentication",
+    "description": "A security control involving the review of account authentication methods and the implementation of password changes to secure the account.",
+    "context": [
+      "Authentication review (password change?)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_019",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_019_ctl_003",
+    "name": "Account Security Reset",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "A technical control to reset security credentials and online access to ensure the unauthorized party is removed from the account.",
+    "context": [
+      "Account security reset",
+      "Replacement card/online access reset"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_019",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_019_rol_001",
+    "name": "Fraud Team",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "board_committee",
+    "description": "The specialized internal collective responsible for handling escalations and investigations related to unauthorized account access and fraud.",
+    "context": [
+      "Fraud team escalation"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_019",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_019_rol_002",
+    "name": "Law Enforcement",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "external_regulator",
+    "description": "External authorities to be notified when unauthorized account access warrants legal or criminal investigation.",
+    "context": [
+      "Law enforcement notification (if warranted)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_019",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_019_cus_001",
+    "name": "Affected Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The bank customer who has discovered that their account has been used without permission and is the subject of the reimbursement and security reset process.",
+    "context": [
+      "Customer discovers account used without permission",
+      "Full reimbursement of fraudulent transactions"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_019",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_019_acc_001",
+    "name": "Compromised Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "frozen_account",
+    "description": "The specific customer account subject to unauthorized access, which must be frozen and reviewed for fraudulent transactions.",
+    "context": [
+      "Immediate account freeze",
+      "Account security reset"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_019",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_019_trn_001",
+    "name": "Fraudulent Transaction",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "suspicious_transaction",
+    "description": "Transactions occurring without the customer's permission that are subject to review and full reimbursement.",
+    "context": [
+      "Transaction review",
+      "Full reimbursement of fraudulent transactions"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_019",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_019_crd_001",
+    "name": "Replacement Card",
+    "aliases": [],
+    "entity_class": "CARD",
+    "type": "replacement_procedure",
+    "description": "The process of issuing a new payment card to a customer following an account takeover to replace the compromised card.",
+    "context": [
+      "Replacement card/online access reset"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_019",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_020_pol_001",
+    "name": "Complaint Escalation Policy",
+    "aliases": [
+      "Escalation Matrix"
+    ],
+    "entity_class": "POLICY",
+    "type": "complaints",
+    "description": "A governing framework defining the escalation paths, authority levels, and timelines for handling customer complaints based on severity and financial impact.",
+    "context": [
+      "Escalation Matrix",
+      "Complaint Escalation by Severity & Involvement"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_020",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_020_prv_001",
+    "name": "Frontline Complaint Resolution Timeline",
+    "aliases": [
+      "Level: Frontline"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Mandates that simple, low-value complaints handled by Customer Service Agents must be resolved in less than one day.",
+    "context": [
+      "Frontline | Customer Service Agent | <1 day | Simple, low-value"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_020",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_020_prv_002",
+    "name": "Manager Complaint Resolution Timeline",
+    "aliases": [
+      "Level: Manager"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Mandates that moderate issues with a loss of less than £500 handled by the Complaints Manager must be resolved in less than five days.",
+    "context": [
+      "Manager | Complaints Manager | <5 days | Moderate issues, <£500 loss"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_020",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_020_prv_003",
+    "name": "Director Complaint Resolution Timeline",
+    "aliases": [
+      "Level: Director"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Mandates that significant issues with a loss exceeding £500 handled by the Head of Customer Service must be resolved in less than eight days.",
+    "context": [
+      "Director | Head of Customer Service | <8 days | Significant issues, >£500 loss"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_020",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_020_prv_004",
+    "name": "Executive Complaint Resolution Timeline",
+    "aliases": [
+      "Level: Escalated"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Mandates that major failures or those involving reputational risk handled by the CEO or Board be resolved within eight or more weeks.",
+    "context": [
+      "Escalated | CEO/Board | 8+ weeks | Major failures, reputational risk"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_020",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_020_prv_005",
+    "name": "Mandatory Escalation Triggers",
+    "aliases": [
+      "Escalation Triggers"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "notification_rule",
+    "description": "Defines the specific conditions that require a complaint to be escalated, including unresolved manager reviews, financial compensation over £500, regulatory concerns, media/legal involvement, or FCA escalation.",
+    "context": [
+      "Complaint unresolved after manager review",
+      "Financial compensation >£500",
+      "Regulatory or reputational concern",
+      "Media/legal involvement",
+      "Customer escalates to FCA"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_020",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_020_reg_001",
+    "name": "Financial Conduct Authority",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "external_regulator",
+    "description": "The external regulatory body to which customers may escalate complaints, triggering a mandatory internal escalation process.",
+    "context": [
+      "Customer escalates to FCA"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_020",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_020_rsk_001",
+    "name": "Reputational Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "reputational_risk",
+    "description": "Risk associated with major failures or public concerns that necessitate escalation to the CEO or Board level.",
+    "context": [
+      "Major failures, reputational risk",
+      "Regulatory or reputational concern"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_020",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_020_rol_001",
+    "name": "Customer Service Agent",
+    "aliases": [
+      "Frontline"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Staff responsible for resolving simple, low-value complaints within a one-day timeframe.",
+    "context": [
+      "Frontline | Customer Service Agent | <1 day | Simple, low-value"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_020",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_020_rol_002",
+    "name": "Complaints Manager",
+    "aliases": [
+      "Manager"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "Role responsible for resolving moderate issues with losses under £500 within five days.",
+    "context": [
+      "Manager | Complaints Manager | <5 days | Moderate issues, <£500 loss"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_020",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_020_rol_003",
+    "name": "Head of Customer Service",
+    "aliases": [
+      "Director"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "Role responsible for resolving significant issues with losses exceeding £500 within eight days.",
+    "context": [
+      "Director | Head of Customer Service | <8 days | Significant issues, >£500 loss"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_020",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_020_rol_004",
+    "name": "CEO and Board",
+    "aliases": [
+      "Escalated"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "board_committee",
+    "description": "The highest authority level responsible for addressing major failures and reputational risks over an 8+ week period.",
+    "context": [
+      "Escalated | CEO/Board | 8+ weeks | Major failures, reputational risk"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_020",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_020_cus_001",
+    "name": "Complaining Customer",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The bank customer who initiates a complaint or escalates a matter to the FCA.",
+    "context": [
+      "Customer escalates to FCA"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_020",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_021_pol_001",
+    "name": "Compensation Framework",
+    "aliases": [
+      "Financial Compensation Guidelines"
+    ],
+    "entity_class": "POLICY",
+    "type": "complaints",
+    "description": "A governing framework defining the financial compensation ranges and approval hierarchies for service delays, failures, financial losses, and distress experienced by customers.",
+    "context": [
+      "Compensation Framework",
+      "Financial Compensation Guidelines"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_021",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_021_prv_001",
+    "name": "Compensation for Service Delays",
+    "aliases": [
+      "Service delay (1–2 days)",
+      "Service delay (3–5 days)"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates specific compensation ranges for service delays based on duration: £0–£50 for 1–2 days (inconvenience) and £50–£100 for 3–5 days (operational disruption).",
+    "context": [
+      "Service delay (1–2 days) | £0–£50 | Inconvenience",
+      "Service delay (3–5 days) | £50–£100 | Operational disruption"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_021",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_021_prv_002",
+    "name": "Compensation for Service Failure",
+    "aliases": [
+      "Service failure (>5 days)"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates a compensation range of £100–£300 for service failures lasting more than 5 days, based on significant impact.",
+    "context": [
+      "Service failure (>5 days) | £100–£300 | Significant impact"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_021",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_021_prv_003",
+    "name": "Compensation for Financial Loss",
+    "aliases": [
+      "Financial loss (error)"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires the reimbursement of the full financial loss plus 8% interest in cases of errors.",
+    "context": [
+      "Financial loss (error) | Full loss + 8% interest | Actual loss + interest"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_021",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_021_prv_004",
+    "name": "Compensation for Serious Distress",
+    "aliases": [
+      "Serious distress"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Provides a compensation range of £250–£500+ for customers experiencing serious distress based on emotional impact.",
+    "context": [
+      "Serious distress | £250–£500+ | Emotional impact"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_021",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_021_prv_005",
+    "name": "Compensation Approval Hierarchy",
+    "aliases": [
+      "Limits"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "approval_requirement",
+    "description": "Defines the mandatory approval levels based on the compensation amount: Customer Service Manager for <£100, Director for £100–£500, and CEO for >£500.",
+    "context": [
+      "<£100: Customer Service Manager approval",
+      "£100–£500: Director approval",
+      ">£500: CEO approval"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_021",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_021_prv_006",
+    "name": "Board Notification for High-Value Compensation",
+    "aliases": [
+      ">£1,000"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "Mandates that any compensation exceeding £1,000 requires both CEO approval and notification to the Board.",
+    "context": [
+      ">£1,000: Board notification + CEO approval"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_021",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_021_rol_001",
+    "name": "Customer Service Manager",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The role responsible for approving compensation payments under £100.",
+    "context": [
+      "<£100: Customer Service Manager approval"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_021",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_021_rol_002",
+    "name": "Director",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The role responsible for approving compensation payments between £100 and £500.",
+    "context": [
+      "£100–£500: Director approval"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_021",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_021_rol_003",
+    "name": "CEO",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The role responsible for approving compensation payments exceeding £500.",
+    "context": [
+      ">£500: CEO approval",
+      ">£1,000: Board notification + CEO approval"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_021",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_021_rol_004",
+    "name": "Board",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "board_committee",
+    "description": "The governing body that must be notified of all compensation payments exceeding £1,000.",
+    "context": [
+      ">£1,000: Board notification + CEO approval"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_021",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_021_cust_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The recipient of compensation for service delays, failures, financial losses, or distress.",
+    "context": [
+      "Customer Service Manager approval"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_021",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_022_pol_001",
+    "name": "FCA Reporting Policy",
+    "aliases": [
+      "FCA Reporting"
+    ],
+    "entity_class": "POLICY",
+    "type": "complaints",
+    "description": "A governing policy document defining the requirements for reporting specific categories of customer complaints to the Financial Conduct Authority (FCA).",
+    "context": [
+      "## FCA Reporting",
+      "### Reportable Complaints"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_022",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_022_prv_001",
+    "name": "Mandatory Reporting of FCA Rule Breach Complaints",
+    "aliases": [
+      "Reportable Complaints"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "A mandatory requirement to report complaints to the FCA when those complaints allege breaches of FCA rules.",
+    "context": [
+      "Must Report to FCA:",
+      "Complaints alleging breaches of FCA rules"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_022",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_022_prv_002",
+    "name": "Mandatory Reporting of Financial Services Complaints",
+    "aliases": [
+      "Reportable Complaints"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "A mandatory requirement to report complaints to the FCA regarding the provision of financial services.",
+    "context": [
+      "Must Report to FCA:",
+      "Complaints about financial services"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_022",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_022_prv_003",
+    "name": "Mandatory Reporting of Conduct Complaints",
+    "aliases": [
+      "Reportable Complaints"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "A mandatory requirement to report complaints to the FCA concerning the conduct of the bank or its staff.",
+    "context": [
+      "Must Report to FCA:",
+      "Complaints about conduct"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_022",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_022_prv_004",
+    "name": "Mandatory Reporting of Complaints Causing Financial Loss",
+    "aliases": [
+      "Reportable Complaints"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "A mandatory requirement to report complaints to the FCA in instances where the complaint involves a financial loss.",
+    "context": [
+      "Must Report to FCA:",
+      "Complaints causing financial loss"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_022",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_022_prv_005",
+    "name": "Mandatory Reporting of Systemic Issues",
+    "aliases": [
+      "Reportable Complaints"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "A mandatory requirement to report systemic issues to the FCA.",
+    "context": [
+      "Must Report to FCA:",
+      "Systemic issues"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_022",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_022_reg_001",
+    "name": "Financial Conduct Authority Rules",
+    "aliases": [
+      "FCA rules",
+      "FCA"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The rules issued by the Financial Conduct Authority that the bank must comply with and report breaches of.",
+    "context": [
+      "Complaints alleging breaches of FCA rules",
+      "Must Report to FCA"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_022",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_022_rol_001",
+    "name": "Financial Conduct Authority",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "external_regulator",
+    "description": "The external regulatory body to which the bank is obligated to report specific categories of complaints.",
+    "context": [
+      "Must Report to FCA",
+      "## FCA Reporting"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_022",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_022_rsk_001",
+    "name": "Compliance Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "The risk associated with failing to report mandatory complaints or breaching FCA rules.",
+    "context": [
+      "Complaints alleging breaches of FCA rules",
+      "Must Report to FCA"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_022",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_023_pol_001",
+    "name": "FCA Reporting Requirement (COBS)",
+    "aliases": [
+      "COBS"
+    ],
+    "entity_class": "POLICY",
+    "type": "complaints",
+    "description": "A policy governing the reporting of aggregated complaint statistics to the Financial Conduct Authority (FCA). It defines the filing frequency and the customer's right to escalate unresolved complaints.",
+    "context": [
+      "FCA Reporting Requirement (COBS)",
+      "Aggregated complaint statistics (quarterly)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_023",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_023_reg_001",
+    "name": "Financial Conduct Authority Conduct of Business Sourcebook",
+    "aliases": [
+      "FCA",
+      "COBS"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The regulatory framework and authority to which FirstUK Bank must report aggregated complaint statistics.",
+    "context": [
+      "FCA Reporting Requirement (COBS)",
+      "FirstUK Bank (directly to FCA)",
+      "Customers can escalate to FCA"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_023",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_023_prv_001",
+    "name": "Quarterly Aggregated Complaint Statistics Reporting",
+    "aliases": [
+      "Reporting Requirement"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "Mandatory requirement for FirstUK Bank to provide aggregated complaint statistics to the FCA on a quarterly basis.",
+    "context": [
+      "What: Aggregated complaint statistics (quarterly)",
+      "Who Files: FirstUK Bank (directly to FCA)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_023",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_023_prv_002",
+    "name": "Customer Escalation Right After Eight Weeks",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "notification_rule",
+    "description": "A provision granting customers the right to escalate their complaint to the FCA if the matter remains unresolved after a period of 8 weeks.",
+    "context": [
+      "Customers can escalate to FCA if unresolved after 8 weeks"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_023",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_023_rol_001",
+    "name": "FirstUK Bank",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The entity responsible for the direct filing of aggregated complaint data to the Financial Conduct Authority.",
+    "context": [
+      "Who Files: FirstUK Bank (directly to FCA)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_023",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_023_rol_002",
+    "name": "Customers",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_subject",
+    "description": "The individuals who have the right to escalate unresolved complaints to the regulator after the specified timeframe.",
+    "context": [
+      "Customers can escalate to FCA if unresolved after 8 weeks"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_023",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_023_ctl_001",
+    "name": "Aggregated Complaint Data Collection",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational mechanism of aggregating complaint statistics for quarterly regulatory submission.",
+    "context": [
+      "What: Aggregated complaint statistics (quarterly)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_023",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_024_pol_001",
+    "name": "FCA Escalation Policy",
+    "aliases": [
+      "FCA Escalation (Customer-Initiated)"
+    ],
+    "entity_class": "POLICY",
+    "type": "complaints",
+    "description": "The governing framework for handling customer-initiated escalations to the Financial Conduct Authority and the Financial Ombudsman Service when a customer remains unhappy with the bank's response.",
+    "context": [
+      "FCA Escalation (Customer-Initiated)",
+      "If Customer Unhappy"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_024",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_024_prv_001",
+    "name": "Provision of FCA Contact Information",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "notification_rule",
+    "description": "A mandatory requirement for FirstUK Bank to provide the customer with contact information for the Financial Conduct Authority if the customer is unhappy.",
+    "context": [
+      "FirstUK Bank provides FCA contact information"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_024",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_024_prv_002",
+    "name": "Escalation Letter Content Requirements",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates that the escalation letter sent to the customer must include a statement of rights and specific contact details for the Financial Ombudsman Service, including phone number and website.",
+    "context": [
+      "Escalation Letter Must Include:",
+      "Statement of rights",
+      "FOS contact: 0800 023 4567, www.financialombudsman.org.uk"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_024",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_024_prv_003",
+    "name": "FOS Escalation Time Limit",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "A time-bound requirement stating that a customer must escalate their complaint to the Financial Ombudsman Service within 6 months of receiving the final response.",
+    "context": [
+      "Time limit: Customer must escalate within 6 months of final response"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_024",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_024_reg_001",
+    "name": "Financial Conduct Authority",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "external_regulator",
+    "description": "The regulatory body to which customers may be directed for escalation of complaints.",
+    "context": [
+      "FCA Escalation (Customer-Initiated)",
+      "FirstUK Bank provides FCA contact information"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_024",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_024_rol_001",
+    "name": "Financial Ombudsman Service",
+    "aliases": [
+      "FOS"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "external_regulator",
+    "description": "An independent body that provides a free service to customers for complaint escalation and issues binding decisions.",
+    "context": [
+      "Customer can escalate to Financial Ombudsman Service (FOS)",
+      "FOS is independent, free to customer",
+      "FOS decision is binding"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_024",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_024_cus_001",
+    "name": "Unhappy Customer",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "A bank customer who is dissatisfied with the bank's response and is exercising their right to escalate to the FOS.",
+    "context": [
+      "If Customer Unhappy",
+      "Customer can escalate to Financial Ombudsman Service (FOS)",
+      "Customer must escalate within 6 months of final response"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_024",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_025_pol_001",
+    "name": "Complaint Data & Trends Policy",
+    "aliases": [
+      "Complaint Tracking"
+    ],
+    "entity_class": "POLICY",
+    "type": "complaints",
+    "description": "A policy governing the capture and tracking of complaint data and trends, specifying the mandatory data points required for recording customer complaints and their outcomes.",
+    "context": [
+      "Complaint Data & Trends",
+      "Complaint Tracking"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_025",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_025_prv_001",
+    "name": "Mandatory Complaint Data Capture",
+    "aliases": [
+      "Data Captured"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "A requirement to capture specific data points for every complaint, including the date, type, category, customer details, outcome, compensation paid, and time to resolution.",
+    "context": [
+      "Data Captured:",
+      "Complaint date, type, category",
+      "Customer details",
+      "Outcome (upheld, rejected, partial)",
+      "Compensation paid",
+      "Time to resolution"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_025",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_025_ctl_001",
+    "name": "Complaint Tracking System",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational mechanism used to capture and track complaint data, including outcomes and resolution timeframes to monitor trends.",
+    "context": [
+      "Complaint Tracking",
+      "Data Captured:"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_025",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_025_cus_001",
+    "name": "Complaining Customer",
+    "aliases": [
+      "Customer details"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The customer whose details must be captured as part of the complaint tracking process.",
+    "context": [
+      "Customer details"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_025",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_026_pol_001",
+    "name": "Complaints Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "complaints",
+    "description": "The governing policy document defining the reporting, analytics, and disclosure requirements for complaint handling, including reporting cycles for management, the Board, and the FCA.",
+    "context": [
+      "Reporting & Analytics",
+      "Monthly Report to Management",
+      "Quarterly Report to Board",
+      "Annual Report to FCA"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_026",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_026_prv_001",
+    "name": "Monthly Management Reporting Obligation",
+    "aliases": [
+      "Monthly Report to Management"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "A mandatory requirement to provide a monthly report to management detailing total complaints, resolution times, upheld vs. rejected ratios, financial compensation, and trends.",
+    "context": [
+      "Monthly Report to Management:",
+      "Total complaints received",
+      "Average resolution time",
+      "Upheld vs. rejected ratio",
+      "Financial compensation paid",
+      "Trends and patterns"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_026",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_026_prv_002",
+    "name": "Quarterly Board Reporting Obligation",
+    "aliases": [
+      "Quarterly Report to Board"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "A mandatory requirement to provide a quarterly report to the Board covering complaint volume trends, top complaint types, systemic issues, and corrective actions taken.",
+    "context": [
+      "Quarterly Report to Board:",
+      "Complaint volume trends",
+      "Top complaint types",
+      "Systemic issues identified",
+      "Corrective actions taken"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_026",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_026_prv_003",
+    "name": "Annual FCA Reporting Obligation",
+    "aliases": [
+      "Annual Report to FCA"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "A mandatory requirement to provide an annual report to the Financial Conduct Authority (FCA) including aggregate statistics, effectiveness of complaint handling, and process improvements.",
+    "context": [
+      "Annual Report to FCA:",
+      "Aggregate statistics",
+      "Complaint handling effectiveness",
+      "Process improvements implemented"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_026",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_026_rol_001",
+    "name": "Management",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The management collective responsible for receiving and reviewing monthly reports on complaint metrics and trends.",
+    "context": [
+      "Monthly Report to Management"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_026",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_026_rol_002",
+    "name": "Board",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "board_committee",
+    "description": "The governing Board responsible for reviewing quarterly reports on complaint volumes, systemic issues, and corrective actions.",
+    "context": [
+      "Quarterly Report to Board"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_026",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_026_rol_003",
+    "name": "Financial Conduct Authority",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "external_regulator",
+    "description": "The external regulatory body that receives an annual report on complaint handling effectiveness and aggregate statistics.",
+    "context": [
+      "Annual Report to FCA"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_026",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_026_reg_001",
+    "name": "Financial Conduct Authority Regulations",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The regulatory framework governing the annual reporting of complaint handling effectiveness and statistics.",
+    "context": [
+      "Annual Report to FCA"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_026",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_026_ctl_001",
+    "name": "Complaint Analytics and Reporting",
+    "aliases": [
+      "Reporting & Analytics"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "incident_reporting",
+    "description": "The operational mechanism of periodic reporting (monthly, quarterly, and annually) used to monitor complaint trends and implement corrective actions.",
+    "context": [
+      "Reporting & Analytics",
+      "Total complaints received",
+      "Systemic issues identified",
+      "Corrective actions taken"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_026",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_027_pol_001",
+    "name": "Learning & Improvement Policy",
+    "aliases": [
+      "Learning & Improvement"
+    ],
+    "entity_class": "POLICY",
+    "type": "complaints",
+    "description": "A policy framework focused on the systemic analysis of customer complaints to drive operational improvement and corrective action within FirstUK Bank.",
+    "context": [
+      "Learning & Improvement"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_027",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_027_prv_001",
+    "name": "Systemic Complaint Identification",
+    "aliases": [
+      "Root Cause Analysis - Step 1"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "The bank is required to identify systemic complaints, defined as the same issue affecting multiple customers.",
+    "context": [
+      "Identify systemic complaints (same issue, multiple customers)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_027",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_027_prv_002",
+    "name": "Root Cause Analysis Obligation",
+    "aliases": [
+      "Root Cause Analysis - Step 2"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "A mandate to perform a detailed analysis to determine the underlying root cause of identified systemic complaints.",
+    "context": [
+      "Analyze root cause"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_027",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_027_prv_003",
+    "name": "Corrective Action Implementation",
+    "aliases": [
+      "Root Cause Analysis - Step 3"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "The bank must implement specific corrective actions based on the findings of the root cause analysis to prevent recurrence.",
+    "context": [
+      "Implement corrective action"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_027",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_027_prv_004",
+    "name": "Effectiveness Monitoring",
+    "aliases": [
+      "Root Cause Analysis - Step 4"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "monitoring_obligation",
+    "description": "A requirement to monitor the effectiveness of implemented corrective actions to ensure the systemic issue is resolved.",
+    "context": [
+      "Monitor effectiveness"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_027",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_027_rsk_001",
+    "name": "Operational Inefficiency",
+    "aliases": [
+      "slow processing"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "Risk associated with slow processing times leading to high volumes of customer complaints.",
+    "context": [
+      "High \"slow processing\" complaints"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_027",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_027_rsk_002",
+    "name": "Disclosure and Transparency Risk",
+    "aliases": [
+      "fee disputes"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "Risk arising from lack of clarity in Terms and Conditions or poor disclosure, resulting in multiple fee disputes.",
+    "context": [
+      "Multiple fee disputes → Improve T&C clarity, better disclosure"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_027",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_027_rsk_003",
+    "name": "Fraud Risk",
+    "aliases": [
+      "Fraud complaints"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "Risk of financial crime or security breaches as evidenced by customer fraud complaints.",
+    "context": [
+      "Fraud complaints → Strengthen security measures"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_027",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_027_ctl_001",
+    "name": "SOP Review",
+    "aliases": [
+      "Review SOP"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The review of Standard Operating Procedures (SOP) and resource allocation to mitigate slow processing complaints.",
+    "context": [
+      "Review SOP, add resources"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_027",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_027_ctl_002",
+    "name": "T&C Clarity Enhancement",
+    "aliases": [
+      "Improve T&C clarity"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "Improving the clarity of Terms and Conditions and enhancing disclosure practices to reduce fee disputes.",
+    "context": [
+      "Improve T&C clarity, better disclosure"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_027",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_027_ctl_003",
+    "name": "Security Measure Strengthening",
+    "aliases": [
+      "Strengthen security measures"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "The implementation of stronger security measures in response to fraud-related complaints.",
+    "context": [
+      "Strengthen security measures"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_027",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_028_pol_001",
+    "name": "Complaints Handling Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "complaints",
+    "description": "A formal policy governing the responsibilities of staff regarding the handling, recording, and escalation of customer complaints to ensure respectful treatment and confidentiality.",
+    "context": [
+      "Staff Responsibilities",
+      "Take all complaints seriously"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_028",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_028_rol_001",
+    "name": "All Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The collective of all bank employees who are accountable for the initial intake, recording, and escalation of customer complaints.",
+    "context": [
+      "All Staff",
+      "Take all complaints seriously",
+      "Record accurately and promptly"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_028",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_028_prv_001",
+    "name": "Obligation to Treat Complaints Seriously",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "A mandatory requirement for all staff to approach every customer complaint with the necessary seriousness.",
+    "context": [
+      "Take all complaints seriously"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_028",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_028_prv_002",
+    "name": "Accurate and Prompt Complaint Recording",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement that all staff must record complaint details both accurately and in a timely manner.",
+    "context": [
+      "Record accurately and promptly"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_028",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_028_prv_003",
+    "name": "Appropriate Complaint Escalation",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "A mandate for staff to ensure that complaints are escalated through the correct channels as required.",
+    "context": [
+      "Escalate appropriately"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_028",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_028_prv_004",
+    "name": "Adherence to Complaint Procedures",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A general obligation for all staff to follow the established procedures for handling complaints.",
+    "context": [
+      "Follow procedures"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_028",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_028_prv_005",
+    "name": "Maintenance of Complaint Confidentiality",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "A requirement for staff to ensure that information related to complaints is kept confidential.",
+    "context": [
+      "Maintain confidentiality"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_028",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_028_prv_006",
+    "name": "Respectful Treatment of Customers",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "A conduct requirement mandating that all staff treat customers with respect during the complaint process.",
+    "context": [
+      "Treat customers respectfully"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_028",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_028_ctl_001",
+    "name": "Complaint Recording",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational process of documenting complaints accurately and promptly to ensure a trail of customer grievances.",
+    "context": [
+      "Record accurately and promptly"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_028",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_029_rol_001",
+    "name": "Customer Service/Branch Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Staff members operating in customer service or branch environments responsible for the initial intake, acknowledgment, and logging of customer complaints, as well as the escalation of urgent matters.",
+    "context": [
+      "Customer Service/Branch Staff",
+      "Receive complaints",
+      "Provide immediate acknowledgment",
+      "Log in system",
+      "Escalate urgent issues"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_029",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_029_prv_001",
+    "name": "Complaint Receipt and Acknowledgment Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandate requiring Customer Service and Branch Staff to receive customer complaints and provide an immediate acknowledgment of the issue.",
+    "context": [
+      "Receive complaints",
+      "Provide immediate acknowledgment"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_029",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_029_prv_002",
+    "name": "Complaint Logging Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement for staff to ensure that all received complaints are formally logged into the bank's system.",
+    "context": [
+      "Log in system"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_029",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_029_prv_003",
+    "name": "Urgent Complaint Escalation Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "An obligation for Customer Service and Branch Staff to escalate complaints identified as urgent to the appropriate authority.",
+    "context": [
+      "Escalate urgent issues"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_029",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_029_ctl_001",
+    "name": "Complaint Logging System",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational system used by branch and customer service staff to record and track customer complaints.",
+    "context": [
+      "Log in system"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_029",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_030_rol_001",
+    "name": "Complaints Handlers",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Staff members responsible for the end-to-end management of customer complaints, including investigation, documentation, and resolution within specified timeframes.",
+    "context": [
+      "Complaints Handlers",
+      "Investigate thoroughly",
+      "Document findings",
+      "Follow resolution procedures",
+      "Communicate clearly with customer",
+      "Meet timeframes",
+      "Escalate if needed"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_030",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_030_prv_001",
+    "name": "Thorough Investigation of Complaints",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement for Complaints Handlers to conduct a comprehensive investigation into the details of a customer complaint.",
+    "context": [
+      "Investigate thoroughly"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_030",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_030_prv_002",
+    "name": "Documentation of Complaint Findings",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "An obligation for Complaints Handlers to maintain a formal record of the findings resulting from their investigation.",
+    "context": [
+      "Document findings"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_030",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_030_prv_003",
+    "name": "Adherence to Complaint Resolution Procedures",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandate that Complaints Handlers must follow the established bank procedures to resolve a complaint.",
+    "context": [
+      "Follow resolution procedures"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_030",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_030_prv_004",
+    "name": "Clear Customer Communication",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "A requirement for Complaints Handlers to ensure that communication with the customer regarding their complaint is clear.",
+    "context": [
+      "Communicate clearly with customer"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_030",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_030_prv_005",
+    "name": "Compliance with Complaint Resolution Timeframes",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "An obligation for Complaints Handlers to ensure that complaints are handled and resolved within the prescribed time limits.",
+    "context": [
+      "Meet timeframes"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_030",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_030_prv_006",
+    "name": "Complaint Escalation Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "notification_rule",
+    "description": "A requirement for Complaints Handlers to escalate a complaint to a higher authority when necessary.",
+    "context": [
+      "Escalate if needed"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_030",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_031_rol_001",
+    "name": "Management",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The management body responsible for the oversight of the complaints process, including financial approvals, trend monitoring, and regulatory liaison.",
+    "context": [
+      "Management",
+      "Approve complaints >£500",
+      "Monitor trends",
+      "Implement corrective actions",
+      "Report to Board",
+      "External regulatory liaison"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_031",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_031_prv_001",
+    "name": "Approval of High-Value Complaint Payments",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "approval_requirement",
+    "description": "Mandatory requirement for Management to approve any complaint payments exceeding £500.",
+    "context": [
+      "Approve complaints >£500"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_031",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_031_prv_002",
+    "name": "Complaints Trend Monitoring",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Obligation for Management to monitor trends within the complaints data to identify systemic issues.",
+    "context": [
+      "Monitor trends"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_031",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_031_prv_003",
+    "name": "Implementation of Corrective Actions",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement for Management to implement corrective actions based on the analysis of complaints and trends.",
+    "context": [
+      "Implement corrective actions"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_031",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_031_prv_004",
+    "name": "Complaints Reporting to the Board",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "Mandatory reporting obligation for Management to provide updates and reports regarding complaints to the Board.",
+    "context": [
+      "Report to Board"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_031",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_031_prv_005",
+    "name": "External Regulatory Liaison",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "Responsibility of Management to act as the point of contact and liaison with external regulatory bodies.",
+    "context": [
+      "External regulatory liaison"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_031",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_031_rol_002",
+    "name": "Board",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "board_committee",
+    "description": "The governing body to which Management reports regarding complaint trends and actions.",
+    "context": [
+      "Report to Board"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_031",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_032_pol_001",
+    "name": "Training & Awareness Policy",
+    "aliases": [
+      "Training & Awareness"
+    ],
+    "entity_class": "POLICY",
+    "type": "complaints",
+    "description": "A policy governing the mandatory training and awareness requirements for staff regarding complaint handling, governance, and regulatory reporting.",
+    "context": [
+      "Training & Awareness"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_032",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_032_prv_001",
+    "name": "Mandatory Annual Training Requirement",
+    "aliases": [
+      "Mandatory Annual Training"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "training_requirement",
+    "description": "A mandatory requirement for all staff, customer-facing staff, management, and compliance personnel to undergo annual training tailored to their specific roles.",
+    "context": [
+      "Mandatory Annual Training:",
+      "All staff: 1-hour complaint handling training",
+      "Customer-facing staff: 2-hour practical scenarios + role play",
+      "Management: Complaint governance and escalation",
+      "Compliance: FCA rules and reporting requirements"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_032",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_032_rol_001",
+    "name": "All Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The collective of all bank employees who are obligated to complete a 1-hour training session on complaint handling.",
+    "context": [
+      "All staff: 1-hour complaint handling training"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_032",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_032_rol_002",
+    "name": "Customer-facing Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Staff members who interact directly with customers and are required to complete 2 hours of practical scenarios and role play training.",
+    "context": [
+      "Customer-facing staff: 2-hour practical scenarios + role play"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_032",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_032_rol_003",
+    "name": "Management",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "board_committee",
+    "description": "Management personnel responsible for training in complaint governance and escalation procedures.",
+    "context": [
+      "Management: Complaint governance and escalation"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_032",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_032_rol_004",
+    "name": "Compliance",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Compliance staff responsible for training on FCA rules and reporting requirements.",
+    "context": [
+      "Compliance: FCA rules and reporting requirements"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_032",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_032_reg_001",
+    "name": "Financial Conduct Authority Rules",
+    "aliases": [
+      "FCA rules"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The rules issued by the Financial Conduct Authority (FCA) that govern reporting requirements and compliance standards.",
+    "context": [
+      "Compliance: FCA rules and reporting requirements"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_032",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_032_ctl_001",
+    "name": "Staff Training Program",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "staff_training",
+    "description": "The operational mechanism of annual training sessions (including role play and practical scenarios) used to ensure staff competency in complaint handling.",
+    "context": [
+      "Mandatory Annual Training:",
+      "1-hour complaint handling training",
+      "2-hour practical scenarios + role play"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_032",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_033_pol_001",
+    "name": "Complaints Handling Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "complaints",
+    "description": "The governing policy document outlining the requirements for managing customer complaints, including internal audit standards and regulatory supervision by the FCA.",
+    "context": [
+      "Audit & Monitoring",
+      "Internal Audit:",
+      "FCA Supervision:"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_033",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_033_prv_001",
+    "name": "Annual Testing of Complaint Handling",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "A mandatory requirement for the bank to conduct testing of its complaint handling processes on an annual basis.",
+    "context": [
+      "Annual testing of complaint handling"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_033",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_033_prv_002",
+    "name": "Sample File Review Minimum Threshold",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to perform a sample file review consisting of 10 or more files to ensure compliance and quality.",
+    "context": [
+      "Sample file review (10+ files)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_033",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_033_prv_003",
+    "name": "Complaint Timeliness Testing",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to test the timeliness of the complaint handling process to ensure adherence to prescribed timeframes.",
+    "context": [
+      "Timeliness testing"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_033",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_033_prv_004",
+    "name": "Compensation Appropriateness Review",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to review and ensure that the compensation provided to customers is appropriate.",
+    "context": [
+      "Compensation appropriateness"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_033",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_033_prv_005",
+    "name": "FCA Disclosure Accuracy Verification",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to verify the accuracy of disclosures made to the Financial Conduct Authority (FCA).",
+    "context": [
+      "FCA disclosure accuracy"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_033",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_033_reg_001",
+    "name": "Financial Conduct Authority",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "external_regulator",
+    "description": "The regulatory body responsible for supervising complaint handling and issuing consent orders in the event of violations.",
+    "context": [
+      "FCA disclosure accuracy",
+      "FCA Supervision:",
+      "Periodic complaint thematic reviews"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_033",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_033_rsk_001",
+    "name": "Compliance Violation Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "The risk of violating regulatory standards in complaint handling, which may lead to the issuance of consent orders by the FCA.",
+    "context": [
+      "Consent orders (if violations found)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_033",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_033_ctl_001",
+    "name": "Internal Audit Monitoring",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The operational mechanism of internal auditing used to test complaint handling, review files, and verify disclosure accuracy.",
+    "context": [
+      "Internal Audit:",
+      "Annual testing of complaint handling",
+      "Sample file review (10+ files)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_033",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_033_rol_001",
+    "name": "Internal Audit Function",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The internal body responsible for executing annual testing, sample reviews, and timeliness checks on complaint handling.",
+    "context": [
+      "Internal Audit:"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_033",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_033_rol_002",
+    "name": "FCA Supervisor",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "external_regulator",
+    "description": "The external regulatory authority responsible for conducting thematic reviews and issuing consent orders.",
+    "context": [
+      "FCA Supervision:",
+      "Periodic complaint thematic reviews"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_033",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_034_pol_001",
+    "name": "FirstUK Bank Policy Review & Updates",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "The governing framework for the review and update cycle of bank policies, ensuring alignment with regulatory changes and periodic internal assessment.",
+    "context": [
+      "Policy Review & Updates"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_034",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_034_prv_001",
+    "name": "Annual Policy Review Requirement",
+    "aliases": [
+      "Review Frequency"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "A mandatory requirement that policies must be reviewed on an annual basis or immediately upon a change in FCA regulations.",
+    "context": [
+      "Review Frequency: Annual (or upon FCA change)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_034",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_034_reg_001",
+    "name": "Financial Conduct Authority",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "external_regulator",
+    "description": "The regulatory body whose changes in guidance or rules trigger an immediate review of the bank's internal policies.",
+    "context": [
+      "upon FCA change"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_034",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_035_pol_001",
+    "name": "Escalation Matrix",
+    "aliases": [
+      "ESC-001"
+    ],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "A formal governing document that defines the escalation paths and procedures for handling issues within the bank.",
+    "context": [
+      "Escalation Matrix (ESC-001)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_035",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_035_pol_002",
+    "name": "Complaint Resolution Guide",
+    "aliases": [
+      "COMPL-RES-GUIDE-001"
+    ],
+    "entity_class": "POLICY",
+    "type": "complaints",
+    "description": "A formal guidance document providing the framework and steps for resolving customer complaints.",
+    "context": [
+      "Complaint Resolution Guide (COMPL-RES-GUIDE-001)"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_035",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_036_rol_001",
+    "name": "Head of Customer Service",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "A senior leadership role responsible for the formal approval and sign-off of the policy document.",
+    "context": [
+      "Approved by: Head of Customer Service — Date: 2026-01-15"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_036",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_036_rol_002",
+    "name": "Head of Compliance",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "A senior leadership role responsible for the formal approval and sign-off of the policy document to ensure regulatory alignment.",
+    "context": [
+      "Approved by: Head of Compliance — Date: 2026-01-15"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_036",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "81c92df61c3a40e596b0371991969b3d_036_rol_003",
+    "name": "Chief Executive Officer",
+    "aliases": [
+      "CEO"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The highest executive authority responsible for the final formal approval and sign-off of the policy document.",
+    "context": [
+      "Approved by: Chief Executive Officer — Date: 2026-01-15"
+    ],
+    "chunk_id": "81c92df61c3a40e596b0371991969b3d_036",
+    "doc_id": "81c92df61c3a40e596b0371991969b3d",
+    "domain": "banking_policy"
+  }
+]
