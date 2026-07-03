@@ -18,6 +18,7 @@ from loguru import logger
 from neo4j import GraphDatabase
 
 from artmind.db import _get_db
+from artmind.setup import _setup_neo4j
 from artmind.extraction import (
     build_entities_prompt,
     build_properties_prompt,
@@ -706,21 +707,7 @@ def _merge_props_dicts(existing: dict, incoming: dict) -> dict:
 
 
 def _ensure_neo4j_schema(session, embedding_dim: int = 768) -> None:
-    session.run(
-        "CREATE CONSTRAINT document_id IF NOT EXISTS FOR (n:Document) REQUIRE n.id IS UNIQUE"
-    )
-    session.run(
-        "CREATE CONSTRAINT chunk_id IF NOT EXISTS FOR (n:DocChunk) REQUIRE n.id IS UNIQUE"
-    )
-    session.run(
-        "CREATE INDEX entity_lookup IF NOT EXISTS FOR (n:Entity) ON (n.name, n.entity_class, n.domain)"
-    )
-    session.run(
-        f"CREATE VECTOR INDEX chunk_embedding IF NOT EXISTS "
-        f"FOR (c:DocChunk) ON (c.embedding) "
-        f"OPTIONS {{indexConfig: {{`vector.dimensions`: {embedding_dim}, "
-        f"`vector.similarity_function`: 'cosine'}}}}"
-    )
+    _setup_neo4j(session, embedding_dim)
 
 
 def _upsert_entity(session, entity: dict, extra_props: dict | None) -> None:
