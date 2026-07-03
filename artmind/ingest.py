@@ -132,12 +132,20 @@ def _delete_from_registry(domain: str, document_name: str) -> int:
         conn.close()
 
 
+def _table_exists(conn: sqlite3.Connection, table: str) -> bool:
+    return conn.execute(
+        "SELECT 1 FROM sqlite_master WHERE type='table' AND name=?", (table,)
+    ).fetchone() is not None
+
+
 def _delete_chunk_status(doc_sha256: str) -> int:
     if not DB_PATH.exists():
         return 0
     conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
     try:
+        if not _table_exists(conn, "kg_chunk_status"):
+            return 0
+        cursor = conn.cursor()
         cursor.execute("DELETE FROM kg_chunk_status WHERE doc_sha256 = ?", (doc_sha256,))
         deleted = cursor.rowcount
         conn.commit()
@@ -152,8 +160,10 @@ def _delete_chunk_status_by_doc_id(doc_id: str) -> int:
     if not DB_PATH.exists():
         return 0
     conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
     try:
+        if not _table_exists(conn, "kg_chunk_status"):
+            return 0
+        cursor = conn.cursor()
         cursor.execute("DELETE FROM kg_chunk_status WHERE doc_id = ?", (doc_id,))
         deleted = cursor.rowcount
         conn.commit()
