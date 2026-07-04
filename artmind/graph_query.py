@@ -177,11 +177,20 @@ def _run_read_query(cypher: str, parameters: dict) -> list[dict]:
         return [serialize_record(record) for record in session.run(cypher, **parameters)]
 
 
-def graph_metadata(domain: str) -> dict:
-    cypher = """
-    CALL () {
+def _domain_output(domains: list[str]) -> dict:
+    """Back-compat output keys: always 'domains'; add 'domain' when exactly one."""
+    out: dict = {"domains": domains}
+    if len(domains) == 1:
+        out["domain"] = domains[0]
+    return out
+
+
+def graph_metadata(domains: "str | Sequence[str]") -> dict:
+    domains = normalize_domains(domains)
+    cypher = f"""
+    CALL () {{
       MATCH (n)
-      WHERE (n.domain = $domain OR n.domain STARTS WITH ($domain + '.'))
+      WHERE {domain_predicate("n")}
       UNWIND labels(n) AS label
       WITH label, keys(n) AS nodeKeys, n.type AS typeVal
       UNWIND nodeKeys AS propName
@@ -192,115 +201,117 @@ def graph_metadata(domain: str) -> dict:
              null AS connections
     UNION
       MATCH (s)-[r]->(e)
-      WHERE (s.domain = $domain OR s.domain STARTS WITH ($domain + '.'))
-        AND (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
+      WHERE {domain_predicate("s")}
+        AND {domain_predicate("e")}
       WITH type(r) AS relType, labels(s) AS fromLabels, labels(e) AS toLabels, keys(r) AS relKeys
       UNWIND relKeys AS propName
       RETURN "relationships" AS category,
              relType AS name,
              collect(DISTINCT propName) AS propertyNames,
              null AS distinctTypes,
-             collect(DISTINCT {from: fromLabels, to: toLabels}) AS connections
-    }
+             collect(DISTINCT {{from: fromLabels, to: toLabels}}) AS connections
+    }}
     RETURN category, name, propertyNames, distinctTypes, connections
     ORDER BY category, name
     """
     return {
-        "domain": domain,
+        **_domain_output(domains),
         "query_type": "graph",
         "command": "metadata",
-        "rows": _run_read_query(cypher, {"domain": domain}),
+        "rows": _run_read_query(cypher, {"domains": domains}),
     }
 
 
-def structural_metadata(domain: str) -> dict:
+def structural_metadata(domains: "str | Sequence[str]") -> dict:
     """Return focused metadata about Document, DocChunk, UserChat, and Entity nodes.
 
     Unlike graph_metadata() which returns the full schema, this returns only the
     structural node types and relationships with counts and Document names — compact
     enough for agents and text2cypher prompts to parse quickly.
     """
-    cypher = """
-    CALL () {
+    domains = normalize_domains(domains)
+    cypher = f"""
+    CALL () {{
       MATCH (d:Document)
-      WHERE (d.domain = $domain OR d.domain STARTS WITH ($domain + '.'))
+      WHERE {domain_predicate("d")}
       WITH count(d) AS cnt, collect(DISTINCT d.name) AS names
       RETURN 'Document' AS label, cnt AS count, names AS names, null AS relationship, null AS from_label, null AS to_label
     UNION
       MATCH (c:DocChunk)
-      WHERE (c.domain = $domain OR c.domain STARTS WITH ($domain + '.'))
+      WHERE {domain_predicate("c")}
       WITH count(c) AS cnt
       RETURN 'DocChunk' AS label, cnt AS count, null AS names, null AS relationship, null AS from_label, null AS to_label
     UNION
       MATCH (u:UserChat)
-      WHERE (u.domain = $domain OR u.domain STARTS WITH ($domain + '.'))
+      WHERE {domain_predicate("u")}
       WITH count(u) AS cnt
       RETURN 'UserChat' AS label, cnt AS count, null AS names, null AS relationship, null AS from_label, null AS to_label
     UNION
       MATCH (e:Entity)
-      WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
+      WHERE {domain_predicate("e")}
       WITH count(e) AS cnt
       RETURN 'Entity' AS label, cnt AS count, null AS names, null AS relationship, null AS from_label, null AS to_label
     UNION
       MATCH (c:DocChunk)-[r:PART_OF]->(d:Document)
-      WHERE (c.domain = $domain OR c.domain STARTS WITH ($domain + '.'))
+      WHERE {domain_predicate("c")}
       WITH count(r) AS cnt
       RETURN null AS label, cnt AS count, null AS names, 'PART_OF' AS relationship, 'DocChunk' AS from_label, 'Document' AS to_label
     UNION
       MATCH (e:Entity)-[r:EXTRACTED_FROM]->(c:DocChunk)
-      WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
+      WHERE {domain_predicate("e")}
       WITH count(r) AS cnt
       RETURN null AS label, cnt AS count, null AS names, 'EXTRACTED_FROM' AS relationship, 'Entity' AS from_label, 'DocChunk' AS to_label
     UNION
       MATCH (c:DocChunk)-[r:MENTIONS]->(e:Entity)
-      WHERE (c.domain = $domain OR c.domain STARTS WITH ($domain + '.'))
+      WHERE {domain_predicate("c")}
       WITH count(r) AS cnt
       RETURN null AS label, cnt AS count, null AS names, 'MENTIONS' AS relationship, 'DocChunk' AS from_label, 'Entity' AS to_label
     UNION
       MATCH (u:UserChat)-[r:MENTIONS]->(e:Entity)
-      WHERE (u.domain = $domain OR u.domain STARTS WITH ($domain + '.'))
+      WHERE {domain_predicate("u")}
       WITH count(r) AS cnt
       RETURN null AS label, cnt AS count, null AS names, 'MENTIONS' AS relationship, 'UserChat' AS from_label, 'Entity' AS to_label
-    }
+    }}
     RETURN label, count, names, relationship, from_label, to_label
     """
     return {
-        "domain": domain,
+        **_domain_output(domains),
         "query_type": "graph",
         "command": "structural_metadata",
-        "rows": _run_read_query(cypher, {"domain": domain}),
+        "rows": _run_read_query(cypher, {"domains": domains}),
     }
 
 
 def entity_listing(
-    domain: str,
+    domains: "str | Sequence[str]",
     name_filter: str | None = None,
     count_all: bool = False,
 ) -> dict:
-    cypher = """
+    domains = normalize_domains(domains)
+    cypher = f"""
     MATCH (n:Entity)
-    WHERE (n.domain = $domain OR n.domain STARTS WITH ($domain + '.')) AND n.name IS NOT NULL
+    WHERE {domain_predicate("n")} AND n.name IS NOT NULL
       AND ($nameFilter IS NULL OR toLower(n.name) CONTAINS toLower($nameFilter))
     UNWIND labels(n) AS label
     WITH label, n.type AS type, collect(DISTINCT n.name) AS names
-    RETURN label, collect({type: type, names: names}) AS typeGroups
+    RETURN label, collect({{type: type, names: names}}) AS typeGroups
     ORDER BY label
     """
     result: dict = {
-        "domain": domain,
+        **_domain_output(domains),
         "query_type": "graph",
         "command": "entity_listing",
-        "rows": _run_read_query(cypher, {"domain": domain, "nameFilter": name_filter}),
+        "rows": _run_read_query(cypher, {"domains": domains, "nameFilter": name_filter}),
     }
     if name_filter is not None:
         result["name_filter"] = name_filter
     if count_all:
-        count_cypher = """
+        count_cypher = f"""
         MATCH (n:Entity)
-        WHERE (n.domain = $domain OR n.domain STARTS WITH ($domain + '.')) AND n.name IS NOT NULL
+        WHERE {domain_predicate("n")} AND n.name IS NOT NULL
         RETURN count(DISTINCT n) AS total
         """
-        count_rows = _run_read_query(count_cypher, {"domain": domain})
+        count_rows = _run_read_query(count_cypher, {"domains": domains})
         result["total_entities"] = count_rows[0]["total"] if count_rows else 0
     return result
 
@@ -377,73 +388,73 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         return (
             f"""
             MATCH (e:{label})
-            WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
+            WHERE {domain_predicate("e")}
             RETURN e {{.*, label: labels(e)}} AS entityData
             ORDER BY e.name
             LIMIT $limit
             """,
-            {"domain": parameters["domain"], "limit": parameters.get("limit", 200)},
+            {"domains": parameters["domains"], "limit": parameters.get("limit", 200)},
         )
     if pattern == "pattern2":
-        cypher_params = {"domain": parameters["domain"]}
+        cypher_params = {"domains": parameters["domains"]}
         selector = _entity_list_selector(parameters, cypher_params, "e")
         return (
-            """
+            f"""
             MATCH (e:Entity)
-            WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
-              AND """ + selector + """
+            WHERE {domain_predicate("e")}
+              AND {selector}
             OPTIONAL MATCH (chunk:DocChunk)-[:MENTIONS]->(e)
-            WITH e, collect(DISTINCT chunk { .id, .name, .doc_id, source_type: 'document' }) AS doc_sources
+            WITH e, collect(DISTINCT chunk {{ .id, .name, .doc_id, .domain, source_type: 'document' }}) AS doc_sources
             OPTIONAL MATCH (chat:UserChat)-[:MENTIONS]->(e)
-            RETURN e {.*, label: labels(e)} AS entityData,
+            RETURN e {{.*, label: labels(e)}} AS entityData,
                    doc_sources,
-                   collect(DISTINCT chat { .id, .session_id, .created_by, .created_at, source_type: 'user_chat' }) AS chat_sources
+                   collect(DISTINCT chat {{ .id, .session_id, .created_by, .created_at, source_type: 'user_chat' }}) AS chat_sources
             ORDER BY entityData.name
             """,
             cypher_params,
         )
     if pattern == "pattern3":
-        cypher_params = {"domain": parameters["domain"]}
+        cypher_params = {"domains": parameters["domains"]}
         selector = _entity_list_selector(parameters, cypher_params, "e")
         return (
-            """
+            f"""
             MATCH (e:Entity)
-            WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
-              AND """ + selector + """
+            WHERE {domain_predicate("e")}
+              AND {selector}
             OPTIONAL MATCH (e)-[r]-(t:Entity)
-            WHERE (t.domain = $domain OR t.domain STARTS WITH ($domain + '.'))
-            WITH e, collect(CASE WHEN r IS NULL THEN NULL ELSE {
+            WHERE {domain_predicate("t")}
+            WITH e, collect(CASE WHEN r IS NULL THEN NULL ELSE {{
               type: type(r),
               properties: properties(r),
-              target: {name: t.name, label: labels(t)}
-            } END) AS connections
+              target: {{name: t.name, label: labels(t)}}
+            }} END) AS connections
             OPTIONAL MATCH (chunk:DocChunk)-[:MENTIONS]->(e)
-            WITH e, connections, collect(DISTINCT chunk { .id, .name, .doc_id, source_type: 'document' }) AS doc_sources
+            WITH e, connections, collect(DISTINCT chunk {{ .id, .name, .doc_id, .domain, source_type: 'document' }}) AS doc_sources
             OPTIONAL MATCH (chat:UserChat)-[:MENTIONS]->(e)
             RETURN properties(e) AS entityData, connections, doc_sources,
-                   collect(DISTINCT chat { .id, .session_id, .created_by, .created_at, source_type: 'user_chat' }) AS chat_sources
+                   collect(DISTINCT chat {{ .id, .session_id, .created_by, .created_at, source_type: 'user_chat' }}) AS chat_sources
             ORDER BY entityData.name
             """,
             cypher_params,
         )
     if pattern == "pattern4":
         label = parameters["entityClass"]
-        cypher_params = {"domain": parameters["domain"]}
+        cypher_params = {"domains": parameters["domains"]}
         selector = _entity_selector(parameters, cypher_params, "e")
         return (
             f"""
             MATCH (e:{label})
-            WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
+            WHERE {domain_predicate("e")}
               AND {selector}
             OPTIONAL MATCH (e)-[r]-(t:Entity)
-            WHERE (t.domain = $domain OR t.domain STARTS WITH ($domain + '.'))
+            WHERE {domain_predicate("t")}
             WITH e, collect(CASE WHEN r IS NULL THEN NULL ELSE {{
               rel_type: type(r),
               rel_properties: properties(r),
               connected_to: {{label: labels(t), data: properties(t)}}
             }} END) AS connections
             OPTIONAL MATCH (chunk:DocChunk)-[:MENTIONS]->(e)
-            WITH e, connections, collect(DISTINCT chunk {{ .id, .name, .doc_id, source_type: 'document' }}) AS doc_sources
+            WITH e, connections, collect(DISTINCT chunk {{ .id, .name, .doc_id, .domain, source_type: 'document' }}) AS doc_sources
             OPTIONAL MATCH (chat:UserChat)-[:MENTIONS]->(e)
             RETURN properties(e) AS entityData, connections, doc_sources,
                    collect(DISTINCT chat {{ .id, .session_id, .created_by, .created_at, source_type: 'user_chat' }}) AS chat_sources
@@ -454,7 +465,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
     if pattern == "pattern5":
         label1 = parameters["entityClass1"]
         label2 = parameters["entityClass2"]
-        cypher_params = {"domain": parameters["domain"]}
+        cypher_params = {"domains": parameters["domains"]}
         selector1 = _entity_selector(parameters, cypher_params, "e", "entityName1", "entityId1")
         selector2 = _entity_selector(parameters, cypher_params, "t", "entityName2", "entityId2")
         # Flatten to a genuinely interleaved [node, rel, node, rel, ..., node]
@@ -472,8 +483,8 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             return (
                 f"""
                 MATCH (e:{label1}), (t:{label2})
-                WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
-                  AND (t.domain = $domain OR t.domain STARTS WITH ($domain + '.'))
+                WHERE {domain_predicate("e")}
+                  AND {domain_predicate("t")}
                   AND {selector1}
                   AND {selector2}
                 WITH e, t
@@ -489,8 +500,8 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         return (
             f"""
             MATCH p = shortestPath((e:{label1})-[*..5]-(t:{label2}))
-            WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
-              AND (t.domain = $domain OR t.domain STARTS WITH ($domain + '.'))
+            WHERE {domain_predicate("e")}
+              AND {domain_predicate("t")}
               AND {selector1}
               AND {selector2}
               AND all(x IN nodes(p) WHERE x:Entity)
@@ -499,14 +510,14 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             cypher_params,
         )
     if pattern == "pattern6":
-        cypher_params = {"domain": parameters["domain"]}
+        cypher_params = {"domains": parameters["domains"]}
         selector1 = _entity_selector(parameters, cypher_params, "e1", "entityName1", "entityId1")
         selector2 = _entity_selector(parameters, cypher_params, "e2", "entityName2", "entityId2")
         return (
             f"""
             MATCH (e1:Entity)-[r]-(e2:Entity)
-            WHERE (e1.domain = $domain OR e1.domain STARTS WITH ($domain + '.'))
-              AND (e2.domain = $domain OR e2.domain STARTS WITH ($domain + '.'))
+            WHERE {domain_predicate("e1")}
+              AND {domain_predicate("e2")}
               AND {selector1}
               AND {selector2}
             RETURN type(r) AS relType,
@@ -524,29 +535,29 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         if not search_term:
             raise ValueError("--searchTerm contains no searchable text")
         return (
-            """
+            f"""
             CALL db.index.fulltext.queryNodes('entity_name_ft', $searchTerm)
             YIELD node AS e, score AS ftScore
-            WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
-            RETURN e {.*, label: labels(e)} AS entityData
+            WHERE {domain_predicate("e")}
+            RETURN e {{.*, label: labels(e)}} AS entityData
             ORDER BY ftScore DESC, e.name
             LIMIT $limit
             """,
             {
-                "domain": parameters["domain"],
+                "domains": parameters["domains"],
                 "searchTerm": search_term,
                 "limit": parameters.get("limit", 10),
             },
         )
     if pattern == "pattern8":
         label = parameters["entityClass"]
-        cypher_params = {"domain": parameters["domain"]}
+        cypher_params = {"domains": parameters["domains"]}
         selector = _entity_selector(parameters, cypher_params, "t")
         return (
             f"""
             MATCH (e:{label})-[r]-(t:Entity)
-            WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
-              AND (t.domain = $domain OR t.domain STARTS WITH ($domain + '.'))
+            WHERE {domain_predicate("e")}
+              AND {domain_predicate("t")}
               AND {selector}
             RETURN e {{.*, label: labels(e)}} AS entityData,
                    type(r) AS relType,
@@ -567,46 +578,47 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         return (
             f"""
             MATCH (e:{label})
-            WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
+            WHERE {domain_predicate("e")}
             {degree_match}
             WITH e, count(r) AS degree
             RETURN e {{.*, label: labels(e), degree: degree}} AS entityData
             ORDER BY degree DESC, e.name
             LIMIT $topN
             """,
-            {"domain": parameters["domain"], "topN": parameters.get("topN", 5)},
+            {"domains": parameters["domains"], "topN": parameters.get("topN", 5)},
         )
     if pattern == "pattern10":
         return (
-            """
+            f"""
             MATCH (c:DocChunk)-[:PART_OF]->(d:Document)
-            WHERE (d.domain = $domain OR d.domain STARTS WITH ($domain + '.'))
+            WHERE {domain_predicate("d")}
               AND toLower(d.name) CONTAINS toLower($documentName)
-            RETURN d { .id, .name, .path } AS document,
-                   c { .id, .name, .doc_id, .text } AS chunk
+            RETURN d {{ .id, .name, .path, .domain }} AS document,
+                   c {{ .id, .name, .doc_id, .domain, .text }} AS chunk
             ORDER BY c.name
             """,
-            {"domain": parameters["domain"], "documentName": parameters["documentName"]},
+            {"domains": parameters["domains"], "documentName": parameters["documentName"]},
         )
     raise ValueError(f"Unsupported graph query pattern: {pattern}")
 
 
 def execute_pattern(
-    domain: str,
+    domains: "str | Sequence[str]",
     pattern: str,
     question: str | None = None,
     **parameters,
 ) -> dict:
-    params = normalize_pattern_parameters(pattern, {"domain": domain, **parameters})
+    domains = normalize_domains(domains)
+    params = normalize_pattern_parameters(pattern, {"domains": domains, **parameters})
     validate_pattern_parameters(pattern, params)
     cypher, cypher_params = _pattern_query(pattern, params)
     output_parameters = {
         key: value
         for key, value in params.items()
-        if key != "domain" and value is not None
+        if key != "domains" and value is not None
     }
     return {
-        "domain": domain,
+        **_domain_output(domains),
         "query_type": "graph",
         "command": "pattern",
         "pattern": pattern,

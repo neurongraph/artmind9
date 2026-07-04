@@ -30,3 +30,13 @@ def test_domain_predicate_shape():
 def test_domain_predicate_custom_var_and_param():
     pred = domain_predicate("node", param="doms")
     assert "node.domain IN $doms" in pred
+
+
+def test_pattern1_cypher_uses_in_domains():
+    import artmind.graph_query as gq
+    cypher, params = gq._pattern_query(
+        "pattern1", {"domains": ["fiction"], "entityClass": "PERSON", "limit": 10}
+    )
+    assert "e.domain IN $domains" in cypher
+    assert params["domains"] == ["fiction"]
+    assert "= $domain" not in cypher
