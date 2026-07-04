@@ -1,5 +1,7 @@
 """Deterministic date parsing and document-date lifting (no Neo4j)."""
-from artmind.temporal import parse_iso, lift_document_dates
+import json
+
+from artmind.temporal import canonical_entity_dates, parse_iso, lift_document_dates
 
 
 def test_parse_iso_full_date():
@@ -69,9 +71,6 @@ def test_lift_document_dates_ignores_extra_table_columns():
     assert out["version"] == "3.0"
 
 
-from artmind.temporal import canonical_entity_dates
-
-
 def test_canonical_entity_dates_valid_from():
     schema_entities = {"POLICY": {"valid_from": "effective_date"}}
     entity = {"entity_class": "POLICY", "properties": {"effective_date": "2026-01-15"}}
@@ -90,3 +89,52 @@ def test_canonical_entity_dates_event_at():
 def test_canonical_entity_dates_no_mapping_returns_empty():
     entity = {"entity_class": "PERSON", "properties": {"name": "x"}}
     assert canonical_entity_dates(entity, {}, anchor=None) == {}
+
+
+def test_normalize_ingested_document_merges_properties_json(tmp_path, monkeypatch):
+    # Reproduces the real ingest.extract_kg() output shape: entities.json entries
+    # are flat (no "properties" key); the domain-specific values live in a
+    # separate properties.json keyed by entity id, merged at Neo4j-write time.
+    # A prior version of normalize_ingested_document never merged properties.json,
+    # so canonical_entity_dates always saw an empty properties dict and every
+    # entity's temporal mapping silently no-opped.
+    import artmind.temporal as temporal
+
+    doc_kg_dir = tmp_path
+    (doc_kg_dir / "document.json").write_text(
+        json.dumps({"id": "doc-1", "name": "policy.md"}), encoding="utf-8"
+    )
+    (doc_kg_dir / "entities.json").write_text(
+        json.dumps([{"id": "ent-1", "name": "Fee Policy", "entity_class": "POLICY"}]),
+        encoding="utf-8",
+    )
+    (doc_kg_dir / "properties.json").write_text(
+        json.dumps([{"id": "ent-1", "properties": {"effective_date": "2026-06-01"}}]),
+        encoding="utf-8",
+    )
+
+    monkeypatch.setattr(
+        temporal, "load_schema",
+        lambda domain: {"temporal": {"entities": {"POLICY": {"valid_from": "effective_date"}}}},
+    )
+
+    written_props = {}
+
+    class FakeSession:
+        def run(self, cypher, **kwargs):
+            if "Entity" in cypher:
+                written_props.update(kwargs.get("props", {}))
+
+    class FakeSessionContext:
+        def __enter__(self):
+            return FakeSession()
+
+        def __exit__(self, *exc):
+            return False
+
+    monkeypatch.setattr(temporal, "neo4j_session", lambda: FakeSessionContext())
+
+    result = temporal.normalize_ingested_document(doc_kg_dir, "banking_policy")
+
+    assert result["entities"] == 1
+    assert written_props["valid_from"] == "2026-06-01"

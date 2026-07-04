@@ -214,9 +214,19 @@ def normalize_ingested_document(doc_kg_dir: Path, domain: str) -> dict:
     try:
         document = json.loads((doc_kg_dir / "document.json").read_text(encoding="utf-8"))
         entities = json.loads((doc_kg_dir / "entities.json").read_text(encoding="utf-8"))
+        properties_path = doc_kg_dir / "properties.json"
+        properties_list = (
+            json.loads(properties_path.read_text(encoding="utf-8")) if properties_path.exists() else []
+        )
     except Exception as e:
         logger.warning("normalize_ingested_document: could not load JSON: {}", e)
         return {"domain": domain, "error": str(e)}
+    # entities.json entries are flat (id/name/entity_class/...) with no "properties"
+    # key — the domain-specific values (e.g. effective_date) live in properties.json,
+    # keyed by entity id, and are merged onto the node only at Neo4j-write time
+    # (see artmind.ingest._write_to_neo4j's props_by_id). Merge the same way here so
+    # canonical_entity_dates sees the actual property values, not an empty dict.
+    props_by_id = {p["id"]: p.get("properties", {}) for p in properties_list}
     md_file = MARKDOWNS_DIR / f"{Path(document['name']).stem}.md"
     md_text, fm = "", {}
     if md_file.exists():
@@ -232,7 +242,8 @@ def normalize_ingested_document(doc_kg_dir: Path, domain: str) -> dict:
             )
             written["documents"] = 1
         for e in entities:
-            canon = canonical_entity_dates(e, ent_map, anchor)
+            entity_with_props = {**e, "properties": props_by_id.get(e["id"], {})}
+            canon = canonical_entity_dates(entity_with_props, ent_map, anchor)
             clean = {k: v for k, v in canon.items() if not k.startswith("_")}
             if clean:
                 session.run("MATCH (e:Entity {id:$id}) SET e += $props", id=e["id"], props=clean)
