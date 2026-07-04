@@ -1,0 +1,11 @@
+# Exclude generated data: chunks, graph snapshots, and extracted knowledge graphs
+data/
+
+# Standard Python ignores (graphify may also use .gitignore)
+__pycache__/
+*.pyc
+.venv/
+node_modules/
+
+# Exclude very large generated files
+graphify-out/
