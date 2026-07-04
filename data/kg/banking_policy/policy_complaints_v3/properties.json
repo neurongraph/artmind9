@@ -1,0 +1,4742 @@
+[
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_001_pol_001",
+    "name": "Complaint Handling Policy",
+    "properties": {
+      "document_id": "COM-POL-006",
+      "version": "3.0",
+      "effective_date": "2026-06-01",
+      "review_date": "2027-06-01",
+      "owner": "Head of Customer Service",
+      "owning_department": "Customer Service",
+      "audience": [
+        "All Staff",
+        "Customers",
+        "FCA"
+      ],
+      "regulatory_basis": [
+        "FCA COBS Part 2 (Complaints)",
+        "FCA Handbook"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_001",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_001_reg_001",
+    "name": "FCA COBS Part 2 (Complaints)",
+    "properties": {
+      "issuing_authority": [
+        "FCA"
+      ],
+      "jurisdiction": [
+        "UK"
+      ],
+      "regulation_type": [
+        "regulatory_guidance"
+      ],
+      "how_cited": [
+        "Listed as primary regulatory reference for complaint handling obligations"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_001",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_001_reg_002",
+    "name": "FCA Handbook",
+    "properties": {
+      "issuing_authority": [
+        "FCA"
+      ],
+      "jurisdiction": [
+        "UK"
+      ],
+      "regulation_type": [
+        "regulatory_guidance"
+      ],
+      "how_cited": [
+        "Referenced alongside COBS Part 2 as governing framework"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_001",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_001_rol_001",
+    "name": "Head of Customer Service",
+    "properties": {
+      "role_title": "Head of Customer Service",
+      "department": "Customer Service",
+      "accountability_for": [
+        "Policy ownership and compliance oversight"
+      ],
+      "authority": [
+        "Oversee customer service operations and policy implementation"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_001",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_001_rol_002",
+    "name": "All Staff",
+    "properties": {
+      "role_title": "All Staff",
+      "department": "All Departments",
+      "accountability_for": [
+        "Adherence to complaint handling procedures"
+      ],
+      "training_required": [
+        "Implied by mandatory audience status"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_001",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_001_rol_003",
+    "name": "Financial Conduct Authority",
+    "properties": {
+      "role_title": "Financial Conduct Authority",
+      "department": "External Regulator",
+      "authority": [
+        "Regulatory oversight and enforcement of complaint standards"
+      ],
+      "accountability_for": [
+        "Ensuring FirstUK Bank complies with FCA rules"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_001",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_002_pol_001",
+    "name": "FirstUK Bank Policy (Version 3.0)",
+    "properties": {
+      "version": "3.0",
+      "effective_date": "2026-06-01",
+      "scope_summary": "Aligns Escalation Matrix and Compensation Framework thresholds to resolve internal inconsistency regarding Manager/Director approval boundaries.",
+      "supersedes": [
+        "Version 2.0 (effective 2026-01-15)"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_002",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_002_prv_001",
+    "name": "Unified Approval Threshold Alignment",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Escalation Matrix",
+        "Compensation Framework",
+        "Manager/Director approval decisions"
+      ],
+      "rationale": "Resolve internal inconsistency between previously specified approval boundaries",
+      "effective_date": "2026-06-01"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_002",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_002_rol_001",
+    "name": "Manager/Director",
+    "properties": {
+      "role_title": "Manager/Director",
+      "authority": [
+        "Approval boundaries for Escalation Matrix",
+        "Approval boundaries for Compensation Framework"
+      ],
+      "specific_obligations": [
+        "Adhere to unified approval thresholds aligned in Version 3.0"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_002",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_003_pol_001",
+    "name": "Complaints Handling Policy",
+    "properties": {
+      "core_policy_statement": "FirstUK Bank is committed to handling customer complaints fairly, efficiently, and in accordance with FCA requirements.",
+      "policy_domain": [
+        "Complaints Handling",
+        "Regulatory Compliance"
+      ],
+      "scope_summary": "Procedures for complaint receipt, investigation, resolution, and regulatory reporting."
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_003",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_003_reg_001",
+    "name": "Financial Conduct Authority (FCA) Requirements",
+    "properties": {
+      "issuing_authority": [
+        "Financial Conduct Authority"
+      ],
+      "jurisdiction": [
+        "UK"
+      ],
+      "key_obligation": "Compliance with regulatory standards governing customer complaint handling and reporting",
+      "how_cited": "Referenced as the governing framework for complaint procedures and regulatory reporting"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_003",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_003_ctl_001",
+    "name": "Complaint Investigation and Resolution Process",
+    "properties": {
+      "control_type": [
+        "Detective",
+        "Corrective"
+      ],
+      "frequency": [
+        "Per complaint occurrence"
+      ],
+      "performed_by": [
+        "Bank staff/Compliance function"
+      ],
+      "applies_to": [
+        "Customer complaints"
+      ],
+      "evidence_required": [
+        "Records of receipt, investigation steps, and resolution outcomes"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_003",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_003_prv_001",
+    "name": "Mandatory Fair and Efficient Complaint Handling",
+    "properties": {
+      "provision_type": [
+        "Mandatory"
+      ],
+      "applies_to": [
+        "All customer complaints"
+      ],
+      "timeframe": [
+        "As mandated by FCA requirements"
+      ],
+      "consequence_of_breach": [
+        "Regulatory reporting obligations triggered",
+        "FCA compliance breach"
+      ],
+      "verification_method": [
+        "Internal process adherence and regulatory reporting"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_003",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_003_cus_001",
+    "name": "Customer",
+    "properties": {
+      "eligibility_status": [
+        "Existing/Prospective"
+      ],
+      "rights_under_policy": [
+        "Entitlement to fair and efficient complaint handling"
+      ],
+      "obligations_under_policy": [
+        "Submit complaints through established bank procedures"
+      ],
+      "risk_treatment": [
+        "Standard customer base"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_003",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_004_pol_001",
+    "name": "Complaint Handling Policy",
+    "properties": {
+      "policy_domain": [
+        "Customer Complaints"
+      ],
+      "core_policy_statement": "To establish complaint handling procedures that acknowledge all complaints promptly, investigate issues thoroughly, resolve complaints fairly, report to FCA as required, prevent repeat issues, and maintain customer relationship."
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_004",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_004_prv_001",
+    "name": "Mandatory Prompt Acknowledgment of Complaints",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "All complaints"
+      ],
+      "timeframe": [
+        "promptly"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_004",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_004_prv_002",
+    "name": "Thorough Investigation of Complaint Issues",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "Complaint issues"
+      ],
+      "verification_method": [
+        "thorough investigation"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_004",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_004_prv_003",
+    "name": "Fair Resolution of Customer Complaints",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "Customer complaints"
+      ],
+      "required_response": [
+        "fair resolution"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_004",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_004_prv_004",
+    "name": "Regulatory Reporting to the FCA",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "Complaint handling process"
+      ],
+      "regulatory_source": [
+        "Financial Conduct Authority (FCA)"
+      ],
+      "timeframe": [
+        "as required"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_004",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_004_prv_005",
+    "name": "Prevention of Recurring Complaint Issues",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "Complaint handling process"
+      ],
+      "required_response": [
+        "prevent repeat issues"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_004",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_004_prv_006",
+    "name": "Customer Relationship Preservation During Complaint Handling",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "Complaint handling process"
+      ],
+      "required_response": [
+        "maintain customer relationship"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_004",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_004_reg_001",
+    "name": "Financial Conduct Authority",
+    "properties": {
+      "issuing_authority": [
+        "Financial Conduct Authority"
+      ],
+      "jurisdiction": [
+        "UK"
+      ],
+      "key_obligation": [
+        "Regulatory reporting of complaints as required"
+      ],
+      "how_cited": [
+        "Referenced in policy purpose for mandatory reporting obligations"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_004",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_004_cus_001",
+    "name": "Customer",
+    "properties": {
+      "rights_under_policy": [
+        "Fair resolution of complaints",
+        "Prompt acknowledgment",
+        "Relationship preservation during complaint handling"
+      ],
+      "risk_treatment": [
+        "Standard customer relationship protection"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_004",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_005_pol_001",
+    "name": "Complaints Handling Policy",
+    "properties": {
+      "scope_summary": "Applies to all customer complaints regarding products, services, and policies; covers all channels including branch, phone, email, and online; applies to all staff, accounts, and products.",
+      "audience": [
+        "All Staff"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_005",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_005_prv_002",
+    "name": "Universal Complaint Applicability Mandate",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All customer complaints",
+        "products",
+        "services",
+        "policies"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_005",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_005_prv_003",
+    "name": "Multi-Channel Coverage Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "branch",
+        "phone",
+        "email",
+        "online"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_005",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_005_rol_004",
+    "name": "All Staff",
+    "properties": {
+      "role_title": "All Staff",
+      "specific_obligations": [
+        "Comply with complaints handling procedures across all channels"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_005",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_005_acc_005",
+    "name": "All Accounts",
+    "properties": {
+      "policy_controls": [
+        "Subject to universal complaint applicability and multi-channel coverage requirements"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_005",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_005_pro_006",
+    "name": "All Products",
+    "properties": {
+      "applicable_policy": "Complaints Handling Policy",
+      "policy_controls": [
+        "Subject to universal complaint applicability and multi-channel coverage requirements"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_005",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_006_pol_001",
+    "name": "Customer Complaints Policy",
+    "properties": {
+      "core_policy_statement": "FirstUK Bank treats all customer complaints seriously and resolves them fairly within regulatory timeframes."
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_006",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_006_prv_001",
+    "name": "Mandatory Fair Resolution Within Regulatory Timeframes",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "customer complaints"
+      ],
+      "timeframe": [
+        "regulatory timeframes"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_006",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_006_cus_001",
+    "name": "All Customers",
+    "properties": {
+      "eligibility_status": [
+        "all"
+      ],
+      "rights_under_policy": [
+        "fair and timely complaint resolution within regulatory timeframes"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_006",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_007_pol_001",
+    "name": "FirstUK Bank Complaints Policy",
+    "properties": {
+      "policy_domain": [
+        "Complaints Management"
+      ],
+      "scope_summary": "Applies to any expression of dissatisfaction by a customer regarding FirstUK Bank's service or product.",
+      "core_policy_statement": "Defines a complaint as any expression of dissatisfaction by a customer about the bank's service or product."
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_007",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_007_prv_001",
+    "name": "Mandatory Classification of Customer Dissatisfaction as Complaint",
+    "properties": {
+      "provision_type": [
+        "Mandatory"
+      ],
+      "applies_to": [
+        "All customer expressions of dissatisfaction regarding FirstUK Bank's service or product"
+      ],
+      "linked_control": "Complaint Definition and Classification Process"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_007",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_007_cus_001",
+    "name": "Individual Customer",
+    "properties": {
+      "eligibility_status": [
+        "Existing/Prospective Customer"
+      ],
+      "rights_under_policy": [
+        "Right to express dissatisfaction regarding service or product"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_007",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_008_pol_001",
+    "name": "Complaints Policy",
+    "properties": {
+      "policy_domain": [
+        "Complaints Management",
+        "Customer Service"
+      ],
+      "scope_summary": "Covers service complaints (processing time, information accuracy, customer service quality, system outages), product complaints (interest rates, fee charges, terms & conditions, feature functionality), and financial loss scenarios (unauthorized transactions, fraudulent activity, incorrect balances, wrongly charged fees)."
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_008",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_008_rsk_001",
+    "name": "Fraud",
+    "properties": {
+      "examples": [
+        "Fraudulent activity",
+        "Unauthorized transaction"
+      ],
+      "risk_context": "Financial Loss"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_008",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_008_txn_001",
+    "name": "Unauthorized Transaction",
+    "properties": {},
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_008",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_009_pol_001",
+    "name": "FirstUK Bank Complaints Policy",
+    "properties": {
+      "policy_domain": [
+        "Complaints Management"
+      ],
+      "scope_summary": [
+        "Covers complaint receipt and logging processes across Branch, Phone, Email, Online, and Letter channels."
+      ],
+      "core_policy_statement": [
+        "All complaints must be logged immediately upon receipt regardless of the submission channel."
+      ],
+      "audience": [
+        "Customers",
+        "Staff"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_009",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_009_prv_001",
+    "name": "Mandatory Immediate Logging of All Complaints",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "Branch",
+        "Phone",
+        "Email",
+        "Online",
+        "Letter"
+      ],
+      "timeframe": [
+        "immediate upon receipt"
+      ],
+      "verification_method": [
+        "Automated system logging",
+        "Telephony recording"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_009",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_009_ctl_001",
+    "name": "Multi-Channel Complaint Logging System",
+    "properties": {
+      "control_type": [
+        "detective",
+        "directive"
+      ],
+      "mandatory": [
+        "yes"
+      ],
+      "frequency": [
+        "real-time upon receipt"
+      ],
+      "performed_by": [
+        "Automated systems",
+        "Bank staff"
+      ],
+      "applies_to": [
+        "All customer complaint channels"
+      ],
+      "evidence_required": [
+        "Digital logs",
+        "Call recordings",
+        "Portal submissions",
+        "Written correspondence"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_009",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_009_cus_001",
+    "name": "Customer",
+    "properties": {
+      "obligations_under_policy": [
+        "Submit complaints through official bank channels"
+      ],
+      "rights_under_policy": [
+        "Access to multiple complaint submission channels",
+        "Guarantee of immediate logging upon submission"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_009",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_010_pol_001",
+    "name": "Complaint Management Policy",
+    "properties": {
+      "policy_domain": [
+        "Complaints Management",
+        "Customer Service"
+      ],
+      "core_policy_statement": "All customer complaints must be immediately recorded, acknowledged according to channel-specific timeframes, and systematically logged in the CRM.",
+      "audience": [
+        "Receiving Staff Member",
+        "Complaint Handler",
+        "Branch Staff",
+        "Contact Centre Staff"
+      ],
+      "scope_summary": "Covers initial receipt, acknowledgment, and logging procedures for complaints across branch, phone, email, and letter channels."
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_010",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_010_prv_001",
+    "name": "Mandatory Complaint Recording Requirement",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "All incoming complaints",
+        "Branch",
+        "Phone",
+        "Email",
+        "Letter"
+      ],
+      "timeframe": [
+        "Immediate upon receipt"
+      ],
+      "verification_method": [
+        "CRM audit trail verification",
+        "Date/time and channel field completion check"
+      ],
+      "linked_control": [
+        "ctl_001"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_010",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_010_prv_002",
+    "name": "Channel-Specific Customer Acknowledgment Timeframe",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "Branch",
+        "Phone",
+        "Email",
+        "Letter"
+      ],
+      "timeframe": {
+        "Branch": "Immediate verbal acknowledgment + written confirmation",
+        "Phone": "Verbal acknowledgment + written confirmation within 24 hours",
+        "Email": "Automated receipt confirmation",
+        "Letter": "Written acknowledgment within 2 business days"
+      },
+      "verification_method": [
+        "System timestamp validation",
+        "Customer feedback monitoring"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_010",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_010_prv_003",
+    "name": "System Logging and Assignment Mandate",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "All complaints",
+        "CRM System"
+      ],
+      "timeframe": [
+        "Immediate upon receipt"
+      ],
+      "verification_method": [
+        "CRM record existence check",
+        "Complaint ID assignment verification"
+      ],
+      "linked_control": [
+        "ctl_001"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_010",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_010_rol_001",
+    "name": "Receiving Staff Member",
+    "properties": {
+      "role_title": "Receiving Staff Member",
+      "specific_obligations": [
+        "Record date and time received",
+        "Capture customer name and account number",
+        "Document complaint details (verbatim if verbal)",
+        "Identify channel received through",
+        "Provide immediate verbal acknowledgment (Branch) or verbal acknowledgment (Phone)"
+      ],
+      "accountability_for": [
+        "Accuracy of initial complaint record",
+        "Timely channel-specific acknowledgment"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_010",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_010_rol_002",
+    "name": "Complaint Handler",
+    "properties": {
+      "role_title": "Complaint Handler",
+      "specific_obligations": [
+        "Receive assigned complaints from CRM",
+        "Manage complaint resolution process"
+      ],
+      "accountability_for": [
+        "Complaint outcome and final response"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_010",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_010_cus_001",
+    "name": "Individual Customer",
+    "properties": {
+      "eligibility_status": [
+        "Existing"
+      ],
+      "rights_under_policy": [
+        "Receive immediate verbal acknowledgment (Branch)",
+        "Receive written acknowledgment within 24 hours (Phone)",
+        "Receive automated receipt confirmation (Email)",
+        "Receive written acknowledgment within 2 business days (Letter)"
+      ],
+      "obligations_under_policy": [
+        "Provide accurate complaint details and account information"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_010",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_010_acc_001",
+    "name": "Customer Account",
+    "properties": {
+      "policy_controls": [
+        "Account number must be captured and recorded during initial complaint logging"
+      ],
+      "risk_treatment": "Standard account subject to mandatory complaint recording and acknowledgment procedures"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_010",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_010_ctl_001",
+    "name": "CRM System Logging Mechanism",
+    "properties": {
+      "control_type": [
+        "detective",
+        "directive"
+      ],
+      "mandatory": true,
+      "frequency": [
+        "real-time"
+      ],
+      "performed_by": [
+        "Receiving Staff Member",
+        "Complaint Handler"
+      ],
+      "applies_to": [
+        "All customer complaints"
+      ],
+      "evidence_required": [
+        "CRM complaint record",
+        "Assigned complaint ID",
+        "Category tags"
+      ],
+      "technology_used": [
+        "CRM System"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_010",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_011_pol_001",
+    "name": "Complaint Handling Process",
+    "properties": {
+      "policy_domain": [
+        "Complaints Management"
+      ],
+      "scope_summary": "Initial assessment and triage of customer complaints based on severity levels.",
+      "core_policy_statement": "All complaints must undergo initial assessment within Day 1–2, with urgent matters escalated immediately and standard matters processed normally."
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_011",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_011_prv_001",
+    "name": "Mandatory Initial Assessment Timeframe",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "timeframe": [
+        "Day 1–2"
+      ],
+      "applies_to": [
+        "All customer complaints"
+      ],
+      "linked_control": [
+        "Severity-Based Triage Process"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_011",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_011_prv_002",
+    "name": "Urgent Complaint Escalation Requirement",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "Financial loss >£1,000",
+        "Fraud/security breaches",
+        "Service outages",
+        "Regulatory concerns"
+      ],
+      "timeframe": [
+        "Immediate"
+      ],
+      "linked_control": [
+        "Severity-Based Triage Process"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_011",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_011_prv_003",
+    "name": "Standard Complaint Processing Requirement",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "Regular service issues",
+        "Fee disputes <£1,000",
+        "Operational delays"
+      ],
+      "timeframe": [
+        "Standard processing period"
+      ],
+      "linked_control": [
+        "Severity-Based Triage Process"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_011",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_011_rsk_001",
+    "name": "Fraud and Security Breach Risk",
+    "properties": {
+      "risk_definition": "Risk of financial loss or security compromise affecting customers.",
+      "examples": [
+        "Fraud/security breach"
+      ],
+      "detection_mechanism": [
+        "Severity-based triage during initial assessment"
+      ],
+      "risk_level": [
+        "high"
+      ],
+      "required_response": [
+        "Immediate escalation to Manager"
+      ],
+      "reporting_obligation": [
+        "Manager"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_011",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_011_rsk_002",
+    "name": "Regulatory Compliance Risk",
+    "properties": {
+      "risk_definition": "Risk arising from regulatory concerns linked to customer complaints.",
+      "examples": [
+        "Regulatory concern"
+      ],
+      "detection_mechanism": [
+        "Severity-based triage during initial assessment"
+      ],
+      "risk_level": [
+        "high"
+      ],
+      "required_response": [
+        "Immediate escalation to Manager"
+      ],
+      "reporting_obligation": [
+        "Manager"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_011",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_011_rol_001",
+    "name": "Manager",
+    "properties": {
+      "role_title": [
+        "Manager"
+      ],
+      "specific_obligations": [
+        "Receive immediate escalation for urgent complaints",
+        "Oversee triage outcomes and initial assessment decisions"
+      ],
+      "authority": [
+        "Decision-making on urgent complaint handling and risk response"
+      ],
+      "accountability_for": [
+        "Urgent complaint resolution",
+        "Fraud/security breach management",
+        "Regulatory concern handling"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_011",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_011_ctl_001",
+    "name": "Severity-Based Triage Process",
+    "properties": {
+      "control_type": [
+        "detective",
+        "directive"
+      ],
+      "mandatory": true,
+      "frequency": [
+        "per_complaint"
+      ],
+      "performed_by": [
+        "Complaint Handling Team",
+        "Manager (for urgent triage)"
+      ],
+      "applies_to": [
+        "All customer complaints"
+      ],
+      "escalation_path": [
+        "Urgent items → Manager immediately; Standard items → Normal processing workflow"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_011",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_012_prv_001",
+    "name": "Mandatory Review of Account Records",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Account records"
+      ],
+      "timeframe": "Days 2–5 of investigation"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_012",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_012_prv_002",
+    "name": "Transaction History Verification",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Transaction history"
+      ],
+      "timeframe": "Days 2–5 of investigation"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_012",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_012_prv_003",
+    "name": "Staff Interviewing During Investigation",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Involved staff"
+      ],
+      "timeframe": "Days 2–5 of investigation",
+      "exceptions": [
+        "if applicable"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_012",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_012_ctl_001",
+    "name": "Investigation Record Keeping",
+    "properties": {
+      "control_type": "detective",
+      "frequency": "at_investigation_completion",
+      "performed_by": [
+        "Investigation Staff"
+      ],
+      "evidence_required": [
+        "All findings",
+        "Applicable policy/procedure notes"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_012",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_012_prv_004",
+    "name": "Financial Loss Quantification",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Financial loss assessment"
+      ],
+      "timeframe": "Days 2–5 of investigation"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_012",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_012_rol_001",
+    "name": "Investigation Staff",
+    "properties": {
+      "role_title": "Investigation Staff",
+      "specific_obligations": [
+        "Interview involved staff",
+        "Record all findings",
+        "Note applicable policy/procedure",
+        "Determine if FirstUK Bank is at fault",
+        "Quantify financial loss"
+      ],
+      "authority": [
+        "Assess policy compliance",
+        "Determine liability"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_012",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_012_acc_001",
+    "name": "Customer Account Records",
+    "properties": {
+      "policy_controls": [
+        "Subject to mandatory review during investigation step 2"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_012",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_012_txn_001",
+    "name": "Transaction History Review",
+    "properties": {
+      "monitoring_obligation": [
+        "Must be checked during investigation phase"
+      ],
+      "required_response": [
+        "Review and document findings"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_012",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_013_pol_001",
+    "name": "Complaints Resolution Policy",
+    "properties": {
+      "policy_domain": "Complaints Resolution",
+      "scope_summary": "Covers resolution outcomes and steps based on fault attribution (Bank at Fault, Customer at Fault, Unclear/Inconclusive)",
+      "core_policy_statement": "Resolution outcomes are strictly determined by fault attribution, mandating specific compensation, communication, and escalation steps for each scenario.",
+      "timeframe": "Days 5–8"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_013",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_013_prv_001",
+    "name": "Mandatory Financial Compensation and Interest for Bank-Faulted Losses",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Bank at Fault"
+      ],
+      "compensation_details": [
+        "Full financial compensation for loss",
+        "Interest at 8% per annum (if appropriate)",
+        "Additional compensation for distress (if applicable)"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_013",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_013_prv_002",
+    "name": "Written Apology and Process Improvement Obligation",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Bank at Fault"
+      ],
+      "obligations": [
+        "Written apology",
+        "Process improvement to prevent recurrence"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_013",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_013_prv_003",
+    "name": "Policy Explanation and Evidence Provision for Customer-Faulted Cases",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer at Fault"
+      ],
+      "obligations": [
+        "Provide explanation of policy/procedure",
+        "Provide supporting evidence"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_013",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_013_prv_004",
+    "name": "Compensation Decline Procedure for Customer-Faulted Cases",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer at Fault"
+      ],
+      "communication_requirements": [
+        "Polite decline of compensation",
+        "Maintain educational tone to help customer understand"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_013",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_013_prv_005",
+    "name": "Partial Compensation and Escalation Guidance for Inconclusive Outcomes",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Unclear/Inconclusive"
+      ],
+      "obligations": [
+        "Explain evidence reviewed",
+        "Acknowledge customer perspective",
+        "Offer partial compensation if appropriate",
+        "Explain further steps including external ombudsman"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_013",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_013_prv_006",
+    "name": "Five to Eight Day Resolution Timeframe",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "Days 5–8",
+      "applies_to": [
+        "All resolution cases"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_013",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_013_cus_001",
+    "name": "Customer",
+    "properties": {
+      "rights_under_policy": [
+        "Full compensation + interest + distress payment if bank is at fault",
+        "Explanation and evidence provision if customer is at fault",
+        "Partial compensation/ombudsman guidance if outcome is inconclusive"
+      ],
+      "risk_treatment": "Classified by fault attribution: Bank Fault, Customer Fault, or Inconclusive"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_013",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_013_ctl_001",
+    "name": "Process Improvement Mechanism",
+    "properties": {
+      "control_type": "preventive",
+      "applies_to": [
+        "Bank at Fault"
+      ],
+      "objective": "Prevent recurrence of the issue"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_013",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_013_ctl_002",
+    "name": "Evidence Review and Provision Control",
+    "properties": {
+      "control_type": "detective",
+      "applies_to": [
+        "Customer at Fault",
+        "Unclear/Inconclusive"
+      ],
+      "obligations": [
+        "Review evidence",
+        "Provide evidence to customer",
+        "Explain reviewed evidence"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_013",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_014_pol_001",
+    "name": "Complaints Response Policy Framework",
+    "properties": {
+      "policy_domain": [
+        "Complaints Management"
+      ],
+      "core_policy_statement": "FirstUK Bank must issue a final written response to complaints by Day 8, including investigation summary, decision, reasoning, compensation details (if applicable), and escalation rights, delivered via customer's chosen method in plain language and professional tone.",
+      "audience": [
+        "Complaint Handling Staff",
+        "Customer Service Representatives"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_014",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_014_prv_001",
+    "name": "Mandatory Eight-Day Final Response Deadline",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "timeframe": [
+        "Day 8"
+      ],
+      "applies_to": [
+        "All customer complaints"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_014",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_014_prv_002",
+    "name": "Required Written Response Content Components",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "Final written complaint responses"
+      ],
+      "content_checklist": [
+        "Acknowledgment of complaint",
+        "Summary of investigation",
+        "Clear decision and reasoning",
+        "Compensation offered (if applicable)",
+        "Explanation of right to escalate"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_014",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_014_prv_003",
+    "name": "Customer-Choice Delivery Method Requirement",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "Complaint response delivery"
+      ],
+      "delivery_options": [
+        "Email",
+        "Letter"
+      ],
+      "customer_control": true
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_014",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_014_prv_004",
+    "name": "Plain Language and Professional Tone Standard",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "All complaint response communications"
+      ],
+      "language_standard": [
+        "Plain language",
+        "Avoid jargon"
+      ],
+      "tone_standard": [
+        "Professional",
+        "Respectful"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_014",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_014_cus_001",
+    "name": "Individual Customer",
+    "properties": {
+      "eligibility_status": [
+        "Complainant"
+      ],
+      "rights_under_policy": [
+        "Receive final written response by Day 8",
+        "Choose delivery method (email or letter)",
+        "Be informed of escalation rights",
+        "Receive communication in plain language and professional tone"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_014",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_015_pol_001",
+    "name": "Complaint Response Timeframe Policy",
+    "properties": {
+      "policy_domain": [
+        "customer_complaints",
+        "regulatory_compliance"
+      ],
+      "regulatory_basis": [
+        "Financial Conduct Authority (FCA) Requirements"
+      ],
+      "scope_summary": "Applies to all customer complaints classified as Simple, Standard, or Complex.",
+      "core_policy_statement": "FirstUK Bank must adhere to strict maximum response timeframes for complaint resolution, with mandatory escalation paths and FCA notification requirements for complex cases exceeding 8 weeks."
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_015_reg_001",
+    "name": "Financial Conduct Authority (FCA) Requirements",
+    "properties": {
+      "issuing_authority": [
+        "Financial Conduct Authority"
+      ],
+      "jurisdiction": [
+        "UK"
+      ],
+      "regulation_type": [
+        "regulatory_guidance"
+      ],
+      "key_obligation": "Mandates maximum response timeframes for complaint resolution and requires notification if complex complaints exceed the 8-week limit.",
+      "how_cited": "Referenced as the governing framework for all response timeframes, escalation triggers, and clock extension rules."
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_015_prv_001",
+    "name": "Simple Complaint Resolution within 1 Business Day",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "Simple complaints"
+      ],
+      "timeframe": [
+        "1 business day"
+      ],
+      "regulatory_source": [
+        "FCA Requirements"
+      ],
+      "linked_control": [
+        "Manager escalation if escalated"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_015_prv_002",
+    "name": "Standard Complaint Resolution within 8 Calendar Days",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "Standard complaints"
+      ],
+      "timeframe": [
+        "8 calendar days"
+      ],
+      "regulatory_source": [
+        "FCA Requirements"
+      ],
+      "linked_control": [
+        "Director escalation if unresolved"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_015_prv_003",
+    "name": "Complex Complaint Resolution within 8 Weeks with FCA Extension",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "Complex complaints"
+      ],
+      "timeframe": [
+        "8 weeks"
+      ],
+      "regulatory_source": [
+        "FCA Requirements"
+      ],
+      "exceptions": [
+        "Extension possible if complex investigation is justified and customer agrees"
+      ],
+      "linked_control": [
+        "FCA notification upon exceeding timeframe"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_015_prv_004",
+    "name": "Mandatory Escalation to Manager for Simple Complaints",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "Simple complaints"
+      ],
+      "regulatory_source": [
+        "FCA Requirements"
+      ],
+      "linked_control": [
+        "Manager review and resolution"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_015_prv_005",
+    "name": "Mandatory Escalation to Director for Unresolved Standard Complaints",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "Standard complaints"
+      ],
+      "regulatory_source": [
+        "FCA Requirements"
+      ],
+      "linked_control": [
+        "Director review and resolution"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_015_prv_006",
+    "name": "FCA Notification upon Exceeding Complex Timeframe",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "Complex complaints"
+      ],
+      "timeframe": [
+        "Upon exceeding 8-week limit"
+      ],
+      "regulatory_source": [
+        "FCA Requirements"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_015_prv_007",
+    "name": "8-Week Clock Start and Stop Rules",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "Complex complaints"
+      ],
+      "timeframe": [
+        "Starts: When complaint received | Stops: When response sent to customer"
+      ],
+      "regulatory_source": [
+        "FCA Requirements"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_015_prv_008",
+    "name": "Extension of 8-Week Clock with Customer Agreement",
+    "properties": {
+      "provision_type": [
+        "conditional"
+      ],
+      "applies_to": [
+        "Complex complaints"
+      ],
+      "timeframe": [
+        "Up to additional 8 weeks"
+      ],
+      "regulatory_source": [
+        "FCA Requirements"
+      ],
+      "exceptions": [
+        "Requires customer agreement and justified complex investigation"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_015_rol_001",
+    "name": "Manager",
+    "properties": {
+      "role_title": [
+        "Manager"
+      ],
+      "specific_obligations": [
+        "Handle escalated simple complaints"
+      ],
+      "authority": [
+        "Decision-making on escalated simple complaints"
+      ],
+      "accountability_for": [
+        "Timely resolution of escalated simple complaints"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_015_rol_002",
+    "name": "Director",
+    "properties": {
+      "role_title": [
+        "Director"
+      ],
+      "specific_obligations": [
+        "Handle unresolved standard complaints"
+      ],
+      "authority": [
+        "Decision-making on unresolved standard complaints"
+      ],
+      "accountability_for": [
+        "Timely resolution of escalated standard complaints"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_015_rol_003",
+    "name": "Financial Conduct Authority (FCA)",
+    "properties": {
+      "role_title": [
+        "Financial Conduct Authority (FCA)"
+      ],
+      "specific_obligations": [
+        "Receive notification if complex complaint timeframe is exceeded"
+      ],
+      "authority": [
+        "Regulatory oversight, sets response timeframes and extension rules"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_015_cus_001",
+    "name": "Customer",
+    "properties": {
+      "obligations_under_policy": [
+        "Must agree to extension of 8-week clock for complex investigations"
+      ],
+      "rights_under_policy": [
+        "Entitled to resolution within specified timeframes (1 day, 8 days, 8 weeks)"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_016_pol_001",
+    "name": "Complaint Categories & Handling",
+    "properties": {
+      "policy_domain": [
+        "Customer Service & Complaints"
+      ],
+      "core_policy_statement": [
+        "Structured investigation and resolution required for all service complaints, including apologies, compensation, and process improvements."
+      ],
+      "audience": [
+        "Staff"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_016",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_016_prv_001",
+    "name": "Mandatory Investigation Protocol for Service Complaints",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Service Complaints"
+      ],
+      "verification_method": [
+        "Check timeline",
+        "Review procedures followed",
+        "Assess reasonableness",
+        "Interview staff if needed"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_016",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_016_prv_002",
+    "name": "Compensation Limits for Service Failures",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Service Complaints"
+      ],
+      "compensation_limits": [
+        "Up to £100 for minor inconvenience",
+        "Variable/More than £100 for significant distress or loss"
+      ],
+      "linked_control": [
+        "Apology and compensation for inconvenience"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_016",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_016_prv_003",
+    "name": "Process Improvement Obligation for Complaint Recurrence",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Service Complaints"
+      ],
+      "linked_control": [
+        "Process improvement to prevent recurrence"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_016",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_016_rsk_001",
+    "name": "Service Failure Risk",
+    "properties": {
+      "risk_definition": "Failures in service delivery impacting customer experience",
+      "examples": [
+        "Long wait",
+        "Incorrect information",
+        "Rude staff"
+      ],
+      "detection_mechanism": [
+        "Customer complaints",
+        "Timeline checks",
+        "Procedure reviews"
+      ],
+      "required_response": [
+        "Investigation",
+        "Apology",
+        "Compensation",
+        "Process improvement"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_016",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_016_rol_001",
+    "name": "Staff",
+    "properties": {
+      "role_title": "Staff",
+      "specific_obligations": [
+        "Participate in complaint interviews",
+        "Adhere to investigation procedures"
+      ],
+      "accountability_for": [
+        "Service delivery standards",
+        "Compliance with investigation protocols"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_016",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_017_pol_001",
+    "name": "Fee Disputes Policy",
+    "properties": {
+      "policy_domain": [
+        "Fee Management",
+        "Customer Disputes"
+      ],
+      "scope_summary": "Covers unexpected charges, overdraft fees, and card replacement fees.",
+      "core_policy_statement": "Dispute resolution is strictly determined by T&Cs accuracy, disclosure clarity, and customer history. Correctly applied fees are declined; errors trigger reversal and interest adjustment; unclear terms mandate refund and apology."
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_017",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_017_prv_001",
+    "name": "Mandatory Terms & Conditions Review",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Fee dispute investigations"
+      ],
+      "verification_method": [
+        "Review against documented terms & conditions"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_017",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_017_prv_002",
+    "name": "Fee Application Accuracy Verification",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Fee application process"
+      ],
+      "verification_method": [
+        "Check fee calculation/application against T&Cs"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_017",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_017_prv_003",
+    "name": "Fee Disclosure Assessment",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Fee communication & disclosure"
+      ],
+      "verification_method": [
+        "Assess clarity of fee disclosure to customer"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_017",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_017_prv_004",
+    "name": "Customer History Review Obligation",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Dispute investigation process"
+      ],
+      "verification_method": [
+        "Review customer account history"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_017",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_017_prv_005",
+    "name": "Correct Fee Reversal Declination Protocol",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Disputes where fee is correctly applied per T&Cs"
+      ],
+      "required_response": [
+        "Explain decision to customer",
+        "Decline reversal request"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_017",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_017_prv_006",
+    "name": "Fee Error Reversal & Interest Adjustment",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Disputes involving fee errors"
+      ],
+      "required_response": [
+        "Reverse the charge",
+        "Adjust interest"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_017",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_017_prv_007",
+    "name": "Unclear Terms Refund & Apology Protocol",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Disputes where T&Cs are unclear"
+      ],
+      "required_response": [
+        "Issue refund",
+        "Provide apology"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_017",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_017_ctl_001",
+    "name": "Structured Dispute Investigation Framework",
+    "properties": {
+      "control_type": [
+        "detective",
+        "corrective"
+      ],
+      "frequency": [
+        "per_dispute"
+      ],
+      "applies_to": [
+        "Fee disputes",
+        "Unexpected charges",
+        "Overdraft fees",
+        "Card replacement fees"
+      ],
+      "evidence_required": [
+        "Investigation notes",
+        "T&Cs reference logs",
+        "Customer history records"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_017",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_017_cus_001",
+    "name": "Individual Customer",
+    "properties": {
+      "eligibility_status": [
+        "existing"
+      ],
+      "rights_under_policy": [
+        "Entitled to reversal & interest adjustment if fee error",
+        "Entitled to refund & apology if T&Cs unclear"
+      ],
+      "obligations_under_policy": [
+        "Subject to bank's terms & conditions for fees"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_017",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_018_prv_001",
+    "name": "Account Balance Issue Resolution Mandate",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer Accounts",
+        "Credit Transactions"
+      ],
+      "timeframe": "upon discovery of discrepancy",
+      "linked_control": [
+        "ctl_001",
+        "ctl_002",
+        "ctl_003",
+        "ctl_004",
+        "ctl_005",
+        "ctl_006"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_018",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_018_ctl_001",
+    "name": "Transaction Reconciliation Process",
+    "properties": {
+      "control_type": "detective",
+      "frequency": "upon investigation of balance issue",
+      "performed_by": [
+        "Investigation & Resolution Staff"
+      ],
+      "applies_to": [
+        "Credit Transactions"
+      ],
+      "evidence_required": "transaction reconciliation records"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_018",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_018_ctl_002",
+    "name": "System Record Verification & Calculation Audit",
+    "properties": {
+      "control_type": "detective",
+      "frequency": "upon investigation of balance issue",
+      "performed_by": [
+        "Investigation & Resolution Staff"
+      ],
+      "applies_to": [
+        "System Records",
+        "Interest Calculations"
+      ],
+      "evidence_required": "audit logs of system checks and calculation verifications"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_018",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_018_ctl_003",
+    "name": "Hold Period Review Protocol",
+    "properties": {
+      "control_type": "detective",
+      "frequency": "upon investigation of balance issue",
+      "performed_by": [
+        "Investigation & Resolution Staff"
+      ],
+      "applies_to": [
+        "Accounts with Holds"
+      ],
+      "evidence_required": "hold period review documentation"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_018",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_018_ctl_004",
+    "name": "Balance Correction & Interest Adjustment Procedure",
+    "properties": {
+      "control_type": "corrective",
+      "frequency": "upon confirmed bank error",
+      "performed_by": [
+        "Investigation & Resolution Staff"
+      ],
+      "applies_to": [
+        "Customer Accounts"
+      ],
+      "evidence_required": "correction and interest adjustment records"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_018",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_018_ctl_005",
+    "name": "Customer Education & Non-Penalisation Protocol",
+    "properties": {
+      "control_type": "directive",
+      "frequency": "upon confirmed customer misunderstanding",
+      "performed_by": [
+        "Investigation & Resolution Staff"
+      ],
+      "applies_to": [
+        "Customer Accounts"
+      ],
+      "evidence_required": "customer communication records",
+      "mandatory": "yes"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_018",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_018_ctl_006",
+    "name": "Urgent IT Escalation Mechanism",
+    "properties": {
+      "control_type": "corrective",
+      "frequency": "upon confirmed system error",
+      "performed_by": [
+        "Investigation & Resolution Staff"
+      ],
+      "applies_to": [
+        "System Errors"
+      ],
+      "evidence_required": "escalation ticket records",
+      "escalation_path": "Urgent IT support team"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_018",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_018_rsk_001",
+    "name": "Operational & System Error Risk",
+    "properties": {
+      "risk_definition": "Errors in transaction processing, system records, or calculation logic leading to incorrect balances",
+      "examples": [
+        "Missing credit",
+        "Wrong balance shown",
+        "Interest miscalculated"
+      ],
+      "detection_mechanism": "Customer reporting, reconciliation checks, system record verification",
+      "required_response": "Correct balance/interest, educate customer, escalate to IT if system error",
+      "reporting_obligation": "Investigation & Resolution Staff"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_018",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_018_rol_001",
+    "name": "Investigation & Resolution Staff",
+    "properties": {
+      "role_title": "Investigation & Resolution Staff",
+      "specific_obligations": [
+        "Reconcile transactions",
+        "Check system records",
+        "Verify calculations",
+        "Review hold periods",
+        "Correct balances/interest for bank errors",
+        "Educate customers without penalty",
+        "Escalate system errors to IT"
+      ],
+      "authority": "Authorize balance corrections and interest adjustments",
+      "accountability_for": "Accuracy of account balances and customer dispute resolution"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_018",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_018_acc_001",
+    "name": "Customer Account Subject to Balance Verification",
+    "properties": {
+      "account_type": "Customer Account",
+      "policy_controls": [
+        "Subject to transaction reconciliation",
+        "System record verification",
+        "Hold period review"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_018",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_018_trn_001",
+    "name": "Credit Transaction Requiring Verification",
+    "properties": {
+      "monitoring_obligation": "Must be reconciled during balance verification",
+      "suspicious_indicators": [
+        "Missing or incorrectly posted credits"
+      ],
+      "required_response": "Verify calculation, reconcile transaction, correct if bank error"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_018",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_019_pol_001",
+    "name": "Fraud Policy",
+    "properties": {
+      "document_id": "policy_fraud",
+      "policy_domain": [
+        "fraud"
+      ],
+      "scope_summary": "Covers procedures for handling unauthorized transactions and fraud claims"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_019",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_019_prv_001",
+    "name": "Mandatory Fraud Investigation Process",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer claims of fraudulent transactions"
+      ],
+      "verification_method": [
+        "Obtain customer statement",
+        "Review transaction details",
+        "Check authorization status",
+        "Assess fraud likelihood"
+      ],
+      "linked_control": "Specialized Fraud Investigation"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_019",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_019_prv_002",
+    "name": "Fraud Reimbursement Obligation",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Confirmed fraudulent transactions"
+      ],
+      "timeframe": "within 10 business days",
+      "required_response": "Full reimbursement + apology"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_019",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_019_prv_003",
+    "name": "Disputed Transaction Escalation",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Disputed transactions"
+      ],
+      "escalation_path": "Further investigation + FCA guidance"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_019",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_019_reg_001",
+    "name": "Financial Conduct Authority Guidance",
+    "properties": {
+      "issuing_authority": [
+        "Financial Conduct Authority"
+      ],
+      "jurisdiction": [
+        "UK"
+      ],
+      "regulation_type": [
+        "regulatory_guidance"
+      ],
+      "key_obligation": "Provide framework for handling disputed transactions",
+      "how_cited": "Referenced during dispute resolution process"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_019",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_019_rsk_001",
+    "name": "Fraud Risk",
+    "properties": {
+      "risk_definition": "Customer claims of unauthorized or fraudulent transactions",
+      "examples": [
+        "Unauthorized transactions",
+        "Fraudulent claims"
+      ],
+      "detection_mechanism": [
+        "Customer statement review",
+        "Transaction detail analysis",
+        "Authorization check",
+        "Fraud likelihood assessment"
+      ],
+      "required_response": "Investigation and potential reimbursement",
+      "reporting_obligation": "Escalate to Fraud Team if needed"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_019",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_019_ctl_001",
+    "name": "Specialized Fraud Investigation",
+    "properties": {
+      "control_type": [
+        "detective"
+      ],
+      "frequency": "event-driven",
+      "performed_by": [
+        "Fraud Team"
+      ],
+      "applies_to": [
+        "Suspected fraud cases"
+      ],
+      "evidence_required": [
+        "Customer statement",
+        "Transaction details"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_019",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_019_rol_001",
+    "name": "Fraud Team",
+    "properties": {
+      "role_title": "Fraud Team",
+      "specific_obligations": [
+        "Conduct specialized investigations for suspected fraud",
+        "Assess fraud likelihood"
+      ],
+      "authority": [
+        "Determine liability and authorize reimbursement"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_019",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_019_cus_001",
+    "name": "Customer",
+    "properties": {
+      "obligations_under_policy": [
+        "Provide statement for claimed fraud",
+        "Accept liability explanation if found at fault"
+      ],
+      "rights_under_policy": [
+        "Full reimbursement for confirmed fraud",
+        "Apology for confirmed fraud"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_019",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_019_txn_001",
+    "name": "Unauthorized Transaction",
+    "properties": {
+      "monitoring_obligation": "Verify authorization status",
+      "suspicious_indicators": [
+        "Customer claim of fraud"
+      ],
+      "required_response": "Investigation and potential full reimbursement"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_019",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_019_fra_001",
+    "name": "Customer Fraud Claim",
+    "properties": {
+      "generation_trigger": [
+        "Customer claim of fraudulent/unauthorized transaction"
+      ],
+      "investigation_obligation": "Obtain statement, review details, check authorization, assess likelihood",
+      "customer_notification": "Apology upon confirmed fraud",
+      "reimbursement_timeframe": "10 business days if confirmed"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_019",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_020_pol_001",
+    "name": "Account Takeover and Unauthorized Access Policy",
+    "properties": {
+      "policy_domain": [
+        "Financial Crime",
+        "Cybersecurity"
+      ],
+      "core_policy_statement": "Mandates immediate investigation and full resolution steps when unauthorized account access is discovered.",
+      "scope_summary": "Applies to customer accounts where usage without permission is detected."
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_020",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_020_rsk_001",
+    "name": "Unauthorized Account Access / Account Takeover",
+    "properties": {
+      "risk_definition": "Customer discovers account used without permission",
+      "examples": [
+        "Account used without customer permission"
+      ],
+      "required_response": [
+        "Immediate account freeze",
+        "Transaction review",
+        "Authentication review",
+        "Fraud team escalation",
+        "Law enforcement notification if warranted",
+        "Full reimbursement",
+        "Account security reset",
+        "Replacement card/online access reset",
+        "Credit monitoring if identity theft",
+        "Regular follow-up"
+      ],
+      "reporting_obligation": [
+        "Escalate to Fraud Team",
+        "Notify Law Enforcement if warranted"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_020",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_020_ctl_001",
+    "name": "Immediate Account Freeze Protocol",
+    "properties": {
+      "control_type": [
+        "preventive",
+        "corrective"
+      ],
+      "frequency": [
+        "real-time",
+        "upon_suspicion"
+      ],
+      "performed_by": [
+        "Bank Operations/IT",
+        "Fraud Team"
+      ],
+      "applies_to": [
+        "Accounts where unauthorized access is detected"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_020",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_020_ctl_002",
+    "name": "Transaction Review Process",
+    "properties": {
+      "control_type": [
+        "detective"
+      ],
+      "frequency": [
+        "upon_suspicion",
+        "post_freeze"
+      ],
+      "performed_by": [
+        "Fraud Team",
+        "Compliance Analysts"
+      ],
+      "applies_to": [
+        "All transactions on frozen account"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_020",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_020_ctl_003",
+    "name": "Authentication and Security Reset Procedure",
+    "properties": {
+      "control_type": [
+        "corrective",
+        "preventive"
+      ],
+      "frequency": [
+        "post_investigation",
+        "upon_unauthorized_access"
+      ],
+      "performed_by": [
+        "IT Security",
+        "Customer Support"
+      ],
+      "applies_to": [
+        "Compromised accounts and associated access credentials"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_020",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_020_ctl_004",
+    "name": "Law Enforcement Notification Procedure",
+    "properties": {
+      "control_type": [
+        "directive",
+        "corrective"
+      ],
+      "frequency": [
+        "case_by_case",
+        "upon_warranted_suspicion"
+      ],
+      "performed_by": [
+        "Fraud Team",
+        "Legal/Compliance"
+      ],
+      "applies_to": [
+        "Accounts involving significant fraud or identity theft"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_020",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_020_fra_001",
+    "name": "Fraud Detection and Escalation Trigger",
+    "properties": {
+      "generation_trigger": [
+        "Customer reports unauthorized account usage"
+      ],
+      "investigation_obligation": [
+        "Immediate account freeze",
+        "Transaction review",
+        "Authentication review",
+        "Fraud team escalation"
+      ],
+      "customer_notification": [
+        "Implied upon discovery/reporting"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_020",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_020_fra_002",
+    "name": "Fraudulent Transaction Reimbursement Obligation",
+    "properties": {
+      "reimbursement_obligation": [
+        "Full reimbursement of all fraudulent transactions"
+      ],
+      "reimbursement_timeframe": [
+        "Post-investigation resolution phase"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_020",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_020_rol_001",
+    "name": "Fraud Team",
+    "properties": {
+      "role_title": [
+        "Fraud Team"
+      ],
+      "department": [
+        "Financial Crime",
+        "Risk Management"
+      ],
+      "specific_obligations": [
+        "Receive escalated cases",
+        "Conduct transaction and authentication reviews",
+        "Coordinate law enforcement notification if warranted",
+        "Oversee account security reset and reimbursement"
+      ],
+      "authority": [
+        "Authorize account freezes",
+        "Approve reimbursements",
+        "Initiate law enforcement referrals"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_020",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_020_trn_001",
+    "name": "Fraudulent Transaction",
+    "properties": {
+      "suspicious_indicators": [
+        "Account used without customer permission"
+      ],
+      "required_response": [
+        "Flag for investigation",
+        "Include in full reimbursement calculation upon resolution"
+      ],
+      "monitoring_obligation": [
+        "Review during post-freeze transaction analysis"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_020",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_021_pol_001",
+    "name": "Complaints Escalation Policy",
+    "properties": {
+      "policy_domain": "Complaints Management",
+      "core_policy_statement": "Establishes a structured escalation matrix for handling customer complaints based on severity, financial loss, and risk level.",
+      "audience": [
+        "Customer Service Agents",
+        "Complaints Managers",
+        "Head of Customer Service",
+        "CEO/Board"
+      ],
+      "scope_summary": "Covers the end-to-end complaint resolution process from initial receipt through board-level escalation, governed by strict timelines and financial thresholds."
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_021",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_021_prv_001",
+    "name": "Frontline Complaint Resolution Timeline",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "Simple, low-value complaints",
+      "timeframe": "<1 day",
+      "consequence_of_breach": "Escalation to Manager level if unresolved"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_021",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_021_prv_002",
+    "name": "Manager-Level Complaint Review Threshold",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": "Moderate issues, losses <£500",
+      "timeframe": "<5 days",
+      "linked_control": "Complaint Escalation Matrix"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_021",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_021_prv_003",
+    "name": "Director-Level Escalation for Significant Losses",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": "Significant issues, £500–£2,000 loss",
+      "timeframe": "<8 days",
+      "consequence_of_breach": "Escalation to CEO/Board level"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_021",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_021_prv_004",
+    "name": "Board-Level Escalation for Major Failures",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "Major failures, >£2,000 loss, reputational risk",
+      "timeframe": "8+ weeks",
+      "risk_category": "Reputational Risk"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_021",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_021_prv_005",
+    "name": "Mandatory Escalation Triggers",
+    "properties": {
+      "provision_type": "mandatory",
+      "trigger_conditions": [
+        "Complaint unresolved after manager review",
+        "Financial compensation >£500 (Director) or >£2,000 (CEO)",
+        "Regulatory or reputational concern",
+        "Media/legal involvement",
+        "Customer escalates to FCA"
+      ],
+      "verification_method": "Escalation matrix monitoring and timeline tracking"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_021",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_021_reg_001",
+    "name": "Financial Conduct Authority (FCA)",
+    "properties": {
+      "issuing_authority": "Financial Conduct Authority",
+      "jurisdiction": "UK",
+      "regulation_type": "regulatory_guidance",
+      "key_obligation": "Manage regulatory concerns proactively; recognize FCA as a valid external escalation path for customers.",
+      "how_cited": "Referenced as an external escalation trigger and supervisory body for complaint handling."
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_021",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_021_rsk_001",
+    "name": "Reputational Risk",
+    "properties": {
+      "risk_definition": "Risk of damage to the bank's public standing arising from unresolved complaints or major failures.",
+      "examples": [
+        "Media/legal involvement",
+        "Regulatory concern",
+        "Customer escalation to FCA"
+      ],
+      "risk_level": "high",
+      "required_response": "Immediate board-level escalation; dedicated 8+ week resolution timeline.",
+      "reporting_obligation": "CEO/Board"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_021",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_021_rol_001",
+    "name": "Customer Service Agent",
+    "properties": {
+      "role_title": "Customer Service Agent",
+      "specific_obligations": [
+        "Resolve simple, low-value complaints at the frontline"
+      ],
+      "authority": "Initial complaint handling and resolution",
+      "reporting_to": "Complaints Manager"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_021",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_021_rol_002",
+    "name": "Complaints Manager",
+    "properties": {
+      "role_title": "Complaints Manager",
+      "specific_obligations": [
+        "Review moderate issues and losses under £500"
+      ],
+      "authority": "Manager-level decision making within <5 days",
+      "reporting_to": "Head of Customer Service"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_021",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_021_rol_003",
+    "name": "Head of Customer Service",
+    "properties": {
+      "role_title": "Head of Customer Service",
+      "specific_obligations": [
+        "Address significant issues and losses between £500–£2,000"
+      ],
+      "authority": "Director-level oversight within <8 days",
+      "reporting_to": "CEO/Board"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_021",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_021_rol_004",
+    "name": "CEO/Board",
+    "properties": {
+      "role_title": "CEO/Board",
+      "specific_obligations": [
+        "Manage major failures, losses >£2,000, and reputational risk"
+      ],
+      "authority": "Final escalation authority for high-severity cases",
+      "reporting_to": "N/A",
+      "timeframe": "8+ weeks for resolution"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_021",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_021_ctl_001",
+    "name": "Complaint Escalation Matrix",
+    "properties": {
+      "control_type": "directive",
+      "mandatory": true,
+      "frequency": "event-driven / per complaint",
+      "applies_to": "All customer complaints based on severity and financial loss",
+      "escalation_path": [
+        "Frontline",
+        "Manager",
+        "Director",
+        "Escalated (CEO/Board)"
+      ],
+      "evidence_required": "Complaint logs, resolution timelines, escalation records"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_021",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_021_cus_001",
+    "name": "Individual Customer",
+    "properties": {
+      "eligibility_status": "existing / prospective",
+      "rights_under_policy": "Entitled to escalating levels of review based on complaint severity and financial loss",
+      "risk_treatment": "Treated as a potential source of reputational/regulatory risk if complaints escalate externally"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_021",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_022_pol_001",
+    "name": "Compensation Framework",
+    "properties": {
+      "policy_domain": "Customer Service & Compensation",
+      "scope_summary": "Applies to service delays (1-2 days, 3-5 days), service failures (>5 days), financial losses due to error, and cases causing serious distress.",
+      "core_policy_statement": "Structured financial compensation is mandated based on the duration/severity of service failure or error, with approval thresholds aligned to an escalation matrix."
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_022",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_022_prv_002",
+    "name": "Service Delay Compensation (1–2 Days)",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "service delays lasting 1-2 days",
+      "timeframe": "1-2 days",
+      "compensation_range": [
+        "£0",
+        "£50"
+      ],
+      "basis": "inconvenience"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_022",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_022_prv_003",
+    "name": "Service Delay Compensation (3–5 Days)",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "service delays lasting 3-5 days",
+      "timeframe": "3-5 days",
+      "compensation_range": [
+        "£50",
+        "£100"
+      ],
+      "basis": "operational disruption"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_022",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_022_prv_004",
+    "name": "Service Failure Compensation (>5 Days)",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "service failures lasting over 5 days",
+      "timeframe": ">5 days",
+      "compensation_range": [
+        "£100",
+        "£300"
+      ],
+      "basis": "significant impact"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_022",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_022_prv_005",
+    "name": "Financial Loss Compensation",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "financial losses resulting from bank error",
+      "compensation_range": [
+        "Full loss",
+        "8% interest"
+      ],
+      "basis": "actual loss + interest"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_022",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_022_prv_006",
+    "name": "Serious Distress Compensation",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "cases causing serious emotional distress",
+      "compensation_range": [
+        "£250",
+        "£500+"
+      ],
+      "basis": "emotional impact"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_022",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_022_prv_007",
+    "name": "Compensation Approval Thresholds",
+    "properties": {
+      "provision_type": "mandatory",
+      "approval_matrix": {
+        "<£500": "Complaints Manager",
+        "£500–£2,000": "Director",
+        ">£2,000": "CEO",
+        ">£5,000": "Board notification + CEO"
+      }
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_022",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_022_rol_008",
+    "name": "Complaints Manager",
+    "properties": {
+      "role_title": "Complaints Manager",
+      "specific_obligations": [
+        "Approve compensation claims under £500"
+      ],
+      "authority": "Compensation approval up to £499.99"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_022",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_022_rol_009",
+    "name": "Director",
+    "properties": {
+      "role_title": "Director",
+      "specific_obligations": [
+        "Approve compensation claims between £500 and £2,000"
+      ],
+      "authority": "Compensation approval for amounts in the £500–£2,000 range"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_022",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_022_rol_010",
+    "name": "CEO",
+    "properties": {
+      "role_title": "CEO",
+      "specific_obligations": [
+        "Approve compensation claims over £2,000",
+        "Co-approve claims over £5,000 with Board notification"
+      ],
+      "authority": "Compensation approval for amounts exceeding £2,000"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_022",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_022_rol_011",
+    "name": "Board",
+    "properties": {
+      "role_title": "Board",
+      "specific_obligations": [
+        "Receive notification for compensation claims exceeding £5,000"
+      ],
+      "authority": "Oversight notification for high-value compensation claims (>£5,000)"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_022",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_023_pol_001",
+    "name": "FCA Reporting Policy",
+    "properties": {
+      "policy_domain": "Regulatory Compliance",
+      "core_policy_statement": "FirstUK Bank must report specific complaints and systemic issues directly to the FCA.",
+      "scope_summary": [
+        "Complaints alleging breaches of FCA rules",
+        "Complaints about financial services",
+        "Complaints about conduct",
+        "Complaints causing financial loss",
+        "Systemic issues"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_023",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_023_reg_001",
+    "name": "Financial Conduct Authority (FCA) Rules",
+    "properties": {
+      "issuing_authority": "Financial Conduct Authority (FCA)",
+      "jurisdiction": "UK",
+      "key_obligation": "Mandatory reporting of specified complaints and systemic issues",
+      "regulation_type": "rules"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_023",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_023_prv_001",
+    "name": "Mandatory Reporting of FCA Rule Breach Complaints",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Complaints alleging breaches of FCA rules"
+      ],
+      "regulatory_source": [
+        "FCA Rules"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_023",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_023_prv_002",
+    "name": "Mandatory Reporting of Financial Services Complaints",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Complaints about financial services"
+      ],
+      "regulatory_source": [
+        "FCA Rules"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_023",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_023_prv_003",
+    "name": "Mandatory Reporting of Conduct Complaints",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Complaints about conduct"
+      ],
+      "regulatory_source": [
+        "FCA Rules"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_023",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_023_prv_004",
+    "name": "Mandatory Reporting of Financial Loss Complaints",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Complaints causing financial loss"
+      ],
+      "regulatory_source": [
+        "FCA Rules"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_023",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_023_prv_005",
+    "name": "Mandatory Reporting of Systemic Issues",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Systemic issues"
+      ],
+      "regulatory_source": [
+        "FCA Rules"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_023",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_024_reg_001",
+    "name": "Financial Conduct Authority (FCA)",
+    "properties": {
+      "issuing_authority": "Financial Conduct Authority (FCA)",
+      "regulation_type": "regulatory_guidance",
+      "key_obligation": "Receives aggregated complaint statistics and handles customer escalations"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_024",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_024_reg_002",
+    "name": "Conduct of Business Sourcebook (COBS)",
+    "properties": {
+      "issuing_authority": "Financial Conduct Authority (FCA)",
+      "regulation_type": "secondary_legislation",
+      "key_obligation": "Mandates complaint statistics reporting and customer escalation disclosure rules",
+      "how_cited": "Referenced in document title as governing rulebook for FCA reporting"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_024",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_024_prv_003",
+    "name": "Mandatory Quarterly Submission of Aggregated Complaint Statistics",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "FirstUK Bank"
+      ],
+      "timeframe": "quarterly",
+      "regulatory_source": [
+        "Conduct of Business Sourcebook (COBS)"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_024",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_024_prv_004",
+    "name": "Customer Escalation Right Following Eight-Week Unresolved Period",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Customers"
+      ],
+      "timeframe": "after 8 weeks of unresolved complaint",
+      "consequence_of_breach": "Customer escalation to FCA",
+      "regulatory_source": [
+        "Conduct of Business Sourcebook (COBS)"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_024",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_024_rol_005",
+    "name": "FirstUK Bank (Reporting Entity)",
+    "properties": {
+      "role_title": "FirstUK Bank",
+      "specific_obligations": [
+        "File aggregated complaint statistics directly to FCA"
+      ],
+      "reporting_to": [
+        "Financial Conduct Authority (FCA)"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_024",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_024_cus_006",
+    "name": "Customers",
+    "properties": {
+      "rights_under_policy": [
+        "Right to escalate complaints to the FCA if unresolved after 8 weeks"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_024",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_025_pol_001",
+    "name": "Customer Escalation and Complaints Policy",
+    "properties": {
+      "policy_domain": [
+        "complaints",
+        "regulatory_escalation"
+      ],
+      "core_policy_statement": "FirstUK Bank must provide FCA contact information to unhappy customers, allow escalation to the Financial Ombudsman Service (FOS), include a statement of rights in escalation letters, and enforce a six-month time limit for FOS escalation.",
+      "audience": [
+        "Unhappy Customers",
+        "Complaints Handling Staff"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_025",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_025_prv_001",
+    "name": "Provide FCA Contact Information to Unhappy Customers",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Unhappy Customers"
+      ],
+      "verification_method": [
+        "Included in customer communication materials and escalation processes"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_025",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_025_prv_002",
+    "name": "Allow Escalation to Financial Ombudsman Service (FOS)",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Unhappy Customers"
+      ],
+      "consequence_of_breach": [
+        "FOS decision is binding on the bank"
+      ],
+      "exceptions": []
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_025",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_025_prv_003",
+    "name": "Include Statement of Rights in Escalation Letter",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Escalation Letters"
+      ],
+      "verification_method": [
+        "Required content in written escalation correspondence"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_025",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_025_prv_004",
+    "name": "Enforce Six-Month Time Limit for FOS Escalation",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": [
+        "6 months from final response"
+      ],
+      "applies_to": [
+        "Customer escalation to FOS"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_025",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_025_reg_001",
+    "name": "Financial Conduct Authority (FCA)",
+    "properties": {
+      "issuing_authority": "Financial Conduct Authority",
+      "jurisdiction": "UK",
+      "key_obligation": "Provide contact information to customers for regulatory escalation and complaint handling",
+      "how_cited": "Referenced as the regulatory body whose contact details must be provided to unhappy customers"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_025",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_025_reg_002",
+    "name": "Financial Ombudsman Service (FOS)",
+    "properties": {
+      "issuing_authority": "Financial Ombudsman Service",
+      "jurisdiction": "UK",
+      "key_obligation": "Provide independent, free dispute resolution with binding decisions for customer complaints",
+      "how_cited": "Referenced as the designated escalation body for unhappy customers"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_025",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_025_cus_001",
+    "name": "Unhappy Customer",
+    "properties": {
+      "eligibility_status": [
+        "existing",
+        "prospective"
+      ],
+      "obligations_under_policy": [
+        "Escalate to FOS within 6 months of final response"
+      ],
+      "rights_under_policy": [
+        "Receive FCA contact information",
+        "Escalate to FOS free of charge",
+        "Receive binding FOS decision"
+      ],
+      "risk_treatment": "Standard complaint escalation pathway"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_025",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_025_rol_001",
+    "name": "FirstUK Bank",
+    "properties": {
+      "role_title": "FirstUK Bank",
+      "specific_obligations": [
+        "Provide FCA contact information to unhappy customers",
+        "Allow escalation to FOS",
+        "Include statement of rights in escalation letters",
+        "Enforce six-month time limit for FOS escalation"
+      ],
+      "accountability_for": [
+        "Compliance with customer complaint and regulatory escalation procedures"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_025",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_026_pol_001",
+    "name": "Complaint Policy",
+    "properties": {
+      "policy_domain": [
+        "Customer Complaints"
+      ],
+      "scope_summary": "Tracks complaint data including date, type, category, customer details, outcomes, compensation, and resolution time."
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_026",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_026_prv_001",
+    "name": "Mandatory Capture of Complaint Date, Type, and Category",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Complaint Intake Process"
+      ],
+      "verification_method": "system_capture_of_date_type_category"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_026",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_026_prv_002",
+    "name": "Requirement to Record Customer Details",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer Complaints"
+      ],
+      "verification_method": "recorded_customer_details"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_026",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_026_prv_003",
+    "name": "Obligation to Track Complaint Outcomes",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Complaint Resolution Process"
+      ],
+      "examples": [
+        "upheld",
+        "rejected",
+        "partial"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_026",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_026_prv_004",
+    "name": "Mandatory Logging of Compensation Paid",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Financial Settlements"
+      ],
+      "verification_method": "logged_compensation_records"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_026",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_026_prv_005",
+    "name": "Requirement to Monitor Time to Resolution",
+    "properties": {
+      "provision_type": "periodic",
+      "applies_to": [
+        "Complaint Lifecycle"
+      ],
+      "timeframe": "time_to_resolution"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_026",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_026_ctl_001",
+    "name": "Complaint Tracking System",
+    "properties": {
+      "control_type": "detective",
+      "frequency": "real-time",
+      "performed_by": [
+        "Complaint Tracking System"
+      ],
+      "evidence_required": [
+        "complaint_date",
+        "type",
+        "category",
+        "customer_details",
+        "outcome",
+        "compensation_paid",
+        "time_to_resolution"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_026",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_026_cus_001",
+    "name": "Individual Customer",
+    "properties": {
+      "obligations_under_policy": [
+        "Provide details for complaint logging"
+      ],
+      "risk_treatment": "standard"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_026",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_027_pol_001",
+    "name": "Complaints Reporting & Analytics Policy",
+    "properties": {
+      "policy_domain": [
+        "Complaints Management",
+        "Reporting & Analytics"
+      ],
+      "scope_summary": "Covers structured reporting of complaint metrics, trends, and corrective actions across monthly, quarterly, and annual cycles.",
+      "core_policy_statement": "Mandates regular reporting of complaint data and analytics to management, the board, and regulators to ensure oversight and continuous improvement."
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_027",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_027_prv_002",
+    "name": "Mandatory Monthly Complaint Metrics Reporting to Management",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "Management"
+      ],
+      "timeframe": [
+        "Monthly"
+      ],
+      "reporting_content": [
+        "Total complaints received",
+        "Average resolution time",
+        "Upheld vs. rejected ratio",
+        "Financial compensation paid",
+        "Trends and patterns"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_027",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_027_prv_003",
+    "name": "Mandatory Quarterly Board Review & Corrective Action Reporting",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "Board of Directors"
+      ],
+      "timeframe": [
+        "Quarterly"
+      ],
+      "reporting_content": [
+        "Complaint volume trends",
+        "Top complaint types",
+        "Systemic issues identified",
+        "Corrective actions taken"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_027",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_027_prv_004",
+    "name": "Mandatory Annual Regulatory Reporting to the FCA",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "Financial Conduct Authority (FCA)"
+      ],
+      "timeframe": [
+        "Annual"
+      ],
+      "reporting_content": [
+        "Aggregate statistics",
+        "Complaint handling effectiveness",
+        "Process improvements implemented"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_027",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_027_reg_005",
+    "name": "Financial Conduct Authority (FCA)",
+    "properties": {
+      "issuing_authority": [
+        "Financial Conduct Authority"
+      ],
+      "jurisdiction": [
+        "UK"
+      ],
+      "regulation_type": [
+        "Regulatory Body"
+      ],
+      "key_obligation": [
+        "Receive annual regulatory reporting on complaint handling effectiveness and aggregate statistics"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_027",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_027_rol_006",
+    "name": "Senior Management",
+    "properties": {
+      "role_title": [
+        "Senior Management"
+      ],
+      "specific_obligations": [
+        "Review monthly complaint metrics including total complaints, resolution times, upheld/rejected ratios, compensation paid, and trends"
+      ],
+      "accountability_for": [
+        "Complaint handling performance and corrective action implementation"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_027",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_027_rol_007",
+    "name": "Board of Directors",
+    "properties": {
+      "role_title": [
+        "Board of Directors"
+      ],
+      "specific_obligations": [
+        "Review quarterly reports on complaint volume trends, top complaint types, systemic issues, and corrective actions taken"
+      ],
+      "accountability_for": [
+        "Oversight of complaint handling effectiveness and systemic risk mitigation"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_027",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_027_rol_008",
+    "name": "External Regulator (FCA)",
+    "properties": {
+      "role_title": [
+        "External Regulator (FCA)"
+      ],
+      "specific_obligations": [
+        "Receive annual aggregate statistics and reports on complaint handling effectiveness and process improvements"
+      ],
+      "accountability_for": [
+        "Regulatory oversight of FirstUK Bank's complaint reporting compliance"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_027",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_028_pol_001",
+    "name": "Learning & Improvement Policy",
+    "properties": {
+      "core_policy_statement": "Mandates systematic root cause analysis of complaints to identify systemic issues and implement corrective actions with ongoing effectiveness monitoring.",
+      "policy_domain": [
+        "Operational Risk",
+        "Complaints Management"
+      ],
+      "scope_summary": "Applies to all customer complaints requiring identification, analysis, and corrective action."
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_028_prv_001",
+    "name": "Systemic Complaint Identification Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All customer complaints"
+      ],
+      "verification_method": "Root cause analysis"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_028_prv_002",
+    "name": "Root Cause Analysis Mandate",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Identified systemic complaint patterns"
+      ],
+      "timeframe": "Upon identification of recurring issue"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_028_prv_003",
+    "name": "Corrective Action Implementation Obligation",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Root causes identified"
+      ],
+      "consequence_of_breach": "Continued operational failure and customer dissatisfaction"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_028_prv_004",
+    "name": "Effectiveness Monitoring Requirement",
+    "properties": {
+      "provision_type": "periodic",
+      "applies_to": [
+        "Implemented corrective actions"
+      ],
+      "verification_method": "Effectiveness monitoring"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_028_prv_005",
+    "name": "SOP Review and Resource Addition for Processing Delays",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Service processing delays"
+      ],
+      "linked_control": [
+        "ctl_001",
+        "ctl_002"
+      ],
+      "timeframe": "Triggered by high volume of slow processing complaints"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_028_prv_006",
+    "name": "Terms and Conditions Clarity Improvement for Fee Disputes",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Fee dispute complaints"
+      ],
+      "linked_control": [
+        "ctl_003"
+      ],
+      "timeframe": "Triggered by multiple fee disputes"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_028_prv_007",
+    "name": "Security Strengthening for Fraud Complaints",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Fraud complaints"
+      ],
+      "linked_control": [
+        "ctl_004"
+      ],
+      "timeframe": "Triggered by fraud complaints"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_028_rsk_001",
+    "name": "Systemic Complaint Risk",
+    "properties": {
+      "risk_definition": "Recurring issues affecting multiple customers",
+      "examples": [
+        "Same issue reported by multiple customers"
+      ],
+      "required_response": "Root cause analysis and corrective action"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_028_rsk_002",
+    "name": "Service Processing Delay Risk",
+    "properties": {
+      "risk_definition": "Customer complaints related to slow service processing",
+      "examples": [
+        "High 'slow processing' complaints"
+      ],
+      "required_response": "Review SOP, add resources"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_028_rsk_003",
+    "name": "Fee Dispute Risk",
+    "properties": {
+      "risk_definition": "Recurring disputes regarding fees",
+      "examples": [
+        "Multiple fee disputes"
+      ],
+      "required_response": "Improve T&C clarity, better disclosure"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_028_rsk_004",
+    "name": "Fraud Risk",
+    "properties": {
+      "risk_definition": "Complaints related to fraud",
+      "examples": [
+        "Fraud complaints"
+      ],
+      "required_response": "Strengthen security measures"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_028_ctl_001",
+    "name": "Standard Operating Procedure Review",
+    "properties": {
+      "control_type": "corrective",
+      "frequency": "triggered_by_complaints",
+      "applies_to": [
+        "Service processing delays"
+      ],
+      "performed_by": [
+        "Operations/Compliance"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_028_ctl_002",
+    "name": "Resource Allocation Enhancement",
+    "properties": {
+      "control_type": "corrective",
+      "frequency": "triggered_by_complaints",
+      "applies_to": [
+        "Service processing delays"
+      ],
+      "performed_by": [
+        "Management/Operations"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_028_ctl_003",
+    "name": "Disclosure and Clarity Improvement",
+    "properties": {
+      "control_type": "corrective",
+      "frequency": "triggered_by_complaints",
+      "applies_to": [
+        "Fee disputes"
+      ],
+      "performed_by": [
+        "Legal/Compliance"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_028_ctl_004",
+    "name": "Security Measure Strengthening",
+    "properties": {
+      "control_type": "preventive",
+      "frequency": "triggered_by_complaints",
+      "applies_to": [
+        "Fraud complaints"
+      ],
+      "performed_by": [
+        "IT/Security"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_028_cus_001",
+    "name": "Affected Customers",
+    "properties": {
+      "eligibility_status": "existing",
+      "obligations_under_policy": "Report complaints to trigger systemic identification",
+      "risk_treatment": "Grouped for root cause analysis when same issue affects multiple customers"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_029_rol_001",
+    "name": "All Staff",
+    "properties": {
+      "role_title": "All Staff",
+      "department": "Bank-wide",
+      "specific_obligations": [
+        "Take all complaints seriously",
+        "Record accurately and promptly",
+        "Escalate appropriately",
+        "Follow procedures",
+        "Maintain confidentiality",
+        "Treat customers respectfully"
+      ],
+      "accountability_for": "Compliance with conduct, procedural, and customer service standards"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_029",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_029_prv_001",
+    "name": "Mandatory Complaint Seriousness",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All Staff"
+      ],
+      "obligation_statement": "Take all complaints seriously"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_029",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_029_prv_002",
+    "name": "Mandatory Accurate and Prompt Record Keeping",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All Staff"
+      ],
+      "timeframe": "promptly",
+      "obligation_statement": "Record accurately and promptly"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_029",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_029_prv_003",
+    "name": "Mandatory Appropriate Escalation",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All Staff"
+      ],
+      "obligation_statement": "Escalate appropriately"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_029",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_029_prv_004",
+    "name": "Mandatory Adherence to Established Procedures",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All Staff"
+      ],
+      "obligation_statement": "Follow procedures"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_029",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_029_prv_005",
+    "name": "Mandatory Confidentiality Maintenance",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All Staff"
+      ],
+      "obligation_statement": "Maintain confidentiality"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_029",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_029_prv_006",
+    "name": "Mandatory Respectful Customer Treatment",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All Staff"
+      ],
+      "obligation_statement": "Treat customers respectfully"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_029",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_030_rol_001",
+    "name": "Customer Service/Branch Staff",
+    "properties": {
+      "role_title": "Customer Service/Branch Staff",
+      "specific_obligations": [
+        "Receive complaints",
+        "Provide immediate acknowledgment",
+        "Log in system",
+        "Escalate urgent issues"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_030",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_030_prv_001",
+    "name": "Mandatory Complaint Receipt",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer Service/Branch Staff"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_030",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_030_prv_002",
+    "name": "Immediate Acknowledgment Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "immediate",
+      "applies_to": [
+        "Customer Service/Branch Staff"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_030",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_030_prv_003",
+    "name": "System Logging Obligation",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer Service/Branch Staff"
+      ],
+      "verification_method": "system logging"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_030",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_030_prv_004",
+    "name": "Urgent Issue Escalation Mandate",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer Service/Branch Staff"
+      ],
+      "linked_control": "escalation process for urgent issues"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_030",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_031_pol_001",
+    "name": "Complaints Handling Policy",
+    "properties": {
+      "policy_domain": [
+        "complaints_handling"
+      ],
+      "core_policy_statement": "Handlers must investigate thoroughly, document findings, follow resolution procedures, communicate clearly with customers, meet timeframes, and escalate if needed."
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_031",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_031_rol_001",
+    "name": "Complaints Handler",
+    "properties": {
+      "role_title": "Complaints Handler",
+      "specific_obligations": [
+        "Investigate thoroughly",
+        "Document findings",
+        "Follow resolution procedures",
+        "Communicate clearly with customer",
+        "Meet timeframes",
+        "Escalate if needed"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_031",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_031_prv_001",
+    "name": "Mandatory Thorough Investigation Requirement",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "Complaint investigation process"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_031",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_031_prv_002",
+    "name": "Findings Documentation Obligation",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "evidence_required": [
+        "Documented findings"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_031",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_031_prv_003",
+    "name": "Resolution Procedure Adherence Mandate",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "Resolution procedures"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_031",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_031_prv_004",
+    "name": "Clear Customer Communication Standard",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "Customer communications during complaint handling"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_031",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_031_prv_005",
+    "name": "Strict Timeframe Compliance Requirement",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "timeframe": [
+        "Policy-defined deadlines for each complaint stage"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_031",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_031_prv_006",
+    "name": "Escalation Protocol Obligation",
+    "properties": {
+      "provision_type": [
+        "conditional"
+      ],
+      "trigger": [
+        "When standard resolution is insufficient or complexity arises"
+      ],
+      "escalation_path": [
+        "Internal escalation protocol"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_031",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_031_cus_001",
+    "name": "Customer",
+    "properties": {
+      "rights_under_policy": [
+        "Clear communication regarding complaint status",
+        "Thorough investigation and timely resolution"
+      ],
+      "obligations_under_policy": [
+        "Provide necessary information for investigation and resolution"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_031",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "Management",
+    "name": "Management",
+    "properties": {
+      "role_title": "Management",
+      "specific_obligations": [
+        "Approve complaints exceeding £2,000",
+        "Monitor operational trends",
+        "Implement corrective actions",
+        "Report to Board",
+        "Serve as external regulatory liaison"
+      ],
+      "reporting_to": [
+        "Board"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_032",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_032_prv_001",
+    "name": "Mandatory Approval for Complaints Exceeding £2,000",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Complaints exceeding £2,000"
+      ],
+      "timeframe": "At point of complaint resolution",
+      "consequence_of_breach": "Unauthorized settlement outside management authority"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_032",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_032_prv_002",
+    "name": "Operational Trend Monitoring Obligation",
+    "properties": {
+      "provision_type": "periodic",
+      "applies_to": [
+        "Operational processes and complaint data"
+      ],
+      "timeframe": "Ongoing monitoring",
+      "verification_method": [
+        "Management review of trend analytics"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_032",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_032_prv_003",
+    "name": "Corrective Action Implementation Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Identified operational issues or negative trends"
+      ],
+      "timeframe": "Promptly upon identification",
+      "consequence_of_breach": "Failure to remediate systemic issues"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_032",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_032_prv_004",
+    "name": "Board Reporting Obligation",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Management reporting functions"
+      ],
+      "timeframe": "Periodic/As required for governance",
+      "verification_method": [
+        "Board meeting minutes and formal reports"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_032",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_032_rol_002",
+    "name": "Board",
+    "properties": {
+      "role_title": "Board",
+      "specific_obligations": [
+        "Receive management reports",
+        "Oversee high-value complaint approvals",
+        "Review operational trends and corrective actions"
+      ],
+      "accountability_for": [
+        "Governance oversight",
+        "Regulatory compliance assurance"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_032",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_032_prv_005",
+    "name": "External Regulatory Liaison Duty",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Management regulatory interactions"
+      ],
+      "timeframe": "Ongoing/As directed by regulators",
+      "verification_method": [
+        "Regulatory correspondence and liaison records"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_032",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_033_pol_001",
+    "name": "Training & Awareness Policy Framework",
+    "properties": {
+      "policy_domain": [
+        "Complaint Handling",
+        "Training & Awareness"
+      ],
+      "audience": [
+        "All Staff",
+        "Customer-Facing Staff",
+        "Management",
+        "Compliance Function"
+      ],
+      "core_policy_statement": "Mandatory annual training is required across all staff levels, with role-specific modules tailored to operational and compliance needs.",
+      "scope_summary": "Covers complaint handling, practical scenarios, governance/escalation protocols, and regulatory compliance/reporting."
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_033",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_033_prv_001",
+    "name": "Mandatory Annual Complaint Handling Training for All Staff",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "All Staff"
+      ],
+      "timeframe": [
+        "Annual",
+        "1-hour duration"
+      ],
+      "linked_control": [
+        "ctl_001"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_033",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_033_prv_002",
+    "name": "Practical Scenario Training for Customer-Facing Staff",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "Customer-Facing Staff"
+      ],
+      "timeframe": [
+        "Annual",
+        "2-hour duration"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_033",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_033_prv_003",
+    "name": "Complaint Governance and Escalation Training for Management",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "Management"
+      ],
+      "timeframe": [
+        "Annual"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_033",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_033_prv_004",
+    "name": "Regulatory Compliance and Reporting Training for Compliance Staff",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "Compliance Function"
+      ],
+      "timeframe": [
+        "Annual"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_033",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_033_rol_001",
+    "name": "All Staff",
+    "properties": {
+      "role_title": "All Staff",
+      "training_required": [
+        "1-hour annual complaint handling training"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_033",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_033_rol_002",
+    "name": "Customer-Facing Staff",
+    "properties": {
+      "role_title": "Customer-Facing Staff",
+      "training_required": [
+        "2-hour annual practical scenarios and role play"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_033",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_033_rol_003",
+    "name": "Management",
+    "properties": {
+      "role_title": "Management",
+      "training_required": [
+        "Annual complaint governance and escalation training"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_033",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_033_rol_004",
+    "name": "Compliance Function",
+    "properties": {
+      "role_title": "Compliance Function",
+      "training_required": [
+        "Annual training on FCA rules and reporting requirements"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_033",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_033_reg_001",
+    "name": "Financial Conduct Authority (FCA) Rules",
+    "properties": {
+      "issuing_authority": [
+        "Financial Conduct Authority"
+      ],
+      "jurisdiction": [
+        "UK"
+      ],
+      "regulation_type": [
+        "regulatory_guidance",
+        "secondary_legislation"
+      ],
+      "key_obligation": [
+        "Compliance with reporting requirements and regulatory rules"
+      ],
+      "how_cited": [
+        "Referenced as mandatory training content for the Compliance Function"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_033",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_033_ctl_001",
+    "name": "Mandatory Annual Staff Training Program",
+    "properties": {
+      "control_type": [
+        "preventive",
+        "directive"
+      ],
+      "mandatory": true,
+      "frequency": [
+        "Annual"
+      ],
+      "applies_to": [
+        "All Staff",
+        "Customer-Facing Staff",
+        "Management",
+        "Compliance Function"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_033",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_034_pol_001",
+    "name": "Complaint Handling Policy",
+    "properties": {
+      "policy_domain": [
+        "complaints_handling",
+        "audit_monitoring"
+      ],
+      "owning_department": [
+        "Internal Audit"
+      ],
+      "core_policy_statement": "Mandates annual testing of complaint handling, including sample file reviews, timeliness testing, compensation appropriateness, and FCA disclosure accuracy."
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_034",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_034_prv_001",
+    "name": "Mandatory Annual Complaint Handling Audit",
+    "properties": {
+      "provision_type": [
+        "mandatory",
+        "periodic"
+      ],
+      "applies_to": [
+        "complaint handling process"
+      ],
+      "timeframe": [
+        "annual"
+      ],
+      "verification_method": [
+        "sample file review",
+        "timeliness testing",
+        "compensation appropriateness assessment",
+        "FCA disclosure accuracy check"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_034",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_034_prv_002",
+    "name": "Sample File Review Requirement (Minimum 10 Files)",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "complaint handling records"
+      ],
+      "timeframe": [
+        "annual"
+      ],
+      "verification_method": [
+        "sample file review of minimum 10 files"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_034",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_034_prv_003",
+    "name": "Timeliness Testing Obligation",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "complaint handling timelines"
+      ],
+      "verification_method": [
+        "timeliness testing against regulatory/internal deadlines"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_034",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_034_prv_004",
+    "name": "Compensation Appropriateness Assessment",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "complaint resolution outcomes"
+      ],
+      "verification_method": [
+        "assessment of compensation amounts against policy/regulatory standards"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_034",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_034_prv_005",
+    "name": "FCA Disclosure Accuracy Verification",
+    "properties": {
+      "provision_type": [
+        "mandatory"
+      ],
+      "applies_to": [
+        "regulatory disclosures to the FCA"
+      ],
+      "verification_method": [
+        "accuracy verification of all FCA disclosures"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_034",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_034_reg_001",
+    "name": "Financial Conduct Authority (FCA)",
+    "properties": {
+      "issuing_authority": [
+        "Financial Conduct Authority"
+      ],
+      "jurisdiction": [
+        "UK"
+      ],
+      "regulation_type": [
+        "regulatory_guidance",
+        "supervisory_framework"
+      ],
+      "key_obligation": [
+        "Periodic complaint thematic reviews",
+        "Enforcement via consent orders for violations"
+      ],
+      "consequences_of_breach": [
+        "Consent orders imposed in case of violations"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_034",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_034_ctl_001",
+    "name": "Internal Audit Testing Framework",
+    "properties": {
+      "control_type": [
+        "detective",
+        "preventive"
+      ],
+      "frequency": [
+        "annual"
+      ],
+      "performed_by": [
+        "Internal Audit Function"
+      ],
+      "applies_to": [
+        "complaint handling process",
+        "regulatory compliance"
+      ],
+      "evidence_required": [
+        "Audit reports documenting sample reviews, timeliness tests, compensation assessments, and disclosure accuracy checks"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_034",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_034_rol_001",
+    "name": "Internal Audit Function",
+    "properties": {
+      "role_title": [
+        "Internal Audit Function"
+      ],
+      "department": [
+        "Internal Audit"
+      ],
+      "specific_obligations": [
+        "Conduct annual testing of complaint handling",
+        "Perform sample file reviews (min 10 files)",
+        "Execute timeliness testing",
+        "Assess compensation appropriateness",
+        "Verify FCA disclosure accuracy"
+      ],
+      "accountability_for": [
+        "Audit & Monitoring compliance",
+        "Regulatory supervision readiness"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_034",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_034_rol_002",
+    "name": "Financial Conduct Authority (FCA)",
+    "properties": {
+      "role_title": [
+        "Financial Conduct Authority"
+      ],
+      "specific_obligations": [
+        "Conduct periodic complaint thematic reviews",
+        "Impose consent orders for violations"
+      ],
+      "authority": [
+        "Supervisory oversight",
+        "Enforcement actions including consent orders"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_034",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_034_prv_006",
+    "name": "Periodic Complaint Thematic Review Requirement",
+    "properties": {
+      "provision_type": [
+        "mandatory",
+        "periodic"
+      ],
+      "applies_to": [
+        "complaint handling trends and themes"
+      ],
+      "timeframe": [
+        "periodic"
+      ],
+      "verification_method": [
+        "thematic review of complaint data by FCA supervision"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_034",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_034_prv_007",
+    "name": "Consent Order Compliance Obligation",
+    "properties": {
+      "provision_type": [
+        "mandatory",
+        "corrective"
+      ],
+      "applies_to": [
+        "bank operations in case of regulatory violations"
+      ],
+      "consequence_of_breach": [
+        "Mandatory implementation of FCA-imposed consent orders"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_034",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_035_pol_001",
+    "name": "Policy Review & Updates Policy",
+    "properties": {
+      "review_date": "2027-06-01",
+      "last_review_date": "2026-06-01",
+      "review_frequency": "Annual",
+      "regulatory_trigger": "FCA change",
+      "core_policy_statement": "Policies must be reviewed annually and updated immediately following any FCA regulatory changes."
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_035",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_035_prv_001",
+    "name": "Mandatory Annual Policy Review and Regulatory Change Trigger",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": [
+        "Annual",
+        "Upon FCA regulatory change"
+      ],
+      "applies_to": [
+        "All bank policies"
+      ]
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_035",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_035_reg_001",
+    "name": "Financial Conduct Authority",
+    "properties": {
+      "issuing_authority": "Financial Conduct Authority (FCA)",
+      "jurisdiction": "UK",
+      "regulation_type": "Regulatory Guidance / Primary Regulator",
+      "key_obligation": "Requires banks to update policies in response to regulatory changes",
+      "how_cited": "Referenced as the trigger event for mandatory policy review and updates"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_035",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_036_pol_001",
+    "name": "Customer Service Escalation and Compensation Framework Policy",
+    "properties": {
+      "version": "3.0",
+      "effective_date": "2026-06-01",
+      "owner": "Head of Customer Service",
+      "owning_department": "Customer Service"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_036",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_036_rol_001",
+    "name": "Head of Customer Service",
+    "properties": {
+      "role_title": "Head of Customer Service",
+      "department": "Customer Service"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_036",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "Customer Service Department",
+    "name": "Customer Service Department",
+    "properties": {},
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_037",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_037_pol_001",
+    "name": "Escalation Matrix",
+    "properties": {
+      "document_id": "ESC-001"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_037",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_037_pol_002",
+    "name": "Complaint Resolution Guide",
+    "properties": {
+      "document_id": "COMPL-RES-GUIDE-001"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_037",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_038_rol_001",
+    "name": "Head of Customer Service",
+    "properties": {
+      "role_title": "Head of Customer Service",
+      "department": "Customer Service"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_038",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_038_rol_002",
+    "name": "Head of Compliance",
+    "properties": {
+      "role_title": "Head of Compliance",
+      "department": "Compliance"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_038",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  },
+  {
+    "id": "b78bbfd254714058be385fbc954382f8_038_rol_003",
+    "name": "Chief Executive Officer",
+    "properties": {
+      "role_title": "Chief Executive Officer"
+    },
+    "chunk_id": "b78bbfd254714058be385fbc954382f8_038",
+    "doc_id": "b78bbfd254714058be385fbc954382f8"
+  }
+]

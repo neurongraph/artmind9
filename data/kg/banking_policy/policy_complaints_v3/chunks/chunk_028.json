@@ -1,0 +1,2120 @@
+{
+  "embedding": [
+    0.06946663,
+    0.023018636,
+    -0.19130078,
+    -0.020919446,
+    0.08959903,
+    -0.061278924,
+    0.09017388,
+    0.040699035,
+    0.029808462,
+    -0.0063928706,
+    0.03621396,
+    0.066745706,
+    0.079372674,
+    0.050716896,
+    0.0016224822,
+    -0.012482745,
+    0.027496574,
+    -0.029828407,
+    -0.06993582,
+    0.02762485,
+    0.044313394,
+    -0.041896686,
+    -0.019259762,
+    -0.0338116,
+    0.042173002,
+    0.06130349,
+    -0.045738935,
+    -0.009881725,
+    -0.030839134,
+    -0.004863327,
+    0.027835507,
+    -0.017473213,
+    -0.030201608,
+    -0.042380076,
+    -0.07229388,
+    -0.02723238,
+    0.0691309,
+    0.009211534,
+    -0.008118003,
+    0.013887943,
+    0.03739149,
+    -0.032904383,
+    0.012275758,
+    -0.046658676,
+    0.01991165,
+    -0.013911327,
+    0.08095822,
+    0.0126022305,
+    0.063509874,
+    -0.014968843,
+    0.013503815,
+    -0.04273705,
+    0.0066696648,
+    0.043228045,
+    0.006600811,
+    0.061184116,
+    0.00095824024,
+    0.06586182,
+    -0.004895696,
+    -0.05482674,
+    0.0519216,
+    0.048456445,
+    -0.04433786,
+    0.050310075,
+    0.012721323,
+    0.0018157676,
+    0.02714842,
+    0.030873653,
+    -0.0066184653,
+    -0.0009000611,
+    0.031140737,
+    -0.023634061,
+    -0.020995414,
+    0.042897496,
+    -0.036352593,
+    -0.011012379,
+    -0.021883558,
+    0.0087497,
+    -0.013858129,
+    0.039278336,
+    0.040148474,
+    0.0011607942,
+    0.028882125,
+    0.0011471799,
+    0.038808078,
+    -0.031423565,
+    -0.03908431,
+    -0.01843063,
+    -0.011516754,
+    0.07945633,
+    -0.009846173,
+    0.03798447,
+    0.026710466,
+    -0.004166414,
+    -0.08415731,
+    -0.019328939,
+    0.005118762,
+    0.007679854,
+    -0.045195043,
+    -0.025330035,
+    -0.03490122,
+    -0.015049451,
+    0.009425749,
+    -0.011664534,
+    0.02123863,
+    0.03710861,
+    0.029936196,
+    0.0362141,
+    -0.0009869635,
+    0.00244516,
+    -0.035963006,
+    0.052617174,
+    -0.015351171,
+    -0.0070320624,
+    0.0149624115,
+    -0.022522604,
+    0.070475176,
+    -0.02872762,
+    -0.011648254,
+    0.017083414,
+    -0.017024765,
+    -0.019332686,
+    -0.024813334,
+    0.02650895,
+    0.0464773,
+    0.043619454,
+    -0.05232661,
+    0.01279506,
+    0.017547702,
+    -0.011316924,
+    -0.0148654375,
+    -0.02916383,
+    -0.05811333,
+    -0.006365107,
+    0.027695369,
+    0.09887532,
+    -0.017117582,
+    -0.013957622,
+    -0.0122405,
+    0.034875892,
+    0.042378306,
+    0.01100141,
+    0.014898914,
+    0.0451777,
+    0.04145139,
+    -0.03049281,
+    0.010914689,
+    -0.022728216,
+    -0.042357247,
+    0.022013647,
+    -0.033366702,
+    0.022688402,
+    -0.027209453,
+    0.017889716,
+    0.02077882,
+    -0.009833511,
+    -0.044924293,
+    0.00416851,
+    0.0505123,
+    0.05301579,
+    0.025630293,
+    -0.019271217,
+    -0.038664997,
+    0.072631374,
+    -0.0064665717,
+    -0.05102324,
+    -0.0008334168,
+    0.046797544,
+    0.027959898,
+    0.037030555,
+    -0.024878412,
+    -0.011356521,
+    0.008598788,
+    0.0083642695,
+    0.03060746,
+    0.060308833,
+    0.06784092,
+    -0.03154245,
+    0.034142274,
+    0.00525691,
+    0.012287278,
+    -0.043233104,
+    0.030918933,
+    0.01765038,
+    0.0153020425,
+    -0.0051246216,
+    0.034623157,
+    -0.03648049,
+    -0.03004178,
+    -0.060506847,
+    -0.03472738,
+    -0.0007169465,
+    -0.04755633,
+    -0.0045979717,
+    -0.08483226,
+    -0.05557931,
+    0.016952366,
+    -0.05185751,
+    0.0213596,
+    -0.043090228,
+    0.0067975568,
+    -0.017824432,
+    -0.03138082,
+    -0.005282407,
+    -0.028926967,
+    0.029955367,
+    -0.027006228,
+    -0.027520701,
+    -0.030244261,
+    0.027015986,
+    0.051363666,
+    -0.032557502,
+    -0.0009919245,
+    -0.00094536744,
+    -0.013722929,
+    -0.013388577,
+    -0.007163727,
+    -0.0068210457,
+    0.010803212,
+    -0.015737211,
+    -0.03293342,
+    -0.04600098,
+    -0.041003216,
+    -0.06901936,
+    -0.00058631954,
+    -0.011886288,
+    -0.0025810709,
+    -0.019860586,
+    -0.014405639,
+    -0.013148383,
+    -0.026994849,
+    -0.064577445,
+    0.060655832,
+    -0.010975,
+    0.0020752016,
+    0.012222892,
+    -0.0045083216,
+    0.014910123,
+    0.0055490485,
+    0.035218302,
+    0.019594304,
+    0.061866295,
+    -0.0189095,
+    0.020691656,
+    0.0012643075,
+    -0.012111094,
+    0.015257424,
+    -0.03307298,
+    -0.014184814,
+    0.040504467,
+    0.0033445242,
+    0.03455645,
+    0.060911037,
+    -0.0053146854,
+    0.036594372,
+    -0.040609118,
+    0.013327138,
+    0.015041164,
+    0.06456117,
+    -0.030871151,
+    -0.014878434,
+    0.013219177,
+    0.02020983,
+    -0.032847743,
+    0.005477688,
+    -0.082237825,
+    -0.021879323,
+    -0.034882993,
+    -0.022718342,
+    -0.027212579,
+    -0.009579845,
+    0.03756542,
+    -0.0003038176,
+    0.0025660163,
+    0.025354216,
+    -0.00096885546,
+    0.009263488,
+    -0.00798578,
+    -0.035502154,
+    0.023366988,
+    -0.018575612,
+    -0.06290883,
+    -0.024884896,
+    -0.015310274,
+    0.0014703785,
+    0.06847013,
+    0.030948909,
+    -0.003117685,
+    0.007342843,
+    0.016247014,
+    0.071325466,
+    -0.016141044,
+    -0.03216981,
+    -0.0022831769,
+    -0.020688022,
+    0.018439148,
+    0.0671896,
+    -0.039898187,
+    -0.0048675374,
+    -0.061743513,
+    0.01618359,
+    0.039305564,
+    0.06353652,
+    0.03165133,
+    -0.0226144,
+    -0.044177875,
+    0.027114782,
+    0.0072902674,
+    0.032683156,
+    -0.005384815,
+    -0.032138616,
+    -0.02420474,
+    -0.053415615,
+    -0.012779467,
+    -0.017162142,
+    0.03498738,
+    0.03478212,
+    0.059169367,
+    0.0142948385,
+    0.029062284,
+    -0.032374233,
+    -0.083604656,
+    -0.039199322,
+    -0.037171114,
+    -0.013414527,
+    0.023430029,
+    -0.0464924,
+    0.04940325,
+    -0.006299292,
+    0.0013985524,
+    0.044382352,
+    -0.031557377,
+    0.007782489,
+    -0.0720706,
+    -0.025603957,
+    0.030413764,
+    0.06933715,
+    0.013735532,
+    0.019020734,
+    0.049862944,
+    0.026860202,
+    -0.01708984,
+    -0.025356535,
+    -0.06373396,
+    -0.018271452,
+    -0.031283606,
+    -0.011567429,
+    0.009238142,
+    0.039035384,
+    0.0225053,
+    0.008191339,
+    -0.018266266,
+    0.008989443,
+    -0.007300524,
+    -0.006625568,
+    -0.005199521,
+    0.02198158,
+    0.030587614,
+    -0.033460934,
+    -0.021095887,
+    0.043655127,
+    -0.0065404912,
+    -0.0061238697,
+    0.03969625,
+    -0.019988528,
+    0.015101325,
+    0.07669864,
+    -0.022585554,
+    0.007397928,
+    -0.016513525,
+    0.044285037,
+    0.023490941,
+    -0.052585453,
+    0.0004995944,
+    0.007533944,
+    0.024234084,
+    -0.07065569,
+    0.006296257,
+    -0.0059622177,
+    0.057622127,
+    0.05993304,
+    -0.0420729,
+    0.008899733,
+    0.005014894,
+    0.02187684,
+    -0.004226289,
+    -0.0007512735,
+    -0.026600853,
+    -0.02372174,
+    0.062245827,
+    -0.015069787,
+    0.01792514,
+    -0.029420258,
+    0.04050308,
+    0.02176798,
+    -0.02479511,
+    0.02825461,
+    0.021241067,
+    0.0015109308,
+    0.07599629,
+    -0.010392985,
+    -0.058943257,
+    0.046380688,
+    0.03300613,
+    -0.005784724,
+    -0.018663608,
+    -0.025472939,
+    0.00013133809,
+    0.049467456,
+    0.023851423,
+    0.030581173,
+    0.034846947,
+    -0.01458888,
+    -0.053452097,
+    0.0427744,
+    -0.006019179,
+    0.07322054,
+    0.012582396,
+    0.0067695267,
+    -0.021255588,
+    0.030418316,
+    0.019920208,
+    0.019016506,
+    0.0021325017,
+    0.009322858,
+    0.022873878,
+    -0.0040220027,
+    0.0104956,
+    0.017286472,
+    -0.06948324,
+    0.00014788809,
+    0.011131051,
+    0.026253046,
+    -0.015244852,
+    -0.00042333838,
+    -0.008877274,
+    0.050007194,
+    0.055717286,
+    -0.02033955,
+    0.042728085,
+    0.017713144,
+    -0.0131416265,
+    -0.034059998,
+    -0.051261052,
+    0.017003698,
+    0.11070644,
+    0.07573634,
+    -0.023103753,
+    -0.07122081,
+    0.0138623165,
+    -0.018746939,
+    0.034414925,
+    0.045426376,
+    0.0016841224,
+    0.07602444,
+    -0.047513146,
+    0.00688473,
+    0.006177417,
+    0.020785237,
+    0.020828811,
+    0.05142847,
+    0.02297784,
+    -0.075878546,
+    0.0008867617,
+    0.007176603,
+    -0.065793045,
+    -0.0019828444,
+    0.008778094,
+    0.042930506,
+    0.085311554,
+    -0.083044246,
+    -0.019910967,
+    -0.0069616293,
+    -0.04773526,
+    -0.012052596,
+    -0.03269095,
+    -0.0321884,
+    0.00535034,
+    0.032212183,
+    0.052110497,
+    0.044371422,
+    -0.038682394,
+    -0.0056678643,
+    -0.040964063,
+    -0.0723674,
+    0.045369025,
+    -0.0102817705,
+    -0.029873881,
+    0.0097222505,
+    -0.023117749,
+    0.019976744,
+    0.029098177,
+    0.004731777,
+    -0.023145156,
+    -0.018699583,
+    0.03228279,
+    -0.025345994,
+    0.040090542,
+    0.013222655,
+    -0.0027167418,
+    0.04762611,
+    0.08391011,
+    -0.00911062,
+    0.020475373,
+    0.039982222,
+    -0.032116856,
+    0.036927357,
+    -0.048212208,
+    -0.052650712,
+    0.011448247,
+    -0.011330185,
+    0.0056813536,
+    0.061741702,
+    0.03281709,
+    0.037826095,
+    -0.016425002,
+    0.047122885,
+    -0.014335272,
+    -0.024498815,
+    0.012156744,
+    -0.010227107,
+    -0.005014739,
+    -0.059806097,
+    -0.03862702,
+    0.0031109306,
+    -0.01045739,
+    0.025145575,
+    -0.012776672,
+    0.044123456,
+    -0.028639434,
+    0.047355663,
+    0.066165395,
+    -0.03236493,
+    0.01218244,
+    0.026905188,
+    0.0136520965,
+    -0.0061578928,
+    0.023056429,
+    -0.018427037,
+    0.044560257,
+    -0.009257553,
+    0.015430879,
+    0.019066487,
+    -0.06314349,
+    0.009257461,
+    -0.040229253,
+    0.009018672,
+    0.017535586,
+    -0.00882789,
+    -0.047398895,
+    0.042267833,
+    -0.04867489,
+    -0.016480606,
+    -0.0513877,
+    0.016692176,
+    -0.025726313,
+    -0.0042517977,
+    -0.060633462,
+    -0.034657236,
+    -0.033291124,
+    -0.0039401767,
+    -0.010626013,
+    0.06269221,
+    0.007454797,
+    0.04728081,
+    -0.03898118,
+    0.0046736337,
+    0.015635066,
+    0.061461274,
+    0.0018751357,
+    0.011719118,
+    -0.016684558,
+    0.0030261555,
+    -0.020151503,
+    -0.028908337,
+    0.0017654456,
+    0.006359157,
+    0.015131771,
+    -0.04091595,
+    -0.062505074,
+    0.010420247,
+    -0.011316155,
+    0.040914524,
+    0.038940534,
+    -0.0064770076,
+    -0.006422263,
+    -0.09057631,
+    -0.029404692,
+    0.044606388,
+    -0.015225971,
+    -0.024445867,
+    0.00910663,
+    0.019818986,
+    -0.020174053,
+    -0.008475426,
+    0.0017250504,
+    0.007391175,
+    -0.0392683,
+    -0.046156302,
+    -0.02551386,
+    -0.031972017,
+    0.0020802766,
+    0.045070842,
+    -0.02634029,
+    0.0064710793,
+    0.03915409,
+    0.0032789288,
+    0.011365791,
+    -0.013041173,
+    -0.03397336,
+    0.0051622367,
+    -0.020598665,
+    -0.0064682374,
+    -0.00059194234,
+    0.08257471,
+    -0.038761828,
+    0.031664114,
+    -0.006744723,
+    0.00048440357,
+    -0.08340294,
+    -0.035432283,
+    -0.02660019,
+    0.030960133,
+    -0.06759144,
+    -0.011082244,
+    0.006910714,
+    -0.04496932,
+    -0.040974043,
+    0.008208687,
+    0.059495896,
+    -0.038932454,
+    0.05299154,
+    -0.039227765,
+    -0.07011681,
+    -0.09754127,
+    0.05175335,
+    -0.0089048855,
+    0.025007796,
+    -0.06619472,
+    0.062027138,
+    0.060897868,
+    -0.01239702,
+    -0.06291272,
+    -0.028734786,
+    0.0062667127,
+    -0.02150065,
+    0.02359899,
+    0.042205643,
+    0.017159613,
+    0.030099267,
+    0.071842685,
+    0.060103208,
+    0.036217615,
+    -0.02134808,
+    0.01103029,
+    -0.023080194,
+    0.0068759816,
+    -0.0433765,
+    0.009145555,
+    -0.028534565,
+    -0.020298595,
+    0.006446454,
+    0.014408012,
+    -3.4925193e-05,
+    0.018201336,
+    -0.00070970843,
+    -0.0068057543,
+    -0.010954051,
+    -0.035176277,
+    -0.07187073,
+    0.026341734,
+    0.0023084553,
+    0.012567066,
+    -0.017883727,
+    -0.034546606,
+    0.052806243,
+    0.023917146,
+    0.008050778,
+    -0.018115714,
+    -0.005956779,
+    -0.01599562,
+    0.013559339,
+    0.042472254,
+    0.008886749,
+    -0.02328332,
+    -0.021942198,
+    -0.00302287,
+    0.01976493,
+    -0.062718734,
+    -0.031261694,
+    -0.03920913,
+    -0.038917016,
+    -0.041886643,
+    -0.016749524,
+    -0.009834128,
+    0.038632773,
+    -0.005329089,
+    -0.016434386,
+    -0.027763402,
+    0.009326884,
+    -0.031976096,
+    0.03575898,
+    -0.042168524,
+    0.024066975,
+    0.011069929,
+    -0.006392406,
+    0.023804484,
+    -0.040024206,
+    0.0015176702,
+    -0.029792724,
+    -0.033210352,
+    -0.02059929,
+    -0.03522921,
+    0.029863521,
+    0.0094813155,
+    0.014488733,
+    -0.004394633,
+    -0.053575844,
+    -0.01043946,
+    0.048073303,
+    0.013123534,
+    0.0099357795,
+    -0.085933916,
+    -0.06703745,
+    0.0013837045,
+    0.003795181,
+    0.05375292,
+    -0.0891234,
+    0.017887833,
+    -0.016469676,
+    -0.060368583,
+    -0.020118028,
+    -0.03584307,
+    0.0770684,
+    -0.014227199,
+    -0.001664504,
+    0.005051533,
+    0.010012682,
+    -0.0983371,
+    -0.018786877,
+    -0.050484814,
+    0.004647303,
+    -0.00899151,
+    0.02929893,
+    -0.0008427878,
+    -0.010060543,
+    0.01535026,
+    0.06278945,
+    0.016648673,
+    -0.038645945,
+    0.021170672,
+    0.0037041428,
+    -0.059725557,
+    0.017511826,
+    -0.017712053,
+    0.0068478077,
+    -0.008758545,
+    0.037180703,
+    0.09016478,
+    0.028081834,
+    0.014627265,
+    -0.014811824,
+    0.016610917,
+    -0.034685683,
+    -0.01031491,
+    -0.02845894,
+    -0.046004977,
+    -0.036417305
+  ],
+  "chunk_seq": 28,
+  "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+  "doc_id": "b78bbfd254714058be385fbc954382f8",
+  "text": "## Learning & Improvement  \n**Root Cause Analysis:**\n- Identify systemic complaints (same issue, multiple customers)\n- Analyze root cause\n- Implement corrective action\n- Monitor effectiveness  \n**Examples:**\n- High \"slow processing\" complaints → Review SOP, add resources\n- Multiple fee disputes → Improve T&C clarity, better disclosure\n- Fraud complaints → Strengthen security measures  \n---",
+  "name": "Chunk 28/38",
+  "domain": "banking_policy",
+  "prev_chunk_id": "b78bbfd254714058be385fbc954382f8_027",
+  "next_chunk_id": "b78bbfd254714058be385fbc954382f8_029",
+  "raw_entities": [
+    {
+      "id": "pol_001",
+      "name": "Learning & Improvement Policy",
+      "aliases": [
+        "Root Cause Analysis Framework"
+      ],
+      "entity_class": "POLICY",
+      "type": "operational_risk",
+      "description": "Establishes the mandatory framework for identifying systemic complaints, analyzing underlying root causes, implementing corrective actions, and monitoring their effectiveness to ensure continuous operational improvement.",
+      "context": [
+        "## Learning & Improvement",
+        "**Root Cause Analysis:**"
+      ]
+    },
+    {
+      "id": "prv_001",
+      "name": "Systemic Complaint Identification Requirement",
+      "aliases": [
+        "Identify systemic complaints"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "mandatory_requirement",
+      "description": "Staff must proactively identify systemic complaints characterized by the same issue affecting multiple customers to trigger further analysis.",
+      "context": [
+        "- Identify systemic complaints (same issue, multiple customers)"
+      ]
+    },
+    {
+      "id": "prv_002",
+      "name": "Root Cause Analysis Mandate",
+      "aliases": [
+        "Analyze root cause"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "mandatory_requirement",
+      "description": "Staff are required to conduct a thorough analysis of the underlying root cause for all identified systemic complaints.",
+      "context": [
+        "- Analyze root cause"
+      ]
+    },
+    {
+      "id": "prv_003",
+      "name": "Corrective Action Implementation Obligation",
+      "aliases": [
+        "Implement corrective action"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "obligation",
+      "description": "Staff must implement targeted corrective actions to address the root causes of identified complaints and prevent recurrence.",
+      "context": [
+        "- Implement corrective action"
+      ]
+    },
+    {
+      "id": "prv_004",
+      "name": "Effectiveness Monitoring Requirement",
+      "aliases": [
+        "Monitor effectiveness"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "review_schedule",
+      "description": "Staff must continuously monitor the effectiveness of implemented corrective actions to ensure they resolve the underlying issues.",
+      "context": [
+        "- Monitor effectiveness"
+      ]
+    },
+    {
+      "id": "prv_005",
+      "name": "SOP Review and Resource Addition for Processing Delays",
+      "aliases": [
+        "Review SOP, add resources"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "mandatory_requirement",
+      "description": "In cases of high slow processing complaints, staff must review standard operating procedures and allocate additional resources to mitigate delays.",
+      "context": [
+        "- High \"slow processing\" complaints → Review SOP, add resources"
+      ]
+    },
+    {
+      "id": "prv_006",
+      "name": "Terms and Conditions Clarity Improvement for Fee Disputes",
+      "aliases": [
+        "Improve T&C clarity, better disclosure"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "obligation",
+      "description": "When multiple fee disputes arise, staff must improve the clarity of terms and conditions and enhance customer disclosure practices.",
+      "context": [
+        "- Multiple fee disputes → Improve T&C clarity, better disclosure"
+      ]
+    },
+    {
+      "id": "prv_007",
+      "name": "Security Strengthening for Fraud Complaints",
+      "aliases": [
+        "Strengthen security measures"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "mandatory_requirement",
+      "description": "In response to fraud complaints, staff are mandated to strengthen existing security measures to prevent further unauthorized activity.",
+      "context": [
+        "- Fraud complaints → Strengthen security measures"
+      ]
+    },
+    {
+      "id": "rsk_001",
+      "name": "Systemic Complaint Risk",
+      "aliases": [
+        "Same issue, multiple customers"
+      ],
+      "entity_class": "RISK_CATEGORY",
+      "type": "operational_risk",
+      "description": "The risk of recurring operational failures affecting multiple customers simultaneously, requiring systemic identification and root cause analysis.",
+      "context": [
+        "Identify systemic complaints (same issue, multiple customers)"
+      ]
+    },
+    {
+      "id": "rsk_002",
+      "name": "Service Processing Delay Risk",
+      "aliases": [
+        "Slow processing"
+      ],
+      "entity_class": "RISK_CATEGORY",
+      "type": "operational_risk",
+      "description": "The risk of delayed service delivery leading to customer dissatisfaction and complaints, necessitating SOP review and resource allocation.",
+      "context": [
+        "High \"slow processing\" complaints"
+      ]
+    },
+    {
+      "id": "rsk_003",
+      "name": "Fee Dispute Risk",
+      "aliases": [
+        "Multiple fee disputes"
+      ],
+      "entity_class": "RISK_CATEGORY",
+      "type": "conduct",
+      "description": "The risk of customer disagreements regarding fees, driven by unclear terms and insufficient disclosure.",
+      "context": [
+        "Multiple fee disputes"
+      ]
+    },
+    {
+      "id": "rsk_004",
+      "name": "Fraud Risk",
+      "aliases": [
+        "Fraud complaints"
+      ],
+      "entity_class": "RISK_CATEGORY",
+      "type": "fraud",
+      "description": "The risk of fraudulent activity resulting in customer complaints, requiring enhanced security measures and corrective actions.",
+      "context": [
+        "Fraud complaints"
+      ]
+    },
+    {
+      "id": "ctl_001",
+      "name": "Standard Operating Procedure Review",
+      "aliases": [
+        "Review SOP"
+      ],
+      "entity_class": "CONTROL_MEASURE",
+      "type": "audit_logging",
+      "description": "A mandatory operational safeguard requiring the review of existing SOPs to identify procedural gaps when slow processing complaints are high.",
+      "context": [
+        "High \"slow processing\" complaints → Review SOP, add resources"
+      ]
+    },
+    {
+      "id": "ctl_002",
+      "name": "Resource Allocation Enhancement",
+      "aliases": [
+        "add resources"
+      ],
+      "entity_class": "CONTROL_MEASURE",
+      "type": "staff_training",
+      "description": "An operational control requiring the addition of staff or resources to address capacity constraints causing processing delays.",
+      "context": [
+        "High \"slow processing\" complaints → Review SOP, add resources"
+      ]
+    },
+    {
+      "id": "ctl_003",
+      "name": "Disclosure and Clarity Improvement",
+      "aliases": [
+        "Improve T&C clarity, better disclosure"
+      ],
+      "entity_class": "CONTROL_MEASURE",
+      "type": "record_keeping",
+      "description": "A customer-facing control requiring the enhancement of terms and conditions clarity and disclosure practices to prevent fee disputes.",
+      "context": [
+        "Multiple fee disputes → Improve T&C clarity, better disclosure"
+      ]
+    },
+    {
+      "id": "ctl_004",
+      "name": "Security Measure Strengthening",
+      "aliases": [
+        "Strengthen security measures"
+      ],
+      "entity_class": "CONTROL_MEASURE",
+      "type": "access_control",
+      "description": "A protective safeguard requiring the enhancement of technical and procedural security controls in response to fraud complaints.",
+      "context": [
+        "Fraud complaints → Strengthen security measures"
+      ]
+    },
+    {
+      "id": "cus_001",
+      "name": "Affected Customers",
+      "aliases": [
+        "multiple customers"
+      ],
+      "entity_class": "CUSTOMER",
+      "type": "individual_customer",
+      "description": "Customers impacted by systemic issues or specific complaint types, serving as the primary subjects for root cause analysis and corrective action implementation.",
+      "context": [
+        "(same issue, multiple customers)",
+        "High \"slow processing\" complaints",
+        "Multiple fee disputes",
+        "Fraud complaints"
+      ]
+    }
+  ],
+  "id_map": {
+    "pol_001": "b78bbfd254714058be385fbc954382f8_028_pol_001",
+    "prv_001": "b78bbfd254714058be385fbc954382f8_028_prv_001",
+    "prv_002": "b78bbfd254714058be385fbc954382f8_028_prv_002",
+    "prv_003": "b78bbfd254714058be385fbc954382f8_028_prv_003",
+    "prv_004": "b78bbfd254714058be385fbc954382f8_028_prv_004",
+    "prv_005": "b78bbfd254714058be385fbc954382f8_028_prv_005",
+    "prv_006": "b78bbfd254714058be385fbc954382f8_028_prv_006",
+    "prv_007": "b78bbfd254714058be385fbc954382f8_028_prv_007",
+    "rsk_001": "b78bbfd254714058be385fbc954382f8_028_rsk_001",
+    "rsk_002": "b78bbfd254714058be385fbc954382f8_028_rsk_002",
+    "rsk_003": "b78bbfd254714058be385fbc954382f8_028_rsk_003",
+    "rsk_004": "b78bbfd254714058be385fbc954382f8_028_rsk_004",
+    "ctl_001": "b78bbfd254714058be385fbc954382f8_028_ctl_001",
+    "ctl_002": "b78bbfd254714058be385fbc954382f8_028_ctl_002",
+    "ctl_003": "b78bbfd254714058be385fbc954382f8_028_ctl_003",
+    "ctl_004": "b78bbfd254714058be385fbc954382f8_028_ctl_004",
+    "cus_001": "b78bbfd254714058be385fbc954382f8_028_cus_001"
+  },
+  "entities": [
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_pol_001",
+      "name": "Learning & Improvement Policy",
+      "aliases": [
+        "Root Cause Analysis Framework"
+      ],
+      "entity_class": "POLICY",
+      "type": "operational_risk",
+      "description": "Establishes the mandatory framework for identifying systemic complaints, analyzing underlying root causes, implementing corrective actions, and monitoring their effectiveness to ensure continuous operational improvement.",
+      "context": [
+        "## Learning & Improvement",
+        "**Root Cause Analysis:**"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_prv_001",
+      "name": "Systemic Complaint Identification Requirement",
+      "aliases": [
+        "Identify systemic complaints"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "mandatory_requirement",
+      "description": "Staff must proactively identify systemic complaints characterized by the same issue affecting multiple customers to trigger further analysis.",
+      "context": [
+        "- Identify systemic complaints (same issue, multiple customers)"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_prv_002",
+      "name": "Root Cause Analysis Mandate",
+      "aliases": [
+        "Analyze root cause"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "mandatory_requirement",
+      "description": "Staff are required to conduct a thorough analysis of the underlying root cause for all identified systemic complaints.",
+      "context": [
+        "- Analyze root cause"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_prv_003",
+      "name": "Corrective Action Implementation Obligation",
+      "aliases": [
+        "Implement corrective action"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "obligation",
+      "description": "Staff must implement targeted corrective actions to address the root causes of identified complaints and prevent recurrence.",
+      "context": [
+        "- Implement corrective action"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_prv_004",
+      "name": "Effectiveness Monitoring Requirement",
+      "aliases": [
+        "Monitor effectiveness"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "review_schedule",
+      "description": "Staff must continuously monitor the effectiveness of implemented corrective actions to ensure they resolve the underlying issues.",
+      "context": [
+        "- Monitor effectiveness"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_prv_005",
+      "name": "SOP Review and Resource Addition for Processing Delays",
+      "aliases": [
+        "Review SOP, add resources"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "mandatory_requirement",
+      "description": "In cases of high slow processing complaints, staff must review standard operating procedures and allocate additional resources to mitigate delays.",
+      "context": [
+        "- High \"slow processing\" complaints → Review SOP, add resources"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_prv_006",
+      "name": "Terms and Conditions Clarity Improvement for Fee Disputes",
+      "aliases": [
+        "Improve T&C clarity, better disclosure"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "obligation",
+      "description": "When multiple fee disputes arise, staff must improve the clarity of terms and conditions and enhance customer disclosure practices.",
+      "context": [
+        "- Multiple fee disputes → Improve T&C clarity, better disclosure"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_prv_007",
+      "name": "Security Strengthening for Fraud Complaints",
+      "aliases": [
+        "Strengthen security measures"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "mandatory_requirement",
+      "description": "In response to fraud complaints, staff are mandated to strengthen existing security measures to prevent further unauthorized activity.",
+      "context": [
+        "- Fraud complaints → Strengthen security measures"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_rsk_001",
+      "name": "Systemic Complaint Risk",
+      "aliases": [
+        "Same issue, multiple customers"
+      ],
+      "entity_class": "RISK_CATEGORY",
+      "type": "operational_risk",
+      "description": "The risk of recurring operational failures affecting multiple customers simultaneously, requiring systemic identification and root cause analysis.",
+      "context": [
+        "Identify systemic complaints (same issue, multiple customers)"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_rsk_002",
+      "name": "Service Processing Delay Risk",
+      "aliases": [
+        "Slow processing"
+      ],
+      "entity_class": "RISK_CATEGORY",
+      "type": "operational_risk",
+      "description": "The risk of delayed service delivery leading to customer dissatisfaction and complaints, necessitating SOP review and resource allocation.",
+      "context": [
+        "High \"slow processing\" complaints"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_rsk_003",
+      "name": "Fee Dispute Risk",
+      "aliases": [
+        "Multiple fee disputes"
+      ],
+      "entity_class": "RISK_CATEGORY",
+      "type": "conduct",
+      "description": "The risk of customer disagreements regarding fees, driven by unclear terms and insufficient disclosure.",
+      "context": [
+        "Multiple fee disputes"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_rsk_004",
+      "name": "Fraud Risk",
+      "aliases": [
+        "Fraud complaints"
+      ],
+      "entity_class": "RISK_CATEGORY",
+      "type": "fraud",
+      "description": "The risk of fraudulent activity resulting in customer complaints, requiring enhanced security measures and corrective actions.",
+      "context": [
+        "Fraud complaints"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_ctl_001",
+      "name": "Standard Operating Procedure Review",
+      "aliases": [
+        "Review SOP"
+      ],
+      "entity_class": "CONTROL_MEASURE",
+      "type": "audit_logging",
+      "description": "A mandatory operational safeguard requiring the review of existing SOPs to identify procedural gaps when slow processing complaints are high.",
+      "context": [
+        "High \"slow processing\" complaints → Review SOP, add resources"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_ctl_002",
+      "name": "Resource Allocation Enhancement",
+      "aliases": [
+        "add resources"
+      ],
+      "entity_class": "CONTROL_MEASURE",
+      "type": "staff_training",
+      "description": "An operational control requiring the addition of staff or resources to address capacity constraints causing processing delays.",
+      "context": [
+        "High \"slow processing\" complaints → Review SOP, add resources"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_ctl_003",
+      "name": "Disclosure and Clarity Improvement",
+      "aliases": [
+        "Improve T&C clarity, better disclosure"
+      ],
+      "entity_class": "CONTROL_MEASURE",
+      "type": "record_keeping",
+      "description": "A customer-facing control requiring the enhancement of terms and conditions clarity and disclosure practices to prevent fee disputes.",
+      "context": [
+        "Multiple fee disputes → Improve T&C clarity, better disclosure"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_ctl_004",
+      "name": "Security Measure Strengthening",
+      "aliases": [
+        "Strengthen security measures"
+      ],
+      "entity_class": "CONTROL_MEASURE",
+      "type": "access_control",
+      "description": "A protective safeguard requiring the enhancement of technical and procedural security controls in response to fraud complaints.",
+      "context": [
+        "Fraud complaints → Strengthen security measures"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_cus_001",
+      "name": "Affected Customers",
+      "aliases": [
+        "multiple customers"
+      ],
+      "entity_class": "CUSTOMER",
+      "type": "individual_customer",
+      "description": "Customers impacted by systemic issues or specific complaint types, serving as the primary subjects for root cause analysis and corrective action implementation.",
+      "context": [
+        "(same issue, multiple customers)",
+        "High \"slow processing\" complaints",
+        "Multiple fee disputes",
+        "Fraud complaints"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    }
+  ],
+  "properties": [
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_pol_001",
+      "name": "Learning & Improvement Policy",
+      "properties": {
+        "core_policy_statement": "Mandates systematic root cause analysis of complaints to identify systemic issues and implement corrective actions with ongoing effectiveness monitoring.",
+        "policy_domain": [
+          "Operational Risk",
+          "Complaints Management"
+        ],
+        "scope_summary": "Applies to all customer complaints requiring identification, analysis, and corrective action."
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_prv_001",
+      "name": "Systemic Complaint Identification Requirement",
+      "properties": {
+        "provision_type": "mandatory",
+        "applies_to": [
+          "All customer complaints"
+        ],
+        "verification_method": "Root cause analysis"
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_prv_002",
+      "name": "Root Cause Analysis Mandate",
+      "properties": {
+        "provision_type": "mandatory",
+        "applies_to": [
+          "Identified systemic complaint patterns"
+        ],
+        "timeframe": "Upon identification of recurring issue"
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_prv_003",
+      "name": "Corrective Action Implementation Obligation",
+      "properties": {
+        "provision_type": "mandatory",
+        "applies_to": [
+          "Root causes identified"
+        ],
+        "consequence_of_breach": "Continued operational failure and customer dissatisfaction"
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_prv_004",
+      "name": "Effectiveness Monitoring Requirement",
+      "properties": {
+        "provision_type": "periodic",
+        "applies_to": [
+          "Implemented corrective actions"
+        ],
+        "verification_method": "Effectiveness monitoring"
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_prv_005",
+      "name": "SOP Review and Resource Addition for Processing Delays",
+      "properties": {
+        "provision_type": "conditional",
+        "applies_to": [
+          "Service processing delays"
+        ],
+        "linked_control": [
+          "ctl_001",
+          "ctl_002"
+        ],
+        "timeframe": "Triggered by high volume of slow processing complaints"
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_prv_006",
+      "name": "Terms and Conditions Clarity Improvement for Fee Disputes",
+      "properties": {
+        "provision_type": "conditional",
+        "applies_to": [
+          "Fee dispute complaints"
+        ],
+        "linked_control": [
+          "ctl_003"
+        ],
+        "timeframe": "Triggered by multiple fee disputes"
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_prv_007",
+      "name": "Security Strengthening for Fraud Complaints",
+      "properties": {
+        "provision_type": "conditional",
+        "applies_to": [
+          "Fraud complaints"
+        ],
+        "linked_control": [
+          "ctl_004"
+        ],
+        "timeframe": "Triggered by fraud complaints"
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_rsk_001",
+      "name": "Systemic Complaint Risk",
+      "properties": {
+        "risk_definition": "Recurring issues affecting multiple customers",
+        "examples": [
+          "Same issue reported by multiple customers"
+        ],
+        "required_response": "Root cause analysis and corrective action"
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_rsk_002",
+      "name": "Service Processing Delay Risk",
+      "properties": {
+        "risk_definition": "Customer complaints related to slow service processing",
+        "examples": [
+          "High 'slow processing' complaints"
+        ],
+        "required_response": "Review SOP, add resources"
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_rsk_003",
+      "name": "Fee Dispute Risk",
+      "properties": {
+        "risk_definition": "Recurring disputes regarding fees",
+        "examples": [
+          "Multiple fee disputes"
+        ],
+        "required_response": "Improve T&C clarity, better disclosure"
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_rsk_004",
+      "name": "Fraud Risk",
+      "properties": {
+        "risk_definition": "Complaints related to fraud",
+        "examples": [
+          "Fraud complaints"
+        ],
+        "required_response": "Strengthen security measures"
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_ctl_001",
+      "name": "Standard Operating Procedure Review",
+      "properties": {
+        "control_type": "corrective",
+        "frequency": "triggered_by_complaints",
+        "applies_to": [
+          "Service processing delays"
+        ],
+        "performed_by": [
+          "Operations/Compliance"
+        ]
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_ctl_002",
+      "name": "Resource Allocation Enhancement",
+      "properties": {
+        "control_type": "corrective",
+        "frequency": "triggered_by_complaints",
+        "applies_to": [
+          "Service processing delays"
+        ],
+        "performed_by": [
+          "Management/Operations"
+        ]
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_ctl_003",
+      "name": "Disclosure and Clarity Improvement",
+      "properties": {
+        "control_type": "corrective",
+        "frequency": "triggered_by_complaints",
+        "applies_to": [
+          "Fee disputes"
+        ],
+        "performed_by": [
+          "Legal/Compliance"
+        ]
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_ctl_004",
+      "name": "Security Measure Strengthening",
+      "properties": {
+        "control_type": "preventive",
+        "frequency": "triggered_by_complaints",
+        "applies_to": [
+          "Fraud complaints"
+        ],
+        "performed_by": [
+          "IT/Security"
+        ]
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_028_cus_001",
+      "name": "Affected Customers",
+      "properties": {
+        "eligibility_status": "existing",
+        "obligations_under_policy": "Report complaints to trigger systemic identification",
+        "risk_treatment": "Grouped for root cause analysis when same issue affects multiple customers"
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_pol_001",
+      "source_name": "Learning & Improvement Policy",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028_prv_001",
+      "target_name": "Systemic Complaint Identification Requirement",
+      "rel_type": "contains",
+      "description": "Establishes the requirement to identify systemic complaints affecting multiple customers",
+      "properties": {
+        "section_focus": "root_cause_analysis"
+      },
+      "context": "Identify systemic complaints (same issue, multiple customers)",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_pol_001",
+      "source_name": "Learning & Improvement Policy",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028_prv_002",
+      "target_name": "Root Cause Analysis Mandate",
+      "rel_type": "contains",
+      "description": "Mandates the analytical process to determine underlying causes of issues",
+      "properties": {
+        "section_focus": "root_cause_analysis"
+      },
+      "context": "Analyze root cause",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_pol_001",
+      "source_name": "Learning & Improvement Policy",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028_prv_003",
+      "target_name": "Corrective Action Implementation Obligation",
+      "rel_type": "contains",
+      "description": "Obligates the implementation of corrective actions following analysis",
+      "properties": {
+        "section_focus": "root_cause_analysis"
+      },
+      "context": "Implement corrective action",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_pol_001",
+      "source_name": "Learning & Improvement Policy",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028_prv_004",
+      "target_name": "Effectiveness Monitoring Requirement",
+      "rel_type": "contains",
+      "description": "Requires ongoing monitoring to verify the effectiveness of implemented actions",
+      "properties": {
+        "section_focus": "root_cause_analysis"
+      },
+      "context": "Monitor effectiveness",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_pol_001",
+      "source_name": "Learning & Improvement Policy",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028_prv_005",
+      "target_name": "SOP Review and Resource Addition for Processing Delays",
+      "rel_type": "contains",
+      "description": "Addresses service processing delays through operational review and resource scaling",
+      "properties": {
+        "trigger_category": "slow_processing"
+      },
+      "context": "High \"slow processing\" complaints → Review SOP, add resources",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_pol_001",
+      "source_name": "Learning & Improvement Policy",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028_prv_006",
+      "target_name": "Terms and Conditions Clarity Improvement for Fee Disputes",
+      "rel_type": "contains",
+      "description": "Addresses fee disputes by improving terms clarity and disclosure standards",
+      "properties": {
+        "trigger_category": "fee_disputes"
+      },
+      "context": "Multiple fee disputes → Improve T&C clarity, better disclosure",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_pol_001",
+      "source_name": "Learning & Improvement Policy",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028_prv_007",
+      "target_name": "Security Strengthening for Fraud Complaints",
+      "rel_type": "contains",
+      "description": "Addresses fraud complaints through enhanced security measure implementation",
+      "properties": {
+        "trigger_category": "fraud_complaints"
+      },
+      "context": "Fraud complaints → Strengthen security measures",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_pol_001",
+      "source_name": "Learning & Improvement Policy",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028_rsk_001",
+      "target_name": "Systemic Complaint Risk",
+      "rel_type": "addresses",
+      "description": "Covers risks arising from recurring issues affecting multiple customers",
+      "properties": {
+        "scope": "complaint_pattern"
+      },
+      "context": "Identify systemic complaints (same issue, multiple customers)",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_pol_001",
+      "source_name": "Learning & Improvement Policy",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028_rsk_002",
+      "target_name": "Service Processing Delay Risk",
+      "rel_type": "addresses",
+      "description": "Covers risks related to slow or delayed service processing",
+      "properties": {
+        "scope": "operational_delay"
+      },
+      "context": "High \"slow processing\" complaints → Review SOP, add resources",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_pol_001",
+      "source_name": "Learning & Improvement Policy",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028_rsk_003",
+      "target_name": "Fee Dispute Risk",
+      "rel_type": "addresses",
+      "description": "Covers risks stemming from customer misunderstandings regarding fees",
+      "properties": {
+        "scope": "fee_transparency"
+      },
+      "context": "Multiple fee disputes → Improve T&C clarity, better disclosure",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_pol_001",
+      "source_name": "Learning & Improvement Policy",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028_rsk_004",
+      "target_name": "Fraud Risk",
+      "rel_type": "addresses",
+      "description": "Covers risks associated with fraudulent activity affecting customers",
+      "properties": {
+        "scope": "security_fraud"
+      },
+      "context": "Fraud complaints → Strengthen security measures",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_prv_001",
+      "source_name": "Systemic Complaint Identification Requirement",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028_rsk_001",
+      "target_name": "Systemic Complaint Risk",
+      "rel_type": "addresses",
+      "description": "Targets the identification and mitigation of recurring complaint patterns",
+      "properties": {
+        "trigger": "multiple_customers"
+      },
+      "context": "(same issue, multiple customers)",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_prv_005",
+      "source_name": "SOP Review and Resource Addition for Processing Delays",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028_rsk_002",
+      "target_name": "Service Processing Delay Risk",
+      "rel_type": "addresses",
+      "description": "Addresses service processing delays through operational review and resource scaling",
+      "properties": {
+        "trigger": "slow_processing"
+      },
+      "context": "High \"slow processing\" complaints → Review SOP, add resources",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_prv_006",
+      "source_name": "Terms and Conditions Clarity Improvement for Fee Disputes",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028_rsk_003",
+      "target_name": "Fee Dispute Risk",
+      "rel_type": "addresses",
+      "description": "Addresses fee dispute risks by improving disclosure and clarity standards",
+      "properties": {
+        "trigger": "fee_disputes"
+      },
+      "context": "Multiple fee disputes → Improve T&C clarity, better disclosure",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_prv_007",
+      "source_name": "Security Strengthening for Fraud Complaints",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028_rsk_004",
+      "target_name": "Fraud Risk",
+      "rel_type": "addresses",
+      "description": "Addresses fraud risks through targeted security measure enhancements",
+      "properties": {
+        "trigger": "fraud_complaints"
+      },
+      "context": "Fraud complaints → Strengthen security measures",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_prv_005",
+      "source_name": "SOP Review and Resource Addition for Processing Delays",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028_ctl_001",
+      "target_name": "Standard Operating Procedure Review",
+      "rel_type": "requires",
+      "description": "Mandates the review of existing SOPs to identify processing bottlenecks",
+      "properties": {
+        "method": "review",
+        "frequency": "triggered_by_complaints"
+      },
+      "context": "Review SOP, add resources",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_prv_005",
+      "source_name": "SOP Review and Resource Addition for Processing Delays",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028_ctl_002",
+      "target_name": "Resource Allocation Enhancement",
+      "rel_type": "requires",
+      "description": "Mandates the addition of resources to alleviate processing delays",
+      "properties": {
+        "method": "addition",
+        "frequency": "triggered_by_complaints"
+      },
+      "context": "add resources",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_prv_006",
+      "source_name": "Terms and Conditions Clarity Improvement for Fee Disputes",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028_ctl_003",
+      "target_name": "Disclosure and Clarity Improvement",
+      "rel_type": "requires",
+      "description": "Mandates improvements to terms clarity and disclosure practices",
+      "properties": {
+        "method": "improvement",
+        "frequency": "triggered_by_disputes"
+      },
+      "context": "Improve T&C clarity, better disclosure",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_prv_007",
+      "source_name": "Security Strengthening for Fraud Complaints",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028_ctl_004",
+      "target_name": "Security Measure Strengthening",
+      "rel_type": "requires",
+      "description": "Mandates the strengthening of security measures to prevent fraud",
+      "properties": {
+        "method": "strengthening",
+        "frequency": "triggered_by_fraud"
+      },
+      "context": "Strengthen security measures",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_rsk_002",
+      "source_name": "Service Processing Delay Risk",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028_ctl_001",
+      "target_name": "Standard Operating Procedure Review",
+      "rel_type": "mitigated_by",
+      "description": "SOP review directly addresses and reduces processing bottlenecks",
+      "properties": {
+        "mitigation_strength": "primary",
+        "mechanism": "process_optimization"
+      },
+      "context": "Review SOP, add resources",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_rsk_002",
+      "source_name": "Service Processing Delay Risk",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028_ctl_002",
+      "target_name": "Resource Allocation Enhancement",
+      "rel_type": "mitigated_by",
+      "description": "Enhanced resource allocation directly reduces service processing delays",
+      "properties": {
+        "mitigation_strength": "primary",
+        "mechanism": "capacity_increase"
+      },
+      "context": "add resources",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_rsk_003",
+      "source_name": "Fee Dispute Risk",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028_ctl_003",
+      "target_name": "Disclosure and Clarity Improvement",
+      "rel_type": "mitigated_by",
+      "description": "Improved clarity and disclosure prevent fee-related misunderstandings",
+      "properties": {
+        "mitigation_strength": "supplementary",
+        "mechanism": "transparency"
+      },
+      "context": "Improve T&C clarity, better disclosure",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_rsk_004",
+      "source_name": "Fraud Risk",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028_ctl_004",
+      "target_name": "Security Measure Strengthening",
+      "rel_type": "mitigated_by",
+      "description": "Strengthened security measures directly prevent and mitigate fraud incidents",
+      "properties": {
+        "mitigation_strength": "primary",
+        "mechanism": "security_enforcement"
+      },
+      "context": "Strengthen security measures",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_pol_001",
+      "source_name": "Learning & Improvement Policy",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028_cus_001",
+      "target_name": "Affected Customers",
+      "rel_type": "governs_treatment_of",
+      "description": "Policy dictates the handling, resolution, and improvement processes for affected customers",
+      "properties": {
+        "obligation": "complaint_resolution_and_learning"
+      },
+      "context": "Identify systemic complaints (same issue, multiple customers)",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_prv_001",
+      "source_name": "Systemic Complaint Identification Requirement",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028_cus_001",
+      "target_name": "Affected Customers",
+      "rel_type": "applies_to",
+      "description": "Requirement specifically targets issues affecting multiple customers simultaneously",
+      "properties": {
+        "scope": "complaint_pattern"
+      },
+      "context": "(same issue, multiple customers)",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_pol_001",
+      "source_name": "Learning & Improvement Policy",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028",
+      "target_name": "b78bbfd254714058be385fbc954382f8_028",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_prv_001",
+      "source_name": "Systemic Complaint Identification Requirement",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028",
+      "target_name": "b78bbfd254714058be385fbc954382f8_028",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_prv_002",
+      "source_name": "Root Cause Analysis Mandate",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028",
+      "target_name": "b78bbfd254714058be385fbc954382f8_028",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_prv_003",
+      "source_name": "Corrective Action Implementation Obligation",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028",
+      "target_name": "b78bbfd254714058be385fbc954382f8_028",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_prv_004",
+      "source_name": "Effectiveness Monitoring Requirement",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028",
+      "target_name": "b78bbfd254714058be385fbc954382f8_028",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_prv_005",
+      "source_name": "SOP Review and Resource Addition for Processing Delays",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028",
+      "target_name": "b78bbfd254714058be385fbc954382f8_028",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_prv_006",
+      "source_name": "Terms and Conditions Clarity Improvement for Fee Disputes",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028",
+      "target_name": "b78bbfd254714058be385fbc954382f8_028",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_prv_007",
+      "source_name": "Security Strengthening for Fraud Complaints",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028",
+      "target_name": "b78bbfd254714058be385fbc954382f8_028",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_rsk_001",
+      "source_name": "Systemic Complaint Risk",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028",
+      "target_name": "b78bbfd254714058be385fbc954382f8_028",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_rsk_002",
+      "source_name": "Service Processing Delay Risk",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028",
+      "target_name": "b78bbfd254714058be385fbc954382f8_028",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_rsk_003",
+      "source_name": "Fee Dispute Risk",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028",
+      "target_name": "b78bbfd254714058be385fbc954382f8_028",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_rsk_004",
+      "source_name": "Fraud Risk",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028",
+      "target_name": "b78bbfd254714058be385fbc954382f8_028",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_ctl_001",
+      "source_name": "Standard Operating Procedure Review",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028",
+      "target_name": "b78bbfd254714058be385fbc954382f8_028",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_ctl_002",
+      "source_name": "Resource Allocation Enhancement",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028",
+      "target_name": "b78bbfd254714058be385fbc954382f8_028",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_ctl_003",
+      "source_name": "Disclosure and Clarity Improvement",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028",
+      "target_name": "b78bbfd254714058be385fbc954382f8_028",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_ctl_004",
+      "source_name": "Security Measure Strengthening",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028",
+      "target_name": "b78bbfd254714058be385fbc954382f8_028",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_028_cus_001",
+      "source_name": "Affected Customers",
+      "target_id": "b78bbfd254714058be385fbc954382f8_028",
+      "target_name": "b78bbfd254714058be385fbc954382f8_028",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_028",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    }
+  ]
+}

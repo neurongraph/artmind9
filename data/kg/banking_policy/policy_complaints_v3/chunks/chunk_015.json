@@ -1,0 +1,1941 @@
+{
+  "embedding": [
+    0.05252569,
+    0.032611597,
+    -0.19956522,
+    -0.002749883,
+    0.05515838,
+    -0.053067457,
+    0.058572546,
+    0.00029704336,
+    0.049360435,
+    -0.041701425,
+    0.0075337803,
+    0.011645459,
+    0.046006087,
+    0.021011213,
+    0.0061725127,
+    -0.030340355,
+    0.011248398,
+    -0.06355677,
+    -0.09031527,
+    0.021347664,
+    0.048444275,
+    -0.027479684,
+    -0.045990087,
+    -0.018997306,
+    0.016633214,
+    0.05516675,
+    0.038208,
+    0.027095774,
+    -0.042342044,
+    -0.009938526,
+    0.016041396,
+    0.023149502,
+    0.0055367034,
+    -0.047942907,
+    -0.030631883,
+    -0.06372869,
+    0.029626431,
+    0.010471761,
+    0.0054081664,
+    -0.02390588,
+    0.054252476,
+    -0.03929119,
+    0.04897835,
+    -0.032565854,
+    0.051374506,
+    -0.027784687,
+    0.07474396,
+    0.051645856,
+    0.012638616,
+    -0.041779965,
+    -0.0011880201,
+    -0.021544252,
+    -0.012300545,
+    -0.0026921323,
+    0.025906406,
+    0.046111975,
+    -0.036831547,
+    0.03866561,
+    -0.011933064,
+    0.004513015,
+    0.08532394,
+    0.0135257635,
+    -0.021384366,
+    0.08218912,
+    0.030564873,
+    0.0097375475,
+    0.011798479,
+    0.016921384,
+    -0.008422639,
+    -0.06344196,
+    0.009740592,
+    -0.040488634,
+    0.010528931,
+    0.022650465,
+    0.009539178,
+    0.02586827,
+    -0.059695676,
+    -0.041697055,
+    -0.0047724782,
+    0.007468349,
+    0.034198195,
+    -0.0025286744,
+    0.05291357,
+    -0.060914367,
+    0.021359075,
+    0.01730437,
+    -0.029963944,
+    0.008924443,
+    0.029243236,
+    0.06289493,
+    -0.02214019,
+    -0.010410771,
+    0.043152176,
+    -0.01244893,
+    -0.065634534,
+    0.01894917,
+    0.008348254,
+    -0.009690962,
+    -0.05558835,
+    0.01535491,
+    -0.036607083,
+    -0.046439186,
+    0.020194042,
+    -0.010551512,
+    0.031088421,
+    0.05073532,
+    0.019550072,
+    0.032741334,
+    -0.006999961,
+    -0.04501072,
+    -0.070394926,
+    0.058371317,
+    -0.04516127,
+    -0.015680425,
+    0.030847643,
+    0.025883706,
+    0.043064598,
+    -0.009117571,
+    0.030619428,
+    0.042060327,
+    -0.034196634,
+    -0.032663975,
+    -0.019908,
+    0.013343689,
+    0.00033931018,
+    0.003060773,
+    -0.014897093,
+    0.056775555,
+    0.012661108,
+    -0.0041670646,
+    -0.015705513,
+    0.005741129,
+    -0.025828343,
+    0.018878672,
+    -0.019456366,
+    0.025303105,
+    0.022092102,
+    -0.013322895,
+    -0.03577243,
+    0.058435973,
+    0.02640972,
+    -0.016337005,
+    0.02010135,
+    0.00054176315,
+    -0.00504415,
+    -0.033863094,
+    0.027386138,
+    -0.012254116,
+    0.0001487458,
+    0.024968073,
+    -0.05203917,
+    0.04700843,
+    0.018566215,
+    0.010144704,
+    0.031316776,
+    -0.044628527,
+    -0.025068492,
+    -0.003936237,
+    0.01335964,
+    0.030865693,
+    0.034421165,
+    -0.008765992,
+    -0.052705895,
+    0.07036349,
+    -0.013469024,
+    -0.030731872,
+    -0.053365868,
+    0.06505962,
+    0.04815759,
+    0.028863562,
+    -0.067210115,
+    -0.035861224,
+    -0.010242397,
+    0.0047546895,
+    0.04416711,
+    0.017550338,
+    0.07712386,
+    -0.04174363,
+    0.005891608,
+    -0.032385156,
+    0.021148209,
+    -0.062479332,
+    0.016206456,
+    0.056007423,
+    -0.020192303,
+    -0.01809483,
+    0.06732906,
+    -0.040195107,
+    -0.009659977,
+    -0.020698354,
+    -0.008077901,
+    -0.020128543,
+    -0.054836713,
+    -0.0058080675,
+    -0.031469043,
+    0.015074791,
+    0.043509882,
+    -0.05601484,
+    -0.021608988,
+    -0.04657672,
+    0.0041418113,
+    -0.03331576,
+    0.008850182,
+    0.022571359,
+    -0.0026990653,
+    0.04018366,
+    -0.013031208,
+    0.026190396,
+    -0.023862144,
+    0.018337984,
+    0.07303521,
+    -0.010345014,
+    -0.042205118,
+    0.03323619,
+    0.011048693,
+    -0.016829258,
+    -0.028979091,
+    0.021677526,
+    -0.01672724,
+    0.028990883,
+    0.06368785,
+    -0.0051822695,
+    -0.01649656,
+    -0.10770559,
+    0.03021441,
+    -0.009570255,
+    -0.04848411,
+    -0.031795952,
+    -0.022020694,
+    -0.0055501927,
+    0.0022453808,
+    -0.05388728,
+    -0.0023875476,
+    -0.0060468004,
+    -0.050451104,
+    0.008811112,
+    -0.004467401,
+    0.009712287,
+    0.018841615,
+    -0.017439427,
+    -0.012783957,
+    0.04110658,
+    -0.0074530784,
+    -0.0013081153,
+    -0.072126634,
+    -0.013782822,
+    -0.011261089,
+    -0.013896942,
+    0.002344071,
+    0.04657411,
+    -0.007942197,
+    -0.007991864,
+    0.047603257,
+    -0.004378323,
+    0.045891605,
+    -0.05298042,
+    -0.00028017064,
+    0.009675409,
+    -0.040914595,
+    0.0084990505,
+    0.04830525,
+    -0.022216573,
+    0.08260969,
+    -0.04905058,
+    -0.056888137,
+    -0.054380618,
+    -0.03153105,
+    0.033968758,
+    -0.031776298,
+    -0.061038416,
+    -0.020270359,
+    0.021769254,
+    -0.0060642343,
+    0.08694301,
+    0.0104562985,
+    -0.008330525,
+    0.0049051987,
+    -0.032807745,
+    -0.024579508,
+    0.045764733,
+    -0.013052991,
+    -0.07084455,
+    -0.018749595,
+    -0.0025324302,
+    -0.004284363,
+    0.06307482,
+    0.0027305565,
+    0.0102792885,
+    -0.03499251,
+    -0.011678779,
+    0.094213426,
+    0.0039039461,
+    -0.05084239,
+    0.04734031,
+    -0.06718261,
+    0.03483252,
+    0.07903527,
+    -0.013266388,
+    0.006754557,
+    -0.027220916,
+    0.046873227,
+    0.050257593,
+    0.028181655,
+    0.02760146,
+    0.020371387,
+    -0.017286604,
+    0.012382735,
+    -0.0050083576,
+    0.02151826,
+    0.010452664,
+    -0.047371905,
+    0.019208472,
+    -0.026980937,
+    0.009506398,
+    -0.030228663,
+    0.026522402,
+    0.058972657,
+    0.050127212,
+    0.004997913,
+    0.017373065,
+    -0.0036703676,
+    -0.010012905,
+    -0.011656865,
+    -0.042620715,
+    -0.014472338,
+    0.03270434,
+    -0.026860474,
+    0.026296189,
+    -0.012576469,
+    0.022089934,
+    0.03965811,
+    -0.029726123,
+    0.01697719,
+    -0.08527717,
+    -0.028418656,
+    0.041871645,
+    0.021838188,
+    -0.0027008555,
+    0.0449903,
+    -0.0023760665,
+    0.049523227,
+    -0.01418861,
+    -0.001600681,
+    -0.040099688,
+    0.00050629914,
+    -0.023569291,
+    -0.032818764,
+    -0.0053579146,
+    0.029021079,
+    0.02144762,
+    -0.0086242845,
+    0.0039166273,
+    -0.0058191656,
+    -0.015414933,
+    0.07288152,
+    -0.026081223,
+    0.016742498,
+    0.080235854,
+    -0.021116273,
+    -0.027543258,
+    0.084759735,
+    0.027693452,
+    0.01706286,
+    0.027432697,
+    -0.0049595525,
+    0.024763748,
+    0.06465885,
+    -0.019982861,
+    0.03517313,
+    -0.012967542,
+    0.032837193,
+    -0.051737677,
+    0.00087919226,
+    0.01720425,
+    0.033139735,
+    0.01843726,
+    -0.04262882,
+    -0.06188496,
+    -0.036580153,
+    0.03741684,
+    0.0016036659,
+    -0.01365011,
+    -0.0067009963,
+    -0.015253538,
+    -0.000998002,
+    -0.00075302867,
+    -0.019194786,
+    -0.035695773,
+    -0.060908627,
+    0.010637206,
+    -0.012742472,
+    -0.04263103,
+    -0.03188652,
+    0.022786556,
+    0.036149405,
+    -0.027405808,
+    0.06253176,
+    0.0302494,
+    0.0061799483,
+    0.033922635,
+    0.01583705,
+    -0.032715946,
+    0.031280886,
+    0.035586957,
+    -0.0127957985,
+    -0.00903236,
+    -0.04158292,
+    -0.041634712,
+    0.03460974,
+    0.0015033341,
+    -0.009793312,
+    -0.01340403,
+    -0.028284121,
+    -0.016694903,
+    0.027833922,
+    -0.01722281,
+    0.05082353,
+    -0.0115211215,
+    -0.013497535,
+    -0.0169941,
+    0.07141728,
+    0.018961262,
+    0.016362807,
+    0.01205087,
+    4.004716e-05,
+    0.05588841,
+    -0.0046850336,
+    0.006485046,
+    0.0041447533,
+    -0.075464055,
+    0.026974447,
+    0.015838131,
+    0.019053984,
+    0.010708786,
+    -0.0007139981,
+    0.019962134,
+    0.016081812,
+    0.039230853,
+    0.030312136,
+    0.056013867,
+    0.038445983,
+    -0.044959147,
+    -0.01940661,
+    -0.045711797,
+    0.02224633,
+    0.07393424,
+    0.039338198,
+    -0.048317302,
+    -0.043381236,
+    0.0161134,
+    0.011545524,
+    0.04575573,
+    0.028360736,
+    0.01732793,
+    0.033723436,
+    -0.09214235,
+    0.031898968,
+    0.021186823,
+    0.033369273,
+    0.10903338,
+    0.032189365,
+    0.0071869325,
+    -0.0398475,
+    0.027100649,
+    -0.0048655467,
+    -0.025518253,
+    0.023988979,
+    -0.0016119668,
+    -0.020410711,
+    0.07811617,
+    -0.062470526,
+    -0.027563477,
+    0.026261967,
+    -0.0154856285,
+    -0.017984357,
+    -0.0057314266,
+    -0.014419281,
+    0.0029232102,
+    0.014973909,
+    0.0072524524,
+    0.06606958,
+    -0.043676283,
+    -0.05893733,
+    -0.00961498,
+    0.012955251,
+    0.017796826,
+    0.071234696,
+    -0.008176005,
+    0.056123383,
+    -0.04239635,
+    0.027678797,
+    0.039724406,
+    -0.019079281,
+    0.04585323,
+    0.008725731,
+    -0.005580356,
+    -0.020429078,
+    0.033755634,
+    0.0526602,
+    -0.036587615,
+    0.04075021,
+    0.064132705,
+    -0.0042786184,
+    0.01321993,
+    0.0122452965,
+    -0.011576677,
+    -0.0017667352,
+    -0.06875513,
+    -0.03102807,
+    0.0151584195,
+    -0.003121787,
+    0.014406119,
+    0.0795886,
+    0.013171797,
+    0.043723784,
+    0.010752783,
+    0.019663848,
+    -0.019671125,
+    -0.035259433,
+    0.007140627,
+    0.0007801348,
+    -0.031709544,
+    0.007543542,
+    -0.048392985,
+    -0.07004412,
+    -0.006378393,
+    -0.0029660615,
+    -0.08020027,
+    0.053375628,
+    -0.043455113,
+    0.020614518,
+    0.0350968,
+    -0.054252833,
+    -0.016802056,
+    0.0016840148,
+    0.02260595,
+    0.0031276152,
+    0.03178596,
+    0.026487386,
+    0.006927656,
+    -0.042790733,
+    -0.008076508,
+    -0.0069862264,
+    -0.0072131297,
+    0.016027255,
+    -0.04005149,
+    -0.004398688,
+    0.015867405,
+    -0.020629846,
+    -0.0072593074,
+    0.011014435,
+    -0.085625134,
+    -0.0003160225,
+    -0.05708829,
+    0.055544272,
+    0.009748586,
+    0.02918914,
+    -0.026291208,
+    -0.023721607,
+    -0.029152036,
+    0.037767634,
+    0.018397348,
+    0.039698854,
+    0.033850644,
+    0.015771449,
+    -0.013641448,
+    -0.0290283,
+    0.023718387,
+    -0.01259048,
+    0.021559307,
+    0.017160803,
+    -0.06656598,
+    0.013663051,
+    -0.030579137,
+    -0.018965518,
+    -0.017614486,
+    0.023069842,
+    0.005418512,
+    -0.07401304,
+    -0.007928278,
+    0.019452346,
+    -0.017957538,
+    0.010062378,
+    0.08273346,
+    0.02752229,
+    -0.016505254,
+    -0.029471204,
+    -0.043902162,
+    0.0396957,
+    -0.046991996,
+    -0.019205162,
+    -0.044615425,
+    0.030049901,
+    -0.037049927,
+    0.0048351325,
+    0.020602705,
+    0.01311661,
+    -0.051611137,
+    -0.008140518,
+    -0.02252688,
+    -0.013610176,
+    0.03541757,
+    0.054802474,
+    -0.04950487,
+    0.02171106,
+    0.018739583,
+    0.00053661707,
+    -0.025785193,
+    0.03262638,
+    -0.053928338,
+    0.01836989,
+    0.0050266986,
+    0.032916825,
+    -0.009539421,
+    0.0060380404,
+    -0.039026525,
+    0.051116783,
+    -0.028945224,
+    0.012813899,
+    -0.066655554,
+    -0.058183722,
+    -0.012337249,
+    0.06575227,
+    -0.023764776,
+    -0.017006941,
+    0.0058342065,
+    -0.025547579,
+    -0.048262946,
+    -0.021335503,
+    0.031764258,
+    0.021402089,
+    0.031331476,
+    -0.061594278,
+    -0.040110327,
+    -0.05122797,
+    0.014234968,
+    -0.041485034,
+    0.007533696,
+    -0.04447353,
+    0.01380209,
+    0.06837284,
+    -0.034973796,
+    -0.080520384,
+    0.03491781,
+    0.01937769,
+    -0.041798364,
+    0.02810299,
+    0.04263021,
+    0.047938783,
+    0.01804304,
+    0.083277926,
+    0.05907463,
+    -0.016450204,
+    0.009984999,
+    0.009888707,
+    -0.02986187,
+    0.004159641,
+    -0.053095378,
+    -0.031335022,
+    -0.012696723,
+    0.024845557,
+    0.00043084187,
+    -0.00050918816,
+    0.022164345,
+    0.012951078,
+    -0.025133876,
+    -0.028005868,
+    0.0005777457,
+    -0.06456769,
+    -0.07779244,
+    0.045636766,
+    0.027111549,
+    0.019799724,
+    -0.043393433,
+    0.010083136,
+    0.026701968,
+    -0.008547763,
+    0.007794485,
+    0.016548611,
+    0.019152142,
+    -0.0016100463,
+    -0.0009779648,
+    0.045945473,
+    -0.03089682,
+    -0.021512901,
+    -0.022274708,
+    -0.023747899,
+    -0.012181368,
+    0.021789793,
+    -0.003263983,
+    -0.0150535945,
+    0.010680335,
+    -0.0072664013,
+    -0.026954513,
+    0.01312331,
+    0.015986314,
+    -0.009649231,
+    -0.0363299,
+    -0.007269889,
+    0.009143649,
+    -0.027051229,
+    0.037519723,
+    0.017226698,
+    0.0589524,
+    0.005011876,
+    0.014626347,
+    -0.00527123,
+    -0.04201658,
+    -6.548458e-05,
+    -0.032620165,
+    0.0076745385,
+    0.04652943,
+    -0.056587722,
+    0.038074292,
+    0.015308075,
+    0.016320629,
+    -0.03119781,
+    -0.035356537,
+    0.017791864,
+    -0.03443341,
+    0.047303822,
+    -0.020432549,
+    -0.07447724,
+    -0.041179616,
+    0.0069900276,
+    0.004872313,
+    0.012538983,
+    -0.032439977,
+    0.020658663,
+    -0.03172658,
+    -0.018545711,
+    -0.07390585,
+    -0.03760122,
+    0.06636309,
+    -0.024035912,
+    -0.001269049,
+    -0.039594967,
+    -0.001461013,
+    -0.091308296,
+    0.021849113,
+    -0.06655744,
+    0.02220848,
+    -0.035405446,
+    0.035411995,
+    0.008500302,
+    -0.054357454,
+    -0.008527194,
+    0.058507945,
+    0.009207501,
+    -0.020393342,
+    -0.0192971,
+    0.028671384,
+    -0.07764616,
+    -0.004000635,
+    0.009196415,
+    -0.013916822,
+    0.0012823163,
+    0.012912546,
+    0.07883296,
+    0.015522353,
+    0.016409319,
+    0.0116836205,
+    0.055617828,
+    -0.009732075,
+    0.009057512,
+    -0.048509505,
+    -0.035033148,
+    -0.06246589
+  ],
+  "chunk_seq": 15,
+  "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+  "doc_id": "b78bbfd254714058be385fbc954382f8",
+  "text": "## Response Timeframes (FCA Requirements)  \n**Maximum Response Times:**  \n| Complaint Type | Timeframe | Escalation |\n|---|---|---|\n| Simple (resolve quickly) | 1 business day | Manager if escalated |\n| Standard | 8 calendar days | Director if unresolved |\n| Complex | 8 weeks (FCA extension) | FCA notification if exceeded |  \n**8-Week Clock:**\n- Starts: When complaint received\n- Stops: When response sent to customer\n- Can be extended 8 weeks if: Complex investigation justified, customer agrees  \n---",
+  "name": "Chunk 15/38",
+  "domain": "banking_policy",
+  "prev_chunk_id": "b78bbfd254714058be385fbc954382f8_014",
+  "next_chunk_id": "b78bbfd254714058be385fbc954382f8_016",
+  "raw_entities": [
+    {
+      "id": "pol_001",
+      "name": "Complaints Response Timeframe Policy",
+      "aliases": [
+        "Response Timeframes (FCA Requirements)",
+        "FCA Complaint Timeframes"
+      ],
+      "entity_class": "POLICY",
+      "type": "complaints",
+      "description": "A formal policy section governing the maximum response times for customer complaints, aligned with FCA regulatory requirements. It establishes distinct timeframes for simple, standard, and complex complaints, defines escalation paths, and mandates an 8-week clock mechanism with specific start/stop rules and extension conditions.",
+      "context": [
+        "## Response Timeframes (FCA Requirements)",
+        "Maximum Response Times:",
+        "Complaint Type | Timeframe | Escalation"
+      ]
+    },
+    {
+      "id": "reg_001",
+      "name": "Financial Conduct Authority (FCA) Requirements",
+      "aliases": [
+        "FCA",
+        "FCA Requirements"
+      ],
+      "entity_class": "REGULATORY_REFERENCE",
+      "type": "regulatory_guidance",
+      "description": "Regulatory guidance and directives issued by the FCA that mandate specific complaint response timeframes, extension procedures, and notification obligations for banking institutions. The policy explicitly derives its 8-week clock rules and escalation requirements from these FCA standards.",
+      "context": [
+        "(FCA Requirements)",
+        "8 weeks (FCA extension)",
+        "FCA notification if exceeded"
+      ]
+    },
+    {
+      "id": "prv_001",
+      "name": "Simple Complaint Resolution within 1 Business Day",
+      "aliases": [
+        "Simple Timeframe"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "response_timeframe",
+      "description": "Mandates that simple complaints must be resolved within a maximum of 1 business day. This is a strict operational deadline requiring prompt action from frontline staff to ensure rapid customer resolution.",
+      "context": [
+        "Simple (resolve quickly) | 1 business day"
+      ]
+    },
+    {
+      "id": "prv_002",
+      "name": "Standard Complaint Resolution within 8 Calendar Days",
+      "aliases": [
+        "Standard Timeframe"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "response_timeframe",
+      "description": "Requires that standard complaints be resolved within a maximum of 8 calendar days. This timeframe applies to non-complex customer disputes requiring routine investigation and internal review.",
+      "context": [
+        "Standard | 8 calendar days"
+      ]
+    },
+    {
+      "id": "prv_003",
+      "name": "Complex Complaint Resolution within 8 Weeks with FCA Extension",
+      "aliases": [
+        "Complex Timeframe"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "response_timeframe",
+      "description": "Sets a maximum response timeframe of 8 weeks for complex complaints, with an explicit provision allowing an additional 8-week extension if justified by the investigation complexity and agreed upon by the customer.",
+      "context": [
+        "Complex | 8 weeks (FCA extension)"
+      ]
+    },
+    {
+      "id": "prv_004",
+      "name": "Mandatory Escalation to Manager for Simple Complaints",
+      "aliases": [
+        "Manager Escalation"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "obligation",
+      "description": "Obliges staff to escalate simple complaints to a Manager if they cannot be resolved within the initial 1 business day timeframe. Ensures appropriate oversight for unresolved straightforward disputes.",
+      "context": [
+        "Manager if escalated"
+      ]
+    },
+    {
+      "id": "prv_005",
+      "name": "Mandatory Escalation to Director for Unresolved Standard Complaints",
+      "aliases": [
+        "Director Escalation"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "obligation",
+      "description": "Requires that standard complaints be escalated to a Director if they remain unresolved within the 8 calendar day window. Provides senior-level review for complex or persistent customer issues.",
+      "context": [
+        "Director if unresolved"
+      ]
+    },
+    {
+      "id": "prv_006",
+      "name": "FCA Notification upon Exceeding Complex Timeframe",
+      "aliases": [
+        "Complex Extension Notification"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "notification_rule",
+      "description": "Mandates formal notification to the FCA if a complex complaint investigation exceeds the standard 8-week response timeframe. Ensures regulatory transparency and compliance with external reporting standards for delayed resolutions.",
+      "context": [
+        "FCA notification if exceeded"
+      ]
+    },
+    {
+      "id": "prv_007",
+      "name": "8-Week Clock Start and Stop Rules",
+      "aliases": [
+        "Clock Mechanics"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "response_timeframe",
+      "description": "Defines the operational mechanics of the 8-week regulatory clock: it starts when a complaint is received and stops when a formal response is sent to the customer. This ensures accurate tracking of compliance deadlines and prevents arbitrary extensions.",
+      "context": [
+        "Starts: When complaint received",
+        "Stops: When response sent to customer"
+      ]
+    },
+    {
+      "id": "prv_008",
+      "name": "Extension of 8-Week Clock with Customer Agreement",
+      "aliases": [
+        "Clock Extension"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "response_timeframe",
+      "description": "Permits an extension of the 8-week clock by a maximum of 8 additional weeks, contingent upon a justified complex investigation and explicit agreement from the customer. Balances regulatory deadlines with practical investigative needs.",
+      "context": [
+        "Can be extended 8 weeks if: Complex investigation justified, customer agrees"
+      ]
+    },
+    {
+      "id": "rol_001",
+      "name": "Manager",
+      "aliases": [
+        "Escalation Manager"
+      ],
+      "entity_class": "ROLE_RESPONSIBILITY",
+      "type": "manager",
+      "description": "An abstract escalation role responsible for reviewing and resolving simple complaints that exceed the initial 1 business day resolution window. Holds authority to manage escalated customer disputes and ensure timely closure.",
+      "context": [
+        "Manager if escalated"
+      ]
+    },
+    {
+      "id": "rol_002",
+      "name": "Director",
+      "aliases": [
+        "Escalation Director"
+      ],
+      "entity_class": "ROLE_RESPONSIBILITY",
+      "type": "director",
+      "description": "An abstract escalation role responsible for handling standard complaints that remain unresolved after 8 calendar days. Holds senior authority to review, approve, or resolve escalated customer matters.",
+      "context": [
+        "Director if unresolved"
+      ]
+    },
+    {
+      "id": "rol_003",
+      "name": "Financial Conduct Authority (FCA)",
+      "aliases": [
+        "FCA",
+        "External Regulator"
+      ],
+      "entity_class": "ROLE_RESPONSIBILITY",
+      "type": "external_regulator",
+      "description": "The external regulatory body responsible for setting complaint response timeframes, approving extensions, and receiving notifications when complex investigations exceed mandated deadlines. Acts as the oversight authority for policy compliance.",
+      "context": [
+        "(FCA Requirements)",
+        "8 weeks (FCA extension)",
+        "FCA notification if exceeded"
+      ]
+    },
+    {
+      "id": "cus_001",
+      "name": "Customer",
+      "aliases": [
+        "Complainant"
+      ],
+      "entity_class": "CUSTOMER",
+      "type": "customer",
+      "description": "The recipient of formal complaint responses and the party whose agreement is required to extend the 8-week investigation clock. Policy obligations are directly structured around timely communication with, resolution for, and consent from the customer.",
+      "context": [
+        "When response sent to customer",
+        "customer agrees"
+      ]
+    }
+  ],
+  "id_map": {
+    "pol_001": "b78bbfd254714058be385fbc954382f8_015_pol_001",
+    "reg_001": "b78bbfd254714058be385fbc954382f8_015_reg_001",
+    "prv_001": "b78bbfd254714058be385fbc954382f8_015_prv_001",
+    "prv_002": "b78bbfd254714058be385fbc954382f8_015_prv_002",
+    "prv_003": "b78bbfd254714058be385fbc954382f8_015_prv_003",
+    "prv_004": "b78bbfd254714058be385fbc954382f8_015_prv_004",
+    "prv_005": "b78bbfd254714058be385fbc954382f8_015_prv_005",
+    "prv_006": "b78bbfd254714058be385fbc954382f8_015_prv_006",
+    "prv_007": "b78bbfd254714058be385fbc954382f8_015_prv_007",
+    "prv_008": "b78bbfd254714058be385fbc954382f8_015_prv_008",
+    "rol_001": "b78bbfd254714058be385fbc954382f8_015_rol_001",
+    "rol_002": "b78bbfd254714058be385fbc954382f8_015_rol_002",
+    "rol_003": "b78bbfd254714058be385fbc954382f8_015_rol_003",
+    "cus_001": "b78bbfd254714058be385fbc954382f8_015_cus_001"
+  },
+  "entities": [
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_015_pol_001",
+      "name": "Complaints Response Timeframe Policy",
+      "aliases": [
+        "Response Timeframes (FCA Requirements)",
+        "FCA Complaint Timeframes"
+      ],
+      "entity_class": "POLICY",
+      "type": "complaints",
+      "description": "A formal policy section governing the maximum response times for customer complaints, aligned with FCA regulatory requirements. It establishes distinct timeframes for simple, standard, and complex complaints, defines escalation paths, and mandates an 8-week clock mechanism with specific start/stop rules and extension conditions.",
+      "context": [
+        "## Response Timeframes (FCA Requirements)",
+        "Maximum Response Times:",
+        "Complaint Type | Timeframe | Escalation"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_015_reg_001",
+      "name": "Financial Conduct Authority (FCA) Requirements",
+      "aliases": [
+        "FCA",
+        "FCA Requirements"
+      ],
+      "entity_class": "REGULATORY_REFERENCE",
+      "type": "regulatory_guidance",
+      "description": "Regulatory guidance and directives issued by the FCA that mandate specific complaint response timeframes, extension procedures, and notification obligations for banking institutions. The policy explicitly derives its 8-week clock rules and escalation requirements from these FCA standards.",
+      "context": [
+        "(FCA Requirements)",
+        "8 weeks (FCA extension)",
+        "FCA notification if exceeded"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_015_prv_001",
+      "name": "Simple Complaint Resolution within 1 Business Day",
+      "aliases": [
+        "Simple Timeframe"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "response_timeframe",
+      "description": "Mandates that simple complaints must be resolved within a maximum of 1 business day. This is a strict operational deadline requiring prompt action from frontline staff to ensure rapid customer resolution.",
+      "context": [
+        "Simple (resolve quickly) | 1 business day"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_015_prv_002",
+      "name": "Standard Complaint Resolution within 8 Calendar Days",
+      "aliases": [
+        "Standard Timeframe"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "response_timeframe",
+      "description": "Requires that standard complaints be resolved within a maximum of 8 calendar days. This timeframe applies to non-complex customer disputes requiring routine investigation and internal review.",
+      "context": [
+        "Standard | 8 calendar days"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_015_prv_003",
+      "name": "Complex Complaint Resolution within 8 Weeks with FCA Extension",
+      "aliases": [
+        "Complex Timeframe"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "response_timeframe",
+      "description": "Sets a maximum response timeframe of 8 weeks for complex complaints, with an explicit provision allowing an additional 8-week extension if justified by the investigation complexity and agreed upon by the customer.",
+      "context": [
+        "Complex | 8 weeks (FCA extension)"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_015_prv_004",
+      "name": "Mandatory Escalation to Manager for Simple Complaints",
+      "aliases": [
+        "Manager Escalation"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "obligation",
+      "description": "Obliges staff to escalate simple complaints to a Manager if they cannot be resolved within the initial 1 business day timeframe. Ensures appropriate oversight for unresolved straightforward disputes.",
+      "context": [
+        "Manager if escalated"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_015_prv_005",
+      "name": "Mandatory Escalation to Director for Unresolved Standard Complaints",
+      "aliases": [
+        "Director Escalation"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "obligation",
+      "description": "Requires that standard complaints be escalated to a Director if they remain unresolved within the 8 calendar day window. Provides senior-level review for complex or persistent customer issues.",
+      "context": [
+        "Director if unresolved"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_015_prv_006",
+      "name": "FCA Notification upon Exceeding Complex Timeframe",
+      "aliases": [
+        "Complex Extension Notification"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "notification_rule",
+      "description": "Mandates formal notification to the FCA if a complex complaint investigation exceeds the standard 8-week response timeframe. Ensures regulatory transparency and compliance with external reporting standards for delayed resolutions.",
+      "context": [
+        "FCA notification if exceeded"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_015_prv_007",
+      "name": "8-Week Clock Start and Stop Rules",
+      "aliases": [
+        "Clock Mechanics"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "response_timeframe",
+      "description": "Defines the operational mechanics of the 8-week regulatory clock: it starts when a complaint is received and stops when a formal response is sent to the customer. This ensures accurate tracking of compliance deadlines and prevents arbitrary extensions.",
+      "context": [
+        "Starts: When complaint received",
+        "Stops: When response sent to customer"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_015_prv_008",
+      "name": "Extension of 8-Week Clock with Customer Agreement",
+      "aliases": [
+        "Clock Extension"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "response_timeframe",
+      "description": "Permits an extension of the 8-week clock by a maximum of 8 additional weeks, contingent upon a justified complex investigation and explicit agreement from the customer. Balances regulatory deadlines with practical investigative needs.",
+      "context": [
+        "Can be extended 8 weeks if: Complex investigation justified, customer agrees"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_015_rol_001",
+      "name": "Manager",
+      "aliases": [
+        "Escalation Manager"
+      ],
+      "entity_class": "ROLE_RESPONSIBILITY",
+      "type": "manager",
+      "description": "An abstract escalation role responsible for reviewing and resolving simple complaints that exceed the initial 1 business day resolution window. Holds authority to manage escalated customer disputes and ensure timely closure.",
+      "context": [
+        "Manager if escalated"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_015_rol_002",
+      "name": "Director",
+      "aliases": [
+        "Escalation Director"
+      ],
+      "entity_class": "ROLE_RESPONSIBILITY",
+      "type": "director",
+      "description": "An abstract escalation role responsible for handling standard complaints that remain unresolved after 8 calendar days. Holds senior authority to review, approve, or resolve escalated customer matters.",
+      "context": [
+        "Director if unresolved"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_015_rol_003",
+      "name": "Financial Conduct Authority (FCA)",
+      "aliases": [
+        "FCA",
+        "External Regulator"
+      ],
+      "entity_class": "ROLE_RESPONSIBILITY",
+      "type": "external_regulator",
+      "description": "The external regulatory body responsible for setting complaint response timeframes, approving extensions, and receiving notifications when complex investigations exceed mandated deadlines. Acts as the oversight authority for policy compliance.",
+      "context": [
+        "(FCA Requirements)",
+        "8 weeks (FCA extension)",
+        "FCA notification if exceeded"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_015_cus_001",
+      "name": "Customer",
+      "aliases": [
+        "Complainant"
+      ],
+      "entity_class": "CUSTOMER",
+      "type": "customer",
+      "description": "The recipient of formal complaint responses and the party whose agreement is required to extend the 8-week investigation clock. Policy obligations are directly structured around timely communication with, resolution for, and consent from the customer.",
+      "context": [
+        "When response sent to customer",
+        "customer agrees"
+      ],
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    }
+  ],
+  "properties": [
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_015_pol_001",
+      "name": "Complaint Response Timeframe Policy",
+      "properties": {
+        "policy_domain": [
+          "customer_complaints",
+          "regulatory_compliance"
+        ],
+        "regulatory_basis": [
+          "Financial Conduct Authority (FCA) Requirements"
+        ],
+        "scope_summary": "Applies to all customer complaints classified as Simple, Standard, or Complex.",
+        "core_policy_statement": "FirstUK Bank must adhere to strict maximum response timeframes for complaint resolution, with mandatory escalation paths and FCA notification requirements for complex cases exceeding 8 weeks."
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_015_reg_001",
+      "name": "Financial Conduct Authority (FCA) Requirements",
+      "properties": {
+        "issuing_authority": [
+          "Financial Conduct Authority"
+        ],
+        "jurisdiction": [
+          "UK"
+        ],
+        "regulation_type": [
+          "regulatory_guidance"
+        ],
+        "key_obligation": "Mandates maximum response timeframes for complaint resolution and requires notification if complex complaints exceed the 8-week limit.",
+        "how_cited": "Referenced as the governing framework for all response timeframes, escalation triggers, and clock extension rules."
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_015_prv_001",
+      "name": "Simple Complaint Resolution within 1 Business Day",
+      "properties": {
+        "provision_type": [
+          "mandatory"
+        ],
+        "applies_to": [
+          "Simple complaints"
+        ],
+        "timeframe": [
+          "1 business day"
+        ],
+        "regulatory_source": [
+          "FCA Requirements"
+        ],
+        "linked_control": [
+          "Manager escalation if escalated"
+        ]
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_015_prv_002",
+      "name": "Standard Complaint Resolution within 8 Calendar Days",
+      "properties": {
+        "provision_type": [
+          "mandatory"
+        ],
+        "applies_to": [
+          "Standard complaints"
+        ],
+        "timeframe": [
+          "8 calendar days"
+        ],
+        "regulatory_source": [
+          "FCA Requirements"
+        ],
+        "linked_control": [
+          "Director escalation if unresolved"
+        ]
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_015_prv_003",
+      "name": "Complex Complaint Resolution within 8 Weeks with FCA Extension",
+      "properties": {
+        "provision_type": [
+          "mandatory"
+        ],
+        "applies_to": [
+          "Complex complaints"
+        ],
+        "timeframe": [
+          "8 weeks"
+        ],
+        "regulatory_source": [
+          "FCA Requirements"
+        ],
+        "exceptions": [
+          "Extension possible if complex investigation is justified and customer agrees"
+        ],
+        "linked_control": [
+          "FCA notification upon exceeding timeframe"
+        ]
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_015_prv_004",
+      "name": "Mandatory Escalation to Manager for Simple Complaints",
+      "properties": {
+        "provision_type": [
+          "mandatory"
+        ],
+        "applies_to": [
+          "Simple complaints"
+        ],
+        "regulatory_source": [
+          "FCA Requirements"
+        ],
+        "linked_control": [
+          "Manager review and resolution"
+        ]
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_015_prv_005",
+      "name": "Mandatory Escalation to Director for Unresolved Standard Complaints",
+      "properties": {
+        "provision_type": [
+          "mandatory"
+        ],
+        "applies_to": [
+          "Standard complaints"
+        ],
+        "regulatory_source": [
+          "FCA Requirements"
+        ],
+        "linked_control": [
+          "Director review and resolution"
+        ]
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_015_prv_006",
+      "name": "FCA Notification upon Exceeding Complex Timeframe",
+      "properties": {
+        "provision_type": [
+          "mandatory"
+        ],
+        "applies_to": [
+          "Complex complaints"
+        ],
+        "timeframe": [
+          "Upon exceeding 8-week limit"
+        ],
+        "regulatory_source": [
+          "FCA Requirements"
+        ]
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_015_prv_007",
+      "name": "8-Week Clock Start and Stop Rules",
+      "properties": {
+        "provision_type": [
+          "mandatory"
+        ],
+        "applies_to": [
+          "Complex complaints"
+        ],
+        "timeframe": [
+          "Starts: When complaint received | Stops: When response sent to customer"
+        ],
+        "regulatory_source": [
+          "FCA Requirements"
+        ]
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_015_prv_008",
+      "name": "Extension of 8-Week Clock with Customer Agreement",
+      "properties": {
+        "provision_type": [
+          "conditional"
+        ],
+        "applies_to": [
+          "Complex complaints"
+        ],
+        "timeframe": [
+          "Up to additional 8 weeks"
+        ],
+        "regulatory_source": [
+          "FCA Requirements"
+        ],
+        "exceptions": [
+          "Requires customer agreement and justified complex investigation"
+        ]
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_015_rol_001",
+      "name": "Manager",
+      "properties": {
+        "role_title": [
+          "Manager"
+        ],
+        "specific_obligations": [
+          "Handle escalated simple complaints"
+        ],
+        "authority": [
+          "Decision-making on escalated simple complaints"
+        ],
+        "accountability_for": [
+          "Timely resolution of escalated simple complaints"
+        ]
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_015_rol_002",
+      "name": "Director",
+      "properties": {
+        "role_title": [
+          "Director"
+        ],
+        "specific_obligations": [
+          "Handle unresolved standard complaints"
+        ],
+        "authority": [
+          "Decision-making on unresolved standard complaints"
+        ],
+        "accountability_for": [
+          "Timely resolution of escalated standard complaints"
+        ]
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_015_rol_003",
+      "name": "Financial Conduct Authority (FCA)",
+      "properties": {
+        "role_title": [
+          "Financial Conduct Authority (FCA)"
+        ],
+        "specific_obligations": [
+          "Receive notification if complex complaint timeframe is exceeded"
+        ],
+        "authority": [
+          "Regulatory oversight, sets response timeframes and extension rules"
+        ]
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "id": "b78bbfd254714058be385fbc954382f8_015_cus_001",
+      "name": "Customer",
+      "properties": {
+        "obligations_under_policy": [
+          "Must agree to extension of 8-week clock for complex investigations"
+        ],
+        "rights_under_policy": [
+          "Entitled to resolution within specified timeframes (1 day, 8 days, 8 weeks)"
+        ]
+      },
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_pol_001",
+      "source_name": "Complaints Response Timeframe Policy",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015_reg_001",
+      "target_name": "Financial Conduct Authority (FCA) Requirements",
+      "rel_type": "mandated_by",
+      "description": "Policy is established in compliance with FCA regulatory requirements for complaint response timeframes.",
+      "properties": {
+        "obligation_type": "regulatory_compliance",
+        "section_reference": "Introduction"
+      },
+      "context": "Response Timeframes (FCA Requirements)",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_pol_001",
+      "source_name": "Complaints Response Timeframe Policy",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015_prv_001",
+      "target_name": "Simple Complaint Resolution within 1 Business Day",
+      "rel_type": "contains",
+      "description": "Policy establishes the provision for resolving simple complaints within one business day.",
+      "properties": {
+        "timeframe": "1 business day",
+        "complaint_type": "Simple"
+      },
+      "context": "Simple (resolve quickly) | 1 business day",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_pol_001",
+      "source_name": "Complaints Response Timeframe Policy",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015_prv_002",
+      "target_name": "Standard Complaint Resolution within 8 Calendar Days",
+      "rel_type": "contains",
+      "description": "Policy establishes the provision for resolving standard complaints within eight calendar days.",
+      "properties": {
+        "timeframe": "8 calendar days",
+        "complaint_type": "Standard"
+      },
+      "context": "Standard | 8 calendar days",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_pol_001",
+      "source_name": "Complaints Response Timeframe Policy",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015_prv_003",
+      "target_name": "Complex Complaint Resolution within 8 Weeks with FCA Extension",
+      "rel_type": "contains",
+      "description": "Policy establishes the provision for resolving complex complaints within eight weeks, including FCA extensions.",
+      "properties": {
+        "timeframe": "8 weeks",
+        "complaint_type": "Complex"
+      },
+      "context": "Complex | 8 weeks (FCA extension)",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_pol_001",
+      "source_name": "Complaints Response Timeframe Policy",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015_prv_004",
+      "target_name": "Mandatory Escalation to Manager for Simple Complaints",
+      "rel_type": "contains",
+      "description": "Policy mandates escalation to a manager for simple complaints.",
+      "properties": {
+        "escalation_trigger": "escalated",
+        "target_role": "Manager"
+      },
+      "context": "Escalation | Manager if escalated",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_pol_001",
+      "source_name": "Complaints Response Timeframe Policy",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015_prv_005",
+      "target_name": "Mandatory Escalation to Director for Unresolved Standard Complaints",
+      "rel_type": "contains",
+      "description": "Policy mandates escalation to a director for unresolved standard complaints.",
+      "properties": {
+        "escalation_trigger": "unresolved",
+        "target_role": "Director"
+      },
+      "context": "Escalation | Director if unresolved",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_pol_001",
+      "source_name": "Complaints Response Timeframe Policy",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015_prv_006",
+      "target_name": "FCA Notification upon Exceeding Complex Timeframe",
+      "rel_type": "contains",
+      "description": "Policy mandates notification to the FCA when complex complaint timeframes are exceeded.",
+      "properties": {
+        "trigger_condition": "exceeded_timeframe",
+        "target_entity": "FCA"
+      },
+      "context": "Escalation | FCA notification if exceeded",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_pol_001",
+      "source_name": "Complaints Response Timeframe Policy",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015_prv_007",
+      "target_name": "8-Week Clock Start and Stop Rules",
+      "rel_type": "contains",
+      "description": "Policy defines the rules for starting and stopping the 8-week clock.",
+      "properties": {
+        "rule_type": "clock_management",
+        "start_condition": "complaint_received",
+        "stop_condition": "response_sent"
+      },
+      "context": "8-Week Clock: Starts: When complaint received - Stops: When response sent to customer",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_pol_001",
+      "source_name": "Complaints Response Timeframe Policy",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015_prv_008",
+      "target_name": "Extension of 8-Week Clock with Customer Agreement",
+      "rel_type": "contains",
+      "description": "Policy allows extension of the 8-week clock with customer agreement for justified complex investigations.",
+      "properties": {
+        "extension_duration": "8 weeks",
+        "condition": "customer_agreement_and_justified_investigation"
+      },
+      "context": "Can be extended 8 weeks if: Complex investigation justified, customer agrees",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_prv_004",
+      "source_name": "Mandatory Escalation to Manager for Simple Complaints",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015_rol_001",
+      "target_name": "Manager",
+      "rel_type": "enforced_by",
+      "description": "Manager is responsible for handling escalated simple complaints.",
+      "properties": {
+        "responsibility": "escalation_handling",
+        "trigger": "complaint_escalated"
+      },
+      "context": "Manager if escalated",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_prv_005",
+      "source_name": "Mandatory Escalation to Director for Unresolved Standard Complaints",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015_rol_002",
+      "target_name": "Director",
+      "rel_type": "enforced_by",
+      "description": "Director is responsible for handling unresolved standard complaints.",
+      "properties": {
+        "responsibility": "escalation_handling",
+        "trigger": "complaint_unresolved"
+      },
+      "context": "Director if unresolved",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_prv_006",
+      "source_name": "FCA Notification upon Exceeding Complex Timeframe",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015_rol_003",
+      "target_name": "Financial Conduct Authority (FCA)",
+      "rel_type": "enforced_by",
+      "description": "FCA must be notified when complex complaint resolution exceeds the mandated timeframe.",
+      "properties": {
+        "responsibility": "regulatory_notification",
+        "trigger": "timeframe_exceeded"
+      },
+      "context": "FCA notification if exceeded",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_prv_008",
+      "source_name": "Extension of 8-Week Clock with Customer Agreement",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015_cus_001",
+      "target_name": "Customer",
+      "rel_type": "applies_to",
+      "description": "Customer consent is required to extend the 8-week clock for complex investigations.",
+      "properties": {
+        "requirement": "explicit_agreement",
+        "context": "complex_investigation_extension"
+      },
+      "context": "customer agrees",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_prv_007",
+      "source_name": "8-Week Clock Start and Stop Rules",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015_cus_001",
+      "target_name": "Customer",
+      "rel_type": "applies_to",
+      "description": "The 8-week clock stops when a response is sent to the customer.",
+      "properties": {
+        "action_required": "send_response",
+        "effect": "stop_clock"
+      },
+      "context": "Stops: When response sent to customer",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_prv_003",
+      "source_name": "Complex Complaint Resolution within 8 Weeks with FCA Extension",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015_reg_001",
+      "target_name": "Financial Conduct Authority (FCA) Requirements",
+      "rel_type": "implements",
+      "description": "The complex complaint resolution provision implements FCA requirements for extended investigation timeframes.",
+      "properties": {
+        "implementation_method": "regulatory_extension",
+        "compliance_area": "complaint_handling"
+      },
+      "context": "Complex | 8 weeks (FCA extension)",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_prv_001",
+      "source_name": "Simple Complaint Resolution within 1 Business Day",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015_cus_001",
+      "target_name": "Customer",
+      "rel_type": "applies_to",
+      "description": "The simple complaint resolution provision governs the treatment of customers with straightforward issues.",
+      "properties": {
+        "service_level": "rapid_resolution",
+        "target_audience": "customer"
+      },
+      "context": "Simple (resolve quickly) | 1 business day",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_prv_002",
+      "source_name": "Standard Complaint Resolution within 8 Calendar Days",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015_cus_001",
+      "target_name": "Customer",
+      "rel_type": "applies_to",
+      "description": "The standard complaint resolution provision governs the treatment of customers with moderate complexity issues.",
+      "properties": {
+        "service_level": "standard_resolution",
+        "target_audience": "customer"
+      },
+      "context": "Standard | 8 calendar days",
+      "bidirectional": false,
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_pol_001",
+      "source_name": "Complaints Response Timeframe Policy",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015",
+      "target_name": "b78bbfd254714058be385fbc954382f8_015",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_reg_001",
+      "source_name": "Financial Conduct Authority (FCA) Requirements",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015",
+      "target_name": "b78bbfd254714058be385fbc954382f8_015",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_prv_001",
+      "source_name": "Simple Complaint Resolution within 1 Business Day",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015",
+      "target_name": "b78bbfd254714058be385fbc954382f8_015",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_prv_002",
+      "source_name": "Standard Complaint Resolution within 8 Calendar Days",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015",
+      "target_name": "b78bbfd254714058be385fbc954382f8_015",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_prv_003",
+      "source_name": "Complex Complaint Resolution within 8 Weeks with FCA Extension",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015",
+      "target_name": "b78bbfd254714058be385fbc954382f8_015",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_prv_004",
+      "source_name": "Mandatory Escalation to Manager for Simple Complaints",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015",
+      "target_name": "b78bbfd254714058be385fbc954382f8_015",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_prv_005",
+      "source_name": "Mandatory Escalation to Director for Unresolved Standard Complaints",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015",
+      "target_name": "b78bbfd254714058be385fbc954382f8_015",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_prv_006",
+      "source_name": "FCA Notification upon Exceeding Complex Timeframe",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015",
+      "target_name": "b78bbfd254714058be385fbc954382f8_015",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_prv_007",
+      "source_name": "8-Week Clock Start and Stop Rules",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015",
+      "target_name": "b78bbfd254714058be385fbc954382f8_015",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_prv_008",
+      "source_name": "Extension of 8-Week Clock with Customer Agreement",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015",
+      "target_name": "b78bbfd254714058be385fbc954382f8_015",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_rol_001",
+      "source_name": "Manager",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015",
+      "target_name": "b78bbfd254714058be385fbc954382f8_015",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_rol_002",
+      "source_name": "Director",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015",
+      "target_name": "b78bbfd254714058be385fbc954382f8_015",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_rol_003",
+      "source_name": "Financial Conduct Authority (FCA)",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015",
+      "target_name": "b78bbfd254714058be385fbc954382f8_015",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "b78bbfd254714058be385fbc954382f8_015_cus_001",
+      "source_name": "Customer",
+      "target_id": "b78bbfd254714058be385fbc954382f8_015",
+      "target_name": "b78bbfd254714058be385fbc954382f8_015",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "b78bbfd254714058be385fbc954382f8_015",
+      "doc_id": "b78bbfd254714058be385fbc954382f8",
+      "domain": "banking_policy"
+    }
+  ]
+}
