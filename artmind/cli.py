@@ -687,6 +687,21 @@ def ingest_refine_graph(
             click.echo(f"To apply: artmind ingest refine-graph --from-file {out_path}")
 
 
+@ingest.command("normalize-time")
+@click.option("--domain", required=True, help="Domain to backfill canonical temporal properties for")
+@click.option("--dry-run", is_flag=True, help="Compute counts only; do not write")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def ingest_normalize_time(domain: str, dry_run: bool, compact: bool) -> None:
+    """Backfill canonical valid_from/valid_to/event_at from schema temporal mappings.
+
+    Additive and idempotent. Runs automatically per document at ingest; use this
+    to backfill pre-existing documents or after editing a schema's temporal block.
+    """
+    _setup_logger()
+    from artmind.temporal import normalize_time
+    _echo_json(normalize_time(domain, dry_run=dry_run), compact)
+
+
 # ── artmind query ──────────────────────────────────────────────────────────────
 
 
@@ -703,11 +718,11 @@ def graph():
 
 
 def _run_graph_pattern(
-    pattern: str, domains: list[str], compact: bool, question: str | None, **kwargs
+    pattern: str, domains: list[str], compact: bool, question: str | None, as_of: str | None = None, **kwargs
 ) -> None:
     try:
         result = graph_query.execute_pattern(
-            domains=domains, pattern=pattern, question=question, **kwargs
+            domains=domains, pattern=pattern, question=question, as_of=as_of, **kwargs
         )
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
@@ -716,11 +731,12 @@ def _run_graph_pattern(
 
 @graph.command("metadata")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
-def graph_metadata_cmd(domain: tuple, compact: bool) -> None:
+def graph_metadata_cmd(domain: tuple, as_of: str | None, compact: bool) -> None:
     """Return graph schema metadata (labels, properties, relationship types)."""
     domains = _parse_domains(domain)
-    _echo_json(graph_query.graph_metadata(domains), compact)
+    _echo_json(graph_query.graph_metadata(domains, as_of=as_of), compact)
 
 
 @graph.command("structural-metadata")
@@ -736,26 +752,28 @@ def graph_structural_metadata_cmd(domain: tuple, compact: bool) -> None:
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--nameFilter", "name_filter", default=None, help="Fuzzy match entity names (case-insensitive substring)")
 @click.option("--countAll", "count_all", is_flag=True, help="Include total unfiltered entity count in output")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
-def graph_entity_listing_cmd(domain: tuple, name_filter: str | None, count_all: bool, compact: bool) -> None:
+def graph_entity_listing_cmd(domain: tuple, name_filter: str | None, count_all: bool, as_of: str | None, compact: bool) -> None:
     """Return entity names grouped by label/type."""
     domains = _parse_domains(domain)
-    _echo_json(graph_query.entity_listing(domains, name_filter=name_filter, count_all=count_all), compact)
+    _echo_json(graph_query.entity_listing(domains, name_filter=name_filter, count_all=count_all, as_of=as_of), compact)
 
 
 @graph.command("pattern1")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--entityClass", "entity_class", required=True, help="Entity class label (e.g. CHARACTER, LOCATION)")
 @click.option("--limit", type=int, default=200, show_default=True, help="Max results")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern1(
-    domain: tuple, entity_class: str, limit: int, compact: bool, question: str | None
+    domain: tuple, entity_class: str, limit: int, as_of: str | None, compact: bool, question: str | None
 ) -> None:
     """List entities of a class."""
     domains = _parse_domains(domain)
     _run_graph_pattern(
-        "pattern1", domains, compact, question, entityClass=entity_class, limit=limit
+        "pattern1", domains, compact, question, as_of=as_of, entityClass=entity_class, limit=limit
     )
 
 
@@ -763,15 +781,16 @@ def graph_pattern1(
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--entityNameList", "entity_name_list", multiple=True, help="Entity name (repeatable, substring match)")
 @click.option("--entityIdList", "entity_id_list", multiple=True, help="Exact entity id (repeatable, overrides name list)")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern2(
-    domain: tuple, entity_name_list: tuple, entity_id_list: tuple, compact: bool, question: str | None
+    domain: tuple, entity_name_list: tuple, entity_id_list: tuple, as_of: str | None, compact: bool, question: str | None
 ) -> None:
     """Info on one or more named entities."""
     domains = _parse_domains(domain)
     _run_graph_pattern(
-        "pattern2", domains, compact, question,
+        "pattern2", domains, compact, question, as_of=as_of,
         entityNameList=entity_name_list, entityIdList=entity_id_list,
     )
 
@@ -780,15 +799,16 @@ def graph_pattern2(
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--entityNameList", "entity_name_list", multiple=True, help="Entity name (repeatable, substring match)")
 @click.option("--entityIdList", "entity_id_list", multiple=True, help="Exact entity id (repeatable, overrides name list)")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern3(
-    domain: tuple, entity_name_list: tuple, entity_id_list: tuple, compact: bool, question: str | None
+    domain: tuple, entity_name_list: tuple, entity_id_list: tuple, as_of: str | None, compact: bool, question: str | None
 ) -> None:
     """Entity + lightweight relationship summary."""
     domains = _parse_domains(domain)
     _run_graph_pattern(
-        "pattern3", domains, compact, question,
+        "pattern3", domains, compact, question, as_of=as_of,
         entityNameList=entity_name_list, entityIdList=entity_id_list,
     )
 
@@ -798,16 +818,17 @@ def graph_pattern3(
 @click.option("--entityClass", "entity_class", required=True, help="Entity class label")
 @click.option("--entityName", "entity_name", default=None, help="Entity name (substring match)")
 @click.option("--entityId", "entity_id", default=None, help="Exact entity id (overrides --entityName)")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern4(
     domain: tuple, entity_class: str, entity_name: str | None, entity_id: str | None,
-    compact: bool, question: str | None
+    as_of: str | None, compact: bool, question: str | None
 ) -> None:
     """Entity + full neighborhood."""
     domains = _parse_domains(domain)
     _run_graph_pattern(
-        "pattern4", domains, compact, question,
+        "pattern4", domains, compact, question, as_of=as_of,
         entityClass=entity_class, entityName=entity_name, entityId=entity_id,
     )
 
@@ -827,6 +848,7 @@ def graph_pattern4(
     show_default=True,
     help="Path mode",
 )
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern5(
@@ -838,13 +860,14 @@ def graph_pattern5(
     entity_id1: str | None,
     entity_id2: str | None,
     mode: str,
+    as_of: str | None,
     compact: bool,
     question: str | None,
 ) -> None:
     """Paths between two entities (shortest or all within depth 5)."""
     domains = _parse_domains(domain)
     _run_graph_pattern(
-        "pattern5", domains, compact, question,
+        "pattern5", domains, compact, question, as_of=as_of,
         entityClass1=entity_class1,
         entityClass2=entity_class2,
         entityName1=entity_name1,
@@ -861,6 +884,7 @@ def graph_pattern5(
 @click.option("--entityName2", "entity_name2", default=None, help="Name of second entity")
 @click.option("--entityId1", "entity_id1", default=None, help="Exact id of first entity (overrides --entityName1)")
 @click.option("--entityId2", "entity_id2", default=None, help="Exact id of second entity (overrides --entityName2)")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern6(
@@ -869,13 +893,14 @@ def graph_pattern6(
     entity_name2: str | None,
     entity_id1: str | None,
     entity_id2: str | None,
+    as_of: str | None,
     compact: bool,
     question: str | None,
 ) -> None:
     """Direct relationships between two entities."""
     domains = _parse_domains(domain)
     _run_graph_pattern(
-        "pattern6", domains, compact, question,
+        "pattern6", domains, compact, question, as_of=as_of,
         entityName1=entity_name1, entityName2=entity_name2,
         entityId1=entity_id1, entityId2=entity_id2,
     )
@@ -885,14 +910,15 @@ def graph_pattern6(
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--searchTerm", "search_term", required=True, help="Substring match on name or description")
 @click.option("--limit", type=int, default=10, show_default=True, help="Max results")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern7(
-    domain: tuple, search_term: str, limit: int, compact: bool, question: str | None
+    domain: tuple, search_term: str, limit: int, as_of: str | None, compact: bool, question: str | None
 ) -> None:
     """Search entities by name or description fragment."""
     domains = _parse_domains(domain)
-    _run_graph_pattern("pattern7", domains, compact, question, searchTerm=search_term, limit=limit)
+    _run_graph_pattern("pattern7", domains, compact, question, as_of=as_of, searchTerm=search_term, limit=limit)
 
 
 @graph.command("pattern8")
@@ -900,16 +926,17 @@ def graph_pattern7(
 @click.option("--entityClass", "entity_class", required=True, help="Class of entities to return")
 @click.option("--entityName", "entity_name", default=None, help="Name of the connected entity")
 @click.option("--entityId", "entity_id", default=None, help="Exact id of the connected entity (overrides --entityName)")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern8(
     domain: tuple, entity_class: str, entity_name: str | None, entity_id: str | None,
-    compact: bool, question: str | None
+    as_of: str | None, compact: bool, question: str | None
 ) -> None:
     """Entities of class X connected to entity Y."""
     domains = _parse_domains(domain)
     _run_graph_pattern(
-        "pattern8", domains, compact, question,
+        "pattern8", domains, compact, question, as_of=as_of,
         entityClass=entity_class, entityName=entity_name, entityId=entity_id,
     )
 
@@ -926,15 +953,16 @@ def graph_pattern8(
     show_default=True,
     help="Degree to rank by: entity-entity relationships, source mentions, or all edges",
 )
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern9(
-    domain: tuple, entity_class: str, top_n: int, degree_mode: str, compact: bool, question: str | None
+    domain: tuple, entity_class: str, top_n: int, degree_mode: str, as_of: str | None, compact: bool, question: str | None
 ) -> None:
     """Top-N entities of a class by connection count."""
     domains = _parse_domains(domain)
     _run_graph_pattern(
-        "pattern9", domains, compact, question,
+        "pattern9", domains, compact, question, as_of=as_of,
         entityClass=entity_class, topN=top_n, degreeMode=degree_mode,
     )
 
@@ -942,14 +970,15 @@ def graph_pattern9(
 @graph.command("pattern10")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--documentName", "document_name", required=True, help="Document name (substring match)")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern10(
-    domain: tuple, document_name: str, compact: bool, question: str | None
+    domain: tuple, document_name: str, as_of: str | None, compact: bool, question: str | None
 ) -> None:
     """Retrieve all text chunks for a named document."""
     domains = _parse_domains(domain)
-    _run_graph_pattern("pattern10", domains, compact, question, documentName=document_name)
+    _run_graph_pattern("pattern10", domains, compact, question, as_of=as_of, documentName=document_name)
 
 
 @graph.command("text2cypher")
@@ -979,23 +1008,25 @@ def query_domains_overview(compact: bool) -> None:
 @query.command("vector-text")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--topK", "top_k", type=int, default=5, show_default=True)
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question")
-def vector_text(domain: tuple, top_k: int, compact: bool, question: str) -> None:
+def vector_text(domain: tuple, top_k: int, as_of: str | None, compact: bool, question: str) -> None:
     """Search source text using vector embeddings and keyword matching combined via RRF."""
     domains = _parse_domains(domain)
-    _echo_json(vector_query.vector_text_search(domains, question, top_k), compact)
+    _echo_json(vector_query.vector_text_search(domains, question, top_k, as_of=as_of), compact)
 
 
 @query.command("entity-resolve")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--topK", "top_k", type=int, default=5, show_default=True)
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("reference")
-def query_entity_resolve(domain: tuple, top_k: int, compact: bool, reference: str) -> None:
+def query_entity_resolve(domain: tuple, top_k: int, as_of: str | None, compact: bool, reference: str) -> None:
     """Resolve a name fragment or description to canonical graph entities (fulltext + vector via RRF)."""
     domains = _parse_domains(domain)
-    _echo_json(vector_query.entity_resolve(domains, reference, top_k), compact)
+    _echo_json(vector_query.entity_resolve(domains, reference, top_k, as_of=as_of), compact)
 
 
 # ── artmind docs ───────────────────────────────────────────────────────────────
