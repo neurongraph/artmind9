@@ -8,7 +8,7 @@ import artmind.update as upd
 def _get_pattern_cypher(pattern: str, **kwargs) -> str:
     """Extract the Cypher string for a given pattern without hitting Neo4j."""
     fake_params = {
-        'domain': 'fiction',
+        'domains': ['fiction'],
         'entityClass': 'PERSON',
         'entityName': 'Holmes',
         'entityNameList': ['Holmes'],

@@ -55,7 +55,7 @@ def test_sanitize_lucene_query_strips_specials_keeps_terms():
 def test_pattern7_sanitizes_search_term():
     cypher, params = graph_query._pattern_query(
         "pattern7",
-        {"domain": "fiction", "searchTerm": "copper-beeches (estate)?", "limit": 10},
+        {"domains": ["fiction"], "searchTerm": "copper-beeches (estate)?", "limit": 10},
     )
     assert "entity_name_ft" in cypher
     assert params["searchTerm"] == "copper beeches estate"
@@ -64,7 +64,7 @@ def test_pattern7_sanitizes_search_term():
 def test_pattern7_rejects_unsearchable_term():
     with pytest.raises(ValueError, match="searchable"):
         graph_query._pattern_query(
-            "pattern7", {"domain": "fiction", "searchTerm": "(?)", "limit": 10}
+            "pattern7", {"domains": ["fiction"], "searchTerm": "(?)", "limit": 10}
         )
 
 
@@ -77,7 +77,7 @@ def test_pattern5_query_dispatches_shortest_and_all_modes():
     shortest_cypher, _ = graph_query._pattern_query(
         "pattern5",
         {
-            "domain": "fiction",
+            "domains": ["fiction"],
             "entityClass1": "CHARACTER",
             "entityClass2": "LOCATION",
             "entityName1": "Holmes",
@@ -88,7 +88,7 @@ def test_pattern5_query_dispatches_shortest_and_all_modes():
     all_cypher, _ = graph_query._pattern_query(
         "pattern5",
         {
-            "domain": "fiction",
+            "domains": ["fiction"],
             "entityClass1": "CHARACTER",
             "entityClass2": "LOCATION",
             "entityName1": "Holmes",
@@ -107,7 +107,7 @@ def test_pattern5_query_dispatches_shortest_and_all_modes():
 @pytest.mark.parametrize("pattern", [f"pattern{i}" for i in range(1, 10)])
 def test_each_supported_pattern_has_query_dispatch(pattern):
     params = {
-        "domain": "fiction",
+        "domains": ["fiction"],
         "entityClass": "CHARACTER",
         "entityClass1": "CHARACTER",
         "entityClass2": "LOCATION",
@@ -124,7 +124,7 @@ def test_each_supported_pattern_has_query_dispatch(pattern):
     cypher, cypher_params = graph_query._pattern_query(pattern, params)
 
     assert "MATCH" in cypher or "CALL" in cypher
-    assert cypher_params["domain"] == "fiction"
+    assert cypher_params["domains"] == ["fiction"]
 
 
 def test_entity_listing_passes_name_filter_as_parameter(monkeypatch):
@@ -195,7 +195,7 @@ def test_execute_pattern_shapes_output_and_strips_embeddings(monkeypatch):
 
 def test_pattern1_applies_result_limit():
     cypher, params = graph_query._pattern_query(
-        "pattern1", {"domain": "fiction", "entityClass": "PERSON"}
+        "pattern1", {"domains": ["fiction"], "entityClass": "PERSON"}
     )
     assert "LIMIT $limit" in cypher
     assert params["limit"] == 200
@@ -204,7 +204,7 @@ def test_pattern1_applies_result_limit():
 @pytest.mark.parametrize("pattern", ["pattern2", "pattern3", "pattern6"])
 def test_name_match_patterns_scope_to_entity_label(pattern):
     params = {
-        "domain": "fiction",
+        "domains": ["fiction"],
         "entityNameList": ["Holmes"],
         "entityName1": "Holmes",
         "entityName2": "Watson",
@@ -216,7 +216,7 @@ def test_name_match_patterns_scope_to_entity_label(pattern):
 @pytest.mark.parametrize("pattern", ["pattern3", "pattern4", "pattern8"])
 def test_neighborhood_patterns_exclude_structural_nodes(pattern):
     params = {
-        "domain": "fiction",
+        "domains": ["fiction"],
         "entityClass": "PERSON",
         "entityName": "Holmes",
         "entityNameList": ["Holmes"],
@@ -227,7 +227,7 @@ def test_neighborhood_patterns_exclude_structural_nodes(pattern):
 
 
 def test_pattern9_degree_modes():
-    base = {"domain": "fiction", "entityClass": "PERSON", "topN": 5}
+    base = {"domains": ["fiction"], "entityClass": "PERSON", "topN": 5}
 
     relations_cypher, _ = graph_query._pattern_query("pattern9", base)
     assert "(e)-[r]-(:Entity)" in relations_cypher
@@ -252,7 +252,7 @@ def test_entity_id_takes_precedence_over_name():
     cypher, params = graph_query._pattern_query(
         "pattern4",
         {
-            "domain": "fiction",
+            "domains": ["fiction"],
             "entityClass": "PERSON",
             "entityName": "Holmes",
             "entityId": "ent-42",
@@ -265,7 +265,7 @@ def test_entity_id_takes_precedence_over_name():
 
 def test_pattern2_accepts_entity_id_list():
     cypher, params = graph_query._pattern_query(
-        "pattern2", {"domain": "fiction", "entityIdList": ["ent-1", "ent-2"]}
+        "pattern2", {"domains": ["fiction"], "entityIdList": ["ent-1", "ent-2"]}
     )
     assert "e.id IN $entityIdList" in cypher
     assert params["entityIdList"] == ["ent-1", "ent-2"]
@@ -274,7 +274,7 @@ def test_pattern2_accepts_entity_id_list():
 def test_pattern6_accepts_entity_ids():
     cypher, params = graph_query._pattern_query(
         "pattern6",
-        {"domain": "fiction", "entityId1": "ent-1", "entityId2": "ent-2"},
+        {"domains": ["fiction"], "entityId1": "ent-1", "entityId2": "ent-2"},
     )
     assert "e1.id = $entityId1" in cypher
     assert "e2.id = $entityId2" in cypher
@@ -315,7 +315,7 @@ def test_execute_pattern_with_id_list_normalizes_tuple(monkeypatch):
 
 def test_pattern_cypher_includes_user_chat_source_match():
     cypher, _ = graph_query._pattern_query("pattern2", {
-        "domain": "general",
+        "domains": ["general"],
         "entityNameList": ["Alice"],
     })
     assert "UserChat" in cypher or "user_chat" in cypher.lower()
@@ -323,14 +323,14 @@ def test_pattern_cypher_includes_user_chat_source_match():
 
 def test_pattern10_query_uses_part_of_relationship():
     cypher, params = graph_query._pattern_query("pattern10", {
-        "domain": "fiction",
+        "domains": ["fiction"],
         "documentName": "The Copper Beeches",
     })
     assert "PART_OF" in cypher
     assert "DocChunk" in cypher
     assert "Document" in cypher
     assert params["documentName"] == "The Copper Beeches"
-    assert params["domain"] == "fiction"
+    assert params["domains"] == ["fiction"]
 
 
 def test_pattern10_validates_document_name_required():
