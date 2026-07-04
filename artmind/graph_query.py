@@ -1,6 +1,6 @@
 import re
 from contextlib import contextmanager
-from typing import Any
+from typing import Any, Sequence
 
 from neo4j import GraphDatabase
 from neo4j.graph import Node, Path, Relationship
@@ -24,6 +24,39 @@ def sanitize_lucene_query(text: str) -> str:
     """
     cleaned = _LUCENE_SPECIALS_RE.sub(" ", text)
     return " ".join(cleaned.split())
+
+
+def normalize_domains(value: "str | Sequence[str]") -> list[str]:
+    """Flatten a str or sequence of domain strings into a deduped, stripped list.
+
+    Each element may itself be comma-separated. Order is preserved.
+    Raises ValueError if the result is empty.
+    """
+    raw: list[str] = [value] if isinstance(value, str) else list(value)
+    out: list[str] = []
+    seen: set[str] = set()
+    for item in raw:
+        for part in str(item).split(","):
+            d = part.strip()
+            if d and d not in seen:
+                seen.add(d)
+                out.append(d)
+    if not out:
+        raise ValueError("At least one --domain is required")
+    return out
+
+
+def domain_predicate(var: str, param: str = "domains") -> str:
+    """Cypher WHERE fragment scoping `var` to any of the domains in $param.
+
+    A one-element list is semantically identical to the old single-domain
+    predicate (exact match OR sub-domain rollup via STARTS WITH).
+    """
+    return (
+        f"({var}.domain IN ${param} "
+        f"OR any(d IN ${param} WHERE {var}.domain STARTS WITH (d + '.')))"
+    )
+
 
 PATTERN_REQUIRED_OPTIONS = {
     "pattern1": ("entityClass",),
