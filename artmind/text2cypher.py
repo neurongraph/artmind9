@@ -1,3 +1,4 @@
+import json
 import re
 
 from loguru import logger
@@ -91,6 +92,7 @@ def build_text2cypher_prompt(
     entities_info: str,
     domains: list[str],
 ) -> str:
+    domains_json = json.dumps(domains)
     return f"""\
 You are a Neo4j Cypher expert. Given the graph schema and entity listing below,
 write a READ-ONLY Cypher query that answers the user's question.
@@ -125,7 +127,7 @@ USER QUESTION:
 
 Respond with ONLY a JSON object (no markdown fencing, no explanation) with these keys:
 - "cypher": the Cypher query string (use $domains as parameter for the domain values)
-- "parameters": a JSON object of query parameters (always include "domains": {domains})
+- "parameters": a JSON object of query parameters (always include "domains": {domains_json})
 """
 
 
