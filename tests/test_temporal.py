@@ -67,3 +67,26 @@ def test_lift_document_dates_ignores_extra_table_columns():
     out = lift_document_dates(md, {}, mapping)
     assert out["valid_from"] == "2026-06-01"
     assert out["version"] == "3.0"
+
+
+from artmind.temporal import canonical_entity_dates
+
+
+def test_canonical_entity_dates_valid_from():
+    schema_entities = {"POLICY": {"valid_from": "effective_date"}}
+    entity = {"entity_class": "POLICY", "properties": {"effective_date": "2026-01-15"}}
+    out = canonical_entity_dates(entity, schema_entities, anchor=None)
+    assert out["valid_from"] == "2026-01-15"
+    assert out["time_source"] == "property"
+
+
+def test_canonical_entity_dates_event_at():
+    schema_entities = {"EVENT": {"event_at": "date_or_time"}}
+    entity = {"entity_class": "EVENT", "properties": {"date_or_time": "15 March 2026"}}
+    out = canonical_entity_dates(entity, schema_entities, anchor=None)
+    assert out["event_at"] == "2026-03-15"
+
+
+def test_canonical_entity_dates_no_mapping_returns_empty():
+    entity = {"entity_class": "PERSON", "properties": {"name": "x"}}
+    assert canonical_entity_dates(entity, {}, anchor=None) == {}

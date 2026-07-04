@@ -111,3 +111,131 @@ def load_schema(domain: str) -> dict:
     path = DOMAIN_SCHEMAS_DIR / f"{domain}_schema.yaml"
     import yaml
     return yaml.safe_load(path.read_text(encoding="utf-8")) if path.exists() else {}
+
+
+def canonical_entity_dates(entity: dict, schema_entities: dict, anchor: str | None) -> dict:
+    """Map an entity's schema-declared date property to canonical props.
+
+    schema_entities: {ENTITY_CLASS: {canonical_key: domain_property_name, ...}}
+    Returns {} when the class has no temporal mapping or the value is absent.
+    Deterministic parse only; unparseable values are left for the LLM leftover pass.
+    """
+    cls = entity.get("entity_class", "")
+    mapping = schema_entities.get(cls)
+    if not mapping:
+        return {}
+    props = entity.get("properties", entity)
+    out: dict = {}
+    unresolved: dict = {}
+    for canon, domain_prop in mapping.items():
+        raw = props.get(domain_prop)
+        if raw is None:
+            continue
+        iso = parse_iso(str(raw))
+        if iso:
+            out[canon] = iso
+        else:
+            unresolved[canon] = str(raw)
+    if out:
+        out["time_source"] = "property"
+    if unresolved:
+        out["_unresolved"] = unresolved
+        out["_anchor"] = anchor
+    return out
+
+
+def _temporal_mapping(schema: dict) -> tuple[dict, dict, str | None]:
+    """Return (document_mapping, entities_mapping, relative_anchor) from a schema."""
+    t = schema.get("temporal") or {}
+    return t.get("document", {}), t.get("entities", {}), t.get("relative_anchor")
+
+
+def normalize_time(domain: str, dry_run: bool = False) -> dict:
+    """Backfill canonical temporal properties for every document in a domain.
+
+    Additive + idempotent. Reads each Document's markdown for header dates and
+    each Entity's schema-mapped property. Returns counts (deterministic vs llm).
+    """
+    schema = load_schema(domain)
+    doc_map, ent_map, anchor = _temporal_mapping(schema)
+    stats = {"domain": domain, "documents": 0, "entities": 0,
+             "deterministic": 0, "llm": 0, "dry_run": dry_run}
+    with neo4j_session() as session:
+        docs = session.run(
+            "MATCH (d:Document) WHERE d.domain = $domain RETURN d.id AS id, d.name AS name, d.path AS path",
+            domain=domain,
+        ).data()
+        for doc in docs:
+            md_file = MARKDOWNS_DIR / f"{Path(doc['name']).stem}.md"
+            md_text, fm = "", {}
+            if md_file.exists():
+                from artmind.ingest import _parse_md_frontmatter
+                fm, md_text = _parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
+            lifted = lift_document_dates(md_text, fm, doc_map) if doc_map else {}
+            if lifted:
+                stats["documents"] += 1
+                stats["deterministic"] += 1
+                if not dry_run:
+                    session.run(
+                        "MATCH (d:Document {id:$id}) SET d += $props, d.ingested_at = coalesce(d.ingested_at, $now)",
+                        id=doc["id"], props=lifted,
+                        now=datetime.now(timezone.utc).isoformat(),
+                    )
+        if ent_map:
+            ents = session.run(
+                "MATCH (e:Entity) WHERE e.domain = $domain RETURN e.id AS id, e.entity_class AS entity_class, properties(e) AS properties",
+                domain=domain,
+            ).data()
+            for e in ents:
+                canon = canonical_entity_dates(e, ent_map, anchor)
+                clean = {k: v for k, v in canon.items() if not k.startswith("_")}
+                if clean:
+                    stats["entities"] += 1
+                    stats["deterministic"] += 1
+                    if not dry_run:
+                        session.run(
+                            "MATCH (e:Entity {id:$id}) SET e += $props",
+                            id=e["id"], props=clean,
+                        )
+    logger.info("normalize_time({}): {}", domain, stats)
+    return stats
+
+
+def normalize_ingested_document(doc_kg_dir: Path, domain: str) -> dict:
+    """Per-document normalization hook — runs after write_to_graph() at ingest time.
+
+    Additive-only, idempotent, single-document scope; no dry-run gate.
+    """
+    import json
+    schema = load_schema(domain)
+    doc_map, ent_map, anchor = _temporal_mapping(schema)
+    if not (doc_map or ent_map):
+        return {"domain": domain, "skipped": "no temporal block"}
+    try:
+        document = json.loads((doc_kg_dir / "document.json").read_text(encoding="utf-8"))
+        entities = json.loads((doc_kg_dir / "entities.json").read_text(encoding="utf-8"))
+    except Exception as e:
+        logger.warning("normalize_ingested_document: could not load JSON: {}", e)
+        return {"domain": domain, "error": str(e)}
+    md_file = MARKDOWNS_DIR / f"{Path(document['name']).stem}.md"
+    md_text, fm = "", {}
+    if md_file.exists():
+        from artmind.ingest import _parse_md_frontmatter
+        fm, md_text = _parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
+    lifted = lift_document_dates(md_text, fm, doc_map) if doc_map else {}
+    written = {"documents": 0, "entities": 0}
+    with neo4j_session() as session:
+        if lifted:
+            session.run(
+                "MATCH (d:Document {id:$id}) SET d += $props, d.ingested_at = coalesce(d.ingested_at, $now)",
+                id=document["id"], props=lifted, now=datetime.now(timezone.utc).isoformat(),
+            )
+            written["documents"] = 1
+        for e in entities:
+            canon = canonical_entity_dates(e, ent_map, anchor)
+            clean = {k: v for k, v in canon.items() if not k.startswith("_")}
+            if clean:
+                session.run("MATCH (e:Entity {id:$id}) SET e += $props", id=e["id"], props=clean)
+                written["entities"] += 1
+    logger.info("normalize_ingested_document({}): {}", document.get("name"), written)
+    return {"domain": domain, **written}
